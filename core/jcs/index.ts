@@ -4,4 +4,5 @@
  */
 
 export { canonicalizeJson, canonicalizeJsonString } from "./canonicalize.ts";
-export { JcsError } from "./errors.ts";
+export { JcsError, type JcsErrorCode } from "./errors.ts";
+

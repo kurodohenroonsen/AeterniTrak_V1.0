@@ -3,7 +3,7 @@
  * Conformité : AET-SPEC-CERT-001 v1.1.0, qa/vectors/README.md §4.14
  */
 
-export { CertError } from "./errors.ts";
+export { CertError, type CertErrorCode } from "./errors.ts";
 export type {
   BatchSigner,
   BatchIssuanceContext,

@@ -95,11 +95,14 @@ Pour que la carte mémorielle fonctionne harmonieusement à la fois avec le **NF
 |    (Déclenche instantanément la bannière iOS ou l'App Clip Card Apple)            |
 |                                                                                   |
 |  [ APPLET 2 : AeterniTrak Sovereign Core ] AID: A0 00 00 08 45 01                  |
-|  - Applet propriétaire de haute sécurité et forte capacité                        |
-|  - EF.ID   (0x0001) : Métadonnées civiles CBOR canoniques RFC 8949 (~2 Ko)        |
-|  - EF.IMG  (0x0002) : Portrait WebP haute définition (~30 Ko)                    |
-|  - EF.VOX  (0x0003) : Mémo vocal Opus SILK 16 kHz (~50 Ko)                        |
-|  - EF.SIG  (0x0004) : Enveloppe cryptographique COSE_Sign1 RFC 9052 (~1 Ko)       |
+|  - Applet propriétaire de haute sécurité et forte capacité (STORAGE-001)           |
+|  - EF-0    (0x0000) : En-tête silicium TLV, UID & compteurs monotones (512 o)      |
+|  - EF-1    (0x0001) : Métadonnées civiles CBOR canoniques RFC 8949 (2 Ko)          |
+|  - EF-2    (0x0002) : Portrait WebP haute définition (20 Ko alloués)               |
+|  - EF-3    (0x0003) : Mémo vocal Opus SILK 16 kHz (45 Ko alloués)                  |
+|  - EF-4    (0x0004) : Registre sépulture, volontés & hommages CBOR (15 Ko)         |
+|  - EF-5    (0x0005) : Enveloppe cryptographique COSE_Sign1 RFC 9052 (2 Ko)         |
+|  - RÉSERVE (0x0006) : Marge d'usure matérielle EEPROM (> 5% garanti, ~5,5 Ko)      |
 |                                                                                   |
 +-----------------------------------------------------------------------------------+
 ```
