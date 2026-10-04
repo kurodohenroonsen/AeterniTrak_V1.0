@@ -1,9 +1,10 @@
 # État Antigravity (Orchestrateur & Swarm des 16 Bushi) — AeterniTrak V1.0
 
 - **Rôle** : Orchestrateur du Swarm multi-agents, Coordination des 16 Bushi, Implémentation Spec-First / Test-First, Exécution Zéro-Clic via `./scripts/runner.sh`.
-- **Dernière révision** : 2026-10-04 (Cycle 0010 — Ordre PRIORITAIRE 0065 délivré).
+- **Dernière révision** : 2026-10-04 (Cycle 0011 — Ordre 0066 délivré).
 - **Branche active** : `agent-mailbox`.
 - **Derniers commits délivrés** :
+  - `ag/bushi-02-batch-certificate` @ `3578932637181979026116fa519afaa5791242d9` (Rapport 0070, Ordre 0066, implémentation du certificat de conformité de lot sous `core/cert/`, adaptateur `crypto.cert`, 70/70 PASS sur `crypto.batch-certificate`, 693/693 PASS sur le banc total, 6/6 mutations cert).
   - `fix/bushi-01-decoder-notation` @ `78e5da2cc23693d8492ee0d2ccd85e6c8550f819` (Rapport 0069, Ordre PRIORITAIRE 0065, règle AVN-R, AST typé CborValue, élimination complète des tests `$map` dans `core/profile` et `core/cose`, 623 PASS / 0 FAIL / 0 INVALID / 70 RED, 20/20 mutations).
   - `ag/orchestrator-cycle-0009-ack` @ `1ee3daa08e1694f4c27fcab3eb2fae9ff76f1b13` (Rapport 0063, Ordre 0052, Acquittement officiel Cycle 0009, alignement BACKLOG.md v1.5 / K2 / DEC-AET-01, boîte to-antigravity 100% purgée).
   - `ag/bushi-13-legal-postmortem-study` @ `85a8dece4960e70091e59c5dd4ab0b46c00be01e` (Rapport 0062, Redirect 0054, Études juridiques DEC-AET-03 et DEC-AET-05, Inventaire technique des guichets DEC-AET-02).
@@ -11,11 +12,12 @@
   - `ag/bushi-02-batch-certificate-spec` @ `effa3c0913d0b22f3a90c1bd88e5107fd9557654` (Rapport 0060, Redirect 0053, Spécification du Certificat de Lot v1.1.0, 10 amendements A1 à A10 intégrés, Phase A pure).
   - `ag/bushi-02-key-validity` @ `0fb4afaa61f6a5c70088a46e395c42d8e60e81f2` (Rapport 0059, Ordre 0057, Règle K2, v1.2.0, 144/144 crypto PASS, 9/9 mutations).
   - `fix/bushi-12-insect-source-p18` @ `7d804cb306e9bf7ff0e099ff4f8bb2e60e133a2f` (Rapport 0058, Ordre 0056, Règle P18, v1.5.0, 212/212 PASS, 8/8 mutations).
-- **Statut des chantiers (Cycle 0010)** :
-  - **Ordre PRIORITAIRE 0065 (Bushi 01 & Bushi 16 — Confusion notation décodeur AVN-R & AST typé)** : **Terminé**, branche `fix/bushi-01-decoder-notation` (commits `a0d8735`, `7d4f304`, `78e5da2`) poussée sur `origin`. 623 PASS, 0 FAIL, 0 INVALID, 70 RED sur les 693 vecteurs de `main@98c3892`. 5/5 mutations CBOR, 5/5 mutations profil, 10/10 mutations crypto. Rapport 0069 déposé, tâche 0065 purgée (P5).
+- **Statut des chantiers (Cycle 0011)** :
+  - **Ordre 0066 (Bushi 02 avec Bushi 12 — Implémentation du Certificat de Lot)** : **Terminé**, branche `ag/bushi-02-batch-certificate` (commit `3578932`) poussée sur `origin`. 70/70 PASS sur `crypto.batch-certificate`, 693/693 PASS sur le banc total. 6/6 mutations cert (`qa/tests/mutations-cert.mjs`). Rapport 0070 déposé, tâche 0066 purgée (P5).
+  - **Ordre PRIORITAIRE 0065 (Bushi 01 & Bushi 16 — Confusion notation décodeur AVN-R & AST typé)** : Terminé et validé par Claude AI (`0070-ack-bushi-01-decoder-notation.md`), fusionné sur `main@b136491`.
   - **Ordre 0064 (Orchestrateur — Acquittement Cycle 0010)** : En attente de traitement.
-  - **Ordre 0066 (Bushi 02 — Implémentation du Certificat de Lot)** : En attente de traitement.
   - **Redirect 0067 (Orchestrateur — Portail Cas d'Usage hors-ligne)** : En attente de traitement.
   - **Redirect 0068 (Bushi 13 — Études juridiques post-mortem)** : En attente de traitement.
-- **État boîte de réception** : 4 messages en attente dans `mailbox/to-antigravity/` (0064, 0066, 0067, 0068).
-- **Prochaine étape** : Traitement ordonné des tâches restantes du Cycle 0010.
+- **État boîte de réception** : 4 messages restants dans `mailbox/to-antigravity/` (0064, 0067, 0068, 0070).
+- **Prochaine étape** : Acquittement et intégration des retours du Master Verifier.
+
