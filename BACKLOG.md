@@ -63,7 +63,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 | `BIO-001` | Bushi 11 | Matrice de ségrégation des 4 profils de dépouilles (C1, DNF, C2, MRS) | P0 | À spécifier | — |
 | `BIO-002` | Bushi 11 | Journalisation cryptographique des cycles d'autoclave Méthode 1 (133°C, 3b, 20m) | P0 | À spécifier | — |
 | `BIO-003` | Bushi 11 | Module de contrôle LFA Pentobarbital à l'admission animal de compagnie | P0 | À spécifier | — |
-| `PRION-001` | Bushi 12 | Validateur cryptographique bloquant le recyclage intra-espèce (Feed Ban CE 999/2001) | P0 | En cours (À réviser) | `qa/vectors/antiprion/feedban-matrix.vectors.json`, `qa/vectors/antiprion/feedban-hardening.vectors.json` |
+| `PRION-001` | Bushi 12 | Validateur cryptographique bloquant le recyclage intra-espèce (Feed Ban CE 999/2001) | P0 | Spécifié | `qa/vectors/antiprion/feedban-matrix.vectors.json`, `qa/vectors/antiprion/feedban-hardening.vectors.json`, `qa/vectors/antiprion/feedban-rules-v12.vectors.json` |
 | `PRION-002` | Bushi 12 | Jeu de vecteurs de test d'attaque d'espèces (croisement porcin/volaille/ruminant) | P0 | À spécifier | `qa/vectors/antiprion/feedban-hardening.vectors.json` |
 | `LEGAL-001` | Bushi 13 | Spécification de conformité droit funéraire et directives post-mortem RGPD | P1 | À spécifier | — |
 | `LEGAL-002` | Bushi 13 | Clauses de mandat familial et protocole de gel conservatoire en cas de litige | P1 | À spécifier | — |
