@@ -1,0 +1,885 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "antiprion.feedban.rules-v14",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.10 (précisions P15 à P17)",
+    "qa/vectors/README.md §4.3 P1, §4.4 P9, P10, P12 et §4.5",
+    "qa/vectors/antiprion/taxonomy-snapshot.json"
+  ],
+  "adapter": "antiprion.feedban",
+  "description": "Précisions v1.4 de la Porte de Fer, issues du fuzzing différentiel du cycle 0008 (220 000 revendications : 0 écart de verdict, 15 478 écarts de liste de motifs en 7 classes). Aucun cas ne change un verdict : chaque cas fixe la liste de motifs exhaustive et ordonnée que l'évaluateur doit rendre, parce que cette liste entrera dans la preuve signée du certificat de lot.",
+  "cases": [
+    {
+      "id": "PRION-HARD-073",
+      "title": "Sources vides, route `composting` -> volailles : TAXON_UNKNOWN en tête, puis G3",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": []
+        },
+        "process": {
+          "route": "composting",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "p9",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-074",
+      "title": "Sources vides, route absente (null) -> poissons",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": []
+        },
+        "process": {
+          "route": null,
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "p9",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-075",
+      "title": "Sources vides, champ `route` absent -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": []
+        },
+        "process": {
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "p9",
+        "type"
+      ]
+    },
+    {
+      "id": "PRION-HARD-076",
+      "title": "Sources vides, route fournie comme entier -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": []
+        },
+        "process": {
+          "route": 1,
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "p9",
+        "type"
+      ]
+    },
+    {
+      "id": "PRION-HARD-077",
+      "title": "Restes humains sans source déclarée -> alimentation volailles : G1 rapporte avant l'arrêt G2",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-05",
+        "substrate": {
+          "category": 1,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": []
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "human",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-078",
+      "title": "Restes humains sans source, route absente -> aquaculture avec cible de rang supérieur : deux motifs G1 puis G2",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-06",
+        "substrate": {
+          "category": 1,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": []
+        },
+        "process": {
+          "route": null,
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8782
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "TAXON_RANK_ABOVE_SPECIES",
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "human",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-079",
+      "title": "Témoin : sources vides en bioconversion par insectes (matière végétale) -> volailles : autorisé, P9 ne s'applique pas",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-07",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.10 P15 : P9 vaut pour toute route alimentaire autre que la bioconversion par insectes (route inconnue, absente ou non alimentaire comprise) et G1 rapporte ses motifs avant l'arrêt G2",
+      "tags": [
+        "p15",
+        "control"
+      ]
+    },
+    {
+      "id": "PRION-HARD-080",
+      "title": "Matière végétale avec source `null` -> engrais",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-08",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": [
+            null
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "frass",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P16 : pour P10, une « source déclarée » est tout élément du tableau `sources`, résolu ou non ; le motif G3 s'ajoute aux motifs G1",
+      "tags": [
+        "p16",
+        "p10",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-081",
+      "title": "Matière végétale avec taxid booléen -> usage technique, cat. 2, méthode 1 prouvée",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-09",
+        "substrate": {
+          "category": 2,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": [
+            {
+              "taxid": true
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P16 : pour P10, une « source déclarée » est tout élément du tableau `sources`, résolu ou non ; le motif G3 s'ajoute aux motifs G1",
+      "tags": [
+        "p16",
+        "p10",
+        "type"
+      ]
+    },
+    {
+      "id": "PRION-HARD-082",
+      "title": "Matière végétale avec source de rang famille (Suidae) -> Hermetia -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-10",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": [
+            {
+              "taxid": 9821
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_RANK_ABOVE_SPECIES",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P16 : pour P10, une « source déclarée » est tout élément du tableau `sources`, résolu ou non ; le motif G3 s'ajoute aux motifs G1",
+      "tags": [
+        "p16",
+        "p10",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-083",
+      "title": "Matière végétale avec taxid hors snapshot -> Hermetia -> poissons",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-11",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": [
+            {
+              "taxid": 99999999
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P16 : pour P10, une « source déclarée » est tout élément du tableau `sources`, résolu ou non ; le motif G3 s'ajoute aux motifs G1",
+      "tags": [
+        "p16",
+        "p10",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-084",
+      "title": "Matière végétale avec source sans champ `taxid` (nom seul) -> usage technique cat. 3",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-12",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": [
+            {
+              "name": "Sus scrofa"
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P16 : pour P10, une « source déclarée » est tout élément du tableau `sources`, résolu ou non ; le motif G3 s'ajoute aux motifs G1",
+      "tags": [
+        "p16",
+        "p10",
+        "type"
+      ]
+    },
+    {
+      "id": "PRION-HARD-085",
+      "title": "Témoin : matière végétale sans source -> usage technique cat. 3 : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-13",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.10 P16 : pour P10, une « source déclarée » est tout élément du tableau `sources`, résolu ou non ; le motif G3 s'ajoute aux motifs G1",
+      "tags": [
+        "p16",
+        "control"
+      ]
+    },
+    {
+      "id": "PRION-HARD-086",
+      "title": "Mémoire forestière, matière végétale déclarant une source caprine, sans politique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-14",
+        "substrate": {
+          "category": 1,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9925
+            }
+          ]
+        },
+        "process": {
+          "route": "composting",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "memorial_forestry",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P17 : en mémoire forestière, les motifs G3 de substrat (P4, P10) se cumulent avec DEROGATION_REQUIRED, avec ou sans politique",
+      "tags": [
+        "p17",
+        "p10",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-087",
+      "title": "Mémoire forestière, même revendication sous politique DEC-AET-05 valide : hors périmètre, deux motifs",
+      "op": "evaluate-with-policy",
+      "input": {
+        "claim": {
+          "batch_id": "AT-K-15",
+          "substrate": {
+            "category": 1,
+            "material_class": "feed_grade_plant",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9925
+              }
+            ]
+          },
+          "process": {
+            "route": "composting",
+            "treatment": null
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P17 : en mémoire forestière, les motifs G3 de substrat (P4, P10) se cumulent avec DEROGATION_REQUIRED, avec ou sans politique",
+      "tags": [
+        "p17",
+        "derog",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-088",
+      "title": "Mémoire forestière, chien LFA négatif, classe de matière inconnue, sous politique valide",
+      "op": "evaluate-with-policy",
+      "input": {
+        "claim": {
+          "batch_id": "AT-K-16",
+          "substrate": {
+            "category": 1,
+            "material_class": "unknown",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9615
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P17 : en mémoire forestière, les motifs G3 de substrat (P4, P10) se cumulent avec DEROGATION_REQUIRED, avec ou sans politique",
+      "tags": [
+        "p17",
+        "derog",
+        "p4"
+      ]
+    },
+    {
+      "id": "PRION-HARD-089",
+      "title": "Mémoire forestière, chat LFA négatif, catégorie absente, sous politique valide",
+      "op": "evaluate-with-policy",
+      "input": {
+        "claim": {
+          "batch_id": "AT-K-17",
+          "substrate": {
+            "category": null,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9685
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P17 : en mémoire forestière, les motifs G3 de substrat (P4, P10) se cumulent avec DEROGATION_REQUIRED, avec ou sans politique",
+      "tags": [
+        "p17",
+        "derog",
+        "p4"
+      ]
+    },
+    {
+      "id": "PRION-HARD-090",
+      "title": "Mémoire forestière, chien non testé déclaré en matière végétale, sans politique : G3 (deux motifs) puis G4",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-18",
+        "substrate": {
+          "category": 1,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9615
+            }
+          ],
+          "pentobarbital_lfa": "not_tested"
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": null,
+          "insect_taxid": 343691
+        },
+        "product": "frass",
+        "destination": {
+          "use": "memorial_forestry",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "DEROGATION_REQUIRED",
+          "PENTOBARBITAL_NOT_TESTED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.10 P17 : en mémoire forestière, les motifs G3 de substrat (P4, P10) se cumulent avec DEROGATION_REQUIRED, avec ou sans politique",
+      "tags": [
+        "p17",
+        "pet",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-091",
+      "title": "Témoin : chien LFA négatif, cat. 1, carcasse, sarcomusation pasteurisée, politique valide : autorisé",
+      "op": "evaluate-with-policy",
+      "input": {
+        "claim": {
+          "batch_id": "AT-K-19",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9615
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.10 P17 : en mémoire forestière, les motifs G3 de substrat (P4, P10) se cumulent avec DEROGATION_REQUIRED, avec ou sans politique",
+      "tags": [
+        "p17",
+        "control",
+        "derog"
+      ]
+    }
+  ]
+}

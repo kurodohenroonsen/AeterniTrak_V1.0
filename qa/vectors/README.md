@@ -181,6 +181,14 @@ Une carte `UNVERIFIED` n'a aucune valeur de preuve : avec un émetteur inconnu, 
 
 **Clés d'en-tête** : une clé est un entier. La clé texte `"4"` n'est pas la clé 4 (`COSE-VER-041`) ; l'accepter laisserait deux encodages distincts d'une même enveloppe.
 
+### 4.10 Précisions v1.4 des portes (suite `antiprion.feedban.rules-v14`, cas `PRION-HARD-073` à `091`)
+
+Issues du fuzzing différentiel du cycle 0008 (220 000 revendications, 0 écart de verdict, 15 478 écarts de liste de motifs). Aucune ne change un verdict ni un vecteur approuvé : elles fixent la liste de motifs, qui entrera dans la preuve signée du certificat de lot et doit donc être identique d'une implémentation à l'autre.
+
+- **P15 — Portée de P9 et ordre G1/G2** : en `feed` et `aquaculture_feed`, un tableau `sources` vide vaut `TAXON_UNKNOWN` pour **toute route autre que** `insect_bioconversion` (route inconnue, absente ou mal typée comprise), et pas seulement pour `direct_rendering`. G1 s'évalue en entier avant G2 : sur des restes humains, les motifs G1 précèdent `HUMAN_REMAINS_ROUTE_PROHIBITED`.
+- **P16 — « Source déclarée » au sens de P10** : tout élément du tableau `sources` compte, qu'il se résolve ou non (`null`, taxid mal typé, taxid hors snapshot, rang supérieur à l'espèce, nom sans taxid). Une matière `feed_grade_plant` dont `sources` n'est pas vide reçoit `SUBSTRATE_CATEGORY_VIOLATION` **en plus** du motif G1.
+- **P17 — G3 en mémoire forestière** : les contrôles de substrat (P4 : catégorie ∈ {1, 2, 3} et classe connue ; P10) s'appliquent à `memorial_forestry` et leur motif `SUBSTRATE_CATEGORY_VIOLATION` précède `DEROGATION_REQUIRED`, avec ou sans politique. `DEROGATION_REQUIRED` ne masque aucun autre motif.
+
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 
 - Charge toutes les suites `qa/vectors/**/*.vectors.json`, les valide contre le schéma (échec = `INVALID`, exit 2).
