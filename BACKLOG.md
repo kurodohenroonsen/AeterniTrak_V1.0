@@ -3,7 +3,7 @@
 Ce document répertorie l'ensemble des chantiers initiaux découpés par **Application** et par **Bushi**.  
 Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de Test (`qa/vectors/`) -> Implémentation (`ag/*`) -> Validation Claude (`main`)**.  
 *Règle C1 : Un ticket n'est « Spécifié » que lorsque son fichier formel dans `docs/` existe effectivement sur `main`.*  
-*État certifié sur `main` (`4a87163`) : 12 suites, **547 vecteurs** (532 PASS, 15 FAIL attendus en attente du code v1.4, 0 RED, 0 INVALID).*
+*État certifié sur `main` (`18f33c9`) : 14 suites, **597 vecteurs** (563 PASS, 34 FAIL attendus — 6 sur `feedban-rules-v15`, 28 sur `cose-rules-v12` —, 0 RED, 0 INVALID).*
 
 ---
 
@@ -25,8 +25,8 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 | `CORE-004` | Bushi 01 | Validateur de Profil mémoriel v1 (ordre 0036, fusionné commit `9f94a85`) | P0 | Validé | `qa/vectors/core/profile-v1.vectors.json` |
 | `CRYPTO-001` | Bushi 02 | Vecteurs de test officiels Ed25519 (RFC 8032) intégrés dans `qa/vectors/crypto/` | P0 | À spécifier | — |
 | `CRYPTO-002` | Bushi 02 | Dérivation de clés et enveloppe chiffrée AES-GCM-256 pour données privées | P1 | À spécifier | — |
-| `CRYPTO-003` | Bushi 02 | Moteur COSE & Crypto v1.1 (enveloppe signée COSE_Sign1 & coseOpen, fusionné commit `253267a`) | P0 | Validé | `qa/vectors/crypto/*.vectors.json` |
-| `STORAGE-001` | Bushi 10 | Partitionnement formel de la mémoire ACOSJ 92 Ko (blocs 0 à 5) | P0 | À spécifier | — |
+| `CRYPTO-003` | Bushi 02 | Moteur COSE & Crypto v1.2 — enveloppe COSE_Sign1, coseOpen et règle de validité temporelle K2 (ordre 0057) | P0 | Révision v1.2 (K2) | `qa/vectors/crypto/*.vectors.json`, `qa/vectors/crypto/cose-rules-v12.vectors.json` (144 PASS) |
+| `STORAGE-001` | Bushi 10 | Partitionnement formel de la mémoire ACOSJ 92 Ko (blocs 0 à 5) — Cartes ACOSJ 92 Ko exclusivement (décision souveraine DEC-AET-01 « QUE DES CARTES 92Ko », retrait formel de la cible T4T 32 Ko devenue obsolète) | P0 | À spécifier | — |
 | `STORAGE-002` | Bushi 10 | Transaction atomique avec drapeau `COMMIT_FLAG` anti-arrachage | P1 | À spécifier | — |
 | `QA-001` | Bushi 16 | Harnais de validation des vecteurs JSON/CBOR via `scripts/runner.sh test` | P0 | Validé | `qa/vectors/**/*.vectors.json` |
 | `QA-002` | Bushi 16 | Banc d'épreuve de non-régression multi-plateformes | P1 | À spécifier | — |
@@ -67,7 +67,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 | `BIO-001` | Bushi 11 | Matrice de ségrégation des 4 profils de dépouilles (C1, DNF, C2, MRS) | P0 | À spécifier | — |
 | `BIO-002` | Bushi 11 | Journalisation cryptographique des cycles d'autoclave Méthode 1 (133°C, 3b, 20m) | P0 | À spécifier | — |
 | `BIO-003` | Bushi 11 | Module de contrôle LFA Pentobarbital à l'admission animal de compagnie | P0 | À spécifier | — |
-| `PRION-001` | Bushi 12 | Validateur cryptographique bloquant le recyclage intra-espèce (Feed Ban CE 999/2001, ordre 0046) | P0 | Révision v1.4 | `qa/vectors/antiprion/feedban-matrix.vectors.json`, `qa/vectors/antiprion/feedban-hardening.vectors.json`, `qa/vectors/antiprion/feedban-rules-v12.vectors.json`, `qa/vectors/antiprion/feedban-rules-v13.vectors.json`, `qa/vectors/antiprion/feedban-rules-v14.vectors.json` |
+| `PRION-001` | Bushi 12 | Validateur cryptographique bloquant le recyclage intra-espèce (Feed Ban CE 999/2001, ordres 0046, 0056) | P0 | Révision v1.5 | `qa/vectors/antiprion/feedban-matrix.vectors.json`, `qa/vectors/antiprion/feedban-hardening.vectors.json`, `qa/vectors/antiprion/feedban-rules-v12.vectors.json`, `qa/vectors/antiprion/feedban-rules-v13.vectors.json`, `qa/vectors/antiprion/feedban-rules-v14.vectors.json`, `qa/vectors/antiprion/feedban-rules-v15.vectors.json` (212 PASS) |
 | `PRION-002` | Bushi 12 | Jeu de vecteurs de test d'attaque d'espèces (croisement porcin/volaille/ruminant) | P0 | Validé | `qa/vectors/antiprion/feedban-hardening.vectors.json` |
 | `LEGAL-001` | Bushi 13 | Spécification de conformité droit funéraire et directives post-mortem RGPD | P1 | À spécifier | — |
 | `LEGAL-002` | Bushi 13 | Clauses de mandat familial et protocole de gel conservatoire en cas de litige | P1 | À spécifier | — |
