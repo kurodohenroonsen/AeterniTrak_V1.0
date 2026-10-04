@@ -1,6 +1,6 @@
 /**
  * Moteur pur d'évaluation sanitaire The Iron Gate (La Porte de Fer)
- * Conforme à AET-SPEC-PRION-001 v1.2.0 et aux règles P1 à P13
+ * Conforme à AET-SPEC-PRION-001 v1.3.0 et aux règles P1 à P14
  */
 
 import type {

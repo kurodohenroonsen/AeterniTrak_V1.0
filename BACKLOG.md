@@ -18,10 +18,12 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 | ID Ticket | Bushi | Intitulé | Priorité | Statut | Vecteurs |
 |---|---|---|---|---|---|
-| `CORE-001` | Bushi 01 | Spécification de la sérialisation CBOR déterministe pour profil mémoriel | P0 | Spécifié | `qa/vectors/core/cbor-deterministic.vectors.json` |
-| `CORE-002` | Bushi 01 | Implémentation de la canonisation JCS (RFC 8785) sans dépendance | P0 | À spécifier | `qa/vectors/core/jcs-rfc8785.vectors.json` |
+| `CORE-001` | Bushi 01 | Spécification de la sérialisation CBOR déterministe pour profil mémoriel | P0 | Validé | `qa/vectors/core/cbor-deterministic.vectors.json` |
+| `CORE-002` | Bushi 01 | Implémentation de la canonisation JCS (RFC 8785) sans dépendance | P0 | Validé | `qa/vectors/core/jcs-rfc8785.vectors.json` |
+| `CORE-003` | Bushi 16 | Vecteurs du profil mémoriel v1 (ordre 0031) | P0 | Spécifié | `qa/vectors/core/profile-v1.vectors.json` |
 | `CRYPTO-001` | Bushi 02 | Vecteurs de test officiels Ed25519 (RFC 8032) intégrés dans `qa/vectors/crypto/` | P0 | À spécifier | — |
 | `CRYPTO-002` | Bushi 02 | Dérivation de clés et enveloppe chiffrée AES-GCM-256 pour données privées | P1 | À spécifier | — |
+| `CRYPTO-003` | Bushi 02 | Spécification de l'enveloppe signée COSE_Sign1 et modèle de confiance (ordre 0032) | P0 | À spécifier | — |
 | `STORAGE-001` | Bushi 10 | Partitionnement formel de la mémoire ACOSJ 92 Ko (blocs 0 à 5) | P0 | À spécifier | — |
 | `STORAGE-002` | Bushi 10 | Transaction atomique avec drapeau `COMMIT_FLAG` anti-arrachage | P1 | À spécifier | — |
 | `QA-001` | Bushi 16 | Harnais de validation des vecteurs JSON/CBOR via `scripts/runner.sh test` | P0 | Validé | `qa/vectors/**/*.vectors.json` |
@@ -63,7 +65,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 | `BIO-001` | Bushi 11 | Matrice de ségrégation des 4 profils de dépouilles (C1, DNF, C2, MRS) | P0 | À spécifier | — |
 | `BIO-002` | Bushi 11 | Journalisation cryptographique des cycles d'autoclave Méthode 1 (133°C, 3b, 20m) | P0 | À spécifier | — |
 | `BIO-003` | Bushi 11 | Module de contrôle LFA Pentobarbital à l'admission animal de compagnie | P0 | À spécifier | — |
-| `PRION-001` | Bushi 12 | Validateur cryptographique bloquant le recyclage intra-espèce (Feed Ban CE 999/2001) | P0 | Spécifié | `qa/vectors/antiprion/feedban-matrix.vectors.json`, `qa/vectors/antiprion/feedban-hardening.vectors.json`, `qa/vectors/antiprion/feedban-rules-v12.vectors.json` |
-| `PRION-002` | Bushi 12 | Jeu de vecteurs de test d'attaque d'espèces (croisement porcin/volaille/ruminant) | P0 | À spécifier | `qa/vectors/antiprion/feedban-hardening.vectors.json` |
+| `PRION-001` | Bushi 12 | Validateur cryptographique bloquant le recyclage intra-espèce (Feed Ban CE 999/2001) | P0 | Validé | `qa/vectors/antiprion/feedban-matrix.vectors.json`, `qa/vectors/antiprion/feedban-hardening.vectors.json`, `qa/vectors/antiprion/feedban-rules-v12.vectors.json`, `qa/vectors/antiprion/feedban-rules-v13.vectors.json` |
+| `PRION-002` | Bushi 12 | Jeu de vecteurs de test d'attaque d'espèces (croisement porcin/volaille/ruminant) | P0 | Validé | `qa/vectors/antiprion/feedban-hardening.vectors.json` |
 | `LEGAL-001` | Bushi 13 | Spécification de conformité droit funéraire et directives post-mortem RGPD | P1 | À spécifier | — |
 | `LEGAL-002` | Bushi 13 | Clauses de mandat familial et protocole de gel conservatoire en cas de litige | P1 | À spécifier | — |
