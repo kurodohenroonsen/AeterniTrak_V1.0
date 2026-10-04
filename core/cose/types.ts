@@ -53,3 +53,30 @@ export interface VerifySuccess {
 }
 
 export type VerifyResult = VerifySuccess;
+
+/**
+ * Résultat de l'opération applicative de consultation coseOpen (DEC-AET-07 Option B).
+ */
+export interface OpenVerified {
+  status: "VERIFIED";
+  valid: true;
+  payload: Uint8Array;
+  payload_hex: string;
+  kid: string;
+}
+
+export interface OpenUnverified {
+  status: "UNVERIFIED";
+  valid: false;
+  payload: Uint8Array;
+  payload_hex: string;
+  reason: "ERR_COSE_UNKNOWN_KID";
+}
+
+export interface OpenBlocked {
+  status: "BLOCKED";
+  valid: false;
+  error: string;
+}
+
+export type OpenResult = OpenVerified | OpenUnverified | OpenBlocked;

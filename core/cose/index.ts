@@ -10,7 +10,11 @@ export type {
   TrustStore,
   TrustedIssuerEntry,
   VerifyResult,
-  VerifySuccess
+  VerifySuccess,
+  OpenResult,
+  OpenVerified,
+  OpenUnverified,
+  OpenBlocked
 } from "./types.ts";
 
 export {
@@ -32,5 +36,11 @@ export {
   protectedHeader,
   sigStructure,
   coseSign,
-  coseVerify
+  coseVerify,
+  extractBytes,
+  normalizeBytes
 } from "./envelope.ts";
+
+export {
+  coseOpen
+} from "./open.ts";

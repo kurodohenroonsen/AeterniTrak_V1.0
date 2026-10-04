@@ -12,7 +12,7 @@ import { kid, ed25519Sign, ed25519Verify, es256Verify } from "./crypto.ts";
 /**
  * Extrait un Uint8Array à partir d'un élément décodé par AeterniCore (Uint8Array ou {$bytes: hex}).
  */
-function extractBytes(item: unknown): Uint8Array | null {
+export function extractBytes(item: unknown): Uint8Array | null {
   if (item instanceof Uint8Array) {
     return item;
   }
@@ -25,7 +25,7 @@ function extractBytes(item: unknown): Uint8Array | null {
 /**
  * Normalise une clé publique ou un kid en Uint8Array (gère les entrées hexadécimales ou Uint8Array).
  */
-function normalizeBytes(val: string | Uint8Array): Uint8Array {
+export function normalizeBytes(val: string | Uint8Array): Uint8Array {
   if (typeof val === "string") {
     return hexToBytes(val);
   }
@@ -82,7 +82,7 @@ export async function coseSign(
   const tbs = sigStructure(protectedBytes, payload);
 
   const { publicKey, signature } = await ed25519Sign(seed, tbs);
-  const signerKid = kid(publicKey);
+  const signerKid = await kid(publicKey);
 
   const unprotected = {
     $map: [[4, signerKid]]
@@ -142,14 +142,14 @@ export async function coseVerify(
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header must be a byte string (bstr)");
   }
 
-  // En-tête non protégé : carte CBOR ne portant aucune autre clé que la clé 4
+  // En-tête non protégé : carte CBOR ne portant aucune autre clé que la clé entière 4
   const unprotRaw = decoded[1];
   let unprotEntries: [unknown, unknown][] = [];
   if (unprotRaw !== null && typeof unprotRaw === "object") {
     if (Array.isArray((unprotRaw as Record<string, unknown>).$map)) {
       unprotEntries = (unprotRaw as Record<string, unknown>).$map as [unknown, unknown][];
     } else if (!("$bytes" in (unprotRaw as Record<string, unknown>)) && !("$int" in (unprotRaw as Record<string, unknown>))) {
-      unprotEntries = Object.entries(unprotRaw).map(([k, v]) => [Number(k) || k, v]);
+      unprotEntries = Object.entries(unprotRaw);
     } else {
       throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Unprotected header must be a map");
     }
@@ -158,7 +158,7 @@ export async function coseVerify(
   }
 
   for (const [k] of unprotEntries) {
-    if (k !== 4 && k !== "4") {
+    if (typeof k !== "number" || !Number.isInteger(k) || k !== 4) {
       throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Unprotected header contains unauthorized key: ${k}`);
     }
   }
@@ -176,7 +176,7 @@ export async function coseVerify(
   }
 
   // --------------------------------------------------------------------------
-  // Étape 4 : En-tête protégé : décodable strictement, carte, déterministe, clés 1 et 16
+  // Étape 4 : En-tête protégé : décodable strictement, carte, déterministe, clés entières 1 et 16
   // --------------------------------------------------------------------------
   let protDecoded: unknown;
   try {
@@ -190,7 +190,7 @@ export async function coseVerify(
     if (Array.isArray((protDecoded as Record<string, unknown>).$map)) {
       protEntries = (protDecoded as Record<string, unknown>).$map as [unknown, unknown][];
     } else if (!("$bytes" in (protDecoded as Record<string, unknown>)) && !("$int" in (protDecoded as Record<string, unknown>))) {
-      protEntries = Object.entries(protDecoded).map(([k, v]) => [Number(k) || k, v]);
+      protEntries = Object.entries(protDecoded);
     } else {
       throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header must be a CBOR map");
     }
@@ -200,6 +200,12 @@ export async function coseVerify(
 
   if (protEntries.length === 0) {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header cannot be an empty map");
+  }
+
+  for (const [k] of protEntries) {
+    if (typeof k !== "number" || !Number.isInteger(k) || (k !== 1 && k !== 16)) {
+      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Protected header contains unauthorized key: ${k}`);
+    }
   }
 
   // Contrôle du déterminisme strict : le ré-encodage canonique doit correspondre octet par octet
@@ -212,9 +218,9 @@ export async function coseVerify(
   let typVal: unknown = undefined;
 
   for (const [k, v] of protEntries) {
-    if (k === 1 || k === "1") {
+    if (k === 1) {
       algVal = v;
-    } else if (k === 16 || k === "16") {
+    } else if (k === 16) {
       typVal = v;
     } else {
       throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Protected header contains unauthorized key: ${k}`);
@@ -246,7 +252,7 @@ export async function coseVerify(
   // --------------------------------------------------------------------------
   let kidBytes: Uint8Array | null = null;
   for (const [k, v] of unprotEntries) {
-    if (k === 4 || k === "4") {
+    if (k === 4) {
       kidBytes = extractBytes(v);
     }
   }
@@ -285,7 +291,7 @@ export async function coseVerify(
       throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", `Unsupported algorithm in TrustStore: ${s.alg}`);
     }
 
-    const computedKid = kid(sPubBytes);
+    const computedKid = await kid(sPubBytes);
     if (bytesToHex(computedKid).toLowerCase() !== sKidHex) {
       throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", `TrustStore entry kid mismatch for ${sKidHex}`);
     }

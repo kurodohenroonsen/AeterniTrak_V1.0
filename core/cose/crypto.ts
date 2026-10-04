@@ -4,7 +4,6 @@
  * Conformité : RFC 9053, BSI TR-03111, SEC 1 v2.0, AET-SPEC-CRYPTO-001 v1.1.0
  */
 
-import crypto from "node:crypto";
 import { CoseError } from "./errors.ts";
 import { bytesToHex, hexToBytes } from "../cbor/writer.ts";
 
@@ -26,6 +25,20 @@ export const ED25519_L = (1n << 252n) + 27742317777372353535851937790883648493n;
 const ED25519_PKCS8_PREFIX = new Uint8Array([
   0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20
 ]);
+
+/**
+ * Décode une chaîne base64url en Uint8Array (purement portable, sans Buffer).
+ */
+function base64UrlToBytes(str: string): Uint8Array {
+  const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  const pad = base64.length % 4 === 0 ? "" : "=".repeat(4 - (base64.length % 4));
+  const binary = atob(base64 + pad);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
 
 /**
  * Calcule l'opération modulo positif pour BigInt.
@@ -59,13 +72,14 @@ function readUint256BE(buf: Uint8Array): bigint {
 
 /**
  * Calcule l'identifiant de clé `kid` normalisé : les 16 premiers octets du SHA-256 de la clé brute.
+ * Portable WebCrypto (globalThis.crypto.subtle).
  *
  * @param publicKey - Octets bruts de la clé publique (32 octets pour Ed25519, 64 octets pour ES256).
- * @returns Uint8Array de 16 octets.
+ * @returns Promise<Uint8Array> de 16 octets.
  */
-export function kid(publicKey: Uint8Array): Uint8Array {
-  const hash = crypto.createHash("sha256").update(publicKey).digest();
-  return new Uint8Array(hash.buffer, hash.byteOffset, 16);
+export async function kid(publicKey: Uint8Array): Promise<Uint8Array> {
+  const hashBuf = await globalThis.crypto.subtle.digest("SHA-256", publicKey);
+  return new Uint8Array(hashBuf).slice(0, 16);
 }
 
 /**
@@ -156,7 +170,7 @@ export async function ed25519Sign(
   pkcs8.set(ED25519_PKCS8_PREFIX, 0);
   pkcs8.set(seed, ED25519_PKCS8_PREFIX.length);
 
-  const privKey = await crypto.subtle.importKey(
+  const privKey = await globalThis.crypto.subtle.importKey(
     "pkcs8",
     pkcs8,
     { name: "Ed25519" },
@@ -164,13 +178,13 @@ export async function ed25519Sign(
     ["sign"]
   );
 
-  const jwk = await crypto.subtle.exportKey("jwk", privKey);
+  const jwk = await globalThis.crypto.subtle.exportKey("jwk", privKey);
   if (!jwk.x) {
     throw new Error("Failed to derive Ed25519 public key from private key JWK");
   }
-  const publicKey = Buffer.from(jwk.x, "base64url");
+  const publicKey = base64UrlToBytes(jwk.x);
 
-  const sigBuffer = await crypto.subtle.sign({ name: "Ed25519" }, privKey, message);
+  const sigBuffer = await globalThis.crypto.subtle.sign({ name: "Ed25519" }, privKey, message);
   const signature = new Uint8Array(sigBuffer);
 
   return { publicKey: new Uint8Array(publicKey), signature };
@@ -198,7 +212,7 @@ export async function ed25519Verify(
 
   let pubCryptoKey: CryptoKey;
   try {
-    pubCryptoKey = await crypto.subtle.importKey(
+    pubCryptoKey = await globalThis.crypto.subtle.importKey(
       "raw",
       publicKey,
       { name: "Ed25519" },
@@ -211,7 +225,7 @@ export async function ed25519Verify(
 
   let ok = false;
   try {
-    ok = await crypto.subtle.verify(
+    ok = await globalThis.crypto.subtle.verify(
       { name: "Ed25519" },
       pubCryptoKey,
       signature,
@@ -255,7 +269,7 @@ export async function es256Verify(
 
   let pubCryptoKey: CryptoKey;
   try {
-    pubCryptoKey = await crypto.subtle.importKey(
+    pubCryptoKey = await globalThis.crypto.subtle.importKey(
       "raw",
       uncompressed,
       { name: "ECDSA", namedCurve: "P-256" },
@@ -268,7 +282,7 @@ export async function es256Verify(
 
   let ok = false;
   try {
-    ok = await crypto.subtle.verify(
+    ok = await globalThis.crypto.subtle.verify(
       { name: "ECDSA", hash: { name: "SHA-256" } },
       pubCryptoKey,
       signature,

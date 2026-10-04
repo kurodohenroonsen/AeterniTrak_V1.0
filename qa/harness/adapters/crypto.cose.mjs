@@ -10,6 +10,7 @@ import {
   sigStructure,
   coseSign,
   coseVerify,
+  coseOpen,
   ed25519Sign
 } from "../../../core/cose/index.ts";
 import { hexToBytes, bytesToHex } from "../../../core/cbor/index.ts";
@@ -17,7 +18,7 @@ import { hexToBytes, bytesToHex } from "../../../core/cbor/index.ts";
 export async function run(op, input) {
   if (op === "kid") {
     const pub = hexToBytes(input.public_key_hex);
-    const k = kid(pub);
+    const k = await kid(pub);
     return { kid_hex: bytesToHex(k) };
   }
 
@@ -42,7 +43,7 @@ export async function run(op, input) {
     const sha256 = crypto.createHash("sha256").update(envelope).digest("hex");
 
     const { publicKey } = await ed25519Sign(seed, new Uint8Array(0));
-    const signerKid = kid(publicKey);
+    const signerKid = await kid(publicKey);
 
     return {
       envelope_hex: bytesToHex(envelope),
@@ -64,6 +65,29 @@ export async function run(op, input) {
     } catch (err) {
       return { error: err.code || err.message };
     }
+  }
+
+  if (op === "cose-open") {
+    const envelope = hexToBytes(input.envelope_hex);
+    const res = await coseOpen(envelope, input.expected_typ, input.trust_store);
+    if (res.status === "VERIFIED") {
+      return {
+        status: "VERIFIED",
+        payload_hex: res.payload_hex,
+        kid: res.kid
+      };
+    }
+    if (res.status === "UNVERIFIED") {
+      return {
+        status: "UNVERIFIED",
+        reason: res.reason,
+        payload_hex: res.payload_hex
+      };
+    }
+    return {
+      status: "BLOCKED",
+      error: res.error
+    };
   }
 
   throw new Error(`Opération non supportée par crypto.cose : ${op}`);
