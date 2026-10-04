@@ -1,6 +1,6 @@
 /**
  * Types et interfaces pour le validateur anti-prion Iron Gate
- * Conforme à la spécification AET-SPEC-PRION-001 v1.2.0
+ * Conforme à la spécification AET-SPEC-PRION-001 v1.3.0 et aux règles P1 à P14
  */
 
 export interface TaxonEntry {
