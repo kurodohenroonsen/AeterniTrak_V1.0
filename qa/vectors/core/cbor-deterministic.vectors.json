@@ -1,7 +1,7 @@
 {
   "$schema": "../schema/vector-suite.schema.json",
   "suite": "core.cbor.deterministic",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "issued_by": "claude",
   "issued_at": "2026-10-04",
   "status": "approved",
@@ -2285,21 +2285,6 @@
       ]
     },
     {
-      "id": "CBOR-REJ-006",
-      "title": "longueur de texte non minimale (7861 au lieu de 61 pour \"a\")",
-      "op": "reject-decode",
-      "input": {
-        "hex": "786161"
-      },
-      "expect": {
-        "error": "ERR_CBOR_NOT_SHORTEST"
-      },
-      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
-      "tags": [
-        "text"
-      ]
-    },
-    {
       "id": "CBOR-REJ-007",
       "title": "tableau de longueur indéfinie 9f0102ff",
       "op": "reject-decode",
@@ -2721,6 +2706,46 @@
       "tags": [
         "float"
       ]
+    },
+    {
+      "id": "CBOR-REJ-034",
+      "title": "longueur de texte non minimale : 78 01 61 au lieu de 61 61 pour \"a\"",
+      "op": "reject-decode",
+      "input": {
+        "hex": "780161"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "dec-aet-06"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-035",
+      "title": "texte tronqué : 78 61 annonce 97 octets, un seul présent",
+      "op": "reject-decode",
+      "input": {
+        "hex": "786161"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "RFC 8949 Appendix C well-formedness: exact length, no trailing bytes",
+      "tags": [
+        "wf",
+        "dec-aet-06"
+      ]
+    }
+  ],
+  "retired": [
+    {
+      "id": "CBOR-REJ-006",
+      "reason": "Vecteur erroné (erreur de Claude AI, cycle 0001) : 786161 était attendu en ERR_CBOR_NOT_SHORTEST alors que c'est un texte tronqué. Remplacé par CBOR-REJ-034 et CBOR-REJ-035.",
+      "decision": "DEC-AET-06",
+      "retired_at": "2026-10-04"
     }
   ]
 }
