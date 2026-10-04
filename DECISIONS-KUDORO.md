@@ -70,6 +70,6 @@ Format d'une entrée :
 
 ## 2. Décisions en Attente d'Arbitrage
 
-- `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
-- `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
-- `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
+- `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz). KURODO : QUE DES CARTES 92Ko
+- `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA. KURODO : prevoir cette connection API a tous les point d'acces tel que Cerise je crois en walonnie
+- `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial. KURODO : voir ce que la loi permet
