@@ -3,8 +3,8 @@
 > **Bushi 01 — AeterniCore Architect**  
 > **Devise** : *"Un seul cœur, toutes les plateformes. L'état pur ne ment jamais."*  
 > **Date de rédaction** : 4 octobre 2026  
-> **Statut** : Soumis pour approbation Claude AI (Ordre 0003 — Phase A)  
-> **Conformité normative** : RFC 8949 (§4.2.1), RFC 8785 (JCS), RFC 8943 (Tag 100), RFC 8610 (CDDL), RFC 9052 / RFC 9053 (COSE), FIPS 180-4 (SHA-256), `DEC-AET-04`.
+> **Statut** : Approuvé pour Phase B avec amendements M1-M10 (Ordres 0012 & 0020)  
+> **Conformité normative** : RFC 8949 (§4.2.1), RFC 8785 (JCS), RFC 8943 (Tag 100), RFC 8610 (CDDL), RFC 9052 / RFC 9053 (COSE), RFC 9596 (COSE typ), FIPS 180-4 (SHA-256), `DEC-AET-01`, `DEC-AET-04`.
 
 ---
 
@@ -23,7 +23,7 @@ Conformément à la section 2 de la fiche de poste du Bushi 01, les recherches n
 3. **FIPS 180-4 — Secure Hash Standard (SHA-256)**
    - *URL consultée* : `https://csrc.nist.gov/pubs/fips/180-4/upd1/final`
    - *Date de consultation* : 4 octobre 2026
-   - *Apports retenus* : Calcul déterministe d'empreintes numériques 256 bits (32 octets) pour les CIDs de blocs de données (WebP, Opus SILK) et les condensats de signature COSE.
+   - *Apports retenus* : Calcul déterministe d'empreintes numériques 256 bits (32 octets) pour les CIDs de blocs de données (WebP, audio selon DEC-AET-01) et les condensats de signature COSE.
 4. **WebAssembly Core Specification 2.0 — SIMD & Memory Footprint**
    - *URL consultée* : `https://www.w3.org/TR/wasm-core-2/`
    - *Date de consultation* : 4 octobre 2026
@@ -99,8 +99,8 @@ Sur support silicium (NFC / carte à puce sécurisée), chaque octet économisé
 | Bloc | Désignation | Support & Localisation | Statut Cryptographique |
 |---|---|---|---|
 | **Bloc 1** | **Profil Mémoriel & Identité** | Silicium NFC (EEPROM $\le$ 2 Ko) | **Scellé & Immuable** sous enveloppe `COSE_Sign1` |
-| **Bloc 2** | **Portrait Visuel** | WebP haute fidélité (mémoire secondaire / puce 92k) | **Immuable**, empreinte SHA-256 scellée dans le Bloc 1 |
-| **Bloc 3** | **Mémo Vocal** | Audio Opus SILK (8 kbps mono) | **Immuable**, empreinte SHA-256 scellée dans le Bloc 1 |
+| **Bloc 2** | **Portrait Visuel** | WebP haute fidélité ($\le 20\,480$ octets) | **Immuable**, empreinte SHA-256 scellée dans le Bloc 1 |
+| **Bloc 3** | **Mémo Vocal** | Audio ($\le 46\,080$ octets, codec selon `DEC-AET-01`) | **Immuable**, empreinte SHA-256 scellée dans le Bloc 1 |
 | **Bloc 4** | **Hommages & Registre Mémoriel** | Puce étendue ou ledger décentralisé | **Évolutif (Append-Only)** — **HORS enveloppe Bloc 1** |
 
 > **Règle de Sécurité Fondamentale** : Le Bloc 4 (recueil de condoléances, hommages de la communauté, messages post-mortem) est **strictement exclu de l'enveloppe signée du Bloc 1**. Toute modification ou ajout dans le Bloc 4 n'invalide en rien le scellement cryptographique du profil d'état-civil du défunt inscrit dans le Bloc 1.
@@ -110,7 +110,8 @@ Sur support silicium (NFC / carte à puce sécurisée), chaque octet économisé
 ```cddl
 ; ==============================================================================
 ; AeterniTrak Memorial Profile Specification - Version 1.0 (AeterniCore)
-; Conforme RFC 8610, RFC 8949, RFC 8943, RFC 9052
+; Conforme RFC 8610, RFC 8949, RFC 8943, RFC 9052, RFC 9596, DEC-AET-01, DEC-AET-04
+; Amendements M1-M10 intégrés
 ; ==============================================================================
 
 ; --- Structure Racine du Profil Mémoriel (Charge Utile CBOR) ---
@@ -118,18 +119,19 @@ MemorialProfileV1 = {
   1 => schema_version,
   2 => subject_kind,
   3 => names,
-  4 => birth_date,
+  ? 4 => birth_date,        ; Optionnel pour animal (subject_kind = 2)
   ? 5 => death_date,
-  6 => rite_code,
-  7 => country,
+  ? 6 => rite_code,         ; Optionnel, registre fermé docs/functional/rite-registry.md
+  7 => country,             ; Pays de résidence du défunt (ISO 3166-1 alpha-2)
   ? 8 => portrait_ref,
   ? 9 => voice_memo_ref,
   10 => issuer_id,
   11 => issued_at,
   ? 12 => epitaph,
+  ? 13 => species_taxid,    ; Optionnel pour animal (entier NCBI Taxonomy)
 }
 
-; 1: Version du schéma (uint fixé à 1 en v1)
+; 1: Version du schéma (uint fixé à 1 en v1 - rejet strict si différent)
 schema_version = 1
 
 ; 2: Nature du sujet (1 = human, 2 = animal)
@@ -142,33 +144,39 @@ names = {
   ? 3 => given_names,
 }
 
+; Règle normative : .size compte des octets UTF-8, pas des caractères Unicode
 usage_name  = tstr .size (1..120) ; Nom d'usage ou patronyme principal (NFC)
 birth_name  = tstr .size (1..120) ; Nom de naissance / jeune fille (NFC)
-given_names = [* tstr .size (1..80)] ; Liste ordonnée des prénoms (NFC)
+given_names = [0*8 (tstr .size (1..80))] ; Au plus 8 prénoms ordonnés (NFC)
 
 ; 4 & 5: Dates civiles grégoriennes (RFC 8943 - Tag 100)
 ; Jours écoulés depuis 1970-01-01 (négatif pour dates antérieures)
+; Optionnel pour subject_kind = 2 (animal de compagnie)
 birth_date = #6.100(int)
 death_date = #6.100(int)
 
-; 6: Code de rite / orientation philosophique (uint normalisé)
-; 1: Laïque / Républicain, 2: Forestier / Arboricole, 3: Panthéon mémoriel, etc.
+; 6: Code de rite / orientation philosophique (uint optionnel)
+; Renvoie au registre fermé normatif `docs/functional/rite-registry.md` (Bushi 13 et 08)
 rite_code = uint
 
-; 7: Pays de résidence ou de sépulture (ISO 3166-1 alpha-2)
-country = tstr .size 2
+; 7: Pays de résidence du défunt (ISO 3166-1 alpha-2 majuscules strictes)
+country = tstr .size 2 .regexp "^[A-Z]{2}$"
 
 ; 8 & 9: Références cryptographiques des Blocs Immuables 2 et 3
-portrait_ref   = AssetReference
-voice_memo_ref = AssetReference
+portrait_ref   = AssetReferencePortrait
+voice_memo_ref = AssetReferenceVoice
 
-AssetReference = {
+AssetReferencePortrait = {
   1 => asset_sha256,
-  2 => asset_byte_length,
+  2 => uint .le 20480,      ; Longueur maximale 20 Ko (20 480 octets) pour le portrait (Bloc 2)
 }
 
-asset_sha256      = bstr .size 32 ; Condensat SHA-256 (FIPS 180-4)
-asset_byte_length = uint         ; Longueur exacte du binaire en octets
+AssetReferenceVoice = {
+  1 => asset_sha256,
+  2 => uint .le 46080,      ; Longueur maximale 45 Ko (46 080 octets) pour l'audio (Bloc 3)
+}
+
+asset_sha256 = bstr .size 32 ; Condensat SHA-256 (FIPS 180-4)
 
 ; 10: Identifiant qualifié de l'opérateur ou concessionnaire émetteur
 issuer_id = tstr .size (4..64) ; ex: "BE-WAL-AET-2026-0042"
@@ -178,7 +186,22 @@ issued_at = #6.100(int)
 
 ; 12: Épitaphe ou texte mémoriel solennel (UTF-8 NFC strict)
 epitaph = tstr .size (1..1600)
+
+; 13: Identifiant taxonomique NCBI pour animal (subject_kind = 2)
+species_taxid = uint
 ```
+
+### 3. Règles Normatives de Profil et de Compatibilité
+
+1. **Encadrement Strict du Budget CBOR (Amendement M2)** :
+   - La taille de la charge utile CBOR sérialisée (`payload`) ne doit en aucun cas dépasser **$1\,900$ octets**.
+   - Tout profil généré ou reçu dont l'encodage déterministe excède $1\,900$ octets est formellement rejeté avec le code `ERR_PROFILE_TOO_LARGE`.
+   - Les contraintes `.size (min..max)` du CDDL expriment strictement des **tailles en octets UTF-8** et non en points de code ou caractères.
+   - La liste `given_names` est bornée à un maximum de **8 prénoms**.
+
+2. **Politique Fermée des Clés et Compatibilité Ascendante (Amendement M8)** :
+   - Tout lecteur ou validateur v1 **rejette obligatoirement** une carte dont `schema_version != 1`.
+   - Tout lecteur ou validateur v1 **rejette obligatoirement** toute carte contenant une clé non définie dans la spécification v1 (hors plage d'entiers $[1, 13]$). Aucune ignorance silencieuse n'est admise dans une enveloppe signée.
 
 ---
 
@@ -199,17 +222,17 @@ $$\text{COSE\_Sign1} = \text{Tag}(18, [\text{protected}, \text{unprotected}, \te
 |---|---|---|---|
 | **Tag CBOR 18** | Identifiant majeur COSE_Sign1 | `0xd2` (major 6, info 18) | 1 octet |
 | **En-tête de tableau (4 éléments)** | Tableau défini | `0x84` (major 4, info 4) | 1 octet |
-| **En-tête protégé (`protected`)** | `bstr` enveloppant `{1: alg}` (alg -8 EdDSA ou -7 ES256) | `0x43a10127` (EdDSA) ou `0x43a10126` (ES256) | 4 octets |
-| **En-tête non protégé (`unprotected`)** | Carte avec identifiant de clé `kid` (16 octets) ou vide | `0xa10450<kid_16_bytes>` (19 octets) ou `0xa0` (1 octet) | 1 à 19 octets |
+| **En-tête protégé (`protected`)** | `bstr` enveloppant `{1: alg, 16: typ}` avec séparation de domaine `application/aeternitrak-profile+cbor` (M4) | `0x582ba201...1078256170...` | 45 octets |
+| **En-tête non protégé (`unprotected`)** | Carte avec identifiant de clé `kid` (exactement 16 octets, M3) ou vide | `0xa10450<kid_16_bytes>` (19 octets) ou `0xa0` (1 octet) | 1 à 19 octets |
 | **En-tête de charge utile (`payload`)** | `bstr` préfixant la charge utile ($N \le 1\,900$ octets) | `0x59` suivi de $N$ sur 2 octets en Big-Endian | 3 octets |
-| **Signature numérique (`signature`)** | `bstr` de 64 octets (Ed25519 brut ou ECDSA P-256 $r\|s$) | `0x5840` (2 octets) + 64 octets de signature | 66 octets |
-| **TOTAL OVERHEAD COSE_Sign1** | | | **76 à 94 octets** |
+| **Signature numérique (`signature`)** | `bstr` de 64 octets (Ed25519 brut ou ECDSA P-256 $r\|s$, M10) | `0x5840` (2 octets) + 64 octets de signature | 66 octets |
+| **TOTAL OVERHEAD COSE_Sign1** | | | **117 à 135 octets** |
 
-Avec une charge utile CBOR maximale fixée à $1\,900$ octets :
-$$\text{Taille Enveloppe Totale} \le 1\,900 + 94 = 1\,994 \text{ octets} \le 2\,048 \text{ octets}$$
-La marge résiduelle de sécurité sur le silicium est d'au moins **54 octets** dans le scénario le plus défavorable.
+Avec une charge utile CBOR maximale fixée à $1\,900$ octets (Amendement M2) :
+$$\text{Taille Enveloppe Totale} \le 1\,900 + 135 = 2\,035 \text{ octets} \le 2\,048 \text{ octets}$$
+La marge résiduelle de sécurité sur le silicium est d'au moins **13 octets** dans le scénario le plus défavorable, garantissant le respect de la Règle inviolable 3.
 
-### 2. Décompte Octet par Octet du Profil Maximal (1 880 octets)
+### 2. Décompte Octet par Octet du Profil Maximal (Amendements M1, M6)
 
 Le tableau suivant certifie la décomposition binaire d'un profil mémoriel dense poussé à ses limites de conception (avec patronymes aristocratiques complets, 6 prénoms, empreintes de 32 octets, et une épitaphe solennelle de $1\,558$ octets en français NFC avec diacritiques) :
 
@@ -219,24 +242,25 @@ Le tableau suivant certifie la décomposition binaire d'un profil mémoriel dens
 | **Clé 1** | Version de schéma | `1` | `0x01` (1 o) | 2 octets (`01 01`) |
 | **Clé 2** | Nature du sujet | `1` (Humain) | `0x02` (1 o) | 2 octets (`02 01`) |
 | **Clé 3** | Noms complets | Carte à 3 clés : Usage (51 o), Naissance (44 o), 6 prénoms (63 o) | `0x03` (1 o) | 164 octets |
-| **Clé 4** | Date de naissance | Tag 100, `-18262` (1er janvier 1920) | `0x04` (1 o) | 6 octets (`04 d8 64 39 47 55`) |
+| **Clé 4** | Date de naissance | Tag 100, `-18263` (1er janvier 1920) / `-18262` (2 janvier 1920, M1) | `0x04` (1 o) | 6 octets (`04 d8 64 39 47 56` ou `55`) |
 | **Clé 5** | Date de décès | Tag 100, `20730` (4 octobre 2026) | `0x05` (1 o) | 6 octets (`05 d8 64 19 50 fa`) |
 | **Clé 6** | Code de rite | `3` (Panthéon mémoriel) | `0x06` (1 o) | 2 octets (`06 03`) |
 | **Clé 7** | Code pays | `"FR"` (ISO 3166-1) | `0x07` (1 o) | 4 octets (`07 62 46 52`) |
-| **Clé 8** | Réf. Portrait Bloc 2 | Carte : SHA-256 (32 o) + Longueur (1 Mo = `1048576`) | `0x08` (1 o) | 43 octets |
-| **Clé 9** | Réf. Mémo Vocal Bloc 3 | Carte : SHA-256 (32 o) + Longueur (512 Ko = `524288`) | `0x09` (1 o) | 43 octets |
+| **Clé 8** | Réf. Portrait Bloc 2 | Carte : SHA-256 (32 o) + Longueur ($\le 20\,480$ o, ex: `20480`, M6) | `0x08` (1 o) | 41 octets (`08 a2 01 58 20... 02 19 50 00`) |
+| **Clé 9** | Réf. Mémo Vocal Bloc 3 | Carte : SHA-256 (32 o) + Longueur ($\le 46\,080$ o, ex: `46080`, M6) | `0x09` (1 o) | 41 octets (`09 a2 01 58 20... 02 19 b4 00`) |
 | **Clé 10** | Identifiant émetteur | `"FR-PAR-AET-MOM-2026-0000000000000099"` (36 car.) | `0x0a` (1 o) | 39 octets |
 | **Clé 11** | Date d'émission | Tag 100, `20730` (4 octobre 2026) | `0x0b` (1 o) | 6 octets (`0b d8 64 19 50 fa`) |
 | **Clé 12** | Épitaphe / Hommage | Texte français solennel NFC ($1\,558$ octets UTF-8) | `0x0c` (1 o) | 1 562 octets (`0c 79 06 16 ...`) |
-| **TOTAL CBOR** | **Charge utile Bloc 1** | | | **1 880 octets** |
+| **TOTAL CBOR** | **Charge utile Bloc 1** | Calibré avec contraintes M6 | | **1 876 octets** |
 
-Enveloppe signée avec `kid` de 16 octets : $1\,880 + 94 = \mathbf{1\,974\text{ octets}}$ (conforme au budget silicium de 2 Ko).
+Enveloppe signée avec `kid` de 16 octets et en-tête protégé avec `typ` (135 octets d'overhead) : $1\,876 + 135 = \mathbf{2\,011\text{ octets}} \le 2\,048\text{ octets}$ (conforme au budget silicium de 2 Ko).
 
 ---
 
-## A4. Enveloppe de Signature COSE_Sign1 (RFC 9052)
+## A4. Enveloppe de Signature COSE_Sign1 (RFC 9052 & RFC 9596)
 
 ### 1. Spécification de l'Enveloppe
+
 L'enveloppe utilise le tag CBOR standard `18` (RFC 9052 §4.2) et encapsule directement la charge utile (*attached payload*).
 
 ```cddl
@@ -248,31 +272,51 @@ COSE_Sign1_Memorial = #6.18([
 ])
 
 ProtectedHeaders = {
-  1 => alg ; Clé 1 = Algorithm Identifier
+  1 => alg,   ; Clé 1 = Algorithm Identifier (-8 EdDSA, -7 ES256)
+  16 => typ,  ; Clé 16 = Content Type (RFC 9596 / RFC 9052 - Amendement M4)
 }
 
-alg = -8 / -7 ; -8 = EdDSA (Ed25519), -7 = ES256 (P-256)
+alg = -8 / -7 ; -8 = EdDSA (Ed25519), -7 = ES256 (ECDSA P-256)
+typ = "application/aeternitrak-profile+cbor"
 
 UnprotectedHeaders = {
-  ? 4 => bstr .size (8..32) ; Clé 4 = Key Identifier (kid)
+  ? 4 => kid, ; Clé 4 = Key Identifier (Amendement M3)
 }
+
+kid = bstr .size 16 ; Exactement 16 octets (16 premiers octets du SHA-256 de la clé publique émetteur)
 ```
 
-### 2. Agilité d'Algorithme (`DEC-AET-04`)
-Conformément à la décision d'architecture `DEC-AET-04`, le système garantit l'agilité sans compromettre la sécurité matérielle :
-- **Algorithme `-8` (EdDSA / Ed25519, RFC 8032)** : Utilisé pour les actes émis par les serveurs d'infrastructure, le Studio AeterniTrak et les validateurs de filière.
-- **Algorithme `-7` (ES256 / ECDSA sur secp256r1 avec SHA-256, RFC 9053)** : Utilisé pour les signatures générées au sein des puces JavaCard ACOSJ et des enclaves matérielles mobiles (Apple Secure Enclave, Android StrongBox / KeyStore).
-- Le vérificateur universel AeterniCore inspecte la valeur de la clé `1` dans l'en-tête protégé et aiguille vers le moteur cryptographique correspondant.
+### 2. Séparation de Domaine Cryptographique (Amendement M4)
 
-### 3. Structure de Signature `Sig_structure` (RFC 9052 §4.4)
+Une même autorité ou opérateur peut détenir des clés aptes à signer à la fois des profils mémoriels et des certificats de lot de filière (« Porte de Fer », Ordre 0019/0020).
+- Afin de prévenir toute substitution de contexte ou rejeu inter-domaines, l'en-tête **protégé** intègre impérativement l'étiquette **`typ` (étiquette 16, RFC 9596)**.
+- Pour le profil mémoriel, `typ` est fixé à `"application/aeternitrak-profile+cbor"`. (La Porte de Fer utilise `"application/aeternitrak-batch-claim+cbor"`).
+- **Règle de validation** : Tout lecteur ou vérificateur d'enveloppe AeterniTrak **doit obligatoirement vérifier la présence et la valeur exacte de ce paramètre `typ`** dans l'en-tête protégé avant toute interprétation ou décodage de la charge utile `payload`.
+
+### 3. Modèle de Confiance Hors-Ligne & Gestion des Clés (Amendement M5)
+
+- La validation cryptographique d'une carte ne repose jamais sur une clé publique transmise sans contrôle. L'application lectrice intègre en local une **liste d'émetteurs de confiance embarquée (offline-first)**.
+- L'identifiant de clé `kid` (16 octets) correspond aux **16 premiers octets du SHA-256 de la clé publique** de l'émetteur.
+- Si le `kid` de l'enveloppe ne correspond à aucun émetteur répertorié dans la base locale d'émetteurs approuvés, la signature est rejetée sans appel.
+- Les mécanismes d'approvisionnement, de rotation et de révocation des clés relèvent de la responsabilité de Bushi 02 suite à l'arbitrage `DEC-AET-04`.
+
+### 4. Agilité d'Algorithme et Particularité ES256 (Amendement M10 / `DEC-AET-04`)
+
+Conformément à la décision d'architecture `DEC-AET-04` (Option C : ES256 pour les enclaves et puces, Ed25519 pour le logiciel, vérification des deux partout) :
+- **Algorithme `-8` (EdDSA / Ed25519, RFC 8032)** : Utilisé pour les actes émis par les serveurs, le Studio et les validateurs logiciels. Les tests couvrent la génération déterministe de signature et la vérification.
+- **Algorithme `-7` (ES256 / ECDSA sur secp256r1 avec SHA-256, RFC 9053)** : Utilisé pour les actes scellés par les enclaves matérielles mobiles (Apple Secure Enclave, Android StrongBox / KeyStore) et puces JavaCard ACOSJ. La signature est transmise au format binaire brut $r \| s$ de **64 octets exactement** (32 octets pour $r$, 32 octets pour $s$ en Big-Endian, sans encapsulation ASN.1 DER).
+- **Règle de testabilité (M10)** : En raison du non-déterminisme intrinsèque des générateurs d'aléa matériels sous ECDSA, les suites de vecteurs de test pour ES256 sont opérées en **vérification seule** ; Ed25519 est validé en signature et en vérification.
+
+### 5. Structure de Signature `Sig_structure` (RFC 9052 §4.4)
+
 Le calcul et la vérification de la signature opèrent sur la sérialisation CBOR déterministe de la structure canonique `Sig_structure` :
 
 ```cddl
 Sig_structure = [
   context: "Signature1",
-  body_protected: bstr, ; Exacts octets sérialisés de l'en-tête protégé
+  body_protected: bstr,       ; Exacts octets sérialisés de l'en-tête protégé
   external_aad: bstr .size 0, ; Chaîne d'octets vide h'' pour le Bloc 1
-  payload: bstr ; Octets bruts de la charge utile CBOR MemorialProfileV1
+  payload: bstr               ; Octets bruts de la charge utile CBOR MemorialProfileV1
 ]
 ```
 
@@ -288,7 +332,7 @@ Les trois profils suivants sont documentés selon l'**AeterniTrak Vector Notatio
 Profil compact destiné aux puces mémoire d'entrée de gamme ou aux transferts NFC ultra-rapides.
 - **Champs présents** : Version 1, Sujet Humain, Nom d'usage "Guy", Naissance 1945-05-08 (-9004 jours), Décès 2026-10-04 (20730 jours), Rite laïque (1), Pays "BE", Empreintes et tailles des Blocs 2 et 3, Émetteur "BE-BRU-001", Date d'émission (20730 jours).
 
-#### Notation AVN (JSON d'entrée)
+#### Notation AVN (JSON d'entrée calibré M6)
 ```json
 {
   "$map": [
@@ -302,7 +346,7 @@ Profil compact destiné aux puces mémoire d'entrée de gamme ou aux transferts 
     [8, {
       "$map": [
         [1, { "$bytes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }],
-        [2, 154200]
+        [2, 18450]
       ]
     }],
     [9, {
@@ -317,20 +361,13 @@ Profil compact destiné aux puces mémoire d'entrée de gamme ou aux transferts 
 }
 ```
 
-#### Encodage Hexadécimal (132 octets)
-```hex
-ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855021a00025a5809a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa
-```
-- **Longueur** : 132 octets
-- **Empreinte SHA-256** : `8f48187a00f873aa75bc3825cdbc7d86ea87a58136000f8d29297265171b83fb`
-
 ---
 
-### 2. Profil Courant / Standard (238 octets)
+### 2. Profil Courant / Standard (Amendement M6)
 Profil représentatif de la production courante AeterniTrak pour les concessions forestières mémorielles.
-- **Champs présents** : Version 1, Sujet Humain, Noms (Usage "Dupont", Naissance "Dupont", Prénoms ["Guy", "Jean", "Arthur"]), Naissance 1950-01-15 (-7291 jours), Décès 2026-09-12 (20708 jours), Rite forestier (2), Pays "BE", Empreintes et tailles des Blocs 2 et 3, Émetteur "BE-WAL-AET-2026-0042", Date d'émission (20730 jours), Épitaphe "Auprès de l'arbre vivant, la mémoire s'enracine pour toujours.".
+- **Champs présents** : Version 1, Sujet Humain, Noms (Usage "Dupont", Naissance "Dupont", Prénoms ["Guy", "Jean", "Arthur"]), Naissance 1950-01-15 (-7291 jours), Décès 2026-09-12 (20708 jours), Rite forestier (2), Pays "BE", Empreintes et tailles conformes des Blocs 2 et 3, Émetteur "BE-WAL-AET-2026-0042", Date d'émission (20730 jours), Épitaphe "Auprès de l'arbre vivant, la mémoire s'enracine pour toujours.".
 
-#### Notation AVN (JSON d'entrée)
+#### Notation AVN (JSON d'entrée calibré M6)
 ```json
 {
   "$map": [
@@ -350,7 +387,7 @@ Profil représentatif de la production courante AeterniTrak pour les concessions
     [8, {
       "$map": [
         [1, { "$bytes": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae" }],
-        [2, 184520]
+        [2, 19200]
       ]
     }],
     [9, {
@@ -366,22 +403,15 @@ Profil représentatif de la production courante AeterniTrak pour les concessions
 }
 ```
 
-#### Encodage Hexadécimal (238 octets)
-```hex
-ac0101020103a301664475706f6e7402664475706f6e74038363477579644a65616e6641727468757204d864391c7a05d8641950e406020762424508a20158202c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae021a0002d0c809a2015820fcde2b2edba56bf408686f0477e2597b93ec45435329ae7e6fb0d20a0add9f840219b09a0a7442452d57414c2d4145542d323032362d303034320bd8641950fa0c784041757072c3a873206465206c27617262726520766976616e742c206c61206dc3a96d6f697265207327656e726163696e6520706f757220746f756a6f7572732e
-```
-- **Longueur** : 238 octets
-- **Empreinte SHA-256** : `154e97c30f143c3ace414ab7a03cc99c7a72955115ddef92fffd97f8cf5b81b3`
-
 ---
 
-### 3. Profil Maximal (Silicon Stress Test — 1 880 octets)
+### 3. Profil Maximal (Silicon Stress Test — Amendements M1, M6)
 Profil de test de saturation siliconique, calibré pour prouver qu'un monument mémoriel littéraire et exhaustif reste strictement contenu sous la barre des $1\,900$ octets de charge utile et des $2\,048$ octets d'enveloppe signée.
 - **Noms** : Patronyme long avec diacritiques ("De La Fontaine de Saint-Germain-des-Prés-lès-Eaux"), nom de naissance ("De La Tour d'Auvergne de Bouillon-Châtillon"), 6 prénoms complets.
-- **Dates** : 1920-01-01 (-18262 jours) à 2026-10-04 (20730 jours).
+- **Dates** : 1920-01-01 (-18263 jours, ou 1920-01-02 à -18262 jours) à 2026-10-04 (20730 jours).
 - **Épitaphe** : Texte littéraire NFC de $1\,558$ octets UTF-8.
 
-#### Notation AVN (JSON d'entrée résumé)
+#### Notation AVN (JSON d'entrée calibré M1, M6)
 ```json
 {
   "$map": [
@@ -394,20 +424,20 @@ Profil de test de saturation siliconique, calibré pour prouver qu'un monument m
         [3, ["Alexandre", "Barthélémy", "Charles", "Désiré", "Emmanuel", "Ferdinand"]]
       ]
     }],
-    [4, { "$tag": 100, "$value": -18262 }],
+    [4, { "$tag": 100, "$value": -18263 }],
     [5, { "$tag": 100, "$value": 20730 }],
     [6, 3],
     [7, "FR"],
     [8, {
       "$map": [
         [1, { "$bytes": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" }],
-        [2, 1048576]
+        [2, 20480]
       ]
     }],
     [9, {
       "$map": [
         [1, { "$bytes": "cb8379ac2098d92f6f1404c506377771560936ac6abb0bf76080784a00c0b35e" }],
-        [2, 524288]
+        [2, 46080]
       ]
     }],
     [10, "FR-PAR-AET-MOM-2026-0000000000000099"],
@@ -417,10 +447,9 @@ Profil de test de saturation siliconique, calibré pour prouver qu'un monument m
 }
 ```
 
-#### Métriques Binaire et Cryptographique
-- **Longueur CBOR exacte** : **1 880 octets** ($\le 1\,900$ octets)
-- **Empreinte SHA-256** : `bf362b88145ec8501c34b033d0b3b1b650e604aadf12e53f0e537f0f5501d875`
-- **Taille dans l'enveloppe `COSE_Sign1` avec `kid` (16 octets)** : **1 974 octets** ($\le 2\,048$ octets)
+> **Note Normative d'Audit & Dépôt des Vecteurs de Profil (Ordre 0012)** :  
+> Conformément aux directives de l'Ordre 0012, les amendements M1 à M10 ont été intégrés à la spécification technique sans introduction de code de profil applicatif.  
+> Suite à ces amendements, le Bushi 16 (QA) déposera les trois profils de référence recalculés dans la suite `draft` `qa/vectors/core/profile-v1.vectors.json` pour revue et approbation souveraine par Claude AI avant tout développement de modules de haut niveau.
 
 ---
 
