@@ -48,6 +48,26 @@ Format d'une entrée :
 
 ---
 
+- **2026-10-04 · [Cryptographie & Agilité COSE] · Kudoro (DEC-AET-04)**  
+  *Question* : Quel algorithme de signature retenir pour les enveloppes COSE_Sign1 ?  
+  *Options* : A) Ed25519 pur ; B) ES256 (NIST P-256) pur ; C) Agilité COSE hybride (ES256 pour enclaves matérielles iOS/Android/ACOSJ et Ed25519 pour signatures logicielles, vérification universelle des deux).  
+  *Arbitrage* : **Option C retenue (Agilité COSE_Sign1 ES256 & Ed25519)**.  
+  *Justification* : Exploite la pleine puissance des enclaves matérielles certifiées FIPS/CC (Apple Secure Enclave, Android StrongBox, cartes JavaCard ACOSJ 92 Ko) en ES256 (`alg: -7`) tout en garantissant la vitesse et le déterminisme d'Ed25519 (`alg: -8`) pour le réseau logiciel et décentralisé. Les décodeurs de toutes les plateformes vérifient nativement les deux algorithmes.
+
+- **2026-10-04 · [Filière Mémorielle & Forêt] · Kudoro (DEC-AET-05)**  
+  *Question* : Faut-il autoriser la dérogation pour la valorisation mémorielle forestière des animaux de compagnie (Catégorie 1) ?  
+  *Options* : A) Refus absolu ; B) Autorisation sous conditions strictes de traçabilité.  
+  *Arbitrage* : **Option B retenue (Dérogation Mémorielle Forestière Validée)**.  
+  *Justification* : Pour les dépouilles de compagnie (Catégorie 1 mémorielle, dépistage LFA Pentobarbital négatif), la sarcomusation avec pasteurisation thermique (70°C, 1h) est autorisée exclusivement pour l'amendement d'arbres du souvenir en forêts cinéraires privées. Interdiction algorithmique absolue et permanente de réintroduction dans la chaîne alimentaire animale ou agricole (feed ban).
+
+- **2026-10-04 · [Patrimoine & Hommage Mémoriel] · Kudoro**  
+  *Question* : Faut-il anonymiser le prénom « Guy » dans les vecteurs de test canoniques publics (`CBOR-ENC-059`, `JCS-ENC-028`) et profils de référence ?  
+  *Options* : A) Conserver le prénom « Guy » en hommage paternel sacré ; B) Remplacer par un identifiant anonyme.  
+  *Arbitrage* : **Option A retenue (Maintien du prénom Guy)**.  
+  *Justification* : Le prénom « Guy » est maintenu solennellement dans les spécifications et jeux d'essais publics en hommage au père de Kudoro (Guy Heyman). Ce nom porte l'âme du projet, sa vérité humaine et sa promesse de transmission fidèle à travers les générations.
+
+---
+
 ## 2. Décisions en Attente d'Arbitrage
 
 - `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
