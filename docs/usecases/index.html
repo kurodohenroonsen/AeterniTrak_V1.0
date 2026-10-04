@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AeterniTrak V1.0 — Architecture 4 Applications & Studio Vivant des Wireframes</title>
+  <title>AeterniTrak V1.0 — Architecture 4 Applications & Grand Théâtre Vivant des Wireframes</title>
   <style>
 
     /* =========================================================================
-       AeterniTrak V1.0 — Design System Obsidienne & Living Wireframes Studio
+       AeterniTrak V1.0 — Design System Obsidienne & Grand Théâtre Vivant
        Styles 100% Hors-Ligne & Embarqués (Phase A pure, ZÉRO ressource distante)
        ========================================================================= */
     :root {
@@ -32,7 +32,10 @@
       --gold-700: #8a6d17;
       --emerald-400: #34d399;
       --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --sky-300: #7dd3fc;
       --sky-400: #38bdf8;
+      --sky-500: #0284c7;
       --amber-400: #fbbf24;
       --amber-500: #f59e0b;
       --rose-400: #fb7185;
@@ -42,7 +45,9 @@
       --indigo-400: #818cf8;
       --purple-300: #d8b4fe;
       --purple-400: #c084fc;
+      --purple-500: #a855f7;
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Georgia", "Charter", "Palatino", serif;
       --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     }
 
@@ -70,24 +75,54 @@
     }
 
     /* Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-obsidian-900); }
-    ::-webkit-scrollbar-thumb { background: #1e2436; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: #1e2436; border-radius: 4px; border: 1px solid rgba(212,175,55,0.1); }
     ::-webkit-scrollbar-thumb:hover { background: var(--gold-500); }
 
     /* Composants & Cartes Glassmorphism */
     .glass-card {
-      background: rgba(20, 24, 36, 0.78);
+      background: rgba(20, 24, 36, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 1rem;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 1.25rem;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-card:hover {
-      border-color: rgba(212, 175, 55, 0.5);
-      box-shadow: 0 12px 35px -10px rgba(212, 175, 55, 0.22);
+      border-color: rgba(212, 175, 55, 0.55);
+      box-shadow: 0 14px 40px -10px rgba(212, 175, 55, 0.22);
       transform: translateY(-2px);
+    }
+
+    /* Thèmes par Application (Code Couleur Harmonieux) */
+    .theme-app1 {
+      --app-accent: var(--gold-500);
+      --app-accent-light: var(--gold-300);
+      --app-accent-bg: rgba(212, 175, 55, 0.12);
+      --app-accent-border: rgba(212, 175, 55, 0.3);
+      --app-glow: rgba(212, 175, 55, 0.25);
+    }
+    .theme-app2 {
+      --app-accent: var(--sky-400);
+      --app-accent-light: var(--sky-300);
+      --app-accent-bg: rgba(56, 189, 248, 0.12);
+      --app-accent-border: rgba(56, 189, 248, 0.3);
+      --app-glow: rgba(56, 189, 248, 0.25);
+    }
+    .theme-app3 {
+      --app-accent: var(--purple-400);
+      --app-accent-light: var(--purple-300);
+      --app-accent-bg: rgba(192, 132, 252, 0.12);
+      --app-accent-border: rgba(192, 132, 252, 0.3);
+      --app-glow: rgba(192, 132, 252, 0.25);
+    }
+    .theme-app4 {
+      --app-accent: var(--emerald-400);
+      --app-accent-light: var(--emerald-300);
+      --app-accent-bg: rgba(16, 185, 129, 0.12);
+      --app-accent-border: rgba(16, 185, 129, 0.3);
+      --app-glow: rgba(16, 185, 129, 0.25);
     }
 
     .gold-gradient-text {
@@ -99,24 +134,68 @@
     /* Header & Navigation */
     header {
       border-bottom: 1px solid rgba(51, 65, 85, 0.8);
-      background: rgba(11, 13, 20, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(11, 13, 20, 0.97);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
       z-index: 50;
-      padding: 0.75rem 1.5rem;
+      padding: 0.85rem 1.75rem;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 1.25rem;
+    }
+
+    /* =========================================================================
+       BIMODAL TOGGLE : VUE FAMILLE vs VUE INGÉNIEUR / EXPERT
+       ========================================================================= */
+    .bimodal-toggle-box, .mode-switch-capsule {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(6, 7, 11, 0.9);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
+      border-radius: 9999px;
+      padding: 3px;
+      gap: 3px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    }
+    .bimodal-btn, .mode-switch-btn {
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--slate-400);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .bimodal-btn:hover, .mode-switch-btn:hover {
+      color: #fff;
+    }
+    .bimodal-btn.active-family, .mode-switch-btn.active {
+      background: linear-gradient(135deg, #d4af37, #b38f24) !important;
+      color: #000 !important;
+      font-weight: 800;
+      box-shadow: 0 2px 12px rgba(212, 175, 55, 0.45);
+    }
+    .bimodal-btn.active-engineer, .mode-switch-btn.active-expert {
+      background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+      color: #fff !important;
+      font-weight: 800;
+      box-shadow: 0 2px 12px rgba(56, 189, 248, 0.45);
     }
 
     .tab-btn {
-      padding: 0.5rem 1rem;
-      border-radius: 0.75rem;
-      font-size: 0.75rem;
+      padding: 0.6rem 1.15rem;
+      border-radius: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -148,64 +227,236 @@
     dialog#ucModal {
       border: none;
       background: transparent;
-      padding: 1rem;
-      max-width: 72rem;
+      padding: 1.25rem;
+      max-width: 78rem;
       width: 100%;
       margin: auto;
     }
     dialog#ucModal::backdrop {
-      background: rgba(0, 0, 0, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     dialog#ucModal:focus {
       outline: none;
     }
 
-    /* Animations de Déclenchement & Traitement */
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.92); }
-    }
-    .animate-pulse {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
+    /* =========================================================================
+       LE GRAND THÉÂTRE VIVANT & PODS INTERACTIFS
+       ========================================================================= */
 
-    @keyframes radar-pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.85);
-        border-color: var(--gold-400);
-      }
-      70% {
-        box-shadow: 0 0 0 14px rgba(212, 175, 55, 0);
-        border-color: var(--gold-500);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
-        border-color: var(--gold-400);
-      }
+    /* POD 1 : CARTE 3D RÉVERSIBLE CR-80 */
+    .card-3d-scene {
+      perspective: 1200px;
+      width: 100%;
+      max-width: 480px;
+      height: 275px;
+      margin: 0 auto;
+      cursor: pointer;
     }
-    .wf-radar-pulse {
-      animation: radar-pulse 1.8s infinite ease-out;
-      border: 1px solid var(--gold-500) !important;
-    }
-
-    @keyframes progress-stripes {
-      from { background-position: 1rem 0; }
-      to { background-position: 0 0; }
-    }
-    .wf-progress-bar {
+    .card-3d-inner {
+      width: 100%;
       height: 100%;
-      background: linear-gradient(45deg, rgba(212, 175, 55, 0.85) 25%, rgba(246, 224, 136, 0.95) 50%, rgba(212, 175, 55, 0.85) 75%);
-      background-size: 1rem 1rem;
-      animation: progress-stripes 0.8s linear infinite;
-      border-radius: 4px;
-      transition: width 0.3s ease;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.85s cubic-bezier(0.34, 1.4, 0.64, 1);
+      border-radius: 1rem;
+    }
+    .card-3d-inner.flipped {
+      transform: rotateY(180deg);
+    }
+    .card-3d-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .card-3d-front {
+      background: radial-gradient(circle at 25% 25%, #1c2233 0%, #0d0f17 100%);
+      border: 1.5px solid rgba(212, 175, 55, 0.75);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(212, 175, 55, 0.15);
+    }
+    .card-3d-back {
+      transform: rotateY(180deg);
+      background: radial-gradient(circle at 75% 25%, #182030 0%, #090c14 100%);
+      border: 1.5px solid rgba(16, 185, 129, 0.7);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(16, 185, 129, 0.12);
     }
 
-    @keyframes gold-shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    /* Puce Contact Dorée ACOSJ */
+    .chip-gold {
+      width: 48px;
+      height: 38px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #f6e088 0%, #d4af37 50%, #996515 100%);
+      border: 1px solid #ffe082;
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.6);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1.5px;
+      padding: 2.5px;
+    }
+    .chip-gold > div {
+      background: rgba(0, 0, 0, 0.28);
+      border-radius: 1px;
+    }
+
+    /* POD 2 : MOCKUP SMARTPHONE (iPHONE 16 PRO) & FLAMME */
+    .phone-mockup {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      border-radius: 38px;
+      background: #000;
+      border: 3.5px solid #2f3440;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 0 1px #444b58;
+      padding: 10px;
+      position: relative;
+    }
+    .phone-screen {
+      background: #050608;
+      border-radius: 30px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .phone-dynamic-island {
+      width: 100px;
+      height: 26px;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      margin: 6px auto 8px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      font-size: 10px;
+      color: #fff;
+    }
+
+    .flame-animated {
+      animation: flameMotion 2s infinite ease-in-out alternate;
+      transform-origin: bottom center;
+      filter: drop-shadow(0 0 16px #f59e0b) drop-shadow(0 0 28px rgba(253, 224, 71, 0.7));
+    }
+    @keyframes flameMotion {
+      0% { transform: scale(0.96) rotate(-1.5deg); }
+      50% { transform: scale(1.06, 0.98) rotate(1deg); }
+      100% { transform: scale(1) rotate(-0.5deg); }
+    }
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.6; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 3s infinite ease-in-out;
+    }
+
+    /* Oscilloscope Vocal */
+    .osc-bar {
+      flex: 1;
+      min-width: 3px;
+      max-width: 6px;
+      height: 8px;
+      background: linear-gradient(180deg, var(--gold-300), var(--gold-600));
+      border-radius: 3px;
+      animation: oscPlay 0.7s infinite alternate ease-in-out;
+      transition: height 0.1s ease;
+    }
+    @keyframes oscPlay {
+      0% { height: 4px; }
+      100% { height: 26px; }
+    }
+
+    /* POD 3 : LECTEUR ACR1552U & SONAR */
+    .reader-mockup {
+      background: #07090e;
+      border: 1.5px solid rgba(56, 189, 248, 0.3);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      space-y: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .nfc-target-zone {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0.8) 70%);
+      border: 1.5px dashed rgba(56, 189, 248, 0.5);
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .sonar-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(56, 189, 248, 0.6);
+      animation: sonarPing 2.2s infinite cubic-bezier(0, 0.2, 0.8, 1);
+    }
+    .sonar-ring:nth-child(2) { animation-delay: 0.7s; }
+    .sonar-ring:nth-child(3) { animation-delay: 1.4s; }
+    @keyframes sonarPing {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* POD 4 : CASSETTE LFA PENTOBARBITAL */
+    .lfa-cassette {
+      background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+      border: 1.5px solid #cbd5e1;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lfa-window {
+      background: #f1f5f9;
+      border: 1.5px solid #94a3b8;
+      border-radius: 8px;
+      height: 48px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 2rem;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.25);
+    }
+    .lfa-line-c, .lfa-line-t {
+      width: 4px;
+      height: 34px;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .lfa-line-c {
+      background: #dc2626 !important;
+      box-shadow: 0 0 6px rgba(220, 38, 38, 0.8);
+    }
+    .lfa-line-t {
+      background: #dc2626;
+      box-shadow: 0 0 6px rgba(220, 38, 38, 0.8);
+    }
+    .lfa-line-t.invisible {
+      opacity: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
     }
 
     /* Grille et Mise en Page Utilitaires */
@@ -215,6 +466,7 @@
       .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (min-width: 1024px) {
+      .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
     .gap-1 { gap: 0.25rem; }
@@ -237,28 +489,27 @@
     .w-full { width: 100%; }
     .max-w-3xl { max-width: 48rem; }
     .max-w-6xl { max-width: 72rem; }
-    .max-w-7xl { max-width: 80rem; }
+    .max-w-7xl { max-width: 82rem; }
     .mx-auto { margin-left: auto; margin-right: auto; }
-    .m-auto { margin: auto; }
     .space-y-1\.5 > * + * { margin-top: 0.375rem; }
     .space-y-2 > * + * { margin-top: 0.5rem; }
     .space-y-3 > * + * { margin-top: 0.75rem; }
     .space-y-4 > * + * { margin-top: 1rem; }
-    .space-y-5 > * + * { margin-top: 1.25rem; }
     .space-y-6 > * + * { margin-top: 1.5rem; }
+    .space-y-8 > * + * { margin-top: 2rem; }
 
     /* =========================================================================
-       MODULE WIREFRAME PLAYER & DEVICE BEZELS
+       MODULE WIREFRAME PLAYER & CARTE WIREFRAME HAUTE DÉFINITION
        ========================================================================= */
     .wf-player-card {
       background: var(--bg-obsidian-900);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 0.75rem;
-      padding: 0.75rem;
-      margin-top: 0.75rem;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 0.85rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.8rem;
     }
 
     .wf-controls-bar {
@@ -266,23 +517,23 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.4rem;
+      gap: 0.5rem;
       border-bottom: 1px solid rgba(51, 65, 85, 0.5);
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.65rem;
     }
 
     .wf-pills-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.3rem;
+      gap: 0.35rem;
     }
 
     .wf-pill-btn {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 0.25rem 0.55rem;
-      border-radius: 0.5rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 0.55rem;
       cursor: pointer;
       border: 1px solid rgba(51, 65, 85, 0.8);
       background: rgba(15, 23, 42, 0.7);
@@ -297,31 +548,32 @@
       background: var(--gold-500);
       color: var(--bg-obsidian-950);
       border-color: var(--gold-400);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+      font-weight: 800;
     }
 
     .wf-sim-btn {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 0.25rem 0.65rem;
-      border-radius: 0.5rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 0.55rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.35rem;
       border: 1px solid rgba(212, 175, 55, 0.4);
-      background: rgba(212, 175, 55, 0.12);
+      background: rgba(212, 175, 55, 0.15);
       color: var(--gold-300);
       transition: all 0.2s ease;
     }
     .wf-sim-btn:hover {
       background: var(--gold-500);
       color: #000;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.55);
     }
     .wf-sim-btn.playing {
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.25);
       border-color: var(--red-500);
       color: #fca5a5;
     }
@@ -329,57 +581,58 @@
     /* Device Mockup Bezels */
     .device-bezel {
       background: #030407;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 0.65rem;
+      border: 1.5px solid rgba(212, 175, 55, 0.3);
+      border-radius: 0.85rem;
       overflow: hidden;
-      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.85);
     }
 
     .device-topbar {
-      background: rgba(15, 18, 28, 0.95);
-      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
-      padding: 0.3rem 0.6rem;
+      background: rgba(15, 18, 28, 0.98);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      padding: 0.45rem 0.85rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-family: var(--font-mono);
-      font-size: 0.62rem;
-      color: var(--slate-400);
+      font-size: 0.72rem;
+      color: var(--slate-300);
     }
 
     .device-controls-dots {
       display: flex;
-      gap: 0.25rem;
+      gap: 0.35rem;
     }
-    .dot-red { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; }
-    .dot-yellow { width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; }
-    .dot-green { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+    .dot-red { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
+    .dot-yellow { width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; }
+    .dot-green { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
 
-    /* Screen Canvas & Content Styles */
+    /* Screen Canvas & Content Styles — MIN HEIGHT AGRANDI À 290px POUR LE CONFORT */
     .wf-screen-box {
-      padding: 0.65rem;
-      min-height: 185px;
+      padding: 1.15rem;
+      min-height: 290px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 0.5rem;
-      background: linear-gradient(180deg, rgba(11, 13, 20, 0.95) 0%, rgba(6, 7, 11, 0.98) 100%);
-      font-size: 0.72rem;
+      gap: 0.85rem;
+      background: linear-gradient(180deg, rgba(14, 17, 26, 0.96) 0%, rgba(6, 7, 11, 0.99) 100%);
+      font-size: 0.84rem;
+      line-height: 1.45;
     }
 
     .wf-header-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.4rem;
-      border-bottom: 1px solid rgba(51, 65, 85, 0.35);
-      padding-bottom: 0.3rem;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.45);
+      padding-bottom: 0.5rem;
     }
 
     .wf-app-title {
       font-weight: 700;
-      color: var(--slate-200);
-      font-size: 0.68rem;
+      color: var(--slate-100);
+      font-size: 0.84rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -387,41 +640,41 @@
 
     .wf-status-badge {
       font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      padding: 0.15rem 0.4rem;
-      border-radius: 0.35rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 0.45rem;
       white-space: nowrap;
     }
-    .wf-badge-neutral { background: rgba(51, 65, 85, 0.5); color: var(--slate-300); }
+    .wf-badge-neutral { background: rgba(51, 65, 85, 0.6); color: var(--slate-200); }
     .wf-badge-trigger { background: rgba(212, 175, 55, 0.25); color: var(--gold-300); border: 1px solid var(--gold-500); }
-    .wf-badge-process { background: rgba(16, 185, 129, 0.2); color: var(--emerald-400); border: 1px solid var(--emerald-500); }
-    .wf-badge-success { background: rgba(16, 185, 129, 0.25); color: #6ee7b7; border: 1px solid var(--emerald-400); }
-    .wf-badge-alert { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid var(--red-500); }
+    .wf-badge-process { background: rgba(16, 185, 129, 0.22); color: var(--emerald-400); border: 1px solid var(--emerald-500); }
+    .wf-badge-success { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; border: 1px solid var(--emerald-400); }
+    .wf-badge-alert { background: rgba(239, 68, 68, 0.3); color: #fca5a5; border: 1px solid var(--red-500); }
 
     .wf-content-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.4rem;
+      gap: 0.65rem;
     }
     .wf-field-group {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.25rem;
     }
     .wf-label {
-      font-size: 0.6rem;
+      font-size: 0.72rem;
       color: var(--slate-400);
       font-family: var(--font-mono);
     }
     .wf-req { color: var(--gold-400); font-weight: bold; }
     .wf-select-placeholder {
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      padding: 0.25rem 0.4rem;
-      border-radius: 0.35rem;
-      color: var(--slate-300);
-      font-size: 0.65rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      padding: 0.38rem 0.55rem;
+      border-radius: 0.45rem;
+      color: var(--slate-200);
+      font-size: 0.78rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -430,139 +683,132 @@
     .wf-btn-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem;
-      padding-top: 0.35rem;
-      border-top: 1px solid rgba(51, 65, 85, 0.35);
+      gap: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(51, 65, 85, 0.4);
     }
     .wf-btn {
-      font-size: 0.65rem;
+      font-size: 0.76rem;
       font-weight: 700;
-      padding: 0.25rem 0.6rem;
-      border-radius: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.5rem;
       cursor: pointer;
       border: 1px solid transparent;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
       font-family: inherit;
     }
-    .wf-btn-primary { background: rgba(212, 175, 55, 0.18); border-color: var(--gold-500); color: var(--gold-300); }
+    .wf-btn-primary { background: rgba(212, 175, 55, 0.22); border-color: var(--gold-500); color: var(--gold-300); }
     .wf-btn-primary:hover { background: var(--gold-500); color: #000; }
     .wf-btn-gold { background: var(--gold-500); color: #000; font-weight: bold; }
     .wf-btn-gold:hover { background: var(--gold-400); }
-    .wf-btn-sub { background: rgba(30, 41, 59, 0.6); border-color: rgba(51, 65, 85, 0.8); color: var(--slate-400); }
-    .wf-btn-sub:hover { color: #fff; border-color: var(--slate-400); }
-    .wf-btn-disabled { background: rgba(30, 41, 59, 0.3); border-color: rgba(51, 65, 85, 0.4); color: var(--slate-600); cursor: not-allowed; }
-    .wf-btn-danger { background: rgba(239, 68, 68, 0.2); border-color: var(--red-500); color: #fca5a5; }
+    .wf-btn-sub { background: rgba(30, 41, 59, 0.7); border-color: rgba(51, 65, 85, 0.85); color: var(--slate-300); }
+    .wf-btn-sub:hover { color: #fff; border-color: var(--slate-300); }
+    .wf-btn-disabled { background: rgba(30, 41, 59, 0.35); border-color: rgba(51, 65, 85, 0.45); color: var(--slate-600); cursor: not-allowed; }
+    .wf-btn-danger { background: rgba(239, 68, 68, 0.25); border-color: var(--red-500); color: #fca5a5; }
 
     .wf-trigger-card {
-      background: rgba(212, 175, 55, 0.08);
-      border: 1px dashed var(--gold-500);
-      border-radius: 0.5rem;
-      padding: 0.45rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1.5px dashed var(--gold-500);
+      border-radius: 0.65rem;
+      padding: 0.75rem;
       text-align: center;
     }
     .wf-trigger-indicator {
       font-weight: 700;
       color: var(--gold-300);
-      font-size: 0.68rem;
+      font-size: 0.82rem;
     }
     .wf-subtext {
-      font-size: 0.6rem;
-      color: var(--slate-400);
-      margin-top: 0.15rem;
+      font-size: 0.72rem;
+      color: var(--slate-300);
+      margin-top: 0.25rem;
     }
 
     .wf-progress-container {
-      height: 6px;
-      background: rgba(30, 41, 59, 0.8);
-      border-radius: 4px;
+      height: 8px;
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 6px;
       overflow: hidden;
-      margin: 0.3rem 0;
+      margin: 0.45rem 0;
     }
 
     .wf-console-log {
       background: #040508;
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      border-radius: 0.4rem;
-      padding: 0.35rem;
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 0.55rem;
+      padding: 0.55rem;
       font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.72rem;
       color: #38bdf8;
-      max-height: 65px;
+      max-height: 95px;
       overflow-y: auto;
-      line-height: 1.3;
+      line-height: 1.4;
     }
     .wf-console-log code { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .wf-success-banner {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      border-radius: 0.5rem;
-      padding: 0.5rem;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      border-radius: 0.65rem;
+      padding: 0.75rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
     }
-    .wf-seal-icon { font-size: 1.4rem; }
-
-    .wf-alert-card {
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-      font-size: 0.65rem;
-    }
-    .wf-alert-red { background: rgba(239, 68, 68, 0.12); border: 1px solid var(--red-500); color: #fca5a5; }
-    .wf-alert-amber { background: rgba(245, 158, 11, 0.12); border: 1px solid var(--amber-500); color: #fde68a; }
+    .wf-seal-icon { font-size: 1.75rem; }
 
     .wf-caption-box {
-      font-size: 0.65rem;
-      color: var(--slate-300);
-      background: rgba(15, 23, 42, 0.6);
-      padding: 0.35rem 0.5rem;
-      border-radius: 0.4rem;
-      border-left: 2px solid var(--gold-500);
+      font-size: 0.78rem;
+      color: var(--slate-200);
+      background: rgba(15, 23, 42, 0.75);
+      padding: 0.55rem 0.85rem;
+      border-radius: 0.55rem;
+      border-left: 3px solid var(--gold-500);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      line-height: 1.4;
     }
 
-    /* Tiroirs Dépliables (Formulaires & Erreurs) */
+    /* Tiroirs Dépliables */
     .wf-drawer-toggle {
       font-family: var(--font-mono);
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--slate-400);
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      border-radius: 0.4rem;
-      padding: 0.25rem 0.5rem;
+      color: var(--slate-300);
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 0.55rem;
+      padding: 0.4rem 0.75rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
       text-align: left;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
     }
     .wf-drawer-toggle:hover {
       color: #fff;
       border-color: var(--gold-500);
     }
     .wf-drawer-content {
-      background: rgba(6, 7, 11, 0.95);
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      border-radius: 0.4rem;
-      padding: 0.5rem;
-      font-size: 0.65rem;
+      background: rgba(6, 7, 11, 0.97);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 0.55rem;
+      padding: 0.75rem;
+      font-size: 0.78rem;
       display: none;
-      margin-top: 0.3rem;
+      margin-top: 0.4rem;
     }
     .wf-drawer-content.open { display: block; }
 
-    /* Mode Board Déplié (4 Écrans Simultanés) */
+    /* Mode Board Déplié */
     .wf-board-grid {
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 1fr));
-      gap: 0.75rem;
+      gap: 1rem;
     }
     @media (min-width: 1024px) {
       .wf-board-grid {
@@ -572,40 +818,40 @@
     .wf-board-col {
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
     .wf-board-badge {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.4rem;
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(51, 65, 85, 0.8);
-      color: var(--slate-300);
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.5rem;
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(51, 65, 85, 0.85);
+      color: var(--slate-200);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    /* Sélecteur de Mode d'Affichage dans les En-têtes */
+    /* Sélecteur de Mode d'Affichage */
     .view-mode-bar {
-      background: rgba(11, 13, 20, 0.85);
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      border-radius: 0.75rem;
-      padding: 0.4rem 0.75rem;
+      background: rgba(11, 13, 20, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 0.95rem;
+      padding: 0.55rem 1rem;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.5rem;
+      gap: 0.75rem;
     }
     .view-mode-btn {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.76rem;
       font-weight: 700;
-      padding: 0.3rem 0.6rem;
-      border-radius: 0.5rem;
+      padding: 0.38rem 0.8rem;
+      border-radius: 0.55rem;
       cursor: pointer;
       border: 1px solid transparent;
       background: transparent;
@@ -623,23 +869,161 @@
     .table-summary {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.72rem;
+      font-size: 0.82rem;
     }
     .table-summary th {
-      background: rgba(15, 23, 42, 0.95);
-      padding: 0.6rem 0.75rem;
+      background: rgba(15, 23, 42, 0.98);
+      padding: 0.75rem 1rem;
       text-align: left;
       font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--slate-400);
-      border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+      font-size: 0.72rem;
+      color: var(--slate-300);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.85);
     }
     .table-summary td {
-      padding: 0.6rem 0.75rem;
-      border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.7);
       vertical-align: top;
     }
-    .table-summary tr:hover { background: rgba(30, 41, 59, 0.3); }
+    .table-summary tr:hover { background: rgba(30, 41, 59, 0.35); }
+
+    /* Raccourci Recherche */
+    .search-input-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 24rem;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--bg-obsidian-950);
+      border: 1.5px solid rgba(51, 65, 85, 0.8);
+      border-radius: 0.85rem;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      font-size: 0.8rem;
+      color: var(--slate-200);
+      transition: all 0.2s ease;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--gold-500);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    }
+
+    .cat-filter-btn {
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.65rem;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--slate-300);
+    }
+    .cat-filter-btn:hover {
+      color: #fff;
+      border-color: var(--gold-400);
+    }
+    .cat-filter-btn.active {
+      background: var(--gold-500);
+      color: var(--bg-obsidian-950);
+      font-weight: 800;
+      border-color: var(--gold-400);
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+    }
+
+    /* =========================================================================
+       STYLES ADDITIONNELS DU GRAND THÉÂTRE & EXPÉRIENCES A, B, C, D
+       ========================================================================= */
+    .hero-nav-btn {
+      padding: 0.65rem 1.25rem;
+      border-radius: 0.85rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      color: var(--slate-300);
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .hero-nav-btn:hover {
+      color: #fff;
+      border-color: var(--gold-400);
+      background: rgba(30, 41, 59, 0.9);
+      transform: translateY(-1px);
+    }
+    .hero-nav-btn.active {
+      background: linear-gradient(135deg, #fce07f 0%, #d4af37 100%) !important;
+      color: #05070c !important;
+      font-weight: 800;
+      box-shadow: 0 4px 18px rgba(212, 175, 55, 0.4);
+      border-color: var(--gold-300) !important;
+    }
+    .hero-panel {
+      display: none;
+    }
+    .hero-panel.active {
+      display: block;
+      animation: fadeInHero 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInHero {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Exp C : Station d'encodage & lecteur */
+    #paxstation-card-dock {
+      transition: transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+    #paxstation-card-dock.docked {
+      transform: translateY(28px) scale(0.96);
+    }
+    #paxstation-acr-led {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #475569;
+      transition: all 0.3s ease;
+    }
+    #paxstation-acr-led.active {
+      background: #38bdf8 !important;
+      box-shadow: 0 0 12px #38bdf8;
+      animation: pulse 0.5s infinite alternate;
+    }
+
+    /* Exp D : Cassette LFA & The Iron Gate */
+    #lfa-droplet {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+    }
+    #lfa-strip-flow {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), rgba(56, 189, 248, 0.35));
+      transition: width 1.2s ease-in-out;
+    }
+    .lfa-line-c, .lfa-line-t {
+      width: 4px;
+      height: 34px;
+      border-radius: 2px;
+      background: #94a3b8;
+      opacity: 0.25;
+      transition: all 0.4s ease;
+    }
+    .lfa-line-c.active-red, .lfa-line-t.active-red {
+      background: #dc2626 !important;
+      opacity: 1 !important;
+      box-shadow: 0 0 8px rgba(220, 38, 38, 0.9);
+    }
+
+    .iron-gate-flag {
+      transition: all 0.3s ease;
+    }
+
 
   </style>
 </head>
@@ -648,87 +1032,551 @@
   <!-- En-tête Global Solennel -->
   <header>
     <div class="flex items-center gap-3">
-      <span class="text-2xl select-none">🏛️</span>
+      <span class="text-3xl select-none">🏛️</span>
       <div>
-        <div class="flex items-center gap-2">
-          <h1 class="text-lg font-extrabold font-title tracking-tight text-white">AeterniTrak <span class="text-gold-400 text-xs font-mono font-bold px-1.5 py-0.5 rounded border border-gold-500/30 bg-gold-500/10">V1.0</span></h1>
-          <span class="text-[10px] text-slate-400 border-l border-slate-700 pl-2">Référentiel Fonctionnel & Studio Vivant des Wireframes</span>
+        <div class="flex items-center gap-2.5">
+          <h1 class="text-xl font-extrabold font-title tracking-tight text-white">AeterniTrak <span class="text-gold-400 text-xs font-mono font-bold px-2 py-0.5 rounded border border-gold-500/30 bg-gold-500/10">V1.0</span></h1>
+          <span class="text-xs text-slate-400 border-l border-slate-700 pl-2.5">Référentiel Fonctionnel & Grand Théâtre Vivant des Wireframes</span>
         </div>
-        <p class="text-xs text-slate-400">Le Pax Funèbre • 4 Applications Multiplateformes Étanches • Spec-First & Test-First Certifié</p>
+        <p class="text-xs text-slate-300">Le Pax Funèbre • 4 Applications Multiplateformes Étanches • Spec-First & Test-First Certifié</p>
       </div>
     </div>
 
     <!-- Badges Métriques & Statut -->
-    <div class="flex flex-wrap items-center gap-2 text-xs">
-      <div class="bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-mono text-[11px]">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    <div class="flex flex-wrap items-center gap-2.5 text-xs">
+      <div class="bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-lg flex items-center gap-2 font-mono text-xs shadow-sm">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
         <strong id="badge-vectors">693 Vecteurs</strong>
-        <span class="text-emerald-500/80">• 100% Validé</span>
+        <span class="text-emerald-400/80">• 100% Validé</span>
       </div>
-      <div class="bg-gold-500/10 border border-gold-500/30 text-gold-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
+      <div class="bg-gold-500/15 border border-gold-500/30 text-gold-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs">
         <span>📐</span> <strong>46 Wireframes Dédiés (4 États)</strong>
       </div>
-      <div class="bg-blue-950/40 border border-blue-500/30 text-blue-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
+      <div class="bg-blue-950/40 border border-blue-500/30 text-blue-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs">
         <span>🌍</span> <strong>100% Multiplateforme</strong>
       </div>
-      <div class="bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
+      <div class="bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs">
         <span>🛡️</span> <strong>ACOSJ 92k EEPROM</strong>
       </div>
-      <a href="../architecture/index.html" class="bg-gold-500/10 border border-gold-500/40 hover:bg-gold-500/20 text-gold-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px] transition" style="text-decoration:none;">
+      <a href="../architecture/index.html" class="bg-gold-500/15 border border-gold-500/40 hover:bg-gold-500/25 text-gold-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs transition" style="text-decoration:none;">
         <span>📐</span> <strong>Portail UML 3-Tiers</strong>
       </a>
     </div>
   </header>
 
   <!-- Bannière d'Universalité Multiplateforme (DEC-AET-09) -->
-  <div class="bg-gradient-to-r from-obsidian-900 via-slate-900 to-obsidian-900 border-b border-slate-800 px-6 py-2.5 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-3">
+  <div class="bg-gradient-to-r from-obsidian-900 via-slate-900 to-obsidian-900 border-b border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between text-xs sm:text-sm text-slate-300 gap-3">
     <div class="flex items-center gap-2">
       <span class="text-gold-400 font-bold">Matrice d'Exécution Universelle :</span>
-      <span class="text-slate-400">Les 4 applications s'exécutent avec le même niveau d'excellence sur tous les terminaux :</span>
+      <span class="text-slate-300">Les 4 applications s'exécutent avec le même niveau d'excellence sur tous les terminaux :</span>
     </div>
-    <div class="flex flex-wrap items-center gap-3 font-mono text-[11px]">
-      <span class="flex items-center gap-1 text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">📱 Android (NFC IsoDep & StrongBox)</span>
-      <span class="flex items-center gap-1 text-slate-200 bg-slate-800/60 px-2 py-0.5 rounded border border-slate-700/60">🍎 iOS & iPadOS (CoreNFC & Secure Enclave)</span>
-      <span class="flex items-center gap-1 text-sky-400 bg-sky-950/40 px-2 py-0.5 rounded border border-sky-800/40">🌐 Web PWA (Offline & WebCrypto/WebAudio)</span>
-      <span class="flex items-center gap-1 text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/40">💻 Desktop Mac/Win/Linux (WebUSB & ACR1552U)</span>
-      <span class="text-gold-300 font-bold">~85% Code Partagé AeterniCore</span>
+    <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
+      <span class="flex items-center gap-1.5 text-emerald-400 bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/40">📱 Android (NFC IsoDep & StrongBox)</span>
+      <span class="flex items-center gap-1.5 text-slate-200 bg-slate-800/70 px-2.5 py-1 rounded border border-slate-700/60">🍎 iOS & iPadOS (CoreNFC & Secure Enclave)</span>
+      <span class="flex items-center gap-1.5 text-sky-400 bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/40">🌐 Web PWA (Offline & WebCrypto/WebAudio)</span>
+      <span class="flex items-center gap-1.5 text-amber-400 bg-amber-950/50 px-2.5 py-1 rounded border border-amber-800/40">💻 Desktop Mac/Win/Linux (WebUSB & ACR1552U)</span>
+      <span class="text-gold-300 font-bold px-2 py-0.5 bg-gold-500/10 rounded border border-gold-500/20">~85% Code Partagé AeterniCore</span>
     </div>
   </div>
 
-  <!-- Navigation par Onglets Métiers & Recherche -->
-  <div class="bg-obsidian-900 border-b border-slate-800/80 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
-    <nav class="flex flex-wrap gap-1.5" id="nav-tabs">
-      <button onclick="switchTab('app1')" id="tab-app1" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gold-500 text-obsidian-950 shadow-md shadow-gold-500/20">
+  <!-- Navigation par Onglets Métiers & Recherche Instantanée -->
+  <div class="bg-obsidian-900 border-b border-slate-800/80 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 sticky top-[73px] z-50 backdrop-blur-md bg-obsidian-900/95">
+    <nav class="flex flex-wrap gap-2" id="nav-tabs">
+      <button onclick="switchTab('app1')" id="tab-app1" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-gold-500 text-obsidian-950 shadow-md shadow-gold-500/20">
         <span>🎨</span> App 1 : PaxStudio Design
-        <span class="bg-black/20 text-[10px] px-1.5 py-0.2 rounded-full font-mono">10 UC</span>
+        <span id="count-tab-app1" class="bg-black/20 text-xs px-2 py-0.5 rounded-full font-mono">10 UC</span>
       </button>
-      <button onclick="switchTab('app2')" id="tab-app2" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
+      <button onclick="switchTab('app2')" id="tab-app2" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800/60">
         <span>🖨️</span> App 2 : PaxStation Encodage
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">10 UC</span>
+        <span id="count-tab-app2" class="bg-slate-800 text-xs px-2 py-0.5 rounded-full font-mono">10 UC</span>
       </button>
-      <button onclick="switchTab('app3')" id="tab-app3" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
+      <button onclick="switchTab('app3')" id="tab-app3" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800/60">
         <span>🕊️</span> App 3 : Sanctuaire Mémoriel
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">12 UC</span>
+        <span id="count-tab-app3" class="bg-slate-800 text-xs px-2 py-0.5 rounded-full font-mono">12 UC</span>
       </button>
-      <button onclick="switchTab('app4')" id="tab-app4" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
+      <button onclick="switchTab('app4')" id="tab-app4" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800/60">
         <span>🪰</span> App 4 : Filière & Traçabilité
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">14 UC</span>
+        <span id="count-tab-app4" class="bg-slate-800 text-xs px-2 py-0.5 rounded-full font-mono">14 UC</span>
       </button>
-      <button onclick="switchTab('legal')" id="tab-legal" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
+      <button onclick="switchTab('legal')" id="tab-legal" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800/60">
         <span>⚖️</span> Référentiel Juridique
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">7 Textes</span>
+        <span class="bg-slate-800 text-xs px-2 py-0.5 rounded-full font-mono">7 Textes</span>
       </button>
     </nav>
 
-    <!-- Recherche Instantanée -->
-    <div class="relative w-full sm:w-80">
-      <input type="text" id="searchInput" oninput="filterUseCases()" placeholder="Filtrer par mot-clé (ex: pacemaker, lfa, android, ios, 92k...)" class="w-full bg-obsidian-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition pr-8">
-      <span class="absolute right-2.5 top-2.5 text-slate-500 text-xs">🔍</span>
+    <!-- Recherche Instantanée avec Surbrillance & Raccourci '/' -->
+    <div class="search-input-wrapper">
+      <span class="absolute left-3 top-3 text-slate-400 text-sm">🔍</span>
+      <input type="text" id="searchInput" oninput="filterUseCases()" placeholder="Filtrer instantanément (ex: pacemaker, lfa, 92k...) [/]" class="search-input">
     </div>
   </div>
 
   <!-- Contenu Principal -->
-  <main class="flex-1 p-6 max-w-7xl mx-auto w-full space-y-6">
+  <main class="flex-1 p-6 max-w-7xl mx-auto w-full space-y-8">
+
+    <!-- LE GRAND THÉÂTRE INTERACTIF (SHOWCASE TEMPS RÉEL) -->
+    
+  <!-- =========================================================================
+       LE GRAND THÉÂTRE INTERACTIF & STUDIO VIVANT AETERNITRAK
+       ========================================================================= -->
+  <section id="interactive-theater" class="glass-card p-6 md:p-8 space-y-6 relative overflow-hidden border-gold-500/40 shadow-2xl">
+    <!-- En-tête du Théâtre avec Sélecteur Mode Famille / Mode Ingénieur -->
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <span class="text-3xl select-none">🎭</span>
+          <h2 class="text-xl sm:text-2xl font-bold font-title text-white">Le Grand Théâtre Vivant AeterniTrak</h2>
+          <span class="px-3 py-1 rounded-full font-mono text-xs font-bold text-gold-300 bg-gold-500/15 border border-gold-500/30">Studio Temps Réel 2026</span>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1" id="portal-mode-desc">
+          Basculez entre le Mode Famille (solennel, sensible et sans jargon) et le Mode Ingénieur (spécifications in-silico, APDU, cryptographie, Iron Gate).
+        </p>
+      </div>
+
+      <!-- Capsule Bimodale : Mode Famille vs Mode Ingénieur -->
+      <div class="flex items-center gap-3">
+        <div class="bimodal-toggle-box">
+          <button id="btn-mode-family" class="bimodal-btn active-family" onclick="setReadingMode('family')">
+            <span>🕊️</span> Mode Famille
+          </button>
+          <button id="btn-mode-engineer" class="bimodal-btn" onclick="setReadingMode('engineer')">
+            <span>⚙️</span> Mode Ingénieur
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation des 4 Expériences Clés -->
+    <div class="flex flex-wrap gap-2.5 border-b border-slate-800 pb-4">
+      <button id="hero-tab-expA" class="hero-nav-btn active" onclick="switchHeroExp('expA')">
+        <span>📱</span> Exp A : Sanctuaire Mobile & Flamme
+      </button>
+      <button id="hero-tab-expB" class="hero-nav-btn" onclick="switchHeroExp('expB')">
+        <span>🎴</span> Exp B : Carte 3D PaxFunèbre
+      </button>
+      <button id="hero-tab-expC" class="hero-nav-btn" onclick="switchHeroExp('expC')">
+        <span>🖨️</span> Exp C : PaxStation & ACR1552U
+      </button>
+      <button id="hero-tab-expD" class="hero-nav-btn" onclick="switchHeroExp('expD')">
+        <span>🪰</span> Exp D : Cassette LFA & The Iron Gate
+      </button>
+    </div>
+
+    <!-- PANELS DES 4 EXPÉRIENCES -->
+    <div class="hero-panels-container">
+
+      <!-- EXPÉRIENCE A : SANCTUAIRE MOBILE & FLAMME MÉMORIELLE -->
+      <div id="hero-panel-expA" class="hero-panel active">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Mockup Smartphone Titanium (5/12) -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                <!-- Dynamic Island -->
+                <div class="phone-dynamic-island">
+                  <span class="text-emerald-400 font-bold">09:41</span>
+                  <span class="text-[10px] text-gold-300">● Sanctuaire</span>
+                  <div class="flex items-center gap-1 text-[10px] text-slate-300">
+                    <span>5G</span>
+                    <div class="w-3.5 h-2 border border-slate-300 rounded-sm p-[1px]"><div class="w-full h-full bg-emerald-400"></div></div>
+                  </div>
+                </div>
+
+                <!-- Écran de Recueillement -->
+                <div class="p-4 flex flex-col items-center justify-between flex-1 text-center space-y-3">
+                  <div class="space-y-1">
+                    <span class="text-xs font-mono uppercase tracking-widest text-gold-400 font-bold">Tap NFC Zéro Login</span>
+                    <h4 class="text-base font-bold font-title text-white">Sanctuaire Mémoriel</h4>
+                    <p class="text-xs text-slate-300">Adrien de Valcourt (1942 — 2026)</p>
+                  </div>
+
+                  <!-- Flamme Mémorielle SVG Animée -->
+                  <div class="relative w-20 h-24 flex items-center justify-center my-1">
+                    <div class="absolute w-16 h-16 rounded-full bg-amber-500/25 blur-xl animate-pulse-slow"></div>
+                    <svg viewBox="0 0 100 140" class="w-16 h-20 flame-animated">
+                      <defs>
+                        <radialGradient id="flameGrad" cx="50%" cy="80%" r="60%">
+                          <stop offset="0%" stop-color="#ffffff" />
+                          <stop offset="25%" stop-color="#fef08a" />
+                          <stop offset="55%" stop-color="#f59e0b" />
+                          <stop offset="85%" stop-color="#dc2626" />
+                          <stop offset="100%" stop-color="transparent" />
+                        </radialGradient>
+                        <radialGradient id="innerCore" cx="50%" cy="85%" r="40%">
+                          <stop offset="0%" stop-color="#ffffff" />
+                          <stop offset="60%" stop-color="#fef08a" />
+                          <stop offset="100%" stop-color="#f59e0b" />
+                        </radialGradient>
+                      </defs>
+                      <path d="M50,10 C58,40 85,70 85,95 C85,115 70,135 50,135 C30,135 15,115 15,95 C15,70 42,40 50,10 Z" fill="url(#flameGrad)" />
+                      <path d="M50,45 C54,65 70,85 70,105 C70,120 60,130 50,130 C40,130 30,120 30,105 C30,85 46,65 50,45 Z" fill="url(#innerCore)" opacity="0.9" />
+                    </svg>
+                    <div class="absolute -bottom-1 w-2.5 h-3 bg-slate-600 rounded-t-sm"></div>
+                  </div>
+
+                  <!-- Lecteur Vocal & Oscilloscope Waveform -->
+                  <div class="w-full bg-obsidian-900 border border-gold-500/30 rounded-xl p-3 space-y-2">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                      <span>Message Vocal du Défunt</span>
+                      <span class="text-gold-300 font-bold">01:42</span>
+                    </div>
+                    <div class="h-8 flex items-center justify-between gap-1 px-1">
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                      <div class="osc-bar"></div><div class="osc-bar"></div>
+                    </div>
+                  </div>
+
+                  <button id="memorial-play-btn" onclick="toggleMemorialAudio()" class="wf-btn wf-btn-gold text-xs font-bold w-full py-2">
+                    ▶ Écouter le Message
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description Métier & Tiroir de Directives (7/12) -->
+          <div class="lg:col-span-7 space-y-5">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold">Expérience Grand Public</span>
+                <span id="ducking-indicator" class="font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-0.5 rounded-full border border-slate-700">
+                  🔇 Veille
+                </span>
+              </div>
+              <h3 class="text-2xl font-bold font-title text-white">Le Sanctuaire Mémoriel Mobile & Vocal</h3>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                Conçu pour offrir à la famille et aux proches un recueillement solennel, intime et universel. Aucun compte utilisateur requis, aucun identifiant sur le cloud : le simple effleurement NFC déclenche la lecture sécurisée in-silico de la carte physique.
+              </p>
+            </div>
+
+            <!-- Tiroir des Directives & Volontés Civiles -->
+            <div class="bg-obsidian-950/90 border border-slate-800 rounded-xl p-4 space-y-3">
+              <button onclick="toggleMemorialDrawer()" class="flex items-center justify-between w-full text-left font-bold text-sm text-gold-300 hover:text-gold-200">
+                <span>📜 Directives & Volontés Enregistrées par Adrien</span>
+                <span id="memorial-drawer-icon" class="text-xs">▼</span>
+              </button>
+              <div id="memorial-drawer-content" class="hidden space-y-2 pt-2 border-t border-slate-800/80 text-xs text-slate-300">
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                  <span>Mode de Sépulture : <strong>Inhumation Naturelle (Biolande)</strong></span>
+                  <span class="text-emerald-400 font-mono">Conforme CDLD</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                  <span>Don d'Organes : <strong>Favorable (Sensibilisation familiale)</strong></span>
+                  <span class="text-emerald-400 font-mono">Loi 13 Juin 1986</span>
+                </div>
+                <div class="p-2.5 rounded bg-red-950/30 border border-red-500/50 text-red-200 flex items-center gap-2">
+                  <span class="text-lg">⚠️</span>
+                  <span><strong>Alerte Vitale :</strong> Porteur d'un stimulateur cardiaque (Pacemaker). Explantation obligatoire avant toute crémation.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+              <span class="bg-slate-900 px-3 py-1 rounded border border-slate-800">🌐 100% Hors-Ligne</span>
+              <span class="bg-slate-900 px-3 py-1 rounded border border-slate-800">🔐 Signature Ed25519</span>
+              <span class="bg-slate-900 px-3 py-1 rounded border border-slate-800">🎧 Ducking Vocal Automatique</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EXPÉRIENCE B : CARTE 3D PAXFUNÈBRE RÉVERSIBLE -->
+      <div id="hero-panel-expB" class="hero-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Carte 3D Perspective (6/12) -->
+          <div class="lg:col-span-6 flex flex-col items-center space-y-4">
+            <div class="card-3d-scene" onclick="toggleCard3DFlip()">
+              <div class="card-3d-inner" id="card-3d-element">
+
+                <!-- Face Recto : Sanctuaire & Portrait -->
+                <div class="card-3d-face card-3d-front card-face-front">
+                  <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="text-2xl">🕊️</span>
+                      <div>
+                        <div class="text-xs uppercase font-mono tracking-widest text-gold-300 font-bold">Le Pax Funèbre</div>
+                        <div class="text-xs text-slate-400 font-serif">Carte Sanctuaire Mémorielle</div>
+                      </div>
+                    </div>
+                    <div class="chip-gold" title="Puce Silicium ACOSJ 92K EEPROM">
+                      <div></div><div></div><div></div>
+                      <div></div><div></div><div></div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-4 my-2">
+                    <div class="w-16 h-16 rounded-xl border-2 border-gold-400/80 bg-slate-900 overflow-hidden flex items-center justify-center shadow-lg relative">
+                      <span class="text-3xl select-none">👤</span>
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                    <div>
+                      <div class="text-lg font-bold font-title text-white tracking-wide">Adrien de Valcourt</div>
+                      <div class="text-xs text-gold-400 font-mono">1942 — 2026 • Liège, Belgique</div>
+                      <div class="text-xs text-slate-300 italic mt-0.5">« Toujours vivant dans la lumière de nos cœurs »</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs font-mono border-t border-gold-500/30 pt-2 text-slate-400">
+                    <span class="text-emerald-400 font-bold">NFC NDEF • Zéro Login</span>
+                    <span class="text-gold-300 font-bold">ID: PAX-2026-0842-MEM</span>
+                  </div>
+                </div>
+
+                <!-- Face Verso : Directives Civiles & Puce ACOSJ -->
+                <div class="card-3d-face card-3d-back card-face-back">
+                  <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="text-2xl">⚖️</span>
+                      <div>
+                        <div class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold">Volontés Civiles & Médicales</div>
+                        <div class="text-xs text-slate-400">Certifié Art. L1232-17 CDLD</div>
+                      </div>
+                    </div>
+                    <span class="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">Scellé Ed25519</span>
+                  </div>
+
+                  <div class="bg-red-950/50 border border-red-500/70 rounded-lg p-2.5 my-1 flex items-center gap-2.5">
+                    <span class="text-2xl">⚠️</span>
+                    <div>
+                      <div class="text-xs font-bold text-red-200 uppercase font-mono tracking-wider">Alerte Médicale Vitale</div>
+                      <div class="text-xs text-red-300 font-medium">Porteur de Pacemaker. Explantation obligatoire avant crémation.</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs text-slate-300">
+                    <div>
+                      <div class="font-bold text-white text-sm">Inhumation Naturelle</div>
+                      <div class="text-slate-400 text-xs">Don d'organes : Favorable • Cérémonie Laïque</div>
+                    </div>
+                    <div class="w-12 h-12 bg-white rounded p-1 flex items-center justify-center shadow">
+                      <svg viewBox="0 0 24 24" class="w-full h-full fill-black">
+                        <path d="M2,2H10V10H2V2M4,4V8H8V4H4M14,2H22V10H14V2M16,4V8H20V4H16M2,14H10V22H2V14M4,16V20H8V16H4M14,14H16V16H14V14M18,14H20V16H18V14M20,16H22V18H20V16M14,18H16V20H14V18M18,18H20V20H18V18M16,16H18V18H16V16M20,20H22V22H20V20M14,20H16V22H14V20M16,20H18V22H16V20Z"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs font-mono border-t border-slate-700 pt-2 text-slate-400">
+                    <span>ACOSJ 92K JavaCard</span>
+                    <span class="text-emerald-400 font-bold">SHA256: 7d4a...b189</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Boutons de Retournement & Finitions Nobles -->
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="card-flip-btn" onclick="toggleCard3DFlip()" class="wf-btn wf-btn-gold text-xs font-bold">
+                🔄 Retourner la Carte (Verso Directives & Puce)
+              </button>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setCard3DFinish('gold')" class="wf-btn wf-btn-sub text-xs">Or Satiné</button>
+                <button onclick="setCard3DFinish('obsidian')" class="wf-btn wf-btn-sub text-xs">Obsidienne</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description & Cartographie Mémoire (6/12) -->
+          <div class="lg:col-span-6 space-y-4">
+            <h3 class="text-2xl font-bold font-title text-white">La Carte PaxFunèbre Réversible CR-80</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Le support matériel sacré alliant haute horlogerie funéraire et silicium cryptographique de grade bancaire. Équipée de la puce <strong>ACOSJ JavaCard 92 Ko EEPROM</strong>, elle conserve le double recto/verso : d'un côté la mémoire affective pour les proches, de l'autre les volontés juridiques inviolables pour les soignants et officiers d'état civil.
+            </p>
+
+            <div class="bg-obsidian-950 border border-slate-800 rounded-xl p-4 space-y-2 text-xs font-mono">
+              <div class="text-gold-400 font-bold uppercase text-[11px]">Cartographie Silicium ACOSJ 92K :</div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5 text-slate-300">
+                <span>EF.DIR (0x2F00)</span>
+                <span>Descripteur AID AeterniTrak</span>
+                <span class="text-emerald-400">128 octets</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5 text-slate-300">
+                <span>EF.PROFILE (0x0001)</span>
+                <span>Capsule Mémorielle CBOR + WebP</span>
+                <span class="text-emerald-400">62.1 Ko</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5 text-slate-300">
+                <span>EF.SIG (0x0002)</span>
+                <span>Signature COSE_Sign1 Ed25519</span>
+                <span class="text-emerald-400">64 octets</span>
+              </div>
+              <div class="flex justify-between text-slate-400 pt-1">
+                <span>EEPROM Libre</span>
+                <span>Réserve d'expansion & Logs</span>
+                <span class="text-gold-300 font-bold">29.7 Ko</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EXPÉRIENCE C : PAXSTATION ENCODAGE & LECTEUR ACR1552U -->
+      <div id="hero-panel-expC" class="hero-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Mockup Lecteur ACR1552U (6/12) -->
+          <div class="lg:col-span-6 space-y-4">
+            <div class="reader-mockup">
+              <!-- Carte en attente de descente -->
+              <div id="paxstation-card-dock" class="w-48 h-28 mx-auto rounded-xl border border-gold-500/50 bg-gradient-to-r from-obsidian-900 to-slate-900 p-2 shadow-2xl flex flex-col justify-between">
+                <div class="flex justify-between items-center text-[10px] font-mono text-gold-400">
+                  <span>ACOSJ 92K</span>
+                  <span>PAX-2026-0842</span>
+                </div>
+                <div class="text-center font-title text-xs text-white">Carte Prête pour Gravure</div>
+                <div class="text-[9px] font-mono text-slate-500 text-right">WebUSB Ready</div>
+              </div>
+
+              <!-- Zone Cible Sans Contact -->
+              <div class="nfc-target-zone" onclick="startPaxStationEncoding()">
+                <div class="sonar-ring"></div>
+                <div class="sonar-ring"></div>
+                <div class="sonar-ring"></div>
+                <div class="text-center z-10">
+                  <span class="text-2xl select-none">🛜</span>
+                  <div class="text-[10px] font-mono text-sky-300 font-bold mt-1">Cible Contactless</div>
+                  <div class="text-[9px] text-slate-400">ACR1552U 13.56 MHz</div>
+                </div>
+              </div>
+
+              <!-- Barre d'état & LED -->
+              <div class="flex items-center justify-between bg-obsidian-950 px-3 py-2 rounded-lg border border-slate-800 text-xs font-mono">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                  <span class="text-slate-300">Alimentation USB-C OK</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="paxstation-acr-led"></span>
+                  <span class="text-slate-400">Trafic APDU</span>
+                </div>
+              </div>
+
+              <!-- Terminal APDU & Jauge EEPROM -->
+              <div class="wf-console-log text-[11px]" id="paxstation-log">
+                <div class="text-slate-400">Lecteur ACR1552U prêt sur port WebUSB...</div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs font-mono">
+                  <span class="text-slate-400">Occupation EEPROM 92 Ko :</span>
+                  <span class="text-gold-300 font-bold" id="paxstation-byte-text">0 / 92 160 octets (0%)</span>
+                </div>
+                <div class="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                  <div id="paxstation-byte-fill" class="h-full bg-gradient-to-r from-emerald-500 via-gold-400 to-sky-400 w-0 transition-all duration-300"></div>
+                </div>
+              </div>
+            </div>
+
+            <button id="paxstation-start-btn" onclick="startPaxStationEncoding()" class="wf-btn wf-btn-primary text-xs font-bold w-full py-2.5">
+              ⚡ Poser la Carte & Lancer la Gravure Silicium (ACR1552U)
+            </button>
+          </div>
+
+          <!-- Rationale Technique PaxStation (6/12) -->
+          <div class="lg:col-span-6 space-y-4">
+            <h3 class="text-2xl font-bold font-title text-white">PaxStation Encodage & Silicium Sécurisé</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              La station professionnelle en salon funéraire connectée au lecteur de référence <strong>ACS ACR1552U</strong> via l'API WebUSB ou le pilote PC/SC natif. Elle exécute la chaîne d'authentification mutuelle ISO/IEC 7816-4, grave le profil sérialisé CBOR RFC 8949, applique le scellement cryptographique asymétrique Ed25519 (COSE_Sign1 Tag 18) et procède au claquage in-silico du fusible anti-tamper.
+            </p>
+            <div class="grid grid-cols-2 gap-3 text-xs font-mono pt-2">
+              <div class="p-3 rounded-lg bg-obsidian-950 border border-slate-800">
+                <span class="text-gold-400 block font-bold">IsoDep APDU 14443-4</span>
+                <span class="text-slate-400 text-[11px]">Débit max 848 kbps sans contact</span>
+              </div>
+              <div class="p-3 rounded-lg bg-obsidian-950 border border-slate-800">
+                <span class="text-sky-300 block font-bold">Verrou Anti-Tamper</span>
+                <span class="text-slate-400 text-[11px]">Fusible matériel irréversible</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EXPÉRIENCE D : CASSETTE LFA TOXICOLOGIQUE & THE IRON GATE -->
+      <div id="hero-panel-expD" class="hero-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Mockup Cassette LFA (6/12) -->
+          <div class="lg:col-span-6 space-y-4">
+            <div class="lfa-cassette space-y-3">
+              <div class="flex justify-between items-center text-xs font-bold text-slate-700 border-b border-slate-300 pb-2">
+                <span>CASSETTE IMMUNOLOGIQUE LFA-PENTO-V1</span>
+                <span class="font-mono text-slate-500">LOT #HL-2026-B84</span>
+              </div>
+
+              <!-- Puits & Fenêtre de Migration -->
+              <div class="flex items-center gap-4">
+                <!-- Puits d'Échantillon S -->
+                <div class="w-14 h-14 rounded-full border-2 border-slate-400 bg-slate-200 flex flex-col items-center justify-center relative shadow-inner">
+                  <span class="text-[10px] font-mono font-bold text-slate-600">PUITS S</span>
+                  <div id="lfa-droplet" class="w-3 h-3 rounded-full bg-emerald-500 absolute -top-4"></div>
+                </div>
+
+                <!-- Fenêtre Réactionnelle Membrane -->
+                <div class="lfa-window flex-1 relative overflow-hidden">
+                  <div id="lfa-strip-flow" class="absolute left-0 top-0 bottom-0 pointer-events-none"></div>
+                  <div class="flex flex-col items-center z-10">
+                    <span class="text-[11px] font-mono font-bold text-slate-700">C</span>
+                    <div id="lfa-line-c" class="lfa-line-c mt-1"></div>
+                  </div>
+                  <div class="flex flex-col items-center z-10">
+                    <span class="text-[11px] font-mono font-bold text-slate-700">T</span>
+                    <div id="lfa-line-t" class="lfa-line-t mt-1"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bannière de Résultat -->
+              <div id="lfa-result-banner" class="hidden p-3 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-200 text-xs leading-snug">
+                <strong>✔ DÉPISTAGE CONFORME (&lt; 10 ppb) :</strong> Ligne T absente (principe compétitif) et Ligne C validée. Aucune molécule de pentobarbital détectée dans le broyat de larves. Valorisation biologique autorisée.
+              </div>
+            </div>
+
+            <button id="lfa-start-btn" onclick="startLfaTest()" class="wf-btn wf-btn-gold text-xs font-bold w-full py-2.5">
+              🧪 Déposer l'Échantillon & Lancer le Dépistage LFA
+            </button>
+          </div>
+
+          <!-- The Iron Gate Oracle (6/12) -->
+          <div class="lg:col-span-6 space-y-4">
+            <h3 class="text-2xl font-bold font-title text-white">The Iron Gate (G0 à G9) & Filière Sarcomusation</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              L'oracle sanitaire déterministe régissant la filière des larves d'<em>Hermetia illucens</em>. Empêche mathématiquement tout recyclage intraspécifique (règle d'or anti-prion et feed-ban européen strict) et bloque la signature cryptographique du lot en cas de dépassement toxicologique.
+            </p>
+
+            <div class="space-y-1.5 bg-obsidian-950 border border-slate-800 rounded-xl p-4">
+              <span class="text-xs uppercase font-mono text-gold-400 font-bold block mb-2">Les 10 Portes Sanitaires Infranchissables :</span>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G0: Inscription Sanitel</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G1: Ségrégation Espèce</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G2: Dépistage LFA (&lt;10ppb)</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G3: Quarantaine 48h</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G4: Stérilisation 133°C/3b</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G5: Feed-Ban Anti-Prion</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G6: PCR Épizooties DNF</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G7: Scellement Ed25519</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G8: Aiguillage Commercial</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G9: Certificat Inviolable</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 
     <!-- Onglet 1 : App 1 PaxStudio Design -->
     <section id="section-app1" class="tab-content space-y-6">
@@ -736,7 +1584,7 @@
         <div class="max-w-3xl space-y-2 relative z-10">
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs uppercase font-extrabold tracking-wider text-gold-400">Application 1 · Outil Créatif & Pré-Encodage (Famille & Conseiller)</span>
-            <span class="text-[10px] font-mono bg-gold-500/10 text-gold-300 border border-gold-500/20 px-2 py-0.5 rounded">Multiplateforme : Web • Android • iOS • Mac • Windows</span>
+            <span class="text-xs font-mono bg-gold-500/10 text-gold-300 border border-gold-500/20 px-2 py-0.5 rounded">Multiplateforme : Web • Android • iOS • Mac • Windows</span>
           </div>
           <h2 class="text-2xl font-bold font-title text-white">PaxStudio Design — Personnalisation des 2 Cartes & Médaillons</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
@@ -766,8 +1614,17 @@
       </div>
 
       <!-- Filtres par Catégorie Métier -->
-      <div class="flex flex-wrap gap-1.5" id="cat-filters-app1">
-        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-gold-500 text-obsidian-950 shadow-sm" data-cat="all" onclick="filterByCategory('app1', 'all')">Tous (10)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Compilation & Core" onclick="filterByCategory('app1', 'Compilation & Core')">Compilation & Core (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Dernières Volontés" onclick="filterByCategory('app1', 'Dernières Volontés')">Dernières Volontés (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Design & Esthétique" onclick="filterByCategory('app1', 'Design & Esthétique')">Design & Esthétique (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Directives Médicales" onclick="filterByCategory('app1', 'Directives Médicales')">Directives Médicales (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Gabarits & Modèles" onclick="filterByCategory('app1', 'Gabarits & Modèles')">Gabarits & Modèles (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Médias Sonores" onclick="filterByCategory('app1', 'Médias Sonores')">Médias Sonores (2)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Médias Visuels" onclick="filterByCategory('app1', 'Médias Visuels')">Médias Visuels (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Rendu 3D & Matériaux" onclick="filterByCategory('app1', 'Rendu 3D & Matériaux')">Rendu 3D & Matériaux (1)</button>\n        <button class="cat-filter-app1 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Validation Finale" onclick="filterByCategory('app1', 'Validation Finale')">Validation Finale (1)</button>
+      <div class="flex flex-wrap gap-2" id="cat-filters-app1">
+        <button class="cat-filter-btn active cat-filter-app1" data-cat="all" onclick="filterByCategory('app1', 'all')">Tous (10)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Compilation & Core" onclick="filterByCategory('app1', 'Compilation & Core')">Compilation & Core (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Dernières Volontés" onclick="filterByCategory('app1', 'Dernières Volontés')">Dernières Volontés (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Design & Esthétique" onclick="filterByCategory('app1', 'Design & Esthétique')">Design & Esthétique (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Directives Médicales" onclick="filterByCategory('app1', 'Directives Médicales')">Directives Médicales (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Gabarits & Modèles" onclick="filterByCategory('app1', 'Gabarits & Modèles')">Gabarits & Modèles (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Médias Sonores" onclick="filterByCategory('app1', 'Médias Sonores')">Médias Sonores (2)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Médias Visuels" onclick="filterByCategory('app1', 'Médias Visuels')">Médias Visuels (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Rendu 3D & Matériaux" onclick="filterByCategory('app1', 'Rendu 3D & Matériaux')">Rendu 3D & Matériaux (1)</button>
+        <button class="cat-filter-btn cat-filter-app1" data-cat="Validation Finale" onclick="filterByCategory('app1', 'Validation Finale')">Validation Finale (1)</button>
       </div>
 
       <!-- Conteneur Dynamique App 1 -->
@@ -780,7 +1637,7 @@
         <div class="max-w-3xl space-y-2 relative z-10">
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs uppercase font-extrabold tracking-wider text-indigo-400">Application 2 · Station Technique Professionnelle (Membres PaxFunèbre en Agence)</span>
-            <span class="text-[10px] font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-0.5 rounded">Multiplateforme : Navigateurs Chromium Desktop (WebUSB) • Applications Natives PC/SC</span>
+            <span class="text-xs font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-0.5 rounded">Multiplateforme : Navigateurs Chromium Desktop (WebUSB) • Applications Natives PC/SC</span>
           </div>
           <h2 class="text-2xl font-bold font-title text-white">PaxStation Encodage Silicium — Gravure Sécurisée ACR1552U</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
@@ -810,8 +1667,18 @@
       </div>
 
       <!-- Filtres par Catégorie Métier -->
-      <div class="flex flex-wrap gap-1.5" id="cat-filters-app2">
-        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-gold-500 text-obsidian-950 shadow-sm" data-cat="all" onclick="filterByCategory('app2', 'all')">Tous (10)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Assurance Qualité & Conformité" onclick="filterByCategory('app2', 'Assurance Qualité & Conformité')">Assurance Qualité & Conformité (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Compilation & Core" onclick="filterByCategory('app2', 'Compilation & Core')">Compilation & Core (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Cryptographie & Signature" onclick="filterByCategory('app2', 'Cryptographie & Signature')">Cryptographie & Signature (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Gravure Silicium" onclick="filterByCategory('app2', 'Gravure Silicium')">Gravure Silicium (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Impression Physique" onclick="filterByCategory('app2', 'Impression Physique')">Impression Physique (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Matériel & Poste Pro" onclick="filterByCategory('app2', 'Matériel & Poste Pro')">Matériel & Poste Pro (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Silicium & Détection" onclick="filterByCategory('app2', 'Silicium & Détection')">Silicium & Détection (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Système de Fichiers Puce" onclick="filterByCategory('app2', 'Système de Fichiers Puce')">Système de Fichiers Puce (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Sécurité Mathématique" onclick="filterByCategory('app2', 'Sécurité Mathématique')">Sécurité Mathématique (1)</button>\n        <button class="cat-filter-app2 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Sécurité Silicium" onclick="filterByCategory('app2', 'Sécurité Silicium')">Sécurité Silicium (1)</button>
+      <div class="flex flex-wrap gap-2" id="cat-filters-app2">
+        <button class="cat-filter-btn active cat-filter-app2" data-cat="all" onclick="filterByCategory('app2', 'all')">Tous (10)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Assurance Qualité & Conformité" onclick="filterByCategory('app2', 'Assurance Qualité & Conformité')">Assurance Qualité & Conformité (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Compilation & Core" onclick="filterByCategory('app2', 'Compilation & Core')">Compilation & Core (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Cryptographie & Signature" onclick="filterByCategory('app2', 'Cryptographie & Signature')">Cryptographie & Signature (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Gravure Silicium" onclick="filterByCategory('app2', 'Gravure Silicium')">Gravure Silicium (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Impression Physique" onclick="filterByCategory('app2', 'Impression Physique')">Impression Physique (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Matériel & Poste Pro" onclick="filterByCategory('app2', 'Matériel & Poste Pro')">Matériel & Poste Pro (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Silicium & Détection" onclick="filterByCategory('app2', 'Silicium & Détection')">Silicium & Détection (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Système de Fichiers Puce" onclick="filterByCategory('app2', 'Système de Fichiers Puce')">Système de Fichiers Puce (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Sécurité Mathématique" onclick="filterByCategory('app2', 'Sécurité Mathématique')">Sécurité Mathématique (1)</button>
+        <button class="cat-filter-btn cat-filter-app2" data-cat="Sécurité Silicium" onclick="filterByCategory('app2', 'Sécurité Silicium')">Sécurité Silicium (1)</button>
       </div>
 
       <!-- Conteneur Dynamique App 2 -->
@@ -824,7 +1691,7 @@
         <div class="max-w-3xl space-y-2 relative z-10">
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs uppercase font-extrabold tracking-wider text-purple-400">Application 3 · Grand Public Mobile & PWA Offline (Participants & Familles)</span>
-            <span class="text-[10px] font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20 px-2 py-0.5 rounded">Multiplateforme : iOS CoreNFC • Android NFC • Web NFC Chrome • PWA Hors-Ligne</span>
+            <span class="text-xs font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20 px-2 py-0.5 rounded">Multiplateforme : iOS CoreNFC • Android NFC • Web NFC Chrome • PWA Hors-Ligne</span>
           </div>
           <h2 class="text-2xl font-bold font-title text-white">Sanctuaire Mémoriel Mobile — Recueillement & Directives</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
@@ -854,8 +1721,19 @@
       </div>
 
       <!-- Filtres par Catégorie Métier -->
-      <div class="flex flex-wrap gap-1.5" id="cat-filters-app3">
-        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-gold-500 text-obsidian-950 shadow-sm" data-cat="all" onclick="filterByCategory('app3', 'all')">Tous (12)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Accès & Identité" onclick="filterByCategory('app3', 'Accès & Identité')">Accès & Identité (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Dernières Volontés" onclick="filterByCategory('app3', 'Dernières Volontés')">Dernières Volontés (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Directives Médicales" onclick="filterByCategory('app3', 'Directives Médicales')">Directives Médicales (2)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Directives Médicales & Sécurité" onclick="filterByCategory('app3', 'Directives Médicales & Sécurité')">Directives Médicales & Sécurité (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Droits du Patient" onclick="filterByCategory('app3', 'Droits du Patient')">Droits du Patient (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Expérience Sanctuaire" onclick="filterByCategory('app3', 'Expérience Sanctuaire')">Expérience Sanctuaire (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Expérience Émotionnelle" onclick="filterByCategory('app3', 'Expérience Émotionnelle')">Expérience Émotionnelle (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Pérennité & Économie" onclick="filterByCategory('app3', 'Pérennité & Économie')">Pérennité & Économie (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Résilience Mémorielle" onclick="filterByCategory('app3', 'Résilience Mémorielle')">Résilience Mémorielle (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Sécurité & Anti-Fraude" onclick="filterByCategory('app3', 'Sécurité & Anti-Fraude')">Sécurité & Anti-Fraude (1)</button>\n        <button class="cat-filter-app3 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Sécurité & Cryptographie" onclick="filterByCategory('app3', 'Sécurité & Cryptographie')">Sécurité & Cryptographie (1)</button>
+      <div class="flex flex-wrap gap-2" id="cat-filters-app3">
+        <button class="cat-filter-btn active cat-filter-app3" data-cat="all" onclick="filterByCategory('app3', 'all')">Tous (12)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Accès & Identité" onclick="filterByCategory('app3', 'Accès & Identité')">Accès & Identité (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Dernières Volontés" onclick="filterByCategory('app3', 'Dernières Volontés')">Dernières Volontés (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Directives Médicales" onclick="filterByCategory('app3', 'Directives Médicales')">Directives Médicales (2)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Directives Médicales & Sécurité" onclick="filterByCategory('app3', 'Directives Médicales & Sécurité')">Directives Médicales & Sécurité (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Droits du Patient" onclick="filterByCategory('app3', 'Droits du Patient')">Droits du Patient (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Expérience Sanctuaire" onclick="filterByCategory('app3', 'Expérience Sanctuaire')">Expérience Sanctuaire (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Expérience Émotionnelle" onclick="filterByCategory('app3', 'Expérience Émotionnelle')">Expérience Émotionnelle (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Pérennité & Économie" onclick="filterByCategory('app3', 'Pérennité & Économie')">Pérennité & Économie (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Résilience Mémorielle" onclick="filterByCategory('app3', 'Résilience Mémorielle')">Résilience Mémorielle (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Sécurité & Anti-Fraude" onclick="filterByCategory('app3', 'Sécurité & Anti-Fraude')">Sécurité & Anti-Fraude (1)</button>
+        <button class="cat-filter-btn cat-filter-app3" data-cat="Sécurité & Cryptographie" onclick="filterByCategory('app3', 'Sécurité & Cryptographie')">Sécurité & Cryptographie (1)</button>
       </div>
 
       <!-- Conteneur Dynamique App 3 -->
@@ -868,7 +1746,7 @@
         <div class="max-w-3xl space-y-2 relative z-10">
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-400">Application 4 · Filière Métier & Traçabilité Industrielle (Vétérinaires, Gardes DNF & AFSCA)</span>
-            <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2 py-0.5 rounded">Multiplateforme : Terminaux durcis IP68 • PWA Offline • Moteur AeterniCore CLI</span>
+            <span class="text-xs font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2 py-0.5 rounded">Multiplateforme : Terminaux durcis IP68 • PWA Offline • Moteur AeterniCore CLI</span>
           </div>
           <h2 class="text-2xl font-bold font-title text-white">Filière Sarcomusation & Traçabilité Post-Décès</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
@@ -898,8 +1776,17 @@
       </div>
 
       <!-- Filtres par Catégorie Métier -->
-      <div class="flex flex-wrap gap-1.5" id="cat-filters-app4">
-        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-gold-500 text-obsidian-950 shadow-sm" data-cat="all" onclick="filterByCategory('app4', 'all')">Tous (14)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Audit & Régulateurs" onclick="filterByCategory('app4', 'Audit & Régulateurs')">Audit & Régulateurs (1)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Constat Civil & Tri" onclick="filterByCategory('app4', 'Constat Civil & Tri')">Constat Civil & Tri (1)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Contrôle Biologique" onclick="filterByCategory('app4', 'Contrôle Biologique')">Contrôle Biologique (2)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Cryptographie Filière" onclick="filterByCategory('app4', 'Cryptographie Filière')">Cryptographie Filière (1)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Destination Finale" onclick="filterByCategory('app4', 'Destination Finale')">Destination Finale (1)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Interopérabilité APIs" onclick="filterByCategory('app4', 'Interopérabilité APIs')">Interopérabilité APIs (1)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Profils Dépouilles" onclick="filterByCategory('app4', 'Profils Dépouilles')">Profils Dépouilles (4)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Traitement Thermique" onclick="filterByCategory('app4', 'Traitement Thermique')">Traitement Thermique (2)</button>\n        <button class="cat-filter-app4 px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60" data-cat="Validation Algorithmique" onclick="filterByCategory('app4', 'Validation Algorithmique')">Validation Algorithmique (1)</button>
+      <div class="flex flex-wrap gap-2" id="cat-filters-app4">
+        <button class="cat-filter-btn active cat-filter-app4" data-cat="all" onclick="filterByCategory('app4', 'all')">Tous (14)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Audit & Régulateurs" onclick="filterByCategory('app4', 'Audit & Régulateurs')">Audit & Régulateurs (1)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Constat Civil & Tri" onclick="filterByCategory('app4', 'Constat Civil & Tri')">Constat Civil & Tri (1)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Contrôle Biologique" onclick="filterByCategory('app4', 'Contrôle Biologique')">Contrôle Biologique (2)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Cryptographie Filière" onclick="filterByCategory('app4', 'Cryptographie Filière')">Cryptographie Filière (1)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Destination Finale" onclick="filterByCategory('app4', 'Destination Finale')">Destination Finale (1)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Interopérabilité APIs" onclick="filterByCategory('app4', 'Interopérabilité APIs')">Interopérabilité APIs (1)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Profils Dépouilles" onclick="filterByCategory('app4', 'Profils Dépouilles')">Profils Dépouilles (4)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Traitement Thermique" onclick="filterByCategory('app4', 'Traitement Thermique')">Traitement Thermique (2)</button>
+        <button class="cat-filter-btn cat-filter-app4" data-cat="Validation Algorithmique" onclick="filterByCategory('app4', 'Validation Algorithmique')">Validation Algorithmique (1)</button>
       </div>
 
       <!-- Conteneur Dynamique App 4 -->
@@ -917,13 +1804,13 @@
 
       <div class="glass-card rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
             <thead>
-              <tr class="border-b border-slate-800 bg-obsidian-900/90 text-slate-400 font-mono text-[11px] uppercase tracking-wider">
-                <th class="py-3 px-4">Juridiction & Acte Officiel</th>
-                <th class="py-3 px-4">Dispositions Essentielles Citées</th>
-                <th class="py-3 px-4">Choix de Conception AeterniTrak V1.0</th>
-                <th class="py-3 px-4 text-right">Lien Documentaire</th>
+              <tr class="border-b border-slate-800 bg-obsidian-900/90 text-slate-300 font-mono text-xs uppercase tracking-wider">
+                <th class="py-4 px-4">Juridiction & Acte Officiel</th>
+                <th class="py-4 px-4">Dispositions Essentielles Citées</th>
+                <th class="py-4 px-4">Choix de Conception AeterniTrak V1.0</th>
+                <th class="py-4 px-4 text-right">Lien Documentaire</th>
               </tr>
             </thead>
             <tbody id="table-legal" class="divide-y divide-slate-850"></tbody>
@@ -941,10 +1828,10 @@
     </div>
   </dialog>
 
-  <!-- Pied de page -->
-  <footer class="border-t border-slate-800/80 bg-obsidian-900 px-6 py-4 text-center text-xs text-slate-500 flex flex-wrap items-center justify-between gap-4">
+  <!-- Pied de page Solennel -->
+  <footer class="border-t border-slate-800/80 bg-obsidian-900 px-6 py-6 text-center text-xs sm:text-sm text-slate-400 flex flex-wrap items-center justify-between gap-4 mt-8">
     <span>AeterniTrak V1.0 • Société Le Pax Funèbre • 4 Applications Multiplateformes Étanches</span>
-    <span class="font-mono text-slate-400">Spec-First & Test-First Certifié • Arbitrages Kudoro DEC-AET-08 & DEC-AET-09</span>
+    <span class="font-mono text-slate-300">Spec-First & Test-First Certifié • Arbitrages Kudoro DEC-AET-08 & DEC-AET-09</span>
   </footer>
 
   <!-- Injection des Données et du Runtime Applicatif -->
@@ -6819,22 +7706,307 @@
 
 
     // =========================================================================
-    // AeterniTrak V1.0 — Runtime Client Interactif & Simulateurs Wireframes
+    // AeterniTrak V1.0 — Runtime Client Interactif & Grand Théâtre Vivant
     // =========================================================================
 
     // État global de l'application
     const appState = {
       activeTab: 'app1',
+      portalMode: localStorage.getItem('aeternitrak_portal_mode') || 'famille', // 'famille' | 'expert'
       viewModes: { app1: 'cards', app2: 'cards', app3: 'cards', app4: 'cards' },
       categoryFilters: { app1: 'all', app2: 'all', app3: 'all', app4: 'all' },
       wfStates: {}, // ucId -> { phase: 'p1', timer: null, isPlaying: false }
-      modalWfState: { ucId: null, phase: 'p1', timer: null, isPlaying: false, showNominal: true }
+      modalWfState: { ucId: null, phase: 'p1', timer: null, isPlaying: false, showNominal: true },
+      theater: {
+        cardFlipped: false,
+        sanctuaryAudioPlaying: false,
+        sanctuaryInterval: null,
+        acrEncoding: false,
+        lfaState: 'neg'
+      }
     };
 
     // Répertoire consolidé de tous les cas d'usage
     const allUseCases = [...app1UseCases, ...app2UseCases, ...app3UseCases, ...app4UseCases];
 
-    // Navigation principale par onglets
+    // =========================================================================
+    // SYNTHÉTISEUR AUDIO WEB EMBARQUÉ (100% Hors-Ligne, ZÉRO CDN)
+    // =========================================================================
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(type) {
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        if (type === 'soft-bell') {
+          // Bip feutré d'encodage de carte (880 Hz harmonieux avec décroissance douce)
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, now);
+          osc.frequency.exponentialRampToValueAtTime(1760, now + 0.12);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.45);
+        } else if (type === 'droplet') {
+          // Gouttelette de test LFA
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(680, now);
+          osc.frequency.exponentialRampToValueAtTime(320, now + 0.1);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.16);
+        } else if (type === 'memorial-chord') {
+          // Accord solennel doux pour le sanctuaire mémoriel
+          [440, 554.37, 659.25].forEach(freq => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now);
+            gain.gain.setValueAtTime(0.025, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 1.2);
+          });
+        }
+      } catch (e) {
+        console.warn('Audio Web non disponible:', e);
+      }
+    }
+
+    // =========================================================================
+    // BASULE DE MODE BIMODAL : MODE FAMILLE vs MODE EXPERT / INGÉNIEUR
+    // =========================================================================
+    function setPortalMode(mode) {
+      appState.portalMode = mode;
+      localStorage.setItem('aeternitrak_portal_mode', mode);
+
+      const btnFamille = document.getElementById('btn-mode-famille');
+      const btnExpert = document.getElementById('btn-mode-expert');
+      const desc = document.getElementById('portal-mode-desc');
+
+      if (btnFamille && btnExpert) {
+        if (mode === 'famille') {
+          btnFamille.className = 'mode-switch-btn active';
+          btnExpert.className = 'mode-switch-btn';
+          if (desc) {
+            desc.innerHTML = '<strong>Mode Famille & Conseiller :</strong> Présentation sereine, chaleureuse et digne axée sur la mémoire, l\'hommage affectif et la simplicité absolue sans jargon technique.';
+          }
+        } else {
+          btnFamille.className = 'mode-switch-btn';
+          btnExpert.className = 'mode-switch-btn active-expert';
+          if (desc) {
+            desc.innerHTML = '<strong>Mode Expert & Silicium :</strong> Visualisation des flux APDU ISO/IEC 7816-4, tags CBOR RFC 8949, signatures asymétriques Ed25519 et verrous sanitaires The Iron Gate.';
+          }
+        }
+      }
+
+      // Re-rendre la section active avec le mode sélectionné
+      renderAppSection(appState.activeTab);
+    }
+
+    function setReadingMode(mode) {
+      setPortalMode(mode === 'family' || mode === 'famille' ? 'famille' : 'expert');
+    }
+
+    // =========================================================================
+    // LE GRAND THÉÂTRE VIVANT (4 PODS INTERACTIFS EN DIRECT)
+    // =========================================================================
+
+    // POD 1 : CARTE PAXFUNÈBRE 3D À DOUBLE FACE
+    function toggleCard3D() {
+      const inner = document.getElementById('pax-card-3d-inner');
+      const indicator = document.getElementById('card-face-indicator');
+      const btn = document.getElementById('btn-flip-card-3d');
+
+      appState.theater.cardFlipped = !appState.theater.cardFlipped;
+
+      if (inner) {
+        if (appState.theater.cardFlipped) {
+          inner.classList.add('flipped');
+          if (indicator) {
+            indicator.textContent = 'Verso : Volontés Civiles & Médicales';
+            indicator.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-500/30';
+          }
+          if (btn) btn.innerHTML = '↺ Retourner la Carte 3D (Voir Sanctuaire Recto)';
+        } else {
+          inner.classList.remove('flipped');
+          if (indicator) {
+            indicator.textContent = 'Recto : Carte Sanctuaire Mémorielle';
+            indicator.className = 'text-xs font-mono font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded border border-gold-500/20';
+          }
+          if (btn) btn.innerHTML = '↺ Retourner la Carte 3D (Voir Directives Verso)';
+        }
+      }
+    }
+    function toggleCard3DFlip() { toggleCard3D(); }
+
+    // POD 2 : SMARTPHONE SANCTUAIRE, FLAMME & DUCKING VOCAL
+    function toggleSanctuaryAudio() {
+      const btn = document.getElementById('btn-sanctuary-audio');
+      const statusBadge = document.getElementById('sanctuary-audio-status');
+      const duckingBadge = document.getElementById('sanctuary-ducking-status');
+      const bars = document.querySelectorAll('#theater-oscilloscope .osc-bar');
+      const state = appState.theater;
+
+      if (state.sanctuaryAudioPlaying) {
+        // Stopper
+        state.sanctuaryAudioPlaying = false;
+        clearInterval(state.sanctuaryInterval);
+        if (btn) btn.innerHTML = '▶ Écouter l\'Élégie Vocale (Ducking -14 dB)';
+        if (statusBadge) {
+          statusBadge.innerHTML = '⏸ En Veille';
+          statusBadge.className = 'font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-700 flex items-center gap-1.5';
+        }
+        if (duckingBadge) {
+          duckingBadge.innerHTML = 'Ambiance Pleine (0 dB)';
+          duckingBadge.className = 'font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-700';
+        }
+        bars.forEach(b => {
+          b.style.animationPlayState = 'paused';
+          b.style.height = '8px';
+        });
+      } else {
+        // Démarrer
+        state.sanctuaryAudioPlaying = true;
+        playTone('memorial-chord');
+        if (btn) btn.innerHTML = '⏸ Suspendre l\'Écoute';
+        if (statusBadge) {
+          statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ▶ En Lecture (Voix Mémorielle)';
+          statusBadge.className = 'font-mono text-xs text-emerald-300 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-500/40 flex items-center gap-1.5';
+        }
+        if (duckingBadge) {
+          duckingBadge.innerHTML = '🎙️ Ducking Vocal -14 dB Actif';
+          duckingBadge.className = 'font-mono text-xs text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-500/50 font-bold animate-pulse';
+        }
+        bars.forEach((b, i) => {
+          b.style.animationPlayState = 'running';
+        });
+        state.sanctuaryInterval = setInterval(() => {
+          bars.forEach(b => {
+            const h = Math.floor(Math.random() * 22) + 6;
+            b.style.height = `${h}px`;
+          });
+        }, 120);
+      }
+    }
+    function toggleMemorialAudio() { toggleSanctuaryAudio(); }
+
+    // POD 3 : PAXSTATION ENCODAGE & LECTEUR ACR1552U
+    function simulateAcr1552uTap() {
+      const btn = document.getElementById('btn-acr-tap');
+      const led = document.getElementById('acr-led-apdu');
+      const terminal = document.getElementById('acr-terminal-log');
+      const eepromBar = document.getElementById('acr-eeprom-bar');
+      const eepromText = document.getElementById('acr-eeprom-text');
+
+      if (appState.theater.acrEncoding) return;
+      appState.theater.acrEncoding = true;
+      if (btn) btn.disabled = true;
+
+      playTone('soft-bell');
+      if (led) {
+        led.className = 'w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399] animate-pulse';
+      }
+
+      const steps = [
+        { time: 100, text: '<span class="text-sky-400">[00.120] CARTE DÉTECTÉE</span> : ATR 3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 00 03 00 00 00', bytes: 14.5 },
+        { time: 500, text: '<span class="text-indigo-300">[00.520] SELECT AID</span> : CLA:00 INS:A4 P1:04 P2:00 Lc:07 A0000008450101 -> SW:9000 (ACOSJ OK)', bytes: 38.2 },
+        { time: 1000, text: '<span class="text-gold-300">[01.040] WRITE RECORD</span> : Profil civil + 2 Portraits WebP 220x220 alloués', bytes: 64.8 },
+        { time: 1500, text: '<span class="text-emerald-400">[01.580] COSE_SIGN1</span> : Ed25519 scellé in-silico (RFC 8032, Low-S conforme)', bytes: 87.5 },
+        { time: 2000, text: '<span class="text-purple-300">[02.100] HARDWARE LOCK</span> : Fusible physique activé. Mémoire EEPROM immuable.', bytes: 87.5 },
+        { time: 2400, text: '<span class="text-emerald-300 font-bold">[02.450] SUCCÈS TOTAL</span> : Carte ACOSJ 92K gravée avec succès • Prête pour la famille.', bytes: 87.5 }
+      ];
+
+      if (terminal) terminal.innerHTML = '<span class="text-slate-400">Initialisation du couplage sans contact 13.56 MHz...</span>';
+
+      steps.forEach((s, idx) => {
+        setTimeout(() => {
+          if (terminal) {
+            terminal.innerHTML += `<div>${s.text}</div>`;
+            terminal.scrollTop = terminal.scrollHeight;
+          }
+          if (eepromBar) {
+            const pct = Math.min(100, (s.bytes / 92) * 100);
+            eepromBar.style.width = `${pct}%`;
+          }
+          if (eepromText) {
+            eepromText.textContent = `${s.bytes.toFixed(1)} / 92 Ko (${Math.round((s.bytes / 92) * 100)}%)`;
+          }
+          if (idx === steps.length - 1) {
+            appState.theater.acrEncoding = false;
+            if (btn) btn.disabled = false;
+            if (led) led.className = 'w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]';
+            playTone('soft-bell');
+          }
+        }, s.time);
+      });
+    }
+    function startPaxStationEncoding() { simulateAcr1552uTap(); }
+
+    // POD 4 : CASSETTE LFA TOXICOLOGIQUE & THE IRON GATE
+    function setLfaResult(res) {
+      const lineT = document.getElementById('lfa-line-test');
+      const badge = document.getElementById('lfa-status-badge');
+      const explanation = document.getElementById('lfa-explanation');
+      const btnNeg = document.getElementById('btn-lfa-neg');
+      const btnPos = document.getElementById('btn-lfa-pos');
+
+      appState.theater.lfaState = res;
+      playTone('droplet');
+
+      if (res === 'neg') {
+        if (lineT) lineT.className = 'lfa-line-t'; // 2 bandes visibles = NÉGATIF
+        if (badge) {
+          badge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 border border-emerald-500 text-emerald-300 flex items-center gap-1.5';
+          badge.innerHTML = '✔ LFA NÉGATIF (&lt; 10 ppb) • CONFORME';
+        }
+        if (explanation) {
+          explanation.className = 'text-xs text-slate-700 bg-white/70 p-3 rounded-lg border border-slate-300 leading-relaxed';
+          explanation.innerHTML = '<strong>Deux bandes visibles (C + T) :</strong> Absence d\'euthanasiant toxique (&lt; 10 ppb). La dépouille mémorielle est admise en unité de sarcomusation avec valorisation forestière post-stérilisation autorisée.';
+        }
+        if (btnNeg) btnNeg.className = 'wf-btn wf-btn-gold text-xs font-bold';
+        if (btnPos) btnPos.className = 'wf-btn wf-btn-sub text-xs';
+      } else {
+        if (lineT) lineT.className = 'lfa-line-t invisible'; // 1 seule bande (C) = POSITIF (> 10 ppb)
+        if (badge) {
+          badge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-red-950/90 border border-red-500 text-red-300 flex items-center gap-1.5';
+          badge.innerHTML = '✖ LFA POSITIF (&gt; 10 ppb) • REJET C1 IMMÉDIAT';
+        }
+        if (explanation) {
+          explanation.className = 'text-xs text-red-950 bg-red-100 p-3 rounded-lg border border-red-300 leading-relaxed font-medium';
+          explanation.innerHTML = '<strong>Une seule bande visible (C) :</strong> Détection de Pentobarbital &gt; 10 ppb. <em>Aiguillage bloqué</em> : Rejet impératif vers l\'incinération de Catégorie 1 pour protéger la colonie d\'insectes.';
+        }
+        if (btnNeg) btnNeg.className = 'wf-btn wf-btn-sub text-xs';
+        if (btnPos) btnPos.className = 'wf-btn wf-btn-danger text-xs font-bold';
+      }
+    }
+    function startLfaTest() { setLfaResult(appState.theater.lfaState === 'neg' ? 'pos' : 'neg'); }
+
+    // =========================================================================
+    // NAVIGATION PRINCIPALE PAR ONGLETS MÉTIERS
+    // =========================================================================
     function switchTab(tabId) {
       appState.activeTab = tabId;
       const tabs = ['app1', 'app2', 'app3', 'app4', 'legal'];
@@ -6850,28 +8022,24 @@
         }
         if (btn) {
           if (t === tabId) {
-            btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gold-500 text-obsidian-950 shadow-md shadow-gold-500/20';
+            btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-gold-500 text-obsidian-950 shadow-md shadow-gold-500/20';
           } else {
-            btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50';
+            btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800/60';
           }
         }
       });
-      // Réinitialiser les timers en changeant d'onglet
       stopAllSimulations();
+      renderAppSection(tabId);
     }
 
-    // Gestion des modes d'affichage (Fiches, Board Déplié, Tableur)
+    // Modes d'Affichage (Fiches, Board Déplié, Tableur)
     function setViewMode(appId, mode) {
       appState.viewModes[appId] = mode;
       const modes = ['cards', 'board', 'table'];
       modes.forEach(m => {
         const btn = document.getElementById(`btn-mode-${appId}-${m}`);
         if (btn) {
-          if (m === mode) {
-            btn.className = 'view-mode-btn active';
-          } else {
-            btn.className = 'view-mode-btn';
-          }
+          btn.className = (m === mode) ? 'view-mode-btn active' : 'view-mode-btn';
         }
       });
       renderAppSection(appId);
@@ -6883,9 +8051,9 @@
       const pills = document.querySelectorAll(`.cat-filter-${appId}`);
       pills.forEach(p => {
         if (p.getAttribute('data-cat') === category) {
-          p.className = `cat-filter-${appId} px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-gold-500 text-obsidian-950 shadow-sm`;
+          p.className = `cat-filter-btn active cat-filter-${appId}`;
         } else {
-          p.className = `cat-filter-${appId} px-3 py-1 rounded-lg text-xs font-mono transition text-slate-400 hover:text-white bg-slate-800/60`;
+          p.className = `cat-filter-btn cat-filter-${appId}`;
         }
       });
       renderAppSection(appId);
@@ -6895,17 +8063,17 @@
     function getPlatformBadges(platforms) {
       if (!platforms) return '';
       const map = {
-        'Web NFC (Chrome Android)': '<span class="text-[9px] font-mono text-emerald-300 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-700/60" title="Web NFC API">🌐 Web NFC</span>',
-        'Natif (iOS & Android)': '<span class="text-[9px] font-mono text-indigo-300 bg-indigo-950/80 px-1.5 py-0.5 rounded border border-indigo-700/60" title="iOS CoreNFC & Android">📱 Natif</span>',
-        'WebUSB (Chromium Desktop)': '<span class="text-[9px] font-mono text-amber-300 bg-amber-950/80 px-1.5 py-0.5 rounded border border-amber-700/60" title="WebUSB Chromium">🔌 WebUSB</span>',
-        'PC/SC (Desktop Natif)': '<span class="text-[9px] font-mono text-orange-300 bg-orange-950/80 px-1.5 py-0.5 rounded border border-orange-700/60" title="Pilote PC/SC">💻 PC/SC</span>',
-        'Web Standard (PWA Hors-Ligne)': '<span class="text-[9px] font-mono text-sky-300 bg-sky-950/80 px-1.5 py-0.5 rounded border border-sky-700/60" title="PWA 100% Hors-Ligne">🌐 PWA Offline</span>',
-        'Node.js / Core Engine': '<span class="text-[9px] font-mono text-purple-300 bg-purple-950/80 px-1.5 py-0.5 rounded border border-purple-700/60" title="Moteur Déterministe">⚡ AeterniCore</span>'
+        'Web NFC (Chrome Android)': '<span class="text-[10px] font-mono text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/60" title="Web NFC API">🌐 Web NFC</span>',
+        'Natif (iOS & Android)': '<span class="text-[10px] font-mono text-indigo-300 bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-700/60" title="iOS CoreNFC & Android">📱 Natif</span>',
+        'WebUSB (Chromium Desktop)': '<span class="text-[10px] font-mono text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-700/60" title="WebUSB Chromium">🔌 WebUSB</span>',
+        'PC/SC (Desktop Natif)': '<span class="text-[10px] font-mono text-orange-300 bg-orange-950/80 px-2 py-0.5 rounded border border-orange-700/60" title="Pilote PC/SC">💻 PC/SC</span>',
+        'Web Standard (PWA Hors-Ligne)': '<span class="text-[10px] font-mono text-sky-300 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-700/60" title="PWA 100% Hors-Ligne">🌐 PWA Offline</span>',
+        'Node.js / Core Engine': '<span class="text-[10px] font-mono text-purple-300 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-700/60" title="Moteur Déterministe">⚡ AeterniCore</span>'
       };
-      return platforms.map(p => map[p] || `<span class="text-[9px] font-mono text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">${p}</span>`).join(' ');
+      return platforms.map(p => map[p] || `<span class="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">${p}</span>`).join(' ');
     }
 
-    // Bascule des tiroirs accordéons
+    // Accordéons
     function toggleDrawer(drawerId) {
       const el = document.getElementById(drawerId);
       if (el) {
@@ -6914,9 +8082,8 @@
     }
 
     // =========================================================================
-    // LOGIQUE DU WIREFRAME PLAYER (SIMULATEUR 4 ÉTATS)
+    // WIREFRAME PLAYER (SIMULATEUR 4 ÉTATS)
     // =========================================================================
-
     function getOrCreateWfState(ucId) {
       if (!appState.wfStates[ucId]) {
         appState.wfStates[ucId] = { phase: 'p1', timer: null, isPlaying: false };
@@ -6933,19 +8100,14 @@
 
       if (isModal) {
         appState.modalWfState.phase = phaseKey;
-        // Mettre à jour les pills modale
         ['p1', 'p2', 'p3', 'p4'].forEach(pk => {
           const pill = document.getElementById(`modal-pill-${pk}`);
           if (pill) {
             pill.className = (pk === phaseKey) ? 'wf-pill-btn active' : 'wf-pill-btn';
           }
         });
-        // Mettre à jour l'écran modale
         const screenEl = document.getElementById('modal-screen-container');
-        if (screenEl) {
-          screenEl.innerHTML = phase.screenHtml;
-        }
-        // Mettre à jour la légende
+        if (screenEl) screenEl.innerHTML = phase.screenHtml;
         const capTitle = document.getElementById('modal-caption-title');
         const capText = document.getElementById('modal-caption-text');
         if (capTitle) capTitle.textContent = phase.phaseTitle;
@@ -6953,22 +8115,17 @@
       } else {
         const state = getOrCreateWfState(ucId);
         state.phase = phaseKey;
-        // Mettre à jour les pills de la carte
         ['p1', 'p2', 'p3', 'p4'].forEach(pk => {
           const pill = document.getElementById(`pill-${ucId}-${pk}`);
           if (pill) {
             pill.className = (pk === phaseKey) ? 'wf-pill-btn active' : 'wf-pill-btn';
           }
         });
-        // Mettre à jour l'écran de la carte
         const screenEl = document.getElementById(`screen-${ucId}`);
-        if (screenEl) {
-          screenEl.innerHTML = phase.screenHtml;
-        }
-        // Mettre à jour la légende
+        if (screenEl) screenEl.innerHTML = phase.screenHtml;
         const capEl = document.getElementById(`caption-${ucId}`);
         if (capEl) {
-          capEl.innerHTML = `<strong>${phase.phaseTitle}</strong> <span class="text-slate-400">• ${phase.caption}</span>`;
+          capEl.innerHTML = `<strong>${phase.phaseTitle}</strong> <span class="text-slate-300">• ${phase.caption}</span>`;
         }
       }
     }
@@ -6983,7 +8140,6 @@
       const btn = document.getElementById(btnId);
 
       if (state.isPlaying) {
-        // Stopper
         clearInterval(state.timer);
         state.timer = null;
         state.isPlaying = false;
@@ -6992,28 +8148,22 @@
           btn.classList.remove('playing');
         }
       } else {
-        // Démarrer
         state.isPlaying = true;
         if (btn) {
           btn.innerHTML = '⏸ Pause';
           btn.classList.add('playing');
         }
-
         let currIndex = phasesSeq.indexOf(state.phase);
         if (currIndex === -1 || currIndex === 3) {
           currIndex = 0;
           setWfPhase(ucId, phasesSeq[0], isModal);
         }
-
         state.timer = setInterval(() => {
           currIndex = (currIndex + 1) % phasesSeq.length;
           setWfPhase(ucId, phasesSeq[currIndex], isModal);
           if (currIndex === 3) {
-            // Arrêter après le cycle complet ou laisser en pause
             setTimeout(() => {
-              if (state.isPlaying) {
-                toggleWfSimulation(ucId, isModal);
-              }
+              if (state.isPlaying) toggleWfSimulation(ucId, isModal);
             }, 3000);
           }
         }, 1800);
@@ -7048,15 +8198,12 @@
         ucs.forEach((u, i) => {
           setTimeout(() => {
             const state = getOrCreateWfState(u.id);
-            if (!state.isPlaying) {
-              toggleWfSimulation(u.id, false);
-            }
+            if (!state.isPlaying) toggleWfSimulation(u.id, false);
           }, i * 300);
         });
       }
     }
 
-    // Récupération des cas d'usage par App
     function getAppUseCases(appId) {
       if (appId === 'app1') return app1UseCases;
       if (appId === 'app2') return app2UseCases;
@@ -7065,7 +8212,6 @@
       return [];
     }
 
-    // Filtrage des cas d'usage
     function getFilteredUseCases(appId) {
       let list = getAppUseCases(appId);
       const cat = appState.categoryFilters[appId];
@@ -7080,79 +8226,114 @@
           uc.cat.toLowerCase().includes(q) ||
           uc.preconditions.toLowerCase().includes(q) ||
           uc.legal.toLowerCase().includes(q) ||
-          (uc.tags && uc.tags.some(t => t.toLowerCase().includes(q))) ||
-          (uc.wireframe && uc.wireframe.errorCase && uc.wireframe.errorCase.code.toLowerCase().includes(q))
+          (uc.tags && uc.tags.some(t => t.toLowerCase().includes(q)))
         );
       }
       return list;
     }
 
     // =========================================================================
-    // RENDU DES VUES (Fiches, Board Déplié, Tableur)
+    // RENDU DES VUES (FICHES, BOARD DÉPLIÉ, TABLEUR) AVEC DOUBLE MODE
     // =========================================================================
-
     function renderAppSection(appId) {
+      if (appId === 'legal') {
+        renderLegalTable();
+        return;
+      }
       const mode = appState.viewModes[appId] || 'cards';
       const list = getFilteredUseCases(appId);
       const containerId = `grid-${appId}`;
 
       if (mode === 'cards') {
-        renderCardsView(containerId, list);
+        renderCardsView(containerId, list, appId);
       } else if (mode === 'board') {
-        renderBoardView(containerId, list);
+        renderBoardView(containerId, list, appId);
       } else if (mode === 'table') {
-        renderTableView(containerId, list);
+        renderTableView(containerId, list, appId);
       }
     }
 
-    // 1. Vue Cartes Modulaires avec Player Intégré
-    function renderCardsView(containerId, list) {
+    // 1. Vue Cartes Modulaires Aérées & Chaleureuses (Wireframe Player)
+    function renderCardsView(containerId, list, appId) {
       const container = document.getElementById(containerId);
       if (!container) return;
-      container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5';
+      container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+      const isFamille = appState.portalMode === 'famille';
+      const themeClass = `theme-${appId}`;
 
       container.innerHTML = list.map(uc => {
         const wf = uc.wireframe || {};
-        const p1 = (wf.phases && wf.phases.p1) || { screenHtml: '<div class="p-4 text-xs">Aperçu en attente</div>', phaseTitle: 'Initial', caption: 'Prêt' };
+        const p1 = (wf.phases && wf.phases.p1) || { screenHtml: '<div class="p-6 text-sm">Aperçu en attente</div>', phaseTitle: 'Initial', caption: 'Prêt' };
         const fields = wf.formFields || [];
         const actions = wf.actionButtons || [];
         const err = wf.errorCase || { code: 'N/A', title: 'Aucune', message: 'N/A', remediation: 'N/A' };
 
+        // Teinte et badges personnalisés selon l'application
+        let appAccentBadge = '';
+        if (appId === 'app1') appAccentBadge = 'text-gold-400 bg-gold-500/10 border-gold-500/30';
+        else if (appId === 'app2') appAccentBadge = 'text-sky-300 bg-sky-950/80 border-sky-600/40';
+        else if (appId === 'app3') appAccentBadge = 'text-purple-300 bg-purple-950/80 border-purple-600/40';
+        else if (appId === 'app4') appAccentBadge = 'text-emerald-300 bg-emerald-950/80 border-emerald-600/40';
+
+        // Contenu narratif bimodal (Famille vs Expert)
+        const familySummaryHtml = isFamille ? `
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-xs text-amber-200/90 leading-relaxed flex items-start gap-2.5">
+            <span class="text-base select-none">🕊️</span>
+            <div>
+              <strong class="text-amber-100 font-semibold block">Ce que cela garantit à la famille :</strong>
+              <span>Une expérience solennelle, fluide et respectueuse : les souvenirs et volontés sont protégés in-silico, sans exposition sur Internet et sans risque de perte.</span>
+            </div>
+          </div>
+        ` : `
+          <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 flex items-center justify-between">
+            <span class="text-sky-400 font-bold">⚡ Télémétrie Silicium :</span>
+            <span class="text-slate-400">IsoDep • JavaCard AID ACOSJ • COSE_Sign1</span>
+          </div>
+        `;
+
         return `
-        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between transition group" id="card-${uc.id}">
-          <div class="space-y-3">
+        <div class="glass-card ${themeClass} rounded-2xl p-6 flex flex-col justify-between transition group" id="card-${uc.id}">
+          <div class="space-y-4">
             <!-- En-tête de la Fiche -->
             <div class="flex items-center justify-between">
-              <span class="font-mono text-xs font-bold text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/20">${uc.id}</span>
-              <span class="text-[10px] uppercase font-mono font-bold text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded">${uc.cat}</span>
+              <span class="font-mono text-xs font-bold px-2.5 py-1 rounded border ${appAccentBadge}">${uc.id}</span>
+              <span class="text-[11px] uppercase font-mono font-bold text-slate-300 bg-slate-800/90 px-2.5 py-0.5 rounded">${uc.cat}</span>
             </div>
-            <h3 class="text-base font-bold font-title text-white group-hover:text-gold-300 transition leading-snug cursor-pointer" onclick="openUseCaseModal('${uc.id}')">${uc.title}</h3>
-            <div class="text-[11px] text-slate-400 flex items-center justify-between">
-              <span>Acteur : <strong class="text-slate-300">${uc.actor}</strong></span>
-              <span class="text-[10px] font-mono text-gold-400/90">${wf.deviceLabel || 'Dispositif Sécurisé'}</span>
+            
+            <h3 class="text-lg font-bold font-title text-white group-hover:text-gold-300 transition leading-snug cursor-pointer" onclick="openUseCaseModal('${uc.id}')">
+              ${uc.title}
+            </h3>
+
+            <div class="text-xs text-slate-300 flex items-center justify-between">
+              <span>Acteur : <strong class="text-white">${uc.actor}</strong></span>
+              <span class="text-[11px] font-mono text-gold-400/90">${wf.deviceLabel ? wf.deviceLabel.split('•')[0].trim() : 'Terminal Sécurisé'}</span>
             </div>
 
-            <!-- MODULE WIREFRAME PLAYER (SIMULATEUR 4 ÉTATS) -->
+            <!-- Résumé Bimodal (Famille vs Expert) -->
+            ${familySummaryHtml}
+
+            <!-- MODULE WIREFRAME PLAYER (SIMULATEUR 4 ÉTATS HAUTE DÉFINITION) -->
             <div class="wf-player-card">
               <!-- Barre de Contrôles du Player -->
               <div class="wf-controls-bar">
                 <div class="wf-pills-row">
                   <button id="pill-${uc.id}-p1" class="wf-pill-btn active" onclick="setWfPhase('${uc.id}', 'p1')">1. Initial</button>
-                  <button id="pill-${uc.id}-p2" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p2')">2. Trigger ⚡</button>
-                  <button id="pill-${uc.id}-p3" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p3')">3. Traitement ⚙️</button>
-                  <button id="pill-${uc.id}-p4" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p4')">4. Fin ✨</button>
+                  <button id="pill-${uc.id}-p2" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p2')">2. Action ⚡</button>
+                  <button id="pill-${uc.id}-p3" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p3')">3. Gravure ⚙️</button>
+                  <button id="pill-${uc.id}-p4" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p4')">4. Scellé ✨</button>
                 </div>
                 <button id="sim-btn-${uc.id}" class="wf-sim-btn" onclick="toggleWfSimulation('${uc.id}')">▶ Simuler</button>
               </div>
 
-              <!-- Écran de Maquette Stylisé (Device Frame) -->
+              <!-- Écran de Maquette Stylisé (Device Frame avec Hauteur Confortable) -->
               <div class="device-bezel">
                 <div class="device-topbar">
                   <div class="device-controls-dots">
                     <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
                   </div>
-                  <span>${wf.deviceLabel ? wf.deviceLabel.split('•')[0].trim() : 'Terminal AeterniTrak'}</span>
-                  <span>100% Offline</span>
+                  <span>${wf.deviceLabel ? wf.deviceLabel.split('•')[0].trim() : 'AeterniTrak Station'}</span>
+                  <span class="text-emerald-400 font-bold">100% Hors-Ligne</span>
                 </div>
                 <div id="screen-${uc.id}" class="wf-screen-container">
                   ${p1.screenHtml}
@@ -7161,58 +8342,52 @@
 
               <!-- Légende Narrative de la Phase Active -->
               <div class="wf-caption-box" id="caption-${uc.id}">
-                <span><strong>${p1.phaseTitle}</strong> <span class="text-slate-400">• ${p1.caption}</span></span>
+                <span><strong>${p1.phaseTitle}</strong> <span class="text-slate-300">• ${p1.caption}</span></span>
               </div>
             </div>
 
             <!-- Tiroirs Accordéons : Formulaire & Erreur Normative -->
-            <div class="space-y-1.5 pt-1">
+            <div class="space-y-2 pt-1">
               <button class="wf-drawer-toggle" onclick="toggleDrawer('drawer-form-${uc.id}')">
-                <span>📋 Formulaire & Boutons Détaillés (${fields.length} champs)</span>
-                <span class="text-[9px]">▼</span>
+                <span>${isFamille ? '📋 Données & Options Enregistrées' : '📋 Spécification des Champs'} (${fields.length} champs)</span>
+                <span class="text-xs">▼</span>
               </button>
-              <div id="drawer-form-${uc.id}" class="wf-drawer-content space-y-2">
-                <div class="font-mono text-[10px] text-gold-400 font-bold">Champs d'Interaction :</div>
-                <div class="space-y-1">
+              <div id="drawer-form-${uc.id}" class="wf-drawer-content space-y-2.5">
+                <div class="font-mono text-xs text-gold-400 font-bold">${isFamille ? 'Éléments Personnalisés :' : 'Champs d\'Interaction Silicium :'}</div>
+                <div class="space-y-1.5">
                   ${fields.map(f => `
-                    <div class="flex items-center justify-between text-[10px] bg-slate-900/80 p-1.5 rounded border border-slate-800">
-                      <div><strong class="text-slate-200">${f.label}</strong> <span class="text-slate-500 font-mono">(${f.type})</span></div>
-                      <span class="text-[9px] font-mono px-1 rounded ${f.required ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-slate-800 text-slate-400'}">${f.badge}</span>
+                    <div class="flex items-center justify-between text-xs bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                      <div><strong class="text-slate-200">${f.label}</strong> <span class="text-slate-400 font-mono">(${f.type})</span></div>
+                      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded ${f.required ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-slate-800 text-slate-300'}">${f.badge}</span>
                     </div>
-                  `).join('')}
-                </div>
-                <div class="font-mono text-[10px] text-gold-400 font-bold pt-1">Boutons d'Action :</div>
-                <div class="flex flex-wrap gap-1">
-                  ${actions.map(a => `
-                    <span class="text-[9px] font-mono bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700">${a.icon || '🔘'} ${a.label}</span>
                   `).join('')}
                 </div>
               </div>
 
               <button class="wf-drawer-toggle text-rose-300 hover:text-rose-200" onclick="toggleDrawer('drawer-err-${uc.id}')">
-                <span>⚠️ Cas d'Erreur & Remédiation (${err.code})</span>
-                <span class="text-[9px]">▼</span>
+                <span>${isFamille ? '🛡️ Protection & Résolution d\'Incident' : '⚠️ Cas d\'Erreur Normative'} (${err.code})</span>
+                <span class="text-xs">▼</span>
               </button>
-              <div id="drawer-err-${uc.id}" class="wf-drawer-content space-y-1.5 border-rose-900/60 bg-rose-950/20">
+              <div id="drawer-err-${uc.id}" class="wf-drawer-content space-y-2 border-rose-900/60 bg-rose-950/20">
                 <div class="flex items-center justify-between">
-                  <span class="font-mono text-[10px] font-bold text-rose-400">${err.code}</span>
-                  <span class="text-[9px] text-slate-400">${err.title}</span>
+                  <span class="font-mono text-xs font-bold text-rose-400">${err.code}</span>
+                  <span class="text-[10px] text-slate-300">${err.title}</span>
                 </div>
-                <div class="text-[10px] text-rose-200/90 leading-tight"><strong>Alerte :</strong> ${err.message}</div>
-                <div class="text-[10px] text-emerald-300/90 leading-tight"><strong>Remédiation :</strong> ${err.remediation}</div>
+                <div class="text-xs text-rose-200/95 leading-relaxed"><strong>${isFamille ? 'Incident évité :' : 'Alerte :'}</strong> ${err.message}</div>
+                <div class="text-xs text-emerald-300/95 leading-relaxed"><strong>${isFamille ? 'Accompagnement du conseiller :' : 'Remédiation :'}</strong> ${err.remediation}</div>
               </div>
             </div>
 
-            <!-- Plateformes Compatibles -->
-            <div class="pt-1 flex flex-wrap gap-1">
+            <!-- Badges Plateformes -->
+            <div class="pt-1 flex flex-wrap gap-1.5">
               ${getPlatformBadges(uc.platforms)}
             </div>
           </div>
 
           <!-- Pied de Fiche -->
-          <div class="pt-4 border-t border-slate-850/80 mt-4 flex items-center justify-between">
-            <div class="flex flex-wrap gap-1">
-              ${uc.tags.map(t => `<span class="text-[9px] font-mono text-slate-400 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">${t}</span>`).join('')}
+          <div class="pt-4 border-t border-slate-800/80 mt-5 flex items-center justify-between">
+            <div class="flex flex-wrap gap-1.5">
+              ${uc.tags.map(t => `<span class="text-[10px] font-mono text-slate-300 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">${t}</span>`).join('')}
             </div>
             <button onclick="openUseCaseModal('${uc.id}')" class="text-xs text-gold-400 font-bold hover:translate-x-1 transition flex items-center gap-1 cursor-pointer">
               Inspecter Studio →
@@ -7224,7 +8399,7 @@
     }
 
     // 2. Vue Living Wireframe Board (4 Écrans Dépliés Simultanés)
-    function renderBoardView(containerId, list) {
+    function renderBoardView(containerId, list, appId) {
       const container = document.getElementById(containerId);
       if (!container) return;
       container.className = 'space-y-8';
@@ -7241,41 +8416,41 @@
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
               <span class="font-mono text-xs font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded border border-gold-500/30">${uc.id}</span>
-              <h3 class="text-base font-bold font-title text-white">${uc.title}</h3>
-              <span class="text-xs uppercase font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">${uc.cat}</span>
+              <h3 class="text-lg font-bold font-title text-white">${uc.title}</h3>
+              <span class="text-xs uppercase font-mono text-slate-300 bg-slate-800 px-2 py-0.5 rounded">${uc.cat}</span>
             </div>
             <div class="flex items-center gap-3">
-              <span class="text-xs font-mono text-slate-400">${wf.deviceLabel || 'Dispositif Sécurisé'}</span>
-              <button onclick="openUseCaseModal('${uc.id}')" class="text-xs font-bold text-gold-400 hover:text-white bg-gold-500/10 hover:bg-gold-500 hover:text-black px-3 py-1 rounded-lg border border-gold-500/30 transition">
+              <span class="text-xs font-mono text-slate-300">${wf.deviceLabel || 'Dispositif Sécurisé'}</span>
+              <button onclick="openUseCaseModal('${uc.id}')" class="text-xs font-bold text-gold-400 hover:text-white bg-gold-500/10 hover:bg-gold-500 hover:text-black px-3.5 py-1.5 rounded-lg border border-gold-500/30 transition">
                 Spécifications Complètes ↗
               </button>
             </div>
           </div>
 
-          <!-- Les 4 Écrans Dépliés en Grille Panoramique -->
+          <!-- Les 4 Écrans Dépliés en Grille Panoramique Confortable -->
           <div class="wf-board-grid">
             <div class="wf-board-col">
-              <div class="wf-board-badge"><span>📱 1. Avant Trigger</span> <span class="text-[9px] text-slate-400">État Initial</span></div>
+              <div class="wf-board-badge"><span>📱 1. Avant Trigger</span> <span class="text-[10px] text-slate-400">État Initial</span></div>
               <div class="device-bezel"><div class="wf-screen-box">${p1.screenHtml}</div></div>
-              <div class="text-[10px] text-slate-400 leading-tight">${p1.caption}</div>
+              <div class="text-xs text-slate-300 leading-tight">${p1.caption}</div>
             </div>
 
             <div class="wf-board-col">
-              <div class="wf-board-badge border-gold-500/40 text-gold-300"><span>⚡ 2. Déclenchement</span> <span class="text-[9px] text-gold-400">L'Événement</span></div>
-              <div class="device-bezel border-gold-500/50"><div class="wf-screen-box">${p2.screenHtml}</div></div>
-              <div class="text-[10px] text-slate-400 leading-tight">${p2.caption}</div>
+              <div class="wf-board-badge"><span>⚡ 2. Action / Saisie</span> <span class="text-[10px] text-amber-300">Trigger Actif</span></div>
+              <div class="device-bezel"><div class="wf-screen-box">${p2.screenHtml}</div></div>
+              <div class="text-xs text-slate-300 leading-tight">${p2.caption}</div>
             </div>
 
             <div class="wf-board-col">
-              <div class="wf-board-badge border-emerald-500/40 text-emerald-300"><span>⚙️ 3. Traitement</span> <span class="text-[9px] text-emerald-400">Temps Réel</span></div>
-              <div class="device-bezel border-emerald-500/50"><div class="wf-screen-box">${p3.screenHtml}</div></div>
-              <div class="text-[10px] text-slate-400 leading-tight">${p3.caption}</div>
+              <div class="wf-board-badge"><span>⚙️ 3. Traitement Silicium</span> <span class="text-[10px] text-sky-300">En Cours</span></div>
+              <div class="device-bezel"><div class="wf-screen-box">${p3.screenHtml}</div></div>
+              <div class="text-xs text-slate-300 leading-tight">${p3.caption}</div>
             </div>
 
             <div class="wf-board-col">
-              <div class="wf-board-badge border-gold-500/40 text-gold-300"><span>✨ 4. Écran de Fin</span> <span class="text-[9px] text-gold-400">Scellement</span></div>
-              <div class="device-bezel border-gold-500/50"><div class="wf-screen-box">${p4.screenHtml}</div></div>
-              <div class="text-[10px] text-slate-400 leading-tight">${p4.caption}</div>
+              <div class="wf-board-badge"><span>✨ 4. Scellement / Fin</span> <span class="text-[10px] text-emerald-300">Validé</span></div>
+              <div class="device-bezel"><div class="wf-screen-box">${p4.screenHtml}</div></div>
+              <div class="text-xs text-slate-300 leading-tight">${p4.caption}</div>
             </div>
           </div>
         </div>
@@ -7283,8 +8458,8 @@
       }).join('');
     }
 
-    // 3. Vue Synthétique Tableur
-    function renderTableView(containerId, list) {
+    // 3. Vue Tableur d'Audit Exhaustif
+    function renderTableView(containerId, list, appId) {
       const container = document.getElementById(containerId);
       if (!container) return;
       container.className = 'glass-card rounded-2xl overflow-hidden';
@@ -7294,61 +8469,47 @@
           <table class="table-summary">
             <thead>
               <tr>
-                <th>ID & Cas d'Usage</th>
-                <th>Acteur & Plateforme</th>
-                <th>Formulaire & Champs Clés</th>
-                <th>Déclencheur (Trigger)</th>
-                <th>Traitement & Évolution</th>
-                <th>Fin & Validation</th>
-                <th>Code d'Erreur & Remédiation</th>
-                <th>Action</th>
+                <th>ID & Titre</th>
+                <th>Catégorie & Acteur</th>
+                <th>Dispositif & Plateformes</th>
+                <th>Formulaire (Champs)</th>
+                <th>Cas d'Erreur & Remédiation</th>
+                <th>Réf. Juridique</th>
+                <th class="text-right">Action</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-800">
+            <tbody>
               ${list.map(uc => {
                 const wf = uc.wireframe || {};
                 const fields = wf.formFields || [];
-                const err = wf.errorCase || { code: 'N/A', message: 'N/A', remediation: 'N/A' };
-                const p2 = (wf.phases && wf.phases.p2) || {};
-                const p3 = (wf.phases && wf.phases.p3) || {};
-                const p4 = (wf.phases && wf.phases.p4) || {};
-
+                const err = wf.errorCase || { code: 'N/A', message: 'N/A' };
                 return `
                 <tr>
                   <td>
                     <span class="font-mono text-xs font-bold text-gold-400 block">${uc.id}</span>
                     <strong class="text-white text-xs block mt-0.5">${uc.title}</strong>
-                    <span class="text-[10px] text-slate-400 uppercase font-mono">${uc.cat}</span>
                   </td>
                   <td>
-                    <span class="text-xs text-slate-200 block">${uc.actor}</span>
-                    <span class="text-[10px] text-slate-400 font-mono block mt-1">${wf.deviceLabel || 'Terminal'}</span>
+                    <span class="text-[11px] font-mono text-slate-300 block">${uc.cat}</span>
+                    <span class="text-xs text-slate-400 block">${uc.actor}</span>
                   </td>
                   <td>
-                    <span class="text-[11px] text-slate-300 block font-bold">${fields.length} champs définis :</span>
-                    <div class="text-[10px] text-slate-400 space-y-0.5 mt-1">
-                      ${fields.slice(0, 2).map(f => `• ${f.label} (${f.badge})`).join('<br>')}
-                      ${fields.length > 2 ? `<span class="text-slate-500">+${fields.length - 2} autres</span>` : ''}
-                    </div>
+                    <span class="text-xs text-slate-300 block mb-1">${wf.deviceLabel || 'Terminal'}</span>
+                    <div class="flex flex-wrap gap-1">${getPlatformBadges(uc.platforms)}</div>
                   </td>
                   <td>
-                    <span class="text-xs text-gold-300 block font-mono">⚡ ${p2.triggerName || 'Action'}</span>
-                  </td>
-                  <td>
-                    <span class="text-xs text-emerald-300 block font-mono">⚙️ ${p3.phaseTitle || 'Traitement'}</span>
-                    <span class="text-[10px] text-slate-400 block mt-0.5">${p3.caption || ''}</span>
-                  </td>
-                  <td>
-                    <span class="text-xs text-gold-400 block font-bold">✨ ${p4.phaseTitle || 'Validé'}</span>
-                    <span class="text-[10px] text-slate-300 block mt-0.5">${wf.validationMsg ? wf.validationMsg.badge : 'Conforme'}</span>
+                    <span class="text-xs text-slate-300">${fields.length} champs (${fields.map(f => f.label).slice(0, 2).join(', ')}...)</span>
                   </td>
                   <td>
                     <span class="font-mono text-xs text-rose-400 font-bold block">${err.code}</span>
-                    <span class="text-[10px] text-slate-300 block mt-0.5 line-clamp-2">${err.message}</span>
+                    <span class="text-[11px] text-slate-400 leading-tight block">${err.title || err.message}</span>
                   </td>
                   <td>
-                    <button onclick="openUseCaseModal('${uc.id}')" class="bg-slate-800 hover:bg-gold-500 hover:text-black text-slate-300 text-xs font-bold px-2.5 py-1.5 rounded transition whitespace-nowrap">
-                      Studio ↗
+                    <span class="text-xs text-slate-300 block">${uc.legal}</span>
+                  </td>
+                  <td class="text-right whitespace-nowrap">
+                    <button onclick="openUseCaseModal('${uc.id}')" class="text-xs bg-gold-500/10 hover:bg-gold-500 hover:text-black text-gold-300 font-bold px-3 py-1.5 rounded-lg border border-gold-500/30 transition">
+                      Inspecter ↗
                     </button>
                   </td>
                 </tr>
@@ -7361,154 +8522,139 @@
     }
 
     // =========================================================================
-    // MODALE STUDIO HAUTE DÉFINITION (THEATER PLAYER & SPECS COMPLÈTES)
+    // MODALE NATIVE DE HAUTE PRÉCISION (STUDIO WIREFRAME THEATER)
     // =========================================================================
-
     function openUseCaseModal(ucId) {
       const uc = allUseCases.find(u => u.id === ucId);
       if (!uc) return;
 
       const wf = uc.wireframe || {};
+      const phases = wf.phases || {};
       const fields = wf.formFields || [];
       const actions = wf.actionButtons || [];
-      const validation = wf.validationMsg || { title: 'Conforme', badge: 'Validé', detail: 'Conforme' };
-      const err = wf.errorCase || { code: 'N/A', title: 'N/A', condition: 'N/A', message: 'N/A', remediation: 'N/A' };
-      const phases = wf.phases || {};
-      const p1 = phases.p1 || { screenHtml: '', phaseTitle: '1. Initial', caption: 'Prêt' };
+      const err = wf.errorCase || { code: 'N/A', title: 'Aucune', message: 'N/A', remediation: 'N/A' };
+      const isFamille = appState.portalMode === 'famille';
 
-      // Configurer l'état de la modale
-      appState.modalWfState = {
-        ucId: ucId,
-        phase: 'p1',
-        timer: null,
-        isPlaying: false,
-        showNominal: true
-      };
+      appState.modalWfState.ucId = ucId;
+      appState.modalWfState.phase = 'p1';
+      appState.modalWfState.isPlaying = false;
 
       const modalContent = document.getElementById('modalContent');
+      if (!modalContent) return;
+
       modalContent.innerHTML = `
-        <!-- Barre Supérieure Modale -->
-        <div class="p-6 border-b border-slate-800 flex items-start justify-between gap-4 bg-obsidian-950">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-mono text-xs font-bold text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/30">${uc.id}</span>
-              <span class="text-xs uppercase font-mono font-bold text-slate-400">${uc.cat}</span>
-              <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">${wf.deviceLabel || 'Dispositif Sécurisé'}</span>
-            </div>
-            <h2 class="text-2xl font-bold font-title text-white mt-2">${uc.title}</h2>
-            <div class="text-xs text-slate-400 mt-1 flex flex-wrap items-center gap-3">
-              <span>Acteur : <strong class="text-gold-300">${uc.actor}</strong></span>
-              <span class="border-l border-slate-700 pl-3">Plateformes : ${getPlatformBadges(uc.platforms)}</span>
+        <!-- Barre de titre modale -->
+        <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-obsidian-950">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-sm font-bold text-gold-400 bg-gold-500/10 px-3 py-1 rounded border border-gold-500/30">${uc.id}</span>
+            <div>
+              <h2 class="text-lg font-bold font-title text-white">${uc.title}</h2>
+              <div class="text-xs text-slate-400 flex items-center gap-2">
+                <span>Catégorie : <strong class="text-slate-200">${uc.cat}</strong></span>
+                <span>•</span>
+                <span>Acteur : <strong class="text-slate-200">${uc.actor}</strong></span>
+              </div>
             </div>
           </div>
-          <button onclick="document.getElementById('ucModal').close()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm font-bold transition">✕</button>
+          <button onclick="document.getElementById('ucModal').close()" class="text-slate-400 hover:text-white text-2xl leading-none px-2 cursor-pointer">&times;</button>
         </div>
 
-        <!-- Corps de la Modale : 2 Colonnes Majeures (Théâtre Wireframe & Living Specs) -->
-        <div class="p-6 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs text-slate-300 bg-obsidian-900">
-
-          <!-- COLONNE GAUCHE (7/12) : GRAND THÉÂTRE DE SIMULATION DU WIREFRAME -->
+        <!-- Corps de la modale en deux colonnes -->
+        <div class="p-6 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+          <!-- Colonne Gauche : Simulateur de Wireframe Pleine Échelle (7 cols) -->
           <div class="lg:col-span-7 space-y-4">
-            <div class="flex items-center justify-between">
-              <h4 class="font-mono font-bold text-gold-400 uppercase text-[11px] tracking-wider flex items-center gap-2">
-                <span>🖥️</span> Simulateur de Wireframe Dédié à 4 États
-              </h4>
-              <div class="flex items-center gap-2">
-                <button onclick="cycleModalPhase(-1)" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs">◀ Précédent</button>
-                <button id="modal-sim-btn" onclick="toggleWfSimulation('${uc.id}', true)" class="wf-sim-btn">▶ Lancer Simulation</button>
-                <button onclick="cycleModalPhase(1)" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs">Suivant ▶</button>
-              </div>
-            </div>
-
-            <!-- Onglets de Sélection des 4 Phases -->
-            <div class="flex flex-wrap gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800">
-              <button id="modal-pill-p1" class="wf-pill-btn active flex-1 text-center" onclick="setWfPhase('${uc.id}', 'p1', true)">1. Avant Trigger</button>
-              <button id="modal-pill-p2" class="wf-pill-btn flex-1 text-center" onclick="setWfPhase('${uc.id}', 'p2', true)">2. Déclenchement ⚡</button>
-              <button id="modal-pill-p3" class="wf-pill-btn flex-1 text-center" onclick="setWfPhase('${uc.id}', 'p3', true)">3. Traitement ⚙️</button>
-              <button id="modal-pill-p4" class="wf-pill-btn flex-1 text-center" onclick="setWfPhase('${uc.id}', 'p4', true)">4. Écran de Fin ✨</button>
-            </div>
-
-            <!-- Maquette de l'Écran Haute Définition -->
-            <div class="device-bezel shadow-2xl border-gold-500/40">
-              <div class="device-topbar bg-obsidian-950">
-                <div class="device-controls-dots">
-                  <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+            <div class="wf-player-card">
+              <div class="wf-controls-bar">
+                <div class="wf-pills-row">
+                  <button id="modal-pill-p1" class="wf-pill-btn active" onclick="setWfPhase('${uc.id}', 'p1', true)">1. Initial</button>
+                  <button id="modal-pill-p2" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p2', true)">2. Action ⚡</button>
+                  <button id="modal-pill-p3" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p3', true)">3. Gravure ⚙️</button>
+                  <button id="modal-pill-p4" class="wf-pill-btn" onclick="setWfPhase('${uc.id}', 'p4', true)">4. Scellé ✨</button>
                 </div>
-                <span class="font-bold text-slate-300">${wf.deviceLabel || 'Dispositif Sécurisé'}</span>
-                <span class="text-emerald-400">● 100% Autonome in-silico</span>
+                <button id="modal-sim-btn" class="wf-sim-btn" onclick="toggleWfSimulation('${uc.id}', true)">▶ Simuler le Cycle</button>
               </div>
-              <div id="modal-screen-container" class="min-h-[260px] p-4 flex flex-col justify-between bg-gradient-to-b from-obsidian-900 to-obsidian-950 text-sm">
-                ${p1.screenHtml}
+
+              <div class="device-bezel">
+                <div class="device-topbar">
+                  <div class="device-controls-dots">
+                    <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+                  </div>
+                  <span>${wf.deviceLabel || 'Dispositif Sécurisé'}</span>
+                  <span class="text-emerald-400 font-bold">100% Hors-Ligne</span>
+                </div>
+                <div id="modal-screen-container" class="wf-screen-container">
+                  ${(phases.p1 && phases.p1.screenHtml) || '<div class="p-8">Écran initial</div>'}
+                </div>
+              </div>
+
+              <div class="wf-caption-box">
+                <div>
+                  <strong id="modal-caption-title" class="text-gold-300 font-bold">${(phases.p1 && phases.p1.phaseTitle) || 'Phase 1'}</strong>
+                  <div id="modal-caption-text" class="text-xs text-slate-300 mt-0.5">${(phases.p1 && phases.p1.caption) || 'Prêt'}</div>
+                </div>
               </div>
             </div>
 
-            <!-- Légende & Télémétrie de l'Étape Active -->
-            <div class="p-3 rounded-xl bg-obsidian-950 border border-slate-800 space-y-1">
-              <div class="font-mono text-xs font-bold text-gold-300" id="modal-caption-title">${p1.phaseTitle}</div>
-              <div class="text-xs text-slate-400 leading-relaxed" id="modal-caption-text">${p1.caption}</div>
+            <!-- Plateformes et Contraintes -->
+            <div class="p-4 rounded-xl bg-obsidian-950 border border-slate-800 space-y-2">
+              <div class="font-mono text-xs text-slate-400 uppercase font-bold">Matrice d'Exécution & Garanties :</div>
+              <div class="flex flex-wrap gap-2">${getPlatformBadges(uc.platforms)}</div>
+              <div class="text-xs text-slate-300 pt-1">
+                <strong>Préconditions :</strong> ${uc.preconditions}
+              </div>
+              <div class="text-xs text-emerald-300">
+                <strong>Postconditions :</strong> ${uc.postconditions}
+              </div>
             </div>
           </div>
 
-          <!-- COLONNE DROITE (5/12) : LIVING SPECIFICATIONS, FORMULAIRE & ERREURS -->
+          <!-- Colonne Droite : Spécifications Métiers & Données (5 cols) -->
           <div class="lg:col-span-5 space-y-4">
-            <!-- 1. Définition Complète du Formulaire & Actions -->
-            <div class="p-4 rounded-xl bg-obsidian-950 border border-slate-800 space-y-2.5">
-              <h4 class="font-mono font-bold text-slate-400 uppercase text-[10px] tracking-wider flex items-center justify-between">
-                <span>📋 Formulaire & Champs d'Interaction (${fields.length})</span>
-                <span class="text-gold-400 text-[10px]">Contrat Validé</span>
+            <!-- 1. Formulaire & Champs -->
+            <div class="p-4 rounded-xl bg-obsidian-950 border border-slate-800 space-y-3">
+              <h4 class="font-mono font-bold text-gold-400 uppercase text-xs tracking-wider">
+                ${isFamille ? '📋 Données de Saisie & Personnalisation' : '📋 Spécification des Champs & Types Silicium'}
               </h4>
-              <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+              <div class="space-y-2">
                 ${fields.map(f => `
-                  <div class="p-2 rounded bg-slate-900 border border-slate-800/80 flex items-center justify-between gap-2">
+                  <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between gap-2">
                     <div>
-                      <span class="font-bold text-slate-200 block text-[11px]">${f.label}</span>
-                      <span class="text-[10px] text-slate-400 font-mono">Valeur : ${f.value}</span>
+                      <span class="font-bold text-slate-200 block text-xs">${f.label}</span>
+                      <span class="text-[11px] text-slate-400 font-mono">Valeur : ${f.value}</span>
                     </div>
-                    <span class="text-[9px] font-mono px-1.5 py-0.5 rounded whitespace-nowrap ${f.required ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-slate-800 text-slate-400'}">${f.badge}</span>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded whitespace-nowrap ${f.required ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-slate-800 text-slate-400'}">${f.badge}</span>
                   </div>
                 `).join('')}
               </div>
-
-              <div class="pt-2 border-t border-slate-800">
-                <span class="font-mono text-[10px] text-slate-400 uppercase font-bold block mb-1">Boutons d'Action & États :</span>
-                <div class="flex flex-wrap gap-1.5">
-                  ${actions.map(a => `
-                    <span class="text-[10px] font-mono bg-slate-900 text-slate-300 px-2 py-1 rounded border border-slate-700 flex items-center gap-1">
-                      <span>${a.icon || '🔘'}</span> <strong>${a.label}</strong>
-                    </span>
-                  `).join('')}
-                </div>
-              </div>
             </div>
 
-            <!-- 2. Cas d'Erreur Normative & Remédiation -->
+            <!-- 2. Cas d'Erreur & Remédiation -->
             <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-900/60 space-y-2">
               <div class="flex items-center justify-between">
                 <span class="font-mono text-xs font-bold text-rose-400">⚠️ ${err.code}</span>
                 <span class="text-[10px] uppercase font-mono text-slate-400">${err.title}</span>
               </div>
-              <div class="text-[11px] text-slate-300"><strong>Déclencheur :</strong> ${err.condition}</div>
-              <div class="p-2 rounded bg-rose-950/40 border border-rose-900/80 text-[11px] text-rose-200 leading-tight">
-                <strong>Message d'Erreur :</strong> ${err.message}
+              <div class="p-2.5 rounded bg-rose-950/40 border border-rose-900/80 text-xs text-rose-200 leading-relaxed">
+                <strong>Déclencheur :</strong> ${err.message}
               </div>
-              <div class="p-2 rounded bg-emerald-950/40 border border-emerald-900/80 text-[11px] text-emerald-200 leading-tight">
-                <strong>Instruction de Remédiation :</strong> ${err.remediation}
+              <div class="p-2.5 rounded bg-emerald-950/40 border border-emerald-900/80 text-xs text-emerald-200 leading-relaxed">
+                <strong>Remédiation :</strong> ${err.remediation}
               </div>
             </div>
 
-            <!-- 3. Déroulement Pas-à-Pas (Flow) & Pré/Post-conditions -->
+            <!-- 3. Déroulement Pas-à-Pas (Flow) & Référence Légale -->
             <div class="p-4 rounded-xl bg-obsidian-950 border border-slate-800 space-y-2.5">
-              <h4 class="font-mono font-bold text-slate-400 uppercase text-[10px] tracking-wider">Déroulement Pas-à-Pas (Flow) :</h4>
-              <ol class="space-y-1.5 pl-4 list-decimal list-outside text-slate-300 text-[11px]">
+              <h4 class="font-mono font-bold text-slate-400 uppercase text-xs tracking-wider">Déroulement Pas-à-Pas :</h4>
+              <ol class="space-y-1.5 pl-4 list-decimal list-outside text-slate-300 text-xs">
                 ${uc.flow.map(step => `<li class="leading-relaxed pl-1">${step}</li>`).join('')}
               </ol>
 
-              <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-3">
+              <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
                 <div>
-                  <span class="text-[10px] text-slate-500 font-mono block">Réf. Juridique :</span>
-                  <span class="text-[11px] font-bold text-slate-200">${uc.legal}</span>
+                  <span class="text-[10px] text-slate-400 font-mono block">Réf. Juridique :</span>
+                  <span class="text-xs font-bold text-slate-200">${uc.legal}</span>
                 </div>
-                <a href="${uc.legal_url}" onclick="document.getElementById('ucModal').close(); switchTab('legal');" class="bg-gold-500 hover:bg-gold-400 text-obsidian-950 font-bold px-2.5 py-1 rounded text-xs transition whitespace-nowrap">
+                <a href="${uc.legal_url}" onclick="document.getElementById('ucModal').close(); switchTab('legal');" class="bg-gold-500 hover:bg-gold-400 text-obsidian-950 font-bold px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">
                   Texte de Loi ↓
                 </a>
               </div>
@@ -7529,7 +8675,6 @@
       setWfPhase(appState.modalWfState.ucId, phasesSeq[nextIdx], true);
     }
 
-    // Recherche instantanée
     function filterUseCases() {
       renderAppSection('app1');
       renderAppSection('app2');
@@ -7537,30 +8682,29 @@
       renderAppSection('app4');
     }
 
-    // Rendu de la table juridique
     function renderLegalTable() {
       const tbody = document.getElementById('table-legal');
       if (!tbody) return;
       tbody.innerHTML = legalTexts.map(item => `
         <tr class="hover:bg-slate-900/40 transition align-top">
-          <td class="py-3 px-4">
+          <td class="py-4 px-4">
             <span class="text-[10px] uppercase font-mono text-slate-400 block">${item.jurisdiction}</span>
             <span class="font-mono font-bold text-gold-400 block text-xs">${item.ref}</span>
-            <span class="text-[11px] text-slate-300 font-medium block leading-tight mt-1">${item.official_title}</span>
+            <span class="text-xs text-slate-200 font-medium block leading-snug mt-1">${item.official_title}</span>
           </td>
-          <td class="py-3 px-4 text-slate-200 text-xs leading-relaxed border-l border-slate-800/60">
+          <td class="py-4 px-4 text-slate-200 text-xs leading-relaxed border-l border-slate-800/60">
             ${item.disposition}
           </td>
-          <td class="py-3 px-4 text-amber-200/90 text-xs leading-relaxed border-l border-slate-800/60 bg-amber-500/[0.02]">
+          <td class="py-4 px-4 text-amber-200/90 text-xs leading-relaxed border-l border-slate-800/60 bg-amber-500/[0.02]">
             ${item.project_choice}
           </td>
-          <td class="py-3 px-4 text-right whitespace-nowrap border-l border-slate-800/60">
+          <td class="py-4 px-4 text-right whitespace-nowrap border-l border-slate-800/60">
             ${item.portal_url ? `
-              <a href="${item.portal_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-slate-800 hover:bg-gold-500 hover:text-black text-slate-300 text-[11px] font-bold px-2.5 py-1.5 rounded transition border border-slate-700">
+              <a href="${item.portal_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-slate-800 hover:bg-gold-500 hover:text-black text-slate-300 text-xs font-bold px-3 py-1.5 rounded transition border border-slate-700">
                 ${item.portal_name} ↗
               </a>
             ` : `
-              <a href="${item.url}" class="inline-flex items-center gap-1 bg-slate-800 hover:bg-slate-700 text-slate-400 text-[11px] font-mono px-2.5 py-1.5 rounded transition border border-slate-700">
+              <a href="${item.url}" class="inline-flex items-center gap-1 bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs font-mono px-3 py-1.5 rounded transition border border-slate-700">
                 #section-legal
               </a>
             `}
@@ -7569,23 +8713,28 @@
       `).join('');
     }
 
-    // Gestion du clavier (Escape pour fermer, Flèches pour phases en modale)
+    // Gestion du clavier
     document.addEventListener('keydown', (e) => {
       const modal = document.getElementById('ucModal');
       if (modal && modal.open) {
-        if (e.key === 'ArrowRight') {
-          cycleModalPhase(1);
-        } else if (e.key === 'ArrowLeft') {
-          cycleModalPhase(-1);
-        } else if (e.key === ' ') {
+        if (e.key === 'ArrowRight') cycleModalPhase(1);
+        else if (e.key === 'ArrowLeft') cycleModalPhase(-1);
+        else if (e.key === ' ') {
           e.preventDefault();
           toggleWfSimulation(appState.modalWfState.ucId, true);
+        }
+      } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        const s = document.getElementById('searchInput');
+        if (s) {
+          e.preventDefault();
+          s.focus();
         }
       }
     });
 
     // Initialisation au chargement
     document.addEventListener('DOMContentLoaded', () => {
+      setPortalMode(appState.portalMode);
       renderAppSection('app1');
       renderAppSection('app2');
       renderAppSection('app3');
