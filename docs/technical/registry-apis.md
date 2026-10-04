@@ -34,67 +34,67 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
 ### 3.1 CERISE (SPW Agriculture — Région Wallonne)
 - **Autorité de tutelle** : Service Public de Wallonie — Agriculture, Ressources Naturelles et Environnement (SPW ARNE).
 - **Missions de la plateforme** : CERISE est le guichet électronique destiné aux exploitants agricoles wallons pour la gestion des déclarations de superficie (aides PAC), des primes et de l'inventaire d'exploitation.
-- **Portails officiels vérifiés** : [https://cerise.arsia.be](https://cerise.arsia.be) (Portail web de télédéclaration CERISE géré par l'ARSIA pour les démarches et l'identification d'élevage) et [https://agriculture.wallonie.be](https://agriculture.wallonie.be) (Portail officiel de l'Agriculture en Wallonie).
+- **Portails institutionnels racine** : [https://cerise.arsia.be/](https://cerise.arsia.be/) (Portail web de télédéclaration CERISE géré par l'ARSIA pour les démarches et l'identification d'élevage) et [https://agriculture.wallonie.be/](https://agriculture.wallonie.be/) (Portail officiel de l'Agriculture en Wallonie).
 - **Existence d'une API publique** : **NON**.  
   Une inspection minutieuse des portails régionaux wallons et des catalogues de données ouvertes (Open Data Wallonie-Bruxelles) confirme qu'il n'existe aucune API publique documentée pour CERISE. L'application est strictement conçue comme une interface web interactive avec authentification fédérale CSAM (carte eID ou application itsme).
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire à demander auprès du SPW Agriculture, Ressources Naturelles et Environnement.**
-- **Coordonnées institutionnelles & portails officiels vérifiés** :  
+- **Coordonnées et portails institutionnels racine** :  
   SPW ARNE — Direction générale opérationnelle de l'Agriculture  
   Chaussée de Louvain 14, 5000 Namur (Belgique)  
-  Portails web institutionnels : [https://cerise.arsia.be](https://cerise.arsia.be) et [https://agriculture.wallonie.be](https://agriculture.wallonie.be)
+  Portails web institutionnels : [https://cerise.arsia.be/](https://cerise.arsia.be/) et [https://agriculture.wallonie.be/](https://agriculture.wallonie.be/)
 
 ---
 
 ### 3.2 Sanitel / ARSIA (Wallonie) & DGZ (Flandre)
 - **Autorités responsables** :  
-  - Tutelle sanitaire : Agence Fédérale pour la Sécurité de la Chaîne Alimentaire (AFSCA) ([Loi du 4 février 2000 relative à la création de l'Agence fédérale pour la Sécurité de la chaîne alimentaire, NUMAC 2000022108](https://www.ejustice.just.fgov.be/eli/loi/2000/02/04/2000022108/justel)).
+  - Tutelle sanitaire : Agence Fédérale pour la Sécurité de la Chaîne Alimentaire (AFSCA) (Loi du 4 février 2000 relative à la création de l'Agence fédérale pour la Sécurité de la chaîne alimentaire — référence à confirmer par un juriste).
   - Gestion déléguée : **ARSIA** (*Association Régionale de Santé et d'Identification Animales*, en Wallonie) et **DGZ** (*Dierengezondheidszorg Vlaanderen*, en Flandre).
 - **Missions de la plateforme** : Sanitel est le registre national officiel d'identification et de suivi des animaux de rente (bovins, porcs, ovins, caprins, cervidés, volailles). Il enregistre les naissances, les mouvements, les décès et les statuts sanitaires officiels.
-- **Portails officiels vérifiés** :  
-  - ARSIA Wallonie : [https://www.arsia.be](https://www.arsia.be)
-  - DGZ Flandre : [https://www.dgz.be](https://www.dgz.be)
-  - Portail AFSCA : [https://www.favv-afsca.be](https://www.favv-afsca.be)
+- **Portails institutionnels racine** :  
+  - ARSIA Wallonie : [https://www.arsia.be/](https://www.arsia.be/)
+  - DGZ Flandre : [https://www.dgz.be/](https://www.dgz.be/)
+  - Portail AFSCA : [https://www.favv-afsca.be/](https://www.favv-afsca.be/)
 - **Existence d'une API publique** : **NON**.  
   Aucune spécification d'API ouverte (documentation REST OpenAPI, fichiers WSDL ou schémas XSD) n'est mise à disposition du public en ligne. Si des flux d'échange automatisés existent pour les logiciels de gestion d'élevage et les abattoirs, ces passerelles relèvent exclusivement d'accords d'interopérabilité bilatéraux soumis à agrément préalable et accord de confidentialité.
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire à demander auprès de l'ARSIA asbl et de la DGZ vzw.**
-- **Coordonnées institutionnelles & portails officiels vérifiés** :  
-  - ARSIA asbl : Allée du Carmel 1, 5590 Ciney (Belgique) — Portail : [https://www.arsia.be](https://www.arsia.be) / Tél : +32 (0)83 23 05 11  
-  - DGZ vzw : Industrieweg 242, 8800 Roeselare (Belgique) — Portail : [https://www.dgz.be](https://www.dgz.be)  
-  - AFSCA : Boulevard du Jardin Botanique 55, 1000 Bruxelles — Portail : [https://www.favv-afsca.be](https://www.favv-afsca.be)
+- **Coordonnées et portails institutionnels racine** :  
+  - ARSIA asbl : Allée du Carmel 1, 5590 Ciney (Belgique) — Portail : [https://www.arsia.be/](https://www.arsia.be/)  
+  - DGZ vzw : Industrieweg 242, 8800 Roeselare (Belgique) — Portail : [https://www.dgz.be/](https://www.dgz.be/)  
+  - AFSCA : Boulevard du Jardin Botanique 55, 1000 Bruxelles — Portail : [https://www.favv-afsca.be/](https://www.favv-afsca.be/)
 
 ---
 
 ### 3.3 CatID & DogID (Registres Nationaux des Animaux de Compagnie)
 - **Autorités de tutelle** : Les 3 Régions administratives belges (Région wallonne, Région flamande, Région de Bruxelles-Capitale - Bien-être animal). Opérateur technique désigné : **Zetes SA**.
 - **Missions des registres** : Centralisation des identifications par transpondeurs électroniques sous-cutanés (micro-puces ISO 11784/11785) pour les chiens (DogID) et les chats (CatID).
-- **Portails officiels vérifiés** :  
-  - DogID : [https://www.dogid.be](https://www.dogid.be)
-  - CatID : [https://www.catid.be](https://www.catid.be)
+- **Portails institutionnels racine** :  
+  - DogID : [https://www.dogid.be/](https://www.dogid.be/)
+  - CatID : [https://www.catid.be/](https://www.catid.be/)
 - **Existence d'une API publique** : **NON**.  
   Les sites grand public proposent uniquement un formulaire web de recherche ponctuelle d'un numéro de puce (avec contrôle anti-robot captcha), sans point d'accès API documenté. L'accès d'encodage professionnel (enregistrement de puce, changement de propriétaire, déclaration de décès) est strictement réservé aux vétérinaires agréés s'authentifiant par carte d'identité électronique belge (eID).
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire à demander auprès de Zetes SA / Services DogID & CatID et des autorités régionales du Bien-être animal.**
-- **Coordonnées institutionnelles & portails officiels vérifiés** :  
+- **Coordonnées et portails institutionnels racine** :  
   DogID & CatID — Service Gestion des Enregistrements  
   Boîte Postale 20000, 1070 Bruxelles (Belgique)  
-  Portails web officiels : [https://www.dogid.be](https://www.dogid.be) et [https://www.catid.be](https://www.catid.be)
+  Portails web officiels : [https://www.dogid.be/](https://www.dogid.be/) et [https://www.catid.be/](https://www.catid.be/)
 
 ---
 
 ### 3.4 DNF (Département de la Nature et des Forêts — SPW ARNE)
 - **Autorité responsable** : Service Public de Wallonie — Agriculture, Ressources Naturelles et Environnement (SPW ARNE), Département de la Nature et des Forêts (DNF).
 - **Missions** : Gestion du domaine forestier public régional, surveillance de la faune sauvage, attribution et contrôle des bracelets cynégétiques de traçabilité du grand gibier abattu ou trouvé mort, veille éco-épidémiologique (PPA chez le sanglier, CWD chez le cerf).
-- **Portail d'information vérifié** : [https://environnement.wallonie.be](https://environnement.wallonie.be) (Portail officiel de l'Environnement et des Forêts en Wallonie - SPW).
+- **Portail institutionnel racine** : [https://environnement.wallonie.be/](https://environnement.wallonie.be/) (Portail officiel de l'Environnement et des Forêts en Wallonie - SPW).
 - **Existence d'une API publique** : **NON**.  
   Le DNF ne dispose d'aucune interface informatique ouverte à des tiers. Les opérations de terrain s'appuient sur des applications internes réservées aux agents assermentés et sur la pose de scellés physiques numérotés (bracelets inviolables).
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire / protocole pilote à demander auprès du SPW ARNE — Département de la Nature et des Forêts.**
-- **Coordonnées institutionnelles & portail officiel vérifié** :  
+- **Coordonnées et portail institutionnel racine** :  
   SPW ARNE — Département de la Nature et des Forêts  
   Avenue Prince de Liège 15, 5100 Jambes (Namur, Belgique)  
-  Portail officiel : [https://environnement.wallonie.be](https://environnement.wallonie.be)
+  Portail officiel : [https://environnement.wallonie.be/](https://environnement.wallonie.be/)
 
 ---
 
@@ -108,6 +108,5 @@ Constatant qu'**aucun des quatre guichets ne propose d'API publique ouverte**, l
    - *Faune Sauvage (DNF)* : Saisie du numéro de scellé/bracelet DNF officiel, géolocalisation GPS du prélèvement et badge d'agent forestier scellé dans l'enveloppe COSE.
    - *Agriculture (CERISE)* : Import des pièces justificatives officielles (extraits PDF/A certifiés générés depuis le portail web CERISE de l'agriculteur), scellés par empreinte SHA-256 dans la revendication de lot.
 
-2. **Phase Conventionnelle (Mise en Place de Partenariats B2B et Protocoles Pilotes)** :
-   - Dépôt de dossiers officiels de partenariat auprès de l'ARSIA pour l'accès aux interfaces de déclaration d'équarrissage d'élevage ;
-   - Demande de convention d'échange avec le SPW ARNE pour l'intégration des projets de valorisation de carcasses faune sauvage et forêts mémorielles.
+2. **Phase Conventionnelle (Mise en Place de Conventions de Partenariat)** :
+   Les flux techniques d'échange post-mortem relèvent exclusivement de conventions de partenariat à établir formellement avec chaque autorité compétente (SPW ARNE, ARSIA/DGZ, gestionnaires DogID/CatID). En l'absence de protocoles documentés publiquement, aucune interface automatisée n'est présumée et tout raccordement futur fera l'objet d'un accord bilatéral spécifique.
