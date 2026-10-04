@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeterniTrak V1.0 — Référentiel d'Architecture Système & Modélisation UML</title>
+  <style>
+    /* =========================================================================
+       AeterniTrak V1.0 — Portail d'Architecture Système & Modélisation UML
+       Design System : Obsidian & Or Impérial (100% Hors-Ligne, ZÉRO CDN)
+       ========================================================================= */
+    :root {
+      --bg-obsidian-950: #06070b;
+      --bg-obsidian-900: #0b0d14;
+      --bg-obsidian-850: #0f121c;
+      --bg-obsidian-800: #141824;
+      --slate-900: #0f172a;
+      --slate-850: #162032;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --slate-400: #94a3b8;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --gold-300: #f6e088;
+      --gold-400: #e5c058;
+      --gold-500: #d4af37;
+      --gold-600: #b38f24;
+      --gold-700: #8a6d17;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --sky-400: #38bdf8;
+      --sky-500: #0ea5e9;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --rose-400: #fb7185;
+      --rose-500: #f43f5e;
+      --indigo-300: #a5b4fc;
+      --indigo-400: #818cf8;
+      --purple-300: #d8b4fe;
+      --purple-400: #c084fc;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-obsidian-950);
+      color: var(--slate-200);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    ::selection {
+      background: var(--gold-500);
+      color: #000;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-obsidian-900); }
+    ::-webkit-scrollbar-thumb { background: #1e2436; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-500); }
+
+    /* Composants & Glassmorphism */
+    .glass-card {
+      background: rgba(20, 24, 36, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 1rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow: 0 12px 35px -10px rgba(212, 175, 55, 0.2);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fff2b8 0%, #d4af37 50%, #a87f17 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Header & Navigation */
+    header {
+      border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+      background: rgba(11, 13, 20, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 0.85rem 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-gold {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-300);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald-400);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .badge-sky {
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--sky-400);
+      border: 1px solid rgba(14, 165, 233, 0.35);
+    }
+    .badge-rose {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--rose-400);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+    }
+
+    /* Mode Switcher : Décideur / Architecte / Mixte */
+    .view-toggle-group {
+      display: inline-flex;
+      background: var(--bg-obsidian-900);
+      padding: 0.25rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--slate-700);
+      gap: 0.25rem;
+    }
+    .toggle-btn {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 0.55rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--slate-400);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: inherit;
+    }
+    .toggle-btn:hover {
+      color: var(--slate-200);
+    }
+    .toggle-btn.active {
+      background: var(--gold-500);
+      color: #000;
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+    }
+
+    /* Navigation Pills */
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--bg-obsidian-900);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+      position: sticky;
+      top: 61px;
+      z-index: 40;
+    }
+    .nav-pill {
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--slate-300);
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav-pill:hover, .nav-pill.active {
+      color: var(--gold-300);
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold-500);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1.5rem 1.5rem;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: var(--slate-300);
+      font-size: 1.05rem;
+      max-width: 820px;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Section Diagramme */
+    .diag-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      scroll-margin-top: 130px;
+    }
+
+    .diag-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    .diag-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .diag-number {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: var(--gold-400);
+      font-size: 1.25rem;
+      background: rgba(212, 175, 55, 0.1);
+      padding: 0.3rem 0.7rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    .diag-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Double Cartes : Décideur vs Architecte */
+    .dual-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 900px) {
+      .dual-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-decideur {
+      background: linear-gradient(145deg, rgba(20, 26, 38, 0.9), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-left: 4px solid var(--sky-400);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+    }
+    .card-architecte {
+      background: linear-gradient(145deg, rgba(26, 24, 20, 0.9), rgba(20, 18, 14, 0.85));
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-left: 4px solid var(--gold-500);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+    }
+
+    .card-header-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card-header-label.decideur { color: var(--sky-400); }
+    .card-header-label.architecte { color: var(--gold-400); }
+
+    .card-content-body {
+      font-size: 0.9rem;
+      color: var(--slate-300);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .card-content-body ul {
+      margin-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .card-content-body li strong {
+      color: #fff;
+    }
+
+    /* Diagram Viewer Box */
+    .diag-viewer-box {
+      background: var(--bg-obsidian-900);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+      overflow-x: auto;
+    }
+    .diag-viewer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+    .toolbar-title {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--slate-400);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .action-btn {
+      background: rgba(30, 41, 59, 0.7);
+      color: var(--slate-300);
+      border: 1px solid rgba(71, 85, 105, 0.6);
+      border-radius: 0.4rem;
+      padding: 0.3rem 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .action-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-300);
+      border-color: var(--gold-500);
+    }
+
+    /* SVG Rendu Graphique Stylisé */
+    .svg-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5rem 0;
+    }
+    .svg-canvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+      background: #090c14;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    /* Bloc Code Mermaid Pliable */
+    details.mermaid-code-details {
+      background: var(--bg-obsidian-950);
+      border: 1px solid var(--slate-800);
+      border-radius: 0.65rem;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    details.mermaid-code-details summary {
+      cursor: pointer;
+      color: var(--slate-400);
+      font-weight: 600;
+      user-select: none;
+      outline: none;
+    }
+    details.mermaid-code-details summary:hover {
+      color: var(--gold-300);
+    }
+    details.mermaid-code-details pre {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      background: #050608;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      color: var(--slate-300);
+      line-height: 1.45;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(51, 65, 85, 0.7);
+      background: var(--bg-obsidian-900);
+      padding: 2.5rem 1.5rem;
+      margin-top: 4rem;
+      color: var(--slate-400);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    footer a {
+      color: var(--gold-400);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal Plein Écran */
+    dialog#diagramModal {
+      border: 1px solid var(--gold-500);
+      border-radius: 1rem;
+      background: var(--bg-obsidian-900);
+      color: var(--slate-200);
+      padding: 1.5rem;
+      max-width: 95vw;
+      width: 1200px;
+      margin: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+    }
+    dialog#diagramModal::backdrop {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Institutionnel & Sélecteur de Vue -->
+  <header>
+    <div class="logo-container">
+      <div style="width:36px; height:36px; border-radius:8px; background:linear-gradient(135deg, #d4af37, #8a6d17); display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:1.1rem; box-shadow:0 0 12px rgba(212,175,55,0.4);">
+        Æ
+      </div>
+      <div>
+        <div style="font-weight:800; font-size:1.05rem; letter-spacing:0.02em; color:#fff; display:flex; align-items:center; gap:0.5rem;">
+          AeterniTrak <span class="gold-gradient-text">V1.0</span>
+          <span class="badge-status badge-gold">UML 2.5.1</span>
+        </div>
+        <div style="font-size:0.72rem; color:var(--slate-400);">Architecture 3-Tiers & Spécifications Formelles</div>
+      </div>
+    </div>
+
+    <!-- Sélecteur Global de Perspective : Décideur / Architecte / Mixte -->
+    <div class="view-toggle-group">
+      <button class="toggle-btn active" id="btnViewAll" onclick="setViewMode('all')">
+        <span>🔄</span> Mixte
+      </button>
+      <button class="toggle-btn" id="btnViewDecideur" onclick="setViewMode('decideur')">
+        <span>🎯</span> Vue Décideur
+      </button>
+      <button class="toggle-btn" id="btnViewArchitecte" onclick="setViewMode('architecte')">
+        <span>🔬</span> Vue Architecte
+      </button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <a href="../usecases/index.html" class="action-btn" style="text-decoration:none;">
+        <span>📋</span> Portail Use-Cases
+      </a>
+      <span class="badge-status badge-emerald" title="693 tests au vert sans échec">
+        <span>●</span> 693 PASS (100%)
+      </span>
+    </div>
+  </header>
+
+  <!-- Navigation Rapide entre les 6 Grands Diagrammes -->
+  <nav class="nav-pills">
+    <a href="#diag-acteurs" class="nav-pill">
+      <span>1.</span> Acteurs & Use-Cases
+    </a>
+    <a href="#diag-cycle" class="nav-pill">
+      <span>2.</span> Macro-Séquence Cycle
+    </a>
+    <a href="#diag-classes" class="nav-pill">
+      <span>3.</span> Classes du Domaine
+    </a>
+    <a href="#diag-etats" class="nav-pill">
+      <span>4.</span> Machines d'États (ACOSJ & Iron Gate)
+    </a>
+    <a href="#diag-er" class="nav-pill">
+      <span>5.</span> Modèle Entité-Relation
+    </a>
+    <a href="#diag-tiers" class="nav-pill">
+      <span>6.</span> Architecture 3-Tiers Moderne
+    </a>
+  </nav>
+
+  <!-- Contenu Principal -->
+  <main>
+
+    <!-- Hero d'Introduction & Directives Souveraines -->
+    <section class="hero">
+      <div class="badge-status badge-gold" style="margin-bottom:0.75rem;">
+        RÉFÉRENTIEL OFFICIEL DES SPÉCIFICATIONS SYSTÈME
+      </div>
+      <h1>
+        Architecture Système & <span class="gold-gradient-text">Modélisation UML</span>
+      </h1>
+      <p>
+        Modélisation exhaustive, rigoureuse et vulgarisée de la filière de traçabilité décentralisée AeterniTrak et de sarcomusation par les larves d'<em>Hermetia illucens</em>. Conçu pour garantir un double niveau de compréhension immédiat : décideurs non-informaticiens et auditeurs experts UML.
+      </p>
+      <div style="display:flex; justify-content:center; gap:1.5rem; font-size:0.8rem; color:var(--slate-400); flex-wrap:wrap;">
+        <div>🏛️ <strong>Gouvernance</strong> : Kudoro (Décisions Sovereign)</div>
+        <div>🛡️ <strong>Règle d'Or</strong> : CE 999/2001 (Feed Ban & Anti-Prion)</div>
+        <div>💳 <strong>Silicium</strong> : JavaCard ACOSJ 92 Ko (DEC-AET-01)</div>
+        <div>📦 <strong>Normes</strong> : RFC 8949 (CBOR) · RFC 9052 (COSE)</div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DIAGRAMME 1 : ACTEURS & SYSTÈME (USE-CASES)
+         ========================================================================= -->
+    <section id="diag-acteurs" class="diag-section glass-card" style="padding:1.75rem;">
+      <div class="diag-header">
+        <div class="diag-header-left">
+          <span class="diag-number">01</span>
+          <div>
+            <h2 class="diag-title">Acteurs & Cas d'Utilisation Système</h2>
+            <div style="font-size:0.8rem; color:var(--slate-400);">Cartographie complète des acteurs humains, cyber-physiques, biologiques et des 4 applications</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <span class="badge-status badge-sky">Macro Use-Cases</span>
+          <span class="badge-status badge-gold">DEC-AET-08</span>
+        </div>
+      </div>
+
+      <!-- Double Niveau de Lecture -->
+      <div class="dual-cards-grid">
+        <div class="card-decideur view-target-decideur">
+          <div class="card-header-label decideur">
+            <span>🎯</span> Synthèse Décideur & Valeur Métier
+          </div>
+          <div class="card-content-body">
+            <p>
+              Le système relie deux mondes qui se complètent : le <strong>deuil digne des familles</strong> et la <strong>sécurité écologique et sanitaire</strong>.
+            </p>
+            <ul>
+              <li><strong>La Famille & les Proches</strong> : Choisissent leurs souvenirs (voix, regard, histoire), les consultent à la cérémonie ou au domicile sans dépendre d'Internet.</li>
+              <li><strong>Le Conseiller PaxFunèbre</strong> : Dispose d'un poste professionnel avec lecteur de bureau pour sceller la carte en quelques secondes.</li>
+              <li><strong>Le Vétérinaire & le Garde DNF</strong> : Réalisent les tests sanitaires (LFA Pentobarbital, PCR épizooties) et scellent les dépouilles.</li>
+              <li><strong>Les Larves & l'Inspecteur AFSCA</strong> : Les insectes opèrent la décomposition écologique ; l'AFSCA audite les certificats cryptographiques pour interdire tout cannibalisme d'élevage.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-architecte view-target-architecte">
+          <div class="card-header-label architecte">
+            <span>🔬</span> Spécification Formelle Expert UML
+          </div>
+          <div class="card-content-body">
+            <p>
+              Découpage formalisé en 4 packages fonctionnels étanches et acteurs typés :
+            </p>
+            <ul>
+              <li><strong>Acteurs Primaires</strong> : <code>FamilleDéfunte</code>, <code>ConseillerPaxFunèbre</code>, <code>VétérinaireAgréé</code>, <code>GardeForestierDNF</code>, <code>InspecteurAFSCA</code>.</li>
+              <li><strong>Acteurs Cyber-Physiques & Biologiques</strong> : <code>JavaCard ACOSJ 92 Ko</code> (IsoDep ISO 14443-4), <code>Lecteur ACR1552U</code> (WebUSB CCID), <code>Hermetia illucens</code> (Agent bio-enzymatique).</li>
+              <li><strong>Guichets Officiels Tiers</strong> : <code>CERISE</code> (SPW Agriculture), <code>Sanitel</code> (ARSIA/DGZ), <code>DogID/CatID</code>, <code>DNF</code> (SPW ARNE).</li>
+              <li><strong>Invariants</strong> : Respect strict de l'étanchéité des rôles cryptographiques (règle <code>typ</code> RFC 9596).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Viewer SVG -->
+      <div class="diag-viewer-box">
+        <div class="diag-viewer-toolbar">
+          <span class="toolbar-title"><span>📊</span> Diagramme Macro des Acteurs & Packages (SVG Vectoriel)</span>
+          <div class="toolbar-actions">
+            <button class="action-btn" onclick="copyMermaid('mermaid-acteurs')"><span>📋</span> Copier Mermaid</button>
+          </div>
+        </div>
+        <div class="svg-container">
+          <svg class="svg-canvas" viewBox="0 0 1100 580" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gradGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f6e088" />
+                <stop offset="100%" stop-color="#b38f24" />
+              </linearGradient>
+              <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="100%" stop-color="#0369a1" />
+              </linearGradient>
+              <linearGradient id="gradGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#34d399" />
+                <stop offset="100%" stop-color="#047857" />
+              </linearGradient>
+              <linearGradient id="gradPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#c084fc" />
+                <stop offset="100%" stop-color="#6b21a8" />
+              </linearGradient>
+              <filter id="glowGold" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#d4af37" flood-opacity="0.3"/>
+              </filter>
+            </defs>
+
+            <!-- Colonne 1 : Acteurs Humains -->
+            <g transform="translate(30, 30)">
+              <rect width="210" height="520" rx="12" fill="#0b0e17" stroke="#334155" stroke-width="1.5" />
+              <text x="105" y="30" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" font-family="sans-serif">👥 ACTEURS HUMAINS</text>
+              
+              <!-- Famille -->
+              <rect x="15" y="50" width="180" height="75" rx="8" fill="#141824" stroke="#38bdf8" stroke-width="1" />
+              <text x="30" y="78" font-size="20">👨‍👩‍👧</text>
+              <text x="60" y="75" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Famille Défunte</text>
+              <text x="60" y="93" fill="#94a3b8" font-size="10" font-family="sans-serif">Proches & Ayants droit</text>
+              <text x="60" y="108" fill="#38bdf8" font-size="9" font-family="sans-serif">Consultation Sanctuaire</text>
+
+              <!-- Conseiller Pax -->
+              <rect x="15" y="145" width="180" height="75" rx="8" fill="#141824" stroke="#d4af37" stroke-width="1" />
+              <text x="30" y="173" font-size="20">🎩</text>
+              <text x="60" y="170" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Conseiller PaxFunèbre</text>
+              <text x="60" y="188" fill="#94a3b8" font-size="10" font-family="sans-serif">Opérateur de salon</text>
+              <text x="60" y="203" fill="#d4af37" font-size="9" font-family="sans-serif">Design & Encodage</text>
+
+              <!-- Vétérinaire -->
+              <rect x="15" y="240" width="180" height="75" rx="8" fill="#141824" stroke="#34d399" stroke-width="1" />
+              <text x="30" y="268" font-size="20">🩺</text>
+              <text x="60" y="265" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Vétérinaire Agréé</text>
+              <text x="60" y="283" fill="#94a3b8" font-size="10" font-family="sans-serif">Praticien sanitaire</text>
+              <text x="60" y="298" fill="#34d399" font-size="9" font-family="sans-serif">Dépistage LFA Pentobarb.</text>
+
+              <!-- Garde DNF -->
+              <rect x="15" y="335" width="180" height="75" rx="8" fill="#141824" stroke="#fbbf24" stroke-width="1" />
+              <text x="30" y="363" font-size="20">🌲</text>
+              <text x="60" y="360" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Garde-Forestier DNF</text>
+              <text x="60" y="378" fill="#94a3b8" font-size="10" font-family="sans-serif">Agent SPW ARNE</text>
+              <text x="60" y="393" fill="#fbbf24" font-size="9" font-family="sans-serif">Scellés Faune Sauvage</text>
+
+              <!-- AFSCA -->
+              <rect x="15" y="430" width="180" height="75" rx="8" fill="#141824" stroke="#fb7185" stroke-width="1" />
+              <text x="30" y="458" font-size="20">⚖️</text>
+              <text x="60" y="455" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Inspecteur AFSCA</text>
+              <text x="60" y="473" fill="#94a3b8" font-size="10" font-family="sans-serif">Régulateur Fédéral</text>
+              <text x="60" y="488" fill="#fb7185" font-size="9" font-family="sans-serif">Contrôle Feed-Ban & EST</text>
+            </g>
+
+            <!-- Colonne Centrale : Écosystème 4 Applications -->
+            <g transform="translate(280, 30)">
+              <rect width="520" height="520" rx="14" fill="#0d111d" stroke="#d4af37" stroke-width="2" filter="url(#glowGold)" />
+              <text x="260" y="30" fill="#d4af37" font-size="13" font-weight="800" text-anchor="middle" font-family="sans-serif">🛡️ ÉCOSYSTÈME AETERNITRAK V1.0 (LES 4 APPLICATIONS SOUVERAINES)</text>
+
+              <!-- App 1 : PaxStudio -->
+              <rect x="25" y="50" width="470" height="95" rx="10" fill="#151a28" stroke="#38bdf8" stroke-width="1" />
+              <text x="40" y="75" fill="#38bdf8" font-size="13" font-weight="800" font-family="sans-serif">APP 1 — PAXSTUDIO (Design & Mémorial B2C/B2B)</text>
+              <text x="40" y="98" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-101 : Composition du profil civil/animal (règles de profil V1, budget 1 900 o)</text>
+              <text x="40" y="116" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-102 : Étalonnage photo WebP (20 Ko max) & mémo vocal Opus SILK (45 Ko max)</text>
+              <text x="40" y="134" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-103 : Génération de l'enveloppe signée COSE_Sign1 (Tag #6.18, Ed25519/ES256)</text>
+
+              <!-- App 2 : PaxStation -->
+              <rect x="25" y="160" width="470" height="95" rx="10" fill="#151a28" stroke="#d4af37" stroke-width="1" />
+              <text x="40" y="185" fill="#d4af37" font-size="13" font-weight="800" font-family="sans-serif">APP 2 — PAXSTATION (Poste Encodage Bureau PaxFunèbre)</text>
+              <text x="40" y="208" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-201 : Détection Plug-and-Play du lecteur WebUSB ACR1552U (Extension MV3)</text>
+              <text x="40" y="226" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-202 : Gravure des 6 Elementary Files sur puce JavaCard ACOSJ 92 Ko (IsoDep)</text>
+              <text x="40" y="244" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-203 : Scellement physique irréversible par fusible matériel (Hardware Lock)</text>
+
+              <!-- App 3 : Sanctuaire -->
+              <rect x="25" y="270" width="470" height="95" rx="10" fill="#151a28" stroke="#34d399" stroke-width="1" />
+              <text x="40" y="295" fill="#34d399" font-size="13" font-weight="800" font-family="sans-serif">APP 3 — SANCTUAIRE (Recueillement Familial Mobile NFC & Web)</text>
+              <text x="40" y="318" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-301 : Rapprochement NFC sans contact du médaillon funéraire (Zéro compte requis)</text>
+              <text x="40" y="336" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-302 : Restitution acoustique Opus SILK & contemplation portrait 100% hors-ligne</text>
+              <text x="40" y="354" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-303 : Vérification authenticité (Bandeau de réserve DEC-AET-07 / Blocage si fraude)</text>
+
+              <!-- App 4 : Traçabilité & The Iron Gate -->
+              <rect x="25" y="380" width="470" height="125" rx="10" fill="#151a28" stroke="#fb7185" stroke-width="1" />
+              <text x="40" y="405" fill="#fb7185" font-size="13" font-weight="800" font-family="sans-serif">APP 4 — TRAÇABILITÉ FILIÈRE & THE IRON GATE (Portail Régulateur & Bio)</text>
+              <text x="40" y="428" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-401 : Enregistrement de collecte (4 profils : compagnie, faune, ferme, abattoir)</text>
+              <text x="40" y="446" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-402 : Contrôle bioconversion Hermetia illucens (substrat végétal sain P4/P18)</text>
+              <text x="40" y="464" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-403 : Évaluation sanitaire G0-G9 The Iron Gate (Blocage absolu intra-espèce)</text>
+              <text x="40" y="482" fill="#cbd5e1" font-size="11" font-family="sans-serif">• UC-404 : Émission du certificat Ed25519 de lot & vérification AFSCA hors-ligne</text>
+            </g>
+
+            <!-- Colonne 3 : Acteurs Matériels & Guichets -->
+            <g transform="translate(840, 30)">
+              <rect width="230" height="520" rx="12" fill="#0b0e17" stroke="#334155" stroke-width="1.5" />
+              <text x="115" y="30" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" font-family="sans-serif">⚙️ SILICIUM & ÉTAT</text>
+
+              <!-- JavaCard ACOSJ -->
+              <rect x="15" y="50" width="200" height="90" rx="8" fill="#141824" stroke="#d4af37" stroke-width="1" />
+              <text x="30" y="80" font-size="20">💳</text>
+              <text x="60" y="75" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">JavaCard ACOSJ 92k</text>
+              <text x="60" y="93" fill="#d4af37" font-size="10" font-family="sans-serif">Puce Cryptographique</text>
+              <text x="60" y="108" fill="#94a3b8" font-size="9" font-family="sans-serif">EEPROM 92 160 octets</text>
+              <text x="60" y="123" fill="#cbd5e1" font-size="9" font-family="sans-serif">6 Elementary Files (EF)</text>
+
+              <!-- Lecteur ACR1552U -->
+              <rect x="15" y="155" width="200" height="80" rx="8" fill="#141824" stroke="#38bdf8" stroke-width="1" />
+              <text x="30" y="185" font-size="20">🔌</text>
+              <text x="60" y="180" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Lecteur ACR1552U</text>
+              <text x="60" y="198" fill="#38bdf8" font-size="10" font-family="sans-serif">Station WebUSB Bureau</text>
+              <text x="60" y="213" fill="#94a3b8" font-size="9" font-family="sans-serif">Interface CCID sans pilote</text>
+
+              <!-- Hermetia illucens -->
+              <rect x="15" y="250" width="200" height="80" rx="8" fill="#141824" stroke="#10b981" stroke-width="1" />
+              <text x="30" y="280" font-size="20">🪰</text>
+              <text x="60" y="275" fill="#fff" font-size="12" font-weight="700" font-family="sans-serif">Hermetia illucens</text>
+              <text x="60" y="293" fill="#10b981" font-size="10" font-family="sans-serif">Bioconversion Larvaire</text>
+              <text x="60" y="308" fill="#94a3b8" font-size="9" font-family="sans-serif">Digestion enzymatique pure</text>
+
+              <!-- Guichets Officiels -->
+              <rect x="15" y="345" width="200" height="155" rx="8" fill="#121622" stroke="#64748b" stroke-width="1" />
+              <text x="30" y="370" font-size="16">🏛️</text>
+              <text x="55" y="368" fill="#e2e8f0" font-size="11" font-weight="700" font-family="sans-serif">Guichets Officiels</text>
+              <text x="30" y="393" fill="#94a3b8" font-size="10" font-family="sans-serif">• CERISE (SPW Agriculture)</text>
+              <text x="30" y="413" fill="#94a3b8" font-size="10" font-family="sans-serif">• Sanitel (ARSIA / DGZ)</text>
+              <text x="30" y="433" fill="#94a3b8" font-size="10" font-family="sans-serif">• DogID & CatID (Zetes)</text>
+              <text x="30" y="453" fill="#94a3b8" font-size="10" font-family="sans-serif">• Faune DNF (SPW ARNE)</text>
+              <text x="30" y="478" fill="#f59e0b" font-size="9" font-family="sans-serif">Connexions certifiées (DEC-AET-02)</text>
+            </g>
+
+            <!-- Lignes de liaison visuelles -->
+            <path d="M 225 90 L 305 90" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4" />
+            <path d="M 225 180 L 305 180" stroke="#d4af37" stroke-width="2" stroke-dasharray="4" />
+            <path d="M 225 315 L 305 315" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4" />
+            <path d="M 225 465 L 305 465" stroke="#fb7185" stroke-width="2" stroke-dasharray="4" />
+            <path d="M 775 200 L 855 200" stroke="#38bdf8" stroke-width="2" />
+            <path d="M 775 90 L 855 90" stroke="#d4af37" stroke-width="2" />
+            <path d="M 775 440 L 855 440" stroke="#fb7185" stroke-width="2" />
+          </svg>
+        </div>
+        
+        <details class="mermaid-code-details">
+          <summary>Afficher la source Mermaid (Diagramme 1)</summary>
+          <pre id="mermaid-acteurs">flowchart TB
+  %% Acteurs Humains
+  A_FAMILLE["Famille Défunte"]
+  A_PAX["Conseiller PaxFunèbre"]
+  A_VET["Vétérinaire Agréé"]
+  A_DNF["Garde-Forestier DNF"]
+  A_AFSCA["Inspecteur AFSCA"]
+
+  %% Acteurs Matériels
+  A_CARD["JavaCard ACOSJ 92 Ko"]
+  A_READER["Lecteur ACR1552U"]
+  A_LARVES["Hermetia illucens"]
+
+  %% 4 Applications
+  A_FAMILLE --> APP3_SANCTUAIRE
+  A_PAX --> APP1_STUDIO
+  A_PAX --> APP2_STATION
+  APP2_STATION --> A_READER
+  A_READER --> A_CARD
+  APP3_SANCTUAIRE -.-> A_CARD
+  A_VET --> APP4_TRACE
+  A_DNF --> APP4_TRACE
+  A_LARVES --> APP4_TRACE
+  A_AFSCA --> APP4_TRACE</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DIAGRAMME 2 : MACRO-SÉQUENCE DU CYCLE DE VIE GLOBAL
+         ========================================================================= -->
+    <section id="diag-cycle" class="diag-section glass-card" style="padding:1.75rem;">
+      <div class="diag-header">
+        <div class="diag-header-left">
+          <span class="diag-number">02</span>
+          <div>
+            <h2 class="diag-title">Macro-Séquence du Cycle de Vie Global</h2>
+            <div style="font-size:0.8rem; color:var(--slate-400);">Traçabilité temporelle de bout en bout : du recueil mémoriel à la certification biologique AFSCA</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <span class="badge-status badge-gold">Macro-Séquence</span>
+          <span class="badge-status badge-emerald">4 Phases Canoniques</span>
+        </div>
+      </div>
+
+      <!-- Double Niveau de Lecture -->
+      <div class="dual-cards-grid">
+        <div class="card-decideur view-target-decideur">
+          <div class="card-header-label decideur">
+            <span>🎯</span> Synthèse Décideur & Chronologie Métier
+          </div>
+          <div class="card-content-body">
+            <p>
+              Le parcours complet se déroule en 4 étapes harmonieuses et sécurisées :
+            </p>
+            <ul>
+              <li><strong>1. Conception dans PaxStudio</strong> : Choix des plus belles paroles, du portrait et de la généalogie. Tout est compressé pour tenir dans le silicium.</li>
+              <li><strong>2. Gravure dans PaxStation</strong> : En salon funéraire, pose du médaillon sur le lecteur USB. Gravure en 2 secondes et scellement électronique définitif.</li>
+              <li><strong>3. Sanctuaire & Recueillement</strong> : Les proches effleurent le médaillon avec leur téléphone. La voix retentit instantanément, même sans réseau.</li>
+              <li><strong>4. Sarcomusation & The Iron Gate</strong> : Les larves décomposent la dépouille. Le système informatique vérifie qu'aucun animal ne consommera sa propre espèce. Si tout est parfait, le certificat est signé.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-architecte view-target-architecte">
+          <div class="card-header-label architecte">
+            <span>🔬</span> Spécification Formelle Expert UML
+          </div>
+          <div class="card-content-body">
+            <p>
+              Macro-séquence synchrone ordonnancée avec points d'ancrage cryptographiques :
+            </p>
+            <ul>
+              <li><strong>Encodage CBOR Déterministe</strong> : Génération de la charge utile selon RFC 8949 §4.2.1 (longueurs minimales d'entiers, tri bytewise des clés entières).</li>
+              <li><strong>Scellement Silicium</strong> : Envoi de commandes APDU ISO 7816-4 vers l'Applet JavaCard ACOSJ 92 Ko, puis commande irréversible <code>SEAL_HARDWARE_LOCK</code>.</li>
+              <li><strong>Résolution de Confiance <code>coseOpen</code></strong> : Application stricte de <code>DEC-AET-07</code> Option B (état <code>UNVERIFIED</code> pour clé inconnue avec bandeau ; blocage immédiat sur signature corrompue ou clé révoquée).</li>
+              <li><strong>Évaluation Sanitaire Déterministe</strong> : Moteur Iron Gate appliquant les règles P1-P18 sur l'objet canonique JCS (RFC 8785).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Viewer SVG Séquence -->
+      <div class="diag-viewer-box">
+        <div class="diag-viewer-toolbar">
+          <span class="toolbar-title"><span>⏱️</span> Diagramme de Macro-Séquence Système (SVG Vectoriel)</span>
+          <div class="toolbar-actions">
+            <button class="action-btn" onclick="copyMermaid('mermaid-sequence')"><span>📋</span> Copier Mermaid</button>
+          </div>
+        </div>
+        <div class="svg-container">
+          <svg class="svg-canvas" viewBox="0 0 1100 660" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- Lifelines -->
+            <g stroke="#334155" stroke-width="1.5" stroke-dasharray="4">
+              <line x1="80" y1="70" x2="80" y2="620" />
+              <line x1="220" y1="70" x2="220" y2="620" />
+              <line x1="380" y1="70" x2="380" y2="620" />
+              <line x1="530" y1="70" x2="530" y2="620" />
+              <line x1="680" y1="70" x2="680" y2="620" />
+              <line x1="840" y1="70" x2="840" y2="620" />
+              <line x1="1000" y1="70" x2="1000" y2="620" />
+            </g>
+
+            <!-- En-têtes Lifelines -->
+            <g font-family="sans-serif" font-size="11" font-weight="700" text-anchor="middle">
+              <!-- Proches -->
+              <rect x="25" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#38bdf8" />
+              <text x="80" y="49" fill="#38bdf8">👨‍👩‍👧 Proches</text>
+
+              <!-- PaxFunèbre -->
+              <rect x="165" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#d4af37" />
+              <text x="220" y="49" fill="#d4af37">🎩 PaxFunèbre</text>
+
+              <!-- PaxStation / Reader -->
+              <rect x="325" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#a855f7" />
+              <text x="380" y="49" fill="#c084fc">🔌 PaxStation</text>
+
+              <!-- JavaCard ACOSJ -->
+              <rect x="475" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#eab308" />
+              <text x="530" y="49" fill="#facc15">💳 ACOSJ 92k</text>
+
+              <!-- Sanctuaire -->
+              <rect x="625" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#34d399" />
+              <text x="680" y="49" fill="#34d399">📱 Sanctuaire</text>
+
+              <!-- The Iron Gate -->
+              <rect x="785" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#f43f5e" />
+              <text x="840" y="49" fill="#fb7185">🛡️ Iron Gate</text>
+
+              <!-- AFSCA -->
+              <rect x="945" y="25" width="110" height="40" rx="8" fill="#141824" stroke="#64748b" />
+              <text x="1000" y="49" fill="#cbd5e1">⚖️ AFSCA</text>
+            </g>
+
+            <!-- Phase 1 : Conception Mémorielle -->
+            <rect x="40" y="80" width="1020" height="110" rx="8" fill="rgba(56, 189, 248, 0.05)" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6" />
+            <text x="55" y="98" fill="#38bdf8" font-size="11" font-weight="800" font-family="sans-serif">PHASE 1 : CONCEPTION MÉMORIELLE PRE/POST-MORTEM (PAXSTUDIO)</text>
+            <!-- Message 1 -->
+            <line x1="80" y1="120" x2="220" y2="120" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow)" />
+            <text x="150" y="114" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">1. Remise des souvenirs & voeux</text>
+            <!-- Message 2 -->
+            <rect x="215" y="125" width="10" height="45" fill="#d4af37" />
+            <text x="235" y="142" fill="#d4af37" font-size="10" font-family="sans-serif">2. Compression WebP (20k) & Opus SILK (45k)</text>
+            <text x="235" y="158" fill="#d4af37" font-size="10" font-family="sans-serif">3. Signature COSE_Sign1 (Tag #6.18, alg: -8 / -7)</text>
+
+            <!-- Phase 2 : Gravure Silicium -->
+            <rect x="40" y="200" width="1020" height="120" rx="8" fill="rgba(212, 175, 55, 0.05)" stroke="#d4af37" stroke-width="1" stroke-dasharray="6" />
+            <text x="55" y="218" fill="#d4af37" font-size="11" font-weight="800" font-family="sans-serif">PHASE 2 : GRAVURE & SCELLEMENT SILICIUM (PAXSTATION & ACR1552U)</text>
+            <!-- Message 4 -->
+            <line x1="220" y1="240" x2="380" y2="240" stroke="#d4af37" stroke-width="1.5" />
+            <text x="300" y="234" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">4. Pose du médaillon sur le lecteur USB</text>
+            <!-- Message 5 -->
+            <line x1="380" y1="260" x2="530" y2="260" stroke="#c084fc" stroke-width="1.5" />
+            <text x="455" y="254" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">5. APDU ISO 7816-4 (Écriture Blocs 0..4)</text>
+            <!-- Message 6 -->
+            <line x1="380" y1="285" x2="530" y2="285" stroke="#f43f5e" stroke-width="2" />
+            <text x="455" y="280" fill="#f43f5e" font-size="10" font-weight="700" font-family="sans-serif" text-anchor="middle">6. APDU SEAL_HARDWARE_LOCK (Fusible irréversible)</text>
+            <!-- Message 7 -->
+            <line x1="530" y1="305" x2="220" y2="305" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3" />
+            <text x="375" y="300" fill="#34d399" font-size="10" font-family="sans-serif" text-anchor="middle">7. SW 0x9000 : Carte scellée à jamais</text>
+
+            <!-- Phase 3 : Recueillement Familial -->
+            <rect x="40" y="330" width="1020" height="120" rx="8" fill="rgba(16, 185, 129, 0.05)" stroke="#34d399" stroke-width="1" stroke-dasharray="6" />
+            <text x="55" y="348" fill="#34d399" font-size="11" font-weight="800" font-family="sans-serif">PHASE 3 : RECUEILLEMENT & CONSULTATION HORS-LIGNE (SANCTUAIRE)</text>
+            <!-- Message 8 -->
+            <line x1="80" y1="370" x2="680" y2="370" stroke="#34d399" stroke-width="1.5" />
+            <text x="380" y="364" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">8. Approche sans contact NFC du smartphone</text>
+            <!-- Message 9 -->
+            <line x1="680" y1="390" x2="530" y2="390" stroke="#facc15" stroke-width="1.5" />
+            <text x="605" y="384" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">9. IsoDep Read Blocs 1, 2, 3</text>
+            <!-- Message 10 -->
+            <line x1="530" y1="410" x2="680" y2="410" stroke="#34d399" stroke-width="1.5" stroke-dasharray="3" />
+            <text x="605" y="404" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">10. Enveloppe COSE + WebP + Opus SILK</text>
+            <!-- Message 11 -->
+            <line x1="680" y1="435" x2="80" y2="435" stroke="#34d399" stroke-width="2" />
+            <text x="380" y="430" fill="#34d399" font-size="10" font-weight="700" font-family="sans-serif" text-anchor="middle">11. Restitution acoustique & contemplative (Bandeau de réserve si clé inconnue DEC-AET-07)</text>
+
+            <!-- Phase 4 : Traçabilité & The Iron Gate -->
+            <rect x="40" y="460" width="1020" height="150" rx="8" fill="rgba(244, 63, 94, 0.05)" stroke="#fb7185" stroke-width="1" stroke-dasharray="6" />
+            <text x="55" y="478" fill="#fb7185" font-size="11" font-weight="800" font-family="sans-serif">PHASE 4 : TRAÇABILITÉ POST-MORTEM & BIOCONTRÔLE THE IRON GATE</text>
+            <!-- Message 12 -->
+            <line x1="220" y1="500" x2="840" y2="500" stroke="#fb7185" stroke-width="1.5" />
+            <text x="530" y="494" fill="#cbd5e1" font-size="10" font-family="sans-serif" text-anchor="middle">12. Collecte dépouille + Dépistage LFA Pentobarbital + Déclaration BatchClaim</text>
+            <!-- Message 13 -->
+            <rect x="835" y="505" width="10" height="50" fill="#f43f5e" />
+            <text x="855" y="520" fill="#fb7185" font-size="10" font-family="sans-serif">13. Bioconversion Hermetia illucens (Substrat végétal sain)</text>
+            <text x="855" y="535" fill="#fb7185" font-size="10" font-family="sans-serif">14. Stérilisation Méthode 1 (133°C, 3 bars, 20 min)</text>
+            <text x="855" y="550" fill="#fb7185" font-size="10" font-family="sans-serif">15. Contrôle anti-prion G0-G9 : VERDICT AUTHORISED</text>
+            <!-- Message 16 -->
+            <line x1="840" y1="570" x2="840" y2="590" stroke="#f43f5e" stroke-width="1.5" />
+            <line x1="840" y1="590" x2="1000" y2="590" stroke="#10b981" stroke-width="2" />
+            <text x="920" y="585" fill="#34d399" font-size="10" font-weight="700" font-family="sans-serif" text-anchor="middle">16. Certificat de lot scellé Ed25519 vérifié par l'AFSCA</text>
+          </svg>
+        </div>
+
+        <details class="mermaid-code-details">
+          <summary>Afficher la source Mermaid (Diagramme 2)</summary>
+          <pre id="mermaid-sequence">sequenceDiagram
+  autonumber
+  actor Proches as 👨‍👩‍👧 Proches
+  actor Pax as 🎩 PaxFunèbre
+  participant Studio as 💻 PaxStudio
+  participant Station as 🔌 PaxStation
+  participant Card as 💳 ACOSJ 92k
+  participant Sanctuaire as 📱 Sanctuaire
+  participant IronGate as 🛡️ The Iron Gate
+  actor Afsca as ⚖️ AFSCA
+
+  Proches->>Pax: Souvenirs & volontés
+  Pax->>Studio: Composition & Encodage CBOR (1 900 o)
+  Studio->>Studio: Compression WebP & Opus SILK + Signature COSE_Sign1
+  Pax->>Station: Pose carte sur ACR1552U
+  Station->>Card: APDU Blocs 0..4 + SEAL_HARDWARE_LOCK
+  Proches->>Sanctuaire: Effleurement NFC
+  Sanctuaire->>Card: IsoDep Read
+  Sanctuaire-->>Proches: Restitution sonore & bandeau authenticité
+  Pax->>IronGate: BatchClaim + LFA Pentobarbital
+  IronGate->>IronGate: Évaluation G0-G9 (Anti-prion CE 999/2001)
+  IronGate->>Afsca: Certificat de lot scellé Ed25519 (AUTHORISED)</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DIAGRAMME 3 : DIAGRAMME DE CLASSES DU DOMAINE MÉTIER
+         ========================================================================= -->
+    <section id="diag-classes" class="diag-section glass-card" style="padding:1.75rem;">
+      <div class="diag-header">
+        <div class="diag-header-left">
+          <span class="diag-number">03</span>
+          <div>
+            <h2 class="diag-title">Diagramme de Classes du Domaine Métier</h2>
+            <div style="font-size:0.8rem; color:var(--slate-400);">Modèle objet formel : typage strict, objets-valeurs, entités, services purs et multiplicités</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <span class="badge-status badge-gold">classDiagram</span>
+          <span class="badge-status badge-emerald">Zéro Dépendance I/O</span>
+        </div>
+      </div>
+
+      <!-- Double Niveau de Lecture -->
+      <div class="dual-cards-grid">
+        <div class="card-decideur view-target-decideur">
+          <div class="card-header-label decideur">
+            <span>🎯</span> Synthèse Décideur & Rôle des Blocs de Données
+          </div>
+          <div class="card-content-body">
+            <p>
+              Chaque structure informatique correspond à un gage de confiance inaltérable :
+            </p>
+            <ul>
+              <li><strong>Le Profil Mémoriel (MemorialProfile)</strong> : Le passeport du défunt. Des règles d'or veillent à ce qu'il ne dépasse jamais 1 900 octets afin de garantir sa conservation séculaire sur la puce.</li>
+              <li><strong>L'Enveloppe Scellée (CoseSign1Envelope)</strong> : Le cachet de cire cryptographique. Si un seul octet est altéré, la signature devient instantanément invalide.</li>
+              <li><strong>La Porte de Fer (IronGateEvaluator)</strong> : Le cerveau sanitaire. Il confronte les déclarations d'abattoir ou de ferme aux arbres généalogiques des espèces pour bloquer tout cannibalisme d'élevage.</li>
+              <li><strong>Le Certificat de Lot (BatchCertificate)</strong> : Le titre de transport officiel des protéines d'insectes, infalsifiable et vérifiable hors-ligne par l'AFSCA.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-architecte view-target-architecte">
+          <div class="card-header-label architecte">
+            <span>🔬</span> Spécification Formelle Expert UML
+          </div>
+          <div class="card-content-body">
+            <p>
+              Contrats d'interfaces stricts implémentés dans <code>core/</code> et <code>validators/</code> :
+            </p>
+            <ul>
+              <li><strong>Stéréotypes</strong> : <code>&lt;&lt;entity&gt;&gt;</code> (état mutable ou identité persistante), <code>&lt;&lt;value-object&gt;&gt;</code> (immuabilité bit-à-bit), <code>&lt;&lt;service&gt;&gt;</code> (fonctions pures sans effet de bord).</li>
+              <li><strong>Déterminisme CBOR</strong> : Respect absolu du RFC 8949 §4.2.1. Rejet strict des flottants major 7 dans la chaîne de signature.</li>
+              <li><strong>Agrégations & Compositions</strong> : <code>MemorialProfile</code> compose <code>NamesMap</code> et agrège <code>AssetRef</code>. <code>BatchClaim</code> compose <code>Substrate</code>, <code>Process</code> et <code>Destination</code>.</li>
+              <li><strong>Invariants</strong> : <code>rules_version</code> SemVer, <code>kid</code> 16 premiers octets du SHA-256 de la clé publique brute.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Viewer SVG Classes -->
+      <div class="diag-viewer-box">
+        <div class="diag-viewer-toolbar">
+          <span class="toolbar-title"><span>🧩</span> Diagramme de Classes Métier (SVG Vectoriel Structuré)</span>
+          <div class="toolbar-actions">
+            <button class="action-btn" onclick="copyMermaid('mermaid-classes')"><span>📋</span> Copier Mermaid</button>
+          </div>
+        </div>
+        <div class="svg-container">
+          <svg class="svg-canvas" viewBox="0 0 1100 620" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- Classe 1 : MemorialProfile -->
+            <g transform="translate(30, 30)">
+              <rect width="250" height="260" rx="8" fill="#111625" stroke="#38bdf8" stroke-width="1.5" />
+              <rect width="250" height="35" rx="8" fill="#1e293b" />
+              <text x="125" y="16" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;entity&gt;&gt;</text>
+              <text x="125" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">MemorialProfile</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+schema_version: uint = 1</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">+subject_kind: 1 | 2 (humain/animal)</text>
+              <text x="15" y="89" fill="#94a3b8" font-size="10" font-family="monospace">+names: NamesMap</text>
+              <text x="15" y="106" fill="#94a3b8" font-size="10" font-family="monospace">+birth_date: Tag100Date</text>
+              <text x="15" y="123" fill="#94a3b8" font-size="10" font-family="monospace">+death_date: Tag100Date</text>
+              <text x="15" y="140" fill="#94a3b8" font-size="10" font-family="monospace">+country: string (ISO 3166-1)</text>
+              <text x="15" y="157" fill="#94a3b8" font-size="10" font-family="monospace">+portrait_ref: AssetRef (max 20k)</text>
+              <text x="15" y="174" fill="#94a3b8" font-size="10" font-family="monospace">+voice_memo_ref: AssetRef (max 45k)</text>
+              <text x="15" y="191" fill="#94a3b8" font-size="10" font-family="monospace">+issuer_id: string (4..64 o)</text>
+              <text x="15" y="208" fill="#94a3b8" font-size="10" font-family="monospace">+epitaph: string (max 1600 o)</text>
+              <line x1="0" y1="220" x2="250" y2="220" stroke="#334155" stroke-width="1" />
+              <text x="15" y="240" fill="#38bdf8" font-size="10" font-family="monospace">+validate(bytes): Result</text>
+            </g>
+
+            <!-- Classe 2 : CoseSign1Envelope -->
+            <g transform="translate(320, 30)">
+              <rect width="250" height="220" rx="8" fill="#111625" stroke="#d4af37" stroke-width="1.5" />
+              <rect width="250" height="35" rx="8" fill="#1e293b" />
+              <text x="125" y="16" fill="#d4af37" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;value-object&gt;&gt;</text>
+              <text x="125" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">CoseSign1Envelope</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+protected_header: Map {alg, typ}</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">+unprotected_header: Map {kid}</text>
+              <text x="15" y="89" fill="#94a3b8" font-size="10" font-family="monospace">+payload: Uint8Array (CBOR bstr)</text>
+              <text x="15" y="106" fill="#94a3b8" font-size="10" font-family="monospace">+signature: Uint8Array (64 octets)</text>
+              <line x1="0" y1="125" x2="250" y2="125" stroke="#334155" stroke-width="1" />
+              <text x="15" y="145" fill="#d4af37" font-size="10" font-family="monospace">+buildTbs(extAad): Uint8Array</text>
+              <text x="15" y="165" fill="#d4af37" font-size="10" font-family="monospace">+verify(trustStore): VerifySuccess</text>
+              <text x="15" y="185" fill="#d4af37" font-size="10" font-family="monospace">+open(trustStore): OpenResult</text>
+            </g>
+
+            <!-- Classe 3 : TrustStore -->
+            <g transform="translate(320, 290)">
+              <rect width="250" height="170" rx="8" fill="#111625" stroke="#a855f7" stroke-width="1.5" />
+              <rect width="250" height="35" rx="8" fill="#1e293b" />
+              <text x="125" y="16" fill="#c084fc" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;service&gt;&gt;</text>
+              <text x="125" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">TrustStore (Offline)</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+version: uint</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">+updated_at: uint (UNIX sec)</text>
+              <text x="15" y="89" fill="#94a3b8" font-size="10" font-family="monospace">+signers: TrustedIssuerEntry[]</text>
+              <line x1="0" y1="105" x2="250" y2="105" stroke="#334155" stroke-width="1" />
+              <text x="15" y="125" fill="#c084fc" font-size="10" font-family="monospace">+findIssuer(kid): Entry | null</text>
+              <text x="15" y="145" fill="#c084fc" font-size="10" font-family="monospace">+verifyIssuer(kid, typ, date): bool</text>
+            </g>
+
+            <!-- Classe 4 : BatchClaim -->
+            <g transform="translate(610, 30)">
+              <rect width="230" height="240" rx="8" fill="#111625" stroke="#fb7185" stroke-width="1.5" />
+              <rect width="230" height="35" rx="8" fill="#1e293b" />
+              <text x="115" y="16" fill="#fb7185" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;entity&gt;&gt;</text>
+              <text x="115" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">BatchClaim</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+batch_id: string</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">+substrate: Substrate</text>
+              <text x="15" y="89" fill="#94a3b8" font-size="10" font-family="monospace">+process: Process</text>
+              <text x="15" y="106" fill="#94a3b8" font-size="10" font-family="monospace">+product: string</text>
+              <text x="15" y="123" fill="#94a3b8" font-size="10" font-family="monospace">+destination: Destination</text>
+              <line x1="0" y1="140" x2="230" y2="140" stroke="#334155" stroke-width="1" />
+              <text x="15" y="160" fill="#fb7185" font-size="10" font-family="monospace">+toCanonicalJson(): string (JCS)</text>
+              <text x="15" y="180" fill="#fb7185" font-size="10" font-family="monospace">+computeSha256(): Uint8Array</text>
+            </g>
+
+            <!-- Classe 5 : IronGateEvaluator -->
+            <g transform="translate(610, 310)">
+              <rect width="230" height="240" rx="8" fill="#111625" stroke="#10b981" stroke-width="1.5" />
+              <rect width="230" height="35" rx="8" fill="#1e293b" />
+              <text x="115" y="16" fill="#34d399" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;service&gt;&gt;</text>
+              <text x="115" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">IronGateEvaluator</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+rules_version: "1.5.0"</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">-whitelistMode: true (DefaultDeny)</text>
+              <line x1="0" y1="85" x2="230" y2="85" stroke="#334155" stroke-width="1" />
+              <text x="15" y="105" fill="#34d399" font-size="10" font-family="monospace">+evaluate(claim, snap, pol): Res</text>
+              <text x="15" y="125" fill="#94a3b8" font-size="10" font-family="monospace">-checkGateG0(claim)</text>
+              <text x="15" y="145" fill="#94a3b8" font-size="10" font-family="monospace">-checkGateG1Substrate(claim)</text>
+              <text x="15" y="165" fill="#94a3b8" font-size="10" font-family="monospace">-checkGateG3Thermal(claim)</text>
+              <text x="15" y="185" fill="#94a3b8" font-size="10" font-family="monospace">-checkGateG4AntiPrion(claim)</text>
+            </g>
+
+            <!-- Classe 6 : BatchCertificate -->
+            <g transform="translate(870, 30)">
+              <rect width="200" height="230" rx="8" fill="#111625" stroke="#eab308" stroke-width="1.5" />
+              <rect width="200" height="35" rx="8" fill="#1e293b" />
+              <text x="100" y="16" fill="#facc15" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;entity&gt;&gt;</text>
+              <text x="100" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">BatchCertificate</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+claim_sha256: 32 o (Clé 1)</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">+verdict: "AUTHORISED" (Clé 2)</text>
+              <text x="15" y="89" fill="#94a3b8" font-size="10" font-family="monospace">+issued_at: Tag1 (Clé 3)</text>
+              <text x="15" y="106" fill="#94a3b8" font-size="10" font-family="monospace">+snapshot_sha256: 32 o (Clé 4)</text>
+              <text x="15" y="123" fill="#94a3b8" font-size="10" font-family="monospace">+rules_version: "1.5.0" (Clé 5)</text>
+              <text x="15" y="140" fill="#94a3b8" font-size="10" font-family="monospace">+policy_sha256: 32 o (Clé 6)</text>
+              <line x1="0" y1="155" x2="200" y2="155" stroke="#334155" stroke-width="1" />
+              <text x="15" y="175" fill="#facc15" font-size="10" font-family="monospace">+toDeterministicCbor(): bytes</text>
+            </g>
+
+            <!-- Classe 7 : AcosjSmartCardDriver -->
+            <g transform="translate(30, 340)">
+              <rect width="250" height="190" rx="8" fill="#111625" stroke="#64748b" stroke-width="1.5" />
+              <rect width="250" height="35" rx="8" fill="#1e293b" />
+              <text x="125" y="16" fill="#94a3b8" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">&lt;&lt;hardware-service&gt;&gt;</text>
+              <text x="125" y="30" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="sans-serif">AcosjSmartCardDriver</text>
+              
+              <text x="15" y="55" fill="#94a3b8" font-size="10" font-family="monospace">+capacity: 92 160 octets</text>
+              <text x="15" y="72" fill="#94a3b8" font-size="10" font-family="monospace">+securityMargin: 4 600 octets (5%)</text>
+              <line x1="0" y1="90" x2="250" y2="90" stroke="#334155" stroke-width="1" />
+              <text x="15" y="110" fill="#94a3b8" font-size="10" font-family="monospace">+connectWebUsb(): Promise&lt;bool&gt;</text>
+              <text x="15" y="130" fill="#94a3b8" font-size="10" font-family="monospace">+transmitApdu(apdu): Promise&lt;bytes&gt;</text>
+              <text x="15" y="150" fill="#94a3b8" font-size="10" font-family="monospace">+writeBlock(id, data): Promise&lt;void&gt;</text>
+              <text x="15" y="170" fill="#94a3b8" font-size="10" font-family="monospace">+sealHardwareLock(): Promise&lt;bool&gt;</text>
+            </g>
+
+            <!-- Lignes de dépendance / association -->
+            <line x1="280" y1="120" x2="320" y2="120" stroke="#d4af37" stroke-width="1.5" marker-end="url(#arrow)" />
+            <line x1="570" y1="120" x2="610" y2="120" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="3" />
+            <line x1="840" y1="120" x2="870" y2="120" stroke="#eab308" stroke-width="1.5" />
+            <line x1="725" y1="270" x2="725" y2="310" stroke="#10b981" stroke-width="1.5" />
+            <line x1="445" y1="250" x2="445" y2="290" stroke="#a855f7" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <details class="mermaid-code-details">
+          <summary>Afficher la source Mermaid (Diagramme 3)</summary>
+          <pre id="mermaid-classes">classDiagram
+  class MemorialProfile {
+    <<entity>>
+    +uint schema_version
+    +uint subject_kind
+    +NamesMap names
+    +uint birth_date
+    +AssetRef portrait_ref
+    +AssetRef voice_memo_ref
+    +validate(bytes) Result
+  }
+  class CoseSign1Envelope {
+    <<value-object>>
+    +ProtectedHeader protected_header
+    +UnprotectedHeader unprotected_header
+    +Uint8Array payload
+    +Uint8Array signature
+    +verify(trustStore) VerifySuccess
+  }
+  class BatchClaim {
+    <<entity>>
+    +string batch_id
+    +Substrate substrate
+    +Process process
+    +toCanonicalJson() string
+  }
+  class IronGateEvaluator {
+    <<service>>
+    +evaluate(claim, snap, pol) EvaluationResult
+  }
+  class BatchCertificate {
+    <<entity>>
+    +Uint8Array claim_sha256
+    +string verdict
+    +uint issued_at
+  }
+  MemorialProfile ..> CoseSign1Envelope : encapsulé
+  BatchCertificate ..> CoseSign1Envelope : encapsulé
+  BatchClaim ..> IronGateEvaluator : évalué par</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DIAGRAMME 4 : DIAGRAMMES D'ÉTATS
+         ========================================================================= -->
+    <section id="diag-etats" class="diag-section glass-card" style="padding:1.75rem;">
+      <div class="diag-header">
+        <div class="diag-header-left">
+          <span class="diag-number">04</span>
+          <div>
+            <h2 class="diag-title">Machines à États des Composants Critiques</h2>
+            <div style="font-size:0.8rem; color:var(--slate-400);">Automates d'états finis : cycle de vie de la puce silicium et machine de triage sanitaire The Iron Gate</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <span class="badge-status badge-gold">stateDiagram-v2</span>
+          <span class="badge-status badge-rose">Default-Deny Inviolable</span>
+        </div>
+      </div>
+
+      <!-- Double Niveau de Lecture -->
+      <div class="dual-cards-grid">
+        <div class="card-decideur view-target-decideur">
+          <div class="card-header-label decideur">
+            <span>🎯</span> Synthèse Décideur & Deux Piliers d'Inviolabilité
+          </div>
+          <div class="card-content-body">
+            <p>
+              Deux machines à états garantissent une sécurité physique et biologique absolue :
+            </p>
+            <ul>
+              <li><strong>La Puce Silicium (ACOSJ 92 Ko)</strong> : Part de l'état vierge à l'usine, reçoit les souvenirs, puis subit un scellement définitif par « fusible matériel ». Une fois scellée, il est physiquement impossible de modifier la mémoire.</li>
+              <li><strong>Le Gardien Sanitaire (The Iron Gate)</strong> : Toute dépouille ou matière passe par une succession d'entonnoirs obligatoires. Si le test pentobarbital est positif ou si un risque de cannibalisme intra-espèce est détecté, le système bloque immédiatement et définitivement la signature.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-architecte view-target-architecte">
+          <div class="card-header-label architecte">
+            <span>🔬</span> Spécification Formelle Expert UML
+          </div>
+          <div class="card-content-body">
+            <p>
+              Invariants déterministes et transitions formelles :
+            </p>
+            <ul>
+              <li><strong>État ACOSJ</strong> : Transitions <code>VIERGE &rarr; INITIALISEE &rarr; GRAVEE_COSE &rarr; SCELLEE_LOCKED &rarr; ACTIVE_CONSULTATION &rarr; REVOQUEE</code>. Commande APDU de verrouillage OTP interdisant <code>UPDATE_BINARY</code>.</li>
+              <li><strong>The Iron Gate G0-G9</strong> : Architecture en liste blanche stricte (Default-Deny). Transition irréversible vers <code>BLOCKED</code> si une règle P1-P18 est enfreinte. L'état <code>AUTHORISED</code> est une précondition mathématique stricte à l'émission de la signature Ed25519.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Viewer SVG États -->
+      <div class="diag-viewer-box">
+        <div class="diag-viewer-toolbar">
+          <span class="toolbar-title"><span>🔄</span> Automates d'États Finis (Silicium & The Iron Gate)</span>
+          <div class="toolbar-actions">
+            <button class="action-btn" onclick="copyMermaid('mermaid-states')"><span>📋</span> Copier Mermaid</button>
+          </div>
+        </div>
+        <div class="svg-container">
+          <svg class="svg-canvas" viewBox="0 0 1100 580" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sous-système A : Cycle Puce ACOSJ -->
+            <g transform="translate(30, 20)">
+              <rect width="1040" height="240" rx="10" fill="#0d111c" stroke="#d4af37" stroke-width="1.5" />
+              <text x="30" y="32" fill="#d4af37" font-size="12" font-weight="800" font-family="sans-serif">AUTOMATE 1 : CYCLE DE VIE SILICIUM DE LA JAVACARD ACOSJ 92 KO</text>
+
+              <!-- VIERGE -->
+              <rect x="30" y="60" width="130" height="70" rx="8" fill="#141824" stroke="#64748b" />
+              <text x="95" y="90" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">VIERGE</text>
+              <text x="95" y="108" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">Sortie usine (ATR)</text>
+
+              <!-- Flèche 1 -->
+              <line x1="160" y1="95" x2="210" y2="95" stroke="#d4af37" stroke-width="1.5" />
+              <text x="185" y="85" fill="#d4af37" font-size="8" text-anchor="middle" font-family="sans-serif">FORMAT_EF</text>
+
+              <!-- INITIALISEE -->
+              <rect x="210" y="60" width="140" height="70" rx="8" fill="#141824" stroke="#38bdf8" />
+              <text x="280" y="90" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">INITIALISÉE</text>
+              <text x="280" y="108" fill="#38bdf8" font-size="9" text-anchor="middle" font-family="sans-serif">6 Blocs alloués (92k)</text>
+
+              <!-- Flèche 2 -->
+              <line x1="350" y1="95" x2="400" y2="95" stroke="#d4af37" stroke-width="1.5" />
+              <text x="375" y="85" fill="#d4af37" font-size="8" text-anchor="middle" font-family="sans-serif">WRITE_CBOR</text>
+
+              <!-- GRAVEE_COSE -->
+              <rect x="400" y="60" width="140" height="70" rx="8" fill="#141824" stroke="#a855f7" />
+              <text x="470" y="90" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">GRAVÉE_COSE</text>
+              <text x="470" y="108" fill="#c084fc" font-size="9" text-anchor="middle" font-family="sans-serif">Profil, WebP, Voix</text>
+
+              <!-- Flèche 3 -->
+              <line x1="540" y1="95" x2="590" y2="95" stroke="#f43f5e" stroke-width="2" />
+              <text x="565" y="85" fill="#f43f5e" font-size="8" font-weight="700" text-anchor="middle" font-family="sans-serif">HARDWARE_LOCK</text>
+
+              <!-- SCELLEE_LOCKED -->
+              <rect x="590" y="60" width="150" height="70" rx="8" fill="#141824" stroke="#10b981" stroke-width="2" />
+              <text x="665" y="90" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">SCELLÉE_LOCKED</text>
+              <text x="665" y="108" fill="#34d399" font-size="9" text-anchor="middle" font-family="sans-serif">Fusible irréversible</text>
+
+              <!-- Flèche 4 -->
+              <line x1="740" y1="95" x2="790" y2="95" stroke="#34d399" stroke-width="1.5" />
+              <text x="765" y="85" fill="#34d399" font-size="8" text-anchor="middle" font-family="sans-serif">REMISE_NFC</text>
+
+              <!-- ACTIVE_CONSULTATION -->
+              <rect x="790" y="60" width="150" height="70" rx="8" fill="#141824" stroke="#38bdf8" />
+              <text x="865" y="90" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">CONSULTATION</text>
+              <text x="865" y="108" fill="#38bdf8" font-size="9" text-anchor="middle" font-family="sans-serif">Lecture IsoDep sans fil</text>
+
+              <!-- Flèche 5 Révocation -->
+              <path d="M 865 130 L 865 190 L 970 190" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3" />
+              <text x="915" y="180" fill="#f43f5e" font-size="8" text-anchor="middle" font-family="sans-serif">VOL / PERTE</text>
+
+              <!-- REVOQUEE -->
+              <rect x="970" y="160" width="60" height="60" rx="8" fill="#2d1217" stroke="#f43f5e" stroke-width="2" />
+              <text x="1000" y="195" fill="#fb7185" font-size="9" font-weight="800" text-anchor="middle" font-family="sans-serif">RÉVOQUÉE</text>
+
+              <text x="30" y="170" fill="#94a3b8" font-size="10" font-family="sans-serif">
+                Partitionnement fixe : Bloc 0 (512 o Méta) · Bloc 1 (2 Ko Profil) · Bloc 2 (20 Ko WebP) · Bloc 3 (45 Ko Opus) · Bloc 4 (15 Ko Arbre) · Bloc 5 (4,6 Ko Réserve)
+              </text>
+            </g>
+
+            <!-- Sous-système B : Machine The Iron Gate -->
+            <g transform="translate(30, 280)">
+              <rect width="1040" height="280" rx="10" fill="#0d111c" stroke="#fb7185" stroke-width="1.5" />
+              <text x="30" y="32" fill="#fb7185" font-size="12" font-weight="800" font-family="sans-serif">AUTOMATE 2 : PORTE DE FER (THE IRON GATE G0-G9 SANITAIRE & FEED-BAN)</text>
+
+              <!-- RECEPTION -->
+              <rect x="30" y="60" width="130" height="70" rx="8" fill="#141824" stroke="#64748b" />
+              <text x="95" y="90" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">RÉCEPTION</text>
+              <text x="95" y="108" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">Dépouille & ID État</text>
+
+              <line x1="160" y1="95" x2="210" y2="95" stroke="#fb7185" stroke-width="1.5" />
+
+              <!-- CONTROLE_SUBSTRAT -->
+              <rect x="210" y="60" width="150" height="70" rx="8" fill="#141824" stroke="#eab308" />
+              <text x="285" y="85" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">CONTRÔLE SUBSTRAT</text>
+              <text x="285" y="102" fill="#facc15" font-size="9" text-anchor="middle" font-family="sans-serif">LFA Pentobarb. & C1/C2</text>
+              <text x="285" y="117" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="sans-serif">Végétal sain Hermetia</text>
+
+              <!-- Branche Rejet Substrat -->
+              <path d="M 285 130 L 285 200 L 400 200" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3" />
+              <text x="330" y="190" fill="#f43f5e" font-size="8" font-family="sans-serif">Pentobarbital &gt; 50 ppb</text>
+
+              <line x1="360" y1="95" x2="410" y2="95" stroke="#10b981" stroke-width="1.5" />
+
+              <!-- BIOCONVERSION -->
+              <rect x="410" y="60" width="140" height="70" rx="8" fill="#141824" stroke="#10b981" />
+              <text x="480" y="85" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">BIOCONVERSION</text>
+              <text x="480" y="102" fill="#34d399" font-size="9" text-anchor="middle" font-family="sans-serif">Hermetia illucens</text>
+              <text x="480" y="117" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="sans-serif">Stérilisation Méthode 1</text>
+
+              <line x1="550" y1="95" x2="600" y2="95" stroke="#fb7185" stroke-width="1.5" />
+
+              <!-- EVALUATION_PRION -->
+              <rect x="600" y="55" width="170" height="80" rx="8" fill="#181422" stroke="#c084fc" stroke-width="2" />
+              <text x="685" y="80" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">ÉVALUATION PRION</text>
+              <text x="685" y="98" fill="#c084fc" font-size="9" text-anchor="middle" font-family="sans-serif">The Iron Gate (G0 à G9)</text>
+              <text x="685" y="113" fill="#cbd5e1" font-size="8" text-anchor="middle" font-family="sans-serif">Contrôle anti-cannibalisme</text>
+              <text x="685" y="126" fill="#fbbf24" font-size="8" text-anchor="middle" font-family="sans-serif">Dérogation forestière (P8)</text>
+
+              <!-- Sortie BLOCKED -->
+              <path d="M 685 135 L 685 200 L 490 200" stroke="#f43f5e" stroke-width="2" />
+              <text x="590" y="190" fill="#f43f5e" font-size="8" font-weight="700" text-anchor="middle" font-family="sans-serif">RÈGLES P1-P18 NON SATISFAITES</text>
+
+              <rect x="400" y="175" width="90" height="50" rx="8" fill="#3b0d14" stroke="#f43f5e" stroke-width="2" />
+              <text x="445" y="198" fill="#fb7185" font-size="10" font-weight="900" text-anchor="middle" font-family="sans-serif">BLOCKED</text>
+              <text x="445" y="213" fill="#cbd5e1" font-size="8" text-anchor="middle" font-family="sans-serif">Signature interdite</text>
+
+              <!-- Sortie AUTHORISED -->
+              <line x1="770" y1="95" x2="820" y2="95" stroke="#10b981" stroke-width="2" />
+              <text x="795" y="85" fill="#34d399" font-size="8" font-weight="700" text-anchor="middle" font-family="sans-serif">VALIDE</text>
+
+              <rect x="820" y="60" width="190" height="70" rx="8" fill="#0d2818" stroke="#10b981" stroke-width="2" />
+              <text x="915" y="85" fill="#34d399" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">AUTHORISED</text>
+              <text x="915" y="103" fill="#cbd5e1" font-size="9" text-anchor="middle" font-family="sans-serif">Scellement Ed25519 du certificat</text>
+              <text x="915" y="118" fill="#a7f3d0" font-size="8" text-anchor="middle" font-family="sans-serif">Conforme Feed-Ban CE 999/2001</text>
+            </g>
+          </svg>
+        </div>
+
+        <details class="mermaid-code-details">
+          <summary>Afficher la source Mermaid (Diagramme 4)</summary>
+          <pre id="mermaid-states">stateDiagram-v2
+  [*] --> VIERGE
+  VIERGE --> INITIALISEE : FORMAT_EF (92 Ko alloués)
+  INITIALISEE --> GRAVEE_COSE : Écriture Blocs 0..4
+  GRAVEE_COSE --> SCELLEE_LOCKED : SEAL_HARDWARE_LOCK (Fusible)
+  SCELLEE_LOCKED --> ACTIVE_CONSULTATION : NFC IsoDep Sanctuaire
+  ACTIVE_CONSULTATION --> REVOQUEE : Vol / perte / TrustStore
+
+  [*] --> RECEPTION
+  RECEPTION --> CONTROLE_SUBSTRAT : ID officiel (Sanitel/Cerise/DNF)
+  CONTROLE_SUBSTRAT --> REJET_IMMEDIAT : Pentobarbital > 50 ppb
+  CONTROLE_SUBSTRAT --> BIOCONVERSION : Substrat sain Hermetia
+  BIOCONVERSION --> EVALUATION_PRION : Stérilisation Méthode 1
+  EVALUATION_PRION --> BLOCKED : Règle P1-P18 enfreinte
+  EVALUATION_PRION --> AUTHORISED : Toutes portes G0-G9 validées
+  AUTHORISED --> SCELLEMENT_CERTIFICAT : Signature Ed25519 de lot</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DIAGRAMME 5 : MODÈLE ENTITÉ-RELATION & DONNÉES
+         ========================================================================= -->
+    <section id="diag-er" class="diag-section glass-card" style="padding:1.75rem;">
+      <div class="diag-header">
+        <div class="diag-header-left">
+          <span class="diag-number">05</span>
+          <div>
+            <h2 class="diag-title">Schéma de Données & Modèle Entité-Relation</h2>
+            <div style="font-size:0.8rem; color:var(--slate-400);">Cartographie unifiée in-silico (blocs EF ACOSJ) et registres de confiance décentralisés</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <span class="badge-status badge-gold">erDiagram</span>
+          <span class="badge-status badge-sky">Ancrage Cryptographique</span>
+        </div>
+      </div>
+
+      <!-- Double Niveau de Lecture -->
+      <div class="dual-cards-grid">
+        <div class="card-decideur view-target-decideur">
+          <div class="card-header-label decideur">
+            <span>🎯</span> Synthèse Décideur & Cartographie de la Mémoire
+          </div>
+          <div class="card-content-body">
+            <p>
+              Comment s'organise l'éternité dans une puce et sur les registres :
+            </p>
+            <ul>
+              <li><strong>Le Sanctuaire Silicium</strong> : Les blocs de la puce se partagent la biographie, la photo WebP, le message vocal Opus et l'arbre de famille.</li>
+              <li><strong>Le Registre de Confiance (TrustStore)</strong> : Répertorie les salons funéraires et vétérinaires agréés pour certifier l'authenticité de chaque carte.</li>
+              <li><strong>Le Registre de Filière Sanitaire</strong> : Consigne chaque lot d'insectes, le détail des matières nutritives, les relevés de température et l'arbre des espèces.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-architecte view-target-architecte">
+          <div class="card-header-label architecte">
+            <span>🔬</span> Spécification Formelle Expert UML
+          </div>
+          <div class="card-content-body">
+            <p>
+              Relations physiques et cryptographiques (RFC 8949, RFC 8785, RFC 9052) :
+            </p>
+            <ul>
+              <li><strong>Intégrité Référentielle par SHA-256</strong> : <code>MEMORIAL_PROFILE</code> lie ses actifs via <code>portrait_ref.asset_sha256</code> et <code>voice_memo_ref.asset_sha256</code>.</li>
+              <li><strong>Liaison Déterministe de Certificat</strong> : <code>BATCH_CERTIFICATE</code> stocke l'empreinte <code>claim_sha256</code> de la forme JCS canonique du claim et <code>snapshot_sha256</code> du snapshot taxonomique.</li>
+              <li><strong>Clé 6 Dérogatoire Mémorielle</strong> : Présente si et seulement si <code>destination.use == "memorial_forestry"</code> (décision souveraine <code>DEC-AET-05</code>).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Viewer SVG ER -->
+      <div class="diag-viewer-box">
+        <div class="diag-viewer-toolbar">
+          <span class="toolbar-title"><span>🗄️</span> Schéma Entité-Relation Unifié (SVG Vectoriel)</span>
+          <div class="toolbar-actions">
+            <button class="action-btn" onclick="copyMermaid('mermaid-er')"><span>📋</span> Copier Mermaid</button>
+          </div>
+        </div>
+        <div class="svg-container">
+          <svg class="svg-canvas" viewBox="0 0 1100 580" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- Entité 1 : MEMORIAL_PROFILE -->
+            <g transform="translate(30, 30)">
+              <rect width="250" height="230" rx="8" fill="#131929" stroke="#38bdf8" stroke-width="1.5" />
+              <rect width="250" height="28" rx="8" fill="#1e293b" />
+              <text x="125" y="20" fill="#38bdf8" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">MEMORIAL_PROFILE (Bloc 1)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK schema_version: uint = 1</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">subject_kind: 1=human | 2=animal</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">usage_name: string (1..120 o)</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">birth_date / death_date: Tag 100</text>
+              <text x="15" y="120" fill="#cbd5e1" font-size="9" font-family="monospace">country: ISO 3166-1 alpha-2</text>
+              <text x="15" y="138" fill="#cbd5e1" font-size="9" font-family="monospace">FK portrait_ref: asset_sha256 (32 o)</text>
+              <text x="15" y="156" fill="#cbd5e1" font-size="9" font-family="monospace">FK voice_memo_ref: asset_sha256 (32 o)</text>
+              <text x="15" y="174" fill="#cbd5e1" font-size="9" font-family="monospace">issuer_id: string (4..64 o)</text>
+              <text x="15" y="192" fill="#cbd5e1" font-size="9" font-family="monospace">epitaph: string (max 1600 o)</text>
+              <text x="15" y="210" fill="#fbbf24" font-size="9" font-family="monospace">species_taxid: uint (animaux)</text>
+            </g>
+
+            <!-- Entité 2 : ASSET_PORTRAIT -->
+            <g transform="translate(320, 30)">
+              <rect width="210" height="110" rx="8" fill="#131929" stroke="#38bdf8" stroke-width="1.5" />
+              <rect width="210" height="28" rx="8" fill="#1e293b" />
+              <text x="105" y="20" fill="#38bdf8" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">ASSET_PORTRAIT (Bloc 2)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK asset_sha256: 32 octets</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">len: uint &lt;= 20 480 (20 Ko)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">mime: image/webp (480x480)</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">raw_bytes: blob</text>
+            </g>
+
+            <!-- Entité 3 : ASSET_VOICE -->
+            <g transform="translate(320, 160)">
+              <rect width="210" height="110" rx="8" fill="#131929" stroke="#38bdf8" stroke-width="1.5" />
+              <rect width="210" height="28" rx="8" fill="#1e293b" />
+              <text x="105" y="20" fill="#38bdf8" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">ASSET_VOICE (Bloc 3)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK asset_sha256: 32 octets</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">len: uint &lt;= 46 080 (45 Ko)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">codec: audio/opus (SILK 16k)</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">raw_bytes: blob</text>
+            </g>
+
+            <!-- Entité 4 : TRUST_STORE -->
+            <g transform="translate(570, 30)">
+              <rect width="240" height="160" rx="8" fill="#131929" stroke="#d4af37" stroke-width="1.5" />
+              <rect width="240" height="28" rx="8" fill="#1e293b" />
+              <text x="120" y="20" fill="#d4af37" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">TRUSTED_ISSUER (TrustStore)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK kid: 16 octets SHA-256</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">alg: -8 (Ed25519) | -7 (ES256)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">public_key: 32 o | 64 o SEC1</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">typ: profile | batch-claim</text>
+              <text x="15" y="120" fill="#cbd5e1" font-size="9" font-family="monospace">valid_from / valid_until: UNIX</text>
+              <text x="15" y="138" fill="#cbd5e1" font-size="9" font-family="monospace">status: ACTIVE | RETIRED | REVOKED</text>
+            </g>
+
+            <!-- Entité 5 : BATCH_CLAIM -->
+            <g transform="translate(850, 30)">
+              <rect width="220" height="150" rx="8" fill="#131929" stroke="#fb7185" stroke-width="1.5" />
+              <rect width="220" height="28" rx="8" fill="#1e293b" />
+              <text x="110" y="20" fill="#fb7185" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">BATCH_CLAIM (Filière)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK batch_id: string</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">claim_sha256: 32 octets (JCS)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">product: string (PAT insecte)</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">substrate_category: 1 | 2 | 3</text>
+              <text x="15" y="120" fill="#cbd5e1" font-size="9" font-family="monospace">destination_use: feed | forestry...</text>
+              <text x="15" y="138" fill="#cbd5e1" font-size="9" font-family="monospace">pentobarbital_lfa: neg | pos</text>
+            </g>
+
+            <!-- Entité 6 : BATCH_CERTIFICATE -->
+            <g transform="translate(850, 220)">
+              <rect width="220" height="170" rx="8" fill="#131929" stroke="#10b981" stroke-width="1.5" />
+              <rect width="220" height="28" rx="8" fill="#1e293b" />
+              <text x="110" y="20" fill="#34d399" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">BATCH_CERTIFICATE (Scellé)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK cert_sha256: 32 octets</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">FK claim_sha256: 32 octets (Clé 1)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">verdict: "AUTHORISED" (Clé 2)</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">issued_at: Tag 1 UNIX sec (Clé 3)</text>
+              <text x="15" y="120" fill="#cbd5e1" font-size="9" font-family="monospace">snapshot_sha256: 32 o (Clé 4)</text>
+              <text x="15" y="138" fill="#cbd5e1" font-size="9" font-family="monospace">rules_version: "1.5.0" (Clé 5)</text>
+              <text x="15" y="156" fill="#fbbf24" font-size="9" font-family="monospace">policy_sha256: 32 o (Clé 6 opt)</text>
+            </g>
+
+            <!-- Entité 7 : TAXONOMY_SNAPSHOT -->
+            <g transform="translate(570, 230)">
+              <rect width="240" height="150" rx="8" fill="#131929" stroke="#c084fc" stroke-width="1.5" />
+              <rect width="240" height="28" rx="8" fill="#1e293b" />
+              <text x="120" y="20" fill="#c084fc" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">TAXONOMY_SNAPSHOT (Arbre)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK snapshot_sha256: 32 octets</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">version: string (NCBI/AFSCA)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">total_taxa: uint</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">taxid: uint (ex. 343691 Hermetia)</text>
+              <text x="15" y="120" fill="#cbd5e1" font-size="9" font-family="monospace">lineage_markers: uint[]</text>
+              <text x="15" y="138" fill="#cbd5e1" font-size="9" font-family="monospace">group: ruminant, pig, insect...</text>
+            </g>
+
+            <!-- Entité 8 : MEMORIAL_TREE -->
+            <g transform="translate(30, 300)">
+              <rect width="250" height="120" rx="8" fill="#131929" stroke="#fbbf24" stroke-width="1.5" />
+              <rect width="250" height="28" rx="8" fill="#1e293b" />
+              <text x="125" y="20" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle" font-family="sans-serif">MEMORIAL_TREE (Bloc 4)</text>
+              <text x="15" y="48" fill="#cbd5e1" font-size="9" font-family="monospace">PK tree_sha256: 32 octets</text>
+              <text x="15" y="66" fill="#cbd5e1" font-size="9" font-family="monospace">len: uint &lt;= 15 360 (15 Ko)</text>
+              <text x="15" y="84" fill="#cbd5e1" font-size="9" font-family="monospace">genealogy_json: utf8</text>
+              <text x="15" y="102" fill="#cbd5e1" font-size="9" font-family="monospace">tributes_log: append-only</text>
+            </g>
+
+            <!-- Liaisons ER -->
+            <line x1="280" y1="80" x2="320" y2="80" stroke="#38bdf8" stroke-width="1.5" />
+            <line x1="280" y1="200" x2="320" y2="200" stroke="#38bdf8" stroke-width="1.5" />
+            <line x1="155" y1="260" x2="155" y2="300" stroke="#fbbf24" stroke-width="1.5" />
+            <line x1="810" y1="100" x2="850" y2="100" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="3" />
+            <line x1="960" y1="180" x2="960" y2="220" stroke="#10b981" stroke-width="2" />
+            <line x1="810" y1="300" x2="850" y2="300" stroke="#c084fc" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <details class="mermaid-code-details">
+          <summary>Afficher la source Mermaid (Diagramme 5)</summary>
+          <pre id="mermaid-er">erDiagram
+  MEMORIAL_PROFILE ||--o| ASSET_PORTRAIT : "bloc 2 WebP"
+  MEMORIAL_PROFILE ||--o| ASSET_VOICE : "bloc 3 Opus"
+  MEMORIAL_PROFILE ||--o| MEMORIAL_TREE : "bloc 4 Arbre"
+  TRUST_STORE ||--|{ TRUSTED_ISSUER : "fédère signataires"
+  BATCH_CLAIM ||--|| BATCH_CERTIFICATE : "scellé SHA-256"
+  BATCH_CLAIM }|--|| TAXONOMY_SNAPSHOT : "évalué sous snapshot"</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DIAGRAMME 6 : ARCHITECTURE EN 3 TIERS MODERNE
+         ========================================================================= -->
+    <section id="diag-tiers" class="diag-section glass-card" style="padding:1.75rem;">
+      <div class="diag-header">
+        <div class="diag-header-left">
+          <span class="diag-number">06</span>
+          <div>
+            <h2 class="diag-title">Architecture en 3 Tiers & Clean Architecture</h2>
+            <div style="font-size:0.8rem; color:var(--slate-400);">Découpage en couches étanches : Présentation réactive MVVM, Moteurs purs déterministes et Abstraction Matérielle</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <span class="badge-status badge-gold">Clean Architecture</span>
+          <span class="badge-status badge-emerald">Inversion de Dépendance</span>
+        </div>
+      </div>
+
+      <!-- Double Niveau de Lecture -->
+      <div class="dual-cards-grid">
+        <div class="card-decideur view-target-decideur">
+          <div class="card-header-label decideur">
+            <span>🎯</span> Synthèse Décideur & Pourquoi les 3 Tiers
+          </div>
+          <div class="card-content-body">
+            <p>
+              Une conception étanche comme un navire insubmersible :
+            </p>
+            <ul>
+              <li><strong>Tier 1 — L'Interface Humaine</strong> : Ce sont les applications modernes, belles et rassurantes que tiennent les familles et les professionnels. Si l'écran change, les règles sous-jacentes ne bougent pas.</li>
+              <li><strong>Tier 2 — Le Cerveau Mathématique Déterministe</strong> : Il applique les lois européennes et chiffre les fichiers. Il fonctionne à 100% sans Internet, sans horloge modifiable et sans risque de panne réseau.</li>
+              <li><strong>Tier 3 — Le Silicium & la Persistance</strong> : Il sait parler directement au circuit intégré dans la puce USB ou chiffrer les données sur le disque dur local.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-architecte view-target-architecte">
+          <div class="card-header-label architecte">
+            <span>🔬</span> Spécification Formelle Expert UML
+          </div>
+          <div class="card-content-body">
+            <p>
+              Architecture en couches conforme aux principes de Robert C. Martin :
+            </p>
+            <ul>
+              <li><strong>Tier 1 (Presentation Layer)</strong> : MVVM réactif avec Unidirectional Data Flow (UDF). PaxStudio (React/Electron), PaxStation (Chrome MV3), Sanctuaire (Jetpack Compose / SwiftUI / PWA), Traçabilité Console.</li>
+              <li><strong>Tier 2 (Business Domain Layer)</strong> : Moteurs purs purs déterministes (zéro dépendance Node/DOM, zéro I/O, zéro timer non injecté). CBOR déterministe (RFC 8949), JCS canonique (RFC 8785), COSE_Sign1 (RFC 9052), The Iron Gate G0-G9.</li>
+              <li><strong>Tier 3 (Data Access & Hardware Layer)</strong> : Hardware Abstraction Layer (ACOSJ IsoDep APDU, WebUSB CCID, Secure Enclave) et DAO de persistance chiffrée (IndexedDB/SQLite AES-GCM-256). Inversion de dépendance stricte via ports et adaptateurs.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Viewer SVG 3 Tiers -->
+      <div class="diag-viewer-box">
+        <div class="diag-viewer-toolbar">
+          <span class="toolbar-title"><span>🏛️</span> Modèle Synoptique des 3 Tiers Modernes (SVG Vectoriel)</span>
+          <div class="toolbar-actions">
+            <button class="action-btn" onclick="copyMermaid('mermaid-tiers')"><span>📋</span> Copier Mermaid</button>
+          </div>
+        </div>
+        <div class="svg-container">
+          <svg class="svg-canvas" viewBox="0 0 1100 580" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- TIER 1 : PRESENTATION -->
+            <g transform="translate(30, 20)">
+              <rect width="1040" height="150" rx="10" fill="#0d1424" stroke="#38bdf8" stroke-width="1.5" />
+              <text x="30" y="28" fill="#38bdf8" font-size="12" font-weight="800" font-family="sans-serif">TIER 1 — COUCHE PRÉSENTATION (UI MODERNE RÉACTIVE / MVVM & UNIDIRECTIONAL DATA FLOW)</text>
+
+              <!-- App 1 Box -->
+              <rect x="25" y="45" width="235" height="90" rx="8" fill="#141c30" stroke="#38bdf8" />
+              <text x="35" y="68" fill="#fff" font-size="11" font-weight="700" font-family="sans-serif">PaxStudio (App 1)</text>
+              <text x="35" y="86" fill="#94a3b8" font-size="9" font-family="sans-serif">UI React / TypeScript & Electron</text>
+              <text x="35" y="103" fill="#94a3b8" font-size="9" font-family="sans-serif">Canvas Dual-Card & Opus Recorder</text>
+              <text x="35" y="120" fill="#38bdf8" font-size="9" font-family="sans-serif">ViewModel StateFlow Déterministe</text>
+
+              <!-- App 2 Box -->
+              <rect x="280" y="45" width="235" height="90" rx="8" fill="#141c30" stroke="#d4af37" />
+              <text x="290" y="68" fill="#fff" font-size="11" font-weight="700" font-family="sans-serif">PaxStation (App 2)</text>
+              <text x="290" y="86" fill="#94a3b8" font-size="9" font-family="sans-serif">Extension Chrome Manifest V3</text>
+              <text x="290" y="103" fill="#94a3b8" font-size="9" font-family="sans-serif">Service Worker & Moniteur CCID</text>
+              <text x="290" y="120" fill="#d4af37" font-size="9" font-family="sans-serif">Barre d'état WebUSB bureau</text>
+
+              <!-- App 3 Box -->
+              <rect x="535" y="45" width="235" height="90" rx="8" fill="#141c30" stroke="#34d399" />
+              <text x="545" y="68" fill="#fff" font-size="11" font-weight="700" font-family="sans-serif">Sanctuaire (App 3)</text>
+              <text x="545" y="86" fill="#94a3b8" font-size="9" font-family="sans-serif">Mobile Jetpack Compose / SwiftUI / PWA</text>
+              <text x="545" y="103" fill="#94a3b8" font-size="9" font-family="sans-serif">Lecteur WebAudio Opus SILK</text>
+              <text x="545" y="120" fill="#34d399" font-size="9" font-family="sans-serif">Bandeau d'authenticité (DEC-AET-07)</text>
+
+              <!-- App 4 Box -->
+              <rect x="790" y="45" width="225" height="90" rx="8" fill="#141c30" stroke="#fb7185" />
+              <text x="800" y="68" fill="#fff" font-size="11" font-weight="700" font-family="sans-serif">Console Traçabilité (App 4)</text>
+              <text x="800" y="86" fill="#94a3b8" font-size="9" font-family="sans-serif">Dashboard Filière & Audit AFSCA</text>
+              <text x="800" y="103" fill="#94a3b8" font-size="9" font-family="sans-serif">Module Photo LFA Pentobarbital</text>
+              <text x="800" y="120" fill="#fb7185" font-size="9" font-family="sans-serif">Superviseur G0-G9 The Iron Gate</text>
+            </g>
+
+            <!-- TIER 2 : BUSINESS DOMAIN -->
+            <g transform="translate(30, 200)">
+              <rect width="1040" height="160" rx="10" fill="#14101c" stroke="#d4af37" stroke-width="2" />
+              <text x="30" y="28" fill="#d4af37" font-size="12" font-weight="800" font-family="sans-serif">TIER 2 — COUCHE DOMAINE MÉTIER (MOTEURS PURS DÉTERMINISTES — ZÉRO I/O, ZÉRO EFFET DE BORD)</text>
+
+              <!-- Moteur 1 : AeterniCore -->
+              <rect x="25" y="45" width="315" height="100" rx="8" fill="#1c1626" stroke="#38bdf8" />
+              <text x="35" y="68" fill="#38bdf8" font-size="11" font-weight="700" font-family="sans-serif">AeterniCore (CBOR & JCS)</text>
+              <text x="35" y="86" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Encodeur/Décodeur CBOR strict RFC 8949 §4.2.1</text>
+              <text x="35" y="103" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Canonisation déterministe JSON JCS (RFC 8785)</text>
+              <text x="35" y="120" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Validateur Profil V1 (Budget 1 900 o, clés 1..13)</text>
+              <text x="35" y="137" fill="#34d399" font-size="8" font-family="sans-serif">Banc QA : 262/262 PASS</text>
+
+              <!-- Moteur 2 : The Iron Gate -->
+              <rect x="360" y="45" width="330" height="100" rx="8" fill="#1c1626" stroke="#fb7185" />
+              <text x="370" y="68" fill="#fb7185" font-size="11" font-weight="700" font-family="sans-serif">The Iron Gate (Anti-Prion & Feed-Ban)</text>
+              <text x="370" y="86" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Portes G0 à G9 en Whitelist positive stricte</text>
+              <text x="370" y="103" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Moteur de règles P1 à P18 (CE 999/2001, UE 2021/1372)</text>
+              <text x="370" y="120" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Substrat végétal sain Hermetia illucens (P4/P18)</text>
+              <text x="370" y="137" fill="#34d399" font-size="8" font-family="sans-serif">Banc QA : 212/212 PASS</text>
+
+              <!-- Moteur 3 : Crypto COSE -->
+              <rect x="710" y="45" width="305" height="100" rx="8" fill="#1c1626" stroke="#d4af37" />
+              <text x="720" y="68" fill="#d4af37" font-size="11" font-weight="700" font-family="sans-serif">Moteur Cryptographique COSE_Sign1</text>
+              <text x="720" y="86" fill="#cbd5e1" font-size="9" font-family="sans-serif">• PureEd25519 RFC 8032 (Double SHA-512, alg: -8)</text>
+              <text x="720" y="103" fill="#cbd5e1" font-size="9" font-family="sans-serif">• ECDSA P-256 ES256 RFC 6979 s-bas (alg: -7)</text>
+              <text x="720" y="120" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Moteur Certificat de Lot (Double validation)</text>
+              <text x="720" y="137" fill="#34d399" font-size="8" font-family="sans-serif">Banc QA : 219/219 PASS</text>
+            </g>
+
+            <!-- TIER 3 : DATA ACCESS & HARDWARE -->
+            <g transform="translate(30, 390)">
+              <rect width="1040" height="160" rx="10" fill="#0d1419" stroke="#10b981" stroke-width="1.5" />
+              <text x="30" y="28" fill="#10b981" font-size="12" font-weight="800" font-family="sans-serif">TIER 3 — COUCHE ACCÈS DONNÉES & MATÉRIEL SILICIUM (DAO & HARDWARE ABSTRACTION LAYER)</text>
+
+              <!-- HAL Drivers -->
+              <rect x="25" y="45" width="315" height="100" rx="8" fill="#132024" stroke="#64748b" />
+              <text x="35" y="68" fill="#38bdf8" font-size="11" font-weight="700" font-family="sans-serif">Hardware Abstraction Layer (HAL)</text>
+              <text x="35" y="86" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Pilote ACOSJ JavaCard IsoDep APDU (ISO 7816-4)</text>
+              <text x="35" y="103" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Pont WebUSB CCID Lecteur ACR1552U (W3C API)</text>
+              <text x="35" y="120" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Pont Enclave Sécurisée (Apple Enclave / StrongBox)</text>
+
+              <!-- Persistence DAO -->
+              <rect x="360" y="45" width="330" height="100" rx="8" fill="#132024" stroke="#64748b" />
+              <text x="370" y="68" fill="#d4af37" font-size="11" font-weight="700" font-family="sans-serif">Persistance Locale DAO & TrustStore</text>
+              <text x="370" y="86" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Cache local chiffré SQLite / IndexedDB (AES-GCM)</text>
+              <text x="370" y="103" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Magasin de Confiance Hors-Ligne (Offline TrustStore)</text>
+              <text x="370" y="120" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Trousseau de clés publiques & catalogue émetteurs</text>
+
+              <!-- Connecteurs Guichets -->
+              <rect x="710" y="45" width="305" height="100" rx="8" fill="#132024" stroke="#64748b" />
+              <text x="720" y="68" fill="#fbbf24" font-size="11" font-weight="700" font-family="sans-serif">Connecteurs Distribués & Guichets</text>
+              <text x="720" y="86" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Réplication P2P IPFS / Coffre familial</text>
+              <text x="720" y="103" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Adaptateur CERISE Wallonie (SPW Agriculture)</text>
+              <text x="720" y="120" fill="#cbd5e1" font-size="9" font-family="sans-serif">• Adaptateurs Sanitel (ARSIA) & DogID/CatID</text>
+            </g>
+
+            <!-- Flèches d'inversion et flux -->
+            <path d="M 140 170 L 140 200" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)" />
+            <path d="M 525 170 L 525 200" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow)" />
+            <path d="M 860 170 L 860 200" stroke="#d4af37" stroke-width="2" marker-end="url(#arrow)" />
+            <path d="M 180 360 L 180 390" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3" />
+            <path d="M 525 360 L 525 390" stroke="#d4af37" stroke-width="2" stroke-dasharray="3" />
+            <path d="M 860 360 L 860 390" stroke="#10b981" stroke-width="2" stroke-dasharray="3" />
+          </svg>
+        </div>
+
+        <details class="mermaid-code-details">
+          <summary>Afficher la source Mermaid (Diagramme 6)</summary>
+          <pre id="mermaid-tiers">flowchart TD
+  subgraph TIER1 ["TIER 1 — COUCHE PRÉSENTATION (UI Réactive / MVVM)"]
+    APP1_STUDIO["PaxStudio (App 1 : Design)"]
+    APP2_STATION["PaxStation (App 2 : Encodage)"]
+    APP3_SANCTUAIRE["Sanctuaire (App 3 : Recueillement)"]
+    APP4_TRACE["Console Traçabilité (App 4 : Filière)"]
+  end
+
+  subgraph TIER2 ["TIER 2 — COUCHE DOMAINE MÉTIER (Moteurs Purs 0 I/O)"]
+    AETERNICORE["AeterniCore CBOR & JCS"]
+    IRONGATE["The Iron Gate Anti-Prion G0-G9"]
+    COSE_ENGINE["Moteur Crypto COSE_Sign1"]
+  end
+
+  subgraph TIER3 ["TIER 3 — COUCHE MATÉRIEL & DAO (HAL & Persistance)"]
+    ACOSJ_HAL["Pilote JavaCard ACOSJ 92 Ko"]
+    WEBUSB_HAL["Pont WebUSB CCID ACR1552U"]
+    ENCRYPTED_DB["Persistance Chiffrée & TrustStore"]
+    OFFICIAL_GATEWAYS["Connecteurs CERISE, Sanitel, DNF"]
+  end
+
+  TIER1 ==>|DTOs & Commandes| TIER2
+  TIER2 ==>|Interfaces Inversées| TIER3</pre>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Institutionnel -->
+  <footer>
+    <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:0.75rem;">
+      <div style="font-weight:700; color:#fff;">
+        AeterniTrak V1.0 — Architecture Système & Modélisation UML
+      </div>
+      <div>
+        Conçu et audité par l'<strong>Orchestrateur Antigravity</strong> sous les arbitrages souverains de <strong>Kudoro</strong>.
+      </div>
+      <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; font-size:0.78rem;">
+        <a href="../usecases/index.html">Portail Living Use-Cases</a>
+        <a href="system-architecture-uml.md">Spécification Markdown Brute</a>
+        <a href="../technical/antiprion-feedban.md">Spécification The Iron Gate</a>
+        <a href="../technical/security-crypto.md">Spécification Sécurité Crypto</a>
+      </div>
+      <div style="font-size:0.72rem; color:var(--slate-500); margin-top:0.5rem;">
+        Banc d'assurance qualité exhaustif : 693/693 tests au vert (100% PASS). Zéro dépendance distante CDN. Conforme RGPD et Règlements CE 999/2001, UE 2021/1372 et CE 1069/2009.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script d'Interactivité Vue Décideur / Architecte / Mixte -->
+  <script>
+    function setViewMode(mode) {
+      const btnAll = document.getElementById('btnViewAll');
+      const btnDecideur = document.getElementById('btnViewDecideur');
+      const btnArchitecte = document.getElementById('btnViewArchitecte');
+      
+      const cardsDecideur = document.querySelectorAll('.view-target-decideur');
+      const cardsArchitecte = document.querySelectorAll('.view-target-architecte');
+
+      // Reset active classes
+      btnAll.classList.remove('active');
+      btnDecideur.classList.remove('active');
+      btnArchitecte.classList.remove('active');
+
+      if (mode === 'all') {
+        btnAll.classList.add('active');
+        cardsDecideur.forEach(c => c.style.display = 'block');
+        cardsArchitecte.forEach(c => c.style.display = 'block');
+      } else if (mode === 'decideur') {
+        btnDecideur.classList.add('active');
+        cardsDecideur.forEach(c => c.style.display = 'block');
+        cardsArchitecte.forEach(c => c.style.display = 'none');
+      } else if (mode === 'architecte') {
+        btnArchitecte.classList.add('active');
+        cardsDecideur.forEach(c => c.style.display = 'none');
+        cardsArchitecte.forEach(c => c.style.display = 'block');
+      }
+    }
+
+    function copyMermaid(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        navigator.clipboard.writeText(el.innerText).then(() => {
+          alert('Source Mermaid copiée dans le presse-papier !');
+        });
+      }
+    }
+  </script>
+</body>
+</html>
