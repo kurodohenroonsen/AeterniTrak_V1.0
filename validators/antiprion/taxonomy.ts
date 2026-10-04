@@ -6,6 +6,7 @@
 import taxonomySnapshot from "../../qa/vectors/antiprion/taxonomy-snapshot.json" with { type: "json" };
 import type { TaxonEntry, ResolvedTaxon, TaxonResolutionResult } from "./types.ts";
 
+export const EMBEDDED_TAXONOMY_SNAPSHOT = taxonomySnapshot;
 export const TAXONOMY_MAP: Map<number, TaxonEntry> = new Map();
 
 for (const taxon of taxonomySnapshot.taxa) {

@@ -5,7 +5,7 @@
 
 export const RULES_VERSION = "1.5.0";
 export { evaluate } from "./evaluator.ts";
-export { resolveTaxon, TAXONOMY_MAP } from "./taxonomy.ts";
+export { resolveTaxon, TAXONOMY_MAP, EMBEDDED_TAXONOMY_SNAPSHOT } from "./taxonomy.ts";
 export type {
   TaxonEntry,
   ResolvedTaxon,
