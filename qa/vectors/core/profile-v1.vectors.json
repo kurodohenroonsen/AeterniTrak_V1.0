@@ -1,10 +1,10 @@
 {
   "$schema": "../schema/vector-suite.schema.json",
   "suite": "core.profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "issued_by": "bushi-16",
   "issued_at": "2026-10-04",
-  "status": "draft",
+  "status": "approved",
   "spec": [
     "RFC 8949 §4.2.1 Core Deterministic Encoding Requirements",
     "RFC 8610 CDDL",
@@ -15,7 +15,7 @@
     "mailbox/to-antigravity/0031-task-qa-profile-v1-draft-vectors.md (Ordre 0031)"
   ],
   "adapter": "core.profile",
-  "description": "Suite de vecteurs normatifs draft pour la validation de charge utile du profil mémoriel V1 AeterniCore. Couvre les trois profils de référence (minimal, standard, maximal), les limites matérielles de budget silicium, les contraintes de types, d'intégrité Unicode NFC et de déterminisme CBOR.",
+  "description": "Suite de vecteurs normatifs draft pour la validation de charge utile du profil mémoriel V1 AeterniCore. Couvre les trois profils de référence (minimal, standard, maximal), les limites matérielles de budget silicium, les contraintes de types, d'intégrité Unicode NFC et de déterminisme CBOR. Approuvée par Claude AI au cycle 0006 : 2 attentes corrigées (PROF-REJ-015, 016), 37 cas ajoutés (PROF-OK-009 à 011, PROF-REJ-017 à 050), tous recalculés par un validateur de référence indépendant.",
   "cases": [
     {
       "id": "PROF-OK-001",
@@ -409,14 +409,15 @@
         "hex": "ac0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa0c6365cc81"
       },
       "expect": {
-        "error": "ERR_PROFILE_NOT_NFC"
+        "error": "ERR_CBOR_TEXT_NOT_NFC"
       },
-      "rule": "docs/technical/aeternicore.md §A1.6 & §A2.2 (CDDL: epitaph UTF-8 NFC strict)",
+      "rule": "README §4.7 : une erreur de décodage strict remonte avec son code ERR_CBOR_* ; il n'existe pas de doublon ERR_PROFILE_* pour une faute CBOR",
       "tags": [
         "profile",
         "reject",
         "unicode-nfc"
-      ]
+      ],
+      "notes": "Attente du brouillon (ERR_PROFILE_NOT_NFC) corrigée à l'approbation : la faute est détectée par le décodage strict."
     },
     {
       "id": "PROF-REJ-016",
@@ -426,13 +427,609 @@
         "hex": "ab0201010103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
       },
       "expect": {
-        "error": "ERR_PROFILE_NOT_CANONICAL"
+        "error": "ERR_CBOR_MAP_UNSORTED"
       },
-      "rule": "docs/technical/aeternicore.md §A1.3 (RFC 8949 §4.2.1 Core Deterministic Encoding, clés non triées)",
+      "rule": "README §4.7 : une erreur de décodage strict remonte avec son code ERR_CBOR_* ; il n'existe pas de doublon ERR_PROFILE_* pour une faute CBOR",
       "tags": [
         "profile",
         "reject",
         "cbor-canonical"
+      ],
+      "notes": "Attente du brouillon (ERR_PROFILE_NOT_CANONICAL) corrigée à l'approbation : la faute est détectée par le décodage strict."
+    },
+    {
+      "id": "PROF-OK-009",
+      "title": "profil humain réduit aux seuls champs obligatoires",
+      "op": "validate-profile",
+      "input": {
+        "hex": "a70101020103a101664475706f6e7404d864391b57076242450a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "valid": true,
+        "len": 43
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-OK-010",
+      "title": "profil animal avec date de naissance et sans species_taxid",
+      "op": "validate-profile",
+      "input": {
+        "hex": "a70101020203a101664dc3a9646f7204d864194650076242450a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "valid": true,
+        "len": 43
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-OK-011",
+      "title": "noms aux bornes : nom d'usage de 120 octets, prénom de 80 octets",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a20178784e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e03817850505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505004d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "valid": true,
+        "len": 332
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-017",
+      "title": "champ obligatoire absent : issuer_id (clé 10)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "aa0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_MISSING_FIELD"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-018",
+      "title": "champ obligatoire absent : schema_version (clé 1)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "aa020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_MISSING_FIELD"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-019",
+      "title": "champ obligatoire absent : country (clé 7)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "aa0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa060108a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_MISSING_FIELD"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-020",
+      "title": "racine qui n'est pas une carte (tableau)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "820101"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_NOT_A_MAP"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-021",
+      "title": "schema_version fourni comme texte \"1\"",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab016131020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_UNSUPPORTED_VERSION"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-022",
+      "title": "subject_kind fourni comme texte \"1\"",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab010102613103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_SUBJECT_KIND"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-023",
+      "title": "names qui n'est pas une carte",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103664475706f6e7404d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_NAME"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-024",
+      "title": "nom d'usage vide",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a1016004d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_NAME"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-025",
+      "title": "nom d'usage de 121 octets",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a10178794e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e04d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_NAME"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-026",
+      "title": "nom d'usage de 61 caractères mais 122 octets UTF-8 (.size compte des octets)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a101787ac3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_NAME"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-027",
+      "title": "prénom de 81 octets",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e740381785150505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505004d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_NAME"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-028",
+      "title": "names sans nom d'usage (clé 1 absente)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a102664475706f6e7404d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_MISSING_FIELD"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-029",
+      "title": "clé inconnue dans names (clé 4)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7404617804d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_UNKNOWN_FIELD"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-030",
+      "title": "clé texte dans portrait_ref",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855636c656e19481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_KEY_TYPE"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-031",
+      "title": "portrait_ref sans longueur (clé 2 absente)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a1015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b85509a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_MISSING_FIELD"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-032",
+      "title": "empreinte du portrait fournie comme texte hexadécimal",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2017840653362306334343239386663316331343961666266346338393936666239323432376165343165343634396239333463613439353939316237383532623835350219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_ASSET_REF"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-033",
+      "title": "longueur du mémo vocal négative",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02200a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_ASSET_REF"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-034",
+      "title": "date de décès fournie comme entier nu, sans tag 100",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b57051950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_DATE_TYPE"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-035",
+      "title": "date d'émission sous tag 1 au lieu du tag 100",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bc11a6ac19700"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_DATE_TYPE"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-036",
+      "title": "rite_code négatif",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06200762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_RITE"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-037",
+      "title": "rite_code fourni comme texte",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06676c61c3af7175650762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_RITE"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-038",
+      "title": "country avec un chiffre (\"B1\")",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762423108a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_COUNTRY"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-039",
+      "title": "issuer_id de 65 octets",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a784149494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949494949490bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_ISSUER_ID"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-040",
+      "title": "épitaphe vide",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ac0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa0c60"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_EPITAPH"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-041",
+      "title": "épitaphe de 1 601 octets",
+      "op": "validate-profile",
+      "input": {
+        "hex": "aa0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa0601076242450a6a42452d4252552d3030310bd8641950fa0c7906416565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565656565"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_EPITAPH"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-042",
+      "title": "species_taxid sur un profil humain",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ac0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa0d192586"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_SPECIES"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-043",
+      "title": "species_taxid nul sur un profil animal",
+      "op": "validate-profile",
+      "input": {
+        "hex": "a70101020203a101664dc3a9646f72076242450a6a42452d4252552d3030310bd8641950fa0d00"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_SPECIES"
+      },
+      "rule": "docs/technical/aeternicore.md A2 (CDDL du profil v1) et README §4.7 (registre ERR_PROFILE_*)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-044",
+      "title": "octet résiduel après un profil valide",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa00"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRAILING_BYTES"
+      },
+      "rule": "README §4.7 : une erreur de décodage strict remonte avec son code ERR_CBOR_* ; il n'existe pas de doublon ERR_PROFILE_* pour une faute CBOR",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-045",
+      "title": "flottant dans le profil (rite_code = 1.5)",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06f93e000762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "README §4.7 : une erreur de décodage strict remonte avec son code ERR_CBOR_* ; il n'existe pas de doublon ERR_PROFILE_* pour une faute CBOR",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-046",
+      "title": "longueur de carte non minimale à la racine",
+      "op": "validate-profile",
+      "input": {
+        "hex": "b80b0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "README §4.7 : une erreur de décodage strict remonte avec son code ERR_CBOR_* ; il n'existe pas de doublon ERR_PROFILE_* pour une faute CBOR",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-047",
+      "title": "priorité : version 2 et clé 14 inconnue -> la version l'emporte",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ac0102020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa0e6178"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_UNSUPPORTED_VERSION"
+      },
+      "rule": "README §4.7 : ordre de contrôle du profil (taille, décodage strict, structure, version, clés, champs requis, puis champs par clé croissante)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-048",
+      "title": "priorité : clé texte et version 2 -> le type de clé l'emporte",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ac0102020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa617801"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_KEY_TYPE"
+      },
+      "rule": "README §4.7 : ordre de contrôle du profil (taille, décodage strict, structure, version, clés, champs requis, puis champs par clé croissante)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-049",
+      "title": "priorité : 1 901 octets qui ne sont pas du CBOR -> la taille l'emporte",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_TOO_LARGE"
+      },
+      "rule": "README §4.7 : ordre de contrôle du profil (taille, décodage strict, structure, version, clés, champs requis, puis champs par clé croissante)",
+      "tags": [
+        "claude",
+        "approval-0036"
+      ]
+    },
+    {
+      "id": "PROF-REJ-050",
+      "title": "priorité : clé 14 inconnue et issuer_id absent -> la clé inconnue l'emporte",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a201664475706f6e7403816347757904d864391b5705d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900bd8641950fa0e6178"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_UNKNOWN_FIELD"
+      },
+      "rule": "README §4.7 : ordre de contrôle du profil (taille, décodage strict, structure, version, clés, champs requis, puis champs par clé croissante)",
+      "tags": [
+        "claude",
+        "approval-0036"
       ]
     }
   ]

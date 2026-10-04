@@ -23,7 +23,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 | `CORE-003` | Bushi 16 | Vecteurs du profil mémoriel v1 (ordre 0031) | P0 | Spécifié | `qa/vectors/core/profile-v1.vectors.json` |
 | `CRYPTO-001` | Bushi 02 | Vecteurs de test officiels Ed25519 (RFC 8032) intégrés dans `qa/vectors/crypto/` | P0 | À spécifier | — |
 | `CRYPTO-002` | Bushi 02 | Dérivation de clés et enveloppe chiffrée AES-GCM-256 pour données privées | P1 | À spécifier | — |
-| `CRYPTO-003` | Bushi 02 | Spécification de l'enveloppe signée COSE_Sign1 et modèle de confiance (ordre 0032) | P0 | À spécifier | — |
+| `CRYPTO-003` | Bushi 02 | Spécification de l'enveloppe signée COSE_Sign1 et modèle de confiance (ordre 0032) | P0 | Spécifié | `qa/vectors/crypto/*.vectors.json` |
 | `STORAGE-001` | Bushi 10 | Partitionnement formel de la mémoire ACOSJ 92 Ko (blocs 0 à 5) | P0 | À spécifier | — |
 | `STORAGE-002` | Bushi 10 | Transaction atomique avec drapeau `COMMIT_FLAG` anti-arrachage | P1 | À spécifier | — |
 | `QA-001` | Bushi 16 | Harnais de validation des vecteurs JSON/CBOR via `scripts/runner.sh test` | P0 | Validé | `qa/vectors/**/*.vectors.json` |

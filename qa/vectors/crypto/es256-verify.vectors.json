@@ -1,0 +1,337 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "crypto.es256.verify",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "RFC 9053 §2.1",
+    "RFC 6979 A.2.5",
+    "SEC 1 §3.2.2.1",
+    "docs/technical/security-crypto.md §2.2"
+  ],
+  "adapter": "crypto.es256",
+  "description": "Vérification ES256 (ECDSA P-256, SHA-256), signature brute r‖s de 64 octets, clé publique brute X‖Y de 64 octets, s bas exigé. Vérification seule : ECDSA n'est pas déterministe sur les enclaves. La clé est la clé de test publique du RFC 6979 A.2.5. Signatures produites par la bibliothèque `ecdsa` (RFC 6979) et vérifiées par la bibliothèque `cryptography` (OpenSSL).",
+  "cases": [
+    {
+      "id": "ES-VER-001",
+      "title": "RFC 6979 A.2.5, message \"sample\" : la signature du RFC a un s haut -> rejet pour malléabilité",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "73616d706c65",
+        "signature_hex": "efd48b2aacb6a8fd1140dd9cd45e81d69d2c877b56aaf991c34d0ea84eaf3716f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8"
+      },
+      "expect": {
+        "error": "ERR_COSE_MALLEABLE_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "rfc6979",
+        "low-s"
+      ],
+      "notes": "La signature du RFC est mathématiquement valide ; AeterniTrak la refuse parce que s > n/2."
+    },
+    {
+      "id": "ES-VER-002",
+      "title": "RFC 6979 A.2.5, message \"sample\", s normalisé (n - s) : acceptée",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "73616d706c65",
+        "signature_hex": "efd48b2aacb6a8fd1140dd9cd45e81d69d2c877b56aaf991c34d0ea84eaf37160834e36ad29a83bf2bc9385e491d6099c8fdf9d1ed67aa7ea5f51f93782857a9"
+      },
+      "expect": {
+        "valid": true
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "rfc6979",
+        "low-s",
+        "nominal"
+      ]
+    },
+    {
+      "id": "ES-VER-003",
+      "title": "RFC 6979 A.2.5, message \"test\", s bas : acceptée",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "valid": true
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "rfc6979",
+        "nominal"
+      ]
+    },
+    {
+      "id": "ES-VER-004",
+      "title": "même signature, s remplacé par n - s (forme malléable)",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367fe60beeb8bd5d4ec42da6d94b639b6ea5dc07c4cd3965338e6f1887217f424ce"
+      },
+      "expect": {
+        "error": "ERR_COSE_MALLEABLE_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "low-s",
+        "malleability"
+      ]
+    },
+    {
+      "id": "ES-VER-005",
+      "title": "un bit du message modifié",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657375",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "tamper"
+      ]
+    },
+    {
+      "id": "ES-VER-006",
+      "title": "un bit de r modifié",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f0abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "tamper"
+      ]
+    },
+    {
+      "id": "ES-VER-007",
+      "title": "r = 0",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "0000000000000000000000000000000000000000000000000000000000000000019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "range"
+      ]
+    },
+    {
+      "id": "ES-VER-008",
+      "title": "s = 0",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d383670000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "range"
+      ]
+    },
+    {
+      "id": "ES-VER-009",
+      "title": "r = n",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "ffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "range"
+      ]
+    },
+    {
+      "id": "ES-VER-010",
+      "title": "s = floor(n/2) exactement : s bas, donc signature simplement invalide",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d383677fffffff800000007fffffffffffffffde737d56d38bcf4279dce5617e3192a8"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "low-s",
+        "boundary"
+      ]
+    },
+    {
+      "id": "ES-VER-011",
+      "title": "s = floor(n/2) + 1 : premier s haut",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d383677fffffff800000007fffffffffffffffde737d56d38bcf4279dce5617e3192a9"
+      },
+      "expect": {
+        "error": "ERR_COSE_MALLEABLE_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "low-s",
+        "boundary"
+      ]
+    },
+    {
+      "id": "ES-VER-012",
+      "title": "s juste au-dessus de la constante erronée de la spec v1.0.0 (…BCE4279DC656…) : encore un s bas",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d383677fffffff800000007fffffffffffffffde737d56d38bce4279dc65617e3192a9"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "low-s",
+        "boundary",
+        "spec-erratum"
+      ],
+      "notes": "La spec v1.0.0 §2.2 donne un demi-ordre faux. Le vrai est 7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCF4279DCE5617E3192A8."
+    },
+    {
+      "id": "ES-VER-013",
+      "title": "clé publique hors courbe (dernier octet de Y modifié)",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462298",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_PUBLIC_KEY"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "public-key"
+      ]
+    },
+    {
+      "id": "ES-VER-014",
+      "title": "clé publique nulle (0, 0)",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_PUBLIC_KEY"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "public-key"
+      ]
+    },
+    {
+      "id": "ES-VER-015",
+      "title": "clé publique au format SEC1 de 65 octets (préfixe 04) : format refusé",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "0460fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_PUBLIC_KEY"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "public-key",
+        "format"
+      ]
+    },
+    {
+      "id": "ES-VER-016",
+      "title": "coordonnée X = p (hors du corps)",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "ffffffff00000001000000000000000000000000ffffffffffffffffffffffff7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_PUBLIC_KEY"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "public-key"
+      ]
+    },
+    {
+      "id": "ES-VER-017",
+      "title": "signature de 63 octets",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f00"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "length"
+      ]
+    },
+    {
+      "id": "ES-VER-018",
+      "title": "signature au format DER au lieu de r‖s",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+        "message_hex": "74657374",
+        "signature_hex": "3045022100f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d383670220019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 6979 A.2.5 (clé de test P-256 publique) ; RFC 9053 §2.1 (ES256, signature r‖s de 64 octets) ; docs/technical/security-crypto.md §2.2 (s bas)",
+      "tags": [
+        "length",
+        "format"
+      ]
+    }
+  ]
+}

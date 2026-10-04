@@ -1,0 +1,2061 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "crypto.cose.sign1",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "RFC 9052 §4.2 et §4.4",
+    "RFC 9596",
+    "docs/technical/security-crypto.md §1, §3, §4",
+    "qa/vectors/README.md §4.8"
+  ],
+  "adapter": "crypto.cose",
+  "description": "Enveloppe COSE_Sign1 AeterniTrak : calcul du kid, Sig_structure, signature Ed25519 déterministe, et vérification complète contre une liste de confiance. Ordre de vérification et codes d'erreur : README §4.8. La validité temporelle des clés n'est pas couverte ici (point ouvert, ordre 0037).",
+  "cases": [
+    {
+      "id": "COSE-KID-001",
+      "title": "kid = 16 premiers octets du SHA-256 de la clé publique brute (Ed25519, clé TEST 1)",
+      "op": "kid",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+      },
+      "expect": {
+        "kid_hex": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "kid"
+      ]
+    },
+    {
+      "id": "COSE-KID-002",
+      "title": "kid = 16 premiers octets du SHA-256 de la clé publique brute (Ed25519, clé TEST 2)",
+      "op": "kid",
+      "input": {
+        "public_key_hex": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c"
+      },
+      "expect": {
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "kid"
+      ]
+    },
+    {
+      "id": "COSE-KID-003",
+      "title": "kid = 16 premiers octets du SHA-256 de la clé publique brute (ES256, clé RFC 6979)",
+      "op": "kid",
+      "input": {
+        "public_key_hex": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299"
+      },
+      "expect": {
+        "kid_hex": "d6c23e2744a840cb3a5a14b6554cce7c"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "kid"
+      ]
+    },
+    {
+      "id": "COSE-HDR-001",
+      "title": "en-tête protégé déterministe {1: -8, 16: \"application/aeternitrak-profile+cbor\"}",
+      "op": "protected-header",
+      "input": {
+        "alg": -8,
+        "typ": "application/aeternitrak-profile+cbor"
+      },
+      "expect": {
+        "hex": "a201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "header"
+      ]
+    },
+    {
+      "id": "COSE-HDR-002",
+      "title": "en-tête protégé déterministe {1: -7, 16: \"application/aeternitrak-profile+cbor\"}",
+      "op": "protected-header",
+      "input": {
+        "alg": -7,
+        "typ": "application/aeternitrak-profile+cbor"
+      },
+      "expect": {
+        "hex": "a201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "header"
+      ]
+    },
+    {
+      "id": "COSE-HDR-003",
+      "title": "en-tête protégé déterministe {1: -8, 16: \"application/aeternitrak-batch-claim+cbor\"}",
+      "op": "protected-header",
+      "input": {
+        "alg": -8,
+        "typ": "application/aeternitrak-batch-claim+cbor"
+      },
+      "expect": {
+        "hex": "a201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "header"
+      ]
+    },
+    {
+      "id": "COSE-HDR-004",
+      "title": "en-tête protégé déterministe {1: -7, 16: \"application/aeternitrak-batch-claim+cbor\"}",
+      "op": "protected-header",
+      "input": {
+        "alg": -7,
+        "typ": "application/aeternitrak-batch-claim+cbor"
+      },
+      "expect": {
+        "hex": "a201261078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "header"
+      ]
+    },
+    {
+      "id": "COSE-TBS-001",
+      "title": "Sig_structure d'un profil signé Ed25519",
+      "op": "sig-structure",
+      "input": {
+        "protected_hex": "a201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72",
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "hex": "846a5369676e617475726531582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72405882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "sha256": "ea83f430b3d94609a07e7b79edafab99f6426fb54a9eedaf8ee40d4b1b732e0f"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "tbs"
+      ]
+    },
+    {
+      "id": "COSE-TBS-002",
+      "title": "Sig_structure d'une charge utile vide",
+      "op": "sig-structure",
+      "input": {
+        "protected_hex": "a201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72",
+        "payload_hex": ""
+      },
+      "expect": {
+        "hex": "846a5369676e617475726531582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f724040",
+        "sha256": "bf88f1e43d15736d02e4b5ff0854c72bd6db8840f57d5845c690fa3075d415fb"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "tbs"
+      ]
+    },
+    {
+      "id": "COSE-SIGN-001",
+      "title": "signature Ed25519 d'un profil mémoriel (PROF-OK-001), clé TEST 1",
+      "op": "cose-sign",
+      "input": {
+        "seed_hex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+        "typ": "application/aeternitrak-profile+cbor",
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "len": 263,
+        "sha256": "06046d799c176ceb60d11f2fafc12b8eee887b8fca392b89397200ef7a6e02a8",
+        "kid_hex": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "sign",
+        "ed25519"
+      ]
+    },
+    {
+      "id": "COSE-SIGN-002",
+      "title": "signature Ed25519 d'un certificat de lot, clé TEST 2",
+      "op": "cose-sign",
+      "input": {
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "typ": "application/aeternitrak-batch-claim+cbor",
+        "payload_hex": "a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e30"
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e305840442a612212ecd5e3ad76edb963b45ecbbf33f176a429329cda0feaf2d2b19d13d9ffb59c2c8b332bb4891e2da559bee1690cbea07c6b464cb0b134df802c730e",
+        "len": 234,
+        "sha256": "d950ff341b19f54f7096ab73deb66626436730d3ac9481a67639b6975657a111",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "sign",
+        "ed25519"
+      ]
+    },
+    {
+      "id": "COSE-VER-001",
+      "title": "profil signé Ed25519 par une clé de confiance : valide",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "nominal",
+        "ed25519"
+      ]
+    },
+    {
+      "id": "COSE-VER-002",
+      "title": "profil signé ES256 (s bas) par une clé de confiance : valide",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404d5d176766f761cc46235a43c549e1eb8ed741354ffae59f6c602a1c4d928fea73f6f3bb8eabe6e6c1db61d36af6111c9bdb343a8f8edb485cb90c07e45ded51",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "d6c23e2744a840cb3a5a14b6554cce7c"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "nominal",
+        "es256"
+      ]
+    },
+    {
+      "id": "COSE-VER-003",
+      "title": "certificat de lot signé Ed25519 : valide",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e305840442a612212ecd5e3ad76edb963b45ecbbf33f176a429329cda0feaf2d2b19d13d9ffb59c2c8b332bb4891e2da559bee1690cbea07c6b464cb0b134df802c730e",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e30",
+        "kid": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "nominal",
+        "ed25519"
+      ]
+    },
+    {
+      "id": "COSE-VER-004",
+      "title": "enveloppe sans le tag 18",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "84582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-005",
+      "title": "enveloppe sous le tag 17 au lieu de 18",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d184582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-006",
+      "title": "entrée vide",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-007",
+      "title": "octet résiduel après l'enveloppe",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf0900",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRAILING_BYTES"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-1"
+      ]
+    },
+    {
+      "id": "COSE-VER-008",
+      "title": "tableau de 3 éléments (signature absente)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d283582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-009",
+      "title": "en-tête protégé fourni comme carte et non comme chaîne d'octets",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284a201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa584000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-010",
+      "title": "charge utile détachée (null)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd227f6584000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-011",
+      "title": "signature de 63 octets",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa583f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-012",
+      "title": "en-tête non protégé portant une clé supplémentaire (clé 1)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a20127045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-013",
+      "title": "en-tête protégé non déterministe (clé 16 avant clé 1)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa21078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f720127a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58409d0050e278b32ae05f1ae00c6d9ff6c500bd22bf618be80ead56f7d7d8f1553b98106831f233cbf8edf01e5fd4b5534e355f34fe2c1703252aedab80a3a2280d",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2",
+        "deterministic"
+      ]
+    },
+    {
+      "id": "COSE-VER-014",
+      "title": "en-tête protégé vide (chaîne d'octets de longueur 0)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d28440a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404fb5f41445b7faf1fd6dfd7c8526d0abd95ae13951186070b0fc53315226c2797c93d30c91ee3207f3f212505a9c2edceeb9f2cb5d08ee9c2e25979d5f0bca09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-015",
+      "title": "en-tête protégé portant une clé inconnue (clé 2, crit)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582da301270281101078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58403295635bf8266adcdea4799440a2e20606b1812c79fb91a1bb25853ad3f053418bf4a41fb5f84ca1b6e3a53ec04651e1fba773a296d21f7ddb56ccccf4efa105",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_ENVELOPE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-2"
+      ]
+    },
+    {
+      "id": "COSE-VER-016",
+      "title": "alg absent de l'en-tête protégé",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d2845828a11078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa584070f499bb3c97929dbbf6c53e53950a95870896f0ab2f2deb33d60c28792cbede71cfea450c70e721a3be9867be23899e18e8021272a892ee42fa5f30cadae006",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNSUPPORTED_ALGORITHM"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-3"
+      ]
+    },
+    {
+      "id": "COSE-VER-017",
+      "title": "alg -257 (RS256)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ca2013901001078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404dcd5965bc0d3577e9f83c909081e0628e380f8b435b3281f04dc46e6c59ed7a51ab688bedeb8f251730f18acc65d6c279ec5252f521c2181b17ef9aa3630606",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNSUPPORTED_ALGORITHM"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-3"
+      ]
+    },
+    {
+      "id": "COSE-VER-018",
+      "title": "alg fourni comme texte \"EdDSA\"",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582fa2016545644453411078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58401e09e4b5fa1f7a601c85f29630249a677fdab446072db67c57055173700bde571653661ed82fffd1ae7b704301676651cd29534c30be5ad35f546e5feaef7c00",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNSUPPORTED_ALGORITHM"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-3"
+      ]
+    },
+    {
+      "id": "COSE-VER-019",
+      "title": "typ absent de l'en-tête protégé",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d28443a10127a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa5840e45316f3361a30be66ce57768a0205f6a260b028bce95eefb90f32ab22df779433b6b31c2e63d93fa328e7af3c56c458f8032485102df5041b9570beabdfc40d",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_TYPE_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-4"
+      ]
+    },
+    {
+      "id": "COSE-VER-020",
+      "title": "certificat de lot valide présenté à un lecteur de profil (rejeu inter-domaines)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e305840442a612212ecd5e3ad76edb963b45ecbbf33f176a429329cda0feaf2d2b19d13d9ffb59c2c8b332bb4891e2da559bee1690cbea07c6b464cb0b134df802c730e",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_TYPE_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-4",
+        "safety"
+      ]
+    },
+    {
+      "id": "COSE-VER-021",
+      "title": "typ inconnu",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d28455a2012710706170706c69636174696f6e2f63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa5840cd9d3e0df4df7691f8b722c100dd74aaff4ef63ea8b6e71570328027545502f8033333ab2e9bc90660fbff25b723d002e1e920d374e8f45915332b881a7c690d",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_TYPE_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-4"
+      ]
+    },
+    {
+      "id": "COSE-VER-022",
+      "title": "kid absent",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a05882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_MISSING_KID"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-5"
+      ]
+    },
+    {
+      "id": "COSE-VER-023",
+      "title": "kid de 8 octets",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1044821fe31dfa154a2615882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_MISSING_KID"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-5"
+      ]
+    },
+    {
+      "id": "COSE-VER-024",
+      "title": "kid inconnu de la liste de confiance",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450000000000000000000000000000000005882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNKNOWN_KID"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-5"
+      ]
+    },
+    {
+      "id": "COSE-VER-025",
+      "title": "signature valide d'une clé révoquée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450dac073e0123bdea59dd9b3bda9cf60375882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa584027718d67de4823a70c12a1e71be066b11cba3765146f8dabe7d861fca388ebadf3a38e4d135abec82f3ffc798694a6210beab4061b6f27dec83a9f01fce80c09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_REVOKED_KEY"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-5",
+        "revocation"
+      ]
+    },
+    {
+      "id": "COSE-VER-026",
+      "title": "signature valide d'une clé absente de la liste, même si la clé publique est connue de l'attaquant",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNKNOWN_KID"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-5",
+        "safety"
+      ]
+    },
+    {
+      "id": "COSE-VER-027",
+      "title": "alg -7 déclaré avec le kid d'une clé Ed25519",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa5840dda3adfcbec28cfb08772785bbd904113a4b81fd66e76350c9d570856017082d98fee16e9c0d558337ec02d5d590a213277cb68845ad750c1189f74ab9072e0b",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ALGORITHM_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-6"
+      ]
+    },
+    {
+      "id": "COSE-VER-028",
+      "title": "clé de conformité de lot signant un profil : usage de clé non concordant",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045039f713d0a644253f04529421b9f51b9b5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa5840aafb342d1ab86a149ca13f4c0928cdac70fd585ddd3f6468f4823c54db0a049336a934af2779bda7e33c4c406c8a8f7724d8fada1b7e44a2c3ee0cd8feb6db0c",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_KEY_USAGE_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-6b",
+        "safety"
+      ]
+    },
+    {
+      "id": "COSE-VER-029",
+      "title": "un bit de la signature modifié",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400426097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-7",
+        "tamper"
+      ]
+    },
+    {
+      "id": "COSE-VER-030",
+      "title": "un octet de la charge utile modifié après signature",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fb58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-7",
+        "tamper"
+      ]
+    },
+    {
+      "id": "COSE-VER-031",
+      "title": "kid remplacé par celui d'une autre clé de confiance",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ALGORITHM_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-6",
+        "tamper"
+      ]
+    },
+    {
+      "id": "COSE-VER-032",
+      "title": "profil ES256 dont la signature est mise sous forme s haut",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404d5d176766f761cc46235a43c549e1eb8ed741354ffae59f6c602a1c4d928fea8c090c437154191a3e249e2c9509eee3210bc6731788c33c9700bebb18053800",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_MALLEABLE_SIGNATURE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-7",
+        "low-s"
+      ]
+    },
+    {
+      "id": "COSE-VER-033",
+      "title": "profil ES256, un bit de r modifié",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404c5d176766f761cc46235a43c549e1eb8ed741354ffae59f6c602a1c4d928fea73f6f3bb8eabe6e6c1db61d36af6111c9bdb343a8f8edb485cb90c07e45ded51",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-7",
+        "tamper"
+      ]
+    },
+    {
+      "id": "COSE-VER-034",
+      "title": "signature d'une clé de confiance présentée sous le kid d'une autre clé de confiance de même usage",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450dac073e0123bdea59dd9b3bda9cf60375882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-7",
+        "tamper"
+      ]
+    },
+    {
+      "id": "COSE-VER-035",
+      "title": "liste de confiance incohérente : kid d'une entrée différent de l'empreinte de sa clé",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "00000000000000000000000000000000",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "trust-store"
+      ]
+    },
+    {
+      "id": "COSE-VER-036",
+      "title": "liste de confiance dont la clé P-256 est hors courbe",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450fa20f8249011af6202afcbc462536c0f5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404d5d176766f761cc46235a43c549e1eb8ed741354ffae59f6c602a1c4d928fea73f6f3bb8eabe6e6c1db61d36af6111c9bdb343a8f8edb485cb90c07e45ded51",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "fa20f8249011af6202afcbc462536c0f",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462298",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_PUBLIC_KEY"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "step-7",
+        "public-key"
+      ]
+    },
+    {
+      "id": "COSE-VER-037",
+      "title": "priorité : alg non autorisé et typ non concordant -> l'algorithme l'emporte",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d28457a20139010010706170706c69636174696f6e2f63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa5840a65ff4d481cc8a8080d560eb3e7f62a2935596b905fc52e380bd04877e113dc04aee1d1bb3a0b1b640c31e85dcab1d9006d502f938a02692005b8a2abb3fb808",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNSUPPORTED_ALGORITHM"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "order"
+      ]
+    },
+    {
+      "id": "COSE-VER-038",
+      "title": "priorité : typ non concordant et kid inconnu -> le typ l'emporte",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a10450000000000000000000000000000000005861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e30584000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_TYPE_MISMATCH"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "order"
+      ]
+    },
+    {
+      "id": "COSE-VER-039",
+      "title": "priorité : kid inconnu et signature invalide -> le kid l'emporte",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450000000000000000000000000000000005882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa584000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_UNKNOWN_KID"
+      },
+      "rule": "RFC 9052 §4.2 et §4.4, RFC 9596 ; qa/vectors/README.md §4.8 (ordre de vérification)",
+      "tags": [
+        "order"
+      ]
+    }
+  ]
+}
