@@ -2,12 +2,15 @@
 /**
  * The Iron Gate — Test de Mutation du Validateur Anti-Prion & Feed-Ban (Bushi 12)
  *
- * Démontre que 4 altérations délibérées de la logique de sécurité font chacune échouer
+ * Démontre que 7 altérations délibérées de la logique de sécurité font chacune échouer
  * au moins un vecteur de test nommé dans les suites officielles :
  * 1. Liste noire au lieu de liste blanche en G3 -> échec de PRION-BLOCK-019 et PRION-HARD-012
  * 2. Température testée non typée au lieu de >= 133 -> échec de PRION-HARD-028
  * 3. Retrait de la condition « aucun ruminant » dans DEC-AET-05 -> échec de PRION-DEROG-017
  * 4. Retrait de la règle P14 (faux insecte permis) -> échec de PRION-HARD-063, PRION-HARD-064 et PRION-HARD-072
+ * 5. Affaiblissement de la détection de sources vides hors bioconversion (P15) -> échec de PRION-HARD-073
+ * 6. Omission du contrôle strict de toute source sur feed_grade_plant (P16) -> échec de PRION-HARD-080
+ * 7. Omission du motif de substrat préalable à la dérogation en mémoire forestière (P17) -> échec de PRION-HARD-089
  */
 
 import fs from "node:fs";
@@ -21,21 +24,16 @@ const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 
 const SUITES_DIR = path.join(PROJECT_ROOT, "qa/vectors/antiprion");
-const suiteFiles = [
-  "feedban-matrix.vectors.json",
-  "feedban-hardening.vectors.json",
-  "feedban-rules-v12.vectors.json",
-  "feedban-rules-v13.vectors.json"
-];
+const suiteFiles = fs.readdirSync(SUITES_DIR)
+  .filter(f => f.endsWith(".vectors.json"))
+  .sort();
 
 const allCases = new Map();
 for (const file of suiteFiles) {
   const fullPath = path.join(SUITES_DIR, file);
-  if (fs.existsSync(fullPath)) {
-    const data = JSON.parse(fs.readFileSync(fullPath, "utf8"));
-    for (const c of data.cases) {
-      allCases.set(c.id, c);
-    }
+  const data = JSON.parse(fs.readFileSync(fullPath, "utf8"));
+  for (const c of data.cases) {
+    allCases.set(c.id, c);
   }
 }
 
@@ -125,9 +123,19 @@ function evaluateWithMutations(claimInput, policyInput = null, mutation = null) 
   if (!Array.isArray(sources)) {
     hasTaxonUnknown = true;
   } else {
-    if (isFeed && route === "direct_rendering" && sources.length === 0) {
-      hasTaxonUnknown = true;
+    // Règle P15
+    if (mutation === "MUTATION_5_WEAK_EMPTY_SOURCES_P15") {
+      // Mutation 5 : affaiblissement P15, ne vérifie que direct_rendering (comportement v1.3)
+      if (isFeed && route === "direct_rendering" && sources.length === 0) {
+        hasTaxonUnknown = true;
+      }
+    } else {
+      // Conforme P15 : toute route autre qu'insect_bioconversion avec sources vides reporte TAXON_UNKNOWN
+      if (isFeed && route !== "insect_bioconversion" && sources.length === 0) {
+        hasTaxonUnknown = true;
+      }
     }
+
     for (const s of sources) {
       if (!s || typeof s !== "object" || !("taxid" in s)) {
         hasTaxonUnknown = true;
@@ -199,7 +207,18 @@ function evaluateWithMutations(claimInput, policyInput = null, mutation = null) 
   const category = substrate?.category;
   const materialClass = substrate?.material_class;
   const hasAnimalSource = (resolvedSources.length > 0);
-  const isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasAnimalSource);
+  const hasDeclaredSource = Array.isArray(sources) && sources.length > 0;
+
+  // Règle P16
+  let isPlantCategoryViolation = false;
+  if (mutation === "MUTATION_6_OMIT_PLANT_ANY_SOURCE_P16") {
+    // Mutation 6 : omet le contrôle strict sur toute source présente pour feed_grade_plant (v1.3)
+    isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasAnimalSource);
+  } else {
+    // Conforme P16 : feed_grade_plant ne tolère aucune source déclarée
+    isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasDeclaredSource);
+  }
+
   let inDerogationScope = false;
 
   if (isFeed) {
@@ -245,25 +264,17 @@ function evaluateWithMutations(claimInput, policyInput = null, mutation = null) 
       policy.authority_reference.trim() !== ""
     );
 
-    const hasRuminantSource = resolvedSources.some(
-      s => s.group === "RUMINANT" || s.lineage_markers.includes(9845)
-    );
+    const isInvalidCategory = (category !== 1 && category !== 2 && category !== 3);
+    const isInvalidMaterial = (typeof materialClass !== "string" || !KNOWN_MATERIAL_CLASSES.has(materialClass));
+    const substrateViolation = (isInvalidCategory || isInvalidMaterial || isPlantCategoryViolation);
 
-    if (mutation === "MUTATION_3_NO_RUMINANT_CHECK_DEC_AET_05") {
-      // MUTATION 3 : Retrait de la condition « aucun ruminant » dans DEC-AET-05
-      inDerogationScope = (
-        isPolicyValid &&
-        substrate?.origin_profile === "pet" &&
-        category === 1 &&
-        materialClass === "carcass" &&
-        route === "insect_bioconversion" &&
-        resolvedInsect !== null &&
-        resolvedInsect.group === "INSECT" &&
-        Array.isArray(sources) && sources.length > 0 &&
-        !hasTaxonUnknown && !hasTaxonRankAbove
+    // Règle P17
+    if (mutation === "MUTATION_7_OMIT_PRE_DEROGATION_SUBSTRATE_P17") {
+      // Mutation 7 : omet SUBSTRATE_CATEGORY_VIOLATION avant DEROGATION_REQUIRED en mémoire forestière (v1.3)
+      const hasRuminantSource = resolvedSources.some(
+        s => s.group === "RUMINANT" || s.lineage_markers.includes(9845)
       );
-    } else {
-      // Conforme : exclusion stricte des ruminants
+
       inDerogationScope = (
         isPolicyValid &&
         substrate?.origin_profile === "pet" &&
@@ -276,10 +287,54 @@ function evaluateWithMutations(claimInput, policyInput = null, mutation = null) 
         !hasTaxonUnknown && !hasTaxonRankAbove &&
         !hasRuminantSource
       );
-    }
 
-    if (!inDerogationScope) {
-      reasons.push("DEROGATION_REQUIRED");
+      if (!inDerogationScope) {
+        reasons.push("DEROGATION_REQUIRED");
+      }
+    } else {
+      // Conforme P17 : vérification et émission préalable du motif de substrat
+      if (substrateViolation) {
+        reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+      }
+
+      const hasRuminantSource = resolvedSources.some(
+        s => s.group === "RUMINANT" || s.lineage_markers.includes(9845)
+      );
+
+      if (mutation === "MUTATION_3_NO_RUMINANT_CHECK_DEC_AET_05") {
+        // MUTATION 3 : Retrait de la condition « aucun ruminant » dans DEC-AET-05
+        inDerogationScope = (
+          isPolicyValid &&
+          substrate?.origin_profile === "pet" &&
+          category === 1 &&
+          materialClass === "carcass" &&
+          route === "insect_bioconversion" &&
+          resolvedInsect !== null &&
+          resolvedInsect.group === "INSECT" &&
+          Array.isArray(sources) && sources.length > 0 &&
+          !hasTaxonUnknown && !hasTaxonRankAbove &&
+          !substrateViolation
+        );
+      } else {
+        // Conforme : exclusion stricte des ruminants
+        inDerogationScope = (
+          isPolicyValid &&
+          substrate?.origin_profile === "pet" &&
+          category === 1 &&
+          materialClass === "carcass" &&
+          route === "insect_bioconversion" &&
+          resolvedInsect !== null &&
+          resolvedInsect.group === "INSECT" &&
+          Array.isArray(sources) && sources.length > 0 &&
+          !hasTaxonUnknown && !hasTaxonRankAbove &&
+          !hasRuminantSource &&
+          !substrateViolation
+        );
+      }
+
+      if (!inDerogationScope) {
+        reasons.push("DEROGATION_REQUIRED");
+      }
     }
   }
 
@@ -445,8 +500,23 @@ function evaluateWithMutations(claimInput, policyInput = null, mutation = null) 
   };
 }
 
+function runCanonical(c) {
+  if (c.op === "evaluate-with-policy") {
+    return evaluate(c.input.claim, c.input.policy);
+  }
+  return evaluate(c.input);
+}
+
+function runMutated(c, mutation) {
+  if (c.op === "evaluate-with-policy") {
+    return evaluateWithMutations(c.input.claim, c.input.policy, mutation);
+  }
+  return evaluateWithMutations(c.input, null, mutation);
+}
+
 console.log("============================================================");
-console.log("The Iron Gate — Test des 4 Mutations de Sécurité (Bushi 12)");
+console.log("The Iron Gate — Test des 7 Mutations de Sécurité (Bushi 12)");
+console.log(`Suites chargées dynamiquement : ${suiteFiles.length} fichiers (${allCases.size} vecteurs au total)`);
 console.log("============================================================");
 
 let allPassed = true;
@@ -457,8 +527,8 @@ let allPassed = true;
 // ----------------------------------------------------------------------------
 {
   const c19 = getCase("PRION-BLOCK-019");
-  const canonicalRes = evaluate(c19.input);
-  const mutatedRes = evaluateWithMutations(c19.input, null, "MUTATION_1_BLACKLIST_G3");
+  const canonicalRes = runCanonical(c19);
+  const mutatedRes = runMutated(c19, "MUTATION_1_BLACKLIST_G3");
 
   const canonicalMatches = matchesExpect(canonicalRes, c19.expect);
   const mutatedMatches = matchesExpect(mutatedRes, c19.expect);
@@ -483,8 +553,8 @@ let allPassed = true;
 // ----------------------------------------------------------------------------
 {
   const c28 = getCase("PRION-HARD-028");
-  const canonicalRes = evaluate(c28.input);
-  const mutatedRes = evaluateWithMutations(c28.input, null, "MUTATION_2_UNTYPED_TEMPERATURE");
+  const canonicalRes = runCanonical(c28);
+  const mutatedRes = runMutated(c28, "MUTATION_2_UNTYPED_TEMPERATURE");
 
   const canonicalMatches = matchesExpect(canonicalRes, c28.expect);
   const mutatedMatches = matchesExpect(mutatedRes, c28.expect);
@@ -509,10 +579,8 @@ let allPassed = true;
 // ----------------------------------------------------------------------------
 {
   const c17 = getCase("PRION-DEROG-017");
-  const claim = c17.input.claim;
-  const policy = c17.input.policy;
-  const canonicalRes = evaluate(claim, policy);
-  const mutatedRes = evaluateWithMutations(claim, policy, "MUTATION_3_NO_RUMINANT_CHECK_DEC_AET_05");
+  const canonicalRes = runCanonical(c17);
+  const mutatedRes = runMutated(c17, "MUTATION_3_NO_RUMINANT_CHECK_DEC_AET_05");
 
   const canonicalMatches = matchesExpect(canonicalRes, c17.expect);
   const mutatedMatches = matchesExpect(mutatedRes, c17.expect);
@@ -537,8 +605,8 @@ let allPassed = true;
 // ----------------------------------------------------------------------------
 {
   const c63 = getCase("PRION-HARD-063");
-  const canonicalRes = evaluate(c63.input);
-  const mutatedRes = evaluateWithMutations(c63.input, null, "MUTATION_4_NO_P14");
+  const canonicalRes = runCanonical(c63);
+  const mutatedRes = runMutated(c63, "MUTATION_4_NO_P14");
 
   const canonicalMatches = matchesExpect(canonicalRes, c63.expect);
   const mutatedMatches = matchesExpect(mutatedRes, c63.expect);
@@ -557,9 +625,87 @@ let allPassed = true;
   }
 }
 
+// ----------------------------------------------------------------------------
+// Mutation 5 (Règle P15) : Affaiblir la détection de sources vides hors bioconversion
+// Fait échouer PRION-HARD-073 (sources vides avec route "composting" -> volailles)
+// ----------------------------------------------------------------------------
+{
+  const c73 = getCase("PRION-HARD-073");
+  const canonicalRes = runCanonical(c73);
+  const mutatedRes = runMutated(c73, "MUTATION_5_WEAK_EMPTY_SOURCES_P15");
+
+  const canonicalMatches = matchesExpect(canonicalRes, c73.expect);
+  const mutatedMatches = matchesExpect(mutatedRes, c73.expect);
+
+  console.log("\n[Mutation 5] Affaiblir la détection de sources vides hors bioconversion (Règle P15) :");
+  console.log(`  Vecteur ciblé       : PRION-HARD-073 ("${c73.title}")`);
+  console.log(`  Attendu             : verdict=${c73.expect.verdict}, reasons=[${c73.expect.reasons.join(", ")}]`);
+  console.log(`  Évaluateur canonique: verdict=${canonicalRes.verdict}, reasons=[${canonicalRes.reasons.join(", ")}] -> ${canonicalMatches ? "PASS" : "FAIL"}`);
+  console.log(`  Évaluateur muté     : verdict=${mutatedRes.verdict}, reasons=[${mutatedRes.reasons.join(", ")}] -> ${mutatedMatches ? "PASS (anomalie non détectée)" : "ÉCHEC ATTENDU (détecté)"}`);
+
+  if (canonicalMatches && !mutatedMatches) {
+    console.log("  => MUTATION 5 DÉTECTÉE : l'évaluateur muté omet TAXON_UNKNOWN pour les sources vides hors bioconversion et fait échouer PRION-HARD-073.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 5.");
+    allPassed = false;
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Mutation 6 (Règle P16) : Omettre le contrôle strict de sources sur feed_grade_plant
+// Fait échouer PRION-HARD-080 (feed_grade_plant avec source [null] -> engrais)
+// ----------------------------------------------------------------------------
+{
+  const c80 = getCase("PRION-HARD-080");
+  const canonicalRes = runCanonical(c80);
+  const mutatedRes = runMutated(c80, "MUTATION_6_OMIT_PLANT_ANY_SOURCE_P16");
+
+  const canonicalMatches = matchesExpect(canonicalRes, c80.expect);
+  const mutatedMatches = matchesExpect(mutatedRes, c80.expect);
+
+  console.log("\n[Mutation 6] Omettre le contrôle strict de toute source sur feed_grade_plant (Règle P16) :");
+  console.log(`  Vecteur ciblé       : PRION-HARD-080 ("${c80.title}")`);
+  console.log(`  Attendu             : verdict=${c80.expect.verdict}, reasons=[${c80.expect.reasons.join(", ")}]`);
+  console.log(`  Évaluateur canonique: verdict=${canonicalRes.verdict}, reasons=[${canonicalRes.reasons.join(", ")}] -> ${canonicalMatches ? "PASS" : "FAIL"}`);
+  console.log(`  Évaluateur muté     : verdict=${mutatedRes.verdict}, reasons=[${mutatedRes.reasons.join(", ")}] -> ${mutatedMatches ? "PASS (anomalie non détectée)" : "ÉCHEC ATTENDU (détecté)"}`);
+
+  if (canonicalMatches && !mutatedMatches) {
+    console.log("  => MUTATION 6 DÉTECTÉE : l'évaluateur muté tolère une source présente non résolue sur feed_grade_plant et fait échouer PRION-HARD-080.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 6.");
+    allPassed = false;
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Mutation 7 (Règle P17) : Omettre le motif substrat avant dérogation en mémoire forestière
+// Fait échouer PRION-HARD-089 (chat LFA négatif, catégorie absente, sous politique valide)
+// ----------------------------------------------------------------------------
+{
+  const c89 = getCase("PRION-HARD-089");
+  const canonicalRes = runCanonical(c89);
+  const mutatedRes = runMutated(c89, "MUTATION_7_OMIT_PRE_DEROGATION_SUBSTRATE_P17");
+
+  const canonicalMatches = matchesExpect(canonicalRes, c89.expect);
+  const mutatedMatches = matchesExpect(mutatedRes, c89.expect);
+
+  console.log("\n[Mutation 7] Omettre SUBSTRATE_CATEGORY_VIOLATION avant dérogation en mémoire forestière (Règle P17) :");
+  console.log(`  Vecteur ciblé       : PRION-HARD-089 ("${c89.title}")`);
+  console.log(`  Attendu             : verdict=${c89.expect.verdict}, reasons=[${c89.expect.reasons.join(", ")}]`);
+  console.log(`  Évaluateur canonique: verdict=${canonicalRes.verdict}, reasons=[${canonicalRes.reasons.join(", ")}] -> ${canonicalMatches ? "PASS" : "FAIL"}`);
+  console.log(`  Évaluateur muté     : verdict=${mutatedRes.verdict}, reasons=[${mutatedRes.reasons.join(", ")}] -> ${mutatedMatches ? "PASS (anomalie non détectée)" : "ÉCHEC ATTENDU (détecté)"}`);
+
+  if (canonicalMatches && !mutatedMatches) {
+    console.log("  => MUTATION 7 DÉTECTÉE : l'évaluateur muté omet SUBSTRATE_CATEGORY_VIOLATION et fait échouer PRION-HARD-089.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 7.");
+    allPassed = false;
+  }
+}
+
 console.log("\n============================================================");
 if (allPassed) {
-  console.log("RÉSULTAT MUTATIONS : 4/4 mutations ciblées validées avec succès.");
+  console.log("RÉSULTAT MUTATIONS : 7/7 mutations ciblées validées avec succès.");
   process.exit(0);
 } else {
   console.log("RÉSULTAT MUTATIONS : Anomalie détectée.");

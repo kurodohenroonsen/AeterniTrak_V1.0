@@ -1,10 +1,10 @@
 # Spécification Technique & Formelle — The Iron Gate (Validateur Anti-Prion & Feed-Ban)
 
 > **Document ID** : `AET-SPEC-PRION-001`  
-> **Version** : 1.3.0  
+> **Version** : 1.4.0  
 > **Statut** : Soumis pour révision  
 > **Date de référence** : 2026-10-04  
-> **Branche Git** : `fix/bushi-12-antiprion-p14`  
+> **Branche Git** : `fix/bushi-12-reasons-v14`  
 > **Auteur** : Bushi 12 (Anti-Prion & Biosecurity Lead)  
 > **Revue & Arbitrage** : Claude AI (Master Verifier)  
 > **Contrats Partagés** : Bushi 11 (Registres de filière), Bushi 01 (Déterminisme CBOR & Profil AeterniCore), Bushi 16 (QA Testvectors & Harnais)  
@@ -13,7 +13,8 @@
 > - `qa/vectors/antiprion/feedban-hardening.vectors.json` (42 cas de durcissement)  
 > - `qa/vectors/antiprion/feedban-rules-v12.vectors.json` (64 cas règles v1.2, matrice 5.1 et DEC-AET-05)  
 > - `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14)  
-> **Total Vecteurs Validés** : 183 cas conformes
+> - `qa/vectors/antiprion/feedban-rules-v14.vectors.json` (19 cas règles v1.4, motifs d'infraction P15 à P17)  
+> **Total Vecteurs Validés** : 202 cas conformes
 
 ---
 
@@ -460,7 +461,7 @@ Le validateur exécute **10 portes séquentielles ordonnées (G0 à G9)**. L'év
 
 ---
 
-### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.3 P9 à P14)
+### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.4 P9 à P17)
 
 ```typescript
 export interface PolicyInput {
@@ -549,7 +550,7 @@ export function evaluate(
   }
 
   // =========================================================================
-  // PORTE G1 : Taxonomie, Résolution & Default-Deny (Règles P2, P8, P9, P14)
+  // PORTE G1 : Taxonomie, Résolution & Default-Deny (Règles P2, P8, P9, P14, P15)
   // =========================================================================
   let hasTaxonUnknown = false;
   let hasTaxonRankAbove = false;
@@ -560,13 +561,14 @@ export function evaluate(
   const proc = claim.process;
   const route = proc?.route;
 
-  // Règle P9 : substrate.sources doit être un tableau.
+  // Règle P9 & P15 : substrate.sources doit être un tableau.
   // Absent ou d'un autre type => TAXON_UNKNOWN (hors incinération).
-  // En alimentation par équarrissage direct, sources vide => TAXON_UNKNOWN.
+  // En alimentation (feed ou aquaculture_feed), un tableau sources vide vaut TAXON_UNKNOWN
+  // pour toute route autre que insect_bioconversion (inconnue, absente, mal typée comprise) (P15).
   if (!Array.isArray(sources)) {
     hasTaxonUnknown = true;
   } else {
-    if (isFeed && route === "direct_rendering" && sources.length === 0) {
+    if (isFeed && route !== "insect_bioconversion" && sources.length === 0) {
       hasTaxonUnknown = true;
     }
     for (const s of sources) {
@@ -618,8 +620,10 @@ export function evaluate(
   if (hasTaxonRankAbove) reasons.push("TAXON_RANK_ABOVE_SPECIES");
 
   // =========================================================================
-  // PORTE G2 : Protection des Restes Humains (Règles P3, P11, P12)
+  // PORTE G2 : Protection des Restes Humains (Règles P3, P11, P12, P15)
   // =========================================================================
+  // Règle P15 : G1 s'évalue en entier avant G2. Sur des restes humains, les motifs
+  // G1 (TAXON_UNKNOWN, TAXON_RANK_ABOVE_SPECIES) précèdent HUMAN_REMAINS_ROUTE_PROHIBITED.
   const isHuman = (
     resolvedSources.some(s => s.species_taxid === 9606 || s.group === "HUMAN") ||
     substrate?.material_class === "human_remains" ||
@@ -647,14 +651,15 @@ export function evaluate(
   }
 
   // =========================================================================
-  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, DEC-AET-05)
+  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, P16, P17, DEC-AET-05)
   // =========================================================================
   const category = substrate?.category;
   const materialClass = substrate?.material_class;
 
-  // Règle P10 : feed_grade_plant exclut toute source animale déclarée
-  const hasAnimalSource = (resolvedSources.length > 0);
-  const isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasAnimalSource);
+  // Règle P16 : « Source déclarée » au sens de P10 : tout élément du tableau sources compte,
+  // qu'il se résolve ou non (null, taxid mal typé, taxid hors snapshot, rang > espèce, nom sans taxid).
+  const hasDeclaredSource = Array.isArray(sources) && sources.length > 0;
+  const isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasDeclaredSource);
 
   let inDerogationScope = false;
 
@@ -688,6 +693,15 @@ export function evaluate(
       reasons.push("CATEGORY_DESTINATION_PROHIBITED");
     }
   } else if (use === "memorial_forestry") {
+    // Règle P17 : Les contrôles de substrat (P4 et P10) s'appliquent à memorial_forestry.
+    // SUBSTRATE_CATEGORY_VIOLATION précède DEROGATION_REQUIRED, avec ou sans politique.
+    const isInvalidCategory = (category !== 1 && category !== 2 && category !== 3);
+    const isInvalidMaterial = (typeof materialClass !== "string" || !KNOWN_MATERIAL_CLASSES.has(materialClass));
+
+    if (isInvalidCategory || isInvalidMaterial || isPlantCategoryViolation) {
+      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+    }
+
     // Dérogation souveraine DEC-AET-05 (§4.3)
     const isPolicyValid = (
       policy !== null &&
@@ -1212,11 +1226,11 @@ Conformément à l'exigence A6, **la revendication d'entrée complète (`claim`)
 
 ---
 
-## 8. Bilan de Validation et Couverture des 183 Vecteurs
+## 8. Bilan de Validation et Couverture des 202 Vecteurs
 
 ### 8.1 Couverture Intégrale des Suites de Vecteurs
 
-L'algorithme formel spécifié dans le présent document résout l'intégralité des **183 vecteurs de tests** répartis sur les quatre suites officielles :
+L'algorithme formel spécifié dans le présent document résout l'intégralité des **202 vecteurs de tests** répartis sur les cinq suites officielles :
 1. `qa/vectors/antiprion/feedban-matrix.vectors.json` (67 cas de base) :
    - 17 cas autorisés nominaux (`PRION-AUTH-001` à `017`)
    - 36 cas d'interdiction sanitaire (`PRION-BLOCK-001` à `036`)
@@ -1229,10 +1243,12 @@ L'algorithme formel spécifié dans le présent document résout l'intégralité
    - 22 cas d'encadrement strict de la dérogation mémorielle DEC-AET-05 (`PRION-DEROG-001` à `022`).
 4. `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14) :
    - 10 cas de validation stricte de l'organisme de bioconversion (`PRION-HARD-063` à `072`).
+5. `qa/vectors/antiprion/feedban-rules-v14.vectors.json` (19 cas règles v1.4) :
+   - 19 cas de fixation rigoureuse des listes de motifs d'infraction ordonnées selon les règles P15, P16 et P17 (`PRION-HARD-073` à `091`).
 
 ### 8.2 État de Conformité
 
-Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 183 vecteurs de tests approuvés.
+Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 202 vecteurs de tests approuvés.
 
 ---
-*Fin de la spécification formelle The Iron Gate v1.3 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
+*Fin de la spécification formelle The Iron Gate v1.4 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
