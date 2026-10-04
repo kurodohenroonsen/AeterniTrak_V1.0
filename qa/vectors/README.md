@@ -34,6 +34,7 @@ Validé par `schema/vector-suite.schema.json`. Champs obligatoires : `suite`, `v
 | `reject-decode`  | `{hex}`                               | `{error}`                                 | core.cbor      |
 | `canonicalize`   | valeur JSON                           | `{utf8, hex, len, sha256}`                | core.jcs       |
 | `evaluate`       | `BatchClaim` v1                       | `{verdict, reasons[], signature_permitted}` | antiprion      |
+| `evaluate-with-policy` | `{claim, policy}` (`policy` peut être `null`) | `{verdict, reasons[], signature_permitted}` | antiprion |
 | `sign` / `verify` | défini par la suite crypto (à venir) | défini par la suite                       | crypto         |
 
 La comparaison est **exacte et binaire** : octets identiques, listes ordonnées identiques, codes d'erreur identiques. Aucune tolérance, aucune normalisation côté harnais.
@@ -101,6 +102,24 @@ Ces précisions ne modifient aucun des 67 vecteurs de la matrice ; elles ferment
 - **P6 — G9, méthode selon la nature de la protéine** (règl. (UE) 142/2011, annexe X, ch. II, sect. 1) : la nature est « insecte » dès que la route est la bioconversion, sinon celle des sources. Mammifères (ou nature indéterminée) : **méthode 1 exclusivement**. Volailles et insectes : méthodes 1 à 5 ou 7. Poisson seul : méthodes 1 à 7. Dans tous les cas : `evidence_sha256` de 64 hexadécimaux minuscules ; pour la méthode 1, température, pression et durée numériques et au-dessus des seuils.
 - **P7 — G9, périmètre** : G9 ne s'applique qu'aux destinations qui exigent un traitement. Technique et engrais en catégorie 1 ou 2 : méthode 1 prouvée, aucune autre. Incinération et mémoire forestière : G9 ne produit aucun motif.
 - **P8 — Typage strict** : un taxid est un entier JSON ; les paramètres de traitement sont des nombres. Une valeur absente ou d'un autre type n'est jamais conforme par défaut (piège JavaScript : `undefined < 133` vaut `false`).
+
+### 4.4 Précisions v1.2 des portes (suite `antiprion.feedban.rules-v12`, cas `PRION-HARD-043` à `062` et `PRION-CELL-*`)
+
+- **P9 — Sources déclarées** : `substrate.sources` doit être un tableau. Absent ou d'un autre type : `TAXON_UNKNOWN` (hors incinération). En alimentation par équarrissage direct, un tableau vide vaut aussi `TAXON_UNKNOWN` : une PAT sans espèce déclarée viderait la Règle d'Or de son objet.
+- **P10 — Cohérence de la déclaration** : la classe `feed_grade_plant` exclut toute source animale déclarée ; sinon `SUBSTRATE_CATEGORY_VIOLATION` (hors incinération).
+- **P11 — Incinération** : toujours autorisée. Après G0, aucune porte ne produit de motif pour `incineration`, y compris taxon inconnu, catégorie absente ou animal de compagnie non testé. Un cadavre non identifié doit toujours pouvoir être détruit.
+- **P12 — Portes indépendantes** : chaque motif s'évalue seul, sans chaîne « sinon » (`SUBSTRATE_CATEGORY_VIOLATION` et `CATEGORY_DESTINATION_PROHIBITED` peuvent coexister ; une catégorie invalide vers technique ou engrais exige aussi la méthode 1). G2 arrête l'évaluation pour toute destination, mémoire forestière comprise.
+- **P13 — Natures mêlées** : en équarrissage direct, un lot qui n'est ni entièrement volaille ni entièrement poisson relève de la méthode 1 exclusivement.
+
+### 4.5 Dérogation DEC-AET-05 (cas `PRION-DEROG-*`, opération `evaluate-with-policy`)
+
+Décision de Kudoro du 2026-10-04 : mémoire forestière privée pour les animaux de compagnie de catégorie 1, LFA négatifs. La Porte de Fer ne code aucune dérogation en dur : elle reçoit une **politique** en second argument, et sans politique valide le comportement v1 est inchangé (`DEROGATION_REQUIRED`).
+
+- **Politique valide** : objet dont `policy_id = "DEC-AET-05"`, avec `legal_basis` et `authority_reference` non vides. La vérification de la signature de la politique relève de l'hôte (Bushi 02) ; la Porte ne voit qu'une politique déjà authentifiée.
+- **Périmètre** (toutes les conditions) : `origin_profile = "pet"`, catégorie 1, classe `carcass`, route `insect_bioconversion`, au moins une source, aucune erreur G1, aucun ruminant parmi les sources. Hors périmètre : `DEROGATION_REQUIRED`.
+- **Dans le périmètre** : G4 s'applique (LFA négatif exigé) ; G9 exige `process.pasteurisation = {core_temp_c ≥ 70, minutes ≥ 60, evidence_sha256}` numériques et prouvés, sinon `TREATMENT_NOT_PROVEN`.
+- **Jamais couvert** : les restes humains (G2 passe avant), et toute autre destination. La politique n'ouvre ni l'alimentation ni l'engrais.
+- **Limite** : une décision interne au projet n'est pas une autorisation administrative. Le champ `authority_reference` est là pour porter la référence de l'autorisation réelle de l'autorité compétente ; les vecteurs utilisent une référence fictive `TEST-ONLY-…`.
 
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 
