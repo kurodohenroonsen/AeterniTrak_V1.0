@@ -1,10 +1,10 @@
 # Spécification Technique & Formelle — The Iron Gate (Validateur Anti-Prion & Feed-Ban)
 
 > **Document ID** : `AET-SPEC-PRION-001`  
-> **Version** : 1.2.0  
-> **Statut** : Approuvé (Phase A bis — Spécification formelle v1.2)  
+> **Version** : 1.3.0  
+> **Statut** : Soumis pour révision  
 > **Date de référence** : 2026-10-04  
-> **Branche Git** : `ag/bushi-12-antiprion-impl`  
+> **Branche Git** : `fix/bushi-12-antiprion-p14`  
 > **Auteur** : Bushi 12 (Anti-Prion & Biosecurity Lead)  
 > **Revue & Arbitrage** : Claude AI (Master Verifier)  
 > **Contrats Partagés** : Bushi 11 (Registres de filière), Bushi 01 (Déterminisme CBOR & Profil AeterniCore), Bushi 16 (QA Testvectors & Harnais)  
@@ -12,7 +12,8 @@
 > - `qa/vectors/antiprion/feedban-matrix.vectors.json` (67 cas de base)  
 > - `qa/vectors/antiprion/feedban-hardening.vectors.json` (42 cas de durcissement)  
 > - `qa/vectors/antiprion/feedban-rules-v12.vectors.json` (64 cas règles v1.2, matrice 5.1 et DEC-AET-05)  
-> **Total Vecteurs Validés** : 173 cas conformes (173 RED / 0 INVALID en Phase A bis)
+> - `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14)  
+> **Total Vecteurs Validés** : 183 cas conformes
 
 ---
 
@@ -459,7 +460,7 @@ Le validateur exécute **10 portes séquentielles ordonnées (G0 à G9)**. L'év
 
 ---
 
-### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.2 P9 à P13)
+### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.3 P9 à P14)
 
 ```typescript
 export interface PolicyInput {
@@ -548,7 +549,7 @@ export function evaluate(
   }
 
   // =========================================================================
-  // PORTE G1 : Taxonomie, Résolution & Default-Deny (Règles P2, P8, P9)
+  // PORTE G1 : Taxonomie, Résolution & Default-Deny (Règles P2, P8, P9, P14)
   // =========================================================================
   let hasTaxonUnknown = false;
   let hasTaxonRankAbove = false;
@@ -593,6 +594,9 @@ export function evaluate(
       if (!res.success) {
         if (res.error === "TAXON_UNKNOWN") hasTaxonUnknown = true;
         else if (res.error === "TAXON_RANK_ABOVE_SPECIES") hasTaxonRankAbove = true;
+      } else if (res.taxon.group !== "INSECT") {
+        // Règle P14 : L'organisme de bioconversion doit être un insecte résolu
+        hasTaxonUnknown = true;
       } else {
         resolvedInsect = res.taxon;
       }
@@ -699,12 +703,15 @@ export function evaluate(
       s => s.group === "RUMINANT" || s.lineage_markers.includes(9845)
     );
 
+    // Règle P14 : insect_taxid doit impérativement avoir pour groupe résolu "INSECT"
     inDerogationScope = (
       isPolicyValid &&
       substrate?.origin_profile === "pet" &&
       category === 1 &&
       materialClass === "carcass" &&
       route === "insect_bioconversion" &&
+      resolvedInsect !== null &&
+      resolvedInsect.group === "INSECT" &&
       Array.isArray(sources) && sources.length > 0 &&
       !hasTaxonUnknown && !hasTaxonRankAbove &&
       !hasRuminantSource
@@ -760,7 +767,8 @@ export function evaluate(
     // G8 : Interdictions de Groupe & Groupes Positifs (Règl. 2021/1372 & 999/2001)
     const effectiveSourceGroups = new Set(resolvedSources.map(s => s.group));
     if (route === "insect_bioconversion" && resolvedInsect) {
-      effectiveSourceGroups.add("INSECT");
+      // Le groupe de l'organisme provient toujours de la résolution du snapshot (Règle P14)
+      effectiveSourceGroups.add(resolvedInsect.group);
     }
     const targetGroups = new Set(resolvedTargets.map(t => t.group));
 
@@ -917,9 +925,10 @@ La dérogation DEC-AET-05 ne s'applique que si **l'ensemble** des conditions sui
 3. `substrate.category === 1` ;
 4. `substrate.material_class === "carcass"` ;
 5. `process.route === "insect_bioconversion"` ;
-6. Au moins une source déclarée dans `substrate.sources` (`Array.isArray(sources) && sources.length > 0`) ;
-7. Aucune erreur taxonomique en porte G1 (`!hasTaxonUnknown && !hasTaxonRankAbove`) ;
-8. Aucun taxon ruminant parmi les sources résolues (`!hasRuminantSource`).
+6. `process.insect_taxid` résolu dont le groupe taxonomique est `"INSECT"` (règle P14) ; s'il résout vers `BOVINE`, `HUMAN`, `FELINE`, etc., il produit `TAXON_UNKNOWN` et ne peut en aucun cas être injecté comme source d'insecte ni bénéficier de la dérogation ;
+7. Au moins une source déclarée dans `substrate.sources` (`Array.isArray(sources) && sources.length > 0`) ;
+8. Aucune erreur taxonomique en porte G1 (`!hasTaxonUnknown && !hasTaxonRankAbove`) ;
+9. Aucun taxon ruminant parmi les sources résolues (`!hasRuminantSource`).
 
 Toute revendication orientée vers la mémoire forestière ne satisfaisant pas l'intégralité de ce périmètre produit le motif bloquant `DEROGATION_REQUIRED`.
 
@@ -1203,11 +1212,11 @@ Conformément à l'exigence A6, **la revendication d'entrée complète (`claim`)
 
 ---
 
-## 8. Bilan de Validation et Couverture des 173 Vecteurs
+## 8. Bilan de Validation et Couverture des 183 Vecteurs
 
 ### 8.1 Couverture Intégrale des Suites de Vecteurs
 
-L'algorithme formel spécifié dans le présent document résout l'intégralité des **173 vecteurs de tests** répartis sur les trois suites officielles :
+L'algorithme formel spécifié dans le présent document résout l'intégralité des **183 vecteurs de tests** répartis sur les quatre suites officielles :
 1. `qa/vectors/antiprion/feedban-matrix.vectors.json` (67 cas de base) :
    - 17 cas autorisés nominaux (`PRION-AUTH-001` à `017`)
    - 36 cas d'interdiction sanitaire (`PRION-BLOCK-001` à `036`)
@@ -1218,10 +1227,12 @@ L'algorithme formel spécifié dans le présent document résout l'intégralité
    - 20 cas de clarification des règles P9 à P13 (`PRION-HARD-043` à `062`)
    - 22 cas de couverture intégrale de la matrice 5.1 (`PRION-CELL-001` à `022`)
    - 22 cas d'encadrement strict de la dérogation mémorielle DEC-AET-05 (`PRION-DEROG-001` à `022`).
+4. `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14) :
+   - 10 cas de validation stricte de l'organisme de bioconversion (`PRION-HARD-063` à `072`).
 
 ### 8.2 État de Conformité
 
-Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 173 vecteurs de tests approuvés.
+Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 183 vecteurs de tests approuvés.
 
 ---
-*Fin de la spécification formelle The Iron Gate v1.2 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
+*Fin de la spécification formelle The Iron Gate v1.3 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
