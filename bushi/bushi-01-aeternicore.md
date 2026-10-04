@@ -50,5 +50,5 @@ Avant d'écrire ou de modifier toute spécification ou code, le Bushi 01 doit ex
 ## 5. Critères de Conformité Stricts
 - [ ] **Déterminisme binaire 100%** : Deux exécutions sur des architectures CPU distinctes (ARM64 vs x86_64) produisent rigoureusement les mêmes hachages SHA-256 au bit près.
 - [ ] **Zéro dépendance dynamique non auditée** : Seules les API standardisées W3C / Web Crypto / WASM sont permises.
-- [ ] **Respect du budget mémoire** : Empreinte binaire d'un profil mémoriel encodé en CBOR inférieure à 4 Ko (hors audio/photos).
+- [ ] **Respect du budget silicium (Bloc 1)** : Charge utile CBOR ≤ 1 900 octets ; enveloppe signée complète (COSE_Sign1 RFC 9052) ≤ 2 048 octets.
 - [ ] **Revue Claude obligatoire** : Aucun merge sur `main` sans la validation du vecteur de test par Claude AI.

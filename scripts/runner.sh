@@ -95,6 +95,17 @@ case "$ACTION" in
     fi
     ;;
 
+  say)
+    shift
+    tts_msg="$*"
+    log ">>> Action: SAY (TTS): $tts_msg"
+    if [ -f "/Applications/MAMP/htdocs/trackmort-demo/tts.py" ]; then
+      python3 /Applications/MAMP/htdocs/trackmort-demo/tts.py "$tts_msg" 2>&1 | tee -a "$OUT_FILE"
+    else
+      log "WARNING: TTS script not found at /Applications/MAMP/htdocs/trackmort-demo/tts.py"
+    fi
+    ;;
+
   clean)
     log ">>> Action: CLEAN temporary files"
     rm -f "$OUT_FILE" "$DEFAULT_TASK_FILE"
@@ -102,7 +113,7 @@ case "$ACTION" in
     ;;
 
   *)
-    log "ERROR: Unknown action '$ACTION'. Supported: exec, task, sync, status, test, clean"
+    log "ERROR: Unknown action '$ACTION'. Supported: exec, task, sync, status, test, clean, say"
     exit 1
     ;;
 esac

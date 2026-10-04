@@ -9,10 +9,13 @@
 
 ## 1. Rôle et Mission
 Le Bushi 02 conçoit, implémente et audite l'ensemble de la couche cryptographique d'AeterniTrak :
-1. **Signatures asymétriques Ed25519 (RFC 8032)** pour l'authenticité inviolable des enregistrements mémoriels et des attestations de traçabilité biologique.
-2. **Support NIST P-256 (ECDSA ES256 - FIPS 186-4)** pour l'interopérabilité avec les puces cryptographiques JavaCard / ACOSJ et les enclaves sécurisées (Android KeyStore / Apple Secure Enclave).
-3. **Mécanismes anti-rejeu et anti-tampering silicium** : Compteurs d'arrachage monotones, défis APDU chiffrés, dérivations HKDF-SHA256.
-4. **Intimité post-mortem et preuves à divulgation nulle de connaissance (ZK Proofs)** : Vérification de l'authenticité d'un testament ou certificat mémoriel sans dévoiler le contenu sensible ou l'identité civile de la personne disparue.
+1. **Enveloppe de signature COSE_Sign1 (RFC 9052) & Agilité d'Algorithme** :
+   - L'enveloppe canonique est `COSE_Sign1` avec `alg` explicite dans l'en-tête protégé (`-8` EdDSA / Ed25519 selon RFC 8032, ou `-7` ES256 / NIST P-256 selon FIPS 186-4).
+   - Le choix par déploiement relève de la décision souveraine **`DEC-AET-04`** soumise à Kudoro (voir `mailbox/state/claude.md`). **Aucune implémentation crypto ne doit être codée avant cet arbitrage.**
+2. **Signatures asymétriques Ed25519 (RFC 8032)** pour l'authenticité logicielle inviolable des enregistrements mémoriels (Studio, filière, validateur anti-prion).
+3. **Support NIST P-256 (ECDSA ES256 - FIPS 186-4)** pour l'interopérabilité avec les puces cryptographiques JavaCard / ACOSJ et les enclaves sécurisées (Android KeyStore / Apple Secure Enclave).
+4. **Mécanismes anti-rejeu et anti-tampering silicium** : Compteurs d'arrachage monotones, défis APDU chiffrés, dérivations HKDF-SHA256.
+5. **Intimité post-mortem et preuves à divulgation nulle de connaissance (ZK Proofs)** : Vérification de l'authenticité d'un testament ou certificat mémoriel sans dévoiler le contenu sensible ou l'identité civile de la personne disparue.
 
 ---
 

@@ -19,10 +19,10 @@
 
 ---
 
-## 3. Communication Vocale Système (TTS Obligatoire)
-- Toutes les annonces de synthèse à l'utilisateur, questions stratégiques ou validations d'étapes majeures doivent être prononcées oralement sur la machine hôte via l'outil dédié :
+## 3. Communication Vocale Système (TTS Obligatoire via Runner Invariant)
+- Toutes les annonces de synthèse à l'utilisateur, questions stratégiques ou validations d'étapes majeures doivent être prononcées oralement sur la machine hôte via le lanceur invariant (Règle 7 bis) :
   ```bash
-  python3 /Applications/MAMP/htdocs/trackmort-demo/tts.py "<Message court, fluide et amical en français>"
+  ./scripts/runner.sh say "<Message court, fluide et amical en français>"
   ```
 - Les messages vocaux doivent rester fluides, solennels et concis (3 à 4 phrases maximum). Le détail technique exhaustif reste dans le texte de la conversation.
 
