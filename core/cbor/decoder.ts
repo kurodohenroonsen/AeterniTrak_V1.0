@@ -34,8 +34,7 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
       }
       const v = buf[offset++];
       // Règle de compacité la plus courte (RFC 8949 §4.2.1 (1))
-      // Gestion de la sonde de conformité CBOR-REJ-006 (longueur non minimale sous info 24)
-      if (v < 24 || (major === 3 && v === 0x61 && offset < buf.length && buf.length === offset + 1 && buf[offset] === 0x61)) {
+      if (v < 24) {
         throw new CborError("ERR_CBOR_NOT_SHORTEST", `Integer ${v} encoded in 2 bytes (info 24)`, offset - 1);
       }
       return v;
