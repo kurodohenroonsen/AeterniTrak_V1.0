@@ -76,6 +76,18 @@ Format d'une entrée :
   *Arbitrage* : **Option B retenue (Bandeau de réserve pour émetteur inconnu, blocage sur falsification/révocation)**.  
   *Justification* : Préserve l'expérience émotionnelle et humaine du Sanctuaire pour les familles tout en maintenant une intransigeance absolue face aux contrefaçons avérées ou aux clés compromises révoquées.
 
+- **2026-10-04 · [Architecture Applicative] · Kudoro (DEC-AET-08)**  
+  *Question* : Quelle segmentation applicative adopter pour Le Pax Funèbre et la filière de traçabilité AeterniTrak ?  
+  *Options* : A) 3 applications (regroupant design et encodage) ; B) 4 applications spécialisées et étanches (App 1 Design des Cartes, App 2 Encodage Silicium PaxFunèbre, App 3 Sanctuaire Participants & Maison, App 4 Filière & Traçabilité Post-Décès).  
+  *Arbitrage* : **Option B retenue (Segmentation en 4 applications spécialisées et étanches)**.  
+  *Justification* : Séparation stricte des responsabilités métier, sécurité matérielle des clés d'encodage isolées chez les professionnels PaxFunèbre, liberté créative pour les familles en amont, recueillement pur sans friction pour les participants, et traçabilité industrielle étanche pour les acteurs de terrain.
+
+- **2026-10-04 · [Universalité Multiplateforme] · Kudoro (DEC-AET-09)**  
+  *Question* : Sur quels systèmes d'exploitation et terminaux les 4 applications doivent-elles être disponibles ?  
+  *Options* : A) Applications limitées à des OS spécifiques (ex: Desktop seul pour encodage, Android seul pour NFC) ; B) Universalité multiplateforme totale (Android natif, iOS/iPadOS natif, Web PWA offline universelle, Desktop macOS/Windows/Linux) avec socle partagé AeterniCore (~85% de code commun TypeScript/WebAssembly/WebCrypto/WebAudio).  
+  *Arbitrage* : **Option B retenue (Universalité multiplateforme totale 100%)**.  
+  *Justification* : Exigence absolue d'accessibilité sans friction pour tous les citoyens et professionnels quel que soit leur terminal, absence totale de verrouillage propriétaire (zéro vendor lock-in), et garantie d'isomorphisme mathématique strict des calculs cryptographiques et normatifs sur l'ensemble des plateformes matérielles.
+
 ---
 
 ## 2. Décisions en Attente d'Arbitrage
@@ -84,4 +96,4 @@ Format d'une entrée :
 - `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
 - `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
 
-*`DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06`, `DEC-AET-07` : arbitrées le 2026-10-04, voir §1.*
+*`DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06`, `DEC-AET-07`, `DEC-AET-08`, `DEC-AET-09` : arbitrées le 2026-10-04, voir §1.*
