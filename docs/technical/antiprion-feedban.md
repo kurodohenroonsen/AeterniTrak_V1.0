@@ -1,17 +1,19 @@
 # Spécification Technique & Formelle — The Iron Gate (Validateur Anti-Prion & Feed-Ban)
 
 > **Document ID** : `AET-SPEC-PRION-001`  
-> **Version** : 1.1.0  
-> **Statut** : Soumis pour révision (Phase A — Spécification formelle)  
+> **Version** : 1.3.0  
+> **Statut** : Soumis pour révision  
 > **Date de référence** : 2026-10-04  
-> **Branche Git** : `ag/bushi-12-antiprion-v2`  
+> **Branche Git** : `fix/bushi-12-antiprion-p14`  
 > **Auteur** : Bushi 12 (Anti-Prion & Biosecurity Lead)  
-> **Revue & Arbitrage** : Claude AI (Master Verifier) & Kudoro (Autorité Souveraine)  
+> **Revue & Arbitrage** : Claude AI (Master Verifier)  
 > **Contrats Partagés** : Bushi 11 (Registres de filière), Bushi 01 (Déterminisme CBOR & Profil AeterniCore), Bushi 16 (QA Testvectors & Harnais)  
 > **Suites de Vecteurs de Référence** :  
 > - `qa/vectors/antiprion/feedban-matrix.vectors.json` (67 cas de base)  
 > - `qa/vectors/antiprion/feedban-hardening.vectors.json` (42 cas de durcissement)  
-> **Total Vecteurs Validés** : 109 cas conformes (109 RED / 0 INVALID en Phase A)
+> - `qa/vectors/antiprion/feedban-rules-v12.vectors.json` (64 cas règles v1.2, matrice 5.1 et DEC-AET-05)  
+> - `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14)  
+> **Total Vecteurs Validés** : 183 cas conformes
 
 ---
 
@@ -85,7 +87,7 @@ Les règles implémentées sont directement adossées aux textes officiels de l'
 
 ---
 
-### 1.4 Lecture Juridique Arrêtée (Claude AI & Kudoro)
+### 1.4 Lecture Juridique Arrêtée
 
 1. **La Règle d'Or Anti-Prion (Règl. 1069/2009 art. 11(1)(a))** :  
    Résolution systématique au rang espèce biologique avant toute comparaison : les sous-espèces sont obligatoirement résolues vers leur espèce parente (`9825 -> 9823`, `208526 -> 9031`, `9615 -> 9612`). Une tentative d'obscurcissement par déclaration d'une sous-espèce est interceptée (`FEED_BAN_INTRA_SPECIES_VIOLATION`). Dans la filière de sarcomusation (bioconversion par insectes), la règle s'applique à la fois à l'insecte et aux matières du substrat larvaire (une larve nourrie sur carcasse porcine transmise à des porcins est bloquée).
@@ -197,6 +199,19 @@ Pour résoudre le défaut architectural A1 identifié lors de l'audit de sécuri
               "pattern": "^[0-9a-f]{64}$"
             }
           }
+        },
+        "pasteurisation": {
+          "type": "object",
+          "required": ["core_temp_c", "minutes", "evidence_sha256"],
+          "additionalProperties": false,
+          "properties": {
+            "core_temp_c": { "type": "number" },
+            "minutes": { "type": "number" },
+            "evidence_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
         }
       }
     },
@@ -261,6 +276,7 @@ process_record = {
   route: "direct_rendering" / "insect_bioconversion",
   ? insect_taxid: uint,
   ? treatment: treatment_record,
+  ? pasteurisation: pasteurisation_record,
 }
 
 treatment_record = {
@@ -268,6 +284,12 @@ treatment_record = {
   ? core_temp_c: number,
   ? pressure_bar: number,
   ? minutes: number,
+  evidence_sha256: tstr, ; 64 caractères hexadécimaux minuscules
+}
+
+pasteurisation_record = {
+  core_temp_c: number,
+  minutes: number,
   evidence_sha256: tstr, ; 64 caractères hexadécimaux minuscules
 }
 
@@ -297,6 +319,12 @@ batch_claim_input = {
       ? method: any,
       ? core_temp_c: any,
       ? pressure_bar: any,
+      ? minutes: any,
+      ? evidence_sha256: any,
+      * any => any,
+    } / any,
+    ? pasteurisation: {
+      ? core_temp_c: any,
       ? minutes: any,
       ? evidence_sha256: any,
       * any => any,
@@ -432,16 +460,27 @@ Le validateur exécute **10 portes séquentielles ordonnées (G0 à G9)**. L'év
 
 ---
 
-### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer
+### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.3 P9 à P14)
 
 ```typescript
+export interface PolicyInput {
+  policy_id: string;
+  version?: number;
+  legal_basis: string;
+  authority_reference: string;
+}
+
 export interface EvaluationResult {
   verdict: "AUTHORISED" | "BLOCKED";
   reasons: string[];
   signature_permitted: boolean;
 }
 
-export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonEntry>): EvaluationResult {
+export function evaluate(
+  claim: BatchClaimInput,
+  policy: PolicyInput | null = null,
+  taxonomyMap: Map<number, TaxonEntry>
+): EvaluationResult {
   const reasons: string[] = [];
 
   const SUPPORTED_USES = new Set([
@@ -486,11 +525,21 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
     };
   }
 
+  // Règle P11 : L'incinération est toujours autorisée de plein droit.
+  // Après G0, aucune porte ne produit de motif pour l'incinération.
+  if (use === "incineration") {
+    return {
+      verdict: "AUTHORISED",
+      reasons: [],
+      signature_permitted: true
+    };
+  }
+
   const isFeed = (use === "feed" || use === "aquaculture_feed");
   let targetTaxids: unknown[] = [];
 
   if (isFeed) {
-    if (!Array.isArray(dest.target_taxids) || dest.target_taxids.length === 0) {
+    if (!Array.isArray(dest?.target_taxids) || dest.target_taxids.length === 0) {
       reasons.push("TARGET_UNSPECIFIED");
     } else {
       targetTaxids = dest.target_taxids;
@@ -500,7 +549,7 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
   }
 
   // =========================================================================
-  // PORTE G1 : Taxonomie, Résolution & Default-Deny (Examen cumulatif P2)
+  // PORTE G1 : Taxonomie, Résolution & Default-Deny (Règles P2, P8, P9, P14)
   // =========================================================================
   let hasTaxonUnknown = false;
   let hasTaxonRankAbove = false;
@@ -508,8 +557,18 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
   const resolvedSources: ResolvedTaxon[] = [];
   const substrate = claim.substrate;
   const sources = substrate?.sources;
+  const proc = claim.process;
+  const route = proc?.route;
 
-  if (Array.isArray(sources)) {
+  // Règle P9 : substrate.sources doit être un tableau.
+  // Absent ou d'un autre type => TAXON_UNKNOWN (hors incinération).
+  // En alimentation par équarrissage direct, sources vide => TAXON_UNKNOWN.
+  if (!Array.isArray(sources)) {
+    hasTaxonUnknown = true;
+  } else {
+    if (isFeed && route === "direct_rendering" && sources.length === 0) {
+      hasTaxonUnknown = true;
+    }
     for (const s of sources) {
       if (!s || typeof s !== "object" || !("taxid" in s)) {
         hasTaxonUnknown = true;
@@ -525,10 +584,7 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
     }
   }
 
-  const proc = claim.process;
-  const route = proc?.route;
   let resolvedInsect: ResolvedTaxon | null = null;
-
   if (route === "insect_bioconversion") {
     const insectTaxid = proc?.insect_taxid;
     if (insectTaxid === undefined || insectTaxid === null) {
@@ -538,6 +594,9 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
       if (!res.success) {
         if (res.error === "TAXON_UNKNOWN") hasTaxonUnknown = true;
         else if (res.error === "TAXON_RANK_ABOVE_SPECIES") hasTaxonRankAbove = true;
+      } else if (res.taxon.group !== "INSECT") {
+        // Règle P14 : L'organisme de bioconversion doit être un insecte résolu
+        hasTaxonUnknown = true;
       } else {
         resolvedInsect = res.taxon;
       }
@@ -559,7 +618,7 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
   if (hasTaxonRankAbove) reasons.push("TAXON_RANK_ABOVE_SPECIES");
 
   // =========================================================================
-  // PORTE G2 : Protection des Restes Humains (Arrêt anticipé si détournement P3)
+  // PORTE G2 : Protection des Restes Humains (Règles P3, P11, P12)
   // =========================================================================
   const isHuman = (
     resolvedSources.some(s => s.species_taxid === 9606 || s.group === "HUMAN") ||
@@ -568,12 +627,16 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
   );
 
   if (isHuman) {
-    if (use === "incineration") {
-      // Autorisé de plein droit sans dérogation (crémation conforme)
-    } else if (use === "memorial_forestry") {
-      // La mémoire forestière humaine relève de la porte G3 (DEROGATION_REQUIRED)
+    // Règle P12 : G2 arrête l'évaluation pour toute destination (hors incinération).
+    // La mémoire forestière humaine renvoie DEROGATION_REQUIRED et s'arrête.
+    if (use === "memorial_forestry") {
+      reasons.push("DEROGATION_REQUIRED");
+      return {
+        verdict: "BLOCKED",
+        reasons,
+        signature_permitted: false
+      };
     } else {
-      // Arrêt anticipé : détournement de restes humains vers voie industrielle/alimentaire
       reasons.push("HUMAN_REMAINS_ROUTE_PROHIBITED");
       return {
         verdict: "BLOCKED",
@@ -584,50 +647,85 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
   }
 
   // =========================================================================
-  // PORTE G3 : Catégorie de Matières & Régime des Substrats (Whitelist P4)
+  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, DEC-AET-05)
   // =========================================================================
   const category = substrate?.category;
   const materialClass = substrate?.material_class;
 
+  // Règle P10 : feed_grade_plant exclut toute source animale déclarée
+  const hasAnimalSource = (resolvedSources.length > 0);
+  const isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasAnimalSource);
+
+  let inDerogationScope = false;
+
   if (isFeed) {
-    // Règle d'or des substrats : catégorie 3 obligatoire ET classe autorisée par la route
+    let feedViolation = false;
     if (category !== 3) {
-      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+      feedViolation = true;
     } else if (route === "direct_rendering") {
       if (materialClass !== "slaughter_byproduct" && materialClass !== "feed_grade_plant") {
-        reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+        feedViolation = true;
       }
     } else if (route === "insect_bioconversion") {
       if (materialClass !== "feed_grade_plant") {
-        reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+        feedViolation = true;
       }
     } else {
-      // Route inconnue vers l'alimentation
+      feedViolation = true;
+    }
+    if (feedViolation || isPlantCategoryViolation) {
       reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
     }
   } else if (use === "technical" || use === "fertiliser") {
-    // Catégorie 1, 2 ou 3 obligatoire et classe connue
-    if (category !== 1 && category !== 2 && category !== 3) {
+    // Règle P12 : Portes indépendantes sans chaîne « sinon »
+    const isInvalidCategory = (category !== 1 && category !== 2 && category !== 3);
+    const isInvalidMaterial = (typeof materialClass !== "string" || !KNOWN_MATERIAL_CLASSES.has(materialClass));
+
+    if (isInvalidCategory || isInvalidMaterial || isPlantCategoryViolation) {
       reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
-    } else if (typeof materialClass !== "string" || !KNOWN_MATERIAL_CLASSES.has(materialClass)) {
-      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
-    } else if (category === 1 && use === "fertiliser") {
-      // Règlement 1069/2009 art. 12 : Catégorie 1 formellement proscrite en engrais
+    }
+    if (category === 1 && use === "fertiliser") {
       reasons.push("CATEGORY_DESTINATION_PROHIBITED");
     }
   } else if (use === "memorial_forestry") {
-    // Dérogation souveraine DEC-AET-05 requise en v1
-    reasons.push("DEROGATION_REQUIRED");
-  } else if (use === "incineration") {
-    // L'incinération reste universellement ouverte sans condition de catégorie
+    // Dérogation souveraine DEC-AET-05 (§4.3)
+    const isPolicyValid = (
+      policy !== null &&
+      typeof policy === "object" &&
+      policy.policy_id === "DEC-AET-05" &&
+      typeof policy.legal_basis === "string" &&
+      policy.legal_basis.trim() !== "" &&
+      typeof policy.authority_reference === "string" &&
+      policy.authority_reference.trim() !== ""
+    );
+
+    const hasRuminantSource = resolvedSources.some(
+      s => s.group === "RUMINANT" || s.lineage_markers.includes(9845)
+    );
+
+    // Règle P14 : insect_taxid doit impérativement avoir pour groupe résolu "INSECT"
+    inDerogationScope = (
+      isPolicyValid &&
+      substrate?.origin_profile === "pet" &&
+      category === 1 &&
+      materialClass === "carcass" &&
+      route === "insect_bioconversion" &&
+      resolvedInsect !== null &&
+      resolvedInsect.group === "INSECT" &&
+      Array.isArray(sources) && sources.length > 0 &&
+      !hasTaxonUnknown && !hasTaxonRankAbove &&
+      !hasRuminantSource
+    );
+
+    if (!inDerogationScope) {
+      reasons.push("DEROGATION_REQUIRED");
+    }
   }
 
   // =========================================================================
   // PORTE G4 : Contrôle Pentobarbital (Animaux de Compagnie)
   // =========================================================================
-  // Documenté explicitement (A7) : le contrôle repose sur le profil déclaré "pet",
-  // garanti en amont par l'attestation d'admission du Bushi 11.
-  if (substrate?.origin_profile === "pet" && use !== "incineration") {
+  if (substrate?.origin_profile === "pet") {
     const lfa = substrate.pentobarbital_lfa;
     if (lfa === "positive") {
       reasons.push("PENTOBARBITAL_POSITIVE");
@@ -657,7 +755,6 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
     }
 
     // G7 : Règle d'Or Anti-Cannibalisme Intra-Espèce (Règl. 1069/2009 art. 11(1)(a))
-    // En bioconversion larvaire, les espèces sources comprennent les substrats ET l'insecte
     const allSourceSpecies = new Set(resolvedSources.map(s => s.species_taxid));
     if (route === "insect_bioconversion" && resolvedInsect) {
       allSourceSpecies.add(resolvedInsect.species_taxid);
@@ -670,11 +767,11 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
     // G8 : Interdictions de Groupe & Groupes Positifs (Règl. 2021/1372 & 999/2001)
     const effectiveSourceGroups = new Set(resolvedSources.map(s => s.group));
     if (route === "insect_bioconversion" && resolvedInsect) {
-      effectiveSourceGroups.add("INSECT");
+      // Le groupe de l'organisme provient toujours de la résolution du snapshot (Règle P14)
+      effectiveSourceGroups.add(resolvedInsect.group);
     }
     const targetGroups = new Set(resolvedTargets.map(t => t.group));
 
-    // Interdiction intra-groupe (porcins vers porcins, volailles vers volailles)
     if (
       (effectiveSourceGroups.has("PORCINE") && targetGroups.has("PORCINE")) ||
       (effectiveSourceGroups.has("POULTRY") && targetGroups.has("POULTRY"))
@@ -682,7 +779,6 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
       reasons.push("FEED_BAN_INTRA_GROUP_VIOLATION");
     }
 
-    // Whitelist des groupes sources autorisés (évaluée uniquement si sources résolues)
     if (effectiveSourceGroups.size > 0) {
       const allowedSources = (use === "feed")
         ? new Set(["PORCINE", "POULTRY", "INSECT", "FISH"])
@@ -700,12 +796,11 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
       }
     }
 
-    // Whitelist des groupes cibles autorisés (évaluée uniquement si cibles résolues)
     if (targetGroups.size > 0) {
       if (use === "aquaculture_feed") {
         const allFish = Array.from(targetGroups).every(g => g === "FISH");
         if (!allFish) reasons.push("TARGET_GROUP_NOT_AUTHORISED");
-      } else { // use === "feed"
+      } else {
         const allowedTargets = new Set(["PORCINE", "POULTRY"]);
         const allAllowed = Array.from(targetGroups).every(g => allowedTargets.has(g));
         if (!allAllowed) reasons.push("TARGET_GROUP_NOT_AUTHORISED");
@@ -714,53 +809,38 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
   }
 
   // =========================================================================
-  // PORTE G9 : Traitement Sanitaire Requis & Preuve (Règl. 142/2011 P6, P7, P8)
+  // PORTE G9 : Traitement Sanitaire Requis & Preuve (Règles P6, P7, P8, P12, P13, DEC-AET-05)
   // =========================================================================
-  // Périmètre strict (P7) : Ne concerne ni l'incinération ni la mémoire forestière
-  let treatmentRequired = false;
-  if (isFeed) {
-    treatmentRequired = true;
-  } else if ((use === "technical" || use === "fertiliser") && (category === 1 || category === 2)) {
-    treatmentRequired = true;
-  }
-
-  if (treatmentRequired) {
+  // P12 : Une catégorie invalide vers technique ou engrais exige aussi la méthode 1
+  if (isFeed || ((use === "technical" || use === "fertiliser") && category !== 3)) {
     const treatment = proc?.treatment;
     if (!treatment || typeof treatment !== "object") {
       reasons.push("TREATMENT_NOT_PROVEN");
     } else {
       const method = treatment.method;
       const evidence = treatment.evidence_sha256;
-
-      // Vérification preuve hexadécimale (S6 / P6) : 64 hexadécimaux minuscules stricts
       const hasValidEvidence = typeof evidence === "string" && /^[0-9a-f]{64}$/.test(evidence);
 
-      // Méthode autorisée selon destination et nature de la protéine (P6 / S7 / S8)
       let methodAuthorized = false;
-
       if (use === "technical" || use === "fertiliser") {
-        // Catégories 1 et 2 vers technique ou engrais : Méthode 1 obligatoire
         methodAuthorized = (method === 1);
       } else { // isFeed
         if (route === "insect_bioconversion") {
-          // Insectes : Méthodes 1, 2, 3, 4, 5, 7
-          methodAuthorized = [1, 2, 3, 4, 5, 7].includes(method);
+          methodAuthorized = (typeof method === "number" && [1, 2, 3, 4, 5, 7].includes(method));
         } else {
-          // Équarrissage direct : selon nature des sources
+          // direct_rendering
           const isMammal = resolvedSources.some(s => MAMMAL_GROUPS.has(s.group)) || resolvedSources.length === 0;
           const isAllFish = resolvedSources.length > 0 && resolvedSources.every(s => s.group === "FISH");
           const isAllPoultry = resolvedSources.length > 0 && resolvedSources.every(s => s.group === "POULTRY");
 
           if (isMammal) {
-            // Mammifères ou nature indéterminée : Méthode 1 exclusivement
             methodAuthorized = (method === 1);
           } else if (isAllFish) {
-            // Poissons : Méthodes 1 à 7
-            methodAuthorized = [1, 2, 3, 4, 5, 6, 7].includes(method);
+            methodAuthorized = (typeof method === "number" && [1, 2, 3, 4, 5, 6, 7].includes(method));
           } else if (isAllPoultry) {
-            // Volailles : Méthodes 1 à 5, 7 (Méthode 6 interdite)
-            methodAuthorized = [1, 2, 3, 4, 5, 7].includes(method);
+            methodAuthorized = (typeof method === "number" && [1, 2, 3, 4, 5, 7].includes(method));
           } else {
+            // Règle P13 : Natures mêlées => Méthode 1 exclusivement
             methodAuthorized = (method === 1);
           }
         }
@@ -769,7 +849,6 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
       if (!methodAuthorized || !hasValidEvidence) {
         reasons.push("TREATMENT_NOT_PROVEN");
       } else if (method === 1) {
-        // Validation des paramètres physiques de la Méthode 1 (S5 / P8)
         const temp = treatment.core_temp_c;
         const press = treatment.pressure_bar;
         const mins = treatment.minutes;
@@ -783,6 +862,27 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
         if (!paramsValid) {
           reasons.push("TREATMENT_NOT_PROVEN");
         }
+      }
+    }
+  } else if (use === "memorial_forestry" && inDerogationScope) {
+    // Dérogation DEC-AET-05 : pasteurisation thermique obligatoire (70 °C, 60 min)
+    const pasteurisation = proc?.pasteurisation;
+    if (!pasteurisation || typeof pasteurisation !== "object") {
+      reasons.push("TREATMENT_NOT_PROVEN");
+    } else {
+      const temp = pasteurisation.core_temp_c;
+      const mins = pasteurisation.minutes;
+      const evidence = pasteurisation.evidence_sha256;
+      const hasValidEvidence = typeof evidence === "string" && /^[0-9a-f]{64}$/.test(evidence);
+
+      const paramsValid = (
+        typeof temp === "number" && !Number.isNaN(temp) && temp >= 70 &&
+        typeof mins === "number" && !Number.isNaN(mins) && mins >= 60 &&
+        hasValidEvidence
+      );
+
+      if (!paramsValid) {
+        reasons.push("TREATMENT_NOT_PROVEN");
       }
     }
   }
@@ -801,22 +901,72 @@ export function evaluate(claim: BatchClaimInput, taxonomyMap: Map<number, TaxonE
 
 ---
 
+### 4.3 Dérogation Souveraine DEC-AET-05 (Mémoire Forestière des Animaux de Compagnie)
+
+Conformément à l'arbitrage souverain de Kudoro du **2026-10-04** (`DECISIONS-KUDORO.md`) et aux exigences du `README.md` §4.5, la Porte de Fer ne code aucune dérogation en dur : elle reçoit une politique explicite en second argument via la signature unifiée :
+
+$$\text{evaluate}(\text{claim}, \text{policy})$$
+
+Sans politique valide fournie (`policy === null` ou politique non conforme), le comportement de sécurité par défaut reste inchangé : la destination `memorial_forestry` produit le motif bloquant `DEROGATION_REQUIRED`.
+
+#### 4.3.1 Validité Formelle de la Politique
+Une politique est reconnue valide si et seulement si :
+1. C'est un objet non nul ;
+2. `policy_id === "DEC-AET-05"` ;
+3. `legal_basis` est une chaîne non vide ;
+4. `authority_reference` est une chaîne non vide.
+
+La vérification cryptographique de la signature de la politique relève de l'hôte d'orchestration (Bushi 02). La Porte de Fer n'évalue qu'une politique déjà formellement authentifiée.
+
+#### 4.3.2 Périmètre Strict d'Application (Conjonction Obligatoire)
+La dérogation DEC-AET-05 ne s'applique que si **l'ensemble** des conditions suivantes est satisfait :
+1. `destination.use === "memorial_forestry"` ;
+2. `substrate.origin_profile === "pet"` ;
+3. `substrate.category === 1` ;
+4. `substrate.material_class === "carcass"` ;
+5. `process.route === "insect_bioconversion"` ;
+6. `process.insect_taxid` résolu dont le groupe taxonomique est `"INSECT"` (règle P14) ; s'il résout vers `BOVINE`, `HUMAN`, `FELINE`, etc., il produit `TAXON_UNKNOWN` et ne peut en aucun cas être injecté comme source d'insecte ni bénéficier de la dérogation ;
+7. Au moins une source déclarée dans `substrate.sources` (`Array.isArray(sources) && sources.length > 0`) ;
+8. Aucune erreur taxonomique en porte G1 (`!hasTaxonUnknown && !hasTaxonRankAbove`) ;
+9. Aucun taxon ruminant parmi les sources résolues (`!hasRuminantSource`).
+
+Toute revendication orientée vers la mémoire forestière ne satisfaisant pas l'intégralité de ce périmètre produit le motif bloquant `DEROGATION_REQUIRED`.
+
+#### 4.3.3 Exigences Sanitaires dans le Périmètre
+Dans le périmètre de la dérogation :
+- **Porte G4** : Le dépistage du pentobarbital est obligatoire. `pentobarbital_lfa === "negative"` est exigé ; une valeur `"positive"` émet `PENTOBARBITAL_POSITIVE` et une valeur non testée émet `PENTOBARBITAL_NOT_TESTED`.
+- **Porte G9** : Un traitement de pasteurisation validé est obligatoire dans `process.pasteurisation`. Il exige :
+  - `core_temp_c` $\ge 70\text{ }^\circ\text{C}$ (numérique) ;
+  - `minutes` $\ge 60\text{ min}$ (numérique) ;
+  - `evidence_sha256` : empreinte cryptographique valide de 64 caractères hexadécimaux minuscules.
+  L'absence ou la non-conformité de ces paramètres produit le motif `TREATMENT_NOT_PROVEN`.
+
+#### 4.3.4 Exclusions Absolues & Portée Restreinte
+- **Restes humains** : Jamais couverts par la dérogation DEC-AET-05. La porte G2 intercepte toute détection humaine et émet `DEROGATION_REQUIRED` avec arrêt anticipé immédiat.
+- **Autres destinations** : La dérogation ne couvre ni l'alimentation humaine ou animale (`feed`, `aquaculture_feed`), ni les fertilisants (`fertiliser`), ni l'usage technique. Pour ces destinations, les portes G3 à G9 s'appliquent dans toute leur rigueur.
+
+#### 4.3.5 Réserve Juridique & Administrative
+La décision souveraine DEC-AET-05 engage le projet AeterniTrak, mais ne se substitue pas à l'autorisation administrative de l'autorité compétente (AFSCA / DNF en Région wallonne) requise par le règlement (CE) n° 1069/2009. C'est pourquoi le champ `authority_reference` est obligatoire et auditable, et pourquoi les vecteurs de test portent la référence fictive `TEST-ONLY-AUTHORITY-REF-0001`. **Aucune politique réelle en production ne doit être émise avant que le Bushi 13 n'ait formalisé la référence de l'arrêté d'autorisation dans `docs/functional/`.**
+```
+
+---
+
 ## 5. Matrices de Conformité & Références des Vecteurs
 
 ### 5.1 Matrice (a) : Groupe Source × Destination Animale (`feed` / `aquaculture_feed`)
 
-La matrice ci-dessous spécifie le comportement de la Porte de Fer pour chaque combinaison source/cible en alimentation animale. Chaque cellule cite soit son vecteur de test approuvé, soit la référence réglementaire directe (dans l'attente de fourniture des vecteurs complémentaires par Claude AI).
+La matrice ci-dessous spécifie le comportement de la Porte de Fer pour chaque combinaison source/cible en alimentation animale. Toutes les cellules citent désormais leur vecteur de test officiel (`PRION-AUTH-*`, `PRION-BLOCK-*`, `PRION-DENY-*`, `PRION-HARD-*`, `PRION-CELL-001` à `022`).
 
 | Groupe Source | Cible `PORCINE` | Cible `POULTRY` | Cible `FISH` (Aquaculture) | Cible `RUMINANT` | Cible `LAGOMORPH` | Cible `INSECT` |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **`PORCINE`** | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`FEED_BAN_INTRA_GROUP`<br>[`PRION-BLOCK-001`]<br>[`PRION-BLOCK-002`] | **AUTORISÉ**<br>[`PRION-AUTH-001`]<br>[`PRION-AUTH-002`] | **AUTORISÉ**<br>[`PRION-AUTH-008`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-011`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-DENY-012`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* |
-| **`POULTRY`** | **AUTORISÉ**<br>[`PRION-AUTH-003`]<br>[`PRION-AUTH-004`] | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`FEED_BAN_INTRA_GROUP`<br>[`PRION-BLOCK-003`]<br>[`PRION-BLOCK-004`]<br>[`PRION-BLOCK-005`] | **AUTORISÉ**<br>[`PRION-HARD-024`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 999/2001)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* |
-| **`INSECT`** | **AUTORISÉ**<br>[`PRION-AUTH-006`] | **AUTORISÉ**<br>[`PRION-AUTH-005`] | **AUTORISÉ**<br>[`PRION-AUTH-007`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-012`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-008`] |
-| **`FISH`** | **AUTORISÉ**<br>[`PRION-AUTH-011`] | **AUTORISÉ**<br>[`PRION-HARD-025`] | **AUTORISÉ** (si $\neq$ espèce)<br>[`PRION-AUTH-010`]<br>**BLOQUÉ** (si = espèce)<br>[`PRION-BLOCK-009`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-014`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 999/2001)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 999/2001)* |
-| **`EQUINE`** | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-DENY-010`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* | **AUTORISÉ**<br>[`PRION-AUTH-009`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>*(Règl. 999/2001)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* |
-| **`LAGOMORPH`** | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-DENY-011`] | **AUTORISÉ**<br>[`PRION-HARD-021`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>*(Règl. 999/2001)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 2021/1372)* |
-| **`CARNIVORE`** | **BLOQUÉ**<br>`SUBSTRATE_CAT_VIOLATION`<br>`SOURCE_GROUP_NOT_AUTH`<br>*(Règl. 1069/2009)* | **BLOQUÉ**<br>`SUBSTRATE_CAT_VIOLATION`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-022`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-HARD-022`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>*(Règl. 999/2001)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 1069/2009)* | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 1069/2009)* |
-| **`RUMINANT`** | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-010`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-013`]<br>[`PRION-BLOCK-015`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-HARD-023`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-HARD-042`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 999/2001)* | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`TARGET_GROUP_NOT_AUTH`<br>*(Règl. 999/2001)* |
+| **`PORCINE`** | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`FEED_BAN_INTRA_GROUP`<br>[`PRION-BLOCK-001`]<br>[`PRION-BLOCK-002`] | **AUTORISÉ**<br>[`PRION-AUTH-001`]<br>[`PRION-AUTH-002`] | **AUTORISÉ**<br>[`PRION-AUTH-008`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-011`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-DENY-012`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-001`] |
+| **`POULTRY`** | **AUTORISÉ**<br>[`PRION-AUTH-003`]<br>[`PRION-AUTH-004`] | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`FEED_BAN_INTRA_GROUP`<br>[`PRION-BLOCK-003`]<br>[`PRION-BLOCK-004`]<br>[`PRION-BLOCK-005`] | **AUTORISÉ**<br>[`PRION-HARD-024`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-002`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-003`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-004`] |
+| **`INSECT`** | **AUTORISÉ**<br>[`PRION-AUTH-006`] | **AUTORISÉ**<br>[`PRION-AUTH-005`] | **AUTORISÉ**<br>[`PRION-AUTH-007`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-012`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-005`] | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-008`] |
+| **`FISH`** | **AUTORISÉ**<br>[`PRION-AUTH-011`] | **AUTORISÉ**<br>[`PRION-HARD-025`] | **AUTORISÉ** (si $\neq$ espèce)<br>[`PRION-AUTH-010`]<br>**BLOQUÉ** (si = espèce)<br>[`PRION-BLOCK-009`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-014`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-006`] | **BLOQUÉ**<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-007`] |
+| **`EQUINE`** | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-DENY-010`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-CELL-008`] | **AUTORISÉ**<br>[`PRION-AUTH-009`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-009`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-010`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-011`] |
+| **`LAGOMORPH`** | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-CELL-012`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-DENY-011`] | **AUTORISÉ**<br>[`PRION-HARD-021`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-013`] | **BLOQUÉ**<br>`FEED_BAN_INTRA_SPECIES`<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-014`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-015`] |
+| **`CARNIVORE`** | **BLOQUÉ**<br>`SUBSTRATE_CAT_VIOLATION`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-CELL-016`] | **BLOQUÉ**<br>`SUBSTRATE_CAT_VIOLATION`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-022`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-HARD-022`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_TGT`<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-017`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-018`] | **BLOQUÉ**<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-019`] |
+| **`RUMINANT`** | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-010`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-BLOCK-013`]<br>[`PRION-BLOCK-015`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>[`PRION-HARD-023`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`FEED_BAN_RUMINANT_TGT`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-HARD-042`]<br>[`PRION-CELL-022`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-020`] | **BLOQUÉ**<br>`FEED_BAN_RUMINANT_SRC`<br>`SOURCE_GROUP_NOT_AUTH`<br>`TARGET_GROUP_NOT_AUTH`<br>[`PRION-CELL-021`] |
 
 *Cas particuliers d'assemblage et cumul prouvés par vecteurs :*
 - Lot poolé multi-sources contenant une source interdite : Porc + Poulet -> Volaille = BLOQUÉ [`PRION-BLOCK-006`].
@@ -867,12 +1017,12 @@ Conformément à l'arbitrage A3 de Claude AI et aux amendements M4 de l'ordre 00
    - `2` : `verdict` : `tstr` = `"AUTHORISED"`.
    - `3` : `issued_at` : tag 1 (epoch secondes en entier).
    - `4` : `snapshot_sha256` : `bstr` de 32 octets = $\text{SHA-256}(\text{snapshot\_bytes})$ du snapshot taxonomique embarqué (liaison des règles A4).
-   - `5` : `rules_version` : `tstr` = `"1.1.0"` (liaison de la version des règles A4).
+   - `5` : `rules_version` : `tstr` = `"1.2.0"` (liaison de la version des règles A4).
 3. La revendication complète voyage à côté du certificat signé, sous forme JSON canonique RFC 8785 (`JCS(claim)`).
 
 ### 6.2 Enveloppe COSE_Sign1 & Agilité DEC-AET-04 (A2)
 
-La signature est encapsulée dans une structure `COSE_Sign1` (RFC 9052 §4.2) conforme aux spécifications d'AeterniCore v1 :
+La signature est encapsulée dans une structure `COSE_Sign1` (RFC 9052 §4.2) conforme aux spécifications d'AeterniCore v1 (sans tag 18 `#6.18`, convention amendement M4 de l'ordre 0012) :
 
 ```cddl
 COSE_Sign1_BatchClaim = [
@@ -884,7 +1034,7 @@ COSE_Sign1_BatchClaim = [
 
 protected_header_map = {
   1: -7 / -8, ; alg: ES256 (-7) ou Ed25519 (-8) selon DEC-AET-04
-  3: "application/aeternitrak-batch-claim+cbor" ; typ spécifique
+  16: "application/aeternitrak-batch-claim+cbor" ; typ spécifique (étiquette 16, RFC 9596)
 }
 
 batch_claim_signed_payload = {
@@ -892,7 +1042,7 @@ batch_claim_signed_payload = {
   2: "AUTHORISED",  ; Verdict obligatoire
   3: #6.1(uint),    ; Tag 1: Horodatage UTC (secondes depuis epoch)
   4: bstr .size 32, ; SHA-256 du snapshot taxonomique officiel
-  5: tstr,          ; Version de spécification des règles ("1.1.0")
+  5: tstr,          ; Version de spécification des règles ("1.2.0")
 }
 ```
 
@@ -933,7 +1083,7 @@ export async function evaluateAndSign(
   const frozenClaim = deepFreeze(structuredClone(input));
 
   // 2. Évaluation des 10 portes de fer
-  const evalResult = evaluate(frozenClaim, taxonomyMap);
+  const evalResult = evaluate(frozenClaim, null, taxonomyMap);
 
   if (evalResult.verdict !== "AUTHORISED" || !evalResult.signature_permitted) {
     // 3. Enregistrement irrévocable dans le journal d'audit (boîte noire)
@@ -957,15 +1107,15 @@ export async function evaluateAndSign(
     [2, "AUTHORISED"],
     [3, { $tag: 1, $value: Math.floor(Date.now() / 1000) }],
     [4, snapshotSha256],
-    [5, "1.1.0"]
+    [5, "1.2.0"]
   ]);
   const payloadBytes = encodeDeterministicCBOR(payloadMap);
 
-  // 7. Enveloppe COSE_Sign1 (agilité DEC-AET-04)
+  // 7. Enveloppe COSE_Sign1 (agilité DEC-AET-04, étiquette typ 16 RFC 9596)
   const algId = signer.algorithm === "ES256" ? -7 : -8;
   const protectedHeaderMap = new Map<number, unknown>([
     [1, algId],
-    [3, "application/aeternitrak-batch-claim+cbor"]
+    [16, "application/aeternitrak-batch-claim+cbor"]
   ]);
   const protectedBytes = encodeDeterministicCBOR(protectedHeaderMap);
 
@@ -1062,27 +1212,27 @@ Conformément à l'exigence A6, **la revendication d'entrée complète (`claim`)
 
 ---
 
-## 8. Bilan de Validation et Couverture des 109 Vecteurs
+## 8. Bilan de Validation et Couverture des 183 Vecteurs
 
 ### 8.1 Couverture Intégrale des Suites de Vecteurs
 
-L'algorithme formel spécifié dans le présent document résout l'intégralité des 109 vecteurs de tests répartis sur les deux suites officielles :
+L'algorithme formel spécifié dans le présent document résout l'intégralité des **183 vecteurs de tests** répartis sur les quatre suites officielles :
 1. `qa/vectors/antiprion/feedban-matrix.vectors.json` (67 cas de base) :
    - 17 cas autorisés nominaux (`PRION-AUTH-001` à `017`)
    - 36 cas d'interdiction sanitaire (`PRION-BLOCK-001` à `036`)
    - 14 cas de rejet par défaut (`PRION-DENY-001` à `014`)
 2. `qa/vectors/antiprion/feedban-hardening.vectors.json` (42 cas de durcissement) :
    - 42 cas d'épreuve éliminant les 8 failles de sécurité S1 à S8, les 6 défauts de contrat C1 à C6 et les 7 défauts d'architecture A1 à A7 (`PRION-HARD-001` à `042`).
+3. `qa/vectors/antiprion/feedban-rules-v12.vectors.json` (64 cas règles v1.2) :
+   - 20 cas de clarification des règles P9 à P13 (`PRION-HARD-043` à `062`)
+   - 22 cas de couverture intégrale de la matrice 5.1 (`PRION-CELL-001` à `022`)
+   - 22 cas d'encadrement strict de la dérogation mémorielle DEC-AET-05 (`PRION-DEROG-001` à `022`).
+4. `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14) :
+   - 10 cas de validation stricte de l'organisme de bioconversion (`PRION-HARD-063` à `072`).
 
-### 8.2 État Rouge Prouvé (Phase A)
+### 8.2 État de Conformité
 
-Conformément à l'Ordre 0004 et à la règle 1 de `CLAUDE.md`, aucun adaptateur ni code applicatif n'est implémenté sous `validators/` en Phase A. L'exécution du harnais officiel Bushi 16 donne :
-- **Total Cas Exécutés** : 109 cas
-- **RED (Attente d'implémentation Phase B)** : 109
-- **PASS** : 0
-- **FAIL** : 0
-- **INVALID (Erreur de contrat ou de schéma)** : 0
-- **Code de sortie** : `0`
+Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 183 vecteurs de tests approuvés.
 
 ---
-*Fin de la spécification formelle The Iron Gate v2 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
+*Fin de la spécification formelle The Iron Gate v1.3 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
