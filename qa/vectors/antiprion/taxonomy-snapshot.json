@@ -1,0 +1,296 @@
+{
+  "snapshot": "antiprion.taxonomy",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "source": "NCBI Taxonomy via UniProt REST (https://rest.uniprot.org/taxonomy/<taxid>.json), consulté le 2026-10-04 ; identifiants, rangs, parents et marqueurs de lignée vérifiés un à un.",
+  "lineage_markers": {
+    "RUMINANT": 9845,
+    "PORCINE": 9821,
+    "POULTRY": 8782,
+    "FISH": 7898,
+    "INSECT": 50557,
+    "HUMAN": 9606
+  },
+  "group_rule": "group = RUMINANT si 9845 ∈ lignée ; PORCINE si 9821 ; POULTRY si 8782 (tout oiseau) ; FISH si 7898 ; INSECT si 50557 ; HUMAN si taxid 9606 ; sinon groupe informatif (CARNIVORE, EQUINE, LAGOMORPH) traité comme OTHER par les portes d'alimentation.",
+  "species_rule": "Une sous-espèce est résolue vers son espèce parente (rang species) avant toute comparaison. Un identifiant de rang supérieur à species est inacceptable (TAXON_RANK_ABOVE_SPECIES). Un identifiant absent du snapshot est inconnu (TAXON_UNKNOWN). Aucune résolution par nom vernaculaire ou latin : l'identifiant numérique est la seule clé.",
+  "taxa": [
+    {
+      "taxid": 9823,
+      "scientific_name": "Sus scrofa",
+      "rank": "species",
+      "parent_taxid": 9822,
+      "lineage_markers": [
+        9821
+      ],
+      "group": "PORCINE",
+      "common_name_fr": "porc / sanglier"
+    },
+    {
+      "taxid": 9825,
+      "scientific_name": "Sus scrofa domesticus",
+      "rank": "subspecies",
+      "parent_taxid": 9823,
+      "lineage_markers": [
+        9821
+      ],
+      "group": "PORCINE",
+      "common_name_fr": "porc domestique"
+    },
+    {
+      "taxid": 9031,
+      "scientific_name": "Gallus gallus",
+      "rank": "species",
+      "parent_taxid": 9030,
+      "lineage_markers": [
+        8782
+      ],
+      "group": "POULTRY",
+      "common_name_fr": "poule / poulet"
+    },
+    {
+      "taxid": 208526,
+      "scientific_name": "Gallus gallus gallus",
+      "rank": "subspecies",
+      "parent_taxid": 9031,
+      "lineage_markers": [
+        8782
+      ],
+      "group": "POULTRY",
+      "common_name_fr": "coq bankiva (sous-espèce)"
+    },
+    {
+      "taxid": 9103,
+      "scientific_name": "Meleagris gallopavo",
+      "rank": "species",
+      "parent_taxid": 9102,
+      "lineage_markers": [
+        8782
+      ],
+      "group": "POULTRY",
+      "common_name_fr": "dinde"
+    },
+    {
+      "taxid": 8839,
+      "scientific_name": "Anas platyrhynchos",
+      "rank": "species",
+      "parent_taxid": 8835,
+      "lineage_markers": [
+        8782
+      ],
+      "group": "POULTRY",
+      "common_name_fr": "canard colvert"
+    },
+    {
+      "taxid": 9913,
+      "scientific_name": "Bos taurus",
+      "rank": "species",
+      "parent_taxid": 9903,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "bovin"
+    },
+    {
+      "taxid": 89462,
+      "scientific_name": "Bubalus bubalis",
+      "rank": "species",
+      "parent_taxid": 9918,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "buffle d'eau"
+    },
+    {
+      "taxid": 9940,
+      "scientific_name": "Ovis aries",
+      "rank": "species",
+      "parent_taxid": 9935,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "mouton"
+    },
+    {
+      "taxid": 9925,
+      "scientific_name": "Capra hircus",
+      "rank": "species",
+      "parent_taxid": 9922,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "chèvre"
+    },
+    {
+      "taxid": 9860,
+      "scientific_name": "Cervus elaphus",
+      "rank": "species",
+      "parent_taxid": 9859,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "cerf élaphe"
+    },
+    {
+      "taxid": 9858,
+      "scientific_name": "Capreolus capreolus",
+      "rank": "species",
+      "parent_taxid": 9857,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "chevreuil"
+    },
+    {
+      "taxid": 343691,
+      "scientific_name": "Hermetia illucens",
+      "rank": "species",
+      "parent_taxid": 343581,
+      "lineage_markers": [
+        50557
+      ],
+      "group": "INSECT",
+      "common_name_fr": "mouche soldat noire"
+    },
+    {
+      "taxid": 8030,
+      "scientific_name": "Salmo salar",
+      "rank": "species",
+      "parent_taxid": 8028,
+      "lineage_markers": [
+        7898
+      ],
+      "group": "FISH",
+      "common_name_fr": "saumon atlantique"
+    },
+    {
+      "taxid": 8022,
+      "scientific_name": "Oncorhynchus mykiss",
+      "rank": "species",
+      "parent_taxid": 8016,
+      "lineage_markers": [
+        7898
+      ],
+      "group": "FISH",
+      "common_name_fr": "truite arc-en-ciel"
+    },
+    {
+      "taxid": 9615,
+      "scientific_name": "Canis lupus familiaris",
+      "rank": "subspecies",
+      "parent_taxid": 9612,
+      "lineage_markers": [],
+      "group": "CARNIVORE",
+      "common_name_fr": "chien"
+    },
+    {
+      "taxid": 9612,
+      "scientific_name": "Canis lupus",
+      "rank": "species",
+      "parent_taxid": 9611,
+      "lineage_markers": [],
+      "group": "CARNIVORE",
+      "common_name_fr": "loup"
+    },
+    {
+      "taxid": 9685,
+      "scientific_name": "Felis catus",
+      "rank": "species",
+      "parent_taxid": 9682,
+      "lineage_markers": [],
+      "group": "CARNIVORE",
+      "common_name_fr": "chat"
+    },
+    {
+      "taxid": 9796,
+      "scientific_name": "Equus caballus",
+      "rank": "species",
+      "parent_taxid": 9789,
+      "lineage_markers": [],
+      "group": "EQUINE",
+      "common_name_fr": "cheval"
+    },
+    {
+      "taxid": 9986,
+      "scientific_name": "Oryctolagus cuniculus",
+      "rank": "species",
+      "parent_taxid": 9984,
+      "lineage_markers": [],
+      "group": "LAGOMORPH",
+      "common_name_fr": "lapin"
+    },
+    {
+      "taxid": 9606,
+      "scientific_name": "Homo sapiens",
+      "rank": "species",
+      "parent_taxid": 9605,
+      "lineage_markers": [
+        9606
+      ],
+      "group": "HUMAN",
+      "common_name_fr": "être humain"
+    },
+    {
+      "taxid": 9821,
+      "scientific_name": "Suidae",
+      "rank": "family",
+      "parent_taxid": 35497,
+      "lineage_markers": [
+        9821
+      ],
+      "group": "PORCINE",
+      "common_name_fr": "suidés (famille)"
+    },
+    {
+      "taxid": 8782,
+      "scientific_name": "Aves",
+      "rank": "class",
+      "parent_taxid": 436492,
+      "lineage_markers": [
+        8782
+      ],
+      "group": "POULTRY",
+      "common_name_fr": "oiseaux (classe)"
+    },
+    {
+      "taxid": 9845,
+      "scientific_name": "Ruminantia",
+      "rank": "suborder",
+      "parent_taxid": 91561,
+      "lineage_markers": [
+        9845
+      ],
+      "group": "RUMINANT",
+      "common_name_fr": "ruminants (sous-ordre)"
+    },
+    {
+      "taxid": 50557,
+      "scientific_name": "Insecta",
+      "rank": "class",
+      "parent_taxid": 6960,
+      "lineage_markers": [
+        50557
+      ],
+      "group": "INSECT",
+      "common_name_fr": "insectes (classe)"
+    },
+    {
+      "taxid": 7898,
+      "scientific_name": "Actinopterygii",
+      "rank": "superclass",
+      "parent_taxid": 117571,
+      "lineage_markers": [
+        7898
+      ],
+      "group": "FISH",
+      "common_name_fr": "poissons à nageoires rayonnées (super-classe)"
+    }
+  ]
+}

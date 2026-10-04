@@ -1,0 +1,529 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "core.jcs.rfc8785",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "RFC 8785 JSON Canonicalization Scheme (JCS)",
+    "qa/vectors/README.md"
+  ],
+  "adapter": "core.jcs",
+  "description": "Vecteurs de référence pour la canonisation JCS (RFC 8785) utilisée par les exports JSON signés (JSON-LD, attestations). Sortie attendue en UTF-8 (champ utf8), octets hexadécimaux et SHA-256. Générés par Claude AI (bibliothèque jcs + contrôle manuel des cas discriminants UTF-16).",
+  "cases": [
+    {
+      "id": "JCS-ENC-001",
+      "title": "objet {\"b\":1,\"a\":2} trié",
+      "op": "canonicalize",
+      "input": {
+        "b": 1,
+        "a": 2
+      },
+      "expect": {
+        "utf8": "{\"a\":2,\"b\":1}",
+        "hex": "7b2261223a322c2262223a317d",
+        "len": 13,
+        "sha256": "d3626ac30a87e6f7a6428233b3c68299976865fa5508e4267c5415c76af7a772"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort"
+      ]
+    },
+    {
+      "id": "JCS-ENC-002",
+      "title": "tri UTF-16 : \"A\" (0x41) avant \"a\" (0x61)",
+      "op": "canonicalize",
+      "input": {
+        "a": 1,
+        "A": 2
+      },
+      "expect": {
+        "utf8": "{\"A\":2,\"a\":1}",
+        "hex": "7b2241223a322c2261223a317d",
+        "len": 13,
+        "sha256": "a166305513c7b0cbb7a16b969b021e6e05d91d5f56fa3d8b7d7e2d1232811c68"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort"
+      ]
+    },
+    {
+      "id": "JCS-ENC-003",
+      "title": "tri UTF-16 : clé vide en premier",
+      "op": "canonicalize",
+      "input": {
+        "a": 1,
+        "": 2
+      },
+      "expect": {
+        "utf8": "{\"\":2,\"a\":1}",
+        "hex": "7b22223a322c2261223a317d",
+        "len": 12,
+        "sha256": "521339c3bd7ac04721bdad192e9ba038cb377bca61a0a24f08fe55c26ef61673"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort"
+      ]
+    },
+    {
+      "id": "JCS-ENC-004",
+      "title": "tri UTF-16 : \"z\" avant \"é\" (0x7a < 0xe9)",
+      "op": "canonicalize",
+      "input": {
+        "é": 1,
+        "z": 2
+      },
+      "expect": {
+        "utf8": "{\"z\":2,\"é\":1}",
+        "hex": "7b227a223a322c22c3a9223a317d",
+        "len": 14,
+        "sha256": "ebf5b3ac2125f90b74510656202151eacb0fa0dcdf14105494181e8969b802d5"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort"
+      ]
+    },
+    {
+      "id": "JCS-ENC-005",
+      "title": "tri UTF-16 vs UTF-8 : \"😀\" (D83D DE00) avant \"～\" (FF5E) — l'ordre UTF-8 donnerait l'inverse",
+      "op": "canonicalize",
+      "input": {
+        "～": 1,
+        "😀": 2
+      },
+      "expect": {
+        "utf8": "{\"😀\":2,\"～\":1}",
+        "hex": "7b22f09f9880223a322c22efbd9e223a317d",
+        "len": 18,
+        "sha256": "c44a324298283d910e4120a2ff3c2d7746b4a5c9f2d9625c67f6abb58748cf31"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort",
+        "utf16-trap"
+      ]
+    },
+    {
+      "id": "JCS-ENC-006",
+      "title": "tri UTF-16 : \"€\" (20AC) avant \"😀\" (D83D)",
+      "op": "canonicalize",
+      "input": {
+        "😀": 1,
+        "€": 2
+      },
+      "expect": {
+        "utf8": "{\"€\":2,\"😀\":1}",
+        "hex": "7b22e282ac223a322c22f09f9880223a317d",
+        "len": 18,
+        "sha256": "961c4621b692ba8a0315ec539ccedc2b4d933c8aaf1f923a21e89e2090c98007"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort"
+      ]
+    },
+    {
+      "id": "JCS-ENC-007",
+      "title": "tri UTF-16 : préfixe commun, la plus courte d'abord (\"ab\" < \"abc\")",
+      "op": "canonicalize",
+      "input": {
+        "abc": 1,
+        "ab": 2
+      },
+      "expect": {
+        "utf8": "{\"ab\":2,\"abc\":1}",
+        "hex": "7b226162223a322c22616263223a317d",
+        "len": 16,
+        "sha256": "9670ec3d1b3ec38bc1d8d44d7391015926bd6308560b4818ef7e7d6ee082b627"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort"
+      ]
+    },
+    {
+      "id": "JCS-ENC-008",
+      "title": "tri récursif dans les objets imbriqués",
+      "op": "canonicalize",
+      "input": {
+        "z": {
+          "b": 1,
+          "a": 2
+        },
+        "a": [
+          {
+            "d": 1,
+            "c": 2
+          }
+        ]
+      },
+      "expect": {
+        "utf8": "{\"a\":[{\"c\":2,\"d\":1}],\"z\":{\"a\":2,\"b\":1}}",
+        "hex": "7b2261223a5b7b2263223a322c2264223a317d5d2c227a223a7b2261223a322c2262223a317d7d",
+        "len": 39,
+        "sha256": "30c7456111a655707102c6d377ea8f955daa1e943d1de97412564a9f2336124c"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort",
+        "nested"
+      ]
+    },
+    {
+      "id": "JCS-ENC-009",
+      "title": "suppression des espaces, tableau mixte",
+      "op": "canonicalize",
+      "input": [
+        1,
+        "a",
+        true,
+        null,
+        {
+          "k": []
+        }
+      ],
+      "expect": {
+        "utf8": "[1,\"a\",true,null,{\"k\":[]}]",
+        "hex": "5b312c2261222c747275652c6e756c6c2c7b226b223a5b5d7d5d",
+        "len": 26,
+        "sha256": "fb855cecf6ea6aec88421949f972c612e8d4285f21fce4fefe492726c25e6be1"
+      },
+      "rule": "RFC 8785 §3.2.1 no whitespace",
+      "tags": [
+        "ws"
+      ]
+    },
+    {
+      "id": "JCS-ENC-010",
+      "title": "littéraux",
+      "op": "canonicalize",
+      "input": {
+        "t": true,
+        "f": false,
+        "n": null
+      },
+      "expect": {
+        "utf8": "{\"f\":false,\"n\":null,\"t\":true}",
+        "hex": "7b2266223a66616c73652c226e223a6e756c6c2c2274223a747275657d",
+        "len": 29,
+        "sha256": "22e00dc2f7b01420f940fbdbfbdf34fa0667cc6500186495023ba37722cbd05e"
+      },
+      "rule": "RFC 8785 §3.2.2.1 literals true/false/null",
+      "tags": [
+        "literal"
+      ]
+    },
+    {
+      "id": "JCS-ENC-011",
+      "title": "nombres entiers",
+      "op": "canonicalize",
+      "input": {
+        "zero": 0,
+        "one": 1,
+        "neg": -1,
+        "big": 9007199254740992
+      },
+      "expect": {
+        "utf8": "{\"big\":9007199254740992,\"neg\":-1,\"one\":1,\"zero\":0}",
+        "hex": "7b22626967223a393030373139393235343734303939322c226e6567223a2d312c226f6e65223a312c227a65726f223a307d",
+        "len": 50,
+        "sha256": "4113dd7e6aa9a1e7ef224af30d36d4e531f26749357ec035fda7e1cc11ffbad1"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-012",
+      "title": "nombre 1.0 -> 1",
+      "op": "canonicalize",
+      "input": 1.0,
+      "expect": {
+        "utf8": "1",
+        "hex": "31",
+        "len": 1,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-013",
+      "title": "nombre -0 -> 0",
+      "op": "canonicalize",
+      "input": -0.0,
+      "expect": {
+        "utf8": "0",
+        "hex": "30",
+        "len": 1,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-014",
+      "title": "nombre 0.1",
+      "op": "canonicalize",
+      "input": 0.1,
+      "expect": {
+        "utf8": "0.1",
+        "hex": "302e31",
+        "len": 3,
+        "sha256": "14be4b45f18e0d8c67b4f719b5144eee88497e413709d11d85b096d8e2346310"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-015",
+      "title": "nombre 1e21 -> 1e+21",
+      "op": "canonicalize",
+      "input": 1e+21,
+      "expect": {
+        "utf8": "1e+21",
+        "hex": "31652b3231",
+        "len": 5,
+        "sha256": "241c4643fa70b1dcde1205b71be4e3bebb17e9f880c8e1a33d0ead6c27271d3c"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-016",
+      "title": "nombre 1e20 -> 100000000000000000000",
+      "op": "canonicalize",
+      "input": 1e+20,
+      "expect": {
+        "utf8": "100000000000000000000",
+        "hex": "313030303030303030303030303030303030303030",
+        "len": 21,
+        "sha256": "c344e9487bfbd5c4e03c9fb90d62a5dde5e00b54d55c46e9f4a803aea162b80c"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-017",
+      "title": "nombre 0.000001 -> 0.000001",
+      "op": "canonicalize",
+      "input": 1e-06,
+      "expect": {
+        "utf8": "0.000001",
+        "hex": "302e303030303031",
+        "len": 8,
+        "sha256": "159fb29a827ad04b260aa6c8ab6d8637f8f2b38af5c4f3cb49d6a21205e040f8"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-018",
+      "title": "nombre 1e-7 -> 1e-7",
+      "op": "canonicalize",
+      "input": 1e-07,
+      "expect": {
+        "utf8": "1e-7",
+        "hex": "31652d37",
+        "len": 4,
+        "sha256": "5b33e02f2c5103a05d32f6ba9cb058294452bfbf393967f68bb30c1bdcbbab22"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-019",
+      "title": "nombre 5e-324 (dénormalisé minimal)",
+      "op": "canonicalize",
+      "input": 5e-324,
+      "expect": {
+        "utf8": "5e-324",
+        "hex": "35652d333234",
+        "len": 6,
+        "sha256": "c46e7ca1be4c8734f373a56530787288fa2058d73d07855e9247e949f811a42a"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-020",
+      "title": "nombre 1.7976931348623157e308 -> 1.7976931348623157e+308",
+      "op": "canonicalize",
+      "input": 1.7976931348623157e+308,
+      "expect": {
+        "utf8": "1.7976931348623157e+308",
+        "hex": "312e37393736393331333438363233313537652b333038",
+        "len": 23,
+        "sha256": "c2784e1abd6317452708f3fbf9641c16b959561bc621a1d408c23a20aa2cb585"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-021",
+      "title": "nombre 123456789.123456789 (arrondi IEEE 754)",
+      "op": "canonicalize",
+      "input": 123456789.12345679,
+      "expect": {
+        "utf8": "123456789.12345679",
+        "hex": "3132333435363738392e3132333435363739",
+        "len": 18,
+        "sha256": "773807b45c9a120b28c7173e360024cce99d0608d4c5d8f25b9e954d9f1c7ba4"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-022",
+      "title": "nombre 4.40 (prix abonnement) -> 4.4",
+      "op": "canonicalize",
+      "input": 4.4,
+      "expect": {
+        "utf8": "4.4",
+        "hex": "342e34",
+        "len": 3,
+        "sha256": "9e6dccf291cf48fa7e7688b7529a724d6010362ea92dd8e852530f7c23830a20"
+      },
+      "rule": "RFC 8785 §3.2.2.3 numbers serialised per ECMAScript Number::toString",
+      "tags": [
+        "number"
+      ]
+    },
+    {
+      "id": "JCS-ENC-023",
+      "title": "chaîne : contrôles \\b \\f \\n \\r \\t",
+      "op": "canonicalize",
+      "input": "\b\f\n\r\t",
+      "expect": {
+        "utf8": "\"\\b\\f\\n\\r\\t\"",
+        "hex": "225c625c665c6e5c725c7422",
+        "len": 12,
+        "sha256": "88821412381596c0dc2c66e310ae7e66100d7e4196456e2e9f3d261d0b562746"
+      },
+      "rule": "RFC 8785 §3.2.2.2 strings: escape only \" \\\\ and U+0000..U+001F (lowercase \\uXXXX), no other escaping",
+      "tags": [
+        "string"
+      ]
+    },
+    {
+      "id": "JCS-ENC-024",
+      "title": "chaîne : U+0000 et U+001F en \\u minuscules",
+      "op": "canonicalize",
+      "input": "\u0000\u001f",
+      "expect": {
+        "utf8": "\"\\u0000\\u001f\"",
+        "hex": "225c75303030305c753030316622",
+        "len": 14,
+        "sha256": "3d27e9c838c2725b91760feaf1456b36aa570a6f3001dae7c8ad772f48429228"
+      },
+      "rule": "RFC 8785 §3.2.2.2 strings: escape only \" \\\\ and U+0000..U+001F (lowercase \\uXXXX), no other escaping",
+      "tags": [
+        "string"
+      ]
+    },
+    {
+      "id": "JCS-ENC-025",
+      "title": "chaîne : guillemet et antislash échappés, barre oblique non échappée",
+      "op": "canonicalize",
+      "input": "\"\\/",
+      "expect": {
+        "utf8": "\"\\\"\\\\/\"",
+        "hex": "225c225c5c2f22",
+        "len": 7,
+        "sha256": "106814b96b4576ad5efb709458f6a5e1d0b0653cf234738e0ccc6c435bdef084"
+      },
+      "rule": "RFC 8785 §3.2.2.2 strings: escape only \" \\\\ and U+0000..U+001F (lowercase \\uXXXX), no other escaping",
+      "tags": [
+        "string"
+      ]
+    },
+    {
+      "id": "JCS-ENC-026",
+      "title": "chaîne : DEL U+007F non échappé",
+      "op": "canonicalize",
+      "input": "",
+      "expect": {
+        "utf8": "\"\"",
+        "hex": "227f22",
+        "len": 3,
+        "sha256": "6fe76740e12a93d5598fe685cb6ad3d3c94e44609065a56866b69647772026ec"
+      },
+      "rule": "RFC 8785 §3.2.2.2 strings: escape only \" \\\\ and U+0000..U+001F (lowercase \\uXXXX), no other escaping",
+      "tags": [
+        "string"
+      ]
+    },
+    {
+      "id": "JCS-ENC-027",
+      "title": "chaîne : non-ASCII littéral (€, 水, 😀)",
+      "op": "canonicalize",
+      "input": "€水😀",
+      "expect": {
+        "utf8": "\"€水😀\"",
+        "hex": "22e282ace6b0b4f09f988022",
+        "len": 12,
+        "sha256": "0fc7d0c2e35e491eb588beef62ad1e37e98e8f5d868b4b31ef676685f0e5341c"
+      },
+      "rule": "RFC 8785 §3.2.2.2 strings: escape only \" \\\\ and U+0000..U+001F (lowercase \\uXXXX), no other escaping",
+      "tags": [
+        "string",
+        "utf8"
+      ]
+    },
+    {
+      "id": "JCS-ENC-028",
+      "title": "profil mémoriel JSON (clés dans le désordre)",
+      "op": "canonicalize",
+      "input": {
+        "name": "Guy",
+        "born": "1945-05-08",
+        "kind": "human",
+        "hashes": {
+          "voice": "ab",
+          "portrait": "cd"
+        },
+        "ids": [
+          2,
+          1
+        ]
+      },
+      "expect": {
+        "utf8": "{\"born\":\"1945-05-08\",\"hashes\":{\"portrait\":\"cd\",\"voice\":\"ab\"},\"ids\":[2,1],\"kind\":\"human\",\"name\":\"Guy\"}",
+        "hex": "7b22626f726e223a22313934352d30352d3038222c22686173686573223a7b22706f727472616974223a226364222c22766f696365223a226162227d2c22696473223a5b322c315d2c226b696e64223a2268756d616e222c226e616d65223a22477579227d",
+        "len": 101,
+        "sha256": "06ef57174d403023d5f86eefa9f9c0d2c8a58c017ca986d9dc734af1609ba775"
+      },
+      "rule": "RFC 8785 §3.2.3 property names sorted by UTF-16 code units",
+      "tags": [
+        "sort",
+        "profile"
+      ]
+    }
+  ]
+}

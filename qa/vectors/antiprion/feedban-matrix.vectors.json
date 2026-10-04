@@ -1,0 +1,3022 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "antiprion.feedban.matrix",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "Règl. (CE) 999/2001 art. 7 et annexe IV (feed ban EST) tel que modifié par le règl. (UE) 2021/1372",
+    "Règl. (CE) 1069/2009 art. 8-14 (catégories), art. 11(1)(a)(b) (recyclage intra-espèce)",
+    "Règl. (UE) 142/2011 annexe IV ch. III (méthode 1) et annexe X telle que modifiée par le règl. (UE) 2017/893 (substrats d'insectes)",
+    "PROTOCOL.md §5 (règle d'or et 4 profils), DECISIONS-KUDORO.md (blocage cryptographique absolu)",
+    "qa/vectors/antiprion/taxonomy-snapshot.json (table taxonomique figée)",
+    "docs/technical/antiprion-feedban.md (à produire par le Bushi 12, doit reproduire ces vecteurs)"
+  ],
+  "adapter": "antiprion.feedban",
+  "description": "Matrice de conformité du validateur anti-prion (The Iron Gate). op=evaluate : l'adaptateur reçoit un BatchClaim v1 et renvoie {verdict, reasons, signature_permitted}. Les motifs sont exhaustifs (toutes les portes sont évaluées) et ordonnés selon l'ordre des portes G0..G9 ; la comparaison est exacte (liste ordonnée). signature_permitted est vrai si et seulement si reasons est vide : l'oracle de signature Ed25519 ne doit pouvoir signer qu'une revendication AUTHORISED.",
+  "cases": [
+    {
+      "id": "PRION-AUTH-001",
+      "title": "PAT porcines (cat. 3, abattoir, méthode 1) -> aliment volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "nominal",
+        "porcine->poultry"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-002",
+      "title": "PAT porcines déclarées avec la sous-espèce 9825 -> volailles (résolution vers 9823)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9825
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "nominal",
+        "subspecies"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-003",
+      "title": "PAT de volailles (cat. 3) -> aliment porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "nominal",
+        "poultry->porcine"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-004",
+      "title": "PAT de dinde (cat. 3) -> aliment porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9103
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9825
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "nominal",
+        "poultry->porcine"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-005",
+      "title": "PAT d'insectes (Hermetia nourrie sur substrat végétal cat. 3, méthode 7) -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-05",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "nominal",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-006",
+      "title": "PAT d'insectes (substrat végétal) -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-06",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "nominal",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-007",
+      "title": "PAT d'insectes (substrat végétal) -> aquaculture saumon",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-07",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "nominal",
+        "insect",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-008",
+      "title": "PAT porcines (cat. 3) -> aquaculture truite",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-08",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "nominal",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-009",
+      "title": "PAT équines (cat. 3, non-ruminant) -> aquaculture truite",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-09",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9796
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "aquaculture",
+        "non-ruminant"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-010",
+      "title": "Farine de saumon (cat. 3) -> aquaculture truite (espèces différentes)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-10",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "fishmeal",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(b) : interdiction d'alimenter des poissons d'élevage avec des PAT issues de poissons d'élevage de la même espèce",
+      "tags": [
+        "aquaculture",
+        "fish"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-011",
+      "title": "Farine de poisson (cat. 3) -> aliment porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-11",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "fishmeal",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "fish->porcine"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-012",
+      "title": "Cadavre bovin de ferme (cat. 2, Sanitel) -> méthode 1 -> usage technique (biodiesel C2)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-12",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 12-13 : matières de catégorie 1 et 2 exclues de la chaîne alimentaire animale ; cat. 2 valorisée en usages techniques/engrais après méthode 1 ; cat. 1 incinérée/co-incinérée ou combustible",
+      "tags": [
+        "cat2",
+        "technical",
+        "sarcomusation"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-013",
+      "title": "Cadavre porcin de ferme (cat. 2) -> bioconversion Hermetia -> méthode 1 -> engrais (frass)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-13",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "frass",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 12-13 : matières de catégorie 1 et 2 exclues de la chaîne alimentaire animale ; cat. 2 valorisée en usages techniques/engrais après méthode 1 ; cat. 1 incinérée/co-incinérée ou combustible",
+      "tags": [
+        "cat2",
+        "fertiliser",
+        "sarcomusation"
+      ],
+      "notes": "La porte valide catégorie x destination x traitement. L'autorisation de la route de bioconversion elle-même (cadavres cat. 2 -> insectes) relève du cadre légal du projet (Bushi 13) et n'est pas présumée par ce vecteur."
+    },
+    {
+      "id": "PRION-AUTH-014",
+      "title": "Déchets d'abattoir MRS bovins (cat. 1) -> méthode 1 -> combustion cimenterie (technique)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-14",
+        "substrate": {
+          "category": 1,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "ash",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 12-13 : matières de catégorie 1 et 2 exclues de la chaîne alimentaire animale ; cat. 2 valorisée en usages techniques/engrais après méthode 1 ; cat. 1 incinérée/co-incinérée ou combustible",
+      "tags": [
+        "cat1",
+        "mrs",
+        "technical"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-015",
+      "title": "Animal de compagnie (chien, cat. 1), LFA pentobarbital positif -> incinération",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-15",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9615
+            }
+          ],
+          "pentobarbital_lfa": "positive"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "incineration",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "PROTOCOL.md §5.2 profil Compagnie : test LFA pentobarbital obligatoire ; positif -> incinération C1 exclusivement",
+      "tags": [
+        "pet",
+        "incineration"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-016",
+      "title": "Restes humains -> incinération (crémation)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-16",
+        "substrate": {
+          "category": null,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": [
+            {
+              "taxid": 9606
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "incineration",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Dignité et droit funéraire : restes humains hors champ du règl. 1069/2009 ; aucune route alimentaire/technique ; seules l'incinération et la mémoire forestière (sous dérogation) sont évaluables",
+      "tags": [
+        "human",
+        "incineration"
+      ]
+    },
+    {
+      "id": "PRION-AUTH-017",
+      "title": "Faune sauvage DNF (chevreuil, cat. 2) -> méthode 1 -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-A-17",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "wildlife_dnf",
+          "sources": [
+            {
+              "taxid": 9858
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 12-13 : matières de catégorie 1 et 2 exclues de la chaîne alimentaire animale ; cat. 2 valorisée en usages techniques/engrais après méthode 1 ; cat. 1 incinérée/co-incinérée ou combustible",
+      "tags": [
+        "cat2",
+        "dnf",
+        "technical"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-001",
+      "title": "PAT porcines -> aliment porcins (cannibalisme intra-espèce)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "golden-rule",
+        "intra-species"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-002",
+      "title": "PAT porcines (9823) -> porcelets déclarés en sous-espèce 9825 (obscurcissement par sous-espèce)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9825
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "golden-rule",
+        "intra-species",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-003",
+      "title": "PAT de poulet (9031) -> poulets déclarés 208526 (sous-espèce bankiva)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            208526
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "golden-rule",
+        "intra-species",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-004",
+      "title": "PAT de poulet -> aliment dindes (espèces différentes, même groupe volailles)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9103
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "golden-rule",
+        "intra-group"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-005",
+      "title": "PAT de canard -> aliment poulets (même groupe volailles)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-05",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8839
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "golden-rule",
+        "intra-group"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-006",
+      "title": "Lot poolé porc + poulet -> aliment volailles (une seule espèce commune suffit)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-06",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            },
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "golden-rule",
+        "pooled"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-007",
+      "title": "Cibles multiples volailles + porcins pour des PAT porcines (une cible interdite bloque tout le lot)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-07",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031,
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "golden-rule",
+        "multi-target"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-008",
+      "title": "PAT d'insectes Hermetia -> alimentation d'Hermetia (intra-espèce insecte)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-08",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            343691
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "golden-rule",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-009",
+      "title": "Farine de saumon -> aquaculture saumon (intra-espèce poisson)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-09",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "fishmeal",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(b) : interdiction d'alimenter des poissons d'élevage avec des PAT issues de poissons d'élevage de la même espèce",
+      "tags": [
+        "golden-rule",
+        "fish"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-010",
+      "title": "PAT bovines (cat. 3) -> aliment porcins (source ruminante)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-10",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_RUMINANT_SOURCE",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. I : interdiction des protéines animales (dont PAT de ruminants) dans l'alimentation des animaux d'élevage ; aucune PAT aux ruminants",
+      "tags": [
+        "ruminant",
+        "source"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-011",
+      "title": "PAT porcines -> aliment bovins (cible ruminante)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-11",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9913
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_RUMINANT_TARGET",
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. I : interdiction des protéines animales (dont PAT de ruminants) dans l'alimentation des animaux d'élevage ; aucune PAT aux ruminants",
+      "tags": [
+        "ruminant",
+        "target"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-012",
+      "title": "PAT d'insectes -> aliment ovins (cible ruminante)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-12",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9940
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_RUMINANT_TARGET",
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. I : interdiction des protéines animales (dont PAT de ruminants) dans l'alimentation des animaux d'élevage ; aucune PAT aux ruminants",
+      "tags": [
+        "ruminant",
+        "target",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-013",
+      "title": "Lot poolé porc + bovin -> volailles (un ruminant contamine tout le lot)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-13",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            },
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_RUMINANT_SOURCE",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. I : interdiction des protéines animales (dont PAT de ruminants) dans l'alimentation des animaux d'élevage ; aucune PAT aux ruminants",
+      "tags": [
+        "ruminant",
+        "pooled"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-014",
+      "title": "Farine de poisson -> aliment chèvres (ruminant cible, pas d'exception codée)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-14",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "fishmeal",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9925
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_RUMINANT_TARGET",
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. I : interdiction des protéines animales (dont PAT de ruminants) dans l'alimentation des animaux d'élevage ; aucune PAT aux ruminants",
+      "tags": [
+        "ruminant",
+        "fish"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-015",
+      "title": "Cerf (ruminant sauvage, cat. 2) -> PAT -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-15",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "wildlife_dnf",
+          "sources": [
+            {
+              "taxid": 9860
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "FEED_BAN_RUMINANT_SOURCE",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. I : interdiction des protéines animales (dont PAT de ruminants) dans l'alimentation des animaux d'élevage ; aucune PAT aux ruminants",
+      "tags": [
+        "ruminant",
+        "cat2",
+        "dnf"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-016",
+      "title": "Cadavre porcin de ferme (cat. 2) -> Hermetia -> PAT -> volailles (substrat cadavre interdit)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-16",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "cat2",
+        "sarcomusation",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-017",
+      "title": "Cadavre porcin (cat. 2) -> Hermetia -> PAT -> porcelets (substrat + intra-espèce)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-17",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9825
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "cat2",
+        "sarcomusation",
+        "golden-rule"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-018",
+      "title": "Sanglier DNF (cat. 2, Sus scrofa) -> PAT -> porcins (même espèce que le porc)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-18",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "wildlife_dnf",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9825
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 11(1)(a) : interdiction d'alimenter des animaux terrestres d'une espèce avec des PAT issues de corps d'animaux de la même espèce",
+      "tags": [
+        "cat2",
+        "dnf",
+        "golden-rule"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-019",
+      "title": "Hermetia nourrie sur fumier -> PAT -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-19",
+        "substrate": {
+          "category": 3,
+          "material_class": "manure",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "insect",
+        "substrate"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-020",
+      "title": "Hermetia nourrie sur déchets de cuisine -> PAT -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-20",
+        "substrate": {
+          "category": 3,
+          "material_class": "catering_waste",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "insect",
+        "substrate"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-021",
+      "title": "Hermetia nourrie sur sous-produits d'abattoir crus cat. 3 -> PAT -> volailles (hors liste 2017/893)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-21",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "feed_industry",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 2017/893 (annexe X du règl. 142/2011) : les insectes destinés aux PAT ne peuvent être nourris qu'avec des matières premières d'origine non animale ou certaines matières de catégorie 3 ; fumier, déchets de cuisine et cadavres interdits",
+      "tags": [
+        "insect",
+        "substrate"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-022",
+      "title": "Animal de compagnie (chat, cat. 1, LFA négatif) -> PAT -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-22",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9685
+            }
+          ],
+          "pentobarbital_lfa": "negative"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 12-13 : matières de catégorie 1 et 2 exclues de la chaîne alimentaire animale ; cat. 2 valorisée en usages techniques/engrais après méthode 1 ; cat. 1 incinérée/co-incinérée ou combustible",
+      "tags": [
+        "cat1",
+        "pet"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-023",
+      "title": "Déchets MRS (cat. 1) -> engrais",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-23",
+        "substrate": {
+          "category": 1,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "ash",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "CATEGORY_DESTINATION_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 1069/2009 art. 12-13 : matières de catégorie 1 et 2 exclues de la chaîne alimentaire animale ; cat. 2 valorisée en usages techniques/engrais après méthode 1 ; cat. 1 incinérée/co-incinérée ou combustible",
+      "tags": [
+        "cat1",
+        "mrs"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-024",
+      "title": "Chien LFA pentobarbital positif -> mémoire forestière",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-24",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9615
+            }
+          ],
+          "pentobarbital_lfa": "positive"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "memorial_forestry",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "DEROGATION_REQUIRED",
+          "PENTOBARBITAL_POSITIVE"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "PROTOCOL.md §5.2 profil Compagnie : test LFA pentobarbital obligatoire ; positif -> incinération C1 exclusivement",
+      "tags": [
+        "pet",
+        "pentobarbital"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-025",
+      "title": "Chien LFA pentobarbital positif -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-25",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9615
+            }
+          ],
+          "pentobarbital_lfa": "positive"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "PENTOBARBITAL_POSITIVE"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "PROTOCOL.md §5.2 profil Compagnie : test LFA pentobarbital obligatoire ; positif -> incinération C1 exclusivement",
+      "tags": [
+        "pet",
+        "pentobarbital"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-026",
+      "title": "Chat sans test LFA -> usage technique (test obligatoire)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-26",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9685
+            }
+          ],
+          "pentobarbital_lfa": "not_tested"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "PENTOBARBITAL_NOT_TESTED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "PROTOCOL.md §5.2 profil Compagnie : test LFA pentobarbital obligatoire ; positif -> incinération C1 exclusivement",
+      "tags": [
+        "pet",
+        "pentobarbital"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-027",
+      "title": "Chat LFA négatif -> mémoire forestière (aucune politique de dérogation signée en v1)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-27",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9685
+            }
+          ],
+          "pentobarbital_lfa": "negative"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "memorial_forestry",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "DECISIONS-KUDORO.md : aucune dérogation codée en dur ; mémoire forestière = DEROGATION_REQUIRED tant qu'aucune politique signée par Kudoro (DEC-AET-05) n'existe",
+      "tags": [
+        "pet",
+        "derogation"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-028",
+      "title": "Restes humains -> mémoire forestière (dérogation requise, DEC-AET-05)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-28",
+        "substrate": {
+          "category": null,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": [
+            {
+              "taxid": 9606
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "memorial_forestry",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "DECISIONS-KUDORO.md : aucune dérogation codée en dur ; mémoire forestière = DEROGATION_REQUIRED tant qu'aucune politique signée par Kudoro (DEC-AET-05) n'existe",
+      "tags": [
+        "human",
+        "derogation"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-029",
+      "title": "Restes humains -> toute route alimentaire",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-29",
+        "substrate": {
+          "category": null,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": [
+            {
+              "taxid": 9606
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Dignité et droit funéraire : restes humains hors champ du règl. 1069/2009 ; aucune route alimentaire/technique ; seules l'incinération et la mémoire forestière (sous dérogation) sont évaluables",
+      "tags": [
+        "human"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-030",
+      "title": "Restes humains -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-30",
+        "substrate": {
+          "category": null,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": [
+            {
+              "taxid": 9606
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Dignité et droit funéraire : restes humains hors champ du règl. 1069/2009 ; aucune route alimentaire/technique ; seules l'incinération et la mémoire forestière (sous dérogation) sont évaluables",
+      "tags": [
+        "human"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-031",
+      "title": "Cadavre bovin cat. 2 -> technique sans preuve de méthode 1",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-31",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 142/2011 annexe IV ch. III méthode 1 : 133 °C à cœur, 3 bar absolus, 20 min, preuve d'enregistrement obligatoire",
+      "tags": [
+        "treatment"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-032",
+      "title": "Cadavre bovin cat. 2 -> technique, 132 °C au lieu de 133 °C",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-32",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 132,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 142/2011 annexe IV ch. III méthode 1 : 133 °C à cœur, 3 bar absolus, 20 min, preuve d'enregistrement obligatoire",
+      "tags": [
+        "treatment"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-033",
+      "title": "Cadavre bovin cat. 2 -> technique, 19 min au lieu de 20",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-33",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 19,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 142/2011 annexe IV ch. III méthode 1 : 133 °C à cœur, 3 bar absolus, 20 min, preuve d'enregistrement obligatoire",
+      "tags": [
+        "treatment"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-034",
+      "title": "Cadavre bovin cat. 2 -> technique, 2,9 bar au lieu de 3",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-34",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 2.9,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 142/2011 annexe IV ch. III méthode 1 : 133 °C à cœur, 3 bar absolus, 20 min, preuve d'enregistrement obligatoire",
+      "tags": [
+        "treatment"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-035",
+      "title": "PAT porcines -> volailles sans empreinte de preuve de traitement",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-35",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 142/2011 annexe IV ch. III méthode 1 : 133 °C à cœur, 3 bar absolus, 20 min, preuve d'enregistrement obligatoire",
+      "tags": [
+        "treatment"
+      ]
+    },
+    {
+      "id": "PRION-BLOCK-036",
+      "title": "PAT porcines -> volailles avec méthode 6 (non autorisée pour les PAT de mammifères)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-B-36",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 6,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (UE) 142/2011 annexe IV ch. III méthode 1 : 133 °C à cœur, 3 bar absolus, 20 min, preuve d'enregistrement obligatoire",
+      "tags": [
+        "treatment"
+      ]
+    },
+    {
+      "id": "PRION-DENY-001",
+      "title": "Source identifiée par un nom vernaculaire sans taxid (\"porc\")",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "label": "porc"
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-DENY-002",
+      "title": "Source identifiée par un nom latin sans taxid (\"Sus domesticus\")",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "label": "Sus domesticus"
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-DENY-003",
+      "title": "Taxid inconnu du snapshot (99999999)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 99999999
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy"
+      ]
+    },
+    {
+      "id": "PRION-DENY-004",
+      "title": "Source de rang famille (9821 Suidae) au lieu d'une espèce",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9821
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_RANK_ABOVE_SPECIES"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy",
+        "rank"
+      ]
+    },
+    {
+      "id": "PRION-DENY-005",
+      "title": "Cible de rang classe (8782 Aves) au lieu d'une espèce",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-05",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            8782
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_RANK_ABOVE_SPECIES"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy",
+        "rank"
+      ]
+    },
+    {
+      "id": "PRION-DENY-006",
+      "title": "Cible de rang sous-ordre (9845 Ruminantia) : refus de rang, pas seulement de ruminant",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-06",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9845
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_RANK_ABOVE_SPECIES"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy",
+        "rank"
+      ]
+    },
+    {
+      "id": "PRION-DENY-007",
+      "title": "Destination alimentaire sans cible",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-07",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TARGET_UNSPECIFIED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "structure"
+      ]
+    },
+    {
+      "id": "PRION-DENY-008",
+      "title": "Destination inconnue (\"pet_food\" hors périmètre v1)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-08",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "pet_food",
+          "target_taxids": [
+            9615
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "DESTINATION_UNSUPPORTED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "structure"
+      ]
+    },
+    {
+      "id": "PRION-DENY-009",
+      "title": "Route insecte sans identifiant d'espèce d'insecte",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-09",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          }
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "taxonomy",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-DENY-010",
+      "title": "Source non ruminante non autorisée (cheval) -> aliment porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-10",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9796
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "group"
+      ]
+    },
+    {
+      "id": "PRION-DENY-011",
+      "title": "Source lapin -> aliment volailles (groupe non autorisé)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-11",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9986
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "group"
+      ]
+    },
+    {
+      "id": "PRION-DENY-012",
+      "title": "PAT porcines -> lapins d'élevage (cible hors dérogations 2021/1372)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-12",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9986
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Règl. (CE) 999/2001 annexe IV ch. II tel que modifié par le règl. (UE) 2021/1372 : PAT porcines -> volailles/aquaculture uniquement ; PAT de volailles -> porcins/aquaculture uniquement ; PAT d'insectes -> porcins/volailles/aquaculture",
+      "tags": [
+        "group"
+      ]
+    },
+    {
+      "id": "PRION-DENY-013",
+      "title": "Aquaculture avec cible non piscicole (volailles)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-13",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "structure",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-DENY-014",
+      "title": "Catégorie absente (null) pour une source animale -> alimentation",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-D-14",
+        "substrate": {
+          "category": null,
+          "material_class": "unknown",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "Bushi 12 §5 : politique DEFAULT_DENY — tout taxon, rang, destination ou catégorie non répertorié avec certitude est refusé",
+      "tags": [
+        "structure"
+      ]
+    }
+  ]
+}

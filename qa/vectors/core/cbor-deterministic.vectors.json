@@ -1,0 +1,2726 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "core.cbor.deterministic",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "RFC 8949 §4.2.1 Core Deterministic Encoding Requirements",
+    "RFC 8949 Appendix A examples",
+    "RFC 8943 tag 100",
+    "qa/vectors/README.md §3 (notation AVN) et §4 (codes d'erreur)",
+    "docs/technical/aeternicore.md (à produire par le Bushi 01)"
+  ],
+  "adapter": "core.cbor",
+  "description": "Vecteurs de référence pour l'encodeur/décodeur CBOR déterministe du profil AeterniCore v1. Générés par Claude AI avec une chaîne d'outils indépendante (encodeur de référence Python + contrôle croisé cbor2). Le décodeur sous test fonctionne en mode strict : toute entrée non déterministe est rejetée avec le code d'erreur attendu.",
+  "cases": [
+    {
+      "id": "CBOR-ENC-001",
+      "title": "entier 0",
+      "op": "encode",
+      "input": 0,
+      "expect": {
+        "hex": "00",
+        "len": 1,
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-001",
+      "title": "entier 0 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "00"
+      },
+      "expect": {
+        "item": 0
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-002",
+      "title": "entier 1",
+      "op": "encode",
+      "input": 1,
+      "expect": {
+        "hex": "01",
+        "len": 1,
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-002",
+      "title": "entier 1 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "01"
+      },
+      "expect": {
+        "item": 1
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-003",
+      "title": "entier 10",
+      "op": "encode",
+      "input": 10,
+      "expect": {
+        "hex": "0a",
+        "len": 1,
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-003",
+      "title": "entier 10 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "0a"
+      },
+      "expect": {
+        "item": 10
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-004",
+      "title": "entier 23",
+      "op": "encode",
+      "input": 23,
+      "expect": {
+        "hex": "17",
+        "len": 1,
+        "sha256": "8f11b05da785e43e713d03774c6bd3405d99cd3024af334ffd68db663aa37034"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-004",
+      "title": "entier 23 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "17"
+      },
+      "expect": {
+        "item": 23
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-005",
+      "title": "entier 24",
+      "op": "encode",
+      "input": 24,
+      "expect": {
+        "hex": "1818",
+        "len": 2,
+        "sha256": "7c6348f7ea8a4e831aafe688a2557d7a3ab0be8549cdb190a029956ade971b15"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-005",
+      "title": "entier 24 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1818"
+      },
+      "expect": {
+        "item": 24
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-006",
+      "title": "entier 25",
+      "op": "encode",
+      "input": 25,
+      "expect": {
+        "hex": "1819",
+        "len": 2,
+        "sha256": "eb55bbe158f7e0930600c8bc71f93e2fef7ac86c386a57269ded7c97ace9831e"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-006",
+      "title": "entier 25 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1819"
+      },
+      "expect": {
+        "item": 25
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-007",
+      "title": "entier 100",
+      "op": "encode",
+      "input": 100,
+      "expect": {
+        "hex": "1864",
+        "len": 2,
+        "sha256": "877b5d35933ab6aebfce305f2ba80afb51ddae6c77a45072247a22690bde2eda"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-007",
+      "title": "entier 100 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1864"
+      },
+      "expect": {
+        "item": 100
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-008",
+      "title": "entier 255",
+      "op": "encode",
+      "input": 255,
+      "expect": {
+        "hex": "18ff",
+        "len": 2,
+        "sha256": "fcaae93768b1722dcefc0a06729388acfe35a4d08cbdfc996309a15fad7e62af"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-008",
+      "title": "entier 255 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "18ff"
+      },
+      "expect": {
+        "item": 255
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-009",
+      "title": "entier 256",
+      "op": "encode",
+      "input": 256,
+      "expect": {
+        "hex": "190100",
+        "len": 3,
+        "sha256": "70aa0275e34b1dd6f23f2e97a23ffaffa642ad71a935484e5e878d33c89f1e21"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-009",
+      "title": "entier 256 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "190100"
+      },
+      "expect": {
+        "item": 256
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-010",
+      "title": "entier 1000",
+      "op": "encode",
+      "input": 1000,
+      "expect": {
+        "hex": "1903e8",
+        "len": 3,
+        "sha256": "5e8f74961ede79063fa728a34d36f7baf4a563b225df62e4eb9349b94d612a3f"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-010",
+      "title": "entier 1000 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1903e8"
+      },
+      "expect": {
+        "item": 1000
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-011",
+      "title": "entier 65535",
+      "op": "encode",
+      "input": 65535,
+      "expect": {
+        "hex": "19ffff",
+        "len": 3,
+        "sha256": "459fbd327a935784702aca36217445923f8794e11be0b8a2e9f9b3ea9b800e91"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-011",
+      "title": "entier 65535 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "19ffff"
+      },
+      "expect": {
+        "item": 65535
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-012",
+      "title": "entier 65536",
+      "op": "encode",
+      "input": 65536,
+      "expect": {
+        "hex": "1a00010000",
+        "len": 5,
+        "sha256": "2928012187f03446d1e9ec37dae5cc9586656c20bd6e28ff4953181b933cb3f0"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-012",
+      "title": "entier 65536 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1a00010000"
+      },
+      "expect": {
+        "item": 65536
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-013",
+      "title": "entier 1000000",
+      "op": "encode",
+      "input": 1000000,
+      "expect": {
+        "hex": "1a000f4240",
+        "len": 5,
+        "sha256": "cbbec14103147af122feaff2419ad885d372d04bfd9d0af1714dd20dff24b6e3"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-013",
+      "title": "entier 1000000 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1a000f4240"
+      },
+      "expect": {
+        "item": 1000000
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-014",
+      "title": "entier 4294967295",
+      "op": "encode",
+      "input": 4294967295,
+      "expect": {
+        "hex": "1affffffff",
+        "len": 5,
+        "sha256": "74925985507bbda0c27009d32686859a69ac1e7d2870986694ee73ece429bd68"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-014",
+      "title": "entier 4294967295 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1affffffff"
+      },
+      "expect": {
+        "item": 4294967295
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-015",
+      "title": "entier 4294967296",
+      "op": "encode",
+      "input": 4294967296,
+      "expect": {
+        "hex": "1b0000000100000000",
+        "len": 9,
+        "sha256": "ff0a4ebee87c783ebeb2197fb436cfee11c1172a7363c7c133e085878c7d58ff"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-015",
+      "title": "entier 4294967296 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1b0000000100000000"
+      },
+      "expect": {
+        "item": 4294967296
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-016",
+      "title": "entier 1000000000000",
+      "op": "encode",
+      "input": 1000000000000,
+      "expect": {
+        "hex": "1b000000e8d4a51000",
+        "len": 9,
+        "sha256": "214fdb52f0e69eb826b535b2cc1ecfe798a1d3da66215cfe10f767b2c6cf9d64"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-016",
+      "title": "entier 1000000000000 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1b000000e8d4a51000"
+      },
+      "expect": {
+        "item": 1000000000000
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-017",
+      "title": "entier -1",
+      "op": "encode",
+      "input": -1,
+      "expect": {
+        "hex": "20",
+        "len": 1,
+        "sha256": "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-017",
+      "title": "entier -1 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "20"
+      },
+      "expect": {
+        "item": -1
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-018",
+      "title": "entier -10",
+      "op": "encode",
+      "input": -10,
+      "expect": {
+        "hex": "29",
+        "len": 1,
+        "sha256": "ba5ec51d07a4ac0e951608704431d59a02b21a4e951acc10505a8dc407c501ee"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-018",
+      "title": "entier -10 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "29"
+      },
+      "expect": {
+        "item": -10
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-019",
+      "title": "entier -24",
+      "op": "encode",
+      "input": -24,
+      "expect": {
+        "hex": "37",
+        "len": 1,
+        "sha256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-019",
+      "title": "entier -24 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "37"
+      },
+      "expect": {
+        "item": -24
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-020",
+      "title": "entier -25",
+      "op": "encode",
+      "input": -25,
+      "expect": {
+        "hex": "3818",
+        "len": 2,
+        "sha256": "dd7baa54409c052850ed2e03e586086bfed37a275ae4aee888711cd7c46bc91f"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-020",
+      "title": "entier -25 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "3818"
+      },
+      "expect": {
+        "item": -25
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-021",
+      "title": "entier -100",
+      "op": "encode",
+      "input": -100,
+      "expect": {
+        "hex": "3863",
+        "len": 2,
+        "sha256": "8afde23c6889fde007e74871494b3b985f3778a96e55c7b575367a84c74b8e97"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-021",
+      "title": "entier -100 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "3863"
+      },
+      "expect": {
+        "item": -100
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-022",
+      "title": "entier -1000",
+      "op": "encode",
+      "input": -1000,
+      "expect": {
+        "hex": "3903e7",
+        "len": 3,
+        "sha256": "e12267a8ecaa88c6f81071b963362422fff3245dee5510801dbf23768c9c4d4c"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-022",
+      "title": "entier -1000 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "3903e7"
+      },
+      "expect": {
+        "item": -1000
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-023",
+      "title": "entier -4294967296",
+      "op": "encode",
+      "input": -4294967296,
+      "expect": {
+        "hex": "3affffffff",
+        "len": 5,
+        "sha256": "80a46548fe92debff084e322d6caa952b772f7cd173e6f01858268b0b801ea37"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-023",
+      "title": "entier -4294967296 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "3affffffff"
+      },
+      "expect": {
+        "item": -4294967296
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-024",
+      "title": "entier 2^64-1 (notation $int)",
+      "op": "encode",
+      "input": {
+        "$int": "18446744073709551615"
+      },
+      "expect": {
+        "hex": "1bffffffffffffffff",
+        "len": 9,
+        "sha256": "2d7cb0927d162df726656d7155780f0486760e4327b537b54d0187e57209517c"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int",
+        "bigint"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-024",
+      "title": "entier 2^64-1 (notation $int) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "1bffffffffffffffff"
+      },
+      "expect": {
+        "item": {
+          "$int": "18446744073709551615"
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int",
+        "bigint"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-025",
+      "title": "entier -2^64 (notation $int)",
+      "op": "encode",
+      "input": {
+        "$int": "-18446744073709551616"
+      },
+      "expect": {
+        "hex": "3bffffffffffffffff",
+        "len": 9,
+        "sha256": "fe8908232e288502601792e108c3d65f2aa3b2b226090851b224aee4175f020c"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int",
+        "bigint"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-025",
+      "title": "entier -2^64 (notation $int) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "3bffffffffffffffff"
+      },
+      "expect": {
+        "item": {
+          "$int": "-18446744073709551616"
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int",
+        "bigint"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-026",
+      "title": "chaîne d'octets vide",
+      "op": "encode",
+      "input": {
+        "$bytes": ""
+      },
+      "expect": {
+        "hex": "40",
+        "len": 1,
+        "sha256": "c3641f8544d7c02f3580b07c0f9887f0c6a27ff5ab1d4a3e29caf197cfc299ae"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-026",
+      "title": "chaîne d'octets vide (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "40"
+      },
+      "expect": {
+        "item": {
+          "$bytes": ""
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-027",
+      "title": "chaîne d'octets 01020304",
+      "op": "encode",
+      "input": {
+        "$bytes": "01020304"
+      },
+      "expect": {
+        "hex": "4401020304",
+        "len": 5,
+        "sha256": "6e13c579b2d74a80a017dc7ec52c23fa8be41b88b7d4322c4cdcaa65658acac1"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-027",
+      "title": "chaîne d'octets 01020304 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "4401020304"
+      },
+      "expect": {
+        "item": {
+          "$bytes": "01020304"
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-028",
+      "title": "chaîne d'octets de 32 octets (empreinte SHA-256)",
+      "op": "encode",
+      "input": {
+        "$bytes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expect": {
+        "hex": "5820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "len": 34,
+        "sha256": "8be73d7d452a3289cf78f9ba6b64464ac84ea302274a40119daf1c8cb4c9b86f"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes",
+        "hash"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-028",
+      "title": "chaîne d'octets de 32 octets (empreinte SHA-256) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "5820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expect": {
+        "item": {
+          "$bytes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes",
+        "hash"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-029",
+      "title": "chaîne d'octets de 64 octets (signature Ed25519)",
+      "op": "encode",
+      "input": {
+        "$bytes": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "hex": "584000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "len": 66,
+        "sha256": "6ab462cf13c65bbe3b871577e757bd12dc0c225587374835fbe73048d1427f25"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes",
+        "signature"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-029",
+      "title": "chaîne d'octets de 64 octets (signature Ed25519) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "584000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "item": {
+          "$bytes": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "bytes",
+        "signature"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-030",
+      "title": "texte vide",
+      "op": "encode",
+      "input": "",
+      "expect": {
+        "hex": "60",
+        "len": 1,
+        "sha256": "8d33f520a3c4cef80d2453aef81b612bfe1cb44c8b2025630ad38662763f13d3"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-030",
+      "title": "texte vide (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "60"
+      },
+      "expect": {
+        "item": ""
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-031",
+      "title": "texte \"a\"",
+      "op": "encode",
+      "input": "a",
+      "expect": {
+        "hex": "6161",
+        "len": 2,
+        "sha256": "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-031",
+      "title": "texte \"a\" (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "6161"
+      },
+      "expect": {
+        "item": "a"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-032",
+      "title": "texte \"IETF\"",
+      "op": "encode",
+      "input": "IETF",
+      "expect": {
+        "hex": "6449455446",
+        "len": 5,
+        "sha256": "b8c85d4ab7b2d652f7d4e43624401c3288cbde02a46b0240ae5f17ffa5bdc573"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-032",
+      "title": "texte \"IETF\" (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "6449455446"
+      },
+      "expect": {
+        "item": "IETF"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-033",
+      "title": "texte avec guillemet et antislash",
+      "op": "encode",
+      "input": "\"\\",
+      "expect": {
+        "hex": "62225c",
+        "len": 3,
+        "sha256": "cbcb3c2691ae3158b1537eb22d408671f6b9aad059eeb0c78a3849f3a23f6b02"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-033",
+      "title": "texte avec guillemet et antislash (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "62225c"
+      },
+      "expect": {
+        "item": "\"\\"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-034",
+      "title": "texte \"ü\" (2 octets UTF-8)",
+      "op": "encode",
+      "input": "ü",
+      "expect": {
+        "hex": "62c3bc",
+        "len": 3,
+        "sha256": "579077f8dd4d539fa306635d1bb46a134bfe3e7ec064be8a0381cde26894d78a"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-034",
+      "title": "texte \"ü\" (2 octets UTF-8) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "62c3bc"
+      },
+      "expect": {
+        "item": "ü"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-035",
+      "title": "texte \"水\" (3 octets UTF-8)",
+      "op": "encode",
+      "input": "水",
+      "expect": {
+        "hex": "63e6b0b4",
+        "len": 4,
+        "sha256": "3cefbad0a789f314b146c981875dd2dc478b1e8e01e0df01427234724c1be763"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-035",
+      "title": "texte \"水\" (3 octets UTF-8) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "63e6b0b4"
+      },
+      "expect": {
+        "item": "水"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-036",
+      "title": "texte \"𐅑\" (4 octets UTF-8)",
+      "op": "encode",
+      "input": "𐅑",
+      "expect": {
+        "hex": "64f0908591",
+        "len": 5,
+        "sha256": "e67afd4eab187d5b3b01091d7f6b9114a19de8d2899fbba220cc7ebf90444b03"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-036",
+      "title": "texte \"𐅑\" (4 octets UTF-8) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "64f0908591"
+      },
+      "expect": {
+        "item": "𐅑"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-037",
+      "title": "texte de 24 octets (bascule en-tête 1 octet -> 2 octets)",
+      "op": "encode",
+      "input": "xxxxxxxxxxxxxxxxxxxxxxxx",
+      "expect": {
+        "hex": "7818787878787878787878787878787878787878787878787878",
+        "len": 26,
+        "sha256": "91e7742f907bc787f312b0ffcce86059ba714a4aade8f36052113abddf0998eb"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-037",
+      "title": "texte de 24 octets (bascule en-tête 1 octet -> 2 octets) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "7818787878787878787878787878787878787878787878787878"
+      },
+      "expect": {
+        "item": "xxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-038",
+      "title": "texte de 256 octets (en-tête 3 octets)",
+      "op": "encode",
+      "input": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "expect": {
+        "hex": "79010079797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979",
+        "len": 259,
+        "sha256": "09f34e44568b3880849035eacb47ef3593182d6fade8f927c3886496ad800535"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-038",
+      "title": "texte de 256 octets (en-tête 3 octets) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "79010079797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979797979"
+      },
+      "expect": {
+        "item": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-039",
+      "title": "tableau vide",
+      "op": "encode",
+      "input": [],
+      "expect": {
+        "hex": "80",
+        "len": 1,
+        "sha256": "76be8b528d0075f7aae98d6fa57a6d3c83ae480a8469e668d7b0af968995ac71"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-039",
+      "title": "tableau vide (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "80"
+      },
+      "expect": {
+        "item": []
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-040",
+      "title": "tableau [1,2,3]",
+      "op": "encode",
+      "input": [
+        1,
+        2,
+        3
+      ],
+      "expect": {
+        "hex": "83010203",
+        "len": 4,
+        "sha256": "4abc31137ce738d9aceb8a1d1d51f15cad42c2b08dcb7ed179f737a194b355e7"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-040",
+      "title": "tableau [1,2,3] (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "83010203"
+      },
+      "expect": {
+        "item": [
+          1,
+          2,
+          3
+        ]
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-041",
+      "title": "tableau imbriqué [1,[2,3],[4,5]]",
+      "op": "encode",
+      "input": [
+        1,
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "expect": {
+        "hex": "8301820203820405",
+        "len": 8,
+        "sha256": "041a510bd095f767f4038399275e3f2c0488fd23d4a459989ce31942311127f7"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-041",
+      "title": "tableau imbriqué [1,[2,3],[4,5]] (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "8301820203820405"
+      },
+      "expect": {
+        "item": [
+          1,
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-042",
+      "title": "tableau de 25 éléments (en-tête 2 octets)",
+      "op": "encode",
+      "input": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "expect": {
+        "hex": "98190102030405060708090a0b0c0d0e0f101112131415161718181819",
+        "len": 29,
+        "sha256": "f6ace041cc979454717ec9a2d09b4cfd410dfe85a831401736e644efad9d564f"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-042",
+      "title": "tableau de 25 éléments (en-tête 2 octets) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "98190102030405060708090a0b0c0d0e0f101112131415161718181819"
+      },
+      "expect": {
+        "item": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-043",
+      "title": "carte vide",
+      "op": "encode",
+      "input": {},
+      "expect": {
+        "hex": "a0",
+        "len": 1,
+        "sha256": "c19a797fa1fd590cd2e5b42d1cf5f246e29b91684e2f87404b81dc345c7a56a0"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-043",
+      "title": "carte vide (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a0"
+      },
+      "expect": {
+        "item": {}
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-044",
+      "title": "carte {1:2,3:4} (clés entières)",
+      "op": "encode",
+      "input": {
+        "$map": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expect": {
+        "hex": "a201020304",
+        "len": 5,
+        "sha256": "37e59eb5bd82b1dceb28aea0f77da25639918891b1d6bc6a2ed16a91cb110a43"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-044",
+      "title": "carte {1:2,3:4} (clés entières) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a201020304"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-045",
+      "title": "carte {\"a\":1,\"b\":[2,3]}",
+      "op": "encode",
+      "input": {
+        "a": 1,
+        "b": [
+          2,
+          3
+        ]
+      },
+      "expect": {
+        "hex": "a26161016162820203",
+        "len": 9,
+        "sha256": "b44774f185e1268bc3bfc660f02b1153546030565dd1b71c517a7390dbb24e02"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-045",
+      "title": "carte {\"a\":1,\"b\":[2,3]} (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a26161016162820203"
+      },
+      "expect": {
+        "item": {
+          "a": 1,
+          "b": [
+            2,
+            3
+          ]
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-046",
+      "title": "tableau [\"a\",{\"b\":\"c\"}]",
+      "op": "encode",
+      "input": [
+        "a",
+        {
+          "b": "c"
+        }
+      ],
+      "expect": {
+        "hex": "826161a161626163",
+        "len": 8,
+        "sha256": "1c92855b8433c33a03dbe34212bb698fd1b3746d29e9073eafd8eaa93b976cd8"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-046",
+      "title": "tableau [\"a\",{\"b\":\"c\"}] (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "826161a161626163"
+      },
+      "expect": {
+        "item": [
+          "a",
+          {
+            "b": "c"
+          }
+        ]
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-047",
+      "title": "carte a..e fournie dans le désordre -> triée",
+      "op": "encode",
+      "input": {
+        "e": "E",
+        "a": "A",
+        "c": "C",
+        "b": "B",
+        "d": "D"
+      },
+      "expect": {
+        "hex": "a56161614161626142616361436164614461656145",
+        "len": 21,
+        "sha256": "f1389c01eba35949c61dfa620e4f118c0b74e546ddc409a2f0f09e23260ce1ec"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-047",
+      "title": "carte a..e fournie dans le désordre -> triée (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a56161614161626142616361436164614461656145"
+      },
+      "expect": {
+        "item": {
+          "e": "E",
+          "a": "A",
+          "c": "C",
+          "b": "B",
+          "d": "D"
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-048",
+      "title": "tri des clés : ordre bytewise des encodages (exemple RFC 8949 §4.2.1), entrée mélangée",
+      "op": "encode",
+      "input": {
+        "$map": [
+          [
+            false,
+            0
+          ],
+          [
+            "aa",
+            1
+          ],
+          [
+            -1,
+            2
+          ],
+          [
+            [
+              100
+            ],
+            3
+          ],
+          [
+            100,
+            4
+          ],
+          [
+            [
+              -1
+            ],
+            5
+          ],
+          [
+            "z",
+            6
+          ],
+          [
+            10,
+            7
+          ]
+        ]
+      },
+      "expect": {
+        "hex": "a80a071864042002617a066261610181186403812005f400",
+        "len": 24,
+        "sha256": "7342813a7c889e8996aba37ff8251feee31ee759f7b3e4f128d9976eeb1ba142"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "mixed-keys"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-048",
+      "title": "tri des clés : ordre bytewise des encodages (exemple RFC 8949 §4.2.1), entrée mélangée (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a80a071864042002617a066261610181186403812005f400"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              false,
+              0
+            ],
+            [
+              "aa",
+              1
+            ],
+            [
+              -1,
+              2
+            ],
+            [
+              [
+                100
+              ],
+              3
+            ],
+            [
+              100,
+              4
+            ],
+            [
+              [
+                -1
+              ],
+              5
+            ],
+            [
+              "z",
+              6
+            ],
+            [
+              10,
+              7
+            ]
+          ]
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "mixed-keys"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-049",
+      "title": "tri des clés texte : \"z\" < \"aa\" < \"é\" (longueur encodée puis octets UTF-8)",
+      "op": "encode",
+      "input": {
+        "é": 1,
+        "aa": 2,
+        "z": 3
+      },
+      "expect": {
+        "hex": "a3617a036261610262c3a901",
+        "len": 12,
+        "sha256": "ba0ca612dac3a7752b4966dea39544388cf9dadbe14b84e67e0a86d0f7c40d04"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-049",
+      "title": "tri des clés texte : \"z\" < \"aa\" < \"é\" (longueur encodée puis octets UTF-8) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a3617a036261610262c3a901"
+      },
+      "expect": {
+        "item": {
+          "é": 1,
+          "aa": 2,
+          "z": 3
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-050",
+      "title": "tri des clés : entier 255 (18ff) avant 256 (190100) avant -1 (20)",
+      "op": "encode",
+      "input": {
+        "$map": [
+          [
+            256,
+            "c"
+          ],
+          [
+            -1,
+            "d"
+          ],
+          [
+            255,
+            "b"
+          ]
+        ]
+      },
+      "expect": {
+        "hex": "a318ff61621901006163206164",
+        "len": 13,
+        "sha256": "3f3fabe25434ec848e41fe54da735f6bc3ced717e9715b097ef08433876b7a93"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-050",
+      "title": "tri des clés : entier 255 (18ff) avant 256 (190100) avant -1 (20) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a318ff61621901006163206164"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              256,
+              "c"
+            ],
+            [
+              -1,
+              "d"
+            ],
+            [
+              255,
+              "b"
+            ]
+          ]
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-051",
+      "title": "carte imbriquée triée à chaque niveau",
+      "op": "encode",
+      "input": {
+        "z": {
+          "b": 1,
+          "a": 2
+        },
+        "a": {
+          "y": [
+            {
+              "k2": 0,
+              "k1": 1
+            }
+          ],
+          "x": null
+        }
+      },
+      "expect": {
+        "hex": "a26161a26178f6617981a2626b3101626b3200617aa2616102616201",
+        "len": 28,
+        "sha256": "a928a0ace14b9fbe5b333b3ef3b37fc1737b619159c4e3540b2fa8c5838ca807"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "nested"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-051",
+      "title": "carte imbriquée triée à chaque niveau (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a26161a26178f6617981a2626b3101626b3200617aa2616102616201"
+      },
+      "expect": {
+        "item": {
+          "z": {
+            "b": 1,
+            "a": 2
+          },
+          "a": {
+            "y": [
+              {
+                "k2": 0,
+                "k1": 1
+              }
+            ],
+            "x": null
+          }
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "nested"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-052",
+      "title": "booléen false",
+      "op": "encode",
+      "input": false,
+      "expect": {
+        "hex": "f4",
+        "len": 1,
+        "sha256": "2017ff3461395672aa0aa4f64894fd2f95a4b120e2690e8951656d79adc2eed2"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-052",
+      "title": "booléen false (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "f4"
+      },
+      "expect": {
+        "item": false
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-053",
+      "title": "booléen true",
+      "op": "encode",
+      "input": true,
+      "expect": {
+        "hex": "f5",
+        "len": 1,
+        "sha256": "27abdeddfe8503496adeb623466caa47da5f63abd2bc6fa19f6cfcb73ecfed70"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-053",
+      "title": "booléen true (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "f5"
+      },
+      "expect": {
+        "item": true
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-054",
+      "title": "null",
+      "op": "encode",
+      "input": null,
+      "expect": {
+        "hex": "f6",
+        "len": 1,
+        "sha256": "b0b2988b6bbe724bacda5e9e524736de0bc7dae41c46b4213c50e1d35d4e5f13"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-054",
+      "title": "null (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "f6"
+      },
+      "expect": {
+        "item": null
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-055",
+      "title": "tag 100 : date 1970-01-01 (0 jour)",
+      "op": "encode",
+      "input": {
+        "$tag": 100,
+        "$value": 0
+      },
+      "expect": {
+        "hex": "d86400",
+        "len": 3,
+        "sha256": "f2851c136bccfd914f3df91db6b9eceeca26512fb2858d0ffc512a6919b2dd61"
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-055",
+      "title": "tag 100 : date 1970-01-01 (0 jour) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "d86400"
+      },
+      "expect": {
+        "item": {
+          "$tag": 100,
+          "$value": 0
+        }
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-056",
+      "title": "tag 100 : date 2026-10-04 (20730 jours)",
+      "op": "encode",
+      "input": {
+        "$tag": 100,
+        "$value": 20730
+      },
+      "expect": {
+        "hex": "d8641950fa",
+        "len": 5,
+        "sha256": "686e92f6c00047801a78a5cc693170b8e57970c4f7b376578cfb4ce4a91b756c"
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-056",
+      "title": "tag 100 : date 2026-10-04 (20730 jours) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "d8641950fa"
+      },
+      "expect": {
+        "item": {
+          "$tag": 100,
+          "$value": 20730
+        }
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-057",
+      "title": "tag 100 : date 1945-05-08 (-9004 jours, négatif)",
+      "op": "encode",
+      "input": {
+        "$tag": 100,
+        "$value": -9004
+      },
+      "expect": {
+        "hex": "d86439232b",
+        "len": 5,
+        "sha256": "2ffae152d85ce63520b8d779b5f1c3d40ff6c79bdb3b4d8ca026729ec8a94685"
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-057",
+      "title": "tag 100 : date 1945-05-08 (-9004 jours, négatif) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "d86439232b"
+      },
+      "expect": {
+        "item": {
+          "$tag": 100,
+          "$value": -9004
+        }
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-058",
+      "title": "tag 1 : horodatage 2013-03-21T20:04:00Z = 1363896240",
+      "op": "encode",
+      "input": {
+        "$tag": 1,
+        "$value": 1363896240
+      },
+      "expect": {
+        "hex": "c11a514b67b0",
+        "len": 6,
+        "sha256": "10debb238c3aed6abf287615af7277df1eb1e53cd960da656894912b396009da"
+      },
+      "rule": "RFC 8949 §3.4.2 tag 1: epoch-based date/time (integer seconds)",
+      "tags": [
+        "tag",
+        "time"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-058",
+      "title": "tag 1 : horodatage 2013-03-21T20:04:00Z = 1363896240 (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "c11a514b67b0"
+      },
+      "expect": {
+        "item": {
+          "$tag": 1,
+          "$value": 1363896240
+        }
+      },
+      "rule": "RFC 8949 §3.4.2 tag 1: epoch-based date/time (integer seconds)",
+      "tags": [
+        "tag",
+        "time"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-059",
+      "title": "profil minimal : carte à clés entières (économie silicium)",
+      "op": "encode",
+      "input": {
+        "$map": [
+          [
+            3,
+            {
+              "$tag": 100,
+              "$value": -9004
+            }
+          ],
+          [
+            1,
+            "Guy"
+          ],
+          [
+            2,
+            {
+              "$bytes": "a1b2c3"
+            }
+          ],
+          [
+            4,
+            [
+              true,
+              null
+            ]
+          ]
+        ]
+      },
+      "expect": {
+        "hex": "a401634775790243a1b2c303d86439232b0482f5f6",
+        "len": 21,
+        "sha256": "02cbc946d2dda83fc443b765562575e18c189e1a996a1907d99f397503ab225e"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "profile"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-059",
+      "title": "profil minimal : carte à clés entières (économie silicium) (décodage strict)",
+      "op": "decode",
+      "input": {
+        "hex": "a401634775790243a1b2c303d86439232b0482f5f6"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              3,
+              {
+                "$tag": 100,
+                "$value": -9004
+              }
+            ],
+            [
+              1,
+              "Guy"
+            ],
+            [
+              2,
+              {
+                "$bytes": "a1b2c3"
+              }
+            ],
+            [
+              4,
+              [
+                true,
+                null
+              ]
+            ]
+          ]
+        }
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "profile"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-001",
+      "title": "entier 1 encodé sur 2 octets (1801)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "1801"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-002",
+      "title": "entier 1 encodé sur 3 octets (190001)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "190001"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-003",
+      "title": "entier 1 encodé sur 5 octets (1a00000001)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "1a00000001"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-004",
+      "title": "entier 1 encodé sur 9 octets (1b0000000000000001)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "1b0000000000000001"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-005",
+      "title": "entier 255 encodé sur 3 octets (1900ff)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "1900ff"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-006",
+      "title": "longueur de texte non minimale (7861 au lieu de 61 pour \"a\")",
+      "op": "reject-decode",
+      "input": {
+        "hex": "786161"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-007",
+      "title": "tableau de longueur indéfinie 9f0102ff",
+      "op": "reject-decode",
+      "input": {
+        "hex": "9f0102ff"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INDEFINITE_LENGTH"
+      },
+      "rule": "RFC 8949 §4.2.1 (2) definite-length only",
+      "tags": [
+        "array"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-008",
+      "title": "carte de longueur indéfinie bf616101ff",
+      "op": "reject-decode",
+      "input": {
+        "hex": "bf616101ff"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INDEFINITE_LENGTH"
+      },
+      "rule": "RFC 8949 §4.2.1 (2) definite-length only",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-009",
+      "title": "chaîne d'octets indéfinie 5f41014102ff",
+      "op": "reject-decode",
+      "input": {
+        "hex": "5f41014102ff"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INDEFINITE_LENGTH"
+      },
+      "rule": "RFC 8949 §4.2.1 (2) definite-length only",
+      "tags": [
+        "bytes"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-010",
+      "title": "texte indéfini 7f6161ff",
+      "op": "reject-decode",
+      "input": {
+        "hex": "7f6161ff"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INDEFINITE_LENGTH"
+      },
+      "rule": "RFC 8949 §4.2.1 (2) definite-length only",
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-011",
+      "title": "carte non triée {\"b\":1,\"a\":2}",
+      "op": "reject-decode",
+      "input": {
+        "hex": "a2616201616102"
+      },
+      "expect": {
+        "error": "ERR_CBOR_MAP_UNSORTED"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-012",
+      "title": "carte non triée {100:0,10:1} (0a doit précéder 1864)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "a21864000a01"
+      },
+      "expect": {
+        "error": "ERR_CBOR_MAP_UNSORTED"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-013",
+      "title": "carte triée selon RFC 7049 (longueur d'abord : 20, f4, 1864, 617a) -> interdite, l'ordre RFC 8949 est 1864, 20, 617a, f4",
+      "op": "reject-decode",
+      "input": {
+        "hex": "a42000f402186403617a01"
+      },
+      "expect": {
+        "error": "ERR_CBOR_MAP_UNSORTED"
+      },
+      "rule": "RFC 8949 §4.2.1 (3) map keys sorted bytewise-lexicographically by their deterministic encoding",
+      "tags": [
+        "map",
+        "sort",
+        "rfc7049-trap"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-014",
+      "title": "clé dupliquée {\"a\":1,\"a\":2}",
+      "op": "reject-decode",
+      "input": {
+        "hex": "a2616101616102"
+      },
+      "expect": {
+        "error": "ERR_CBOR_DUPLICATE_KEY"
+      },
+      "rule": "RFC 8949 §5.6 duplicate map keys are invalid",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-015",
+      "title": "octets résiduels après l'élément (0102)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "0102"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRAILING_BYTES"
+      },
+      "rule": "RFC 8949 Appendix C well-formedness: exact length, no trailing bytes",
+      "tags": [
+        "wf"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-016",
+      "title": "tableau tronqué (83 01 02 : 3 annoncés, 2 présents)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "830102"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "RFC 8949 Appendix C well-formedness: exact length, no trailing bytes",
+      "tags": [
+        "wf"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-017",
+      "title": "texte tronqué (64 61 : 4 annoncés, 1 présent)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "6461"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "RFC 8949 Appendix C well-formedness: exact length, no trailing bytes",
+      "tags": [
+        "wf"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-018",
+      "title": "entrée vide",
+      "op": "reject-decode",
+      "input": {
+        "hex": ""
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "RFC 8949 Appendix C well-formedness: exact length, no trailing bytes",
+      "tags": [
+        "wf"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-019",
+      "title": "UTF-8 invalide dans un texte (62 c3 28)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "62c328"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INVALID_UTF8"
+      },
+      "rule": "RFC 8949 §3.1 major type 3 MUST be valid UTF-8",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-020",
+      "title": "UTF-8 surlong (62 c0 80)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "62c080"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INVALID_UTF8"
+      },
+      "rule": "RFC 8949 §3.1 major type 3 MUST be valid UTF-8",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-021",
+      "title": "substitut UTF-16 encodé en UTF-8 (63 ed a0 80)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "63eda080"
+      },
+      "expect": {
+        "error": "ERR_CBOR_INVALID_UTF8"
+      },
+      "rule": "RFC 8949 §3.1 major type 3 MUST be valid UTF-8",
+      "tags": [
+        "text",
+        "utf8"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-022",
+      "title": "texte non NFC : e + U+0301 (63 65 cc 81)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "6365cc81"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TEXT_NOT_NFC"
+      },
+      "rule": "AeterniCore profile: text strings MUST be NFC-normalised before encoding (no silent normalisation)",
+      "tags": [
+        "text",
+        "nfc"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-023",
+      "title": "flottant demi-précision 1.5 (f93e00) interdit par le profil",
+      "op": "reject-decode",
+      "input": {
+        "hex": "f93e00"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "AeterniCore profile: floats, undefined, unassigned simple values and indefinite items are forbidden",
+      "tags": [
+        "float"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-024",
+      "title": "flottant double 1.1 (fb3ff199999999999a) interdit par le profil",
+      "op": "reject-decode",
+      "input": {
+        "hex": "fb3ff199999999999a"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "AeterniCore profile: floats, undefined, unassigned simple values and indefinite items are forbidden",
+      "tags": [
+        "float"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-025",
+      "title": "undefined (f7) interdit par le profil",
+      "op": "reject-decode",
+      "input": {
+        "hex": "f7"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "AeterniCore profile: floats, undefined, unassigned simple values and indefinite items are forbidden",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-026",
+      "title": "valeur simple non assignée simple(32) (f820)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "f820"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "AeterniCore profile: floats, undefined, unassigned simple values and indefinite items are forbidden",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-027",
+      "title": "valeur simple f8 18 (simple(24) sur deux octets) : mal formé selon RFC 8949 §3.3",
+      "op": "reject-decode",
+      "input": {
+        "hex": "f818"
+      },
+      "expect": {
+        "error": "ERR_CBOR_MALFORMED"
+      },
+      "rule": "RFC 8949 §3.3 / Appendix C: 0xf8 followed by a byte below 32 is not well-formed",
+      "tags": [
+        "simple",
+        "wf"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-028",
+      "title": "entier -1 encodé sur 9 octets (3b0000000000000000) au lieu de 20",
+      "op": "reject-decode",
+      "input": {
+        "hex": "3b0000000000000000"
+      },
+      "expect": {
+        "error": "ERR_CBOR_NOT_SHORTEST"
+      },
+      "rule": "RFC 8949 §4.2.1 (1) preferred serialization: shortest integer form",
+      "tags": [
+        "int"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-029",
+      "title": "tag 100 avec contenu non entier (d864 6161)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "d8646161"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TAG_CONTENT"
+      },
+      "rule": "RFC 8943 tag 100: days since 1970-01-01 as integer (negative allowed)",
+      "tags": [
+        "tag",
+        "date"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-030",
+      "title": "tag non autorisé par le profil : tag 2 bignum (c2 41 01)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "c24101"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TAG"
+      },
+      "rule": "AeterniCore profile: floats, undefined, unassigned simple values and indefinite items are forbidden",
+      "tags": [
+        "tag"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-031",
+      "title": "encodage d'un texte non NFC refusé (e + U+0301)",
+      "op": "reject-encode",
+      "input": "é",
+      "expect": {
+        "error": "ERR_CBOR_TEXT_NOT_NFC"
+      },
+      "rule": "AeterniCore profile: text strings MUST be NFC-normalised before encoding (no silent normalisation)",
+      "tags": [
+        "text",
+        "nfc"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-032",
+      "title": "encodage d'une carte à clés dupliquées refusé",
+      "op": "reject-encode",
+      "input": {
+        "$map": [
+          [
+            "a",
+            1
+          ],
+          [
+            "a",
+            2
+          ]
+        ]
+      },
+      "expect": {
+        "error": "ERR_CBOR_DUPLICATE_KEY"
+      },
+      "rule": "RFC 8949 §5.6 duplicate map keys are invalid",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-033",
+      "title": "encodage d'un flottant refusé par le profil",
+      "op": "reject-encode",
+      "input": {
+        "$float": 1.5
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "AeterniCore profile: floats, undefined, unassigned simple values and indefinite items are forbidden",
+      "tags": [
+        "float"
+      ]
+    }
+  ]
+}
