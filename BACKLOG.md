@@ -2,7 +2,8 @@
 
 Ce document répertorie l'ensemble des chantiers initiaux découpés par **Application** et par **Bushi**.  
 Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de Test (`qa/vectors/`) -> Implémentation (`ag/*`) -> Validation Claude (`main`)**.  
-*Règle C1 : Un ticket n'est « Spécifié » que lorsque son fichier formel dans `docs/` existe effectivement sur `main`.*
+*Règle C1 : Un ticket n'est « Spécifié » que lorsque son fichier formel dans `docs/` existe effectivement sur `main`.*  
+*État certifié sur `main` (`eeba7bd`) : 11 suites, **528 vecteurs approuvés** (424 au vert / PASS, 104 crypto en cours de livraison / RED, 0 INVALID).*
 
 ---
 
@@ -20,10 +21,11 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 |---|---|---|---|---|---|
 | `CORE-001` | Bushi 01 | Spécification de la sérialisation CBOR déterministe pour profil mémoriel | P0 | Validé | `qa/vectors/core/cbor-deterministic.vectors.json` |
 | `CORE-002` | Bushi 01 | Implémentation de la canonisation JCS (RFC 8785) sans dépendance | P0 | Validé | `qa/vectors/core/jcs-rfc8785.vectors.json` |
-| `CORE-003` | Bushi 16 | Vecteurs du profil mémoriel v1 (ordre 0031) | P0 | Spécifié | `qa/vectors/core/profile-v1.vectors.json` |
+| `CORE-003` | Bushi 16 | Vecteurs du profil mémoriel v1 (ordre 0031) | P0 | Validé | `qa/vectors/core/profile-v1.vectors.json` |
+| `CORE-004` | Bushi 01 | Validateur de Profil mémoriel v1 (ordre 0036, fusionné commit `9f94a85`) | P0 | Validé | `qa/vectors/core/profile-v1.vectors.json` |
 | `CRYPTO-001` | Bushi 02 | Vecteurs de test officiels Ed25519 (RFC 8032) intégrés dans `qa/vectors/crypto/` | P0 | À spécifier | — |
 | `CRYPTO-002` | Bushi 02 | Dérivation de clés et enveloppe chiffrée AES-GCM-256 pour données privées | P1 | À spécifier | — |
-| `CRYPTO-003` | Bushi 02 | Spécification de l'enveloppe signée COSE_Sign1 et modèle de confiance (ordre 0032) | P0 | Spécifié | `qa/vectors/crypto/*.vectors.json` |
+| `CRYPTO-003` | Bushi 02 | Moteur COSE & Crypto (enveloppe signée COSE_Sign1, Redirect 0042) | P0 | En cours / Révision v1.1 | `qa/vectors/crypto/*.vectors.json` |
 | `STORAGE-001` | Bushi 10 | Partitionnement formel de la mémoire ACOSJ 92 Ko (blocs 0 à 5) | P0 | À spécifier | — |
 | `STORAGE-002` | Bushi 10 | Transaction atomique avec drapeau `COMMIT_FLAG` anti-arrachage | P1 | À spécifier | — |
 | `QA-001` | Bushi 16 | Harnais de validation des vecteurs JSON/CBOR via `scripts/runner.sh test` | P0 | Validé | `qa/vectors/**/*.vectors.json` |
