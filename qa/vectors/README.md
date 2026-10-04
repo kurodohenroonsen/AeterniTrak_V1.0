@@ -121,6 +121,10 @@ Décision de Kudoro du 2026-10-04 : mémoire forestière privée pour les animau
 - **Jamais couvert** : les restes humains (G2 passe avant), et toute autre destination. La politique n'ouvre ni l'alimentation ni l'engrais.
 - **Limite** : une décision interne au projet n'est pas une autorisation administrative. Le champ `authority_reference` est là pour porter la référence de l'autorisation réelle de l'autorité compétente ; les vecteurs utilisent une référence fictive `TEST-ONLY-…`.
 
+### 4.6 Précision v1.3 (suite `antiprion.feedban.rules-v13`, cas `PRION-HARD-063` à `072`)
+
+- **P14 — L'organisme de bioconversion est un insecte** : sur la route `insect_bioconversion`, `process.insect_taxid` doit se résoudre en une espèce dont le groupe est `INSECT`. Tout autre organisme résolu (bovin, porc, être humain…) vaut `TAXON_UNKNOWN` en G1 et n'entre pas dans les sources. La nature « insecte » de la protéine (P6) et le périmètre de DEC-AET-05 supposent un insecte réellement résolu.
+
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 
 - Charge toutes les suites `qa/vectors/**/*.vectors.json`, les valide contre le schéma (échec = `INVALID`, exit 2).
