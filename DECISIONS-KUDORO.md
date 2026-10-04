@@ -88,6 +88,16 @@ Format d'une entrée :
   *Arbitrage* : **Option B retenue.** Mots de Kudoro : « prévoir cette connexion API à tous les points d'accès tel que Cerise en Wallonie ».  
   *Portée* : l'architecture prévoit des connecteurs vers les guichets officiels, CERISE en premier. La liste des autres guichets, l'existence d'une API ouverte à un tiers pour chacun et les conditions d'accès restent à établir, sources à l'appui, avant toute spécification.
 
+- **2026-10-04 · [Architecture Applicative] · Kudoro (DEC-AET-08)**  
+  *Question* : Combien d'applications, et pour qui ?  
+  *Arbitrage* : **Quatre applications.** Mots de Kudoro : « on doit avoir 4 app non?? une pour le smembre pax finebre pour l'encodeage, une le design des des deux cartes , une pour les participant aux ceremonie pour les lecture des cartes distribuer a la maison, et puis celle des acteur apres le deces pour la tracabilités ! »  
+  *Portée* : (1) conception des deux cartes ; (2) encodage par les membres du Pax Funèbre ; (3) lecture des cartes par les participants aux cérémonies, à la maison ; (4) traçabilité par les acteurs après le décès. Les noms des applications, leur contenu fonctionnel, tout prix ou durée d'hébergement et toute qualification matérielle ne sont pas décidés ici.
+
+- **2026-10-04 · [Plateformes] · Kudoro (DEC-AET-09)**  
+  *Question* : Sur quelles plateformes ?  
+  *Arbitrage* : **Toutes.** Mots de Kudoro : « e toutes disponible sur toute les plateformrs hein ! »  
+  *Portée* : les quatre applications visent toutes les plateformes. La faisabilité se prouve fonction par fonction : la lecture NFC depuis une page web n'existe que dans Chrome sur Android, et WebUSB (lecteur de bureau) que dans les navigateurs Chromium ; sur les autres plateformes ces fonctions demandent une application native. Le partage de code annoncé entre plateformes n'est pas mesuré.
+
 ---
 
 ## 2. Décisions en Attente d'Arbitrage
@@ -95,4 +105,4 @@ Format d'une entrée :
 - `DEC-AET-03` : cadre légal de la désignation du mandataire et de la transmission du coffre mémoriel. Consigne de Kudoro du 2026-10-04 : « voir ce que la loi permet ». C'est une demande d'étude, pas encore un arbitrage : étude sourcée attendue du Bushi 13 (`LEGAL-001`), puis décision.
 - `DEC-AET-05`, complément : référence de l'autorisation administrative de l'autorité compétente pour la mémoire forestière. Aucune politique réelle ne peut être émise sans elle.
 
-*`DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06`, `DEC-AET-07` : arbitrées le 2026-10-04, voir §1.*
+*`DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04` à `DEC-AET-09` : arbitrées le 2026-10-04, voir §1.*

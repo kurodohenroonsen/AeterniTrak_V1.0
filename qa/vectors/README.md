@@ -41,7 +41,8 @@ Validé par `schema/vector-suite.schema.json`. Champs obligatoires : `suite`, `v
 | `cose-sign` | `{seed_hex, typ, payload_hex}` (Ed25519 seul) | `{envelope_hex, len, sha256, kid_hex}` | crypto.cose |
 | `cose-verify` | `{envelope_hex, expected_typ, trust_store}` | `{valid: true, payload_hex, kid}` ou `{error}` | crypto.cose |
 | `cose-open` | `{envelope_hex, expected_typ, trust_store}` | `{status: "VERIFIED", payload_hex, kid}`, `{status: "UNVERIFIED", reason, payload_hex}` ou `{status: "BLOCKED", error}` | crypto.cose |
-| `sign` / `verify` | défini par la suite crypto (à venir) | défini par la suite                       | crypto         |
+| `cert-issue` | `{claim, policy, policies, seed_hex, issued_at}` (Ed25519 seul ; `policy` peut être `null`) | `{envelope_hex, len, sha256, claim_json, kid_hex}` ou `{error}` (+ `refusal_reasons` pour `ERR_CERT_ISSUANCE_REFUSED`) | crypto.cert |
+| `cert-verify` | `{envelope_hex, claim_json, trust_store, policies, retired_rules_versions}` | `{valid: true, kid, issued_at, rules_version, derogation}` ou `{error}` | crypto.cert |
 
 La comparaison est **exacte et binaire** : octets identiques, listes ordonnées identiques, codes d'erreur identiques. Aucune tolérance, aucune normalisation côté harnais.
 
@@ -61,6 +62,8 @@ Le JSON ne sait pas représenter nativement tous les éléments CBOR ; l'AVN com
 | `{"$tag": 100, "$value": -9004}`        | élément étiqueté (type majeur 6)                          |
 | `true` / `false` / `null`                | valeurs simples 21 / 20 / 22                              |
 | `{"$float": 1.5}`                       | flottant — **interdit par le profil AeterniCore** (rejet) |
+
+**Règle AVN-R — clés réservées** (cycle 0010, suite `core.cbor.rules-v12`). Les clés `$int`, `$bytes`, `$map`, `$tag`, `$value` et `$float` appartiennent à la notation. Un objet JSON simple ne porte donc **jamais** de clé commençant par `$` : une carte CBOR dont au moins une clé texte commence par `$` se note obligatoirement `{"$map": [...]}`, en entier. Sans cette règle, la carte CBOR `{"$tag": 100, "$value": 20730}` (deux clés texte) et l'élément étiqueté `100(20730)` avaient la même notation, et un validateur qui raisonne sur la notation les confondait. L'AVN est une notation de vecteurs : un validateur juge l'élément CBOR décodé, avec son type majeur, pas sa notation.
 
 Règles d'encodage imposées (RFC 8949 §4.2.1 *Core Deterministic Encoding* + profil AeterniCore v1) :
 1. forme la plus courte pour tous les entiers et longueurs ;
@@ -208,6 +211,35 @@ Une entrée de la liste de confiance peut porter une fenêtre `valid_from` / `va
 
 - **P18 — Les insectes n'entrent en alimentation que par la bioconversion** : la route `insect_bioconversion` est la seule où le substrat d'élevage des insectes est contrôlé (P4 : matière végétale). En `feed` et `aquaculture_feed`, un taxon du groupe `INSECT` résolu dans `substrate.sources` vaut `SUBSTRATE_CATEGORY_VIOLATION` (G3), quelle que soit la route. La nature « insecte » de P6 (méthodes 1 à 5 ou 7) est réservée à la route de bioconversion ; ailleurs, des sources insectes relèvent de la méthode 1. Les autres destinations ne sont pas concernées.
 - Cette règle **change trois verdicts** du code livré (`PRION-HARD-092`, `093`, `096`), dans le sens du blocage. Elle ne change aucun des 202 vecteurs anti-prion antérieurs. Base réglementaire (règl. (UE) 2017/893, substrats des insectes d'élevage) à confirmer sur EUR-Lex par le Bushi 12.
+
+### 4.13 Compléments du décodeur (suite `core.cbor.rules-v12`, 16 cas) et confusion de notation
+
+Fuzzing différentiel du cycle 0010 sur la validité temporelle des clés : toutes les divergences remontent au décodeur de `core/cbor`, qui rend ses résultats en AVN.
+
+- **Confusion de notation** (règle AVN-R, §3). Étaient acceptés à tort : une date donnée comme carte `{"$tag": 100, "$value": …}`, des noms donnés comme carte à clé texte `$map`, une empreinte donnée comme carte `{"$bytes": …}`, un tag 100 dont le contenu est la carte `{"$int": "…"}`. Cas `CBOR-DEC-060` à `068`, `CBOR-ENC-060`, `CBOR-REJ-036` et `037`, `PROF-REJ-051` à `055` (suite `core.profile.rules-v11`), `COSE-KEY-041` à `045` (suite `crypto.cose.rules-v13`).
+- **Valeurs simples 0 à 19** (octets `e0` à `f3`) : bien formées mais non assignées, donc `ERR_CBOR_UNSUPPORTED_TYPE`, comme `f7` et `f820`. Cas `CBOR-REJ-038` à `040`.
+- **Code d'arrêt isolé** (`ff` hors d'un élément de longueur indéfinie) : `ERR_CBOR_MALFORMED`. Cas `CBOR-REJ-041`.
+- Le décodeur de contrôle du harnais (Bushi 16) porte le même défaut de notation : il déclare `INVALID` dix de ces cas tant qu'il n'est pas corrigé. Deux implémentations indépendantes ont eu le même défaut parce qu'il venait de la notation elle-même.
+
+### 4.14 Certificat de lot (suite `crypto.batch-certificate`, 70 cas : `CERT-ISSUE-001` à `015`, `CERT-VER-001` à `055`)
+
+Spécification : `docs/technical/batch-certificate.md` v1.1.0. Adaptateur `crypto.cert`. Précisions arrêtées par les vecteurs :
+
+- **Moteur unique en v1.** Le vérificateur connaît une version de règles, `RULES_VERSION` exportée par `validators/antiprion` (`"1.5.0"`), et un snapshot, d'empreinte `SHA-256(UTF-8(JCS(qa/vectors/antiprion/taxonomy-snapshot.json)))` = `55717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c90`. Les registres de la spécification sont donc des singletons ; seule la liste des versions retirées est une entrée.
+- **Registre de politiques** : entrée `policies`, liste d'objets déjà authentifiés par l'hôte, indexés par `SHA-256(UTF-8(JCS(policy)))`.
+- **`cert-issue`**, dans l'ordre : `issued_at` entier non négatif, sinon `ERR_CERT_INVALID_ISSUED_AT` ; politique fournie mais absente du registre : `ERR_CERT_UNKNOWN_POLICY` ; `claim_json = JCS(claim)` ; évaluation de `JSON.parse(claim_json)` ; verdict autre que `AUTHORISED` : `ERR_CERT_ISSUANCE_REFUSED` avec la liste `refusal_reasons`, **et la clé n'est pas appelée** ; charge utile à clés 1 à 5, plus la clé 6 si et seulement si `destination.use = "memorial_forestry"` ; signature Ed25519.
+- **`cert-verify`**, dans l'ordre, premier échec gagnant :
+  1. `cose-verify` avec le type certificat de lot, étape 13 comprise : tout code `ERR_COSE_*` ou `ERR_CBOR_*` remonte tel quel. Jamais `cose-open` : un émetteur inconnu bloque ;
+  2. décodage strict de la charge utile ; ce n'est pas une carte : `ERR_CERT_INVALID_FIELD` ;
+  3. clé non entière ou hors de 1..6 : `ERR_CERT_UNAUTHORIZED_PAYLOAD_KEY` ; clé 1 à 5 absente : `ERR_CERT_MISSING_MANDATORY_FIELD` ; clés 1, 4, 6 qui ne sont pas des chaînes de 32 octets, clé 5 non textuelle : `ERR_CERT_INVALID_FIELD` ;
+  4. clé 2 différente du texte `AUTHORISED` : `ERR_CERT_VERDICT_NOT_AUTHORISED` ;
+  5. clé 3 qui n'est pas un tag 1 sur entier non négatif : `ERR_CERT_INVALID_ISSUED_AT` ;
+  6. `claim_json` illisible ou `JCS(JSON.parse(claim_json)) ≠ claim_json` : `ERR_CERT_CLAIM_NOT_CANONICAL` ; empreinte différente de la clé 1 : `ERR_CERT_CLAIM_HASH_MISMATCH` ;
+  7. clé 4 différente de l'empreinte du snapshot : `ERR_CERT_UNKNOWN_TAXONOMY_SNAPSHOT` ;
+  8. clé 5 différente de `RULES_VERSION` : `ERR_CERT_UNKNOWN_RULES_VERSION` ; présente dans `retired_rules_versions` : `ERR_CERT_RULES_VERSION_RETIRED` ;
+  9. clé 6 présente hors mémoire forestière : `ERR_CERT_UNEXPECTED_POLICY` ; absente en mémoire forestière : `ERR_CERT_DEROGATION_UNBOUND` ; absente du registre : `ERR_CERT_UNKNOWN_POLICY` ;
+  10. réévaluation par la Porte de Fer, avec la politique du registre : verdict autre que `AUTHORISED`, y compris pour une revendication qui n'est pas un objet JSON : `ERR_CERT_RE_EVALUATION_FAILED`.
+- **Ce que la suite ne couvre pas** : l'authentification du registre de politiques lui-même, l'émission ES256 (signature non déterministe), plusieurs moteurs ou snapshots, des revendications contenant des nombres non entiers.
 
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 

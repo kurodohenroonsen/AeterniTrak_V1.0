@@ -1,0 +1,214 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "crypto.cose.rules-v13",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.11 et §3 (règle AVN-R)"
+  ],
+  "adapter": "crypto.cose",
+  "description": "Issue du fuzzing différentiel du cycle 0010. Le décodeur rend ses résultats dans la notation des vecteurs (AVN), où une carte à clés texte est un objet JSON : une carte CBOR dont les clés sont `$tag`, `$map`, `$int` ou `$bytes` devenait indiscernable d'un élément étiqueté, d'une carte à clés entières, d'un grand entier ou d'une chaîne d'octets. L'étape 13 (validité temporelle) lisait une date d'émission dans une structure qui n'en est pas une.",
+  "cases": [
+    {
+      "id": "COSE-KEY-041",
+      "title": "profil dont la charge utile est une carte à clé texte `$map` portant la paire [11, date] : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2274ea164246d617081820bd8641950fa58408af69ad70c7ba807798fa9cbff183af7702c385da39a7c7a4b92584bb0580aa21bfc35205b60fc1b74b62e6358786a966458c47b32bfe780a77ca24275810a0b",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11, étape 13, et §3 (règle AVN-R)",
+      "tags": [
+        "k2",
+        "confusion"
+      ]
+    },
+    {
+      "id": "COSE-KEY-042",
+      "title": "profil dont la clé 11 est une carte {\"$tag\": 100, \"$value\": 20730} : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22754a10ba264247461671864662476616c75651950fa5840dcfbc996fae874fcab1d756c32b408fc0882987e3ae34912732d8d1a08654c641d0cadbdba119fa74d2ff36492b61c45bed5d3c1e1f6b85d003458f4c0ad1105",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11, étape 13, et §3 (règle AVN-R)",
+      "tags": [
+        "k2",
+        "confusion"
+      ]
+    },
+    {
+      "id": "COSE-KEY-043",
+      "title": "certificat de lot dont la clé 3 est une carte {\"$tag\": 1, \"$value\": t} : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b55a103a2642474616701662476616c75651a6ac1970058405c8749701670d7201a0fbf5d147a1908544ef5c86218261e78d67d00455ecffc9da1fc8211b64e1a351a1b274ca0c3fc7201802151c55f65db0a8a823ef9fe05",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11, étape 13, et §3 (règle AVN-R)",
+      "tags": [
+        "k2",
+        "confusion",
+        "batch"
+      ]
+    },
+    {
+      "id": "COSE-KEY-044",
+      "title": "profil dont la date est un tag 100 contenant la carte {\"$int\": \"20730\"} : le code ERR_CBOR_TAG_CONTENT remonte",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22750a10bd864a16424696e746532303733305840b9e15203a678181ebf4145e02151f39af6f8d99b7f8e1cba713d4621bf1cc5b004d8855a62763a74846d46586388dca2fd7f54d1a41cfa9a5940cb6e4c3c5502",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_CBOR_TAG_CONTENT"
+      },
+      "rule": "qa/vectors/README.md §4.11, étape 13, et §3 (règle AVN-R)",
+      "tags": [
+        "k2",
+        "confusion",
+        "cbor"
+      ]
+    },
+    {
+      "id": "COSE-KEY-045",
+      "title": "lecture d'une carte dont la charge utile est une carte à clé texte `$map` : BLOCKED",
+      "op": "cose-open",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2274ea164246d617081820bd8641950fa58408af69ad70c7ba807798fa9cbff183af7702c385da39a7c7a4b92584bb0580aa21bfc35205b60fc1b74b62e6358786a966458c47b32bfe780a77ca24275810a0b",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "status": "BLOCKED",
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11, étape 13, et §3 (règle AVN-R)",
+      "tags": [
+        "k2",
+        "confusion",
+        "open"
+      ]
+    }
+  ]
+}

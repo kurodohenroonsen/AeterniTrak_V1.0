@@ -133,6 +133,10 @@ Tout travail respecte le cycle en 5 temps :
   Chaque ordre traité est purgé de sa propre boîte par `git rm` dans le commit qui dépose la réponse ou lors de l'acquittement de cycle.
 - **P6 — Gouvernance souveraine sur main uniquement** :
   Les fichiers de gouvernance (`DECISIONS-KUDORO.md`, `PROTOCOL.md`, etc.) ne sont modifiés que sur `main` via une branche `ag/orchestrator-*` fusionnée par Claude AI. La branche `agent-mailbox` est réservée exclusivement au dossier `mailbox/`.
+- **P7 — Le registre des décisions cite Kudoro** :
+  Une entrée de `DECISIONS-KUDORO.md` reproduit les mots de Kudoro entre guillemets. La rubrique *Portée* dit ce que la décision emporte ; toute affirmation de droit, de prix ou de capacité matérielle y est sourcée ou absente. Une consigne d'étude (« voir ce que la loi permet ») n'est pas un arbitrage. Les entrées sont inscrites sur `main` par Claude AI à partir du rapport qui rapporte les mots.
+- **P8 — Un lien cité a été ouvert** :
+  Une référence de droit ou de documentation porte un lien qui a été réellement ouvert, et le rapport reproduit l'intitulé affiché à cette adresse. Un identifiant ELI ou NUMAC ne se déduit pas d'une date : s'il n'a pas été lu, il n'est pas cité.
 - **Archivage des rapports d'exécution (`qa/reports/`) — Règle F3** :
   Les exécutions intermédiaires du harnais ne doivent pas archiver un rapport JSON complet à chaque test local. Seul le rapport d'exécution validé correspondant au commit de tête effectivement livré est conservé sous `qa/reports/`.
 
