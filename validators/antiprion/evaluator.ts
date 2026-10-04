@@ -1,6 +1,6 @@
 /**
  * Moteur pur d'évaluation sanitaire The Iron Gate (La Porte de Fer)
- * Conforme à AET-SPEC-PRION-001 v1.3.0 et aux règles P1 à P14
+ * Conforme à AET-SPEC-PRION-001 v1.5.0 et aux règles P1 à P18
  */
 
 import type {
@@ -201,7 +201,7 @@ export function evaluate(
   }
 
   // =========================================================================
-  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, P16, P17, DEC-AET-05)
+  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, P16, P17, P18, DEC-AET-05)
   // =========================================================================
   const category = substrate?.category;
   const materialClass = substrate?.material_class;
@@ -228,8 +228,15 @@ export function evaluate(
     } else {
       feedViolation = true;
     }
-    if (feedViolation || isPlantCategoryViolation) {
-      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+
+    // Règle P18 : En feed et aquaculture_feed, un taxon du groupe "INSECT" résolu dans substrate.sources
+    // vaut SUBSTRATE_CATEGORY_VIOLATION (G3), quelle que soit la route.
+    const hasInsectSource = resolvedSources.some(s => s.group === "INSECT");
+
+    if (feedViolation || isPlantCategoryViolation || hasInsectSource) {
+      if (!reasons.includes("SUBSTRATE_CATEGORY_VIOLATION")) {
+        reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+      }
     }
   } else if (use === "technical" || use === "fertiliser") {
     // Règle P12 : Portes indépendantes sans chaîne « sinon »
