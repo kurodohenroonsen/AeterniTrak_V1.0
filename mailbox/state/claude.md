@@ -1,32 +1,44 @@
 # État Claude AI (Master Verifier) — AeterniTrak V1.0
 
 - **Rôle** : Architecte Suprême, rédaction des vecteurs formels, validation sur pièces, arbitrage et fusion sur `main`.
-- **Dernière révision** : 2026-10-04 — cycle de revue 0001.
-- **Branche active** : `agent-mailbox` (messages) ; `main` certifié à **`7d16362`**.
-- **Fichier rédigé par Claude AI uniquement** (ordre 0002, C8).
+- **Dernière révision** : 2026-10-04 — cycle de revue 0002.
+- **Branche active** : `agent-mailbox` (messages) ; `main` certifié à **`9362754`**.
+- **Fichier rédigé par Claude AI uniquement.**
 
-## Cycle 0001 (2026-10-04)
-- Rapport 0001 (échafaudage, `edd5f66`) : **validé** avec neuf corrections de cohérence (ordre 0002).
-- Livré sur `main` via `tests/0002-vector-contract` (fusion `7d16362`) : `qa/vectors/README.md` (contrat), schéma de suite, 246 vecteurs `approved` :
-  - `core.cbor.deterministic` : 151 cas (RFC 8949 §4.2.1 + profil AeterniCore v1), encodeur de référence indépendant + contrôle croisé `cbor2`.
-  - `core.jcs.rfc8785` : 28 cas (tri UTF-16, nombres ECMAScript, échappements).
-  - `antiprion.feedban.matrix` : 67 cas (17 AUTHORISED / 36 BLOCKED / 14 DEFAULT_DENY) + `taxonomy-snapshot.json` (26 taxons NCBI vérifiés via UniProt le 2026-10-04).
-- Ordres émis : `0002` (orchestrateur, corrections C1–C9), `0003` (Bushi 01, spec + CBOR/JCS), `0004` (Bushi 12, spec + Porte de Fer), `0005` (Bushi 16, harnais `QA-001`, **prérequis** de 0003/0004).
+## Cycle 0002 (2026-10-04)
+| Rapport | Verdict | Réponse |
+|---|---|---|
+| 0006 scaffold C1–C9 (`4ac5feb`) | validé, fusionné | ordre 0010 (F1–F3, règles P1–P4) |
+| 0007 harnais (`d068739`) | fusionné comme socle, **non conforme** (suites codées en dur, contrôle croisé permissif, doublons, repli ajv silencieux, selftest) | redirect 0011 |
+| 0008 spec AeterniCore (`cc1df15`) | A1/A6 approuvés, 3 profils recalculés à l'identique ; A2–A4 à amender (M1–M10) | ordre 0012, **Phase B ouverte** |
+| 0009 spec Porte de Fer (`790e739`) | **rejetée, non fusionnée** : le pseudo-code passe 67/67 mais autorise 3 350 lots interdits sur 23 153 au fuzzing différentiel | redirect 0013, **Phase B fermée** |
+
+- Livré sur `main` via `tests/0010-antiprion-hardening` : suite `antiprion.feedban.hardening` (42 cas) et `qa/vectors/README.md` §4.3 (précisions P1–P8). Total : 4 suites, **288 vecteurs approuvés**.
+- Conflit de fusion `scripts/runner.sh` (copies cherry-pick du harnais sur la branche Bushi 01) résolu en gardant la version de `main`.
+
+## Autocritique du vérificateur
+- La matrice de 67 vecteurs du cycle 0001 ne discriminait pas une logique par liste d'interdiction d'une logique par liste d'autorisation : un pseudo-code dangereux la passait intégralement. Corrigé par la suite de durcissement.
+- L'évaluateur de référence du cycle 0001 avait lui-même trois lacunes (catégorie nulle hors alimentation, groupe source en aquaculture, méthode de transformation selon la nature de la protéine). Corrigées en v1.1 sans modifier aucun des 67 vecteurs approuvés.
+- Les précisions P5 et P6 reposent sur ma lecture de l'annexe IV du règl. 999/2001 et de l'annexe X du règl. 142/2011, **non revérifiée sur EUR-Lex pendant ce cycle** : vérification demandée au Bushi 12 (redirect 0013, étape 4).
 
 ## Conventions arrêtées
-- Fichiers de gouvernance font foi sur `main` seulement ; `agent-mailbox` ne porte que `mailbox/`.
-- Branches : `ag/bushi-NN-<slug>`, `ag/orchestrator-<slug>`, `fix/bushi-NN-<slug>`, `tests/*` (Claude).
-- Messages : `NNNN-<type>-<bushi>-<slug>.md`, numérotation globale continue (prochain numéro libre côté Antigravity : `0006`).
-- Budget bloc 1 : enveloppe COSE_Sign1 ≤ 2 048 o, charge utile CBOR ≤ 1 900 o.
-- Cycle en deux phases pour tout chantier : Phase A spec + vecteurs rouges → approbation Claude → Phase B implémentation.
+- Fichiers de gouvernance : `main` fait foi ; `agent-mailbox` ne porte que `mailbox/`.
+- Branches : `ag/bushi-NN-<slug>`, `ag/orchestrator-<slug>`, `fix/bushi-NN-<slug>`, `tests/*` ; toujours depuis `main`, jamais de commits recopiés.
+- Numérotation globale continue ; prochain numéro libre côté Antigravity : `0014`.
+- Budget bloc 1 : enveloppe COSE_Sign1 ≤ 2 048 o, charge utile ≤ 1 900 o.
+- Certificat de lot : charge utile signée = empreinte `SHA-256(JCS(claim))` + verdict + date + empreinte du snapshot + version des règles (redirect 0013, A3).
 
 ## En attente chez Antigravity
-- Rapport `scaffold-fixes` (0002), rapport `qa-harness` (0005) en premier, puis rapports de spec `core` (0003) et `antiprion` (0004).
+1. `fix/bushi-16-harness` (0011) — **prérequis de tout rapport de Phase B**.
+2. `ag/orchestrator-cycle-0002-fixes` (0010).
+3. `ag/bushi-01-core-impl` (0012) : implémentation CBOR/JCS + amendements M1–M10.
+4. `ag/bushi-12-antiprion` (0013) : spec v2.
 
-## Questions soumises à l'arbitrage de Kudoro (à consigner dans `DECISIONS-KUDORO.md` §2)
-- **DEC-AET-04 — Algorithme de signature** : Ed25519 (RFC 8032, COSE `-8`) ou ES256 (P-256, COSE `-7`) ? Contraintes matérielles : Secure Enclave iOS = P-256 uniquement ; Android KeyStore/StrongBox = P-256 garanti, Ed25519 selon KeyMint ; ACOSJ JavaCard = ECDSA P-256. Proposition Claude AI : enveloppe COSE_Sign1 avec `alg` explicite ; Ed25519 pour les signatures d'émission logicielles (Studio, filière, validateur anti-prion), ES256 pour les clés ancrées dans les enclaves mobiles et les puces ; vérification des deux partout.
-- **DEC-AET-05 — Dérogations** : le validateur v1 refuse par défaut la mémoire forestière (animaux de compagnie LFA-négatifs, restes humains) avec `DEROGATION_REQUIRED`. Faut-il un objet de politique signé par Kudoro (base légale citée, périmètre, durée) débloquant ces routes, et sur quelle base (ordonnance bruxelloise art. 25, avant-projet de loi de juillet 2026) ?
+## En attente de l'arbitrage de Kudoro
+- **DEC-AET-04** — algorithme de signature (Ed25519 logiciel / ES256 enclaves et puces, sous COSE_Sign1). Bloque toute la crypto.
+- **DEC-AET-05** — dérogations mémoire forestière (animaux de compagnie LFA-négatifs, restes humains).
+- **Question ouverte** — les vecteurs approuvés `CBOR-ENC-059` et `JCS-ENC-028`, repris par les profils d'exemple de la spec, utilisent le prénom « Guy » avec une date fictive, dans un dépôt public. Les remplacer par un nom neutre exige l'accord de Kudoro (vecteurs immuables).
 
 ## Prochaines actions Claude AI
-- À réception des rapports : vérifier sur pièces (SHA, sorties brutes, `git diff --stat main -- qa/vectors` vide), approuver les specs ou rediriger, fusionner sur `main`.
-- Préparer les vecteurs `crypto/` (RFC 8032, COSE_Sign1) dès l'arbitrage `DEC-AET-04`.
+- À réception : ré-exécuter chaque livrable sur un clone propre, transcrire et fuzzer le pseudo-code v2 du Bushi 12, approuver ou rediriger.
+- Fournir les vecteurs des cellules de la matrice 5.1 sans preuve, et la suite `crypto/` dès `DEC-AET-04`.
