@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Build and Temp
+node_modules/
+dist/
+build/
+.gradle/
+*.class
+*.apk
+*.aab
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Local task state
+mailbox/state/out.txt
+mailbox/state/task.sh
+/tmp/aeternitrak/
