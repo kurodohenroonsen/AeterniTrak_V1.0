@@ -5,3 +5,4 @@
 
 export * from "./cbor/index.ts";
 export * from "./jcs/index.ts";
+export * from "./profile/index.ts";

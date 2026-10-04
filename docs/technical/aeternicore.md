@@ -203,6 +203,55 @@ species_taxid = uint
    - Tout lecteur ou validateur v1 **rejette obligatoirement** une carte dont `schema_version != 1`.
    - Tout lecteur ou validateur v1 **rejette obligatoirement** toute carte contenant une clé non définie dans la spécification v1 (hors plage d'entiers $[1, 13]$). Aucune ignorance silencieuse n'est admise dans une enveloppe signée.
 
+3. **Ordre de Contrôle Normatif du Profil Mémoriel V1 (README.md §4.7)** :
+   Le validateur évalue la conformité selon un ordre séquentiel strict où le premier échec détermine le code d'erreur levé :
+   1. Plus de 1 900 octets : `ERR_PROFILE_TOO_LARGE`, avant tout décodage ;
+   2. Décodage strict CBOR : l'erreur remonte avec son code `ERR_CBOR_*` natif (aucun doublon `ERR_PROFILE_*` pour une faute CBOR) ;
+   3. La racine n'est pas une carte : `ERR_PROFILE_NOT_A_MAP` ;
+   4. Une clé de la racine n'est pas un entier : `ERR_PROFILE_INVALID_KEY_TYPE` ;
+   5. Clé 1 absente : `ERR_PROFILE_MISSING_FIELD` ; différente de l'entier 1 : `ERR_PROFILE_UNSUPPORTED_VERSION` ;
+   6. Clé hors de $[1, 13]$ : `ERR_PROFILE_UNKNOWN_FIELD` ;
+   7. Clé obligatoire absente (2, 3, 7, 10, 11) : `ERR_PROFILE_MISSING_FIELD` ;
+   8. Champs dans l'ordre croissant des clés :
+      - Clé 2 (`subject_kind`) : entier 1 ou 2, sinon `ERR_PROFILE_INVALID_SUBJECT_KIND`.
+      - Clé 3 (`names`) : carte, clés entières, pas de clé hors de 1..3, clé 1 obligatoire (`usage_name` 1..120 octets UTF-8), clé 2 optionnelle (`birth_name` 1..120 octets UTF-8), clé 3 optionnelle (`given_names` tableau de 0 à 8 prénoms de 1..80 octets UTF-8). En cas d'anomalie : `ERR_PROFILE_INVALID_NAME`, `ERR_PROFILE_TOO_MANY_NAMES`, `ERR_PROFILE_INVALID_KEY_TYPE`, `ERR_PROFILE_UNKNOWN_FIELD`, ou `ERR_PROFILE_MISSING_FIELD`.
+      - Clé 4 (`birth_date`) : si présente, date civile Tag 100 entier (`#6.100(int)`), sinon `ERR_PROFILE_INVALID_DATE_TYPE` ; obligatoire pour sujet humain (clé 2 = 1), sinon `ERR_PROFILE_MISSING_BIRTH_DATE`.
+      - Clé 5 (`death_date`) : si présente, date civile Tag 100 entier (`#6.100(int)`), sinon `ERR_PROFILE_INVALID_DATE_TYPE`.
+      - Clé 6 (`rite_code`) : si présent, entier non négatif (uint), sinon `ERR_PROFILE_INVALID_RITE`.
+      - Clé 7 (`country`) : code pays ISO 3166-1 alpha-2 en majuscules strictes (`^[A-Z]{2}$`), sinon `ERR_PROFILE_INVALID_COUNTRY`.
+      - Clé 8 (`portrait_ref`) : si présent, carte {1: asset_sha256 (32 octets bstr), 2: len (uint <= 20480)}, sinon `ERR_PROFILE_INVALID_ASSET_REF`, `ERR_PROFILE_INVALID_HASH_LENGTH`, ou `ERR_PROFILE_PORTRAIT_TOO_LARGE`.
+      - Clé 9 (`voice_memo_ref`) : si présent, carte {1: asset_sha256 (32 octets bstr), 2: len (uint <= 46080)}, sinon `ERR_PROFILE_INVALID_ASSET_REF`, `ERR_PROFILE_INVALID_HASH_LENGTH`, ou `ERR_PROFILE_VOICE_TOO_LARGE`.
+      - Clé 10 (`issuer_id`) : chaîne de 4 à 64 octets UTF-8, sinon `ERR_PROFILE_INVALID_ISSUER_ID`.
+      - Clé 11 (`issued_at`) : date d'émission Tag 100 entier (`#6.100(int)`), sinon `ERR_PROFILE_INVALID_DATE_TYPE`.
+      - Clé 12 (`epitaph`) : si présente, chaîne de 1 à 1 600 octets UTF-8 NFC, sinon `ERR_PROFILE_INVALID_EPITAPH`.
+      - Clé 13 (`species_taxid`) : interdit pour un sujet humain (`ERR_PROFILE_INVALID_SPECIES`) ; pour un animal, entier strictement positif (uint > 0), sinon `ERR_PROFILE_INVALID_SPECIES`.
+
+   Dans les cartes imbriquées (`names`, références d'actifs), les mêmes codes `ERR_PROFILE_INVALID_KEY_TYPE`, `ERR_PROFILE_UNKNOWN_FIELD` et `ERR_PROFILE_MISSING_FIELD` s'appliquent. Toutes les contraintes de taille se comptent en octets UTF-8.
+
+4. **Registre Complet des Erreurs de Profil (`ERR_PROFILE_*`)** :
+   | Code d'Erreur | Condition de Déclenchement |
+   |---|---|
+   | `ERR_PROFILE_TOO_LARGE` | Charge utile CBOR dépassant 1 900 octets (contrôlé avant décodage) |
+   | `ERR_PROFILE_NOT_A_MAP` | Élément racine n'est pas une carte CBOR |
+   | `ERR_PROFILE_INVALID_KEY_TYPE` | Clé non entière dans la carte racine ou une carte imbriquée |
+   | `ERR_PROFILE_MISSING_FIELD` | Clé obligatoire absente (racine: 1, 2, 3, 7, 10, 11 ; `names`: 1 ; asset ref: 1, 2) |
+   | `ERR_PROFILE_UNSUPPORTED_VERSION` | Version de schéma (clé 1) absente ou différente de l'entier 1 |
+   | `ERR_PROFILE_UNKNOWN_FIELD` | Clé inconnue hors plage autorisée (racine: hors 1..13 ; `names`: hors 1..3 ; asset ref: hors 1..2) |
+   | `ERR_PROFILE_INVALID_SUBJECT_KIND` | Nature du sujet (clé 2) différente de 1 (humain) ou 2 (animal) |
+   | `ERR_PROFILE_INVALID_NAME` | Structure ou contenu de `names` invalide, ou taille d'un nom hors bornes en octets |
+   | `ERR_PROFILE_TOO_MANY_NAMES` | Liste des prénoms (`given_names`, clé 3.3) comportant plus de 8 éléments |
+   | `ERR_PROFILE_INVALID_DATE_TYPE` | Date (clé 4, 5 ou 11) non étiquetée Tag 100 ou contenu non entier |
+   | `ERR_PROFILE_MISSING_BIRTH_DATE` | Date de naissance (clé 4) absente pour un sujet humain (`subject_kind = 1`) |
+   | `ERR_PROFILE_INVALID_RITE` | Code de rite (clé 6) non entier ou négatif |
+   | `ERR_PROFILE_INVALID_COUNTRY` | Code pays (clé 7) non conforme à ISO 3166-1 alpha-2 majuscules (`^[A-Z]{2}$`) |
+   | `ERR_PROFILE_INVALID_ASSET_REF` | Référence d'actif (clé 8 ou 9) mal formée, type d'empreinte ou de taille invalide |
+   | `ERR_PROFILE_INVALID_HASH_LENGTH` | Empreinte SHA-256 de référence d'actif différente de 32 octets |
+   | `ERR_PROFILE_PORTRAIT_TOO_LARGE` | Longueur du portrait (clé 8.2) supérieure à 20 480 octets (Amendement M6) |
+   | `ERR_PROFILE_VOICE_TOO_LARGE` | Longueur du mémo vocal (clé 9.2) supérieure à 46 080 octets (Amendement M6) |
+   | `ERR_PROFILE_INVALID_ISSUER_ID` | Identifiant émetteur (clé 10) non textuel ou taille hors 4..64 octets UTF-8 |
+   | `ERR_PROFILE_INVALID_EPITAPH` | Épitaphe (clé 12) non textuelle, vide (0 octet) ou supérieure à 1 600 octets UTF-8 |
+   | `ERR_PROFILE_INVALID_SPECIES` | `species_taxid` (clé 13) présent pour un humain, ou non entier > 0 pour un animal |
+
 ---
 
 ## A3. Budget Silicium & Dimensionnement Matériel
@@ -489,6 +538,15 @@ export function decodeStrict(bytes: Uint8Array): unknown;
  * @throws {JcsError} En cas de valeur non sérialisable (cycles, NaN, Infinity).
  */
 export function canonicalizeJson(value: unknown): Uint8Array;
+
+/**
+ * Valide une charge utile CBOR de profil mémoriel V1 selon les règles normatives AeterniCore.
+ *
+ * @param bytes - Buffer d'octets CBOR de la charge utile (budget maximal 1 900 octets).
+ * @returns Résultat de validation { valid: true, len: number }.
+ * @throws {ProfileError|CborError} Dès qu'une non-conformité de profil ou CBOR est détectée.
+ */
+export function validateProfile(bytes: Uint8Array): { valid: true; len: number };
 ```
 
 ### 2. Registre Normatif des Erreurs Typées
@@ -519,6 +577,38 @@ export class CborError extends Error {
     this.name = "CborError";
     this.code = code;
     this.offset = offset;
+  }
+}
+
+export type ProfileErrorCode =
+  | "ERR_PROFILE_TOO_LARGE"
+  | "ERR_PROFILE_NOT_A_MAP"
+  | "ERR_PROFILE_INVALID_KEY_TYPE"
+  | "ERR_PROFILE_MISSING_FIELD"
+  | "ERR_PROFILE_UNSUPPORTED_VERSION"
+  | "ERR_PROFILE_UNKNOWN_FIELD"
+  | "ERR_PROFILE_INVALID_SUBJECT_KIND"
+  | "ERR_PROFILE_INVALID_NAME"
+  | "ERR_PROFILE_TOO_MANY_NAMES"
+  | "ERR_PROFILE_INVALID_DATE_TYPE"
+  | "ERR_PROFILE_MISSING_BIRTH_DATE"
+  | "ERR_PROFILE_INVALID_RITE"
+  | "ERR_PROFILE_INVALID_COUNTRY"
+  | "ERR_PROFILE_INVALID_ASSET_REF"
+  | "ERR_PROFILE_INVALID_HASH_LENGTH"
+  | "ERR_PROFILE_PORTRAIT_TOO_LARGE"
+  | "ERR_PROFILE_VOICE_TOO_LARGE"
+  | "ERR_PROFILE_INVALID_ISSUER_ID"
+  | "ERR_PROFILE_INVALID_EPITAPH"
+  | "ERR_PROFILE_INVALID_SPECIES";
+
+export class ProfileError extends Error {
+  readonly code: ProfileErrorCode;
+
+  constructor(code: ProfileErrorCode, message: string) {
+    super(`[${code}] ${message}`);
+    this.name = "ProfileError";
+    this.code = code;
   }
 }
 ```
