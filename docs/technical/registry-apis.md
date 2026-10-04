@@ -5,7 +5,7 @@
 > **Auteurs** : Bushi 15 (Lead Intégrations) / Bushi 11 (Bio-Traçabilité) / Orchestrateur Antigravity  
 > **Date de rédaction** : 4 octobre 2026 (révision v2.0)  
 > **Contexte de la saisine** : Exécution de l'arbitrage souverain `DEC-AET-02` prononcé par Kudoro : *« prévoir cette connexion API à tous les points d'accès tel que Cerise en Wallonie »*.  
-> **Objet du document** : Inventaire technique sourcé, rigoureux et vérifiable de l'existence réelle d'APIs publiques ou partenaires, des portails d'accès officiels, des conditions d'accès et des démarches de conventionnement pour les 4 guichets cibles belges et wallons.  
+> **Objet du document** : Inventaire technique préparatoire de l'existence réelle d'APIs publiques ou partenaires, des portails d'accès officiels, des conditions d'accès et des démarches de conventionnement pour les 4 guichets cibles belges et wallons.  
 > **Statut du document** : Étude technique préparatoire, exclusion des suppositions non documentées et feuille de route d'interfaçage.
 
 ---

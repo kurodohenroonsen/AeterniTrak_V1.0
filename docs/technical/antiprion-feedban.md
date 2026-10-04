@@ -34,9 +34,9 @@ Conformément à `CLAUDE.md`, à `PROTOCOL.md` §5 et aux directives souveraines
 
 ---
 
-### 1.2 Références Juridiques Européennes Consolidées
+### 1.2 Références Juridiques Européennes (Références à confirmer par un juriste)
 
-Les règles implémentées sont directement adossées aux textes normatifs officiels de l'Union Européenne (analysés à partir des versions consolidées de référence, les adresses EUR-Lex n'étant pas présentées comme des liens HTTP 200 sous la règle P8 en raison des mécanismes anti-robot d'EUR-Lex retournant une page d'attente 202 sans balise de titre d'acte) :
+Les règles sanitaires et de feed-ban sont adossées aux textes normatifs de l'Union Européenne (références et portée réglementaire à confirmer par un juriste) :
 
 1. **Règlement (CE) n° 999/2001 du Parlement européen et du Conseil du 22 mai 2001**  
    *Fixant les règles pour la prévention, le contrôle et l'éradication de certaines encéphalopathies spongiformes transmissibles.*  
@@ -48,19 +48,19 @@ Les règles implémentées sont directement adossées aux textes normatifs offic
      - *Section C* : L'alimentation des volailles avec des PAT porcines et des farines de poisson est autorisée.  
    - **Annexe IV, Chapitre IV** (Conditions spécifiques aux protéines dérivées d'insectes d'élevage) :  
      - *Section F* : L'utilisation de PAT d'insectes d'élevage pour l'alimentation des animaux d'aquaculture relève spécifiquement du Chapitre IV (introduit par le Règlement (UE) 2017/893), et non du Chapitre II.  
-   - Identifiant ELI : [http://data.europa.eu/eli/reg/2001/999/2021-11-23](http://data.europa.eu/eli/reg/2001/999/2021-11-23)
+   - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2001/999/2021-11-23`
 
 2. **Règlement (UE) 2021/1372 de la Commission du 17 août 2021**  
    *Modifiant l'annexe IV du règlement (CE) n° 999/2001 en ce qui concerne l'interdiction de nourrir les animaux d'élevage non-ruminants avec des protéines animales transformées issues d'autres animaux d'élevage.*  
    - Fixe le régime strict de non-contamination croisée : interdiction intra-espèce absolue et interdiction intra-groupe (porcins vers porcins interdit, volailles vers volailles interdit).  
-   - Identifiant ELI : [http://data.europa.eu/eli/reg/2021/1372/oj](http://data.europa.eu/eli/reg/2021/1372/oj)
+   - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2021/1372/oj`
 
 3. **Règlement (CE) n° 1069/2009 du Parlement européen et du Conseil du 21 octobre 2009**  
    *Établissant des règles sanitaires applicables aux sous-produits animaux et produits dérivés non destinés à la consommation humaine.*  
    - **Articles 8, 9 et 10** : Définition stricte et classification des matières des Catégories 1, 2 et 3.  
    - **Article 11(1)(a)** : **La Règle d'Or Anti-Prion** — interdiction absolue de nourrir des animaux terrestres d'une espèce donnée avec des PAT issues du corps ou de parties du corps d'animaux de la même espèce (interdiction du cannibalisme intra-espèce).  
    - **Articles 12, 13 et 14** : Voies d'utilisation et d'élimination autorisées pour chaque catégorie de sous-produits. Les matières de Catégorie 1 sont formellement exclues des fertilisants/engrais (art. 12).  
-   - Identifiant ELI : [http://data.europa.eu/eli/reg/2009/1069/2019-12-14](http://data.europa.eu/eli/reg/2009/1069/2019-12-14)
+   - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2009/1069/2019-12-14`
 
 4. **Règlement (UE) n° 142/2011 de la Commission du 25 février 2011**  
    *Portant application du règlement (CE) n° 1069/2009.*  
@@ -71,7 +71,7 @@ Les règles implémentées sont directement adossées aux textes normatifs offic
      - *Point B.1 (PAT de mammifères)* : Les PAT issues de mammifères doivent obligatoirement être soumises à la **Méthode 1 exclusivement** (133 °C / 3 bars / 20 min).  
      - *Point B.2 (PAT de non-mammifères)* : Les PAT issues de volailles ou d'insectes peuvent être soumises aux **Méthodes 1 à 5 ou 7** (la Méthode 6 leur est formellement interdite).  
      - *Point B.3 (Farine de poisson)* : Les matières issues de poissons peuvent être traitées par les **Méthodes 1 à 7** (la Méthode 6 étant spécifiquement réservée aux produits de la pêche).  
-   - Identifiant ELI : [http://data.europa.eu/eli/reg/2011/142/2022-04-17](http://data.europa.eu/eli/reg/2011/142/2022-04-17)
+   - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2011/142/2022-04-17`
 
 5. **Règlement (UE) 2017/893 de la Commission du 24 mai 2017**  
    *Modifiant les annexes I et IV du règlement (CE) n° 999/2001 du Parlement européen et du Conseil ainsi que les annexes X, XIV et XV du règlement (UE) n° 142/2011 de la Commission en ce qui concerne les dispositions relatives aux protéines animales transformées.*  
@@ -87,7 +87,7 @@ Les règles implémentées sont directement adossées aux textes normatifs offic
      - *Annexe XIV, Chapitre I, Section 1* : Exigences sanitaires applicables aux importations de PAT d'insectes.  
      - *Annexe XV, Chapitre 1* : Modèles de certificats sanitaires officiels pour l'entrée dans l'Union.  
    - **Portée normative de la règle P18** : L'accès légal de protéines d'insectes à l'alimentation animale (`feed`, `aquaculture_feed`) est conditionné au contrôle préalable et strict de leur substrat d'élevage (matière végétale vérifiée, règles P4 et P10). Dans toute filière où l'insecte est apporté comme source brute sans bioconversion contrôlée (ex. équarrissage direct `direct_rendering`, compostage, etc.), le substrat d'élevage larvaire n'est ni déclaré ni vérifié : cette filière est interdite en alimentation animale et produit immédiatement l'infraction `SUBSTRATE_CATEGORY_VIOLATION`. De surcroît, la nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route `insect_bioconversion` ; dans les autres routes, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min).  
-   - Identifiant ELI : [http://data.europa.eu/eli/reg/2017/893/oj](http://data.europa.eu/eli/reg/2017/893/oj)
+   - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2017/893/oj`
 
 ---
 
