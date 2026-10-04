@@ -1,10 +1,10 @@
 # Spécification Technique & Formelle — Sécurité Cryptographique & Modèle de Confiance COSE_Sign1
 
 > **Document ID** : `AET-SPEC-CRYPTO-001`  
-> **Version** : 1.1.1  
+> **Version** : 1.2.0  
 > **Statut** : Soumis pour révision  
 > **Date de référence** : 2026-10-04  
-> **Branche Git** : `fix/bushi-02-crypto-v11`  
+> **Branche Git** : `ag/bushi-02-key-validity`  
 > **Auteur** : Bushi 02 (Security & Cryptography Lead)  
 > **Revue & Arbitrage** : Claude AI (Master Verifier)  
 > **Autorité Souveraine** : Kudoro (`DECISIONS-KUDORO.md`, décision `DEC-AET-04` Option C)  
@@ -270,40 +270,52 @@ Conformément à l'arbitrage souverain `DEC-AET-04` (Option C : Agilité COSE hy
 
 ## 3. Ordre Normatif de Vérification & Registre des Erreurs `ERR_COSE_*`
 
-L'ordre de vérification suivant est **strictement normatif** (conforme à `qa/vectors/README.md` §4.8). Aucune étape ne peut être inversée, sautée ou reportée. En particulier, **la charge utile ne doit sous aucun prétexte être inspectée ou désérialisée avant que l'authenticité et l'intégrité cryptographiques n'aient été formellement établies**.
+L'ordre de vérification suivant est **strictement normatif** (conforme à `qa/vectors/README.md` §4.8 et §4.11). Aucune étape ne peut être inversée, sautée ou reportée. En particulier, **la charge utile ne doit sous aucun prétexte être inspectée ou désérialisée avant que l'authenticité et l'intégrité cryptographiques n'aient été formellement établies (Étape 12 acquittée)**. Le contrôle temporel (Étape 13) n'intervient qu'après vérification de signature et uniquement pour les clés de confiance dotées d'une fenêtre de validité.
 
 ```
 [Flux binaire reçu]
         │
         ▼
-   [Étape 1] Contrôle Tag 18 (0xd2) & Décodage strict CBOR ──► Échec : ERR_COSE_INVALID_ENVELOPE ou ERR_CBOR_*
+   [Étape 1] Contrôle Tag 18 (0xd2) ─────────────────────────► Échec : ERR_COSE_INVALID_ENVELOPE
         │
         ▼
-   [Étape 2] Structure enveloppe & En-têtes stricts ─────────► Échec : ERR_COSE_INVALID_ENVELOPE
+   [Étape 2] Décodage strict CBOR du reste ──────────────────► Échec : propagation native ERR_CBOR_*
         │
         ▼
-   [Étape 3] Contrôle de l'algorithme (alg ∈ {-8, -7}) ─────► Échec : ERR_COSE_UNSUPPORTED_ALGORITHM
+   [Étape 3] Forme de l'enveloppe [bstr, carte, bstr, bstr64] ► Échec : ERR_COSE_INVALID_ENVELOPE
         │
         ▼
-   [Étape 4] Concordance du domaine applicatif (typ) ───────► Échec : ERR_COSE_TYPE_MISMATCH
+   [Étape 4] En-tête protégé : décodable, carte, déterministe ► Échec : ERR_COSE_INVALID_ENVELOPE
         │
         ▼
-   [Étape 5] Présence et format du kid (16 octets) ──────────► Échec : ERR_COSE_MISSING_KID
+   [Étape 5] Contrôle de l'algorithme (alg ∈ {-8, -7}) ─────► Échec : ERR_COSE_UNSUPPORTED_ALGORITHM
         │
         ▼
-   [Étape 6] Intégrité TrustStore & Résolution kid ──────────► Échec : ERR_COSE_INVALID_TRUST_STORE / UNKNOWN_KID / REVOKED_KEY
+   [Étape 6] Concordance du domaine applicatif (typ) ───────► Échec : ERR_COSE_TYPE_MISMATCH
         │
         ▼
-   [Étape 7] Concordance alg déclaré vs Trust Store ────────► Échec : ERR_COSE_ALGORITHM_MISMATCH
+   [Étape 7] Présence et format du kid (16 octets) ──────────► Échec : ERR_COSE_MISSING_KID
         │
         ▼
-   [Étape 8] Concordance typ déclaré vs Trust Store (K3) ────► Échec : ERR_COSE_KEY_USAGE_MISMATCH
+   [Étape 8] Cohérence globale du Trust Store (K5, K2) ──────► Échec : ERR_COSE_INVALID_TRUST_STORE
         │
         ▼
-   [Étape 9] Validation signature (Ed25519 ou ES256 low-s) ─► Échec : ERR_COSE_INVALID_SIGNATURE / MALLEABLE / INVALID_PUBLIC_KEY
+   [Étape 9] Résolution kid & contrôle de révocation ────────► Échec : ERR_COSE_UNKNOWN_KID / REVOKED_KEY
         │
         ▼
-   [Étape 10] Déverrouillage Payload & Validité temporelle ──► Échec : ERR_COSE_EXPIRED_KEY (comparé à la date d'émission)
+   [Étape 10] Concordance alg déclaré vs Trust Store ────────► Échec : ERR_COSE_ALGORITHM_MISMATCH
+        │
+        ▼
+   [Étape 11] Concordance typ déclaré vs Trust Store (K3) ───► Échec : ERR_COSE_KEY_USAGE_MISMATCH
+        │
+        ▼
+   [Étape 12] Validation signature (Ed25519 ou ES256 low-s) ─► Échec : ERR_COSE_INVALID_SIGNATURE / MALLEABLE / INVALID_PUBLIC_KEY
+        │
+        ▼
+   [Étape 13] Validité temporelle post-signature (K2) ───────► Échec : ERR_COSE_EXPIRED_KEY / ISSUANCE_DATE_MISSING / ERR_CBOR_*
+        │
+        ▼
+   [Déverrouillage Payload certifié]
 ```
 
 ---
@@ -312,28 +324,41 @@ L'ordre de vérification suivant est **strictement normatif** (conforme à `qa/v
 
 Chaque règle est spécifiée de manière formellement testable sous le triptyque : **Entrée, Condition de Rejet, Code d'Erreur & Résultat**.
 
-#### Étape 1 : Contrôle du Tag 18 et Décodage Binaire Strict CBOR (Règles K4, K5)
+#### Étape 1 : Contrôle du Tag 18 (Règle K4)
 - **Entrée** : `raw_bytes` (tableau d'octets du message complet).
-- **Condition de Rejet** :
-  1. Le flux d'entrée est vide (`raw_bytes.length === 0`) ou son premier octet est différent de `0xd2` (Tag CBOR 18) : rejet immédiat avec `ERR_COSE_INVALID_ENVELOPE`.
-  2. Le reste du flux (à partir du 2ᵉ octet) est soumis au décodeur strict AeterniCore (`decodeStrict`). En cas d'anomalie CBOR (entier non minimal, longueur indéfinie, octets résiduels, carte non triée, clés dupliquées, texte non normalisé, flottant), l'erreur native sous-jacente remonte telle quelle (`ERR_CBOR_*`, ex. `ERR_CBOR_TRAILING_BYTES`, `ERR_CBOR_NOT_SHORTEST`).
-- **Code d'Erreur** : `ERR_COSE_INVALID_ENVELOPE` ou propagation de `ERR_CBOR_*`.
-- **Résultat** : Abandon immédiat de la lecture. Le Tag 18 n'est admis qu'à cette première position ; le décodeur AeterniCore n'est pas modifié.
+- **Condition de Rejet** : Le flux d'entrée est vide (`raw_bytes.length === 0`) ou son premier octet est différent de `0xd2` (Tag CBOR 18).
+- **Code d'Erreur** : `ERR_COSE_INVALID_ENVELOPE`.
+- **Résultat** : Abandon immédiat. Le Tag 18 n'est admis qu'à cette première position ; le décodeur AeterniCore n'est pas modifié.
 
-#### Étape 2 : Forme de l'Enveloppe et des En-têtes (Règles K5, Typage Strict des Clés)
+#### Étape 2 : Décodage Binaire Strict CBOR du Reste du Flux (Règles K4, K5)
+- **Entrée** : Sous-tableau d'octets `raw_bytes.subarray(1)`.
+- **Condition de Rejet** : Le reste du flux est soumis au décodeur strict AeterniCore (`decodeStrict`). En cas d'anomalie CBOR (entier non minimal, longueur indéfinie, octets résiduels, carte non triée, clés dupliquées, texte non normalisé, tag non autorisé, etc.), l'erreur native sous-jacente remonte telle quelle (`ERR_CBOR_*`, ex. `ERR_CBOR_TRAILING_BYTES`, `ERR_CBOR_NOT_SHORTEST`, `ERR_CBOR_TRUNCATED`).
+- **Code d'Erreur** : Propagation directe de `ERR_CBOR_*`.
+- **Résultat** : Abandon immédiat de la lecture.
+
+#### Étape 3 : Forme de l'Enveloppe et de l'En-tête Non Protégé (Règles K5, Typage Strict des Clés)
 - **Entrée** : Tableau déballé issu du décodage CBOR.
 - **Règle Fondamentale sur les Clés d'En-tête** : **Une clé d'en-tête (protégé ou non protégé) est STRICTEMENT un entier non signé (Major 0)**. Toute clé textuelle (ex. `"4"`, `"1"`, `"16"`) ou de tout autre type (booléen, tableau, etc.) est formellement interdite. L'acceptation de chaînes de caractères permettrait deux encodages CBOR distincts d'une même enveloppe, violant le déterminisme et introduisant une malléabilité structurelle inadmissible (`COSE-VER-041`, `COSE-VER-042`).
 - **Condition de Rejet** :
   1. L'élément déballé n'est pas un tableau de 4 éléments exactement : `[bstr, carte, bstr, bstr de 64 octets]`.
-  2. L'élément 0 (`protected`) n'est pas une chaîne d'octets (`bstr`), n'est pas décodable strictement en carte CBOR, n'est pas déterministe (les clés doivent être triées lexicographiquement : `0x01` puis `0x10`), ou porte une clé autre que les entiers stricts `1` et `16`.
+  2. L'élément 0 (`protected`) n'est pas une chaîne d'octets (`bstr`).
   3. L'élément 1 (`unprotected`) n'est pas une carte CBOR ou porte une clé autre que l'entier strict `4` (`kid`).
   4. L'élément 2 (`payload`) n'est pas une chaîne d'octets (`bstr`).
   5. L'élément 3 (`signature`) n'est pas une chaîne d'octets de 64 octets exactement.
 - **Code d'Erreur** : `ERR_COSE_INVALID_ENVELOPE`.
 - **Résultat** : Rejet immédiat.
 
-#### Étape 3 : Validation de l'Algorithme Cryptographique Déclaré (`alg`)
-- **Entrée** : Carte d'en-tête protégé décodée.
+#### Étape 4 : Décodage Strict et Déterminisme de l'En-tête Protégé
+- **Entrée** : Octets de l'élément 0 (`protected`).
+- **Condition de Rejet** :
+  1. L'en-tête protégé n'est pas strictement décodable en carte CBOR.
+  2. La carte est vide ou porte une clé autre que les entiers stricts `1` (`alg`) et `16` (`typ`).
+  3. Non-respect du déterminisme canonique : les clés entières doivent être encodées dans l'ordre lexicographique strict (`0x01` puis `0x10`). Le ré-encodage déterministe de la carte doit correspondre octet par octet aux octets protégés reçus.
+- **Code d'Erreur** : `ERR_COSE_INVALID_ENVELOPE`.
+- **Résultat** : Rejet immédiat.
+
+#### Étape 5 : Validation de l'Algorithme Cryptographique Déclaré (`alg`)
+- **Entrée** : Valeur associée à la clé `1` dans l'en-tête protégé.
 - **Condition de Rejet** :
   1. La clé `1` (`alg`) est absente.
   2. La valeur de `alg` n'est pas un entier relatif.
@@ -341,8 +366,8 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
 - **Code d'Erreur** : `ERR_COSE_UNSUPPORTED_ALGORITHM`.
 - **Résultat** : Rejet de l'enveloppe.
 
-#### Étape 4 : Validation du Paramètre de Séparation de Domaine (`typ`)
-- **Entrée** : Carte d'en-tête protégé, et type attendu `expected_typ`.
+#### Étape 6 : Validation du Paramètre de Séparation de Domaine (`typ`)
+- **Entrée** : Valeur associée à la clé `16` dans l'en-tête protégé, et type attendu `expected_typ`.
 - **Condition de Rejet** :
   1. La clé `16` (`typ`) est absente.
   2. La valeur de `typ` n'est pas une chaîne de caractères UTF-8.
@@ -350,36 +375,48 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
 - **Code d'Erreur** : `ERR_COSE_TYPE_MISMATCH`.
 - **Résultat** : Rejet immédiat.
 
-#### Étape 5 : Validation de la Présence et du Format du `kid`
-- **Entrée** : Carte d'en-tête non protégé (`unprotected`).
+#### Étape 7 : Présence et Format du `kid`
+- **Entrée** : Valeur associée à la clé `4` dans la carte d'en-tête non protégé (`unprotected`).
 - **Condition de Rejet** :
   1. La clé `4` (`kid`) est absente.
   2. La valeur associée à `kid` n'est pas une chaîne d'octets (`bstr`) d'exactement 16 octets.
 - **Code d'Erreur** : `ERR_COSE_MISSING_KID`.
 - **Résultat** : Rejet immédiat.
 
-#### Étape 6 : Cohérence du Magasin de Confiance et Recherche du `kid` (Règle K5)
-- **Entrée** : Registre d'émetteurs de confiance (`TrustStore`) et `kid` extrait.
-- **Condition de Rejet** :
-  1. **Cohérence du TrustStore** : Toute entrée dont le `kid` ne correspond pas aux 16 premiers octets du SHA-256 de sa clé publique brute (`kid !== SHA-256(raw_public_key)[0..15]`), dont l'algorithme ou la taille de clé publique est invalide, ou qui introduit un doublon d'identifiant `kid`, vicie l'ensemble du magasin : rejet immédiat avec `ERR_COSE_INVALID_TRUST_STORE`.
-  2. **Clé Inconnue** : Le `kid` est absent du TrustStore : rejet avec `ERR_COSE_UNKNOWN_KID`.
-  3. **Clé Révoquée** : L'entrée de confiance est marquée au statut `"REVOKED"` : rejet immédiat avec `ERR_COSE_REVOKED_KEY`.
-- **Code d'Erreur** : `ERR_COSE_INVALID_TRUST_STORE`, `ERR_COSE_UNKNOWN_KID` ou `ERR_COSE_REVOKED_KEY`.
-- **Résultat** : La clé publique provient exclusivement du magasin de confiance validé.
+#### Étape 8 : Cohérence Globale du Magasin de Confiance (Règles K5 et K2)
+- **Entrée** : Registre d'émetteurs de confiance (`TrustStore`).
+- **Condition de Rejet** : Toute anomalie sur une quelconque entrée du magasin vicie l'ensemble du registre et provoque un rejet immédiat. Pour chaque entrée :
+  1. **Empreinte de clé** : Le `kid` doit correspondre strictement aux 16 premiers octets du SHA-256 de la clé publique brute (`kid === SHA-256(raw_public_key)[0..15]`).
+  2. **Algorithme et taille** : Si `alg === -8`, la clé publique doit compter exactement 32 octets. Si `alg === -7`, la clé publique doit compter exactement 64 octets. Tout autre algorithme est interdit.
+  3. **Unicité** : Aucun doublon de `kid` dans le registre.
+  4. **Statut obligatoire (Règle K2)** : Le champ `status` doit être strictement `"ACTIVE"`, `"RETIRED"` ou `"REVOKED"`. Tout autre statut (ex: `"EXPIRED"`) est rejeté.
+  5. **Fenêtre de validité (Règle K2)** : Les champs `valid_from` et `valid_until` sont facultatifs, mais ils doivent être **soit tous les deux présents, soit tous les deux absents**. La présence d'une seule des deux bornes est invalide.
+  6. **Typage et bornes de la fenêtre** : Si présents, `valid_from` et `valid_until` doivent être des entiers non négatifs (type `number` entier $\ge 0$, sans $-0$), et respecter `valid_from <= valid_until`. Des bornes égales nulles `[0, 0]` sont admises.
+  7. **Statut RETIRED fenêtré** : Une entrée au statut `"RETIRED"` doit obligatoirement porter une fenêtre de validité (`valid_from` et `valid_until`).
+- **Code d'Erreur** : `ERR_COSE_INVALID_TRUST_STORE`.
+- **Résultat** : Rejet immédiat si une seule entrée est incohérente, quelle que soit la clé du message inspecté.
 
-#### Étape 7 : Concordance de l'Algorithme Déclaré vs Trust Store
-- **Entrée** : `alg` de l'en-tête protégé et `alg` de l'entrée de confiance.
+#### Étape 9 : Résolution du `kid` et Contrôle de Révocation
+- **Entrée** : `kid` extrait de l'enveloppe et magasin de confiance vérifié.
+- **Condition de Rejet** :
+  1. Le `kid` est absent du TrustStore : rejet avec `ERR_COSE_UNKNOWN_KID`.
+  2. L'entrée de confiance résolue est marquée au statut `"REVOKED"` : rejet immédiat avec `ERR_COSE_REVOKED_KEY`, quelle que soit sa fenêtre de validité ou la date du message.
+- **Code d'Erreur** : `ERR_COSE_UNKNOWN_KID` ou `ERR_COSE_REVOKED_KEY`.
+- **Résultat** : La clé publique est certifiée appartenir au magasin de confiance et ne pas être révoquée.
+
+#### Étape 10 : Concordance de l'Algorithme Déclaré vs Trust Store
+- **Entrée** : `alg` de l'en-tête protégé et `alg` de l'entrée de confiance résolue.
 - **Condition de Rejet** : `protected.alg !== trusted_entry.alg`.
 - **Code d'Erreur** : `ERR_COSE_ALGORITHM_MISMATCH`.
-- **Résultat** : Rejet immédiat (anti-rétrogradation).
+- **Résultat** : Rejet immédiat (protection anti-rétrogradation).
 
-#### Étape 8 : Concordance du Type Déclaré vs Trust Store (Règle K3)
-- **Entrée** : `typ` de l'en-tête protégé et `typ` de l'entrée de confiance.
+#### Étape 11 : Concordance du Type Déclaré vs Trust Store (Règle K3)
+- **Entrée** : `typ` de l'en-tête protégé et `typ` de l'entrée de confiance résolue.
 - **Condition de Rejet** : `protected.typ !== trusted_entry.typ` (ex. une clé de conformité de lot prétendant signer un profil mémoriel).
 - **Code d'Erreur** : `ERR_COSE_KEY_USAGE_MISMATCH`.
 - **Résultat** : Rejet immédiat (cloisonnement strict des usages de clés).
 
-#### Étape 9 : Vérification Cryptographique de la Signature
+#### Étape 12 : Vérification Cryptographique de la Signature
 - **Entrée** : Clé publique résolue, signature (64 octets), structure `Sig_structure` calculée sur `["Signature1", protected_bytes, h'', payload]`.
 - **Condition de Rejet** :
   1. Si `alg === -7` (ES256) :
@@ -390,19 +427,31 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
   2. Si `alg === -8` (Ed25519) :
      - Le point de clé publique ou de signature est invalide, le scalaire $S \ge L$ (non canonique), ou la vérification WebCrypto échoue : rejet avec `ERR_COSE_INVALID_SIGNATURE`.
 - **Code d'Erreur** : `ERR_COSE_INVALID_SIGNATURE`, `ERR_COSE_MALLEABLE_SIGNATURE`, `ERR_COSE_INVALID_PUBLIC_KEY`.
-- **Résultat** : En cas d'échec, le payload n'est pas déverrouillé.
+- **Résultat** : L'authenticité mathématique et l'intégrité de la charge utile sont acquittées. En cas d'échec, le payload n'est jamais déverrouillé.
 
-#### Étape 10 : Déverrouillage du Payload & Contrôle Temporel de Validité (Règle K2)
-- **Entrée** : Enveloppe cryptographiquement certifiée authentique et intègre, entrée de confiance `trusted_entry`.
-- **Condition de Réalisation** :
-  1. La charge utile (`payload`) n'est retournée que si l'intégrité cryptographique a été acquittée à 100% à l'étape 9.
-  2. **Contrôle d'Expiration Post-Signature (Règle K2)** :
-     - La date d'émission portée par la charge utile vérifiée (clé `11` du profil mémoriel, clé `3` du certificat de lot) est comparée à la fenêtre `[valid_from, valid_until]` de l'entrée de confiance. L'horloge locale de lecture n'est JAMAIS utilisée.
-     - Si `status === "ACTIVE"` : valide si la date d'émission se situe dans l'intervalle `[valid_from, valid_until]`. Sinon, rejet avec `ERR_COSE_EXPIRED_KEY`.
-     - Si `status === "RETIRED"` : la clé ne signe plus, mais ses documents émis pendant sa fenêtre `[valid_from, valid_until]` demeurent valides à perpétuité. Si la date d'émission est hors fenêtre, rejet avec `ERR_COSE_EXPIRED_KEY`.
-     - Si `status === "REVOKED"` : clé compromise. Tout document signé par cette clé est rejeté inconditionnellement avec `ERR_COSE_REVOKED_KEY`, quelle que soit sa date d'émission déclarée (neutralisant toute attaque par rétro-datation).
-- **Code d'Erreur** : `ERR_COSE_EXPIRED_KEY`, `ERR_COSE_REVOKED_KEY`, `ERR_COSE_UNVERIFIED_PAYLOAD_ACCESS`.
-- **Résultat** : Restitution de `payload` certifié pour traitement applicatif.
+#### Étape 13 : Contrôle de Validité Temporelle Post-Signature (Règle K2) & Déverrouillage Payload
+- **Entrée** : Charge utile attachée `payload`, type attendu `expected_typ`, et entrée de confiance `trusted_entry`.
+- **Condition d'Exécution & Règles Normatives** :
+  1. **Exécution Post-Signature Stricte** : La validité temporelle n'est évaluée qu'après confirmation intégrale de la signature cryptographique à l'étape 12. Aucune date d'émission n'est lue dans une charge utile non signée.
+  2. **Entrée sans Fenêtre** : Si l'entrée de clé de confiance ne porte aucune fenêtre temporelle (`valid_from` et `valid_until` absents), la charge utile n'est PAS décodée à cette étape. Le payload est directement déverrouillé et restitué (maintien à 100% du comportement nominal des 104 vecteurs initiaux, cas `COSE-KEY-026`).
+  3. **Décodage Strict de la Charge Utile** : Si l'entrée porte une fenêtre temporelle `[valid_from, valid_until]`, la charge utile est décodée via `decodeStrict`. Si le flux est tronqué ou invalide, l'erreur native `ERR_CBOR_*` remonte telle quelle (`COSE-KEY-024`, `COSE-KEY-025`).
+  4. **Extraction de la Date d'Émission** :
+     - Si `expected_typ === "application/aeternitrak-profile+cbor"` : la date d'émission $D$ doit être portée par la clé entière `11` sous l'étiquette sémantique Tag CBOR 100 (nombre de jours depuis le 1er janvier 1970).
+     - Si `expected_typ === "application/aeternitrak-batch-claim+cbor"` : la date d'émission $S$ doit être portée par la clé entière `3` sous l'étiquette sémantique Tag CBOR 1 (horodatage UNIX en secondes, entier non négatif).
+     - Si la charge utile n'est pas une carte CBOR, si la clé est absente, si l'étiquette sémantique est incorrecte (ex: tag 1 sur profil ou tag 100 sur certificat), s'il s'agit d'un entier nu, ou si la clé est textuelle : rejet avec `ERR_COSE_ISSUANCE_DATE_MISSING`.
+  5. **Comparaison Temporelle aux Bornes (Incluses)** :
+     - Pour un profil mémoriel (daté au jour $D$) : comparaison au jour :
+       $$\lfloor valid\_from / 86400 \rfloor \le D \le \lfloor valid\_until / 86400 \rfloor$$
+     - Pour un certificat de lot (daté à la seconde $S$) : comparaison à la seconde :
+       $$valid\_from \le S \le valid\_until$$
+     - Si la date d'émission se situe hors de l'intervalle (antérieure comme postérieure) : rejet avec `ERR_COSE_EXPIRED_KEY`.
+  6. **Interdiction Formelle de l'Horloge Locale (Zero-Clock)** : L'horloge du lecteur n'intervient jamais. Aucun appel à `Date.now()` ou `new Date()` n'est toléré dans le module de vérification.
+- **Limite de Sécurité Fondamentale (Antidatage)** :
+  > [!WARNING]
+  > **Limite Intrinsèque — Vulnérabilité à l'Antidatage** :  
+  > La date d'émission est déclarée unilatéralement par le signataire au sein de la charge utile. Si une clé privée de signature est volée ou compromise, l'attaquant peut forger et signer un document frauduleux en y inscrivant une date d'émission artificielle comprise dans la fenêtre de validité passée de la clé. La fenêtre temporelle ne protège pas contre cette falsification ; **seule la révocation formelle (`status: "REVOKED"`) neutralise une clé compromise**.
+- **Code d'Erreur** : `ERR_COSE_EXPIRED_KEY`, `ERR_COSE_ISSUANCE_DATE_MISSING`, ou propagation de `ERR_CBOR_*`.
+- **Résultat** : Restitution sécurisée de la charge utile certifiée (`VerifyResult`).
 
 ---
 
@@ -410,20 +459,22 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
 
 | Code d'Erreur | Étape | Signification Formelle |
 |---|---|---|
-| `ERR_COSE_INVALID_ENVELOPE` | 1, 2 | Structure non conforme (tag 18 manquant, tableau ≠ 4 éléments, types invalides, en-tête non protégé avec clé autre que 4, en-tête protégé non déterministe ou avec clés autres que 1 et 16). |
-| `ERR_COSE_UNSUPPORTED_ALGORITHM` | 3 | Algorithme non autorisé ou absent de la liste blanche `{-8, -7}`. |
-| `ERR_COSE_TYPE_MISMATCH` | 4 | Paramètre `typ` (étiquette 16) manquant, malformé ou non concordant avec le type attendu. |
-| `ERR_COSE_MISSING_KID` | 5 | Clé 4 (`kid`) absente de l'en-tête non protégé ou taille ≠ 16 octets. |
-| `ERR_COSE_INVALID_TRUST_STORE` | 6 | Magasin de confiance incohérent (`kid` ≠ empreinte SHA-256 de la clé, algorithme invalide, taille de clé incorrecte, identifiants dupliqués). |
-| `ERR_COSE_UNKNOWN_KID` | 6 | Identifiant `kid` inconnu dans la liste de confiance locale. |
-| `ERR_COSE_REVOKED_KEY` | 6, 10 | Clé révoquée dans le Trust Store (rejet inconditionnel de tous ses documents). |
-| `ERR_COSE_ALGORITHM_MISMATCH` | 7 | L'algorithme déclaré ne correspond pas à celui assigné dans le Trust Store. |
-| `ERR_COSE_KEY_USAGE_MISMATCH` | 8 | Le type de document ne correspond pas à l'usage autorisé pour cette clé dans le Trust Store. |
-| `ERR_COSE_INVALID_PUBLIC_KEY` | 9 | Clé publique invalide ou non située sur la courbe P-256. |
-| `ERR_COSE_MALLEABLE_SIGNATURE` | 9 | Signature ES256 malléable rejetée ($s > \lfloor n/2 \rfloor$, violation BSI TR-03111). |
-| `ERR_COSE_INVALID_SIGNATURE` | 9 | Signature mathématiquement corrompue, falsifiée ou scalaire Ed25519 non canonique. |
-| `ERR_COSE_EXPIRED_KEY` | 10 | Clé expirée (date d'émission portée par la charge utile hors de la fenêtre `[valid_from, valid_until]`). |
-| `ERR_COSE_UNVERIFIED_PAYLOAD_ACCESS` | 10 | Tentative d'accès au payload sans vérification cryptographique complète préalable. |
+| `ERR_COSE_INVALID_ENVELOPE` | 1, 3, 4 | Structure non conforme (tag 18 manquant, tableau ≠ 4 éléments, types invalides, en-tête non protégé avec clé autre que 4, en-tête protégé non déterministe ou avec clés autres que 1 et 16). |
+| `ERR_CBOR_*` | 2, 13 | Décodage CBOR invalide (erreur native AeterniCore sur l'enveloppe ou sur la charge utile fenêtrée, ex. `ERR_CBOR_TRUNCATED`). |
+| `ERR_COSE_UNSUPPORTED_ALGORITHM` | 5 | Algorithme non autorisé ou absent de la liste blanche `{-8, -7}`. |
+| `ERR_COSE_TYPE_MISMATCH` | 6 | Paramètre `typ` (étiquette 16) manquant, malformé ou non concordant avec le type attendu. |
+| `ERR_COSE_MISSING_KID` | 7 | Clé 4 (`kid`) absente de l'en-tête non protégé ou taille ≠ 16 octets. |
+| `ERR_COSE_INVALID_TRUST_STORE` | 8 | Magasin de confiance incohérent (`kid` ≠ empreinte SHA-256 de la clé, algorithme invalide, taille de clé incorrecte, doublon, statut inconnu, fenêtre incohérente ou absente pour RETIRED). |
+| `ERR_COSE_UNKNOWN_KID` | 9 | Identifiant `kid` inconnu dans la liste de confiance locale. |
+| `ERR_COSE_REVOKED_KEY` | 9 | Clé révoquée dans le Trust Store (rejet inconditionnel de tous ses documents). |
+| `ERR_COSE_ALGORITHM_MISMATCH` | 10 | L'algorithme déclaré ne correspond pas à celui assigné dans le Trust Store. |
+| `ERR_COSE_KEY_USAGE_MISMATCH` | 11 | Le type de document ne correspond pas à l'usage autorisé pour cette clé dans le Trust Store. |
+| `ERR_COSE_INVALID_PUBLIC_KEY` | 12 | Clé publique invalide ou non située sur la courbe P-256. |
+| `ERR_COSE_MALLEABLE_SIGNATURE` | 12 | Signature ES256 malléable rejetée ($s > \lfloor n/2 \rfloor$, violation BSI TR-03111). |
+| `ERR_COSE_INVALID_SIGNATURE` | 12 | Signature mathématiquement corrompue, falsifiée ou scalaire Ed25519 non canonique. |
+| `ERR_COSE_ISSUANCE_DATE_MISSING` | 13 | Date d'émission absente, étiquette CBOR incorrecte, entier nu ou charge utile non-carte lors d'une vérification sous entrée de confiance fenêtrée. |
+| `ERR_COSE_EXPIRED_KEY` | 13 | Date d'émission déclarée dans la charge utile hors de la fenêtre `[valid_from, valid_until]` de l'entrée de confiance. |
+| `ERR_COSE_UNVERIFIED_PAYLOAD_ACCESS` | 13 | Tentative d'accès au payload sans vérification cryptographique complète préalable. |
 
 ---
 
@@ -431,12 +482,12 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
 
 Conformément à l'arbitrage souverain de Kudoro (`DECISIONS-KUDORO.md`, décision `DEC-AET-07` Option B) et aux règles formelles de `qa/vectors/README.md` §4.9 :
 
-L'opération `coseVerify` demeure la référence normative fondamentale : elle exécute l'intégralité des 12 étapes de vérification et ne restitue le payload qu'en cas d'authentification cryptographique parfaite (`valid: true`).
+L'opération `coseVerify` demeure la référence normative fondamentale : elle exécute l'intégralité des 13 étapes de vérification et ne restitue le payload qu'en cas d'authentification cryptographique parfaite (`valid: true`).
 
 L'opération `coseOpen(envelope, expectedTyp, trustStore)` constitue l'interface applicative standard de consultation et de rendu des cartes et profils :
 
 1. **`VERIFIED` (Authenticité Certifiée)** :
-   - **Condition** : `coseVerify` franchit avec succès les 12 étapes de contrôle avec une clé de confiance active (`status: "ACTIVE"`).
+   - **Condition** : `coseVerify` franchit avec succès les 13 étapes de contrôle avec une clé de confiance active ou retirée dont la date est dans la fenêtre.
    - **Retour** : `{ status: "VERIFIED", valid: true, payload, payload_hex, kid }`.
    - **Usage Applicatif** : Affichage certifié de plein droit.
 
@@ -449,6 +500,8 @@ L'opération `coseOpen(envelope, expectedTyp, trustStore)` constitue l'interface
 3. **`BLOCKED` (Blocage Inconditionnel)** :
    - **Condition** : Toute autre anomalie lors de la vérification :
      - Clé révoquée (`ERR_COSE_REVOKED_KEY`).
+     - Clé expirée (`ERR_COSE_EXPIRED_KEY`).
+     - Date d'émission absente ou tag CBOR non conforme (`ERR_COSE_ISSUANCE_DATE_MISSING`).
      - Signature invalide ou corrompue (`ERR_COSE_INVALID_SIGNATURE`).
      - Signature ECDSA malléable avec $s > \lfloor n/2 \rfloor$ (`ERR_COSE_MALLEABLE_SIGNATURE`).
      - Clé publique hors courbe (`ERR_COSE_INVALID_PUBLIC_KEY`).
@@ -519,8 +572,8 @@ TrustedIssuerEntry = {
         "POLICY_SIGNER",
   typ: text,                             ; Paramètre typ associé obligatoire
   issuer_id: text,                       ; Identifiant officiel (ex: FR-PAR-AET-MOM-2026-0000000000000099)
-  valid_from: uint,                      ; Début de validité (timestamp UNIX secondes)
-  valid_until: uint,                     ; Fin de validité (timestamp UNIX secondes)
+  ? valid_from: uint,                    ; Début de validité facultatif (timestamp UNIX secondes, les deux ou aucun)
+  ? valid_until: uint,                   ; Fin de validité facultatif (timestamp UNIX secondes, les deux ou aucun)
   status: "ACTIVE" / "RETIRED" / "REVOKED" ; État opérationnel de la clé (Règle K2)
 }
 ```
@@ -543,11 +596,13 @@ AeterniTrak opère dans des environnements dépourvus de connectivité réseau (
 
 1. **Mises à Jour Monotones Signées** : Les révocations de clés compromises et l'enregistrement de nouveaux émetteurs sont distribués via les mises à jour standard de l'application (App Store, Google Play, paquets d'audit signés).
 2. **Trois Statuts Opérationnels d'Émetteurs (Règle K2)** :
-   - `ACTIVE` : Clé pleinement opérationnelle autorisée à signer de nouvelles charges utiles. Les documents sont valides si leur date d'émission se situe dans l'intervalle `[valid_from, valid_until]`.
-   - `RETIRED` : Clé retirée du service actif (ne signant plus de nouvelles cartes), mais dont les cartes émises durant sa période active demeurent certifiées valides à perpétuité si leur date d'émission est dans la fenêtre `[valid_from, valid_until]`.
-   - `REVOKED` : Clé compromise ou signalée volée. Tout document portant la signature de ce `kid` est rejeté inconditionnellement avec `ERR_COSE_REVOKED_KEY`, quelle que soit sa date d'émission, car un attaquant détenteur de la clé peut antidater la charge utile.
-3. **Contrôle Temporel Décorrélé de la Lecture (Zero-Clock)** :
-   Une carte mémorielle se lit pendant des décennies et le terminal de lecture ne dispose d'aucune horloge de confiance en mode déconnecté. La fenêtre de validité `[valid_from, valid_until]` ne se compare JAMAIS à l'horloge locale du lecteur (`now`), mais exclusivement à la date d'émission scellée dans la charge utile vérifiée (clé 11 du profil, clé 3 du lot), après validation de la signature cryptographique. Toute date d'émission hors fenêtre déclenche `ERR_COSE_EXPIRED_KEY`.
+   - `ACTIVE` : Clé pleinement opérationnelle autorisée à signer de nouvelles charges utiles. Si l'entrée porte une fenêtre temporelle `[valid_from, valid_until]`, les documents signés ne sont valides que si leur date d'émission se situe dans cet intervalle. Si l'entrée ne porte aucune fenêtre temporelle, aucune restriction temporelle ne s'applique.
+   - `RETIRED` : Clé retirée du service actif (ne signant plus de nouvelles cartes). Elle porte obligatoirement une fenêtre temporelle `[valid_from, valid_until]`. Ses cartes émises durant sa période active demeurent certifiées valides à perpétuité si leur date d'émission est comprise dans la fenêtre.
+   - `REVOKED` : Clé compromise ou signalée volée. Tout document portant la signature de ce `kid` est rejeté inconditionnellement avec `ERR_COSE_REVOKED_KEY`, quelle que soit sa date d'émission déclarée.
+3. **Contrôle Temporel Décorrélé de la Lecture (Zero-Clock & Limite d'Antidatage)** :
+   Une carte mémorielle se lit pendant des décennies et le terminal de lecture ne dispose d'aucune horloge de confiance en mode déconnecté. La fenêtre de validité `[valid_from, valid_until]` ne se compare JAMAIS à l'horloge locale du lecteur (`now`), mais exclusivement à la date d'émission scellée dans la charge utile vérifiée (clé 11 du profil au jour, clé 3 du lot à la seconde), après validation de la signature cryptographique (Étape 13). Toute date d'émission hors fenêtre déclenche `ERR_COSE_EXPIRED_KEY`.
+   
+   *Limite fondamentale d'antidatage* : La date d'émission est une assertion déclarée par le signataire au sein de la charge utile. Une clé volée peut donc être utilisée par un attaquant pour antidater une charge utile dans la fenêtre passée de la clé ; la fenêtre temporelle ne protège pas contre ce risque, seule la révocation formelle (`status: "REVOKED"`) neutralise une clé compromise.
 
 ---
 
@@ -658,10 +713,11 @@ AeterniTrak segmente l'architecture cryptographique en quatre familles de clés 
 
 ---
 
-## 7. Matrice de Conformité & Critères d'Acceptation (Amendements v1.1.1 & Phase B)
+## 7. Matrice de Conformité & Critères d'Acceptation (Amendements v1.2.0 & Phase B)
 
-Conformément à l'Ordre 0037 et au Redirect 0042 de Claude AI :
+Conformément à l'Ordre 0037, au Redirect 0042 et à l'Ordre 0057 de Claude AI :
 
+- **Spécification v1.2.0 & Règle K2 Alignées** : Intégration de la règle de validité temporelle des clés K2 en 13 étapes normatives (§3.1, §4.5), fenêtre `[valid_from, valid_until]` facultative dans le registre de confiance (CDDL §4.3), contrôle post-signature stricte (Étape 13) avec décodage CBOR strict et vérification de la date d'émission portée par la charge utile (tag 100 jours pour profil, tag 1 secondes pour certificat), et mention formelle de la limite d'antidatage par clé compromise neutralisée par révocation.
 - **Amendements v1.1.0 & v1.1.1 Intégrés** : Application des 7 amendements normatifs K1 à K7, correction de la constante $\lfloor n/2 \rfloor$ de P-256 dans la spécification (§2.2), typage strict entier des clés d'en-tête (rejet immédiat de toute clé textuelle, §3.1), intégration contractuelle de la lecture sous réserve DEC-AET-07 Option B (`coseOpen`, §3.3), et notification d'alignement au Bushi 12 pour le Tag 18.
 - **Portabilité WebCrypto Stricte (Zéro `node:crypto`)** : Implémentation réalisée sous `core/cose/` en TypeScript ESM sans aucune dépendance npm (`dependencies: {}`) et sans aucun import de modules Node (`node:crypto`), s'appuyant exclusivement sur `globalThis.crypto.subtle` (`digest`, `importKey`, `verify`, `sign`) pour assurer la portabilité totale sur WebView Android et navigateur.
 - **Zéro Clé Privée dans `core/`** : Aucune clé privée ou graine secrète n'est présente dans le code source ; seuls les vecteurs de tests publics RFC 8032 et RFC 6979 de `qa/vectors/crypto/` font foi.
