@@ -1,0 +1,95 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "core.profile.rules-v11",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.7 et §3 (règle AVN-R)"
+  ],
+  "adapter": "core.profile",
+  "description": "Issue du fuzzing différentiel du cycle 0010. Le décodeur rend ses résultats dans la notation des vecteurs (AVN), où une carte à clés texte est un objet JSON : une carte CBOR dont les clés sont `$tag`, `$map`, `$int` ou `$bytes` devenait indiscernable d'un élément étiqueté, d'une carte à clés entières, d'un grand entier ou d'une chaîne d'octets. Le validateur du profil livré au cycle 0007 déclare valides les cinq profils de cette suite.",
+  "cases": [
+    {
+      "id": "PROF-REJ-051",
+      "title": "date d'émission (clé 11) remplacée par une carte {\"$tag\": 100, \"$value\": 20730}",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310ba264247461671864662476616c75651950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_DATE_TYPE"
+      },
+      "rule": "qa/vectors/README.md §4.7 et §3 (règle AVN-R) : le validateur juge l'élément CBOR, pas sa notation",
+      "tags": [
+        "confusion",
+        "date"
+      ]
+    },
+    {
+      "id": "PROF-REJ-052",
+      "title": "date de décès (clé 5) remplacée par une carte {\"$tag\": 100, \"$value\": 20730}",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a1016347757904d86439232b05a264247461671864662476616c75651950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_DATE_TYPE"
+      },
+      "rule": "qa/vectors/README.md §4.7 et §3 (règle AVN-R) : le validateur juge l'élément CBOR, pas sa notation",
+      "tags": [
+        "confusion",
+        "date"
+      ]
+    },
+    {
+      "id": "PROF-REJ-053",
+      "title": "noms (clé 3) remplacés par une carte à clé texte `$map`",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a164246d61708182016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_KEY_TYPE"
+      },
+      "rule": "qa/vectors/README.md §4.7 et §3 (règle AVN-R) : le validateur juge l'élément CBOR, pas sa notation",
+      "tags": [
+        "confusion",
+        "names"
+      ]
+    },
+    {
+      "id": "PROF-REJ-054",
+      "title": "empreinte du portrait (clé 8) remplacée par une carte {\"$bytes\": …}",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a201a1662462797465737840653365336533653365336533653365336533653365336533653365336533653365336533653365336533653365336533653365336533653365336533653365330219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "expect": {
+        "error": "ERR_PROFILE_INVALID_ASSET_REF"
+      },
+      "rule": "qa/vectors/README.md §4.7 et §3 (règle AVN-R) : le validateur juge l'élément CBOR, pas sa notation",
+      "tags": [
+        "confusion",
+        "hash"
+      ]
+    },
+    {
+      "id": "PROF-REJ-055",
+      "title": "date d'émission sous tag 100 dont le contenu est une carte {\"$int\": \"20730\"}",
+      "op": "validate-profile",
+      "input": {
+        "hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd864a16424696e74653230373330"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TAG_CONTENT"
+      },
+      "rule": "qa/vectors/README.md §4.7 et §3 (règle AVN-R) : le validateur juge l'élément CBOR, pas sa notation",
+      "tags": [
+        "confusion",
+        "date"
+      ]
+    }
+  ]
+}

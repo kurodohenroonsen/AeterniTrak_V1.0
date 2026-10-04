@@ -1,0 +1,4101 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "crypto.batch-certificate",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "docs/technical/batch-certificate.md v1.1.0",
+    "qa/vectors/README.md §4.14, §4.8, §4.11",
+    "docs/technical/antiprion-feedban.md v1.5.0"
+  ],
+  "adapter": "crypto.cert",
+  "description": "Certificat de lot : composition de la Porte de Fer et de l'enveloppe COSE_Sign1. `cert-issue` évalue puis signe, et ne signe jamais une revendication bloquée. `cert-verify` ne se fie pas à la signature : il recalcule l'empreinte de la revendication et la réévalue. Moteur unique en v1 : règles 1.5.0, snapshot du dépôt. Clés de test publiques des RFC 8032 et 6979 ; politiques de test à référence d'autorité fictive `TEST-ONLY-…`.",
+  "cases": [
+    {
+      "id": "CERT-ISSUE-001",
+      "title": "lot porc -> volailles, méthode 1 : certificat émis",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-01",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "len": 234,
+        "sha256": "4699056b536cdc3392de5874465c8907f892122e2f00fc8d39c9be90d76afde1",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "nominal"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-002",
+      "title": "bioconversion par Hermetia sur matière végétale -> volailles : certificat émis",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-02",
+          "substrate": {
+            "category": 3,
+            "material_class": "feed_grade_plant",
+            "origin_profile": "feed_industry",
+            "sources": []
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": {
+              "method": 7,
+              "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+            },
+            "insect_taxid": 343691
+          },
+          "product": "insect_PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820d8c4405d61452ce41ee99e78a3eb1fa4517df759f92517f97d97bf1906aecbda026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e30584055c60c004ae150ed6c931b7080e445903d26f87d2685a12cd56550bdd34fc877ff1416788def53168fc97d56a31a35a0327fddaa85a60678073b5b1e95f10d04",
+        "len": 234,
+        "sha256": "05437ed3a2814a94b4bcbae6fa113d3abe4cf03fa01190db8f15f53d4b0419aa",
+        "claim_json": "{\"batch_id\":\"AT-C-02\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"insect_taxid\":343691,\"route\":\"insect_bioconversion\",\"treatment\":{\"evidence_sha256\":\"a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23\",\"method\":7}},\"product\":\"insect_PAP\",\"substrate\":{\"category\":3,\"material_class\":\"feed_grade_plant\",\"origin_profile\":\"feed_industry\",\"sources\":[]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "nominal"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-003",
+      "title": "incinération d'un cadavre d'espèce inconnue : certificat émis (P11)",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-03",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "wildlife_dnf",
+            "sources": [
+              {
+                "taxid": 99999999
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": null
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "incineration",
+            "target_taxids": []
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a50158204e024404b9194b0b30523ecfa7e3f0b7e8158c49ae8913599bd038d159de690c026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840fb4a8dd7f2aa93e5996325d54fea556934792407645b1a7bc250bb41956719f5c2efa5a9db58e7fa67f8bde49329cdf735aac0cc8c33b112b6532ed4f3120209",
+        "len": 234,
+        "sha256": "683eaaa567b589a1d3575be2ebd23f1e1faed8d69bb6b610843794b5a168bbb0",
+        "claim_json": "{\"batch_id\":\"AT-C-03\",\"destination\":{\"target_taxids\":[],\"use\":\"incineration\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":null},\"product\":\"PAP\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"wildlife_dnf\",\"sources\":[{\"taxid\":99999999}]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "nominal"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-004",
+      "title": "mémoire forestière sous politique du registre : certificat émis avec la clé 6",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-04",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9615
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a6015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658202cef75e325614f42ce459a5a0071f8322da92266eba6677ee9a8db9b6dc257155840e109b3eaaf91f76e4f32a54a2026c54de4bed13f38aaa82b4006edb15cc1f6961ef5074eb4e3251795e9d933af244e9ba94624a06eaa91597d45a6a9cdfc1c07",
+        "len": 269,
+        "sha256": "1f8dd148a38d38966a97a9c2765126b826f57eb086ded9458a9307ea44eb5c78",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "derogation"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-005",
+      "title": "identifiant de lot accentué : la revendication est hachée en UTF-8",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "Lot n° 7 — Élevage Dupré",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a50158201a69da7ad0737aec6e1b68cd91f77c23f4da874b0b7ca67d925b2f4b7f90e9fd026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840d2e36321128bcb3f33cccb0e9526c52046908357a547f6d6f99c70daeafacdd12f054dc18ab95e0b7655f41f0dc9ea6f62d58b182272c6ea7669aa4a54353d0b",
+        "len": 234,
+        "sha256": "16ad2736c6052a8e5642920cc414323c78ab5f34130f17c964821ff4fe7f1ce2",
+        "claim_json": "{\"batch_id\":\"Lot n° 7 — Élevage Dupré\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "jcs"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-006",
+      "title": "mêmes données, clés dans un autre ordre : même certificat, octet pour octet",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          },
+          "product": "PAP",
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "batch_id": "AT-C-01"
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "len": 234,
+        "sha256": "4699056b536cdc3392de5874465c8907f892122e2f00fc8d39c9be90d76afde1",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "jcs"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-007",
+      "title": "lot alimentaire accompagné d'une politique du registre : certificat sans clé 6, identique au cas sans politique",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-01",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "len": 234,
+        "sha256": "4699056b536cdc3392de5874465c8907f892122e2f00fc8d39c9be90d76afde1",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "kid_hex": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "a4"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-008",
+      "title": "recyclage intra-espèce porc -> porcins : émission refusée, la clé ne signe pas",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-05",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9823
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "error": "ERR_CERT_ISSUANCE_REFUSED",
+        "refusal_reasons": [
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ]
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "refused",
+        "golden-rule"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-009",
+      "title": "source bovine -> volailles : émission refusée",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-06",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9913
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "error": "ERR_CERT_ISSUANCE_REFUSED",
+        "refusal_reasons": [
+          "FEED_BAN_RUMINANT_SOURCE",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ]
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "refused"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-010",
+      "title": "mémoire forestière sans politique : émission refusée",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-04",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9615
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "error": "ERR_CERT_ISSUANCE_REFUSED",
+        "refusal_reasons": [
+          "DEROGATION_REQUIRED"
+        ]
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "refused",
+        "derogation"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-011",
+      "title": "mémoire forestière, LFA positif, sous politique : émission refusée",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-07",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9615
+              }
+            ],
+            "pentobarbital_lfa": "positive"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "error": "ERR_CERT_ISSUANCE_REFUSED",
+        "refusal_reasons": [
+          "PENTOBARBITAL_POSITIVE"
+        ]
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "refused",
+        "derogation"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-012",
+      "title": "politique absente du registre de l'émetteur : refus avant toute évaluation",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-04",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9615
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 343691,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-04",
+          "version": 1,
+          "legal_basis": "x",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0003"
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_POLICY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "policy"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-013",
+      "title": "politique absente du registre, lot alimentaire par ailleurs conforme : refus",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-01",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-04",
+          "version": 1,
+          "legal_basis": "x",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0003"
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": 1791072000
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_POLICY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "policy"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-014",
+      "title": "date d'émission négative",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-01",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": -1
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_ISSUED_AT"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "date"
+      ]
+    },
+    {
+      "id": "CERT-ISSUE-015",
+      "title": "date d'émission fournie comme chaîne",
+      "op": "cert-issue",
+      "input": {
+        "claim": {
+          "batch_id": "AT-C-01",
+          "substrate": {
+            "category": 3,
+            "material_class": "slaughter_byproduct",
+            "origin_profile": "slaughterhouse",
+            "sources": [
+              {
+                "taxid": 9823
+              }
+            ]
+          },
+          "process": {
+            "route": "direct_rendering",
+            "treatment": {
+              "method": 1,
+              "core_temp_c": 133,
+              "pressure_bar": 3,
+              "minutes": 20,
+              "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+            }
+          },
+          "product": "PAP",
+          "destination": {
+            "use": "feed",
+            "target_taxids": [
+              9031
+            ]
+          }
+        },
+        "policy": null,
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "issued_at": "1791072000"
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_ISSUED_AT"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "issue",
+        "date",
+        "type"
+      ]
+    },
+    {
+      "id": "CERT-VER-001",
+      "title": "certificat de lot alimentaire : valide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "39f713d0a644253f04529421b9f51b9b",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": false
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "nominal"
+      ]
+    },
+    {
+      "id": "CERT-VER-002",
+      "title": "certificat de bioconversion : valide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820d8c4405d61452ce41ee99e78a3eb1fa4517df759f92517f97d97bf1906aecbda026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e30584055c60c004ae150ed6c931b7080e445903d26f87d2685a12cd56550bdd34fc877ff1416788def53168fc97d56a31a35a0327fddaa85a60678073b5b1e95f10d04",
+        "claim_json": "{\"batch_id\":\"AT-C-02\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"insect_taxid\":343691,\"route\":\"insect_bioconversion\",\"treatment\":{\"evidence_sha256\":\"a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23\",\"method\":7}},\"product\":\"insect_PAP\",\"substrate\":{\"category\":3,\"material_class\":\"feed_grade_plant\",\"origin_profile\":\"feed_industry\",\"sources\":[]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "39f713d0a644253f04529421b9f51b9b",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": false
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "nominal"
+      ]
+    },
+    {
+      "id": "CERT-VER-003",
+      "title": "certificat d'incinération : valide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a50158204e024404b9194b0b30523ecfa7e3f0b7e8158c49ae8913599bd038d159de690c026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840fb4a8dd7f2aa93e5996325d54fea556934792407645b1a7bc250bb41956719f5c2efa5a9db58e7fa67f8bde49329cdf735aac0cc8c33b112b6532ed4f3120209",
+        "claim_json": "{\"batch_id\":\"AT-C-03\",\"destination\":{\"target_taxids\":[],\"use\":\"incineration\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":null},\"product\":\"PAP\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"wildlife_dnf\",\"sources\":[{\"taxid\":99999999}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "39f713d0a644253f04529421b9f51b9b",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": false
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "nominal"
+      ]
+    },
+    {
+      "id": "CERT-VER-004",
+      "title": "certificat de mémoire forestière, politique présente au registre : valide, dérogation signalée",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a6015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658202cef75e325614f42ce459a5a0071f8322da92266eba6677ee9a8db9b6dc257155840e109b3eaaf91f76e4f32a54a2026c54de4bed13f38aaa82b4006edb15cc1f6961ef5074eb4e3251795e9d933af244e9ba94624a06eaa91597d45a6a9cdfc1c07",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "39f713d0a644253f04529421b9f51b9b",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": true
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "derogation"
+      ]
+    },
+    {
+      "id": "CERT-VER-005",
+      "title": "identifiant de lot accentué : valide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a50158201a69da7ad0737aec6e1b68cd91f77c23f4da874b0b7ca67d925b2f4b7f90e9fd026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840d2e36321128bcb3f33cccb0e9526c52046908357a547f6d6f99c70daeafacdd12f054dc18ab95e0b7655f41f0dc9ea6f62d58b182272c6ea7669aa4a54353d0b",
+        "claim_json": "{\"batch_id\":\"Lot n° 7 — Élevage Dupré\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "39f713d0a644253f04529421b9f51b9b",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": false
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "jcs"
+      ]
+    },
+    {
+      "id": "CERT-VER-006",
+      "title": "certificat signé ES256 (s bas) par une clé de lot : valide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201261078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058408aed85d5335b89648983724e30b895ccadc43991411e33f787385b5c6797aeb9486c9115ffea847f27bcdc45c75a8d99c5cfc27ae2922983b98c0bdda4d75c12",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": false
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "es256"
+      ]
+    },
+    {
+      "id": "CERT-VER-007",
+      "title": "émetteur absent de la liste de confiance : bloqué, jamais « sous réserve »",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_UNKNOWN_KID"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1",
+        "unknown"
+      ]
+    },
+    {
+      "id": "CERT-VER-008",
+      "title": "clé révoquée",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a10450dac073e0123bdea59dd9b3bda9cf60375861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058404e538c13f44b95aec97e8747216cafc8f2709f63a19595fe555b69f928501474d0048f8108ce4195af37ee726079ad5dccf305b4bd78b7b25c763091ecef4a02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_REVOKED_KEY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1"
+      ]
+    },
+    {
+      "id": "CERT-VER-009",
+      "title": "clé de profil utilisée pour signer un certificat de lot",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045021fe31dfa154a261626bf854046fd2275861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e30584047d288a494142ab246e22966e008e9068d5bbc1e0413a0b7ed48d68bc4366e3175d973746adf6006b275945362281ec49660c7f1840486778afb1da8e730f408",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_KEY_USAGE_MISMATCH"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1"
+      ]
+    },
+    {
+      "id": "CERT-VER-010",
+      "title": "enveloppe de type profil présentée comme certificat",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058404ee6a8d18975e9aa2cb3af9b1aa701b1f3a6e06cafe1505a9574ea6cfe154da561b0f1671f5cb8c5ac3b784984f7ad14aaee6f133216fa84d10185923537e803",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_TYPE_MISMATCH"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1"
+      ]
+    },
+    {
+      "id": "CERT-VER-011",
+      "title": "signature altérée",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c03",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1"
+      ]
+    },
+    {
+      "id": "CERT-VER-012",
+      "title": "clé fenêtrée, certificat émis après la fin de la fenêtre : clé expirée (K2)",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1700000000,
+              "valid_until": 1791071999
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1",
+        "k2"
+      ]
+    },
+    {
+      "id": "CERT-VER-013",
+      "title": "clé RETIRED, certificat émis dans la fenêtre : valide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "RETIRED",
+              "valid_from": 1700000000,
+              "valid_until": 1791072000
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "valid": true,
+        "kid": "39f713d0a644253f04529421b9f51b9b",
+        "issued_at": 1791072000,
+        "rules_version": "1.5.0",
+        "derogation": false
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1",
+        "k2"
+      ]
+    },
+    {
+      "id": "CERT-VER-014",
+      "title": "charge utile qui n'est pas du CBOR valide : le code ERR_CBOR_* remonte",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b42a10b5840e9005862c5ff9995a4001e7330cfef490af8ce4d877cf3ebcd96157358be048f3dba884ccb2aa323e03bd7e2e30ab2c483de41aa9ac9fb5a54f74206eb81f609",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-2"
+      ]
+    },
+    {
+      "id": "CERT-VER-015",
+      "title": "charge utile qui est un tableau, pas une carte",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b4483010203584051eaba9212da00be664147392144f5432c15a97f294a8e492be5ffbab19317d2eebe4d93abda201b2fb724ac5e8d15118c4fc66053792553e114dd33d25ace00",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-016",
+      "title": "clé texte \"1\" dans la charge utile",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5864a6015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e306131005840a54497cdc121e9b77f682444a7cd6077e5b42a307bfa83e95c89689b924bf034cdc802363ebfeeecbd44b4d5425fdbf4950d6b120e60d68cb178fad48879ab0d",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNAUTHORIZED_PAYLOAD_KEY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-017",
+      "title": "clé entière 7 inconnue",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5863a6015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3007005840139fad70b2d073da58a9fdbd81e6d135f7438966115ed5d2d5da1a6da2bebcbac38389c836df24298369ded6c115dfbfb9726612f42d241d4a4d64f30b411e0c",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNAUTHORIZED_PAYLOAD_KEY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-018",
+      "title": "clé entière 0",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5863a60000015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840d28d04ab5b1abef40d08cf668ec6669c4d4ddcbb150831975b72262d53d87782261dc42bf86f5d625c305909ee94b68fe2e046afb958f48047965b5b5e221205",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNAUTHORIZED_PAYLOAD_KEY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-019",
+      "title": "clé inconnue et clé obligatoire absente : la clé inconnue est signalée d'abord",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b585ca5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c90090058403001ceee62ad8d4334fd9d833b2cfb5179fb735ebcf809e7327f2095699213177efd705a6437bbac3c78d0a450d6e5ad28628c96c1e706bbdd3375def96b850d",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNAUTHORIZED_PAYLOAD_KEY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3",
+        "order"
+      ]
+    },
+    {
+      "id": "CERT-VER-020",
+      "title": "clé 5 (version des règles) absente",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b585aa4015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c905840719b068f4bd0b528fd49cc967db937cc9990f86feea17d0b955a111d2d42dc7b78853a5858f1ccba1cc5b671659f6e31336f6b39dfd709554691646afb77db0e",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_MISSING_MANDATORY_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-021",
+      "title": "clé 2 (verdict) absente",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5855a4015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c703c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840bd45214283158aeeb708d08a841b453538a376bbd55d8f717ea4c2daa2fe48edfb42a0c37b746aac17b45dca89a526de38539f80c59bc7de2366a839b7d55101",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_MISSING_MANDATORY_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-022",
+      "title": "clé 1 de 31 octets",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5860a501581f00000000000000000000000000000000000000000000000000000000000000026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058402b7ac7022fac80fde3093a8552c113c30f0d338e99b715344d0260f98a94a4fc5d4965baea9f4c12113a535450036cf042a9a687f4aa06059750a31d4bfa1c01",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-023",
+      "title": "clé 4 textuelle",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5881a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac19700047840353537313764333330333163353538633432643239306334366265333430663439666139336538613235333034313038666533656534626464336533326339300565312e352e305840673bbc1902ec59793dd876f6f1ee15a6b08180e3b98124ff6688c11844b61f4824d1dcf82a5c2bb8f6bbed1ad376f5ddf868e684fa95357b21d6e2f8eeb7f00d",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-024",
+      "title": "clé 5 entière",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b585da5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c90051896584066e09f4a768cdf43b0b2f237f56138606dd9a5d92554b9c4af07237ee715fab1e79107942ee9f8c335b1b517b04ced5612a87d0e45e7ec3272a3789af8822905",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-025",
+      "title": "clé 6 de 16 octets",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5873a6015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3006500000000000000000000000000000000058403715e2cc3042ab942a1651bcfd71a3f0c1042b82d6651ca567031e3bd18c28c5708627499a7795ff8d38c0a709bb69c494cd49cc1f6c8d3bce23e136af6fc700",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3"
+      ]
+    },
+    {
+      "id": "CERT-VER-026",
+      "title": "clé 1 remplacée par une carte {\"$bytes\": …} : ce n'est pas une chaîne d'octets",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5889a501a166246279746573784065656631643732363832376665623862653135626639323534333338653133343864613531386234306661616332383036663138386437616262346566336337026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058403fc113731e703b3d860cd8c7dbda480d94fd0e46b8798bd3f4fec920aa454a915abf6a40bc4c09877b550d4f4408029e0e50a813aecec668c6cf27636ed2a209",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_FIELD"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-3",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CERT-VER-027",
+      "title": "verdict scellé \"BLOCKED\"",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b585ea5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c70267424c4f434b454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e30584033b9a68b7509e14ec29c6d4d097fc0529f470e7a32d18a22ac9c959082f0094255e371f21e32858b3ec974ad4415ce9b438946170888cd64c2718b1b9e3e8203",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_VERDICT_NOT_AUTHORISED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-4"
+      ]
+    },
+    {
+      "id": "CERT-VER-028",
+      "title": "verdict en minuscules",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a617574686f726973656403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058408d6d392ced4dfba4d381998702fc2f2c2a261674239af8aacab8997ca2a8fa9e2df8c8fe1cf84f226a1e36a806eb7093c7b8ff0ec0dd820706c8eb010d73bd0a",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_VERDICT_NOT_AUTHORISED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-4"
+      ]
+    },
+    {
+      "id": "CERT-VER-029",
+      "title": "verdict entier",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5857a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7020103c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840db4d80ba736d3ea195ebf8d29d80451889a7d355119e2eaf7719a95c3ffc25955d9867d987adf72792f0d1940a3420a8859d458f5b66e814c9daacf84f74210c",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_VERDICT_NOT_AUTHORISED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-4"
+      ]
+    },
+    {
+      "id": "CERT-VER-030",
+      "title": "date d'émission sans tag",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5860a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f5249534544031a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840ea07f57b5e0a972903a53f8807f6b0831d35c92cfb113fdaacb698b97b2030b66e45d97038a7e96beca9cad773be0a10d159d3600c9c6ab4a6754f7edfc6fa0f",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_ISSUED_AT"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-5"
+      ]
+    },
+    {
+      "id": "CERT-VER-031",
+      "title": "date d'émission sous tag 100",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5860a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403d8641950fa04582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058405f594993d2c7b10b9431d4c9f9c44a23c47642b43608d76c5031551f7c4ea0222c5e1d4eab3865fc9670c090d8348fb7a80c1c9c4e4142945c7fe2c667dcfb05",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_INVALID_ISSUED_AT"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-5"
+      ]
+    },
+    {
+      "id": "CERT-VER-032",
+      "title": "date d'émission sans tag, clé fenêtrée : l'étape 13 de cose-verify passe avant",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5860a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f5249534544031a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840ea07f57b5e0a972903a53f8807f6b0831d35c92cfb113fdaacb698b97b2030b66e45d97038a7e96beca9cad773be0a10d159d3600c9c6ab4a6754f7edfc6fa0f",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1700000000,
+              "valid_until": 1800000000
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-1",
+        "k2",
+        "order"
+      ]
+    },
+    {
+      "id": "CERT-VER-033",
+      "title": "revendication avec espaces : non canonique",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\": \"AT-C-01\", \"destination\": {\"target_taxids\": [9031], \"use\": \"feed\"}, \"process\": {\"route\": \"direct_rendering\", \"treatment\": {\"core_temp_c\": 133, \"evidence_sha256\": \"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\", \"method\": 1, \"minutes\": 20, \"pressure_bar\": 3}}, \"product\": \"PAP\", \"substrate\": {\"category\": 3, \"material_class\": \"slaughter_byproduct\", \"origin_profile\": \"slaughterhouse\", \"sources\": [{\"taxid\": 9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_CLAIM_NOT_CANONICAL"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-6"
+      ]
+    },
+    {
+      "id": "CERT-VER-034",
+      "title": "revendication aux clés non triées : non canonique",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"method\":1,\"core_temp_c\":133,\"pressure_bar\":3,\"minutes\":20,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\"}},\"product\":\"PAP\",\"destination\":{\"use\":\"feed\",\"target_taxids\":[9031]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_CLAIM_NOT_CANONICAL"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-6"
+      ]
+    },
+    {
+      "id": "CERT-VER-035",
+      "title": "revendication qui n'est pas du JSON",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_CLAIM_NOT_CANONICAL"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-6"
+      ]
+    },
+    {
+      "id": "CERT-VER-036",
+      "title": "revendication à clé dupliquée",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_CLAIM_NOT_CANONICAL"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-6"
+      ]
+    },
+    {
+      "id": "CERT-VER-037",
+      "title": "revendication canonique mais différente de celle qui a été signée (cible modifiée)",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9823],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_CLAIM_HASH_MISMATCH"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-6",
+        "tamper"
+      ]
+    },
+    {
+      "id": "CERT-VER-038",
+      "title": "revendication vide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_CLAIM_NOT_CANONICAL"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-6"
+      ]
+    },
+    {
+      "id": "CERT-VER-039",
+      "title": "verdict faux et empreinte fausse : le verdict est contrôlé d'abord",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b585ea501582000000000000000000000000000000000000000000000000000000000000000000267424c4f434b454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058406fc957ea3963c471415cd059c99edece1d9aed5aa23c2746e4cc4e4423e108f8776c426609a4fa6093972c0b8cf5c7a13c9fa3e100e4699d9489d6387fc3050d",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_VERDICT_NOT_AUTHORISED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "order"
+      ]
+    },
+    {
+      "id": "CERT-VER-040",
+      "title": "snapshot taxonomique inconnu du vérificateur",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582011111111111111111111111111111111111111111111111111111111111111110565312e352e305840395c68e1005d367cde9ac27ed57df55588cd5dcf0d5cb12d36a560b7b6b5c86a3a6d74a24a414831b857da9ff2e491cc561569655ee0fc6c3ca5bf787dfff002",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_TAXONOMY_SNAPSHOT"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-7"
+      ]
+    },
+    {
+      "id": "CERT-VER-041",
+      "title": "version de règles inconnue (1.4.0)",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e342e305840a558a05970906f8c5384aff930c2e82633666f3c5badec2dd72f315c61d2b89df97b5a1e1d3c0d3192bdd74640283110266d74e63aba40ed9556372de009aa03",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_RULES_VERSION"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-8"
+      ]
+    },
+    {
+      "id": "CERT-VER-042",
+      "title": "version de règles connue mais retirée",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840eddf27d9383be4e9e350345e031769405ca121c897bace68f62615d0adcb77aaad24ca47f98e959c361bcc12fd71be57d90260673c4745f800b5220337124c02",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": [
+          "1.5.0"
+        ]
+      },
+      "expect": {
+        "error": "ERR_CERT_RULES_VERSION_RETIRED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-8"
+      ]
+    },
+    {
+      "id": "CERT-VER-043",
+      "title": "version 1.4.0 listée comme retirée mais inconnue du moteur : inconnue",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e342e305840a558a05970906f8c5384aff930c2e82633666f3c5badec2dd72f315c61d2b89df97b5a1e1d3c0d3192bdd74640283110266d74e63aba40ed9556372de009aa03",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": [
+          "1.4.0"
+        ]
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_RULES_VERSION"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-8",
+        "order"
+      ]
+    },
+    {
+      "id": "CERT-VER-044",
+      "title": "snapshot inconnu et version inconnue : le snapshot est contrôlé d'abord",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582011111111111111111111111111111111111111111111111111111111111111110565392e392e395840cbca59c6e70ca9bda9422a583544e15347c306445e861d586adb5e5f31eb3ead7dfbd6e03e767615d5980c41a39a4e98de43ca76ab7acacd2a94e9e6e28bd404",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_TAXONOMY_SNAPSHOT"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "order"
+      ]
+    },
+    {
+      "id": "CERT-VER-045",
+      "title": "lot alimentaire portant une clé 6",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a6015820eef1d726827feb8be15bf9254338e1348da518b40faac2806f188d7abb4ef3c7026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658202cef75e325614f42ce459a5a0071f8322da92266eba6677ee9a8db9b6dc2571558406fac23e80053fb4b73b7abdd27df2576e40865144f4e28ba697d50d27120d0cac2bcb17ef4f9aec9dde9b3eb6c77c964f1ac742cc4840efc02d6512b763eb300",
+        "claim_json": "{\"batch_id\":\"AT-C-01\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNEXPECTED_POLICY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-9"
+      ]
+    },
+    {
+      "id": "CERT-VER-046",
+      "title": "mémoire forestière sans clé 6",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840b960b56dc6d1e544fdbfddf651795880eb8becb982e228016f7216eb4813df24d88880bec0bdeae23a41de4e740b8437f5930426742717d593aef7853fd16d05",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_DEROGATION_UNBOUND"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-9"
+      ]
+    },
+    {
+      "id": "CERT-VER-047",
+      "title": "mémoire forestière, politique absente du registre du vérificateur",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a6015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658202cef75e325614f42ce459a5a0071f8322da92266eba6677ee9a8db9b6dc257155840e109b3eaaf91f76e4f32a54a2026c54de4bed13f38aaa82b4006edb15cc1f6961ef5074eb4e3251795e9d933af244e9ba94624a06eaa91597d45a6a9cdfc1c07",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_POLICY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-9",
+        "policy"
+      ]
+    },
+    {
+      "id": "CERT-VER-048",
+      "title": "mémoire forestière, registre de politiques vide",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a6015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658202cef75e325614f42ce459a5a0071f8322da92266eba6677ee9a8db9b6dc257155840e109b3eaaf91f76e4f32a54a2026c54de4bed13f38aaa82b4006edb15cc1f6961ef5074eb4e3251795e9d933af244e9ba94624a06eaa91597d45a6a9cdfc1c07",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_UNKNOWN_POLICY"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-9",
+        "policy"
+      ]
+    },
+    {
+      "id": "CERT-VER-049",
+      "title": "certificat correctement signé sur un recyclage intra-espèce : la signature ne suffit pas, la réévaluation bloque",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a50158203eb2ef49c17358306edc1e99991e269ecf9cd34325cffd4f20bb953f62a04795026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058406be955d0c322c8bf2eba82bb259cc045c33b2c88106d6f4a70e440ee1e793166f3eaa7afdb4ffe4c05306ba7c88b40090c7e87ca224a8866d40cb8851616c40b",
+        "claim_json": "{\"batch_id\":\"AT-C-05\",\"destination\":{\"target_taxids\":[9823],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9823}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10",
+        "golden-rule"
+      ]
+    },
+    {
+      "id": "CERT-VER-050",
+      "title": "certificat correctement signé sur une source bovine -> volailles : réévaluation bloquante",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820ac7c358319095c700e8c07e58a38936eb584bf864f2dfe154f5c006ca627d721026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e305840c8075e95bf8e88ab54d1b2715293b7c07fde3c05466e78e854ae58ce6c31bc33bca80678b0ca1e51a8aeb3ce42dede8bb0f6c2aad133c4e640bd4d6635e9b30b",
+        "claim_json": "{\"batch_id\":\"AT-C-06\",\"destination\":{\"target_taxids\":[9031],\"use\":\"feed\"},\"process\":{\"route\":\"direct_rendering\",\"treatment\":{\"core_temp_c\":133,\"evidence_sha256\":\"04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79\",\"method\":1,\"minutes\":20,\"pressure_bar\":3}},\"product\":\"PAP\",\"substrate\":{\"category\":3,\"material_class\":\"slaughter_byproduct\",\"origin_profile\":\"slaughterhouse\",\"sources\":[{\"taxid\":9913}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10"
+      ]
+    },
+    {
+      "id": "CERT-VER-051",
+      "title": "mémoire forestière LFA positif, politique valide liée : réévaluation bloquante",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a60158208cc8aeeb123cec8d662485ac9355db9e3f53b29601f4b86f31271d185f9861ee026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658202cef75e325614f42ce459a5a0071f8322da92266eba6677ee9a8db9b6dc25715584093d56d0188d2fe9ef631329f2ac4b325aa2ee9ca1e55924cce5dd7576c15880466e97edd2ad83ff96d1282b052ef3ea4e17ba7f7b07968347137b2345f85160d",
+        "claim_json": "{\"batch_id\":\"AT-C-07\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"positive\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10",
+        "derogation"
+      ]
+    },
+    {
+      "id": "CERT-VER-052",
+      "title": "mémoire forestière liée à une politique du registre qui n'est pas DEC-AET-05 : réévaluation bloquante",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5884a6015820b0102f8af703681855ec524a1325329d0738402bb35e006a91cf0c460cb2eaeb026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e300658206b9f8bf039fc48e70ba528d870e616a05b58b0ec36974f57f4d61b81f44d579c584089f50d57f3c82886dc6b4de313c12ac5e04d158cfa37508fd621f149d30cfd89e7d21f6268e474b85eb29fd743b4d48a8a2eb128068482915290058ed952820d",
+        "claim_json": "{\"batch_id\":\"AT-C-04\",\"destination\":{\"target_taxids\":[],\"use\":\"memorial_forestry\"},\"process\":{\"insect_taxid\":343691,\"pasteurisation\":{\"core_temp_c\":70,\"evidence_sha256\":\"702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1\",\"minutes\":60},\"route\":\"insect_bioconversion\",\"treatment\":null},\"product\":\"frass\",\"substrate\":{\"category\":1,\"material_class\":\"carcass\",\"origin_profile\":\"pet\",\"pentobarbital_lfa\":\"negative\",\"sources\":[{\"taxid\":9615}]}}",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-04",
+            "version": 1,
+            "legal_basis": "x",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0003"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10",
+        "derogation"
+      ]
+    },
+    {
+      "id": "CERT-VER-053",
+      "title": "revendication canonique qui est un tableau JSON : réévaluation bloquante",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a50158204f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058400b40daf2e277c85fe050b6e7a028e43a8a3277c63de04185f285002a9e6bbe2530299832f9831e2c4e4b03b05ece799e3abc95b25ffee08c2dd19a499dd9ec0b",
+        "claim_json": "[]",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10",
+        "type"
+      ]
+    },
+    {
+      "id": "CERT-VER-054",
+      "title": "revendication canonique qui est un chaîne JSON : réévaluation bloquante",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a5015820413bb4e9d64a87f2011d11e0ecb91f8e777d5ba1af672cb2456ef8baf855ffd0026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e30584063729e14382ec0ef358bb101949643a22a7beecacf6e5ee2f010e993a673ff671a7eadd39982a5463e6f598841c0315288f50f35d03cd7f91e3c631abf95bb00",
+        "claim_json": "\"lot\"",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10",
+        "type"
+      ]
+    },
+    {
+      "id": "CERT-VER-055",
+      "title": "revendication canonique qui est un null JSON : réévaluation bloquante",
+      "op": "cert-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582074234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b026a415554484f524953454403c11a6ac1970004582055717d33031c558c42d290c46be340f49fa93e8a25304108fe3ee4bdd3e32c900565312e352e3058409d8a608637c9d9a7c479074a5b66ecfb713b31adf2df1b78511686302004362ff771b4a61631cb9e3a7b53e295cdd739871433c5128dcd7d8443b451290b310a",
+        "claim_json": "null",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "dac073e0123bdea59dd9b3bda9cf6037",
+              "alg": -8,
+              "public_key": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "REVOKED"
+            }
+          ]
+        },
+        "policies": [
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+          },
+          {
+            "policy_id": "DEC-AET-05",
+            "version": 1,
+            "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+            "authority_reference": "TEST-ONLY-AUTHORITY-REF-0002"
+          }
+        ],
+        "retired_rules_versions": []
+      },
+      "expect": {
+        "error": "ERR_CERT_RE_EVALUATION_FAILED"
+      },
+      "rule": "docs/technical/batch-certificate.md v1.1.0 ; qa/vectors/README.md §4.14",
+      "tags": [
+        "verify",
+        "step-10",
+        "type"
+      ]
+    }
+  ]
+}

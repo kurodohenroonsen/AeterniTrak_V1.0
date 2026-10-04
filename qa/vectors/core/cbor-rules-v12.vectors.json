@@ -1,0 +1,350 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "core.cbor.rules-v12",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §3 (règle AVN-R) et §4.13",
+    "RFC 8949"
+  ],
+  "adapter": "core.cbor",
+  "description": "Issue du fuzzing différentiel du cycle 0010. Le décodeur rend ses résultats dans la notation des vecteurs (AVN), où une carte à clés texte est un objet JSON : une carte CBOR dont les clés sont `$tag`, `$map`, `$int` ou `$bytes` devenait indiscernable d'un élément étiqueté, d'une carte à clés entières, d'un grand entier ou d'une chaîne d'octets. Cette suite fixe la notation non ambiguë et deux codes d'erreur que rien ne fixait (valeurs simples 0 à 19, code d'arrêt isolé).",
+  "cases": [
+    {
+      "id": "CBOR-DEC-060",
+      "title": "carte à clé texte `$int` : ce n'est pas un entier",
+      "op": "decode",
+      "input": {
+        "hex": "a16424696e74623432"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              "$int",
+              "42"
+            ]
+          ]
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-061",
+      "title": "carte à clés texte `$tag` et `$value` : ce n'est pas un élément étiqueté",
+      "op": "decode",
+      "input": {
+        "hex": "a264247461671864662476616c75651950fa"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              "$tag",
+              100
+            ],
+            [
+              "$value",
+              20730
+            ]
+          ]
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-062",
+      "title": "carte à clé texte `$bytes` : ce n'est pas une chaîne d'octets",
+      "op": "decode",
+      "input": {
+        "hex": "a1662462797465736465336230"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              "$bytes",
+              "e3b0"
+            ]
+          ]
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-063",
+      "title": "carte à clé texte `$map` contenant des paires : ce n'est pas une carte à clés entières",
+      "op": "decode",
+      "input": {
+        "hex": "a164246d617081820bd8641950fa"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              "$map",
+              [
+                [
+                  11,
+                  {
+                    "$tag": 100,
+                    "$value": 20730
+                  }
+                ]
+              ]
+            ]
+          ]
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-064",
+      "title": "carte à clé texte `$float`",
+      "op": "decode",
+      "input": {
+        "hex": "a16624666c6f617401"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              "$float",
+              1
+            ]
+          ]
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-065",
+      "title": "carte mêlant une clé ordinaire et une clé `$x` : notation `$map` pour toute la carte",
+      "op": "decode",
+      "input": {
+        "hex": "a261610162247802"
+      },
+      "expect": {
+        "item": {
+          "$map": [
+            [
+              "a",
+              1
+            ],
+            [
+              "$x",
+              2
+            ]
+          ]
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-066",
+      "title": "carte imbriquée : seule la carte portant la clé `$` passe en notation `$map`",
+      "op": "decode",
+      "input": {
+        "hex": "a26161a16424696e7461316162a1616302"
+      },
+      "expect": {
+        "item": {
+          "a": {
+            "$map": [
+              [
+                "$int",
+                "1"
+              ]
+            ]
+          },
+          "b": {
+            "c": 2
+          }
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "nested"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-067",
+      "title": "témoin : carte à clés texte ordinaires, notation objet inchangée",
+      "op": "decode",
+      "input": {
+        "hex": "a261610161624100"
+      },
+      "expect": {
+        "item": {
+          "a": 1,
+          "b": {
+            "$bytes": "00"
+          }
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "control"
+      ]
+    },
+    {
+      "id": "CBOR-DEC-068",
+      "title": "témoin : clé texte contenant `$` ailleurs qu'en tête (`a$b`), notation objet",
+      "op": "decode",
+      "input": {
+        "hex": "a16361246201"
+      },
+      "expect": {
+        "item": {
+          "a$b": 1
+        }
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn",
+        "control"
+      ]
+    },
+    {
+      "id": "CBOR-ENC-060",
+      "title": "encodage d'une carte à clé texte `$int` donnée en notation `$map`",
+      "op": "encode",
+      "input": {
+        "$map": [
+          [
+            "$int",
+            "42"
+          ]
+        ]
+      },
+      "expect": {
+        "hex": "a16424696e74623432",
+        "len": 9,
+        "sha256": "4e41c8ab84052e24b69e176ed5c83d8d098418d55be9fa8ea3c0c2fa441417f9"
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`)",
+      "tags": [
+        "avn"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-036",
+      "title": "tag 100 dont le contenu est une carte {\"$int\": \"20730\"} : contenu non entier",
+      "op": "reject-decode",
+      "input": {
+        "hex": "d864a16424696e74653230373330"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TAG_CONTENT"
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`) ; §4.1",
+      "tags": [
+        "tag",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-037",
+      "title": "tag 1 dont le contenu est une carte {\"$int\": \"0\"}",
+      "op": "reject-decode",
+      "input": {
+        "hex": "c1a16424696e746130"
+      },
+      "expect": {
+        "error": "ERR_CBOR_TAG_CONTENT"
+      },
+      "rule": "qa/vectors/README.md §3 (règle AVN-R : une carte dont une clé texte commence par `$` se note `{\"$map\": …}`) ; §4.1",
+      "tags": [
+        "tag",
+        "confusion"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-038",
+      "title": "valeur simple non assignée simple(0) (e0)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "e0"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "qa/vectors/README.md §4.13 ; RFC 8949 §3.3 (valeurs simples) et §3.2.1 (code d'arrêt)",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-039",
+      "title": "valeur simple non assignée simple(19) (f3)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "f3"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "qa/vectors/README.md §4.13 ; RFC 8949 §3.3 (valeurs simples) et §3.2.1 (code d'arrêt)",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-040",
+      "title": "valeur simple non assignée dans un tableau (81e2)",
+      "op": "reject-decode",
+      "input": {
+        "hex": "81e2"
+      },
+      "expect": {
+        "error": "ERR_CBOR_UNSUPPORTED_TYPE"
+      },
+      "rule": "qa/vectors/README.md §4.13 ; RFC 8949 §3.3 (valeurs simples) et §3.2.1 (code d'arrêt)",
+      "tags": [
+        "simple"
+      ]
+    },
+    {
+      "id": "CBOR-REJ-041",
+      "title": "code d'arrêt isolé (ff) : mal formé",
+      "op": "reject-decode",
+      "input": {
+        "hex": "ff"
+      },
+      "expect": {
+        "error": "ERR_CBOR_MALFORMED"
+      },
+      "rule": "qa/vectors/README.md §4.13 ; RFC 8949 §3.3 (valeurs simples) et §3.2.1 (code d'arrêt)",
+      "tags": [
+        "break"
+      ]
+    }
+  ]
+}
