@@ -1,46 +1,51 @@
 # État Claude AI (Master Verifier) — AeterniTrak V1.0
 
 - **Rôle** : Architecte Suprême, rédaction des vecteurs formels, validation sur pièces, arbitrage et fusion sur `main`.
-- **Dernière révision** : 2026-10-04 — cycle de revue 0009.
-- **Branche active** : `agent-mailbox` (messages) ; `main` à **`18f33c9`**.
+- **Dernière révision** : 2026-10-04 — cycle de revue 0010.
+- **Branche active** : `agent-mailbox` (messages) ; `main` à **`98c3892`**.
 - **Fichier rédigé par Claude AI uniquement.**
 
-## Cycle 0009 (2026-10-04)
+## Cycle 0010 (2026-10-04)
 | Message | Verdict | Réponse |
 |---|---|---|
-| 0048 acquittement du cycle 0008 (`f257f14`) | validé, fusionné (`d450058`) | ordre 0052 |
-| 0049 listes de motifs v1.4 (`8e30ea5`) | validé, fusionné (`7817e1a`) ; 547 PASS reproduit, 7/7 mutations, 220 000 revendications sans écart | ordres 0052, 0056 |
-| 0050 spécification du certificat de lot (`4048e61`) | non fusionné, dix amendements (codes en doublon, politique fournie par le présentateur, clé 6, évaluer ce qui est haché) | redirect 0053 |
-| 0051 décisions 01, 02, 03, 05 (`9cdfae9`) | rejeté : références de droit fausses, DEC-AET-03 n'est pas un arbitrage ; DEC-AET-01 et 02 inscrites par moi | redirect 0054 |
-| portail des cas d'usage (`6716f0e`, sans rapport) | rejeté : Google Fonts et script distant, références fausses, 14 textes et non 24 | redirect 0055 |
+| 0058 règle P18 (`7d804cb`) | validé, fusionné (`a9567f2`) ; 212/212, 8/8 mutations, 570 000 revendications sans écart | ordre 0064 |
+| 0059 validité des clés K2 (`0fb4afa`) | validé, fusionné (`9421adb`) ; 144/144, 9/9 mutations ; écarts du fuzzing dus au décodeur, pas à la branche | ordres 0064, 0065 |
+| 0060 spécification du certificat v1.1.0 (`effa3c0`) | validé, fusionné (`97dcfdf`) | ordre 0066 |
+| 0061 portail (`213e066`) | non fusionné : autonome, mais tableau juridique non vérifiable et chiffres sans source | redirect 0067 |
+| 0062 études de droit (`85a8dec`) | non fusionné : deux liens Wallex ouverts, deux erreurs 404 ; détails d'API non sourcés | redirect 0068 |
+| 0063 acquittement du cycle 0009 (`1ee3daa`) | validé, fusionné (`a500ca2`) | ordre 0064 |
+| 0052 décisions DEC-AET-08 et 09 (`ea52868`) | branche abandonnée ; décisions inscrites par moi | ordre 0064 |
 
-- Livré sur `main` via `tests/0052-key-validity-and-insect-nature` : suite `crypto.cose.rules-v12` (40 cas, K2, `README.md` §4.11), suite `antiprion.feedban.rules-v15` (10 cas, P18, §4.12), entrées DEC-AET-01 et DEC-AET-02.
-- **Banc sur `main@18f33c9` : 14 suites, 597 vecteurs, 563 PASS, 34 FAIL, 0 RED, 0 INVALID.** 28 FAIL K2 (fonction non écrite), 6 FAIL P18.
-- **Trois FAIL sont des verdicts** (`PRION-HARD-092`, `093`, `096`) : `main` autorise un insecte déclaré comme source en équarrissage direct, sans contrôle de son substrat. Ma référence l'autorisait aussi jusqu'à ce cycle.
-- Sur `main` : `core/cbor`, `core/jcs`, `core/profile`, `core/cose`, `validators/antiprion`.
+- Après les fusions de code (`9421adb`) : 597 PASS, 0 FAIL.
+- Livré sur `main` via `tests/0064-notation-and-batch-certificate` : `core.cbor.rules-v12` (16), `core.profile.rules-v11` (5), `crypto.cose.rules-v13` (5), `crypto.batch-certificate` (70) ; `README.md` §3 règle AVN-R, §4.13, §4.14 ; DEC-AET-08 et 09 ; `PROTOCOL.md` P7 et P8.
+- **Banc sur `main@98c3892` : 18 suites, 693 vecteurs, 600 PASS, 13 FAIL, 70 RED, 10 INVALID (code de sortie 2).**
+- **Défaut trouvé ce cycle, présent sur `main` depuis la fusion de `core/cbor`** : le décodeur rend de l'AVN, et une carte CBOR à clés texte `$tag`, `$map`, `$int`, `$bytes` passe pour un tag, une carte à clés entières, un entier, une chaîne d'octets. Le validateur du profil déclare valides cinq profils qui ne le sont pas. Le décodeur de contrôle du harnais a le même défaut (10 INVALID).
+- Sur `main` : `core/cbor`, `core/jcs`, `core/profile`, `core/cose` (K2 compris), `validators/antiprion` (règles 1.5.0).
 
 ## Décisions de Kudoro actées (2026-10-04)
 - **DEC-AET-01** : cartes ACOSJ 92 Ko uniquement ; le contenu de la carte reste à prouver par `STORAGE-001`.
 - **DEC-AET-02** : connecteurs API vers les guichets officiels, CERISE en premier ; existence des API à établir.
 - **DEC-AET-04** : option C, COSE_Sign1 agile.
+- **DEC-AET-08** : quatre applications (conception des cartes, encodage par les membres, lecture par les participants, traçabilité).
+- **DEC-AET-09** : toutes les plateformes ; faisabilité à prouver fonction par fonction (NFC web : Chrome Android seul ; WebUSB : Chromium seul).
 - **DEC-AET-05** : dérogation de mémoire forestière privée, animaux de compagnie catégorie 1 LFA négatifs ; humains exclus.
 - **DEC-AET-06** : correction du vecteur `CBOR-REJ-006`.
 - **DEC-AET-07** : option B, bandeau pour un émetteur inconnu, blocage pour une clé révoquée ou une signature fausse.
 - **Prénom « Guy »** : maintenu, en hommage.
 
 ## Limites connues de ce qui est certifié
-- Le vert prouve la conformité aux vecteurs et à mes références, pas au droit. Les règles P5, P6 et P18 reposent sur des textes que je n'ai pas relus sur EUR-Lex (P18 : vérification demandée au Bushi 12).
-- Ma référence de la Porte de Fer s'est trompée deux fois de suite sur un point que le fuzzing du même corpus ne montrait pas. Un corpus neuf par cycle est nécessaire ; zéro écart sur un corpus déjà joué ne prouve rien de plus.
-- Les 40 attentes K2 viennent de ma seule référence ; aucune seconde implémentation ne les a recalculées.
+- Le vert prouve la conformité aux vecteurs et à mes références, pas au droit.
+- **Mes fuzzings ne trouvent que ce que leur générateur sait produire.** La confusion de notation a traversé 60 010 profils et 21 000 enveloppes sans apparaître, faute de clés `$…`. Zéro écart ne vaut que pour la famille d'entrées jouée.
+- Les 70 attentes du certificat et les 45 de K2 viennent de ma seule référence. Le JCS des revendications a été recalculé par `core/jcs` (13 objets, 0 écart) ; rien d'autre n'a de seconde source.
+- P18 et P4 sont plus stricts que le règlement 2017/893, qui admet certains substrats animaux de catégorie 3. Lecture faite sur une seule consultation en ligne.
+- Je ne peux pas ouvrir `ejustice.just.fgov.be` : aucun lien fédéral du portail ou des études n'a été vérifié par moi.
 - La date d'émission est déclarée par le signataire : la fenêtre de validité ne protège pas contre une clé volée qui antidate.
-- Mes contrôles de droit du cycle 0009 (loi du 30 juillet 2018, article 19 du règlement 1069/2009, article 2003 de l'ancien Code civil) reposent sur une lecture rapide de sources en ligne. Ils suffisent à refuser une entrée, pas à en écrire une.
-- Option B : une carte d'émetteur inconnu s'affiche sans que sa signature ait pu être contrôlée.
-- Non couvert par des vecteurs : signatures Ed25519 forgées avec des points d'ordre faible, composition profil + enveloppe et certificat de lot + enveloppe.
+- Non couvert par des vecteurs : authentification du registre de politiques, émission ES256, plusieurs moteurs ou snapshots, signatures Ed25519 à points d'ordre faible, composition profil + enveloppe au-delà de `cose-open`.
 
 ## Conventions arrêtées
 - Fichiers de gouvernance : `main` fait foi ; `agent-mailbox` ne porte que `mailbox/`.
 - Branches : `ag/bushi-NN-<slug>`, `ag/orchestrator-<slug>`, `fix/bushi-NN-<slug>`, `tests/*` ; toujours depuis `main`.
-- Numérotation globale continue ; prochain numéro libre côté Antigravity : `0058`.
+- Numérotation globale continue ; prochain numéro libre, les deux boîtes confondues : `0069`.
 - Budget bloc 1 : enveloppe COSE_Sign1 ≤ 2 048 o, charge utile ≤ 1 900 o.
 - Type d'enveloppe : paramètre `typ`, étiquette 16, en-tête protégé (`application/aeternitrak-profile+cbor`, `application/aeternitrak-batch-claim+cbor`).
 - Porte de Fer : `evaluate(claim, policy)` ; aucune dérogation en dur.
@@ -51,21 +56,22 @@
 - Une entrée du registre des décisions cite Kudoro entre guillemets ; toute affirmation de droit ou de capacité matérielle y est sourcée ou absente.
 - Un certificat de lot ne passe jamais par `cose-open` ; sa politique de dérogation vient du registre du vérificateur, jamais du présentateur.
 - La liste de motifs n'entre pas dans le certificat (il n'existe que pour `AUTHORISED`) ; elle sert au journal des refus.
+- Règle AVN-R : un objet JSON simple ne porte jamais de clé en `$` ; un validateur juge l'élément CBOR, pas sa notation.
+- Certificat de lot, v1 : moteur unique (`RULES_VERSION`, empreinte de snapshot `55717d33…2c90`) ; refus d'émission `ERR_CERT_ISSUANCE_REFUSED` avec `refusal_reasons`.
+- `PROTOCOL.md` P7 : j'inscris moi-même les décisions de Kudoro, avec ses mots. P8 : un lien cité a été ouvert.
 
 ## En attente chez Antigravity
-1. `fix/bushi-12-insect-source-p18` (0056) : P18, `RULES_VERSION` ; attendu 212/212 anti-prion. **Prioritaire : verdict en jeu.**
-2. `ag/bushi-02-key-validity` (0057) : K2 ; attendu 144/144 crypto.
-3. `ag/bushi-02-batch-certificate-spec` (0053) : document v1.1.0, dix amendements.
-4. Études de droit et inventaire des API (0054) ; portail autonome (0055).
-5. Acquittement 0052.
+1. `fix/bushi-01-decoder-notation` (0065) : harnais puis `core/cbor` ; attendu 0 FAIL, 0 INVALID. **Prioritaire.**
+2. `ag/bushi-02-batch-certificate` (0066) : `core/cert`, adaptateur `crypto.cert` ; attendu 70 PASS (69 admis avant 0065).
+3. Portail (0067) et études de droit (0068), citations de P18 (0068, L5).
+4. Acquittement 0064.
 
 ## En attente de l'arbitrage de Kudoro
-- `DEC-AET-03` : après l'étude du Bushi 13.
-- Référence de l'autorisation administrative pour DEC-AET-05 : toujours ouverte ; l'article 19 du règlement 1069/2009 ne couvre que l'enfouissement.
-- P18 : je l'ai arrêtée seul parce qu'elle ferme une route ; Kudoro peut la renverser.
+- `DEC-AET-03` : trois options posées par l'étude 0062 (ancrage communal, exécuteur testamentaire notarié, déclaration sans opposabilité). L'étude n'est pas fusionnée : ses liens ne s'ouvrent pas. À faire relire par un juriste avant de trancher.
+- Référence de l'autorisation administrative pour DEC-AET-05 : toujours ouverte. Constat partagé : aucune voie automatique, une autorisation expresse par lot ou par site.
+- P18 : arrêtée par moi, plus stricte que le texte ; Kudoro peut la renverser.
 
 ## Prochaines actions Claude AI
-- Rejouer les deux corpus (370 000) plus un corpus neuf sur `fix/bushi-12-insect-source-p18`.
-- Fuzzing différentiel de K2 sur `ag/bushi-02-key-validity`.
-- Suite `crypto/batch-certificate.vectors.json` sur la spécification amendée.
-- Ajouter à `PROTOCOL.md` la règle sur le registre des décisions.
+- Rejouer les fuzzings du profil, des enveloppes et du décodeur avec des clés `$…` à tous les niveaux sur `fix/bushi-01-decoder-notation`.
+- Fuzzing différentiel émission puis vérification sur `ag/bushi-02-batch-certificate`.
+- Vecteurs de composition profil + enveloppe (`open-profile`) : toujours dus.
