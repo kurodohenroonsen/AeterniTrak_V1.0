@@ -1,0 +1,1299 @@
+{
+  "date": "2026-10-04",
+  "commit": "7a6b8a1",
+  "branch": "ag/bushi-01-aeternicore",
+  "filter": "core",
+  "selftest": false,
+  "summary": {
+    "pass": 0,
+    "fail": 0,
+    "red": 179,
+    "invalid": 0,
+    "total": 179
+  },
+  "suites": [
+    {
+      "suite": "core.cbor.deterministic",
+      "path": "qa/vectors/core/cbor-deterministic.vectors.json",
+      "adapter": "core.cbor",
+      "adapter_present": false,
+      "cases": [
+        {
+          "id": "CBOR-ENC-001",
+          "title": "entier 0",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-001",
+          "title": "entier 0 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-002",
+          "title": "entier 1",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-002",
+          "title": "entier 1 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-003",
+          "title": "entier 10",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-003",
+          "title": "entier 10 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-004",
+          "title": "entier 23",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-004",
+          "title": "entier 23 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-005",
+          "title": "entier 24",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-005",
+          "title": "entier 24 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-006",
+          "title": "entier 25",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-006",
+          "title": "entier 25 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-007",
+          "title": "entier 100",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-007",
+          "title": "entier 100 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-008",
+          "title": "entier 255",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-008",
+          "title": "entier 255 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-009",
+          "title": "entier 256",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-009",
+          "title": "entier 256 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-010",
+          "title": "entier 1000",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-010",
+          "title": "entier 1000 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-011",
+          "title": "entier 65535",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-011",
+          "title": "entier 65535 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-012",
+          "title": "entier 65536",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-012",
+          "title": "entier 65536 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-013",
+          "title": "entier 1000000",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-013",
+          "title": "entier 1000000 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-014",
+          "title": "entier 4294967295",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-014",
+          "title": "entier 4294967295 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-015",
+          "title": "entier 4294967296",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-015",
+          "title": "entier 4294967296 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-016",
+          "title": "entier 1000000000000",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-016",
+          "title": "entier 1000000000000 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-017",
+          "title": "entier -1",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-017",
+          "title": "entier -1 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-018",
+          "title": "entier -10",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-018",
+          "title": "entier -10 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-019",
+          "title": "entier -24",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-019",
+          "title": "entier -24 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-020",
+          "title": "entier -25",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-020",
+          "title": "entier -25 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-021",
+          "title": "entier -100",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-021",
+          "title": "entier -100 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-022",
+          "title": "entier -1000",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-022",
+          "title": "entier -1000 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-023",
+          "title": "entier -4294967296",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-023",
+          "title": "entier -4294967296 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-024",
+          "title": "entier 2^64-1 (notation $int)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-024",
+          "title": "entier 2^64-1 (notation $int) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-025",
+          "title": "entier -2^64 (notation $int)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-025",
+          "title": "entier -2^64 (notation $int) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-026",
+          "title": "chaîne d'octets vide",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-026",
+          "title": "chaîne d'octets vide (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-027",
+          "title": "chaîne d'octets 01020304",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-027",
+          "title": "chaîne d'octets 01020304 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-028",
+          "title": "chaîne d'octets de 32 octets (empreinte SHA-256)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-028",
+          "title": "chaîne d'octets de 32 octets (empreinte SHA-256) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-029",
+          "title": "chaîne d'octets de 64 octets (signature Ed25519)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-029",
+          "title": "chaîne d'octets de 64 octets (signature Ed25519) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-030",
+          "title": "texte vide",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-030",
+          "title": "texte vide (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-031",
+          "title": "texte \"a\"",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-031",
+          "title": "texte \"a\" (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-032",
+          "title": "texte \"IETF\"",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-032",
+          "title": "texte \"IETF\" (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-033",
+          "title": "texte avec guillemet et antislash",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-033",
+          "title": "texte avec guillemet et antislash (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-034",
+          "title": "texte \"ü\" (2 octets UTF-8)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-034",
+          "title": "texte \"ü\" (2 octets UTF-8) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-035",
+          "title": "texte \"水\" (3 octets UTF-8)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-035",
+          "title": "texte \"水\" (3 octets UTF-8) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-036",
+          "title": "texte \"𐅑\" (4 octets UTF-8)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-036",
+          "title": "texte \"𐅑\" (4 octets UTF-8) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-037",
+          "title": "texte de 24 octets (bascule en-tête 1 octet -> 2 octets)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-037",
+          "title": "texte de 24 octets (bascule en-tête 1 octet -> 2 octets) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-038",
+          "title": "texte de 256 octets (en-tête 3 octets)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-038",
+          "title": "texte de 256 octets (en-tête 3 octets) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-039",
+          "title": "tableau vide",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-039",
+          "title": "tableau vide (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-040",
+          "title": "tableau [1,2,3]",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-040",
+          "title": "tableau [1,2,3] (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-041",
+          "title": "tableau imbriqué [1,[2,3],[4,5]]",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-041",
+          "title": "tableau imbriqué [1,[2,3],[4,5]] (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-042",
+          "title": "tableau de 25 éléments (en-tête 2 octets)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-042",
+          "title": "tableau de 25 éléments (en-tête 2 octets) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-043",
+          "title": "carte vide",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-043",
+          "title": "carte vide (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-044",
+          "title": "carte {1:2,3:4} (clés entières)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-044",
+          "title": "carte {1:2,3:4} (clés entières) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-045",
+          "title": "carte {\"a\":1,\"b\":[2,3]}",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-045",
+          "title": "carte {\"a\":1,\"b\":[2,3]} (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-046",
+          "title": "tableau [\"a\",{\"b\":\"c\"}]",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-046",
+          "title": "tableau [\"a\",{\"b\":\"c\"}] (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-047",
+          "title": "carte a..e fournie dans le désordre -> triée",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-047",
+          "title": "carte a..e fournie dans le désordre -> triée (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-048",
+          "title": "tri des clés : ordre bytewise des encodages (exemple RFC 8949 §4.2.1), entrée mélangée",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-048",
+          "title": "tri des clés : ordre bytewise des encodages (exemple RFC 8949 §4.2.1), entrée mélangée (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-049",
+          "title": "tri des clés texte : \"z\" < \"aa\" < \"é\" (longueur encodée puis octets UTF-8)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-049",
+          "title": "tri des clés texte : \"z\" < \"aa\" < \"é\" (longueur encodée puis octets UTF-8) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-050",
+          "title": "tri des clés : entier 255 (18ff) avant 256 (190100) avant -1 (20)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-050",
+          "title": "tri des clés : entier 255 (18ff) avant 256 (190100) avant -1 (20) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-051",
+          "title": "carte imbriquée triée à chaque niveau",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-051",
+          "title": "carte imbriquée triée à chaque niveau (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-052",
+          "title": "booléen false",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-052",
+          "title": "booléen false (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-053",
+          "title": "booléen true",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-053",
+          "title": "booléen true (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-054",
+          "title": "null",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-054",
+          "title": "null (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-055",
+          "title": "tag 100 : date 1970-01-01 (0 jour)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-055",
+          "title": "tag 100 : date 1970-01-01 (0 jour) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-056",
+          "title": "tag 100 : date 2026-10-04 (20730 jours)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-056",
+          "title": "tag 100 : date 2026-10-04 (20730 jours) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-057",
+          "title": "tag 100 : date 1945-05-08 (-9004 jours, négatif)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-057",
+          "title": "tag 100 : date 1945-05-08 (-9004 jours, négatif) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-058",
+          "title": "tag 1 : horodatage 2013-03-21T20:04:00Z = 1363896240",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-058",
+          "title": "tag 1 : horodatage 2013-03-21T20:04:00Z = 1363896240 (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-ENC-059",
+          "title": "profil minimal : carte à clés entières (économie silicium)",
+          "op": "encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-DEC-059",
+          "title": "profil minimal : carte à clés entières (économie silicium) (décodage strict)",
+          "op": "decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-001",
+          "title": "entier 1 encodé sur 2 octets (1801)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-002",
+          "title": "entier 1 encodé sur 3 octets (190001)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-003",
+          "title": "entier 1 encodé sur 5 octets (1a00000001)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-004",
+          "title": "entier 1 encodé sur 9 octets (1b0000000000000001)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-005",
+          "title": "entier 255 encodé sur 3 octets (1900ff)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-006",
+          "title": "longueur de texte non minimale (7861 au lieu de 61 pour \"a\")",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-007",
+          "title": "tableau de longueur indéfinie 9f0102ff",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-008",
+          "title": "carte de longueur indéfinie bf616101ff",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-009",
+          "title": "chaîne d'octets indéfinie 5f41014102ff",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-010",
+          "title": "texte indéfini 7f6161ff",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-011",
+          "title": "carte non triée {\"b\":1,\"a\":2}",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-012",
+          "title": "carte non triée {100:0,10:1} (0a doit précéder 1864)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-013",
+          "title": "carte triée selon RFC 7049 (longueur d'abord : 20, f4, 1864, 617a) -> interdite, l'ordre RFC 8949 est 1864, 20, 617a, f4",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-014",
+          "title": "clé dupliquée {\"a\":1,\"a\":2}",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-015",
+          "title": "octets résiduels après l'élément (0102)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-016",
+          "title": "tableau tronqué (83 01 02 : 3 annoncés, 2 présents)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-017",
+          "title": "texte tronqué (64 61 : 4 annoncés, 1 présent)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-018",
+          "title": "entrée vide",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-019",
+          "title": "UTF-8 invalide dans un texte (62 c3 28)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-020",
+          "title": "UTF-8 surlong (62 c0 80)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-021",
+          "title": "substitut UTF-16 encodé en UTF-8 (63 ed a0 80)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-022",
+          "title": "texte non NFC : e + U+0301 (63 65 cc 81)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-023",
+          "title": "flottant demi-précision 1.5 (f93e00) interdit par le profil",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-024",
+          "title": "flottant double 1.1 (fb3ff199999999999a) interdit par le profil",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-025",
+          "title": "undefined (f7) interdit par le profil",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-026",
+          "title": "valeur simple non assignée simple(32) (f820)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-027",
+          "title": "valeur simple f8 18 (simple(24) sur deux octets) : mal formé selon RFC 8949 §3.3",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-028",
+          "title": "entier -1 encodé sur 9 octets (3b0000000000000000) au lieu de 20",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-029",
+          "title": "tag 100 avec contenu non entier (d864 6161)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-030",
+          "title": "tag non autorisé par le profil : tag 2 bignum (c2 41 01)",
+          "op": "reject-decode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-031",
+          "title": "encodage d'un texte non NFC refusé (e + U+0301)",
+          "op": "reject-encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-032",
+          "title": "encodage d'une carte à clés dupliquées refusé",
+          "op": "reject-encode",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "CBOR-REJ-033",
+          "title": "encodage d'un flottant refusé par le profil",
+          "op": "reject-encode",
+          "status": "RED",
+          "error": null
+        }
+      ],
+      "summary": {
+        "pass": 0,
+        "fail": 0,
+        "red": 151,
+        "invalid": 0,
+        "total": 151
+      }
+    },
+    {
+      "suite": "core.jcs.rfc8785",
+      "path": "qa/vectors/core/jcs-rfc8785.vectors.json",
+      "adapter": "core.jcs",
+      "adapter_present": false,
+      "cases": [
+        {
+          "id": "JCS-ENC-001",
+          "title": "objet {\"b\":1,\"a\":2} trié",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-002",
+          "title": "tri UTF-16 : \"A\" (0x41) avant \"a\" (0x61)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-003",
+          "title": "tri UTF-16 : clé vide en premier",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-004",
+          "title": "tri UTF-16 : \"z\" avant \"é\" (0x7a < 0xe9)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-005",
+          "title": "tri UTF-16 vs UTF-8 : \"😀\" (D83D DE00) avant \"～\" (FF5E) — l'ordre UTF-8 donnerait l'inverse",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-006",
+          "title": "tri UTF-16 : \"€\" (20AC) avant \"😀\" (D83D)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-007",
+          "title": "tri UTF-16 : préfixe commun, la plus courte d'abord (\"ab\" < \"abc\")",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-008",
+          "title": "tri récursif dans les objets imbriqués",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-009",
+          "title": "suppression des espaces, tableau mixte",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-010",
+          "title": "littéraux",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-011",
+          "title": "nombres entiers",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-012",
+          "title": "nombre 1.0 -> 1",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-013",
+          "title": "nombre -0 -> 0",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-014",
+          "title": "nombre 0.1",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-015",
+          "title": "nombre 1e21 -> 1e+21",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-016",
+          "title": "nombre 1e20 -> 100000000000000000000",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-017",
+          "title": "nombre 0.000001 -> 0.000001",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-018",
+          "title": "nombre 1e-7 -> 1e-7",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-019",
+          "title": "nombre 5e-324 (dénormalisé minimal)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-020",
+          "title": "nombre 1.7976931348623157e308 -> 1.7976931348623157e+308",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-021",
+          "title": "nombre 123456789.123456789 (arrondi IEEE 754)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-022",
+          "title": "nombre 4.40 (prix abonnement) -> 4.4",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-023",
+          "title": "chaîne : contrôles \\b \\f \\n \\r \\t",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-024",
+          "title": "chaîne : U+0000 et U+001F en \\u minuscules",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-025",
+          "title": "chaîne : guillemet et antislash échappés, barre oblique non échappée",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-026",
+          "title": "chaîne : DEL U+007F non échappé",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-027",
+          "title": "chaîne : non-ASCII littéral (€, 水, 😀)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        },
+        {
+          "id": "JCS-ENC-028",
+          "title": "profil mémoriel JSON (clés dans le désordre)",
+          "op": "canonicalize",
+          "status": "RED",
+          "error": null
+        }
+      ],
+      "summary": {
+        "pass": 0,
+        "fail": 0,
+        "red": 28,
+        "invalid": 0,
+        "total": 28
+      }
+    }
+  ]
+}
