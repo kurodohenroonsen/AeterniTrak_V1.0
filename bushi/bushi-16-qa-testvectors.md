@@ -37,7 +37,7 @@ Avant de calibrer les suites d'épreuves, le Bushi 16 consulte :
 2. **Structure des Répertoires de Vecteurs** :
    - `qa/vectors/core/` : Formats canoniques CBOR/JCS et hachages d'intégrité.
    - `qa/vectors/crypto/` : Paires de clés de test, messages et signatures officielles.
-   - `qa/vectors/hardware/` : Séquences d'APDU pour ACOSJ 92k et T4T 32k.
+   - `qa/vectors/hardware/` : Séquences d'APDU pour carte JavaCard ACOSJ 92 Ko exclusivement (`DEC-AET-01`).
    - `qa/vectors/filiere/` : Relevés d'autoclave Méthode 1 et certificats de lots.
    - `qa/vectors/antiprion/` : Scénarios de blocage de recyclage d'espèces.
 3. **Rapport de couverture et de conformité** :

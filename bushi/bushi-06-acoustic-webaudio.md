@@ -61,9 +61,10 @@ Le Bushi 06 conçoit, calibre et audite le moteur acoustique immersif déployé 
      Sommation $\rightarrow$ `DynamicsCompressorNode` (Limiteur préventif : seuil $-1.0\,\text{dBFS}$, ratio 20:1, attaque 3 ms, relâchement 100 ms) $\rightarrow$ `AnalyserNode` (FFT 256 bandes pour visualiseur d'ondes SVG / Canvas 120 FPS) $\rightarrow$ `AudioDestinationNode`.
      - *Garantie absolue* : Écrêtage numérique à 0 dBFS rigoureusement proscrit (zéro distorsion harmonique désagréable).
 
-4. **Déverrouillage Transparent de l'Autoplay Policy** :
-   - Gestion de l'état `suspended` initial imposé par les navigateurs modernes (Chrome, Safari, Edge, Firefox).
-   - Appel non-bloquant de `audioCtx.resume()` dès la première interaction physique de l'utilisateur (scan sans contact NFC de la carte ACOSJ ou tap sur l'écran d'accueil du Sanctuaire).
+4. **Déverrouillage Transparent & Écoute Consentie (Éléonore de Saint-Aubert)** :
+   - Gestion de l'état `suspended` initial imposé par les navigateurs modernes (Chrome, Safari, Edge, Firefox) avec appel non-bloquant de `audioCtx.resume()` dès le tap NFC.
+   - **Proscription de l'Autoplay Brutal sur la Voix** : Pour épargner tout choc traumatique aux proches en deuil, la nappe musicale d'ambiance démarre seule en fond feutré ; la diffusion de la voix du défunt est obligatoirement un **acte consenti** déclenché par un effleurement délicat de l'onde sonore ou de la flamme mémorielle.
+   - **Micro Fade-In de 150 ms** : Application automatique d'une rampe d'attaque douce de 150 ms sur le canal vocal pour adoucir les bruits de souffle initiaux ou bruits de gorge.
 
 5. **Universalité Multi-Plateformes (`DEC-AET-09`)** :
    - Moteur Web Audio standard W3C fonctionnant de manière strictement identique sous Chromium Desktop (App 2), Android WebView / Chrome Android (App 3), et Safari iOS / WebKit (App 3).

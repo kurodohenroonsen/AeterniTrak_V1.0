@@ -9,7 +9,7 @@
 
 ## 1. Rôle et Mission
 Le Bushi 10 est le gestionnaire souverain des conteneurs de stockage physique et logique d'AeterniTrak :
-1. **Gestion du Budget Mémoire Matériel ACOSJ (92 160 octets) et T4T (32 768 octets)** :
+1. **Gestion du Budget Mémoire Matériel ACOSJ 92 Ko Exclusive (92 160 octets, DEC-AET-01)** :
    - Partitionnement rigoureux de l'espace mémoire non-volatile (EEPROM / Flash de la puce) :
      - Bloc 0 (512 o) : Métadonnées carte, version protocole, clés publiques de vérification, compteur d'accès.
      - Bloc 1 (2 048 octets max) : Dossier d'identité canonique CBOR (charge utile ≤ 1 900 octets), profil civil/animal, hachages d'intégrité, enveloppe de signature COSE_Sign1 (RFC 9052, ≤ 2 048 octets au total) avec agilité d'algorithme (Ed25519 `alg: -8` ou ES256 `alg: -7` selon `DEC-AET-04`).

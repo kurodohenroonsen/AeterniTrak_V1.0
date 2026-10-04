@@ -70,6 +70,7 @@ Avant d'écrire ou de modifier le code bas-niveau Android, le Bushi 03 doit imp�
      - `0x6B00` : Offset hors limites (`WRONG_OFFSET`),
      - `0x6700` : Longueur incorrecte (`WRONG_LENGTH`),
      - `0x6282` : Fin de fichier prématurée atteinte (`EOF_REACHED`).
+   - **Règle Fondamentale d'Empathie UI (Éléonore de Saint-Aubert)** : Ces codes SW1-SW2 techniques ne doivent **JAMAIS** être exposés à la famille en cas d'arrachage prématuré ou d'incident radiofréquence. L'interface mobile présente obligatoirement une transition visuelle apaisante : *« Le contact s'est estompé. Posez à nouveau délicatement le souvenir. »* sans aucun jargon informatique.
 
 2. **Harnais de Test Mock IsoDep & StrongBox dans `qa/vectors/hardware/android/`** :
    - Jeu de vecteurs simulant les flux d'échanges d'APDU ISO 7816-4 sans terminal physique (Robolectric + Mock IsoDep).
