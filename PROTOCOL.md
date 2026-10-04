@@ -107,7 +107,7 @@ Pour garantir une autonomie totale sans solliciter répétitivement l'utilisateu
 
 ---
 
-## 6. Cycle d'Amélioration Spec-First & Test-First et Règles de Procédé (P1 à P4)
+## 6. Cycle d'Amélioration Spec-First & Test-First et Règles de Procédé (P1 à P6)
 
 Tout travail respecte le cycle en 5 temps :
 1. **Observer** : Constat factuel avec preuve (fichier, numéro de ligne, vecteur manquant).
@@ -116,7 +116,7 @@ Tout travail respecte le cycle en 5 temps :
 4. **Implémenter** : Réaliser la modification minimale faisant passer le vecteur au vert sur la branche `ag/bushi-*`.
 5. **Valider** : Claude AI vérifie sur pièces, valide et fusionne sur `main`.
 
-### Règles de Procédé Impératives (P1 à P4)
+### Règles de Procédé Impératives (P1 à P6)
 
 - **P1 — Une branche part toujours de `main`, jamais de copies cherry-pick** :
   Toute nouvelle branche de travail part obligatoirement de la dernière référence certifiée de `main` (ex: `main@SHA`), sans aucune duplication locale ou cherry-pick de commits non fusionnés d'autres branches. Si un chantier dépend d'un autre travail en cours, il attend son intégration sur `main` ou déclare explicitement cette dépendance dans son rapport sans tenter d'en répliquer les fichiers.
@@ -129,6 +129,10 @@ Tout travail respecte le cycle en 5 temps :
   - `status` ∈ `pending | in_progress | approved | rejected`
   - `reply_expected` ∈ `report | ack | decision`
   Tout rapport de livraison sur une branche doit inclure explicitement le champ `commit: <sha_complet_ou_court>`.
+- **P5 — Purgation de boîte** :
+  Chaque ordre traité est purgé de sa propre boîte par `git rm` dans le commit qui dépose la réponse ou lors de l'acquittement de cycle.
+- **P6 — Gouvernance souveraine sur main uniquement** :
+  Les fichiers de gouvernance (`DECISIONS-KUDORO.md`, `PROTOCOL.md`, etc.) ne sont modifiés que sur `main` via une branche `ag/orchestrator-*` fusionnée par Claude AI. La branche `agent-mailbox` est réservée exclusivement au dossier `mailbox/`.
 - **Archivage des rapports d'exécution (`qa/reports/`) — Règle F3** :
   Les exécutions intermédiaires du harnais ne doivent pas archiver un rapport JSON complet à chaque test local. Seul le rapport d'exécution validé correspondant au commit de tête effectivement livré est conservé sous `qa/reports/`.
 
