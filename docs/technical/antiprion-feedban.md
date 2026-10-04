@@ -34,9 +34,9 @@ Conformément à `CLAUDE.md`, à `PROTOCOL.md` §5 et aux directives souveraines
 
 ---
 
-### 1.2 Références Juridiques Européennes Consolidées (EUR-Lex)
+### 1.2 Références Juridiques Européennes Consolidées
 
-Les règles implémentées sont directement adossées aux textes officiels de l'Union Européenne, vérifiés sur EUR-Lex le **2026-10-04** :
+Les règles implémentées sont directement adossées aux textes normatifs officiels de l'Union Européenne (analysés à partir des versions consolidées de référence, les adresses EUR-Lex n'étant pas présentées comme des liens HTTP 200 sous la règle P8 en raison des mécanismes anti-robot d'EUR-Lex retournant une page d'attente 202 sans balise de titre d'acte) :
 
 1. **Règlement (CE) n° 999/2001 du Parlement européen et du Conseil du 22 mai 2001**  
    *Fixant les règles pour la prévention, le contrôle et l'éradication de certaines encéphalopathies spongiformes transmissibles.*  

@@ -6,7 +6,7 @@
 > **Date de rédaction** : 4 octobre 2026 (révision v2.0)  
 > **Contexte de la saisine** : Exécution de l'arbitrage souverain `DEC-AET-02` prononcé par Kudoro : *« prévoir cette connexion API à tous les points d'accès tel que Cerise en Wallonie »*.  
 > **Objet du document** : Inventaire technique sourcé, rigoureux et vérifiable de l'existence réelle d'APIs publiques ou partenaires, des portails d'accès officiels, des conditions d'accès et des démarches de conventionnement pour les 4 guichets cibles belges et wallons.  
-> **Statut du document** : État de l'art technique vérifié sur pièces, exclusion des suppositions non documentées et feuille de route d'interfaçage.
+> **Statut du document** : Étude technique préparatoire, exclusion des suppositions non documentées et feuille de route d'interfaçage.
 
 ---
 
@@ -22,10 +22,10 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
 
 | Guichet / Organisme | Périmètre Métier & Espèces | Existence d'une API Publique Ouverte | Documentation Publique Disponible | Statut Technique Réel & Démarche d'Accès |
 | :--- | :--- | :---: | :--- | :--- |
-| **CERISE** *(SPW Agriculture)* | Agriculteurs wallons, déclarations PAC, parcelles, cheptels. | **NON** *(Portail Web fermé)* | Aucune documentation d'API publique disponible en ligne. | **Non établi publiquement** : intégration sous convention partenaire à demander auprès du SPW Agriculture (`cerise@spw.wallonie.be`). Accès usager réservé via CSAM (eID/itsme). |
-| **Sanitel** *(ARSIA / DGZ / AFSCA)* | Élevage national (bovins, porcins, ovins, caprins, cervidés). | **NON** *(Filière fermée)* | Aucune spécification technique d'API (WSDL/OpenAPI) publiée en libre accès. | **Non établi publiquement** : intégration sous convention partenaire à demander auprès de l'ARSIA (`support@arsia.be`) et de la DGZ (`info@dgz.be`). Échanges réservés aux opérateurs conventionnés. |
-| **DogID & CatID** *(Zetes / Régions)* | Chiens et chats domestiques identifiés par puce ISO 11784/11785. | **NON** *(Portail vétérinaire)* | Recherche web publique par numéro de puce (sans API documentée). | **Non établi publiquement** : intégration sous convention partenaire à demander auprès de Zetes SA / DogID & CatID (`info@dogid.be`, `info@catid.be`). Encodage réservé aux vétérinaires agréés via eID. |
-| **DNF** *(SPW ARNE)* | Faune sauvage, bracelets gibier, veille sanitaire PPA/CWD. | **NON** *(Intranet administratif)* | Aucune interface de programmation publique existante. | **Non établi publiquement** : intégration sous convention partenaire / projet pilote à demander auprès du SPW ARNE — DNF (`dnf.dgarne@spw.wallonie.be`). Traçabilité sur bracelet physique scellé. |
+| **CERISE** *(SPW Agriculture)* | Agriculteurs wallons, déclarations PAC, parcelles, cheptels. | **NON** *(Portail Web fermé)* | Aucune documentation d'API publique disponible en ligne. | **Non établi publiquement** : intégration sous convention partenaire à solliciter auprès du SPW Agriculture via ses portails officiels. Accès usager réservé via CSAM (eID/itsme). |
+| **Sanitel** *(ARSIA / DGZ / AFSCA)* | Élevage national (bovins, porcins, ovins, caprins, cervidés). | **NON** *(Filière fermée)* | Aucune spécification technique d'API (WSDL/OpenAPI) publiée en libre accès. | **Non établi publiquement** : intégration sous convention partenaire à solliciter auprès de l'ARSIA et de la DGZ. Échanges réservés aux opérateurs conventionnés. |
+| **DogID & CatID** *(Zetes / Régions)* | Chiens et chats domestiques identifiés par puce ISO 11784/11785. | **NON** *(Portail vétérinaire)* | Recherche web publique par numéro de puce (sans API documentée). | **Non établi publiquement** : intégration sous convention partenaire à solliciter auprès des gestionnaires des registres. Encodage réservé aux vétérinaires agréés via eID. |
+| **DNF** *(SPW ARNE)* | Faune sauvage, bracelets gibier, veille sanitaire PPA/CWD. | **NON** *(Intranet administratif)* | Aucune interface de programmation publique existante. | **Non établi publiquement** : intégration sous convention partenaire / protocole pilote à solliciter auprès du SPW ARNE — DNF. Traçabilité sur bracelet physique scellé. |
 
 ---
 
@@ -39,16 +39,16 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
   Une inspection minutieuse des portails régionaux wallons et des catalogues de données ouvertes (Open Data Wallonie-Bruxelles) confirme qu'il n'existe aucune API publique documentée pour CERISE. L'application est strictement conçue comme une interface web interactive avec authentification fédérale CSAM (carte eID ou application itsme).
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire à demander auprès du SPW Agriculture, Ressources Naturelles et Environnement.**
-- **Contact officiel** :  
+- **Coordonnées institutionnelles & portails officiels vérifiés** :  
   SPW ARNE — Direction générale opérationnelle de l'Agriculture  
   Chaussée de Louvain 14, 5000 Namur (Belgique)  
-  *Support technique CERISE* : `cerise@spw.wallonie.be` / *Helpdesk* : `agriculture.spw@spw.wallonie.be`
+  Portails web institutionnels : [https://cerise.arsia.be](https://cerise.arsia.be) et [https://agriculture.wallonie.be](https://agriculture.wallonie.be)
 
 ---
 
 ### 3.2 Sanitel / ARSIA (Wallonie) & DGZ (Flandre)
 - **Autorités responsables** :  
-  - Tutelle sanitaire : Agence Fédérale pour la Sécurité de la Chaîne Alimentaire (AFSCA) ([Loi du 4 février 2000, NUMAC 2000022108](https://www.ejustice.just.fgov.be/eli/loi/2000/02/04/2000022108/justel)).
+  - Tutelle sanitaire : Agence Fédérale pour la Sécurité de la Chaîne Alimentaire (AFSCA) ([Loi du 4 février 2000 relative à la création de l'Agence fédérale pour la Sécurité de la chaîne alimentaire, NUMAC 2000022108](https://www.ejustice.just.fgov.be/eli/loi/2000/02/04/2000022108/justel)).
   - Gestion déléguée : **ARSIA** (*Association Régionale de Santé et d'Identification Animales*, en Wallonie) et **DGZ** (*Dierengezondheidszorg Vlaanderen*, en Flandre).
 - **Missions de la plateforme** : Sanitel est le registre national officiel d'identification et de suivi des animaux de rente (bovins, porcs, ovins, caprins, cervidés, volailles). Il enregistre les naissances, les mouvements, les décès et les statuts sanitaires officiels.
 - **Portails officiels vérifiés** :  
@@ -59,9 +59,10 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
   Aucune spécification d'API ouverte (documentation REST OpenAPI, fichiers WSDL ou schémas XSD) n'est mise à disposition du public en ligne. Si des flux d'échange automatisés existent pour les logiciels de gestion d'élevage et les abattoirs, ces passerelles relèvent exclusivement d'accords d'interopérabilité bilatéraux soumis à agrément préalable et accord de confidentialité.
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire à demander auprès de l'ARSIA asbl et de la DGZ vzw.**
-- **Contacts officiels** :  
-  - ARSIA asbl : Allée du Carmel 1, 5590 Ciney (Belgique) — *Support technique* : `support@arsia.be` / Tél : +32 (0)83 23 05 11  
-  - DGZ vzw : Industrieweg 242, 8800 Roeselare (Belgique) — `info@dgz.be`
+- **Coordonnées institutionnelles & portails officiels vérifiés** :  
+  - ARSIA asbl : Allée du Carmel 1, 5590 Ciney (Belgique) — Portail : [https://www.arsia.be](https://www.arsia.be) / Tél : +32 (0)83 23 05 11  
+  - DGZ vzw : Industrieweg 242, 8800 Roeselare (Belgique) — Portail : [https://www.dgz.be](https://www.dgz.be)  
+  - AFSCA : Boulevard du Jardin Botanique 55, 1000 Bruxelles — Portail : [https://www.favv-afsca.be](https://www.favv-afsca.be)
 
 ---
 
@@ -75,10 +76,10 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
   Les sites grand public proposent uniquement un formulaire web de recherche ponctuelle d'un numéro de puce (avec contrôle anti-robot captcha), sans point d'accès API documenté. L'accès d'encodage professionnel (enregistrement de puce, changement de propriétaire, déclaration de décès) est strictement réservé aux vétérinaires agréés s'authentifiant par carte d'identité électronique belge (eID).
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire à demander auprès de Zetes SA / Services DogID & CatID et des autorités régionales du Bien-être animal.**
-- **Contacts officiels** :  
+- **Coordonnées institutionnelles & portails officiels vérifiés** :  
   DogID & CatID — Service Gestion des Enregistrements  
   Boîte Postale 20000, 1070 Bruxelles (Belgique)  
-  *Support DogID* : `info@dogid.be` / *Support CatID* : `info@catid.be`
+  Portails web officiels : [https://www.dogid.be](https://www.dogid.be) et [https://www.catid.be](https://www.catid.be)
 
 ---
 
@@ -90,10 +91,10 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
   Le DNF ne dispose d'aucune interface informatique ouverte à des tiers. Les opérations de terrain s'appuient sur des applications internes réservées aux agents assermentés et sur la pose de scellés physiques numérotés (bracelets inviolables).
 - **Statut d'intégration AeterniTrak** :  
   **Non établi publiquement : intégration sous convention partenaire / protocole pilote à demander auprès du SPW ARNE — Département de la Nature et des Forêts.**
-- **Contact officiel** :  
+- **Coordonnées institutionnelles & portail officiel vérifié** :  
   SPW ARNE — Département de la Nature et des Forêts  
   Avenue Prince de Liège 15, 5100 Jambes (Namur, Belgique)  
-  *Direction de la Conservation de la Nature et de la Chasse* : `dnf.dgarne@spw.wallonie.be`
+  Portail officiel : [https://environnement.wallonie.be](https://environnement.wallonie.be)
 
 ---
 
