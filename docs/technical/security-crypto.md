@@ -1,10 +1,10 @@
 # Spécification Technique & Formelle — Sécurité Cryptographique & Modèle de Confiance COSE_Sign1
 
 > **Document ID** : `AET-SPEC-CRYPTO-001`  
-> **Version** : 1.0.0  
+> **Version** : 1.1.1  
 > **Statut** : Soumis pour révision  
 > **Date de référence** : 2026-10-04  
-> **Branche Git** : `ag/bushi-02-crypto-spec`  
+> **Branche Git** : `fix/bushi-02-crypto-v11`  
 > **Auteur** : Bushi 02 (Security & Cryptography Lead)  
 > **Revue & Arbitrage** : Claude AI (Master Verifier)  
 > **Autorité Souveraine** : Kudoro (`DECISIONS-KUDORO.md`, décision `DEC-AET-04` Option C)  
@@ -251,7 +251,7 @@ Conformément à l'arbitrage souverain `DEC-AET-04` (Option C : Agilité COSE hy
    - Ordre du point de base $n$ :
      $$n = \text{0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551}$$
    - Demi-ordre de la courbe :
-     $$\left\lfloor \frac{n}{2} \right\rfloor = \text{0x7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCE4279DC65617E3192A8}$$
+     $$\left\lfloor \frac{n}{2} \right\rfloor = \text{0x7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCF4279DCE5617E3192A8}$$
 2. **Format de Signature** : Format IEEE P1363 (BSI TR-03111 §4.1.3), 64 octets exactement : concaténation de l'entier $r$ (32 octets, *big-endian*) et de l'entier $s$ (32 octets, *big-endian*). Les formats ASN.1 / DER sont formellement rejetés.
 3. **Validation Impérative de la Clé Publique sur la Courbe (SEC 1 §3.2.2.1)** :
    Tout vérificateur ES256 doit impérativement valider la clé publique $Q = (X, Y)$ avant tout calcul :
@@ -320,12 +320,13 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
 - **Code d'Erreur** : `ERR_COSE_INVALID_ENVELOPE` ou propagation de `ERR_CBOR_*`.
 - **Résultat** : Abandon immédiat de la lecture. Le Tag 18 n'est admis qu'à cette première position ; le décodeur AeterniCore n'est pas modifié.
 
-#### Étape 2 : Forme de l'Enveloppe et des En-têtes (Règle K5)
+#### Étape 2 : Forme de l'Enveloppe et des En-têtes (Règles K5, Typage Strict des Clés)
 - **Entrée** : Tableau déballé issu du décodage CBOR.
+- **Règle Fondamentale sur les Clés d'En-tête** : **Une clé d'en-tête (protégé ou non protégé) est STRICTEMENT un entier non signé (Major 0)**. Toute clé textuelle (ex. `"4"`, `"1"`, `"16"`) ou de tout autre type (booléen, tableau, etc.) est formellement interdite. L'acceptation de chaînes de caractères permettrait deux encodages CBOR distincts d'une même enveloppe, violant le déterminisme et introduisant une malléabilité structurelle inadmissible (`COSE-VER-041`, `COSE-VER-042`).
 - **Condition de Rejet** :
   1. L'élément déballé n'est pas un tableau de 4 éléments exactement : `[bstr, carte, bstr, bstr de 64 octets]`.
-  2. L'élément 0 (`protected`) n'est pas une chaîne d'octets (`bstr`), n'est pas décodable strictement en carte CBOR, n'est pas déterministe (les clés doivent être triées lexicographiquement : `0x01` puis `0x10`), ou porte une clé autre que `1` et `16`.
-  3. L'élément 1 (`unprotected`) n'est pas une carte CBOR ou porte une clé autre que `4` (`kid`).
+  2. L'élément 0 (`protected`) n'est pas une chaîne d'octets (`bstr`), n'est pas décodable strictement en carte CBOR, n'est pas déterministe (les clés doivent être triées lexicographiquement : `0x01` puis `0x10`), ou porte une clé autre que les entiers stricts `1` et `16`.
+  3. L'élément 1 (`unprotected`) n'est pas une carte CBOR ou porte une clé autre que l'entier strict `4` (`kid`).
   4. L'élément 2 (`payload`) n'est pas une chaîne d'octets (`bstr`).
   5. L'élément 3 (`signature`) n'est pas une chaîne d'octets de 64 octets exactement.
 - **Code d'Erreur** : `ERR_COSE_INVALID_ENVELOPE`.
@@ -423,6 +424,49 @@ Chaque règle est spécifiée de manière formellement testable sous le triptyqu
 | `ERR_COSE_INVALID_SIGNATURE` | 9 | Signature mathématiquement corrompue, falsifiée ou scalaire Ed25519 non canonique. |
 | `ERR_COSE_EXPIRED_KEY` | 10 | Clé expirée (date d'émission portée par la charge utile hors de la fenêtre `[valid_from, valid_until]`). |
 | `ERR_COSE_UNVERIFIED_PAYLOAD_ACCESS` | 10 | Tentative d'accès au payload sans vérification cryptographique complète préalable. |
+
+---
+
+### 3.3 Lecture sous Réserve — Décision DEC-AET-07 Option B (`coseOpen`)
+
+Conformément à l'arbitrage souverain de Kudoro (`DECISIONS-KUDORO.md`, décision `DEC-AET-07` Option B) et aux règles formelles de `qa/vectors/README.md` §4.9 :
+
+L'opération `coseVerify` demeure la référence normative fondamentale : elle exécute l'intégralité des 12 étapes de vérification et ne restitue le payload qu'en cas d'authentification cryptographique parfaite (`valid: true`).
+
+L'opération `coseOpen(envelope, expectedTyp, trustStore)` constitue l'interface applicative standard de consultation et de rendu des cartes et profils :
+
+1. **`VERIFIED` (Authenticité Certifiée)** :
+   - **Condition** : `coseVerify` franchit avec succès les 12 étapes de contrôle avec une clé de confiance active (`status: "ACTIVE"`).
+   - **Retour** : `{ status: "VERIFIED", valid: true, payload, payload_hex, kid }`.
+   - **Usage Applicatif** : Affichage certifié de plein droit.
+
+2. **`UNVERIFIED` (Lecture sous Réserve — Émetteur Inconnu)** :
+   - **Condition** : **Seule et uniquement** l'erreur `ERR_COSE_UNKNOWN_KID` autorise ce régime. Cela garantit que les étapes 1 à 7 ont réussi avec succès : enveloppe bien formée, tag 18 présent, en-têtes typés strictement avec clés entières, algorithme autorisé, type de contenu attendu (`typ === expected_typ`), et identifiant `kid` de 16 octets présent.
+   - **Retour** : `{ status: "UNVERIFIED", valid: false, payload, payload_hex, reason: "ERR_COSE_UNKNOWN_KID" }`.
+   - **Usage Applicatif** : L'application est autorisée à afficher le mémorial sous réserve, mais **DOIT impérativement afficher un bandeau d'avertissement visible** (*« Authenticité non vérifiée — Émetteur inconnu »*).
+   - **Interdiction Formelle** : Une carte sous statut `UNVERIFIED` ne possède **aucune valeur de preuve juridique ou technique**. Elle ne peut en aucun cas franchir la Porte de Fer (Bushi 12) ni servir de justificatif réglementaire ou sanitaire.
+
+3. **`BLOCKED` (Blocage Inconditionnel)** :
+   - **Condition** : Toute autre anomalie lors de la vérification :
+     - Clé révoquée (`ERR_COSE_REVOKED_KEY`).
+     - Signature invalide ou corrompue (`ERR_COSE_INVALID_SIGNATURE`).
+     - Signature ECDSA malléable avec $s > \lfloor n/2 \rfloor$ (`ERR_COSE_MALLEABLE_SIGNATURE`).
+     - Clé publique hors courbe (`ERR_COSE_INVALID_PUBLIC_KEY`).
+     - Discordance d'usage de clé (`ERR_COSE_KEY_USAGE_MISMATCH`).
+     - Discordance de type de document (`ERR_COSE_TYPE_MISMATCH`).
+     - Algorithme non supporté (`ERR_COSE_UNSUPPORTED_ALGORITHM`).
+     - Enveloppe malformée, clés non entières ou octets résiduels (`ERR_COSE_INVALID_ENVELOPE`, `ERR_CBOR_*`).
+     - Identifiant de clé absent ou corrompu (`ERR_COSE_MISSING_KID`).
+     - Magasin de confiance incohérent (`ERR_COSE_INVALID_TRUST_STORE`).
+   - **Retour** : `{ status: "BLOCKED", valid: false, error }`.
+   - **Protection Anti-Fuite** : **Aucune charge utile (`payload`) n'est délivrée**.
+
+> [!IMPORTANT]
+> **Séparation Stricte des Types** : Le type de retour de `coseOpen` sépare formellement les statuts `VERIFIED`, `UNVERIFIED` et `BLOCKED` via une union discriminée TypeScript pour interdire toute confusion accidentelle par le code appelant entre un payload certifié et un payload sous réserve.
+
+> [!IMPORTANT]
+> **Note de Coordination Inter-Bushi (Alignement Bushi 12 — The Iron Gate)** :  
+> Le document `docs/technical/antiprion-feedban.md` §6.2 mentionne actuellement une enveloppe COSE_Sign1 « sans tag 18 ». Cette description est obsolète et contraire à la présente spécification (`AET-SPEC-CRYPTO-001`, Règle K4, Étape 1) ainsi qu'au RFC 9052 §4.2, qui imposent la présence impérative du Tag CBOR 18 (`0xd2`) comme premier octet de toute enveloppe. Le Bushi 12 devra aligner sa documentation lors de sa prochaine itération.
 
 ---
 
@@ -614,12 +658,12 @@ AeterniTrak segmente l'architecture cryptographique en quatre familles de clés 
 
 ---
 
-## 7. Matrice de Conformité & Critères d'Acceptation (Amendements v1.1.0 & Phase B)
+## 7. Matrice de Conformité & Critères d'Acceptation (Amendements v1.1.1 & Phase B)
 
-Conformément à l'Ordre 0037 de Claude AI :
+Conformément à l'Ordre 0037 et au Redirect 0042 de Claude AI :
 
-- **Amendements v1.1.0 Intégrés** : Application des 7 amendements normatifs K1 à K7 (constante du demi-ordre P-256 calculée en `BigInt`, contrôle temporel post-signature sur date d'émission de charge utile, liaison clé-type `ERR_COSE_KEY_USAGE_MISMATCH`, isolation préalable du premier octet Tag 18 `0xd2`, nettoyage des codes d'erreur, clarification v1, rejet des clés Ed25519 d'ordre faible dans le Trust Store).
-- **Zéro Dépendance Externe** : Implémentation réalisée sous `core/cose/` en TypeScript ESM sans aucune dépendance npm (`dependencies: {}`), en s'appuyant exclusivement sur `crypto.subtle` pour les opérations cryptographiques primitives et `BigInt` pour les contrôles mathématiques stricts.
+- **Amendements v1.1.0 & v1.1.1 Intégrés** : Application des 7 amendements normatifs K1 à K7, correction de la constante $\lfloor n/2 \rfloor$ de P-256 dans la spécification (§2.2), typage strict entier des clés d'en-tête (rejet immédiat de toute clé textuelle, §3.1), intégration contractuelle de la lecture sous réserve DEC-AET-07 Option B (`coseOpen`, §3.3), et notification d'alignement au Bushi 12 pour le Tag 18.
+- **Portabilité WebCrypto Stricte (Zéro `node:crypto`)** : Implémentation réalisée sous `core/cose/` en TypeScript ESM sans aucune dépendance npm (`dependencies: {}`) et sans aucun import de modules Node (`node:crypto`), s'appuyant exclusivement sur `globalThis.crypto.subtle` (`digest`, `importKey`, `verify`, `sign`) pour assurer la portabilité totale sur WebView Android et navigateur.
 - **Zéro Clé Privée dans `core/`** : Aucune clé privée ou graine secrète n'est présente dans le code source ; seuls les vecteurs de tests publics RFC 8032 et RFC 6979 de `qa/vectors/crypto/` font foi.
 - **Intégrité des Vecteurs de Test** : `git diff --stat main -- qa/vectors` demeure strictement vide.
-- **Déverrouillage Sécurisé Strict** : La charge utile n'est jamais exposée ni désérialisée en cas d'échec d'une quelconque étape de contrôle cryptographique.
+- **Déverrouillage Sécurisé Strict** : La charge utile n'est jamais exposée ni désérialisée en cas d'échec d'une quelconque étape de contrôle cryptographique ; seule l'opération `coseOpen` restitue le payload sous réserve (`status: "UNVERIFIED"`) pour le cas unique `ERR_COSE_UNKNOWN_KID`.
