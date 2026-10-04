@@ -1,0 +1,473 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "antiprion.feedban.rules-v15",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.12 (précision P18)",
+    "qa/vectors/README.md §4.3 P4 et P6",
+    "Règl. (UE) 2017/893 (substrats des insectes d'élevage), à confirmer sur EUR-Lex par le Bushi 12",
+    "qa/vectors/antiprion/taxonomy-snapshot.json"
+  ],
+  "adapter": "antiprion.feedban",
+  "description": "Règle P18 de la Porte de Fer, issue d'un second corpus de fuzzing au cycle 0009 (150 000 revendications). Un insecte déclaré dans `sources` et traité par équarrissage direct était autorisé vers l'alimentation sans que le substrat sur lequel il a été élevé soit déclaré ni contrôlé : la route de bioconversion impose une matière végétale, l'équarrissage direct ne vérifiait rien. Le code et la référence de Claude AI autorisaient tous deux ce lot (méthode 1) ; ils ne divergeaient que sur les méthodes 2 à 7. Trois cas changent de verdict par rapport au code livré, dans le sens du blocage.",
+  "cases": [
+    {
+      "id": "PRION-HARD-092",
+      "title": "Hermetia déclarée comme source, équarrissage direct, méthode 1 prouvée -> volailles : substrat des insectes non contrôlé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-093",
+      "title": "Hermetia déclarée comme source, équarrissage direct, méthode 1 prouvée -> poissons",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-094",
+      "title": "Hermetia déclarée comme source, équarrissage direct, méthode 7 -> volailles : motif G3 et motif G9",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "p6",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-095",
+      "title": "Hermetia déclarée comme source, route `composting`, méthode 3 -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            }
+          ]
+        },
+        "process": {
+          "route": "composting",
+          "treatment": {
+            "method": 3,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "p6",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-096",
+      "title": "Lot mêlé Hermetia + poulet, méthode 1 prouvée -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-05",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            },
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-097",
+      "title": "Lot mêlé Hermetia + saumon, méthode 7 -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-06",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            },
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "p13",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-098",
+      "title": "Hermetia source avec une seconde source non résolue, méthode 7 -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-07",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            },
+            {
+              "taxid": 99999999
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "exhaustive"
+      ]
+    },
+    {
+      "id": "PRION-HARD-099",
+      "title": "Hermetia déclarée comme source d'une matière végétale en bioconversion -> volailles : un seul motif G3",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-08",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": [
+            {
+              "taxid": 343691
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "p10"
+      ]
+    },
+    {
+      "id": "PRION-HARD-100",
+      "title": "Témoin : Hermetia déclarée comme source, cat. 3 -> usage technique : autorisé, P18 ne vise que l'alimentation",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-09",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 343691
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "control"
+      ]
+    },
+    {
+      "id": "PRION-HARD-101",
+      "title": "Témoin : matière végétale sans source, bioconversion par Hermetia, méthode 7 -> volailles : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-L-10",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.12 P18 : en alimentation, les insectes n'entrent que par la route insect_bioconversion, seule route où leur substrat est contrôlé ; un insecte déclaré dans `sources` vaut SUBSTRATE_CATEGORY_VIOLATION et la nature « insecte » de P6 est réservée à cette route",
+      "tags": [
+        "p18",
+        "control"
+      ]
+    }
+  ]
+}

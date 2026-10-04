@@ -1,0 +1,1527 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "crypto.cose.rules-v12",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.11",
+    "qa/vectors/README.md §4.8 et §4.9",
+    "docs/technical/security-crypto.md §4.5 (règle K2)"
+  ],
+  "adapter": "crypto.cose",
+  "description": "Validité temporelle des clés (règle K2). La fenêtre `[valid_from, valid_until]` d'une entrée de confiance se compare à la date d'émission portée par la charge utile dont la signature vient d'être vérifiée, jamais à l'horloge du lecteur. Statuts `ACTIVE`, `RETIRED`, `REVOKED`. Une entrée sans fenêtre garde le comportement des suites précédentes. Clés de test publiques des RFC 8032 et 6979 : elles ne protègent rien.",
+  "cases": [
+    {
+      "id": "COSE-KEY-001",
+      "title": "profil du 2026-10-04, clé ACTIVE, date dans la fenêtre : valide",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "nominal"
+      ]
+    },
+    {
+      "id": "COSE-KEY-002",
+      "title": "profil du 2026-10-04, clé RETIRED, date dans la fenêtre : valide à perpétuité",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "RETIRED",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "retired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-003",
+      "title": "fenêtre close la veille à 23:59:59 : clé expirée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1791071999
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "expired",
+        "boundary"
+      ]
+    },
+    {
+      "id": "COSE-KEY-004",
+      "title": "fenêtre close le jour même à 00:00:00 : valide (comparaison au jour)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1791072000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "boundary"
+      ]
+    },
+    {
+      "id": "COSE-KEY-005",
+      "title": "fenêtre ouverte le jour même à 23:59:59 : valide (comparaison au jour)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1791158399,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "boundary"
+      ]
+    },
+    {
+      "id": "COSE-KEY-006",
+      "title": "fenêtre ouverte le lendemain à 00:00:00 : date antérieure à la fenêtre",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1791158400,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "expired",
+        "boundary"
+      ]
+    },
+    {
+      "id": "COSE-KEY-007",
+      "title": "clé RETIRED, date postérieure à la fenêtre : expirée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "RETIRED",
+              "valid_from": 1700000000,
+              "valid_until": 1780000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "retired",
+        "expired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-008",
+      "title": "clé REVOKED avec une fenêtre contenant la date : révoquée, quelle que soit la date",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "REVOKED",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_REVOKED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "revoked"
+      ]
+    },
+    {
+      "id": "COSE-KEY-009",
+      "title": "clé RETIRED sans fenêtre : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "RETIRED"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store"
+      ]
+    },
+    {
+      "id": "COSE-KEY-010",
+      "title": "`valid_from` sans `valid_until` : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store"
+      ]
+    },
+    {
+      "id": "COSE-KEY-011",
+      "title": "`valid_until` sans `valid_from` : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store"
+      ]
+    },
+    {
+      "id": "COSE-KEY-012",
+      "title": "`valid_from` supérieur à `valid_until` : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1800000000,
+              "valid_until": 1790000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store"
+      ]
+    },
+    {
+      "id": "COSE-KEY-013",
+      "title": "`valid_from` fourni comme chaîne : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": "1790000000",
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-014",
+      "title": "`valid_until` négatif : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 0,
+              "valid_until": -1
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-015",
+      "title": "`valid_from` non entier (1.5) : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1.5,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-016",
+      "title": "statut inconnu `EXPIRED` : liste de confiance incohérente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "EXPIRED",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store"
+      ]
+    },
+    {
+      "id": "COSE-KEY-017",
+      "title": "fenêtre incohérente sur une autre entrée que celle du signataire : toute la liste est refusée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 5,
+              "valid_until": 4
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "store"
+      ]
+    },
+    {
+      "id": "COSE-KEY-018",
+      "title": "fenêtre [0, 0] : bornes nulles admises, profil de 2026 hors fenêtre",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 0,
+              "valid_until": 0
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "boundary",
+        "expired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-019",
+      "title": "entrée fenêtrée, charge utile sans clé 11 : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22743a101015840f714086ca1c4ab972edc468bf58dfce669c6b1d6b31b6a733d0da92153843f9a058e716389917d965c01e350fd0ad083aca59ff1d4548cd00c588893cb36ef0c",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date"
+      ]
+    },
+    {
+      "id": "COSE-KEY-020",
+      "title": "entrée fenêtrée, clé 11 sous tag 1 au lieu de 100 : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22748a10bc11a6ac197005840cabf47857b11addeeb7d4caa75b06b3ba92927cdfac710b19284e0bb11ea8f9ae4ca7b695e04bd71d1833edbe9c8bff230c33761a6436176a00aad4373b2620a",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-021",
+      "title": "entrée fenêtrée, clé 11 entier nu sans tag : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22745a10b1950fa5840089eb4fcf56c45fbc2f2a82d6ca3d4bb15a442f571dc5f701d60f73e26c499980b3cc0486a7d99a53a10855e4118c6b604d0b7a002ef07dcc77e6a25a2b6ba01",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-022",
+      "title": "entrée fenêtrée, date sous la clé texte \"11\" : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22749a1623131d8641950fa584037075c943ba936208fba34763a3f7391982c5e1cd86c8aea74b607477f230b776a45ed8eb33ac93e49cde2a9335935fe7bbc74c3bbaa11ad80e74823e6c5ed06",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-023",
+      "title": "entrée fenêtrée, charge utile qui n'est pas une carte : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd227438201025840cfe05ed39da63212c3380ae18835fc64cb253012a94ec7294c8c3c4947ba6bc5d2e359d4afeaa712cf83c128842f7c48f2321281c94d1c80e69db8556b27480c",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date"
+      ]
+    },
+    {
+      "id": "COSE-KEY-024",
+      "title": "entrée fenêtrée, charge utile CBOR tronquée : le code ERR_CBOR_* remonte",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22742a10b58406ee94e463e28889a3f5a6b2f4c8310b0e82b818acdd77c2acc62ce67734dfe891037c5e75fa736be3ee47fd6495988ead01cde775f9934371edc22cf93888304",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date",
+        "cbor"
+      ]
+    },
+    {
+      "id": "COSE-KEY-025",
+      "title": "entrée fenêtrée, charge utile vide : le code ERR_CBOR_* remonte",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2274058409d4933d50a0adab2a85a803ad754a9685417d4649d3d24922b6c7dc944096f0bbb8870bb870acf9dd990f0006dc0317ebf1d2e37ebce0d28743b7ed083bbe300",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_CBOR_TRUNCATED"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "date",
+        "cbor"
+      ]
+    },
+    {
+      "id": "COSE-KEY-026",
+      "title": "témoin : même charge utile tronquée, entrée sans fenêtre : valide, la charge utile n'est pas décodée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22742a10b58406ee94e463e28889a3f5a6b2f4c8310b0e82b818acdd77c2acc62ce67734dfe891037c5e75fa736be3ee47fd6495988ead01cde775f9934371edc22cf93888304",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "a10b",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "control"
+      ]
+    },
+    {
+      "id": "COSE-KEY-027",
+      "title": "signature fausse et date hors fenêtre : la signature est contrôlée avant la date",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf08",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1700000000,
+              "valid_until": 1780000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "order"
+      ]
+    },
+    {
+      "id": "COSE-KEY-028",
+      "title": "clé de lot présentée pour un profil, date hors fenêtre : l'usage de clé est contrôlé avant la date",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045039f713d0a644253f04529421b9f51b9b5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa5840aafb342d1ab86a149ca13f4c0928cdac70fd585ddd3f6468f4823c54db0a049336a934af2779bda7e33c4c406c8a8f7724d8fada1b7e44a2c3ee0cd8feb6db0c",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1700000000,
+              "valid_until": 1780000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_KEY_USAGE_MISMATCH"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "order"
+      ]
+    },
+    {
+      "id": "COSE-KEY-029",
+      "title": "certificat de lot émis à t, fenêtre [t, t] : valide (bornes incluses, à la seconde)",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e305840442a612212ecd5e3ad76edb963b45ecbbf33f176a429329cda0feaf2d2b19d13d9ffb59c2c8b332bb4891e2da559bee1690cbea07c6b464cb0b134df802c730e",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1791072000,
+              "valid_until": 1791072000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e30",
+        "kid": "39f713d0a644253f04529421b9f51b9b"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "batch",
+        "boundary"
+      ]
+    },
+    {
+      "id": "COSE-KEY-030",
+      "title": "certificat de lot émis à t, fenêtre ouverte à t+1 : hors fenêtre",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e305840442a612212ecd5e3ad76edb963b45ecbbf33f176a429329cda0feaf2d2b19d13d9ffb59c2c8b332bb4891e2da559bee1690cbea07c6b464cb0b134df802c730e",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1791072001,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "batch",
+        "boundary",
+        "expired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-031",
+      "title": "certificat de lot émis à t, fenêtre close à t-1 : expirée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5861a501582006acd6cf01c931207d99fc2f08a901dfd930a6dac6d19964b3f33af2a8ed9d35026a415554484f524953454403c11a6ac197000458208b78ecbf838b464b8b47825f161ac1411d629cf4215bfa6c42738047fd7e7ecd0565312e332e305840442a612212ecd5e3ad76edb963b45ecbbf33f176a429329cda0feaf2d2b19d13d9ffb59c2c8b332bb4891e2da559bee1690cbea07c6b464cb0b134df802c730e",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1791071999
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "batch",
+        "boundary",
+        "expired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-032",
+      "title": "certificat de lot, clé 3 sous tag 100 (jours) : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5836a30158200000000000000000000000000000000000000000000000000000000000000000026a415554484f524953454403d8641950fa5840653a5a0b58277e945dab034e4997337c39b433a16266f77222da1bd354ea53839472d0d65a29d013970968c9ed7ce4799088b7c106e957f6f54ac3c1363a6c03",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "batch",
+        "date",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-033",
+      "title": "certificat de lot, clé 3 entier nu : date d'émission absente",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582ea201271078286170706c69636174696f6e2f61657465726e697472616b2d62617463682d636c61696d2b63626f72a1045039f713d0a644253f04529421b9f51b9b5836a30158200000000000000000000000000000000000000000000000000000000000000000026a415554484f5249534544031a6ac197005840928311397ca0a5c7604629df3b21ceaee0171969b0da7e5e0ff0d6e3cec0588bbe9aa00742d4ef0471999911b8411880050ad4e2ac1d186c9c1ac0df8af4d20d",
+        "expected_typ": "application/aeternitrak-batch-claim+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE"
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "batch",
+        "date",
+        "type"
+      ]
+    },
+    {
+      "id": "COSE-KEY-034",
+      "title": "profil signé ES256, date dans la fenêtre : valide",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404d5d176766f761cc46235a43c549e1eb8ed741354ffae59f6c602a1c4d928fea73f6f3bb8eabe6e6c1db61d36af6111c9bdb343a8f8edb485cb90c07e45ded51",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "valid": true,
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "d6c23e2744a840cb3a5a14b6554cce7c"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "es256"
+      ]
+    },
+    {
+      "id": "COSE-KEY-035",
+      "title": "profil signé ES256, fenêtre close avant la date : expirée",
+      "op": "cose-verify",
+      "input": {
+        "envelope_hex": "d284582aa201261078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a10450d6c23e2744a840cb3a5a14b6554cce7c5882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58404d5d176766f761cc46235a43c549e1eb8ed741354ffae59f6c602a1c4d928fea73f6f3bb8eabe6e6c1db61d36af6111c9bdb343a8f8edb485cb90c07e45ded51",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "d6c23e2744a840cb3a5a14b6554cce7c",
+              "alg": -7,
+              "public_key": "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1700000000,
+              "valid_until": 1780000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "es256",
+        "expired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-036",
+      "title": "lecture d'une carte, clé RETIRED, date dans la fenêtre : VERIFIED",
+      "op": "cose-open",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "RETIRED",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "status": "VERIFIED",
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa",
+        "kid": "21fe31dfa154a261626bf854046fd227"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "open",
+        "retired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-037",
+      "title": "lecture d'une carte, date hors fenêtre : BLOCKED, sans contenu",
+      "op": "cose-open",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1700000000,
+              "valid_until": 1780000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "status": "BLOCKED",
+        "error": "ERR_COSE_EXPIRED_KEY"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "open",
+        "expired"
+      ]
+    },
+    {
+      "id": "COSE-KEY-038",
+      "title": "lecture d'une carte, entrée fenêtrée, date d'émission absente : BLOCKED, sans contenu",
+      "op": "cose-open",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd22743a101015840f714086ca1c4ab972edc468bf58dfce669c6b1d6b31b6a733d0da92153843f9a058e716389917d965c01e350fd0ad083aca59ff1d4548cd00c588893cb36ef0c",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "status": "BLOCKED",
+        "error": "ERR_COSE_ISSUANCE_DATE_MISSING"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "open",
+        "date"
+      ]
+    },
+    {
+      "id": "COSE-KEY-039",
+      "title": "lecture d'une carte d'émetteur inconnu, liste fenêtrée : UNVERIFIED, aucun contrôle de date possible",
+      "op": "cose-open",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE",
+              "valid_from": 1790000000,
+              "valid_until": 1800000000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "status": "UNVERIFIED",
+        "reason": "ERR_COSE_UNKNOWN_KID",
+        "payload_hex": "ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "open",
+        "unknown"
+      ]
+    },
+    {
+      "id": "COSE-KEY-040",
+      "title": "lecture d'une carte, liste de confiance à fenêtre incohérente : BLOCKED",
+      "op": "cose-open",
+      "input": {
+        "envelope_hex": "d284582aa201271078246170706c69636174696f6e2f61657465726e697472616b2d70726f66696c652b63626f72a1045021fe31dfa154a261626bf854046fd2275882ab0101020103a1016347757904d86439232b05d8641950fa06010762424508a2015820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550219481209a2015820ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb02197e900a6a42452d4252552d3030310bd8641950fa58400526097420a0b9ca22b08287562286ce80ebcac92d9fb38180fbf53c78210e00c9ad0ba9861223ffac9a4948dc5b2593a4c9b9a5558abdbd374021953646cf09",
+        "expected_typ": "application/aeternitrak-profile+cbor",
+        "trust_store": {
+          "signers": [
+            {
+              "kid": "21fe31dfa154a261626bf854046fd227",
+              "alg": -8,
+              "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+              "typ": "application/aeternitrak-profile+cbor",
+              "status": "ACTIVE",
+              "valid_from": 2,
+              "valid_until": 1
+            },
+            {
+              "kid": "39f713d0a644253f04529421b9f51b9b",
+              "alg": -8,
+              "public_key": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+              "typ": "application/aeternitrak-batch-claim+cbor",
+              "status": "ACTIVE"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "status": "BLOCKED",
+        "error": "ERR_COSE_INVALID_TRUST_STORE"
+      },
+      "rule": "qa/vectors/README.md §4.11 (validité temporelle des clés, règle K2) ; docs/technical/security-crypto.md §4.5",
+      "tags": [
+        "k2",
+        "open",
+        "store"
+      ]
+    }
+  ]
+}

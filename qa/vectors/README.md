@@ -13,7 +13,7 @@ qa/vectors/
 ├── schema/vector-suite.schema.json    schéma JSON (draft 2020-12) de toute suite
 ├── core/      *.vectors.json          CBOR déterministe, JCS, CID SHA-256, profil mémoriel
 ├── crypto/    *.vectors.json          Ed25519 (RFC 8032), ES256, COSE_Sign1, enveloppes AES-GCM
-├── hardware/  *.vectors.json          séquences APDU ISO 7816-4, plan mémoire ACOSJ 92k / T4T 32k
+├── hardware/  *.vectors.json          séquences APDU ISO 7816-4, plan mémoire ACOSJ 92k (DEC-AET-01 : cartes 92 Ko uniquement)
 ├── filiere/   *.vectors.json          relevés d'autoclave méthode 1, certificats de lots
 └── antiprion/ *.vectors.json          matrice feed-ban + taxonomy-snapshot.json
 ```
@@ -167,7 +167,7 @@ Clés de test : graines Ed25519 du RFC 8032 §7.1 et clé P-256 du RFC 6979 A.2.
 
 `floor(n/2)` de P-256 vaut `7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCF4279DCE5617E3192A8`. La valeur imprimée dans la spec v1.0.0 est fausse (cas `ES-VER-012`).
 
-**Hors périmètre de ces suites** : la validité temporelle des clés. Une carte mémorielle se lit pendant des décennies, sans horloge de confiance : la fenêtre de validité d'une clé se compare à la date d'émission portée par la charge utile vérifiée, pas à la date de lecture. Règle à écrire par le Bushi 02 (ordre 0037), vecteurs à suivre.
+**Hors périmètre de ces suites, traité au §4.11** : la validité temporelle des clés. Une carte mémorielle se lit pendant des décennies, sans horloge de confiance : la fenêtre de validité d'une clé se compare à la date d'émission portée par la charge utile vérifiée, pas à la date de lecture. Règle à écrire par le Bushi 02 (ordre 0037), vecteurs à suivre.
 
 ### 4.9 Lecture sous réserve, DEC-AET-07 option B (suite `crypto.cose.rules-v11`, 20 cas)
 
@@ -188,6 +188,26 @@ Issues du fuzzing différentiel du cycle 0008 (220 000 revendications, 0 écart 
 - **P15 — Portée de P9 et ordre G1/G2** : en `feed` et `aquaculture_feed`, un tableau `sources` vide vaut `TAXON_UNKNOWN` pour **toute route autre que** `insect_bioconversion` (route inconnue, absente ou mal typée comprise), et pas seulement pour `direct_rendering`. G1 s'évalue en entier avant G2 : sur des restes humains, les motifs G1 précèdent `HUMAN_REMAINS_ROUTE_PROHIBITED`.
 - **P16 — « Source déclarée » au sens de P10** : tout élément du tableau `sources` compte, qu'il se résolve ou non (`null`, taxid mal typé, taxid hors snapshot, rang supérieur à l'espèce, nom sans taxid). Une matière `feed_grade_plant` dont `sources` n'est pas vide reçoit `SUBSTRATE_CATEGORY_VIOLATION` **en plus** du motif G1.
 - **P17 — G3 en mémoire forestière** : les contrôles de substrat (P4 : catégorie ∈ {1, 2, 3} et classe connue ; P10) s'appliquent à `memorial_forestry` et leur motif `SUBSTRATE_CATEGORY_VIOLATION` précède `DEROGATION_REQUIRED`, avec ou sans politique. `DEROGATION_REQUIRED` ne masque aucun autre motif.
+
+### 4.11 Validité temporelle des clés, règle K2 (suite `crypto.cose.rules-v12`, cas `COSE-KEY-001` à `040`)
+
+Une entrée de la liste de confiance peut porter une fenêtre `valid_from` / `valid_until` (entiers JSON non négatifs, secondes depuis l'epoch) et un statut `ACTIVE`, `RETIRED` ou `REVOKED`. Une entrée **sans fenêtre** garde exactement le comportement des §4.8 et §4.9 : aucun des 104 vecteurs antérieurs ne change.
+
+- **Cohérence de la liste** (étape 8 de §4.8, `ERR_COSE_INVALID_TRUST_STORE`) : statut hors des trois valeurs ; une seule des deux bornes ; borne non entière, négative ou d'un autre type ; `valid_from > valid_until` ; statut `RETIRED` sans fenêtre. Toute la liste est contrôlée, pas seulement l'entrée du signataire.
+- **`REVOKED`** : inchangé, étape 9, quelle que soit la date.
+- **`ACTIVE` et `RETIRED`** se vérifient de la même façon. `RETIRED` signifie que la clé ne signe plus ; ce qu'elle a signé dans sa fenêtre reste valide.
+- **Étape 13, après la signature** (la date n'est lue que dans une charge utile authentifiée), uniquement si l'entrée porte une fenêtre :
+  1. décodage strict de la charge utile : une faute remonte avec son code `ERR_CBOR_*` ;
+  2. date d'émission selon `typ` : profil, clé entière `11` sous tag 100 (jours) ; certificat de lot, clé entière `3` sous tag 1 (secondes, entier non négatif). Charge utile qui n'est pas une carte, clé absente, autre tag, entier nu, clé texte : `ERR_COSE_ISSUANCE_DATE_MISSING` ;
+  3. comparaison, bornes incluses. Certificat de lot : `valid_from ≤ t ≤ valid_until`. Profil, daté au jour `D` : `floor(valid_from / 86400) ≤ D ≤ floor(valid_until / 86400)`. Hors fenêtre, avant comme après : `ERR_COSE_EXPIRED_KEY`.
+- **L'horloge du lecteur n'intervient jamais.**
+- **`cose-open`** : `ERR_COSE_EXPIRED_KEY` et `ERR_COSE_ISSUANCE_DATE_MISSING` donnent `BLOCKED`, sans contenu. Un émetteur inconnu reste `UNVERIFIED` : sans entrée, il n'y a pas de fenêtre à contrôler.
+- **Limite** : la date d'émission est déclarée par le signataire. Une clé volée peut antidater ; la fenêtre ne protège pas contre cela, seule la révocation le fait.
+
+### 4.12 Précision v1.5 des portes (suite `antiprion.feedban.rules-v15`, cas `PRION-HARD-092` à `101`)
+
+- **P18 — Les insectes n'entrent en alimentation que par la bioconversion** : la route `insect_bioconversion` est la seule où le substrat d'élevage des insectes est contrôlé (P4 : matière végétale). En `feed` et `aquaculture_feed`, un taxon du groupe `INSECT` résolu dans `substrate.sources` vaut `SUBSTRATE_CATEGORY_VIOLATION` (G3), quelle que soit la route. La nature « insecte » de P6 (méthodes 1 à 5 ou 7) est réservée à la route de bioconversion ; ailleurs, des sources insectes relèvent de la méthode 1. Les autres destinations ne sont pas concernées.
+- Cette règle **change trois verdicts** du code livré (`PRION-HARD-092`, `093`, `096`), dans le sens du blocage. Elle ne change aucun des 202 vecteurs anti-prion antérieurs. Base réglementaire (règl. (UE) 2017/893, substrats des insectes d'élevage) à confirmer sur EUR-Lex par le Bushi 12.
 
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 
