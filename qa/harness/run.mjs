@@ -543,6 +543,23 @@ function verifyCaseExpectation(caseObj, globalDuplicateIds = new Set()) {
     } catch (err) {
       return { valid: false, reason: `Contrôle croisé JCS en erreur: ${err.message}` };
     }
+  } else if (caseObj.op === "validate-profile") {
+    if (caseObj.id.startsWith("PROF-OK") || exp.valid === true) {
+      if (!caseObj.input || typeof caseObj.input.hex !== "string") {
+        return {
+          valid: false,
+          reason: "Cas validate-profile PROF-OK requiert input.hex sous forme de chaîne"
+        };
+      }
+      try {
+        decodeCborStrict(Buffer.from(caseObj.input.hex, "hex"));
+      } catch (err) {
+        return {
+          valid: false,
+          reason: `Contrôle croisé validate-profile: input.hex doit être accepté par le décodeur strict (${err.message})`
+        };
+      }
+    }
   }
 
   return { valid: true };
