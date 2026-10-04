@@ -34,18 +34,20 @@ Conformément à `CLAUDE.md`, à `PROTOCOL.md` §5 et aux directives souveraines
 
 ---
 
-### 1.2 Références Juridiques Européennes Consolidées (EUR-Lex)
+### 1.2 Références Juridiques Européennes Consolidées
 
-Les règles implémentées sont directement adossées aux textes officiels de l'Union Européenne, vérifiés sur EUR-Lex le **2026-10-04** :
+Les règles implémentées sont directement adossées aux textes normatifs officiels de l'Union Européenne (analysés à partir des versions consolidées de référence, les adresses EUR-Lex n'étant pas présentées comme des liens HTTP 200 sous la règle P8 en raison des mécanismes anti-robot d'EUR-Lex retournant une page d'attente 202 sans balise de titre d'acte) :
 
 1. **Règlement (CE) n° 999/2001 du Parlement européen et du Conseil du 22 mai 2001**  
    *Fixant les règles pour la prévention, le contrôle et l'éradication de certaines encéphalopathies spongiformes transmissibles.*  
    - **Article 7** (Interdiction en matière d'alimentation animale) : Interdiction absolue de nourrir les ruminants avec des protéines animales, et interdiction de nourrir les animaux d'élevage avec des protéines dérivées de mammifères.  
    - **Annexe IV, Chapitre I** : Interdictions générales.  
-   - **Annexe IV, Chapitre II** (Dérogations et réautorisations encadrées) :  
-     - *Section A* : L'alimentation des animaux d'aquaculture avec des PAT de non-ruminants d'élevage (porcins, volailles, insectes, équidés, lagomorphes) et des farines de poisson est expressément autorisée.  
-     - *Section B* : L'alimentation des porcins avec des PAT de volailles, des PAT d'insectes et des farines de poisson est autorisée.  
-     - *Section C* : L'alimentation des volailles avec des PAT porcines, des PAT d'insectes et des farines de poisson est autorisée.  
+   - **Annexe IV, Chapitre II** (Dérogations et réautorisations encadrées pour non-ruminants terrestres d'élevage) :  
+     - *Section A* : L'alimentation des animaux d'aquaculture avec des PAT de non-ruminants d'élevage (porcins, volailles, équidés, lagomorphes) et des farines de poisson est expressément autorisée.  
+     - *Section B* : L'alimentation des porcins avec des PAT de volailles et des farines de poisson est autorisée.  
+     - *Section C* : L'alimentation des volailles avec des PAT porcines et des farines de poisson est autorisée.  
+   - **Annexe IV, Chapitre IV** (Conditions spécifiques aux protéines dérivées d'insectes d'élevage) :  
+     - *Section F* : L'utilisation de PAT d'insectes d'élevage pour l'alimentation des animaux d'aquaculture relève spécifiquement du Chapitre IV (introduit par le Règlement (UE) 2017/893), et non du Chapitre II.  
    - Identifiant ELI : [http://data.europa.eu/eli/reg/2001/999/2021-11-23](http://data.europa.eu/eli/reg/2001/999/2021-11-23)
 
 2. **Règlement (UE) 2021/1372 de la Commission du 17 août 2021**  
@@ -75,11 +77,13 @@ Les règles implémentées sont directement adossées aux textes officiels de l'
    *Modifiant les annexes I et IV du règlement (CE) n° 999/2001 du Parlement européen et du Conseil ainsi que les annexes X, XIV et XV du règlement (UE) n° 142/2011 de la Commission en ce qui concerne les dispositions relatives aux protéines animales transformées.*  
    - **Article 1 et Annexe I** (modifications du règlement (CE) n° 999/2001) :  
      - *Annexe I* : Définition légale des « insectes d'élevage » (*farmed insects*), limités aux espèces non pathogènes et non vectrices dont *Hermetia illucens* (mouche soldat noire).  
-     - *Annexe IV, Chapitre II, Section F* : Conditions de production et d'utilisation des PAT dérivées d'insectes d'élevage :  
+     - *Annexe IV, Chapitre IV, Section F* : Conditions de production et d'utilisation des PAT dérivées d'insectes d'élevage :  
        - *Partie A (Conditions de transformation)* : Transformation obligatoire dans une usine de transformation de sous-produits animaux agréée (art. 24(1)(a) du règlement (CE) n° 1069/2009) selon la méthode standard 1 ou l'une des méthodes 2 à 5 ou la méthode 7 visées à l'annexe IV, chapitre III, du règlement (UE) n° 142/2011.  
        - *Partie B (Utilisation)* : Autorisation des PAT d'insectes d'élevage et aliments composés en contenant pour l'alimentation des animaux d'aquaculture (étendue ultérieurement aux volailles et porcins par le règlement (UE) 2021/1372).  
    - **Article 2 et Annexe II** (modifications du règlement (UE) n° 142/2011) :  
-     - *Annexe X, Chapitre II, Section 1, Partie A (Matières premières), point 2* : Exigences spécifiques relatives aux PAT dérivées d'insectes d'élevage. Les insectes doivent être nourris exclusivement avec des matières autorisées comme aliments pour animaux d'élevage (en vertu du règlement (CE) n° 767/2009) : substrats végétaux sains ou certaines matières sélectionnées de Catégorie 3 d'origine non-ruminant. L'utilisation de déchets de cuisine et de table, de déjections/fumier, de matières de Catégories 1 ou 2, ou de sous-produits d'abattoir non transformés comme substrat d'élevage des insectes exclut définitivement toute destination alimentaire humaine ou animale.  
+     - *Annexe X, Chapitre II, Section 1, Partie A (Matières premières), point 2* : Exigences spécifiques relatives aux PAT dérivées d'insectes d'élevage.  
+       *Cadre légal européen* : Le texte européen admet, pour l'alimentation des insectes d'élevage, des substrats composés de matières d'origine végétale ainsi que de certains sous-produits animaux de Catégorie 3 autorisés en alimentation animale (farine de poisson, dérivés sanguins de non-ruminants, lait, colostrum, œufs et ovoproduits, graisses fondues, gélatine et collagène de non-ruminants).  
+       *Surcroît de rigueur volontaire du protocole AeterniTrak (Règles P4 et P18)* : Bien que le Règlement 2017/893 tolère cette liste de sous-produits de Catégorie 3, **AeterniTrak restreint strictement et exclusivement le substrat larvaire admissible aux matières végétales saines (`feed_grade_plant`)**. Ce choix technique constitue un **surcroît de rigueur volontaire**, substantiellement plus strict que le texte légal européen lui-même, afin d'éradiquer à la source tout vecteur potentiel de contaminations croisées. L'utilisation de déchets de table, déjections/fumier, matières Catégories 1 ou 2, ou sous-produits d'abattoir crus est bannie.  
      - *Annexe XIV, Chapitre I, Section 1* : Exigences sanitaires applicables aux importations de PAT d'insectes.  
      - *Annexe XV, Chapitre 1* : Modèles de certificats sanitaires officiels pour l'entrée dans l'Union.  
    - **Portée normative de la règle P18** : L'accès légal de protéines d'insectes à l'alimentation animale (`feed`, `aquaculture_feed`) est conditionné au contrôle préalable et strict de leur substrat d'élevage (matière végétale vérifiée, règles P4 et P10). Dans toute filière où l'insecte est apporté comme source brute sans bioconversion contrôlée (ex. équarrissage direct `direct_rendering`, compostage, etc.), le substrat d'élevage larvaire n'est ni déclaré ni vérifié : cette filière est interdite en alimentation animale et produit immédiatement l'infraction `SUBSTRATE_CATEGORY_VIOLATION`. De surcroît, la nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route `insect_bioconversion` ; dans les autres routes, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min).  
@@ -107,7 +111,7 @@ Les règles implémentées sont directement adossées aux textes officiels de l'
    Aucune PAT issue de ruminants (marqueur taxonomique 9845) ne peut entrer dans l'alimentation animale. Aucun ruminant ne peut être déclaré comme cible d'une destination alimentaire.
 4. **Groupes Sources Autorisés en Alimentation Animale (Liste Positive Whitelist)** :  
    - Alimentation terrestre (`feed`) : `PORCINE`, `POULTRY`, `INSECT`, `FISH`.  
-   - Alimentation aquacole (`aquaculture_feed`) : `PORCINE`, `POULTRY`, `INSECT`, `FISH`, plus `EQUINE` et `LAGOMORPH` (non-ruminants d'élevage autorisés par le règlement 999/2001 annexe IV chap. II section A).  
+   - Alimentation aquacole (`aquaculture_feed`) : `PORCINE`, `POULTRY`, `INSECT`, `FISH`, plus `EQUINE` et `LAGOMORPH` (non-ruminants d'élevage terrestres autorisés par le règlement 999/2001 annexe IV chap. II section A ; les insectes d'élevage relevant quant à eux spécifiquement du chapitre IV section F dudit règlement, tel que modifié par le règlement (UE) 2017/893).  
    Tout autre groupe source produit `SOURCE_GROUP_NOT_AUTHORISED`.
 5. **Cibles Autorisées (Liste Positive Whitelist)** :  
    - `feed` : `PORCINE`, `POULTRY` exclusivement.  
@@ -116,7 +120,7 @@ Les règles implémentées sont directement adossées aux textes officiels de l'
 6. **Protection Absolue des Restes Humains** :  
    Toute détection d'origine humaine (taxon 9606, `material_class === "human_remains"` ou `origin_profile === "human"`) bloque instantanément et définitivement toute route alimentaire ou industrielle technique (`HUMAN_REMAINS_ROUTE_PROHIBITED`). Seule la crémation / incinération est autorisée sans dérogation (`PRION-AUTH-016`, `PRION-HARD-011`).
 7. **La Règle P18 (Insectes en Source Directe & Contrôle de Substrat — Règl. 2017/893)** :  
-   Les insectes ne peuvent entrer dans l'alimentation animale (`feed` et `aquaculture_feed`) que par la route `insect_bioconversion`, seule route où leur substrat d'élevage larvaire est formellement contrôlé (P4 : matière végétale saine `feed_grade_plant`). Tout taxon du groupe `INSECT` résolu dans `substrate.sources` vers une destination alimentaire produit immédiatement le motif bloquant `SUBSTRATE_CATEGORY_VIOLATION` (G3), quelle que soit la route empruntée. La nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route de bioconversion ; ailleurs, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min). Les usages non alimentaires (`technical`, `fertiliser`, `incineration`, `memorial_forestry`) ne sont pas visés par cette interdiction.
+   Les insectes ne peuvent entrer dans l'alimentation animale (`feed` et `aquaculture_feed`) que par la route `insect_bioconversion`, seule route où leur substrat d'élevage larvaire est formellement contrôlé (P4 : matière végétale saine `feed_grade_plant`). Bien que le Règlement (UE) 2017/893 admette certains sous-produits animaux de Catégorie 3 (œufs, lait, gélatine, dérivés sanguins non-ruminants), le choix d'AeterniTrak de restreindre strictement au substrat végétal constitue un surcroît de rigueur volontaire du protocole (plus strict que le texte légal européen). Tout taxon du groupe `INSECT` résolu dans `substrate.sources` vers une destination alimentaire produit immédiatement le motif bloquant `SUBSTRATE_CATEGORY_VIOLATION` (G3), quelle que soit la route empruntée. La nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route de bioconversion ; ailleurs, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min). Les usages non alimentaires (`technical`, `fertiliser`, `incineration`, `memorial_forestry`) ne sont pas visés par cette interdiction.
 
 ---
 
