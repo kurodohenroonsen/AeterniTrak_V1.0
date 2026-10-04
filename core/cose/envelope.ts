@@ -3,7 +3,7 @@
  * Conformité : RFC 9052 §4.2-§4.4, RFC 9053, RFC 9596, AET-SPEC-CRYPTO-001 v1.1.0
  */
 
-import { encode, decodeStrict } from "../cbor/index.ts";
+import { encode, decodeStrict, decodeToCborValue, type CborValue } from "../cbor/index.ts";
 import { bytesToHex, hexToBytes, compareBytes } from "../cbor/writer.ts";
 import { CoseError } from "./errors.ts";
 import type { TrustStore, TrustedIssuerEntry, VerifyResult } from "./types.ts";
@@ -128,88 +128,75 @@ export async function coseVerify(
   // Étape 2 : Décodage strict du reste du flux CBOR (propagation ERR_CBOR_*)
   // --------------------------------------------------------------------------
   // Le décodeur strict AeterniCore lève CborError avec code natif (ex. ERR_CBOR_TRAILING_BYTES)
-  const decoded = decodeStrict(envelope.subarray(1));
+  const decoded = decodeToCborValue(envelope.subarray(1));
 
   // --------------------------------------------------------------------------
   // Étape 3 : Forme de l'enveloppe [bstr, carte, bstr, bstr de 64 octets]
   // --------------------------------------------------------------------------
-  if (!Array.isArray(decoded) || decoded.length !== 4) {
+  if (decoded.type !== "array" || decoded.value.length !== 4) {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "COSE_Sign1 structure must be an array of exactly 4 elements");
   }
 
-  const protectedBytes = extractBytes(decoded[0]);
-  if (!protectedBytes) {
+  if (decoded.value[0].type !== "bytes") {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header must be a byte string (bstr)");
   }
+  const protectedBytes = decoded.value[0].value;
 
   // En-tête non protégé : carte CBOR ne portant aucune autre clé que la clé entière 4
-  const unprotRaw = decoded[1];
-  let unprotEntries: [unknown, unknown][] = [];
-  if (unprotRaw !== null && typeof unprotRaw === "object") {
-    if (Array.isArray((unprotRaw as Record<string, unknown>).$map)) {
-      unprotEntries = (unprotRaw as Record<string, unknown>).$map as [unknown, unknown][];
-    } else if (!("$bytes" in (unprotRaw as Record<string, unknown>)) && !("$int" in (unprotRaw as Record<string, unknown>))) {
-      unprotEntries = Object.entries(unprotRaw);
-    } else {
-      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Unprotected header must be a map");
-    }
-  } else {
+  const unprotRaw = decoded.value[1];
+  if (unprotRaw.type !== "map") {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Unprotected header must be a map");
   }
 
-  for (const [k] of unprotEntries) {
-    if (typeof k !== "number" || !Number.isInteger(k) || k !== 4) {
-      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Unprotected header contains unauthorized key: ${k}`);
+  for (const [k] of unprotRaw.entries) {
+    if (k.type !== "uint" || typeof k.value !== "number" || !Number.isInteger(k.value) || k.value !== 4) {
+      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Unprotected header contains unauthorized key: ${k.value}`);
     }
   }
 
   // Charge utile
-  const payloadBytes = extractBytes(decoded[2]);
-  if (!payloadBytes) {
+  if (decoded.value[2].type !== "bytes") {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Payload must be an attached byte string (bstr)");
   }
+  const payloadBytes = decoded.value[2].value;
 
   // Signature (exactement 64 octets)
-  const signatureBytes = extractBytes(decoded[3]);
-  if (!signatureBytes || signatureBytes.length !== 64) {
+  if (decoded.value[3].type !== "bytes" || decoded.value[3].value.length !== 64) {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Signature must be a byte string of exactly 64 bytes");
   }
+  const signatureBytes = decoded.value[3].value;
 
   // --------------------------------------------------------------------------
   // Étape 4 : En-tête protégé : décodable strictement, carte, déterministe, clés entières 1 et 16
   // --------------------------------------------------------------------------
-  let protDecoded: unknown;
+  let protDecoded: CborValue;
   try {
-    protDecoded = decodeStrict(protectedBytes);
+    protDecoded = decodeToCborValue(protectedBytes);
   } catch {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header is not strictly decodable CBOR");
   }
 
-  let protEntries: [unknown, unknown][] = [];
-  if (protDecoded !== null && typeof protDecoded === "object") {
-    if (Array.isArray((protDecoded as Record<string, unknown>).$map)) {
-      protEntries = (protDecoded as Record<string, unknown>).$map as [unknown, unknown][];
-    } else if (!("$bytes" in (protDecoded as Record<string, unknown>)) && !("$int" in (protDecoded as Record<string, unknown>))) {
-      protEntries = Object.entries(protDecoded);
-    } else {
-      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header must be a CBOR map");
-    }
-  } else {
+  if (protDecoded.type !== "map") {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header must be a CBOR map");
   }
 
-  if (protEntries.length === 0) {
+  if (protDecoded.entries.length === 0) {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header cannot be an empty map");
   }
 
-  for (const [k] of protEntries) {
-    if (typeof k !== "number" || !Number.isInteger(k) || (k !== 1 && k !== 16)) {
-      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Protected header contains unauthorized key: ${k}`);
+  for (const [k] of protDecoded.entries) {
+    if (k.type !== "uint" || typeof k.value !== "number" || !Number.isInteger(k.value) || (k.value !== 1 && k.value !== 16)) {
+      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Protected header contains unauthorized key: ${k.value}`);
     }
   }
 
   // Contrôle du déterminisme strict : le ré-encodage canonique doit correspondre octet par octet
-  const reEncodedProt = encode({ $map: protEntries });
+  const reEncodedProt = encode({
+    $map: protDecoded.entries.map(([k, v]) => [
+      Number(k.value),
+      v.type === "uint" || v.type === "negint" ? Number(v.value) : v.type === "text" ? v.value : v
+    ])
+  });
   if (compareBytes(protectedBytes, reEncodedProt) !== 0) {
     throw new CoseError("ERR_COSE_INVALID_ENVELOPE", "Protected header is not encoded in deterministic CBOR order");
   }
@@ -217,13 +204,13 @@ export async function coseVerify(
   let algVal: unknown = undefined;
   let typVal: unknown = undefined;
 
-  for (const [k, v] of protEntries) {
-    if (k === 1) {
-      algVal = v;
-    } else if (k === 16) {
-      typVal = v;
+  for (const [k, v] of protDecoded.entries) {
+    if (k.value === 1) {
+      algVal = (v.type === "uint" || v.type === "negint") ? Number(v.value) : v;
+    } else if (k.value === 16) {
+      typVal = v.type === "text" ? v.value : v;
     } else {
-      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Protected header contains unauthorized key: ${k}`);
+      throw new CoseError("ERR_COSE_INVALID_ENVELOPE", `Protected header contains unauthorized key: ${k.value}`);
     }
   }
 
@@ -251,9 +238,9 @@ export async function coseVerify(
   // Étape 7 : kid absent ou d'une taille différente de 16 octets
   // --------------------------------------------------------------------------
   let kidBytes: Uint8Array | null = null;
-  for (const [k, v] of unprotEntries) {
-    if (k === 4) {
-      kidBytes = extractBytes(v);
+  for (const [k, v] of unprotRaw.entries) {
+    if (k.value === 4 && v.type === "bytes") {
+      kidBytes = v.value;
     }
   }
 
@@ -393,68 +380,31 @@ export async function coseVerify(
   // --------------------------------------------------------------------------
   if (entry.valid_from !== undefined && entry.valid_until !== undefined) {
     // 1. Décodage strict de la charge utile (propagation native ERR_CBOR_*)
-    const payloadDecoded = decodeStrict(payloadBytes);
+    const payloadDecoded = decodeToCborValue(payloadBytes);
 
     // 2. La charge utile doit être une carte CBOR
-    if (
-      payloadDecoded === null ||
-      typeof payloadDecoded !== "object" ||
-      Array.isArray(payloadDecoded) ||
-      "$bytes" in (payloadDecoded as Record<string, unknown>) ||
-      "$int" in (payloadDecoded as Record<string, unknown>)
-    ) {
+    if (payloadDecoded.type !== "map") {
       throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Payload is not a CBOR map");
-    }
-
-    let mapEntries: [unknown, unknown][] = [];
-    if (Array.isArray((payloadDecoded as Record<string, unknown>).$map)) {
-      mapEntries = (payloadDecoded as Record<string, unknown>).$map as [unknown, unknown][];
-    } else {
-      // Toutes les clés sont textuelles dans un objet simple : aucune clé entière
-      throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Payload map contains no integer keys");
     }
 
     // 3. Extraction de la date d'émission selon expectedTyp
     if (expectedTyp === "application/aeternitrak-profile+cbor") {
       // Profil mémoriel : clé entière 11, tag CBOR 100
-      let rawDateVal: unknown = undefined;
-      let foundKey11 = false;
-      for (const [k, v] of mapEntries) {
-        if (k === 11) {
-          foundKey11 = true;
-          rawDateVal = v;
-          break;
-        }
-      }
-
-      if (!foundKey11) {
+      const entry11 = payloadDecoded.entries.find(([k]) => k.type === "uint" && Number(k.value) === 11);
+      if (!entry11) {
         throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Missing issuance date (key 11) in profile");
       }
 
+      const rawDateVal = entry11[1];
       if (
-        rawDateVal === null ||
-        typeof rawDateVal !== "object" ||
-        (rawDateVal as Record<string, unknown>).$tag !== 100
+        rawDateVal.type !== "tag" ||
+        rawDateVal.tag !== 100 ||
+        (rawDateVal.value.type !== "uint" && rawDateVal.value.type !== "negint")
       ) {
-        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Profile issuance date must have CBOR tag 100");
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Profile issuance date must have CBOR tag 100 on an integer");
       }
 
-      const tagVal = (rawDateVal as Record<string, unknown>).$value;
-      let D: number;
-      if (typeof tagVal === "number" && Number.isInteger(tagVal)) {
-        D = tagVal;
-      } else if (typeof tagVal === "bigint") {
-        D = Number(tagVal);
-      } else if (
-        tagVal !== null &&
-        typeof tagVal === "object" &&
-        typeof (tagVal as Record<string, unknown>).$int === "string"
-      ) {
-        D = Number((tagVal as Record<string, unknown>).$int);
-      } else {
-        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Invalid profile issuance date value");
-      }
-
+      const D = Number(rawDateVal.value.value);
       const fromDay = Math.floor(entry.valid_from / 86400);
       const untilDay = Math.floor(entry.valid_until / 86400);
 
@@ -466,50 +416,23 @@ export async function coseVerify(
       }
     } else if (expectedTyp === "application/aeternitrak-batch-claim+cbor") {
       // Certificat de lot : clé entière 3, tag CBOR 1
-      let rawDateVal: unknown = undefined;
-      let foundKey3 = false;
-      for (const [k, v] of mapEntries) {
-        if (k === 3) {
-          foundKey3 = true;
-          rawDateVal = v;
-          break;
-        }
-      }
-
-      if (!foundKey3) {
+      const entry3 = payloadDecoded.entries.find(([k]) => k.type === "uint" && Number(k.value) === 3);
+      if (!entry3) {
         throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Missing issuance date (key 3) in batch claim");
       }
 
+      const rawDateVal = entry3[1];
       if (
-        rawDateVal === null ||
-        typeof rawDateVal !== "object" ||
-        (rawDateVal as Record<string, unknown>).$tag !== 1
+        rawDateVal.type !== "tag" ||
+        rawDateVal.tag !== 1 ||
+        rawDateVal.value.type !== "uint" ||
+        (typeof rawDateVal.value.value === "number" && rawDateVal.value.value < 0) ||
+        (typeof rawDateVal.value.value === "bigint" && rawDateVal.value.value < 0n)
       ) {
-        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Batch claim issuance date must have CBOR tag 1");
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Batch claim issuance date must have CBOR tag 1 on non-negative integer");
       }
 
-      const tagVal = (rawDateVal as Record<string, unknown>).$value;
-      let S: number;
-      if (
-        typeof tagVal === "number" &&
-        Number.isInteger(tagVal) &&
-        tagVal >= 0 &&
-        !Object.is(tagVal, -0)
-      ) {
-        S = tagVal;
-      } else if (typeof tagVal === "bigint" && tagVal >= 0n) {
-        S = Number(tagVal);
-      } else if (
-        tagVal !== null &&
-        typeof tagVal === "object" &&
-        typeof (tagVal as Record<string, unknown>).$int === "string" &&
-        BigInt((tagVal as Record<string, unknown>).$int as string) >= 0n
-      ) {
-        S = Number((tagVal as Record<string, unknown>).$int);
-      } else {
-        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Invalid batch claim issuance date value");
-      }
-
+      const S = Number(rawDateVal.value.value);
       if (S < entry.valid_from || S > entry.valid_until) {
         throw new CoseError(
           "ERR_COSE_EXPIRED_KEY",

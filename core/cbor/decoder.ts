@@ -7,13 +7,76 @@ import { CborError } from "./errors.ts";
 import { compareBytes, bytesToHex } from "./writer.ts";
 
 /**
- * Décode un flux d'octets CBOR sous le profil de validation le plus strict.
- *
- * @param inputBytes - Buffer d'octets CBOR à vérifier et décoder.
- * @returns Structure décomposée en notation JavaScript native ou AVN.
- * @throws {CborError} Dès qu'une non-conformité déterministe ou de profil est détectée.
+ * Représentation interne typée préservant rigoureusement les types majeurs CBOR.
  */
-export function decodeStrict(inputBytes: Uint8Array): unknown {
+export type CborValue =
+  | { type: "uint"; value: bigint | number }
+  | { type: "negint"; value: bigint | number }
+  | { type: "bytes"; value: Uint8Array }
+  | { type: "text"; value: string }
+  | { type: "array"; value: CborValue[] }
+  | { type: "map"; entries: [CborValue, CborValue][] }
+  | { type: "tag"; tag: number; value: CborValue }
+  | { type: "simple"; value: boolean | null };
+
+/**
+ * Convertit un CborValue en notation AVN conforme à la règle AVN-R.
+ */
+export function cborValueToAvn(val: CborValue): unknown {
+  switch (val.type) {
+    case "uint": {
+      if (typeof val.value === "bigint") {
+        if (val.value <= BigInt(Number.MAX_SAFE_INTEGER)) {
+          return Number(val.value);
+        }
+        return { $int: val.value.toString() };
+      }
+      return val.value;
+    }
+    case "negint": {
+      if (typeof val.value === "bigint") {
+        if (val.value >= BigInt(Number.MIN_SAFE_INTEGER)) {
+          return Number(val.value);
+        }
+        return { $int: val.value.toString() };
+      }
+      return val.value;
+    }
+    case "bytes":
+      return { $bytes: bytesToHex(val.value) };
+    case "text":
+      return val.value;
+    case "array":
+      return val.value.map(cborValueToAvn);
+    case "map": {
+      // Règle AVN-R : une carte dont au moins une clé commence par '$'
+      // DOIT être enveloppée en {"$map": [[k, v], ...]}.
+      const allNormalStringKeys = val.entries.every(
+        ([k]) => k.type === "text" && !k.value.startsWith("$")
+      );
+      if (allNormalStringKeys) {
+        const obj: Record<string, unknown> = {};
+        for (const [k, v] of val.entries) {
+          obj[(k as { type: "text"; value: string }).value] = cborValueToAvn(v);
+        }
+        return obj;
+      }
+      return {
+        $map: val.entries.map(([k, v]) => [cborValueToAvn(k), cborValueToAvn(v)])
+      };
+    }
+    case "tag":
+      return { $tag: val.tag, $value: cborValueToAvn(val.value) };
+    case "simple":
+      return val.value;
+  }
+}
+
+/**
+ * Décode un flux d'octets CBOR sous le profil de validation le plus strict
+ * en retournant sa représentation interne typée CborValue.
+ */
+export function decodeToCborValue(inputBytes: Uint8Array): CborValue {
   const buf = inputBytes instanceof Uint8Array ? inputBytes : new Uint8Array(inputBytes);
 
   if (buf.length === 0) {
@@ -78,7 +141,7 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
     throw new CborError("ERR_CBOR_MALFORMED", `Reserved additional information ${info}`, offset);
   }
 
-  function decodeItem(): unknown {
+  function decodeItem(): CborValue {
     if (offset >= buf.length) {
       throw new CborError("ERR_CBOR_TRUNCATED", "Unexpected end of CBOR buffer", offset);
     }
@@ -91,13 +154,7 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
     // Major 0 : Entier non-négatif
     if (major === 0) {
       const val = readUint(info, 0);
-      if (typeof val === "bigint") {
-        if (val <= BigInt(Number.MAX_SAFE_INTEGER)) {
-          return Number(val);
-        }
-        return { $int: val.toString() };
-      }
-      return val;
+      return { type: "uint", value: val };
     }
 
     // Major 1 : Entier négatif
@@ -105,12 +162,9 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
       const val = readUint(info, 1);
       if (typeof val === "bigint") {
         const neg = -1n - val;
-        if (neg >= BigInt(Number.MIN_SAFE_INTEGER)) {
-          return Number(neg);
-        }
-        return { $int: neg.toString() };
+        return { type: "negint", value: neg };
       }
-      return -1 - val;
+      return { type: "negint", value: -1 - val };
     }
 
     // Major 2 : Chaîne d'octets
@@ -121,7 +175,7 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
       }
       const bytes = buf.subarray(offset, offset + len);
       offset += len;
-      return { $bytes: bytesToHex(bytes) };
+      return { type: "bytes", value: bytes };
     }
 
     // Major 3 : Texte UTF-8
@@ -143,24 +197,23 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
       if (str.normalize("NFC") !== str) {
         throw new CborError("ERR_CBOR_TEXT_NOT_NFC", "Text string is not NFC-normalized", itemStart);
       }
-      return str;
+      return { type: "text", value: str };
     }
 
     // Major 4 : Tableau
     if (major === 4) {
       const len = Number(readUint(info, 4));
-      const arr: unknown[] = [];
+      const arr: CborValue[] = [];
       for (let i = 0; i < len; i++) {
         arr.push(decodeItem());
       }
-      return arr;
+      return { type: "array", value: arr };
     }
 
     // Major 5 : Carte
     if (major === 5) {
       const len = Number(readUint(info, 5));
-      const entries: [unknown, unknown][] = [];
-      let allStringKeys = true;
+      const entries: [CborValue, CborValue][] = [];
       let prevKeyBytes: Uint8Array | null = null;
       const seenKeys = new Set<string>();
 
@@ -189,20 +242,10 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
         prevKeyBytes = keyBytes;
 
         const v = decodeItem();
-        if (typeof k !== "string") {
-          allStringKeys = false;
-        }
         entries.push([k, v]);
       }
 
-      if (allStringKeys) {
-        const obj: Record<string, unknown> = {};
-        for (const [k, v] of entries) {
-          obj[k as string] = v;
-        }
-        return obj;
-      }
-      return { $map: entries };
+      return { type: "map", entries };
     }
 
     // Major 6 : Étiquette sémantique (Tag)
@@ -215,35 +258,34 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
       const val = decodeItem();
 
       if (tag === 100) {
-        const isInt =
-          typeof val === "number" ||
-          typeof val === "bigint" ||
-          (val !== null && typeof val === "object" && typeof (val as Record<string, unknown>).$int === "string");
-        if (!isInt) {
+        if (val.type !== "uint" && val.type !== "negint") {
           throw new CborError("ERR_CBOR_TAG_CONTENT", "Tag 100 content must be an integer", itemStart);
         }
       }
 
       if (tag === 1) {
-        const isNonNegInt =
-          (typeof val === "number" && val >= 0) ||
-          (typeof val === "bigint" && val >= 0n) ||
-          (val !== null && typeof val === "object" && typeof (val as Record<string, unknown>).$int === "string" && BigInt((val as Record<string, unknown>).$int as string) >= 0n);
-        if (!isNonNegInt) {
+        if (
+          val.type !== "uint" ||
+          (typeof val.value === "number" && val.value < 0) ||
+          (typeof val.value === "bigint" && val.value < 0n)
+        ) {
           throw new CborError("ERR_CBOR_TAG_CONTENT", "Tag 1 content must be a non-negative integer", itemStart);
         }
       }
 
-      return { $tag: tag, $value: val };
+      return { type: "tag", tag, value: val };
     }
 
     // Major 7 : Valeurs simples et flottants
     if (major === 7) {
-      if (info === 20) return false;
-      if (info === 21) return true;
-      if (info === 22) return null;
+      if (info === 20) return { type: "simple", value: false };
+      if (info === 21) return { type: "simple", value: true };
+      if (info === 22) return { type: "simple", value: null };
       if (info === 23) {
         throw new CborError("ERR_CBOR_UNSUPPORTED_TYPE", "Undefined is forbidden by profile", itemStart);
+      }
+      if (info < 20) {
+        throw new CborError("ERR_CBOR_UNSUPPORTED_TYPE", `Simple value simple(${info}) is forbidden by profile`, itemStart);
       }
       if (info === 24) {
         if (offset >= buf.length) {
@@ -275,4 +317,12 @@ export function decodeStrict(inputBytes: Uint8Array): unknown {
   }
 
   return result;
+}
+
+/**
+ * Décode un flux d'octets CBOR sous le profil de validation le plus strict
+ * en retournant sa notation AVN (avec règle AVN-R).
+ */
+export function decodeStrict(inputBytes: Uint8Array): unknown {
+  return cborValueToAvn(decodeToCborValue(inputBytes));
 }

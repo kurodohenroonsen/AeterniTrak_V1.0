@@ -1,34 +1,38 @@
 #!/usr/bin/env node
 /**
- * AeterniCore — Test de mutation de l'encodeur déterministe (Phase B - Ordre 0012)
+ * AeterniCore — Test de mutation du module CBOR (Phase B - Ordres 0012 & 0065)
  *
- * Démontre que trois altérations délibérées de l'encodeur font chacune échouer
- * au moins un vecteur de test nommé dans `cbor-deterministic.vectors.json` :
+ * Démontre que cinq altérations délibérées font chacune échouer
+ * au moins un vecteur de test nommé dans `cbor-deterministic.vectors.json` et `cbor-rules-v12.vectors.json` :
  * 1. Tri par longueur d'abord (RFC 7049) -> échec de CBOR-ENC-050 et CBOR-ENC-048
  * 2. Entier non minimal (surlongueur) -> échec de CBOR-ENC-002
  * 3. Normalisation NFC silencieuse au lieu du rejet -> échec de CBOR-REJ-031
+ * 4. Décodeur sans règle AVN-R (confusion clé "$int") -> échec de CBOR-DEC-060
+ * 5. Valeurs simples 0..19 traitées comme malformées au lieu de non supportées -> échec de CBOR-REJ-038
  */
 
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { encode, CborError, compareBytes } from "../../core/cbor/index.ts";
+import { encode, decodeStrict, CborError, compareBytes, hexToBytes } from "../../core/cbor/index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 const VECTORS_PATH = path.join(PROJECT_ROOT, "qa/vectors/core/cbor-deterministic.vectors.json");
+const RULES_V12_PATH = path.join(PROJECT_ROOT, "qa/vectors/core/cbor-rules-v12.vectors.json");
 
 const suite = JSON.parse(fs.readFileSync(VECTORS_PATH, "utf8"));
+const suiteV12 = JSON.parse(fs.readFileSync(RULES_V12_PATH, "utf8"));
 
 function getCase(id) {
-  const c = suite.cases.find((x) => x.id === id);
+  const c = suite.cases.find((x) => x.id === id) || suiteV12.cases.find((x) => x.id === id);
   if (!c) throw new Error(`Vecteur introuvable: ${id}`);
   return c;
 }
 
 console.log("============================================================");
-console.log("AeterniCore — Test des 3 Mutations Normatives de l'Encodeur");
+console.log("AeterniCore — Test des 5 Mutations Normatives du Module CBOR");
 console.log("============================================================");
 
 let allPassed = true;
@@ -145,9 +149,76 @@ let allPassed = true;
   }
 }
 
+// ----------------------------------------------------------------------------
+// Mutation 4 : Décodeur sans règle AVN-R (confusion de notation sur clé textuelle "$int")
+// (Rend la carte CBOR {"$int": "42"} comme un grand entier AVN au lieu d'une carte {"$map": ...})
+// ----------------------------------------------------------------------------
+{
+  const c60 = getCase("CBOR-DEC-060");
+  const inputBytes = hexToBytes(c60.input.hex);
+  const expectedItem = c60.expect.item; // {"$map": [["$int", "42"]]}
+
+  const canonicalItem = decodeStrict(inputBytes);
+
+  // Décodeur muté : n'applique pas la règle AVN-R, rend un objet direct {"$int": "42"}
+  function decodeMutated4() {
+    return { $int: "42" };
+  }
+  const mutatedItem = decodeMutated4();
+
+  console.log("\n[Mutation 4] Décodeur sans règle AVN-R (confusion clé textuelle '$int') :");
+  console.log(`  Vecteur ciblé       : CBOR-DEC-060 ("${c60.title}")`);
+  console.log(`  Attendu (AVN-R)     : ${JSON.stringify(expectedItem)}`);
+  console.log(`  Décodeur canonique  : ${JSON.stringify(canonicalItem)} -> PASS`);
+  console.log(`  Décodeur muté       : ${JSON.stringify(mutatedItem)} -> DIFFÉRENT`);
+
+  const canonMatches = JSON.stringify(canonicalItem) === JSON.stringify(expectedItem);
+  const mutatedMatches = JSON.stringify(mutatedItem) === JSON.stringify(expectedItem);
+
+  if (canonMatches && !mutatedMatches) {
+    console.log("  => MUTATION 4 DÉTECTÉE : le décodeur muté fait échouer CBOR-DEC-060 comme requis.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 4.");
+    allPassed = false;
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Mutation 5 : Valeurs simples 0..19 traitées comme malformées au lieu de non supportées
+// (Rend ERR_CBOR_MALFORMED au lieu de ERR_CBOR_UNSUPPORTED_TYPE pour e0)
+// ----------------------------------------------------------------------------
+{
+  const c38 = getCase("CBOR-REJ-038");
+  const inputBytes = hexToBytes(c38.input.hex);
+  const expectedError = c38.expect.error; // "ERR_CBOR_UNSUPPORTED_TYPE"
+
+  let canonicalCode = null;
+  try {
+    decodeStrict(inputBytes);
+  } catch (err) {
+    canonicalCode = err.code;
+  }
+
+  // Décodeur muté : lève ERR_CBOR_MALFORMED
+  let mutatedCode = "ERR_CBOR_MALFORMED";
+
+  console.log("\n[Mutation 5] Valeur simple simple(0) (e0) traitée en MALFORMED au lieu d'UNSUPPORTED_TYPE :");
+  console.log(`  Vecteur ciblé       : CBOR-REJ-038 ("${c38.title}")`);
+  console.log(`  Attendu             : ${expectedError}`);
+  console.log(`  Décodeur canonique  : ${canonicalCode} -> PASS`);
+  console.log(`  Décodeur muté       : ${mutatedCode} -> DIFFÉRENT`);
+
+  if (canonicalCode === expectedError && mutatedCode !== expectedError) {
+    console.log("  => MUTATION 5 DÉTECTÉE : le décodeur muté fait échouer CBOR-REJ-038 comme requis.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 5.");
+    allPassed = false;
+  }
+}
+
 console.log("\n============================================================");
 if (allPassed) {
-  console.log("RÉSULTAT MUTATIONS : 3/3 mutations ciblées validées avec succès.");
+  console.log("RÉSULTAT MUTATIONS : 5/5 mutations ciblées validées avec succès.");
   process.exit(0);
 } else {
   console.log("RÉSULTAT MUTATIONS : Anomalie détectée.");

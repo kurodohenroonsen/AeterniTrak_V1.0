@@ -10,10 +10,10 @@
  *   Aucune charge utile n'est restituée.
  */
 
-import { decodeStrict } from "../cbor/index.ts";
+import { decodeToCborValue } from "../cbor/index.ts";
 import { bytesToHex } from "../cbor/writer.ts";
 import { CoseError } from "./errors.ts";
-import { coseVerify, extractBytes } from "./envelope.ts";
+import { coseVerify } from "./envelope.ts";
 import type { TrustStore, OpenResult } from "./types.ts";
 
 /**
@@ -49,9 +49,9 @@ export async function coseOpen(
     // Seul ERR_COSE_UNKNOWN_KID autorise la délivrance de la charge utile (Option B)
     if (errCode === "ERR_COSE_UNKNOWN_KID") {
       try {
-        const decoded = decodeStrict(envelope.subarray(1)) as unknown[];
-        const payloadBytes = extractBytes(decoded[2]);
-        if (payloadBytes) {
+        const decoded = decodeToCborValue(envelope.subarray(1));
+        if (decoded.type === "array" && decoded.value.length === 4 && decoded.value[2].type === "bytes") {
+          const payloadBytes = decoded.value[2].value;
           return {
             status: "UNVERIFIED",
             valid: false,

@@ -4,7 +4,8 @@
  */
 
 export { encode } from "./encoder.ts";
-export { decodeStrict } from "./decoder.ts";
+export { decodeStrict, decodeToCborValue, cborValueToAvn } from "./decoder.ts";
+export type { CborValue } from "./decoder.ts";
 export { CborError } from "./errors.ts";
 export type { CborErrorCode } from "./errors.ts";
 export { compareBytes, bytesToHex, hexToBytes } from "./writer.ts";

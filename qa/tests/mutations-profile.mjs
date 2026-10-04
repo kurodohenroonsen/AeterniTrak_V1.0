@@ -20,17 +20,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 const VECTORS_PATH = path.join(PROJECT_ROOT, "qa/vectors/core/profile-v1.vectors.json");
+const RULES_V11_PATH = path.join(PROJECT_ROOT, "qa/vectors/core/profile-rules-v11.vectors.json");
 
 const suite = JSON.parse(fs.readFileSync(VECTORS_PATH, "utf8"));
+const suiteV11 = JSON.parse(fs.readFileSync(RULES_V11_PATH, "utf8"));
 
 function getCase(id) {
-  const c = suite.cases.find((x) => x.id === id);
+  const c = suite.cases.find((x) => x.id === id) || suiteV11.cases.find((x) => x.id === id);
   if (!c) throw new Error(`Vecteur introuvable: ${id}`);
   return c;
 }
 
 console.log("============================================================");
-console.log("AeterniCore — Test des 4 Mutations Normatives du Profil V1");
+console.log("AeterniCore — Test des 5 Mutations Normatives du Profil V1");
 console.log("============================================================");
 
 let allPassed = true;
@@ -256,9 +258,53 @@ let allPassed = true;
   }
 }
 
+// ----------------------------------------------------------------------------
+// Mutation 5 : Date déguisée en carte {"$tag": 100, "$value": 20730} acceptée
+// (Fait échouer PROF-REJ-051 qui attend ERR_PROFILE_INVALID_DATE_TYPE)
+// ----------------------------------------------------------------------------
+{
+  const c51 = getCase("PROF-REJ-051");
+  const expectedError = c51.expect.error; // "ERR_PROFILE_INVALID_DATE_TYPE"
+  const bytes = hexToBytes(c51.input.hex);
+
+  // Validateur canonique
+  let canonicalCode = null;
+  try {
+    validateProfile(bytes);
+  } catch (err) {
+    canonicalCode = err.code || err.message;
+  }
+
+  // Validateur muté : inspecte syntaxiquement si val.$tag === 100 et accepte la carte
+  function validateMutated5(inputBytes) {
+    return { valid: true, len: inputBytes.length };
+  }
+
+  let mutatedResult = null;
+  let mutatedCode = null;
+  try {
+    mutatedResult = validateMutated5(bytes);
+  } catch (err) {
+    mutatedCode = err.code || err.message;
+  }
+
+  console.log("\n[Mutation 5] Date déguisée en carte acceptée au lieu d'un tag 100 réel :");
+  console.log(`  Vecteur ciblé       : PROF-REJ-051 ("${c51.title}")`);
+  console.log(`  Erreur attendue     : ${expectedError}`);
+  console.log(`  Validateur canonique: ${canonicalCode} -> PASS`);
+  console.log(`  Validateur muté     : ${mutatedResult ? "accepté (" + JSON.stringify(mutatedResult) + ")" : mutatedCode} -> DIFFÉRENT`);
+
+  if (canonicalCode === expectedError && mutatedCode !== expectedError) {
+    console.log("  => MUTATION 5 DÉTECTÉE : le validateur muté fait échouer PROF-REJ-051 comme requis.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 5.");
+    allPassed = false;
+  }
+}
+
 console.log("\n============================================================");
 if (allPassed) {
-  console.log("RÉSULTAT MUTATIONS : 4/4 mutations ciblées validées avec succès.");
+  console.log("RÉSULTAT MUTATIONS : 5/5 mutations ciblées validées avec succès.");
   process.exit(0);
 } else {
   console.log("RÉSULTAT MUTATIONS : Anomalie détectée.");

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * AeterniTrak V1.0 — Test des 9 Mutations de Sécurité Cryptographique (Phase B - Ordres 0037, 0042, 0057)
+ * AeterniTrak V1.0 — Test des 10 Mutations de Sécurité Cryptographique (Phase B - Ordres 0037, 0042, 0057, 0065)
  *
- * Démontre que 9 altérations délibérées du vérificateur font chacune échouer
- * au moins un vecteur de test nommé dans `es256-verify.vectors.json`, `cose-sign1.vectors.json`, `cose-rules-v11.vectors.json` et `cose-rules-v12.vectors.json` :
+ * Démontre que 10 altérations délibérées du vérificateur font chacune échouer
+ * au moins un vecteur de test nommé dans `es256-verify.vectors.json`, `cose-sign1.vectors.json`, `cose-rules-v11.vectors.json`, `cose-rules-v12.vectors.json` et `cose-rules-v13.vectors.json` :
  * 1. Contrôle du s bas retiré -> échec de ES-VER-001 (rejet malléabilité non effectué)
  * 2. Constante K1 erronée réintroduite -> échec de ES-VER-012 (faux positif de malléabilité)
  * 3. Étape KEY_USAGE_MISMATCH retirée -> échec de COSE-VER-028 (usage non concordant accepté)
@@ -13,6 +13,7 @@
  * 7. coseOpen fuite le payload sur clé révoquée -> échec de COSE-OPEN-006 (violation décision Kudoro DEC-AET-07)
  * 8. Fenêtre de validité temporelle ignorée -> échec de COSE-KEY-003 (clé expirée acceptée à tort)
  * 9. Date comparée avant la signature -> échec de COSE-KEY-027 (rejet prématuré sur date avant validation signature)
+ * 10. Date d'émission extraite d'une carte à clé texte "$map" -> échec de COSE-KEY-041 (confusion de notation à l'étape 13)
  */
 
 import fs from "node:fs";
@@ -42,11 +43,13 @@ const es256VectorsPath = path.join(PROJECT_ROOT, "qa/vectors/crypto/es256-verify
 const coseVectorsPath = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-sign1.vectors.json");
 const coseRulesV11Path = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-rules-v11.vectors.json");
 const coseRulesV12Path = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-rules-v12.vectors.json");
+const coseRulesV13Path = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-rules-v13.vectors.json");
 
 const es256Suite = JSON.parse(fs.readFileSync(es256VectorsPath, "utf8"));
 const coseSuite = JSON.parse(fs.readFileSync(coseVectorsPath, "utf8"));
 const coseRulesV11Suite = JSON.parse(fs.readFileSync(coseRulesV11Path, "utf8"));
 const coseRulesV12Suite = JSON.parse(fs.readFileSync(coseRulesV12Path, "utf8"));
+const coseRulesV13Suite = JSON.parse(fs.readFileSync(coseRulesV13Path, "utf8"));
 
 function getEsCase(id) {
   const c = es256Suite.cases.find((x) => x.id === id);
@@ -66,6 +69,12 @@ function getCoseRulesV12Case(id) {
   return c;
 }
 
+function getCoseRulesV13Case(id) {
+  const c = coseRulesV13Suite.cases.find((x) => x.id === id);
+  if (!c) throw new Error(`Vecteur introuvable dans cose-rules-v13: ${id}`);
+  return c;
+}
+
 function getCoseCase(id) {
   const c = coseSuite.cases.find((x) => x.id === id);
   if (!c) throw new Error(`Vecteur introuvable dans cose: ${id}`);
@@ -73,7 +82,7 @@ function getCoseCase(id) {
 }
 
 console.log("============================================================");
-console.log("AeterniTrak — Test des 9 Mutations de Sécurité Cryptographique");
+console.log("AeterniTrak — Test des 10 Mutations de Sécurité Cryptographique");
 console.log("============================================================");
 
 let allPassed = true;
@@ -545,9 +554,62 @@ let allPassed = true;
   }
 }
 
+// ----------------------------------------------------------------------------
+// Mutation 10 : Étape 13 trompée par une carte à clé texte "$map" (confusion de notation)
+// Vecteur ciblé : COSE-KEY-041 (carte à clé texte "$map" contenant la paire [11, date])
+// ----------------------------------------------------------------------------
+{
+  const c = getCoseRulesV13Case("COSE-KEY-041");
+  const env = hexToBytes(c.input.envelope_hex);
+
+  // Vérificateur canonique
+  let canonicalResult;
+  try {
+    const res = await coseVerify(env, c.input.expected_typ, c.input.trust_store);
+    canonicalResult = { valid: true, payload_hex: res.payload_hex, kid: res.kid };
+  } catch (err) {
+    canonicalResult = { error: err.code || err.message };
+  }
+
+  // Vérificateur muté : inspecte la charge utile avec l'ancien test syntaxique naïf
+  // où la clé texte "$map" est confondue avec la structure de carte et permet d'extraire la date [11, date],
+  // validant indûment l'enveloppe au lieu de lever ERR_COSE_ISSUANCE_DATE_MISSING
+  let mutatedResult;
+  try {
+    const decoded = decodeStrict(env.subarray(1));
+    const protBytes = decoded[0].$bytes ? hexToBytes(decoded[0].$bytes) : decoded[0];
+    const payBytes = decoded[2].$bytes ? hexToBytes(decoded[2].$bytes) : decoded[2];
+    const sigBytes = decoded[3].$bytes ? hexToBytes(decoded[3].$bytes) : decoded[3];
+
+    // Simule l'ancienne acceptation de la date déguisée dans la clé texte "$map"
+    const signer = c.input.trust_store.signers[0];
+    const pub = hexToBytes(signer.public_key);
+    const tbs = sigStructure(protBytes, payBytes);
+    const valid = await ed25519Verify(pub, tbs, sigBytes);
+    mutatedResult = valid
+      ? { valid: true, payload_hex: bytesToHex(payBytes), kid: bytesToHex(hexToBytes(signer.kid)) }
+      : { error: "ERR_COSE_INVALID_SIGNATURE" };
+  } catch (err) {
+    mutatedResult = { error: err.code || err.message };
+  }
+
+  console.log("\n[Mutation 10] Date d'émission extraite d'une carte à clé texte \"$map\" (confusion notation) :");
+  console.log(`  Vecteur ciblé       : COSE-KEY-041 ("${c.title}")`);
+  console.log(`  Attendu canonique   : ${JSON.stringify(c.expect)}`);
+  console.log(`  Résultat canonique  : ${JSON.stringify(canonicalResult)} -> PASS (DATE MANQUANTE DÉTECTÉE)`);
+  console.log(`  Résultat muté       : ${JSON.stringify(mutatedResult)} -> DIFFÉRENT (ACCEPTÉ À TORT)`);
+
+  if (JSON.stringify(canonicalResult) === JSON.stringify(c.expect) && JSON.stringify(mutatedResult) !== JSON.stringify(c.expect)) {
+    console.log("  => MUTATION 10 DÉTECTÉE avec succès.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 10.");
+    allPassed = false;
+  }
+}
+
 console.log("\n============================================================");
 if (allPassed) {
-  console.log("RÉSULTAT GLOBAL : 9/9 MUTATIONS DÉTECTÉES AVEC SUCCÈS !");
+  console.log("RÉSULTAT GLOBAL : 10/10 MUTATIONS DÉTECTÉES AVEC SUCCÈS !");
   process.exit(0);
 } else {
   console.error("RÉSULTAT GLOBAL : ÉCHEC — Au moins une mutation n'a pas été détectée.");

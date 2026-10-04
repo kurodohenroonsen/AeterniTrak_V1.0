@@ -70,13 +70,14 @@ Conformément à la RFC 8949 §4.2.1 règle (1) :
 ### 5. Types de données et restrictions de profil
 Dans le cadre de l'enveloppe de stockage AeterniCore et des profils mémoriels :
 - **Nombres flottants interdits** : Aucun nombre flottant IEEE 754 (demi-précision `0xf9`, simple précision `0xfa`, double précision `0xfb`) n'est toléré. Rejet immédiat avec `ERR_CBOR_UNSUPPORTED_TYPE` (cas `CBOR-REJ-023`, `CBOR-REJ-024`, `CBOR-REJ-033`).
-- **Valeurs spéciales interdites** : `undefined` (`0xf7`) et toute valeur simple non assignée (`0xf8xx`) sont rejetées (`ERR_CBOR_UNSUPPORTED_TYPE`, `ERR_CBOR_MALFORMED`, cas `CBOR-REJ-025` à `CBOR-REJ-027`).
+- **Valeurs spéciales interdites** : `undefined` (`0xf7`), valeurs simples non assignées de 0 à 19 (`0xe0` à `0xf3`, cas `CBOR-REJ-038` à `CBOR-REJ-040`), et toute valeur simple 1 octet non assignée (`0xf820`..`0xf8ff`, cas `CBOR-REJ-027`) sont bien formées mais rejetées avec `ERR_CBOR_UNSUPPORTED_TYPE`.
+- **Octet d'arrêt isolé interdit** : L'octet de fin `0xff` hors d'une structure de longueur indéfinie est mal formé et lève `ERR_CBOR_MALFORMED` (cas `CBOR-REJ-041`).
 - **Valeurs simples autorisées** : Exclusivement `false` (`0xf4`), `true` (`0xf5`), et `null` (`0xf6`).
 - **Étiquettes sémantiques (Tags) autorisées** :
-  - **Tag `1`** (RFC 8949 §3.4.2) : Horodatage epoch en secondes entières non négatives.
-  - **Tag `100`** (RFC 8943) : Date civile grégorienne en nombre entier de jours écoulés depuis le 1er janvier 1970 UTC (valeurs positives, nulles ou négatives admises).
+  - **Tag `1`** (RFC 8949 §3.4.2) : Horodatage epoch en secondes entières non négatives (types majeurs 0 ou valeur positive). Si le contenu n'est pas un entier ou est négatif, le décodeur lève `ERR_CBOR_TAG_CONTENT` (cas `CBOR-REJ-037`).
+  - **Tag `100`** (RFC 8943) : Date civile grégorienne en nombre entier de jours écoulés depuis le 1er janvier 1970 UTC (types majeurs 0 ou 1, valeurs positives, nulles ou négatives admises).
   - Tout autre tag (y compris tag 2 bignum) est proscrit dans la charge utile mémorielle et déclenche `ERR_CBOR_UNSUPPORTED_TAG` (cas `CBOR-REJ-030`).
-  - Si le tag 100 est appliqué à une donnée non entière (ex. texte), le décodeur lève `ERR_CBOR_TAG_CONTENT` (cas `CBOR-REJ-029`).
+  - Si le tag 100 est appliqué à une donnée non entière (ex. texte ou carte CBOR déguisée), le décodeur lève `ERR_CBOR_TAG_CONTENT` (cas `CBOR-REJ-029`, `CBOR-REJ-036`).
 
 ### 6. Intégrité Unicode et Normalisation NFC
 - Toutes les chaînes textuelles (type majeur 3) doivent être composées d'octets UTF-8 valides. Tout octet non conforme, surlong (*overlong*), ou surrogate UTF-16 isolé lève `ERR_CBOR_INVALID_UTF8` (cas `CBOR-REJ-019` à `CBOR-REJ-021`).
@@ -87,6 +88,25 @@ Dans le cadre de l'enveloppe de stockage AeterniCore et des profils mémoriels :
   - Tri des propriétés d'objets selon les code units UTF-16 (ex. `"A"` < `"a"`, `""` en tête, `"😀"` U+D83D U+DE00 avant `"～"` U+FF5E, cas `JCS-ENC-001` à `JCS-ENC-007`).
   - Nombres formatés selon la règle ECMAScript 7.1.12.1 `Number::toString()` (ex. `1.0` $\rightarrow$ `1`, `-0` $\rightarrow$ `0`, `1e21` $\rightarrow$ `1e+21`, `1e20` $\rightarrow$ `100000000000000000000`, cas `JCS-ENC-011` à `JCS-ENC-022`).
   - Échappement restreint aux seuls caractères obligatoires `"` (`\"`), `\` (`\\`), et contrôles `\u0000`..`\u001f` en minuscules hexadécimales (cas `JCS-ENC-023` à `JCS-ENC-026`).
+
+### 8. Règle Normative AVN-R & Représentation Interne (Cycle 0010, Ordre 0065)
+
+#### 8.1. Règle AVN-R des Clés Réservées
+Dans la notation des vecteurs AVN (AeterniTrak Vector Notation), le JSON ne sait pas exprimer nativement la distinction entre certains types CBOR :
+- Les clés `$int`, `$bytes`, `$map`, `$tag`, `$value` et `$float` sont réservées à la syntaxe de notation AVN.
+- **Règle impérative** : Un objet JSON simple (notation `{ ... }`) ne porte **JAMAIS** de clé textuelle débutant par le caractère `'$'`.
+- Une carte CBOR (type majeur 5) dont au moins une clé textuelle commence par `'$'` doit obligatoirement être représentée sous la forme explicite :
+  ```json
+  {"$map": [[k1, v1], [k2, v2], ...]}
+  ```
+- *Justification technique* : Sans cette règle, une carte CBOR dont les clés textuelles sont `"$tag"` et `"$value"` (`{"$tag": 100, "$value": 20730}`) était indistincte de l'élément étiqueté `100(20730)`. De même, une carte à clé textuelle `"$bytes"` était confondue avec une chaîne binaire, et une carte à clé textuelle `"$map"` avec une carte à clés entières.
+
+#### 8.2. Représentation Interne Typée & Séparation Sémantique
+- L'AVN est une notation de test et d'échange de vecteurs, consommée par les adaptateurs de conformité du harnais QA.
+- Au sein de l'architecture AeterniCore (`core/profile/` et `core/cose/`), la validation logique s'opère sur la **structure sémantique réelle** (types majeurs CBOR natifs) et non sur des artefacts syntaxiques de la notation :
+  1. **Contrôle strict des tags** : Les tags 1 et 100 sont vérifiés sur leur type majeur réel (entiers stricts). Une carte CBOR passée sous un tag 1 ou 100 échoue dès le décodage CBOR (`ERR_CBOR_TAG_CONTENT`), avant toute logique de profil ou de crypto.
+  2. **Proscription des tests fragiles sur la notation** : Aucun test du type `"$map" in obj` ou `"$tag" in obj` ne doit être exécuté dans les validateurs sur des structures pouvant découler d'une carte à clés texte légitime.
+  3. **Étanchéité des types** : Une carte CBOR à clés entières est reconnue par sa nature intrinsèque de carte et le typage entier de ses clés, garantissant l'immunité complète face aux collisions de clés textuelles `$tag`, `$map`, `$int` ou `$bytes`.
 
 ---
 
