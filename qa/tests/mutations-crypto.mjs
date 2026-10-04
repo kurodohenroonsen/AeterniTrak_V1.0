@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * AeterniTrak V1.0 — Test des 7 Mutations de Sécurité Cryptographique (Phase B - Ordre 0037 & Redirect 0042)
+ * AeterniTrak V1.0 — Test des 9 Mutations de Sécurité Cryptographique (Phase B - Ordres 0037, 0042, 0057)
  *
- * Démontre que 7 altérations délibérées du vérificateur font chacune échouer
- * au moins un vecteur de test nommé dans `es256-verify.vectors.json`, `cose-sign1.vectors.json` et `cose-rules-v11.vectors.json` :
+ * Démontre que 9 altérations délibérées du vérificateur font chacune échouer
+ * au moins un vecteur de test nommé dans `es256-verify.vectors.json`, `cose-sign1.vectors.json`, `cose-rules-v11.vectors.json` et `cose-rules-v12.vectors.json` :
  * 1. Contrôle du s bas retiré -> échec de ES-VER-001 (rejet malléabilité non effectué)
  * 2. Constante K1 erronée réintroduite -> échec de ES-VER-012 (faux positif de malléabilité)
  * 3. Étape KEY_USAGE_MISMATCH retirée -> échec de COSE-VER-028 (usage non concordant accepté)
@@ -11,6 +11,8 @@
  * 5. Paramètre typ non vérifié -> échec de COSE-VER-020 (rejeu cross-domain non bloqué à l'étape 4)
  * 6. Clé texte "4" acceptée dans l'en-tête non protégé -> échec de COSE-VER-041 (malléabilité structurelle)
  * 7. coseOpen fuite le payload sur clé révoquée -> échec de COSE-OPEN-006 (violation décision Kudoro DEC-AET-07)
+ * 8. Fenêtre de validité temporelle ignorée -> échec de COSE-KEY-003 (clé expirée acceptée à tort)
+ * 9. Date comparée avant la signature -> échec de COSE-KEY-027 (rejet prématuré sur date avant validation signature)
  */
 
 import fs from "node:fs";
@@ -39,10 +41,12 @@ const PROJECT_ROOT = path.resolve(__dirname, "../..");
 const es256VectorsPath = path.join(PROJECT_ROOT, "qa/vectors/crypto/es256-verify.vectors.json");
 const coseVectorsPath = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-sign1.vectors.json");
 const coseRulesV11Path = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-rules-v11.vectors.json");
+const coseRulesV12Path = path.join(PROJECT_ROOT, "qa/vectors/crypto/cose-rules-v12.vectors.json");
 
 const es256Suite = JSON.parse(fs.readFileSync(es256VectorsPath, "utf8"));
 const coseSuite = JSON.parse(fs.readFileSync(coseVectorsPath, "utf8"));
 const coseRulesV11Suite = JSON.parse(fs.readFileSync(coseRulesV11Path, "utf8"));
+const coseRulesV12Suite = JSON.parse(fs.readFileSync(coseRulesV12Path, "utf8"));
 
 function getEsCase(id) {
   const c = es256Suite.cases.find((x) => x.id === id);
@@ -56,6 +60,12 @@ function getCoseRulesCase(id) {
   return c;
 }
 
+function getCoseRulesV12Case(id) {
+  const c = coseRulesV12Suite.cases.find((x) => x.id === id);
+  if (!c) throw new Error(`Vecteur introuvable dans cose-rules-v12: ${id}`);
+  return c;
+}
+
 function getCoseCase(id) {
   const c = coseSuite.cases.find((x) => x.id === id);
   if (!c) throw new Error(`Vecteur introuvable dans cose: ${id}`);
@@ -63,7 +73,7 @@ function getCoseCase(id) {
 }
 
 console.log("============================================================");
-console.log("AeterniTrak — Test des 7 Mutations de Sécurité Cryptographique");
+console.log("AeterniTrak — Test des 9 Mutations de Sécurité Cryptographique");
 console.log("============================================================");
 
 let allPassed = true;
@@ -428,9 +438,116 @@ let allPassed = true;
   }
 }
 
+// ----------------------------------------------------------------------------
+// Mutation 8 : Fenêtre de validité temporelle ignorée (Règle K2 neutralisée)
+// Vecteur ciblé : COSE-KEY-003 (fenêtre close la veille à 23:59:59 : clé expirée)
+// ----------------------------------------------------------------------------
+{
+  const c = getCoseRulesV12Case("COSE-KEY-003");
+  const env = hexToBytes(c.input.envelope_hex);
+
+  // Vérificateur canonique
+  let canonicalResult;
+  try {
+    const res = await coseVerify(env, c.input.expected_typ, c.input.trust_store);
+    canonicalResult = { valid: true, payload_hex: res.payload_hex, kid: res.kid };
+  } catch (err) {
+    canonicalResult = { error: err.code || err.message };
+  }
+
+  // Vérificateur muté : le contrôle de la fenêtre temporelle est ignoré
+  // (la fenêtre de validité est retirée du magasin de confiance, acceptant la signature expirée)
+  const mutatedTrustStore = JSON.parse(JSON.stringify(c.input.trust_store));
+  mutatedTrustStore.signers.forEach((s) => {
+    delete s.valid_from;
+    delete s.valid_until;
+  });
+
+  let mutatedResult;
+  try {
+    const res = await coseVerify(env, c.input.expected_typ, mutatedTrustStore);
+    mutatedResult = { valid: true, payload_hex: res.payload_hex, kid: res.kid };
+  } catch (err) {
+    mutatedResult = { error: err.code || err.message };
+  }
+
+  console.log("\n[Mutation 8] Fenêtre de validité temporelle ignorée (Règle K2 neutralisée) :");
+  console.log(`  Vecteur ciblé       : COSE-KEY-003 ("${c.title}")`);
+  console.log(`  Attendu canonique   : ${JSON.stringify(c.expect)}`);
+  console.log(`  Résultat canonique  : ${JSON.stringify(canonicalResult)} -> PASS (EXPIRÉ)`);
+  console.log(`  Résultat muté       : ${JSON.stringify(mutatedResult)} -> DIFFÉRENT (ACCEPTÉ À TORT)`);
+
+  if (JSON.stringify(canonicalResult) === JSON.stringify(c.expect) && JSON.stringify(mutatedResult) !== JSON.stringify(c.expect)) {
+    console.log("  => MUTATION 8 DÉTECTÉE avec succès.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 8.");
+    allPassed = false;
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Mutation 9 : Date d'émission comparée avant la signature cryptographique (inversion Étapes 12/13)
+// Vecteur ciblé : COSE-KEY-027 (signature fausse et date hors fenêtre : signature contrôlée en priorité)
+// ----------------------------------------------------------------------------
+{
+  const c = getCoseRulesV12Case("COSE-KEY-027");
+  const env = hexToBytes(c.input.envelope_hex);
+
+  // Vérificateur canonique
+  let canonicalResult;
+  try {
+    const res = await coseVerify(env, c.input.expected_typ, c.input.trust_store);
+    canonicalResult = { valid: true, payload_hex: res.payload_hex, kid: res.kid };
+  } catch (err) {
+    canonicalResult = { error: err.code || err.message };
+  }
+
+  // Vérificateur muté : inspecte et compare la date de la charge utile AVANT de vérifier la signature
+  // Ce qui déclenche prématurément ERR_COSE_EXPIRED_KEY au lieu de rejeter la fausse signature
+  let mutatedResult;
+  try {
+    const decoded = decodeStrict(env.subarray(1));
+    const payBytes = decoded[2].$bytes ? hexToBytes(decoded[2].$bytes) : decoded[2];
+    const payDecoded = decodeStrict(payBytes);
+    let D;
+    if (payDecoded && typeof payDecoded === "object" && Array.isArray(payDecoded.$map)) {
+      for (const [k, v] of payDecoded.$map) {
+        if (k === 11 && v && typeof v === "object" && v.$tag === 100) {
+          D = v.$value;
+        }
+      }
+    }
+    const signer = c.input.trust_store.signers[0];
+    if (signer.valid_from !== undefined && signer.valid_until !== undefined && D !== undefined) {
+      const fromDay = Math.floor(signer.valid_from / 86400);
+      const untilDay = Math.floor(signer.valid_until / 86400);
+      if (D < fromDay || D > untilDay) {
+        throw { code: "ERR_COSE_EXPIRED_KEY" };
+      }
+    }
+    const res = await coseVerify(env, c.input.expected_typ, c.input.trust_store);
+    mutatedResult = { valid: true, payload_hex: res.payload_hex, kid: res.kid };
+  } catch (err) {
+    mutatedResult = { error: err.code || err.message };
+  }
+
+  console.log("\n[Mutation 9] Date comparée avant la signature cryptographique (inversion d'étapes) :");
+  console.log(`  Vecteur ciblé       : COSE-KEY-027 ("${c.title}")`);
+  console.log(`  Attendu canonique   : ${JSON.stringify(c.expect)}`);
+  console.log(`  Résultat canonique  : ${JSON.stringify(canonicalResult)} -> PASS (SIGNATURE REJETÉE)`);
+  console.log(`  Résultat muté       : ${JSON.stringify(mutatedResult)} -> DIFFÉRENT (EXPIRATION AVANT SIGNATURE)`);
+
+  if (JSON.stringify(canonicalResult) === JSON.stringify(c.expect) && JSON.stringify(mutatedResult) !== JSON.stringify(c.expect)) {
+    console.log("  => MUTATION 9 DÉTECTÉE avec succès.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 9.");
+    allPassed = false;
+  }
+}
+
 console.log("\n============================================================");
 if (allPassed) {
-  console.log("RÉSULTAT GLOBAL : 7/7 MUTATIONS DÉTECTÉES AVEC SUCCÈS !");
+  console.log("RÉSULTAT GLOBAL : 9/9 MUTATIONS DÉTECTÉES AVEC SUCCÈS !");
   process.exit(0);
 } else {
   console.error("RÉSULTAT GLOBAL : ÉCHEC — Au moins une mutation n'a pas été détectée.");

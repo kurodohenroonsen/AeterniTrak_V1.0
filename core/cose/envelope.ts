@@ -262,7 +262,7 @@ export async function coseVerify(
   }
 
   // --------------------------------------------------------------------------
-  // Étape 8 : Liste de confiance incohérente (Règle K5)
+  // Étape 8 : Liste de confiance incohérente (Règles K5 et K2)
   // --------------------------------------------------------------------------
   if (!trustStore || !Array.isArray(trustStore.signers)) {
     throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", "Invalid TrustStore: missing signers array");
@@ -270,6 +270,52 @@ export async function coseVerify(
 
   const seenKids = new Set<string>();
   for (const s of trustStore.signers) {
+    // Statut obligatoire : "ACTIVE", "RETIRED" ou "REVOKED"
+    if (s.status !== "ACTIVE" && s.status !== "RETIRED" && s.status !== "REVOKED") {
+      throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", `Invalid signer status: ${s.status}`);
+    }
+
+    // Contrôle de la fenêtre temporelle de validité (Règle K2)
+    const hasFrom = s.valid_from !== undefined;
+    const hasUntil = s.valid_until !== undefined;
+
+    // Soit les deux sont présents, soit aucun des deux n'est présent
+    if (hasFrom !== hasUntil) {
+      throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", "Signer validity window must have both valid_from and valid_until or neither");
+    }
+
+    // RETIRED impose obligatoirement une fenêtre temporelle
+    if (s.status === "RETIRED" && !hasFrom) {
+      throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", "RETIRED signer must have a validity window");
+    }
+
+    if (hasFrom && hasUntil) {
+      const from = s.valid_from;
+      const until = s.valid_until;
+
+      if (
+        typeof from !== "number" ||
+        !Number.isInteger(from) ||
+        Object.is(from, -0) ||
+        from < 0
+      ) {
+        throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", `Invalid valid_from timestamp: ${from}`);
+      }
+
+      if (
+        typeof until !== "number" ||
+        !Number.isInteger(until) ||
+        Object.is(until, -0) ||
+        until < 0
+      ) {
+        throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", `Invalid valid_until timestamp: ${until}`);
+      }
+
+      if (from > until) {
+        throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", `valid_from (${from}) cannot be greater than valid_until (${until})`);
+      }
+    }
+
     const sKidBytes = normalizeBytes(s.kid);
     if (sKidBytes.length !== 16) {
       throw new CoseError("ERR_COSE_INVALID_TRUST_STORE", "Signer kid must be exactly 16 bytes");
@@ -340,6 +386,139 @@ export async function coseVerify(
   } else if (algVal === -8) {
     // Ed25519 (valide la taille, canonicité de S et WebCrypto)
     await ed25519Verify(trustedPubBytes, tbs, signatureBytes);
+  }
+
+  // --------------------------------------------------------------------------
+  // Étape 13 : Contrôle de validité temporelle post-signature (Règle K2)
+  // --------------------------------------------------------------------------
+  if (entry.valid_from !== undefined && entry.valid_until !== undefined) {
+    // 1. Décodage strict de la charge utile (propagation native ERR_CBOR_*)
+    const payloadDecoded = decodeStrict(payloadBytes);
+
+    // 2. La charge utile doit être une carte CBOR
+    if (
+      payloadDecoded === null ||
+      typeof payloadDecoded !== "object" ||
+      Array.isArray(payloadDecoded) ||
+      "$bytes" in (payloadDecoded as Record<string, unknown>) ||
+      "$int" in (payloadDecoded as Record<string, unknown>)
+    ) {
+      throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Payload is not a CBOR map");
+    }
+
+    let mapEntries: [unknown, unknown][] = [];
+    if (Array.isArray((payloadDecoded as Record<string, unknown>).$map)) {
+      mapEntries = (payloadDecoded as Record<string, unknown>).$map as [unknown, unknown][];
+    } else {
+      // Toutes les clés sont textuelles dans un objet simple : aucune clé entière
+      throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Payload map contains no integer keys");
+    }
+
+    // 3. Extraction de la date d'émission selon expectedTyp
+    if (expectedTyp === "application/aeternitrak-profile+cbor") {
+      // Profil mémoriel : clé entière 11, tag CBOR 100
+      let rawDateVal: unknown = undefined;
+      let foundKey11 = false;
+      for (const [k, v] of mapEntries) {
+        if (k === 11) {
+          foundKey11 = true;
+          rawDateVal = v;
+          break;
+        }
+      }
+
+      if (!foundKey11) {
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Missing issuance date (key 11) in profile");
+      }
+
+      if (
+        rawDateVal === null ||
+        typeof rawDateVal !== "object" ||
+        (rawDateVal as Record<string, unknown>).$tag !== 100
+      ) {
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Profile issuance date must have CBOR tag 100");
+      }
+
+      const tagVal = (rawDateVal as Record<string, unknown>).$value;
+      let D: number;
+      if (typeof tagVal === "number" && Number.isInteger(tagVal)) {
+        D = tagVal;
+      } else if (typeof tagVal === "bigint") {
+        D = Number(tagVal);
+      } else if (
+        tagVal !== null &&
+        typeof tagVal === "object" &&
+        typeof (tagVal as Record<string, unknown>).$int === "string"
+      ) {
+        D = Number((tagVal as Record<string, unknown>).$int);
+      } else {
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Invalid profile issuance date value");
+      }
+
+      const fromDay = Math.floor(entry.valid_from / 86400);
+      const untilDay = Math.floor(entry.valid_until / 86400);
+
+      if (D < fromDay || D > untilDay) {
+        throw new CoseError(
+          "ERR_COSE_EXPIRED_KEY",
+          `Profile issuance day ${D} is outside key validity window [${fromDay}, ${untilDay}]`
+        );
+      }
+    } else if (expectedTyp === "application/aeternitrak-batch-claim+cbor") {
+      // Certificat de lot : clé entière 3, tag CBOR 1
+      let rawDateVal: unknown = undefined;
+      let foundKey3 = false;
+      for (const [k, v] of mapEntries) {
+        if (k === 3) {
+          foundKey3 = true;
+          rawDateVal = v;
+          break;
+        }
+      }
+
+      if (!foundKey3) {
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Missing issuance date (key 3) in batch claim");
+      }
+
+      if (
+        rawDateVal === null ||
+        typeof rawDateVal !== "object" ||
+        (rawDateVal as Record<string, unknown>).$tag !== 1
+      ) {
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Batch claim issuance date must have CBOR tag 1");
+      }
+
+      const tagVal = (rawDateVal as Record<string, unknown>).$value;
+      let S: number;
+      if (
+        typeof tagVal === "number" &&
+        Number.isInteger(tagVal) &&
+        tagVal >= 0 &&
+        !Object.is(tagVal, -0)
+      ) {
+        S = tagVal;
+      } else if (typeof tagVal === "bigint" && tagVal >= 0n) {
+        S = Number(tagVal);
+      } else if (
+        tagVal !== null &&
+        typeof tagVal === "object" &&
+        typeof (tagVal as Record<string, unknown>).$int === "string" &&
+        BigInt((tagVal as Record<string, unknown>).$int as string) >= 0n
+      ) {
+        S = Number((tagVal as Record<string, unknown>).$int);
+      } else {
+        throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", "Invalid batch claim issuance date value");
+      }
+
+      if (S < entry.valid_from || S > entry.valid_until) {
+        throw new CoseError(
+          "ERR_COSE_EXPIRED_KEY",
+          `Batch claim issuance timestamp ${S} is outside key validity window [${entry.valid_from}, ${entry.valid_until}]`
+        );
+      }
+    } else {
+      throw new CoseError("ERR_COSE_ISSUANCE_DATE_MISSING", `Unsupported typ for key validity check: ${expectedTyp}`);
+    }
   }
 
   // Déverrouillage sécurisé strict : payload n'est retourné qu'ici
