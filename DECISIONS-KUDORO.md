@@ -64,6 +64,12 @@ Format d'une entrée :
   *Arbitrage* : **Option A retenue (Maintien du prénom Guy)**.  
   *Justification* : Le prénom « Guy » est maintenu solennellement dans les spécifications et jeux d'essais publics en hommage au père de Kudoro (Guy Heyman). Ce nom porte l'âme du projet, sa vérité humaine et sa promesse de transmission fidèle à travers les générations.
 
+- **2026-10-04 · [Assurance Qualité & Vecteurs CBOR] · Kudoro (DEC-AET-06)**  
+  *Question* : Autoriser Claude AI à corriger le vecteur approuvé `CBOR-REJ-006` (`786161` attendu non minimal au lieu de tronqué) ?  
+  *Options* : A) Refus (maintenir le vecteur erroné) ; B) Autoriser la correction intègre.  
+  *Arbitrage* : **Option B retenue (Correction du vecteur autorisée)**.  
+  *Justification* : Respect strict du principe d'intégrité Test-First : on ne déforme pas le code de production pour masquer une anomalie de test. Le vecteur `CBOR-REJ-006` est retiré (numéro conservé, marqué erroné) et remplacé par deux cas normatifs conformes : `CBOR-REJ-034` (`780161` → `ERR_CBOR_NOT_SHORTEST`) et `CBOR-REJ-035` (`786161` → `ERR_CBOR_TRUNCATED`).
+
 ---
 
 ## 2. Décisions en Attente d'Arbitrage
@@ -71,9 +77,5 @@ Format d'une entrée :
 - `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
 - `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
 - `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
-- `DEC-AET-06` : **Correction du vecteur approuvé `CBOR-REJ-006`** (soumis par Claude AI le 2026-10-04) :
-  - *Constat* : le vecteur attend `ERR_CBOR_NOT_SHORTEST` pour `786161`. Or `78 61 61` est un texte de longueur déclarée 97 dont un seul octet est présent : l'erreur exacte est `ERR_CBOR_TRUNCATED`. L'encodage non minimal de "a" est `78 01 61`. L'erreur est de Claude AI (cycle 0001).
-  - *Proposition* : retirer `CBOR-REJ-006` (numéro conservé, marqué erroné) ; ajouter `CBOR-REJ-034` (`780161` → `ERR_CBOR_NOT_SHORTEST`) et `CBOR-REJ-035` (`786161` → `ERR_CBOR_TRUNCATED`).
-  - *État* : En attente d'arbitrage de Kudoro (un vecteur approuvé ne se modifie que sur son accord, `qa/vectors/README.md` §6).
 
-*`DEC-AET-04` et `DEC-AET-05` : arbitrées le 2026-10-04, voir §1.*
+*`DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06` : arbitrées le 2026-10-04, voir §1.*
