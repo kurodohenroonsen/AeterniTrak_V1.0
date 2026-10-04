@@ -4,19 +4,20 @@
 - **Dernière révision** : 2026-10-04 (Cycle 0009).
 - **Branche active** : `agent-mailbox`.
 - **Derniers commits délivrés** :
+  - `ag/orchestrator-usecases-portal` @ `213e0668920f120dfa8ca2243d2fc91af57eca7c` (Rapport 0061, Redirect 0055, Portail 100% hors-ligne, CSS pur embarqué, audit juridique 19 textes officiels, U1 à U4).
   - `ag/bushi-02-batch-certificate-spec` @ `effa3c0913d0b22f3a90c1bd88e5107fd9557654` (Rapport 0060, Redirect 0053, Spécification du Certificat de Lot v1.1.0, 10 amendements A1 à A10 intégrés, Phase A pure).
   - `ag/bushi-02-key-validity` @ `0fb4afaa61f6a5c70088a46e395c42d8e60e81f2` (Rapport 0059, Ordre 0057, Règle K2, v1.2.0, 144/144 crypto PASS, 9/9 mutations).
   - `fix/bushi-12-insect-source-p18` @ `7d804cb306e9bf7ff0e099ff4f8bb2e60e133a2f` (Rapport 0058, Ordre 0056, Règle P18, v1.5.0, 212/212 PASS, 8/8 mutations).
   - `ag/orchestrator-decision-dec-aet-08` @ `ea52868` (Rapport 0052, DEC-AET-08 4 Apps & DEC-AET-09 Multiplateforme).
-  - `ag/orchestrator-usecases-portal` @ `84f79db` (Rapport 0052, 46 micro-usecases, 24 lois, matrice multiplateforme).
   - `ag/orchestrator-decisions-01-02-03` @ `9cdfae9` (Rapport 0051, DEC-AET-01, 02, 03 & DEC-AET-05).
   - `fix/bushi-12-reasons-v14` @ `8e30ea58cad7701b0b26f2b4fd95c4240f4498b6` (Rapport 0049).
   - `ag/orchestrator-cycle-0008-ack` @ `f257f14b2d3544f8149e984f881aa59db9ec2791` (Rapport 0048).
 - **Statut des chantiers (Cycle 0009)** :
+  - **Redirect 0055 (Orchestrateur — Portail des cas d'usage 100% hors-ligne)** : **Terminé**, branche `ag/orchestrator-usecases-portal` rebasée sur `origin/main@18f33c9` et mise à jour (commit `213e066`), rapport 0061 déposé, redirect 0055 purgé (P5). Zéro ressource distante (CSS pur embarqué), 19 textes juridiques vérifiés, jalon STORAGE-001 intégré.
   - **Redirect 0053 (Bushi 02 — Spécification du Certificat de Lot v1.1.0)** : **Terminé**, branche `ag/bushi-02-batch-certificate-spec` rebasée sur `origin/main@18f33c9` et mise à jour (commit `effa3c0`), rapport 0060 déposé, redirect 0053 purgé (P5). Phase A pure validée (zéro code, zéro vecteur).
   - **Ordre 0057 (Bushi 02 — Validité temporelle des clés K2)** : **Terminé**, branche `ag/bushi-02-key-validity` (commits `5b610d4` et `0fb4afa`) livrée, rapport 0059 déposé, ordre 0057 purgé (P5). 144 PASS sur 5 suites crypto, 9/9 mutations validées.
   - **Ordre 0056 (Bushi 12 — Anti-Prion Règle P18, Insectes en alimentation)** : **Terminé**, branche `fix/bushi-12-insect-source-p18` (commit `7d804cb`) livrée, rapport 0058 déposé, ordre 0056 purgé (P5). 212 PASS sur 6 suites anti-prion, 8/8 mutations validées.
-  - **Décisions Kudoro DEC-AET-08 & DEC-AET-09** : **Terminé**, branche `ag/orchestrator-decision-dec-aet-08` (commit `ea52868`) livrée, portail `ag/orchestrator-usecases-portal` (commit `84f79db`) mis à niveau, rapport 0052 déposé.
+  - **Décisions Kudoro DEC-AET-08 & DEC-AET-09** : **Terminé**, branche `ag/orchestrator-decision-dec-aet-08` (commit `ea52868`) livrée, rapport 0052 déposé.
   - **Décisions Kudoro DEC-AET-01, 02, 03** : **Terminé**, branche `ag/orchestrator-decisions-01-02-03` (commit `9cdfae9`) livrée, rapport 0051 déposé.
   - **Ordre 0052 (Orchestrateur — Acquittement Cycle 0009)** : En cours.
-- **Prochaine étape** : Poursuite du Cycle 0009 (traitements redirects 0054, 0055 et acquittement orchestrateur).
+- **Prochaine étape** : Poursuite du Cycle 0009 (traitements redirect 0054 et acquittement orchestrateur).
