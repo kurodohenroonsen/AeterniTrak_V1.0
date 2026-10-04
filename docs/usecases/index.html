@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AeterniTrak V1.0 — Référentiel Fonctionnel & Micro Use-Cases</title>
+  <title>AeterniTrak V1.0 — Architecture 4 Applications Multiplateformes & Référentiel des Micro Use-Cases</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -63,7 +63,7 @@
 <body class="bg-obsidian-950 text-slate-200 min-h-screen font-sans flex flex-col antialiased selection:bg-gold-500 selection:text-black">
 
   <!-- En-tête Global -->
-  <header class="border-b border-slate-800/80 bg-obsidian-900/90 backdrop-blur-md sticky top-0 z-50 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+  <header class="border-b border-slate-800/80 bg-obsidian-900/90 backdrop-blur-md sticky top-0 z-50 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-amber-700 flex items-center justify-center text-obsidian-950 font-extrabold text-xl shadow-lg shadow-gold-500/20">
         Æ
@@ -71,52 +71,74 @@
       <div>
         <div class="flex items-center gap-2">
           <h1 class="text-lg font-extrabold font-title tracking-tight text-white">AeterniTrak <span class="text-gold-400 text-xs font-mono font-bold px-1.5 py-0.5 rounded border border-gold-500/30 bg-gold-500/10">V1.0</span></h1>
-          <span class="text-[10px] text-slate-400 border-l border-slate-700 pl-2">Référentiel des Micro-Cas d'Usage</span>
+          <span class="text-[10px] text-slate-400 border-l border-slate-700 pl-2">Référentiel Fonctionnel (Arbitrages Kudoro DEC-AET-08 & DEC-AET-09)</span>
         </div>
-        <p class="text-xs text-slate-400">Le Pax Funèbre • 3 Applications Métiers • Zéro Dette Technique</p>
+        <p class="text-xs text-slate-400">Le Pax Funèbre • 4 Applications Multiplateformes Étanches • Zéro Dette Technique</p>
       </div>
     </div>
 
-    <!-- Badges Métriques & Statut -->
-    <div class="flex flex-wrap items-center gap-2.5 text-xs">
-      <div class="bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-lg flex items-center gap-1.5 font-mono text-[11px]">
+    <!-- Badges Métriques, Statut & Universalité -->
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <div class="bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-mono text-[11px]">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <strong id="badge-vectors">547 Vecteurs</strong>
         <span class="text-emerald-500/80">• 100% Validé</span>
       </div>
-      <div class="bg-gold-500/10 border border-gold-500/30 text-gold-300 px-3 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
-        <span>⚔️</span> <strong>16 Bushi Swarm</strong>
+      <div class="bg-gold-500/10 border border-gold-500/30 text-gold-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
+        <span>📐</span> <strong>4 Apps Étanches</strong>
       </div>
-      <div class="bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 px-3 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
-        <span>🛡️</span> <strong>Puce ACOSJ 92k</strong>
+      <div class="bg-blue-950/40 border border-blue-500/30 text-blue-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
+        <span>🌍</span> <strong>100% Multiplateforme</strong>
+      </div>
+      <div class="bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[11px]">
+        <span>🛡️</span> <strong>ACOSJ 92k</strong>
       </div>
     </div>
   </header>
 
-  <!-- Navigation par Onglets & Barre de Recherche -->
+  <!-- Bannière d'Universalité Multiplateforme (DEC-AET-09) -->
+  <div class="bg-gradient-to-r from-obsidian-900 via-slate-900 to-obsidian-900 border-b border-slate-800 px-6 py-2.5 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-3">
+    <div class="flex items-center gap-2">
+      <span class="text-gold-400 font-bold">Matrice d'Exécution Universelle :</span>
+      <span class="text-slate-400">Les 4 applications s'exécutent avec le même niveau d'excellence sur tous les terminaux :</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 font-mono text-[11px]">
+      <span class="flex items-center gap-1 text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">📱 Android (NFC IsoDep & StrongBox)</span>
+      <span class="flex items-center gap-1 text-slate-200 bg-slate-800/60 px-2 py-0.5 rounded border border-slate-700/60">🍎 iOS & iPadOS (CoreNFC & Secure Enclave)</span>
+      <span class="flex items-center gap-1 text-sky-400 bg-sky-950/40 px-2 py-0.5 rounded border border-sky-800/40">🌐 Web PWA (Offline & WebCrypto/WebAudio)</span>
+      <span class="flex items-center gap-1 text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/40">💻 Desktop Mac/Win/Linux (WebUSB & ACR1552U)</span>
+      <span class="text-gold-300 font-bold">~85% Code Partagé AeterniCore</span>
+    </div>
+  </div>
+
+  <!-- Navigation par Onglets (4 Apps Métiers + 1 Onglet Juridique) & Barre de Recherche -->
   <div class="bg-obsidian-900 border-b border-slate-800/80 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
     <nav class="flex flex-wrap gap-1.5" id="nav-tabs">
       <button onclick="switchTab('app1')" id="tab-app1" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gold-500 text-obsidian-950 shadow-md shadow-gold-500/20">
-        <span>🕊️</span> App 1 : Sanctuaire B2C
-        <span class="bg-black/20 text-[10px] px-1.5 py-0.2 rounded-full">12 UC</span>
+        <span>🎨</span> App 1 : PaxStudio Design
+        <span class="bg-black/20 text-[10px] px-1.5 py-0.2 rounded-full font-mono">10 UC</span>
       </button>
       <button onclick="switchTab('app2')" id="tab-app2" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
-        <span>🖨️</span> App 2 : Studio PaxFunèbre B2B
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full">12 UC</span>
+        <span>🖨️</span> App 2 : PaxStation Encodage
+        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">10 UC</span>
       </button>
       <button onclick="switchTab('app3')" id="tab-app3" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
-        <span>🪰</span> App 3 : Filière & Traçabilité
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full">14 UC</span>
+        <span>🕊️</span> App 3 : Sanctuaire Mémoriel
+        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">12 UC</span>
+      </button>
+      <button onclick="switchTab('app4')" id="tab-app4" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
+        <span>🪰</span> App 4 : Filière & Traçabilité
+        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">14 UC</span>
       </button>
       <button onclick="switchTab('legal')" id="tab-legal" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
-        <span>⚖️</span> Textes Officiels & Lois
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full">24 Textes</span>
+        <span>⚖️</span> Référentiel Juridique
+        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">24 Lois</span>
       </button>
     </nav>
 
     <!-- Recherche Instantanée -->
     <div class="relative w-full sm:w-80">
-      <input type="text" id="searchInput" oninput="filterUseCases()" placeholder="Filtrer par mot-clé (ex: pacemaker, lfa, 92k, 4.40€, cerise...)" class="w-full bg-obsidian-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition pr-8">
+      <input type="text" id="searchInput" oninput="filterUseCases()" placeholder="Filtrer par mot-clé (ex: pacemaker, lfa, android, ios, 92k...)" class="w-full bg-obsidian-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition pr-8">
       <span class="absolute right-2.5 top-2.5 text-slate-500 text-xs">🔍</span>
     </div>
   </div>
@@ -124,20 +146,24 @@
   <!-- Contenu Principal -->
   <main class="flex-1 p-6 max-w-7xl mx-auto w-full space-y-6">
 
-    <!-- Onglet 1 : App 1 Sanctuaire B2C -->
+    <!-- Onglet 1 : App 1 PaxStudio Design (Design & Personnalisation des 2 Cartes & Médaillons) -->
     <section id="section-app1" class="tab-content space-y-6">
       <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-gold-500/20 rounded-2xl p-6 relative overflow-hidden">
         <div class="max-w-3xl space-y-2 relative z-10">
-          <span class="text-xs uppercase font-extrabold tracking-wider text-gold-400">Application Mobile Grand Public (B2C)</span>
-          <h2 class="text-2xl font-bold font-title text-white">Sanctuaire Mémoriel & Recueillement</h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs uppercase font-extrabold tracking-wider text-gold-400">Application 1 · Outil Créatif & Pré-Encodage (Famille & Conseiller)</span>
+            <span class="text-[10px] font-mono bg-gold-500/10 text-gold-300 border border-gold-500/20 px-2 py-0.5 rounded">Multiplateforme : Web • Android • iOS • Mac • Windows</span>
+          </div>
+          <h2 class="text-2xl font-bold font-title text-white">PaxStudio Design — Personnalisation des 2 Cartes & Médaillons</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            L'application que la famille utilise en scannant le médaillon ou la carte ACOSJ 92 Ko. Conçue pour l'apaisement, la transmission et l'émotion pure : <strong>zéro login obligatoire, zéro pistage publicitaire, 100% hors-ligne</strong>. Intègre la gestion des volontés civiles et l'ensemble des directives médicales post-mortem.
+            L'espace de co-création visuelle et mémorielle pour la famille et son conseiller funéraire. Permet le design recto/verso des deux cartes (Carte Sanctuaire mémorielle et Carte Directives médicales/civiles), le choix des finitions dorées, la prévisualisation 3D temps réel, le carrousel photo 220x220 WebP, l'oscilloscope vocal et la génération de la <strong>capsule de pré-encodage scellée</strong> prête pour l'agence.
           </p>
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📲 Android & iOS (NFC Tap)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🔒 COSE_Sign1 (Ed25519 & ES256)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🛡️ DEC-AET-07 Option B (Bandeau de réserve)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">💶 3 ans inclus puis 4,40 €/an</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎨 Carte Sanctuaire & Carte Directives</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🧊 Prévisualisation 3D Recto/Verso</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📸 4 Portraits WebP (220x220)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎙️ Oscilloscope Vocal Waveform</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📦 Export Capsule CBOR Validée</span>
           </div>
         </div>
       </div>
@@ -145,20 +171,24 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid-app1"></div>
     </section>
 
-    <!-- Onglet 2 : App 2 Studio PaxFunèbre Pro B2B -->
+    <!-- Onglet 2 : App 2 PaxStation Encodage Silicium (Opérateurs & Membres PaxFunèbre) -->
     <section id="section-app2" class="tab-content hidden space-y-6">
       <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-indigo-500/20 rounded-2xl p-6 relative overflow-hidden">
         <div class="max-w-3xl space-y-2 relative z-10">
-          <span class="text-xs uppercase font-extrabold tracking-wider text-indigo-400">Station Professionnelle Conseiller Funéraire (B2B)</span>
-          <h2 class="text-2xl font-bold font-title text-white">Studio PaxFunèbre Pro & Encodage Silicium</h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs uppercase font-extrabold tracking-wider text-indigo-400">Application 2 · Station Technique Professionnelle (Membres PaxFunèbre en Agence)</span>
+            <span class="text-[10px] font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-0.5 rounded">Multiplateforme : Desktop Mac / Win / Linux • Web PWA WebUSB • Android USB-OTG</span>
+          </div>
+          <h2 class="text-2xl font-bold font-title text-white">PaxStation Encodage Silicium — Gravure Sécurisée ACR1552U</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            L'outil de travail du conseiller funéraire en agence : connecté en WebUSB au lecteur de bureau ACR1552U (Extension Chrome MV3). Permet la saisie certifiée du dossier civil, l'édition photo 220x220 WebP, le rognage audio sur oscilloscope protégé, et le scellement cryptographique irréversible sur carte ACOSJ 92 Ko.
+            La station d'encodage physique réservée aux opérateurs et membres du réseau Le Pax Funèbre. Connectée au lecteur de bureau <strong>ACR1552U en WebUSB / PC/SC</strong> via l'Extension Chrome MV3 ou application bureau native. Assure les dialogues IsoDep APDU bas niveau, l'allocation EEPROM de la puce <strong>JavaCard ACOSJ 92 Ko</strong>, le scellement cryptographique COSE_Sign1 sous autorité FIPS EAL5+, le verrouillage matériel in-silico et le pilotage de l'imprimante thermique haute résolution.
           </p>
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🔌 ACR1552U WebUSB / PC/SC</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎛️ Oscilloscope audio anti-gestes Android</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🔐 Clé matérielle d'hommage FIPS</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">💾 JavaCard ACOSJ 92 Ko APDU</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🔐 Scellement COSE_Sign1 FIPS EAL5+</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🔒 Verrouillage Matériel Anti-Tamper</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🖨️ Impression Thermique / Laser CR-80</span>
           </div>
         </div>
       </div>
@@ -166,20 +196,24 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid-app2"></div>
     </section>
 
-    <!-- Onglet 3 : App 3 Filière & Traçabilité Quotidienne -->
+    <!-- Onglet 3 : App 3 Sanctuaire Mémoriel Mobile (Participants Cérémonies & Familles Maison) -->
     <section id="section-app3" class="tab-content hidden space-y-6">
-      <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden">
+      <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-purple-500/20 rounded-2xl p-6 relative overflow-hidden">
         <div class="max-w-3xl space-y-2 relative z-10">
-          <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-400">Outil Métier de Terrain & Traçabilité Quotidienne</span>
-          <h2 class="text-2xl font-bold font-title text-white">Filière Sarcomusation & Traçabilité Quotidienne</h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs uppercase font-extrabold tracking-wider text-purple-400">Application 3 · Grand Public Mobile & PWA Offline (Participants & Familles)</span>
+            <span class="text-[10px] font-mono bg-purple-500/10 text-purple-300 border border-purple-500/20 px-2 py-0.5 rounded">Multiplateforme : Android Natif • iOS Natif • PWA Universelle Offline • Mac/Win</span>
+          </div>
+          <h2 class="text-2xl font-bold font-title text-white">Sanctuaire Mémoriel Mobile — Recueillement & Directives</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Basé sur les fondations de <code>simulateur.html</code>. Cet outil gère l'aiguillage en temps réel des dépouilles selon les 4 profils réglementaires, contrôle les tests biologiques (LFA Pentobarbital, PCR PPA/CWD), garantit la Méthode 1 autoclave européenne (133°C, 3 bars, 20 min) et délivre le <strong>Certificat de Lot Signé Ed25519</strong> sous l'autorité absolue de The Iron Gate.
+            L'application que les participants aux funérailles et les proches utilisent en rentrant à la maison avec leur carte ou médaillon. <strong>Zéro compte, zéro publicité, 100% hors-ligne</strong>. Un simple scan NFC (NFC Tap) déclenche le recueillement acoustique avec ducking vocal automatique, la consultation des volontés funéraires, le contrôle des directives médicales d'urgence (exérèse pacemaker art. L1232-17 CDLD, don d'organes, legs du corps 48h) et la gestion du coffre perpétuel (3 ans inclus puis 4,40 €/an).
           </p>
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🩸 Test LFA Pentobarbital (Cat 1 Mémoriel)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🌲 Biocontrôle DNF GPS (Faune Sauvage)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🐄 API Sanitel & CERISE (Cat 2 Ferme)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🏭 Bleu Méthylène 0.5% (Cat 1 MRS Abattoir)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📲 Android & iOS (NFC Tap Direct)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🛡️ DEC-AET-07 Option B (Bandeau de réserve)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎵 Sanctuaire Acoustique & Ducking Vocal</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">⚡ Retrait Pacemaker & Don d'Organes</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">💶 3 ans inclus puis 4,40 €/an</span>
           </div>
         </div>
       </div>
@@ -187,12 +221,37 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid-app3"></div>
     </section>
 
-    <!-- Onglet 4 : Référentiel Juridique & Textes Officiels -->
+    <!-- Onglet 4 : App 4 Filière Sarcomusation & Traçabilité Post-Décès (Acteurs de Terrain) -->
+    <section id="section-app4" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden">
+        <div class="max-w-3xl space-y-2 relative z-10">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-400">Application 4 · Filière Métier Opérationnelle & Réglementaire (Acteurs Post-Décès)</span>
+            <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2 py-0.5 rounded">Multiplateforme : Terminaux Durcis Android • iPad Terrain • Web Embarqué • Desktop Labo</span>
+          </div>
+          <h2 class="text-2xl font-bold font-title text-white">Filière Sarcomusation & Traçabilité Post-Décès</h2>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Fondée sur les bases éprouvées de <code>simulateur.html</code>. Cet outil métier accompagne les vétérinaires, gardes forestiers DNF, exploitants agricoles, abattoirs et inspecteurs AFSCA. Il gère l'aiguillage étanche des 4 filières post-décès (Compagnie Cat 1, Faune Sauvage DNF, Ferme Cat 2, Déchets MRS), les dépistages LFA Pentobarbital et PCR épizooties, applique la stérilisation Méthode 1 (133°C, 3 bars, 20 min) et délivre le <strong>Certificat de Lot Signé Ed25519</strong> sous le contrôle absolu de The Iron Gate.
+          </p>
+          <div class="flex flex-wrap gap-2 pt-2 text-xs">
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🩸 Test LFA Pentobarbital (Cat 1 Mémoriel)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🌲 Biocontrôle DNF GPS (Faune Sauvage)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🐄 API Sanitel & CERISE (Cat 2 Ferme)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🏭 Bleu Méthylène 0.5% (Cat 1 MRS Abattoir)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">⚔️ The Iron Gate (Règle d'Or Anti-Prion)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid-app4"></div>
+    </section>
+
+    <!-- Onglet 5 : Référentiel Juridique (24 Lois & Textes Officiels) -->
     <section id="section-legal" class="tab-content hidden space-y-6">
       <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-amber-500/20 rounded-2xl p-6">
-        <h2 class="text-2xl font-bold font-title text-white">Référentiel Juridique Européen, Fédéral & Régional</h2>
+        <h2 class="text-2xl font-bold font-title text-white">Référentiel Juridique Opposable (24 Lois & Textes Officiels)</h2>
         <p class="text-sm text-slate-300">
-          Tous les textes de lois, décrets, ordonnances et règlements opposables fondant les règles de gestion d'AeterniTrak. Chaque exigence logicielle est adossée à son texte officiel opposable avec son lien direct.
+          Ensemble des traités européens, lois fédérales belges, décrets régionaux (Wallonie, Flandre, Bruxelles) et conventions internationales opposables régissant AeterniTrak et Le Pax Funèbre. Chaque fonctionnalité de nos 4 applications est rigoureusement ancrée dans sa base légale officielle.
         </p>
       </div>
 
@@ -223,801 +282,1090 @@
 
   <!-- Pied de page -->
   <footer class="border-t border-slate-800/80 bg-obsidian-900 px-6 py-4 text-center text-xs text-slate-500 flex flex-wrap items-center justify-between gap-4">
-    <span>AeterniTrak V1.0 • Société Le Pax Funèbre • Droit Funéraire & Traçabilité Biologique</span>
-    <span class="font-mono text-slate-400">Spec-First & Test-First Certifié</span>
+    <span>AeterniTrak V1.0 • Société Le Pax Funèbre • 4 Applications Multiplateformes Étanches</span>
+    <span class="font-mono text-slate-400">Spec-First & Test-First Certifié • Arbitrages Kudoro DEC-AET-08 & DEC-AET-09</span>
   </footer>
 
-  <!-- Base de Données des Micro Use-Cases & Logique Applicative -->
+  <!-- Base de Données des Micro Use-Cases (4 Apps) & Logique Applicative -->
   <script>
-    // Données des Micro Use-Cases pour App 1
+    // =========================================================================
+    // Données des Micro Use-Cases pour App 1 : PaxStudio Design (10 UC)
+    // =========================================================================
     const app1UseCases = [
       {
         id: "UC-101",
-        title: "Scan NFC Direct & Lancement Sans Friction",
-        cat: "Accès & Identité",
-        actor: "Proche / Membre de la famille",
-        tags: ["NFC", "IsoDep", "Zero-Login"],
-        preconditions: "Smartphone compatible NFC (Android 10+ ou iOS 14+), carte ACOSJ 92 Ko posée sur le lecteur.",
+        title: "Choix des Modèles de Carte & Médaillons (Sanctuaire & Directives)",
+        cat: "Gabarits & Modèles",
+        actor: "Famille & Conseiller Funéraire",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Gabarits", "CarteSanctuaire", "CarteDirectives", "Medaillon35mm"],
+        preconditions: "Ouverture de la session PaxStudio Design sur tablette ou PC en salon des familles.",
         flow: [
-          "L'utilisateur pose le smartphone sur le médaillon funéraire ou la carte.",
-          "Le système lit le NDEF d'amorce ou communique directement en APDU IsoDep.",
-          "L'application se lance instantanément sans écran de connexion ni saisie d'identifiant.",
-          "Extraction de l'enveloppe cryptographique COSE_Sign1 (Tag 18)."
+          "Sélection du format physique : Carte CR-80 standard (85.6 x 53.98 mm) ou Médaillon circulaire (diamètre 35 mm).",
+          "Attribution du rôle de chaque carte : Carte 1 Sanctuaire (mémoriel affectif) et Carte 2 Directives (directives civiles, médicales et administratives).",
+          "Choix de la matière noble : Carte polycarbonate or satiné, résine composite noire obsidienne ou médaillon en titane anodisé.",
+          "Chargement immédiat des contraintes d'impression thermique/laser et de la zone d'exclusion de l'antenne NFC."
         ],
-        postconditions: "L'enveloppe brute est chargée en mémoire sécurisée pour vérification.",
-        legal: "Règlement eIDAS & Art. 5 RGPD (minimisation stricte des données d'accès).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
+        postconditions: "Le gabarit vectoriel est calibré au dixième de millimètre pour le double recto/verso.",
+        legal: "Norme ISO/IEC 7810 ID-1 (spécifications des cartes physiques d'identification).",
+        legal_url: "https://www.iso.org/standard/70480.html"
       },
       {
         id: "UC-102",
-        title: "Vérification Cryptographique & Agilité Hybride",
-        cat: "Sécurité & Cryptographie",
-        actor: "Cœur AeterniCore (Bushi 02)",
-        tags: ["COSE_Sign1", "Ed25519", "ES256", "Trust-Store"],
-        preconditions: "Enveloppe COSE_Sign1 lue depuis la puce.",
+        title: "Prévisualisation 3D Interactive Recto/Verso avec Rendu Or & Mat",
+        cat: "Rendu 3D & Matériaux",
+        actor: "Famille",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["WebGL", "ThreeJS", "PBR", "Rendu3D"],
+        preconditions: "Modèle de carte sélectionné avec textures haute résolution chargées.",
         flow: [
-          "Décodage CBOR strict RFC 8949 (vérification formes canoniques et absence de flottants).",
-          "Extraction du kid (16 octets) et consultation du magasin de confiance local (Trust Store).",
-          "Vérification de la correspondance algorithmique : Ed25519 (alg: -8) ou ES256 NIST P-256 (alg: -7).",
-          "Contrôle anti-malléabilité du s bas (s <= floor(n/2)) pour les signatures ES256.",
-          "Validation de la signature mathématique via WebCrypto Subtle."
+          "Génération du maillage 3D photoréaliste de la carte avec shader PBR (Physically Based Rendering).",
+          "La famille fait pivoter la carte d'un simple glissement de doigt pour inspecter le recto (portrait et nom) et le verso (épitaphe et puce).",
+          "Simulation réaliste de la lumière rasante révélant les dorures à chaud et le relief tactile du logo Le Pax Funèbre.",
+          "Bascule instantanée entre la Carte Sanctuaire et la Carte Directives."
         ],
-        postconditions: "Le verdict cryptographique formel est émis (VERIFIED, UNVERIFIED ou BLOCKED).",
-        legal: "FIPS 186-5 & RFC 9052 (COSE Structure).",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc9052.html"
+        postconditions: "Validation visuelle en temps réel sans nécessiter d'impression d'épreuve papier intermédiaire.",
+        legal: "Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
       },
       {
         id: "UC-103",
-        title: "Affichage Sanctuaire Certifié (Scénario Nominal)",
-        cat: "Expérience Sanctuaire",
-        actor: "Famille & Visiteurs",
-        tags: ["UI", "Verified", "Sanctuaire"],
-        preconditions: "Signature validée avec succès par une clé active de la station PaxFunèbre.",
+        title: "Colorimétrie, Dorures & Typographies Solennelles",
+        cat: "Design & Esthétique",
+        actor: "Conseiller & Famille",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Palette", "Dorures", "Typographie", "Harmonie"],
+        preconditions: "Photo principale importée dans le canevas de création.",
         flow: [
-          "Transition douce vers l'interface Sanctuaire Mémoriel.",
-          "Affichage du portrait WebP 220x220 net en haute fidélité avec halo doré.",
-          "Lecture du cartouche d'hommage : nom, prénoms complets, dates civiles et citation.",
-          "Démarrage doux de la piste musicale en boucle avec volume maîtrisé."
+          "Extraction algorithmique de la palette chromatique dominante de la photo (couleurs chaudes, froides, sépia).",
+          "Proposition automatique d'une harmonie chromatique : or impérial, argent lunaire ou noir onyx.",
+          "Sélection parmi 6 polices de caractères funéraires intemporelles (Outfit, Cormorant Garamond, Cinzel, JetBrains Mono pour les données).",
+          "Ajustement du contraste et contrôle de lisibilité selon les normes d'accessibilité visuelle pour personnes âgées."
         ],
-        postconditions: "La famille est en recueillement paisible, certitude d'authenticité absolue.",
-        legal: "Droit au respect des défunts (Code civil belge art. 1382).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
+        postconditions: "Charte graphique de la carte arrêtée et conforme à la dignité de la cérémonie.",
+        legal: "Règlement général sur l'accessibilité des services (Directive européenne 2019/882).",
+        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32019L0882"
       },
       {
         id: "UC-104",
-        title: "Lecture sous Réserve pour Émetteur Inconnu (DEC-AET-07 Option B)",
-        cat: "Résilience & Continuité",
-        actor: "Famille",
-        tags: ["DEC-AET-07", "Unverified", "Bandeau"],
-        preconditions: "Carte bien formée mais kid non répertorié dans la liste d'émetteurs locaux (ex: carte émise par une agence étrangère ou ancienne).",
+        title: "Studio Photo & Carrousel 4 Portraits WebP 220x220",
+        cat: "Médias Visuels",
+        actor: "Famille & Conseiller",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["WebP", "220x220", "Carrousel", "Optimisation"],
+        preconditions: "Photos de famille transmises sur clé USB ou via smartphone.",
         flow: [
-          "coseOpen renvoie le statut UNVERIFIED avec le motif ERR_COSE_UNKNOWN_KID.",
-          "La charge utile mémorielle est extraite pour permettre le recueillement de la famille.",
-          "Affichage en tête d'écran d'un bandeau ambré discret et bienveillant : « Authenticité de l'émetteur non vérifiée hors-ligne ».",
-          "Interdiction absolue d'utiliser cette carte comme titre de preuve administrative ou dans The Iron Gate."
+          "Import de 1 à 4 photographies retraçant les grandes étapes de vie du défunt.",
+          "Outil de cadrage circulaire adapté au médaillon avec détection automatique du visage.",
+          "Redimensionnement strict en 220x220 pixels avec filtre de rééchantillonnage bicubique doux.",
+          "Compression au format WebP à qualité maîtrisée garantissant un poids unitaire de 6 à 7 Ko par cliché.",
+          "Vérification que les 4 portraits n'excèdent pas 25 Ko sur les 92 Ko de la puce silicium ACOSJ."
         ],
-        postconditions: "La mémoire familiale reste accessible sans rupture, mais la traçabilité officielle est réservée.",
-        legal: "Arbitrage Kudoro DEC-AET-07 (Option B).",
-        legal_url: "#"
+        postconditions: "Carrousel de 4 images optimisées et scellées prêt pour le compilateur de capsule.",
+        legal: "Norme de compression WebP (Google open-source format) & Art. 8 CEDH (droit à l'image).",
+        legal_url: "https://www.w3.org/TR/webp/"
       },
       {
         id: "UC-105",
-        title: "Blocage Hermétique sur Carte Falsifiée ou Clé Révoquée",
-        cat: "Sécurité & Anti-Fraude",
-        actor: "Système de Sécurité",
-        tags: ["Anti-Tamper", "Blocked", "Zero-Leak"],
-        preconditions: "Signature corrompue, un seul octet altéré, clé révoquée (REVOKED) ou type non concordant.",
+        title: "Studio Vocal & Oscilloscope Waveform Crop (Anti-Gestes Android)",
+        cat: "Médias Sonores",
+        actor: "Famille (Enregistrement en salon)",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Oscilloscope", "AudioCrop", "setPointerCapture", "Opus"],
+        preconditions: "Microphone branché ou smartphone connecté en régie.",
         flow: [
-          "coseOpen détecte l'anomalie lors des 12 étapes de contrôle normatif.",
-          "Le système renvoie le statut BLOCKED.",
-          "Aucune donnée de la charge utile n'est restituée en mémoire (zéro fuite de données).",
-          "Affichage d'un écran d'avertissement solennel invitant à contacter l'opérateur funéraire."
+          "Enregistrement de la voix vivante ou import d'un message vocal familial (5 à 15 secondes d'émotion).",
+          "Affichage immédiat de l'onde sonore sous forme d'oscilloscope haute résolution avec repères dorés.",
+          "Rognage millimétré du début et de la fin de l'enregistrement par glissement de bornes tactiles.",
+          "Application systématique de setPointerCapture sur les poignées pour verrouiller l'interaction et bloquer les gestes retour Android 10+.",
+          "Écoute de contrôle avec prévisualisation du rendu final."
         ],
-        postconditions: "Intégrité cryptographique inviolée, aucune usurpation post-mortem possible.",
-        legal: "Code pénal belge art. 193 à 214 (Faux et usage de faux).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1867/06/08/1867060850/justel"
+        postconditions: "Extrait vocal rogné avec précision, sans interruption involontaire du navigateur tactile.",
+        legal: "Android Developer Guidelines (Gestural Navigation Handling) & RFC 6716 (Opus Audio).",
+        legal_url: "https://developer.android.com/develop/ui/views/touch-and-input/gestures/gesture-navigation"
       },
       {
         id: "UC-106",
-        title: "Sanctuaire Acoustique & Ducking Vocal Vivant",
-        cat: "Expérience Émotionnelle",
-        actor: "Proches",
-        tags: ["WebAudio", "Ducking", "Opus"],
-        preconditions: "Morceau musical et mémo vocal présents sur la carte ACOSJ 92 Ko.",
+        title: "Choix & Intégration des Musiques d'Adieu & Recueillement",
+        cat: "Médias Sonores",
+        actor: "Famille & Conseiller",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Musique", "OpusSILK", "24kbps", "DroitAuteur"],
+        preconditions: "Sélection d'un thème musical parmi la discothèque mémorielle agréée ou import d'un titre de famille.",
         flow: [
-          "La musique d'ambiance joue à volume doux (gain 0.25).",
-          "Lorsque le proche clique sur « Écouter la voix vivante », le moteur Web Audio applique un ducking logarithmique (-16 dB en 300 ms sur la musique).",
-          "La voix vivante résonne avec clarté et chaleur.",
-          "L'aura dorée à l'écran pulse en temps réel au rythme spectral de la voix.",
-          "À la fin de la voix, la musique remonte en fondu doux en 800 ms."
+          "Écoute du catalogue de compositions instrumentales apaisantes (piano intimiste, cordes douces, silence méditatif).",
+          "Sélection du titre d'adieu joué lors de la présentation de la carte.",
+          "Rognage d'une boucle musicale de 15 à 30 secondes parfaitement calée.",
+          "Compression au débit optimisé de 24 kbps via le moteur Opus SILK pour un rendu chaleureux occupant moins de 45 Ko.",
+          "Attribution automatique des métadonnées de droits SACEM/SABAM."
         ],
-        postconditions: "Intensité émotionnelle maximale sans saturation ni bip artificiel.",
-        legal: "Protection de la voix et des attributs de la personnalité post-mortem.",
-        legal_url: "https://www.autoriteprotectiondonnees.be"
+        postconditions: "Fichier audio musical calibré pour le sanctuaire sonore hors-ligne.",
+        legal: "Code de droit économique belge (Livre XI - Droit d'auteur et droits voisins / SABAM).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
       },
       {
         id: "UC-107",
-        title: "Consultation des Volontés Civiles et Funéraires",
+        title: "Saisie Guidée des Dernières Volontés Civiles & Funéraires",
         cat: "Dernières Volontés",
-        actor: "Famille & Conseiller",
-        tags: ["Volontés", "Sépulture", "Cérémonie"],
-        preconditions: "Profil mémoriel contenant les clés normatives 7 (rite), 12 (destination des cendres/corps).",
+        actor: "Conseiller Funéraire & Famille",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Volontes", "Sepulture", "Culte", "Cendres"],
+        preconditions: "Entretien mémoriel en cours pour renseigner la Carte Sanctuaire & Directives.",
         flow: [
-          "Ouverture du tiroir glassmorphism des dernières volontés.",
-          "Affichage clair : Mode choisi (Inhumation pleine terre, Caveau, Crémation, Dispersion).",
-          "Spécificité du culte ou rite laïque (Code rite normatif).",
-          "Lieu chéri ou destination cinéraire (arbre du souvenir, columbarium, dispersion mer).",
-          "Textes et musiques explicitement choisis par le défunt de son vivant."
+          "Formulaire pas-à-pas respectant la typologie légale belge : Inhumation (pleine terre, caveau) ou Crémation.",
+          "Renseignement du rite : laïque, catholique, protestant, israélite, musulman, orthodoxe ou bouddhiste.",
+          "Destination des cendres si crémation : dispersion (parcelle du cimetière, mer territoriale), columbarium, ou arbre cinéraire du souvenir.",
+          "Saisie de l'épitaphe et des messages personnalisés confiés aux participants.",
+          "Canonisation Unicode NFC automatique sur l'ensemble des textes saisis."
         ],
-        postconditions: "Les proches connaissent exactement les souhaits du défunt, évitant tout conflit.",
+        postconditions: "Volontés civiles structurées conformément aux clés du profil AeterniCore.",
         legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures & Décrets régionaux.",
         legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
       },
       {
         id: "UC-108",
-        title: "Directives Médicales — Retrait Obligatoire Pacemaker & DAE",
+        title: "Saisie des Directives Médicales Post-Mortem (Pacemaker, Dons, Legs)",
         cat: "Directives Médicales",
-        actor: "Médecin / Thanatopracteur",
-        tags: ["Pacemaker", "Sécurité", "Explosion"],
-        preconditions: "Défunt porteur d'un stimulateur cardiaque ou défibrillateur actif.",
+        actor: "Souscripteur ou Famille avec Mandat",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Pacemaker", "DonOrganes", "LegsCorps", "DossierMedical"],
+        preconditions: "Édition de la Carte Directives médicales post-mortem.",
         flow: [
-          "Le profil indique la présence d'un dispositif médical actif implanté.",
-          "L'application signale l'obligation légale de retrait avant crémation ou traitement thermique (risque d'explosion violente du four ou de l'autoclave).",
-          "Le médecin ou thanatopracteur procède à l'exérèse du stimulateur.",
-          "Attestation de retrait enregistrée et signée dans le registre numérique."
+          "Coche obligatoire de sécurité : présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur automatique implantable (DAE).",
+          "Renseignement de la position sur le don d'organes (information sur le régime de consentement présumé belge de la Loi 1986).",
+          "Renseignement d'un éventuel testament de legs du corps à la science avec université de rattachement (délai 48h).",
+          "Désignation du médecin référent pour l'accès des ayants droit au dossier médical (art. 9 §4 Loi 2002).",
+          "Insertion automatique des avertissements légaux d'exérèse obligatoire sous peine d'interdiction de crémation."
         ],
-        postconditions: "Corps sécurisé, crémation ou valorisation autorisée sans risque pour les installations.",
-        legal: "Décret wallon du 6 mars 2009 (art. L1232-17 §2 CDLD) & Décret flamand.",
+        postconditions: "Directives médicales post-mortem complètes et prêtes pour scellement réglementaire.",
+        legal: "Art. L1232-17 §2 CDLD (Wallonie), Loi du 13 juin 1986 (Transplantation) & Loi du 22 août 2002 (Patient).",
         legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
       },
       {
         id: "UC-109",
-        title: "Directives Médicales — Don d'Organes & Consentement Présumé",
-        cat: "Directives Médicales",
-        actor: "Équipe Médicale de Transplantation",
-        tags: ["DonOrganes", "OptOut", "SPF-Sante"],
-        preconditions: "Décès survenu en milieu hospitalier (état de mort encéphalique).",
+        title: "Génération & Validation de la Capsule de Pré-Encodage CBOR",
+        cat: "Compilation & Core",
+        actor: "Moteur PaxStudio Design (AeterniCore)",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Capsule", "CBOR", "Deterministic", "Budget92k"],
+        preconditions: "Toutes les étapes de design, photos, sons et volontés sont validées.",
         flow: [
-          "Vérification de la volonté expresse enregistrée sur la carte AeterniTrak.",
-          "Interrogation obligatoire du Registre National des déclarations de don d'organes (SPF Santé Publique).",
-          "En droit belge (Loi du 13 juin 1986), tout citoyen est présumé donneur sauf opposition explicite.",
-          "Coordination médicale immédiate pour le prélèvement si aucune opposition n'est constatée."
+          "Agrégation de l'ensemble des métadonnées civiles sous format CBOR déterministe (RFC 8949).",
+          "Intégration des binaires compressés : 4 portraits WebP, voix Opus SILK, musique d'ambiance.",
+          "Calcul du budget mémoire global : vérification que la charge totale reste <= 90 000 octets.",
+          "Calcul de l'empreinte SHA-256 de la capsule pour garantir son intégrité avant transfert.",
+          "Chiffrement local de transport AES-GCM pour transmission sécurisée à la PaxStation d'agence."
         ],
-        postconditions: "Respect rigoureux de la volonté du défunt et sauvetage de vies humaines.",
-        legal: "Loi belge du 13 juin 1986 sur le prélèvement et la transplantation d'organes.",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1986/06/13/1986025160/justel"
+        postconditions: "Fichier capsule (.aet-capsule) prêt à être injecté sur la puce en agence PaxFunèbre.",
+        legal: "RFC 8949 (Concise Binary Object Representation) & Spécification AeterniCore.",
+        legal_url: "https://www.rfc-editor.org/rfc/rfc8949.html"
       },
       {
         id: "UC-110",
-        title: "Directives Médicales — Legs du Corps à la Science",
-        cat: "Directives Médicales",
-        actor: "Faculté de Médecine / Université",
-        tags: ["DonCorps", "Science", "Delai-48h"],
-        preconditions: "Défunt ayant souscrit de son vivant un testament de legs de corps auprès d'une université belge.",
+        title: "Bon à Tirer (BAT) Numérique & Validation Familiale",
+        cat: "Validation Finale",
+        actor: "Famille & Conseiller Funéraire",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["BAT", "SignatureFamille", "Preuve", "ZeroErreur"],
+        preconditions: "Capsule de pré-encodage compilée et prévisualisation 3D validée.",
         flow: [
-          "Détection immédiate de la volonté 'Don du corps à la science'.",
-          "Notification du délai strict de transfert : le corps doit être transporté à la faculté dans les 48 heures maximum suivant le décès.",
-          "Exclusion automatique des cérémonies funéraires standard en présentiel avec corps.",
-          "Prise en charge logistique par le laboratoire d'anatomie humaine (ex: ULiège, UCLouvain, ULB, KU Leuven).",
-          "Crémation ultérieure prise en charge par l'université."
+          "Génération du document officiel de Bon à Tirer (BAT) reprenant l'épreuve graphique recto/verso et les textes complets.",
+          "Relecture solennelle avec les proches : vérification de l'orthographe du nom, prénoms et dates.",
+          "Signature électronique sur l'écran tactile par l'ayant droit référent.",
+          "Horodatage certifié de la signature et archivage dans le dossier commercial de commande.",
+          "Verrouillage du design pour empêcher toute modification ultérieure avant gravure."
         ],
-        postconditions: "Logistique d'urgence déployée sans retard préjudiciable à la recherche médicale.",
-        legal: "Arrêté Royal fixant les conditions de transport et de conservation des corps légués à la science.",
-        legal_url: "https://www.health.belgium.be"
-      },
-      {
-        id: "UC-111",
-        title: "Droit du Patient Post-Mortem & Accès au Dossier Médical",
-        cat: "Directives Médicales",
-        actor: "Ayants droit & Médecin traitant",
-        tags: ["DossierMedical", "SecretMedical", "Loi-2002"],
-        preconditions: "Demande des héritiers pour connaître les causes du décès ou les antécédents génétiques.",
-        flow: [
-          "Consultation de la désignation post-mortem inscrite dans AeterniTrak.",
-          "En vertu de l'art. 9 §4 de la Loi belge du 22 août 2002, les ayants droit peuvent désigner un médecin pour consulter le dossier médical du défunt, à condition d'exprimer un motif légitime et que le défunt ne s'y soit pas opposé de son vivant.",
-          "Présentation de la preuve de non-opposition signée sur la carte.",
-          "Communication sécurisée entre médecins sous le sceau du secret professionnel (art. 458 Code pénal)."
-        ],
-        postconditions: "Accompagnement transparent des familles dans le respect absolu de la volonté du défunt.",
-        legal: "Loi du 22 août 2002 relative aux droits du patient (art. 9 §4).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2002/08/22/2002022737/justel"
-      },
-      {
-        id: "UC-112",
-        title: "Mandat Post-Mortem & Dévolution Notariée (DEC-AET-03)",
-        cat: "Succession & Transmission",
-        actor: "Notaire & Mandataire Familial",
-        tags: ["Notariat", "Fednot", "CRT", "Loi-2018"],
-        preconditions: "Ouverture de la succession suite au décès civil.",
-        flow: [
-          "Le mandataire présente la carte AeterniTrak ou le certificat au notaire chargé de la succession.",
-          "Vérification au Registre Central des Testaments (CRT géré par Fednot) de l'existence d'un mandat post-mortem ou legs numérique.",
-          "Application des articles 29 et 30 de la Loi belge du 30 juillet 2018 régissant le sort des données à caractère personnel après la mort.",
-          "Transfert des droits d'administration du Sanctuaire étendu au mandataire désigné."
-        ],
-        postconditions: "Continuité mémorielle légale, immunité contre toute tentative d'effacement ou litige familial.",
-        legal: "Loi du 30 juillet 2018 (art. 29-30) & Art. 1984 Code civil belge.",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2018/07/30/2018040581/justel"
+        postconditions: "Accord contractuel irrévocable obtenu, feu vert accordé pour la gravure silicium.",
+        legal: "Code civil belge (art. 1322 - valeur de la signature électronique sous seing privé).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
       }
     ];
 
-    // Données des Micro Use-Cases pour App 2
+    // =========================================================================
+    // Données des Micro Use-Cases pour App 2 : PaxStation Encodage Silicium (10 UC)
+    // =========================================================================
     const app2UseCases = [
       {
         id: "UC-201",
         title: "Connexion Station de Bureau ACR1552U WebUSB",
         cat: "Matériel & Poste Pro",
-        actor: "Conseiller Funéraire PaxFunèbre",
-        tags: ["WebUSB", "ACR1552U", "Chrome-MV3"],
-        preconditions: "Lecteur de carte à puce ACR1552U branché en USB, Chrome ou Edge sur PC de bureau.",
+        actor: "Opérateur PaxFunèbre en Agence",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["WebUSB", "ACR1552U", "Chrome-MV3", "Hardware"],
+        preconditions: "Lecteur de carte à puce ACR1552U branché sur le port USB de la station de travail, navigateur Chrome/Edge avec extension PaxFunèbre MV3 ou application bureau.",
         flow: [
-          "Le conseiller clique sur « Connecter le lecteur de cartes ».",
-          "Autorisation WebUSB one-shot accordée par le navigateur pour le périphérique USB Vendor 0x072F.",
+          "L'opérateur ouvre la PaxStation et clique sur « Initialiser le terminal d'encodage ».",
+          "L'API WebUSB sollicite l'accès au périphérique USB Vendor 0x072F (ACS Advanced Card Systems).",
+          "Autorisation persistante accordée dans le profil agence de l'extension Chrome MV3 ou driver direct PC/SC.",
           "Établissement du canal PC/SC direct sans driver tiers lourd.",
-          "Détection de l'insertion de la carte vierge JavaCard ACOSJ 92 Ko."
+          "Vérification de l'état de l'antenne NFC (LED témoin verte allumée sur le lecteur)."
         ],
-        postconditions: "Canal APDU ISO 7816 ouvert et opérationnel.",
-        legal: "Norme ISO/IEC 7816-4 & W3C WebUSB API.",
+        postconditions: "Canal de communication APDU ISO 7816-4 ouvert et paré pour l'injection.",
+        legal: "Norme ISO/IEC 7816-4 & W3C WebUSB API Specification.",
         legal_url: "https://wicg.github.io/webusb/"
       },
       {
         id: "UC-202",
-        title: "Saisie et Canonisation CBOR du Dossier Civil",
-        cat: "Encodage & Core",
-        actor: "Conseiller Funéraire",
-        tags: ["CBOR", "RFC-8949", "AeterniCore"],
-        preconditions: "Certificat de décès modèle III C ou extrait d'acte de décès fourni par la famille.",
+        title: "Insertion JavaCard ACOSJ 92 Ko & Vérification ATS APDU",
+        cat: "Silicium & Détection",
+        actor: "Lecteur ACR1552U & PaxStation",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["ACOSJ", "ATS", "JavaCard305", "IsoDep"],
+        preconditions: "Carte vierge ACOSJ 92 Ko posée sur la zone de contact NFC du lecteur.",
         flow: [
-          "Saisie des données : nom de famille, prénoms (au plus 8), date de naissance, date de décès, pays.",
-          "Normalisation Unicode NFC obligatoire sur tous les champs textuels.",
-          "Validation des dates sous Tag 100 (jours depuis l'epoch UNIX, entiers stricts).",
-          "Calcul du budget mémoire total CBOR (doit être <= 1 900 octets).",
-          "Encodage déterministe via AeterniCore (clés triées par ordre lexicographique bytewise croissant)."
+          "Détection électromagnétique du tag NFC Type 4 / IsoDep.",
+          "Lecture de la réponse à la sélection Answer To Select (ATS).",
+          "Vérification de l'Identifiant de l'Application (AID AeterniTrak : 0xA0, 0x00, 0x00, 0x08, 0x49, 0x01).",
+          "Contrôle de l'intégrité de la puce : version de l'OS JavaCard 3.0.5 et espace mémoire vierge disponible (>= 92 160 octets).",
+          "Authentification mutuelle initiale entre la station et l'Applet JavaCard."
         ],
-        postconditions: "Charge utile civile canonique générée, 100% conforme aux 61 vecteurs core.profile.",
-        legal: "Règlement européen eIDAS & RFC 8949 §4.2.1.",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc8949.html"
-      },
-      {
-        id: "UC-203",
-        title: "Studio Photo — Recadrage 220x220 & Compression WebP",
-        cat: "Médias & Silicium",
-        actor: "Famille & Conseiller",
-        tags: ["WebP", "220x220", "Silicon-Fit"],
-        preconditions: "Photo de famille importée (JPEG, PNG ou HEIC de toute résolution).",
-        flow: [
-          "Affichage dans le médaillon interactif de recadrage avec zoom et centrage visage.",
-          "Extraction de la couleur dominante d'or ou de fond pour harmoniser le thème.",
-          "Dessin sur canvas 220x220 pixels haute densité.",
-          "Compression directe au format WebP à qualité 0.55 (repli JPEG 0.50).",
-          "Chaque photo est compressée à seulement 6-7 Ko (permettant 4 photos en ~25 Ko sur la puce de 92 Ko)."
-        ],
-        postconditions: "Image optimale stockée, zéro risque de saturation mémoire sur le silicium.",
-        legal: "Norme W3C WebP Image Format.",
-        legal_url: "https://www.w3.org/TR/webp/"
-      },
-      {
-        id: "UC-204",
-        title: "Studio Vocal & Musical — Enregistrement Micro à 16 kbps",
-        cat: "Médias & Silicium",
-        actor: "Famille (Enregistrement en salon)",
-        tags: ["Opus", "SILK", "16kbps", "Micro"],
-        preconditions: "Microphone actif sur la station ou le smartphone.",
-        flow: [
-          "La famille enregistre un hommage vocal intime (5 à 15 secondes de recueillement).",
-          "MediaRecorder configuré avec le codec Opus SILK à 16 000 bps (voix) ou 24 000 bps (musique).",
-          "Débit audio divisé par 8 par rapport aux enregistrements non compressés standards.",
-          "10 secondes de parole occupent seulement ~20 Ko de silicium.",
-          "Visualisation directe de l'onde sonore générée."
-        ],
-        postconditions: "Fichier vocal ultra-léger et intelligible prêt pour l'intégration.",
-        legal: "IETF RFC 6716 (Definition of the Opus Audio Codec).",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc6716.html"
-      },
-      {
-        id: "UC-205",
-        title: "Oscilloscope de Rognage Protégé Contre les Gestes Android",
-        cat: "Ergonomie & Système",
-        actor: "Conseiller Funéraire / Famille",
-        tags: ["Android", "Touch", "setPointerCapture"],
-        preconditions: "Extrait musical ou vocal importé, nécessitant d'isoler un refrain.",
-        flow: [
-          "Affichage de la forme d'onde sur l'oscilloscope avec poignées de rognage dorées.",
-          "Application de setPointerCapture sur les événements pointerdown tactiles.",
-          "Blocage de l'interception par le geste système 'Retour arrière' sur les bords du Pixel (Android 10+ exclusion rects).",
-          "Rognage millimétré du refrain sans jamais fermer inopportunément la modale."
-        ],
-        postconditions: "Extrait audio rogné au centième de seconde avec confort tactile total.",
-        legal: "Android Developer Guidelines (Gestural Navigation Handling).",
-        legal_url: "https://developer.android.com/develop/ui/views/touch-and-input/gestures/gesture-navigation"
-      },
-      {
-        id: "UC-206",
-        title: "Gravure & Allocation Mémoire ACOSJ 92 Ko (DEC-AET-01)",
-        cat: "Silicium & Hardware",
-        actor: "Lecteur ACR1552U / Moteur APDU",
-        tags: ["ACOSJ", "JavaCard", "APDU", "ISO7816"],
-        preconditions: "Données civiles, photos et audio validées sous la limite de 94 208 octets.",
-        flow: [
-          "Sélection de l'Applet JavaCard AeterniTrak via commande SELECT APDU.",
-          "Vérification de l'espace disponible dans l'EEPROM de la puce 92 Ko.",
-          "Écriture par blocs de 256 octets sécurisés du profil CBOR et des fichiers multimédias.",
-          "Contrôle de conformité de gravure et verrouillage en lecture seule des blocs civils."
-        ],
-        postconditions: "Carte gravée de façon pérenne pour une durée de conservation de plus de 50 ans.",
-        legal: "Spécification Java Card 3.0.5 & ISO/IEC 7816.",
+        postconditions: "Carte authentifiée comme puce officielle certifiée Le Pax Funèbre.",
+        legal: "Java Card 3.0.5 Platform Specification & Critères Communs CC EAL5+.",
         legal_url: "https://www.oracle.com/java/technologies/java-card-tech.html"
       },
       {
-        id: "UC-207",
-        title: "Scellement Cryptographique COSE_Sign1 PaxFunèbre",
-        cat: "Cryptographie & Signature",
-        actor: "Module de Sécurité Matériel (HSM / Token)",
-        tags: ["COSE", "ES256", "Ed25519", "FIPS"],
-        preconditions: "Clé privée de l'opérateur funéraire agréé active dans le module de sécurité.",
+        id: "UC-203",
+        title: "Formatage EEPROM & Initialisation EF Silicium",
+        cat: "Système de Fichiers Puce",
+        actor: "Applet JavaCard AeterniTrak",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["EEPROM", "ElementaryFiles", "Allocation", "92k"],
+        preconditions: "Puce vierge sélectionnée avec droits administrateur agence.",
         flow: [
-          "Calcul du SHA-256 de la charge utile CBOR canonique du profil.",
-          "Construction de la structure Sig_structure déterministe (RFC 9052).",
-          "Signature numérique avec contrôle strict du s bas anti-malléabilité.",
-          "Assemblage de l'enveloppe COSE_Sign1 finale (Tag 18 0xd2, en-tête protégé, kid, payload, signature).",
-          "Gravure de l'enveloppe signée sur la puce NFC."
+          "Envoi de l'APDU d'effacement sécurisé des blocs mémoires temporaires.",
+          "Création de la structure arborescente des fichiers élémentaires (EF) :",
+          "- EF_CIVIL : 2 048 octets (dossier civil et directives).",
+          "- EF_PHOTO : 28 672 octets (4 portraits WebP 220x220).",
+          "- EF_AUDIO : 57 344 octets (voix vivante et musique d'adieu Opus SILK).",
+          "- EF_SECURITY : 4 096 octets (enveloppe COSE_Sign1 et certificat d'agence).",
+          "Vérification de l'alignement des secteurs EEPROM pour une endurance maximale (> 500 000 cycles)."
         ],
-        postconditions: "Carte impossible à contrefaire ou à altérer sans casser la signature.",
-        legal: "Règlement européen eIDAS (Règlement UE n° 910/2014 sur la signature électronique qualifiée).",
+        postconditions: "Partitionnement silicium achevé, conteneurs prêts pour l'écriture déterministe.",
+        legal: "ISO/IEC 7816-4 (Organisation des fichiers sur cartes à puce à circuit intégré).",
+        legal_url: "https://www.iso.org/standard/54550.html"
+      },
+      {
+        id: "UC-204",
+        title: "Ingestion de la Capsule & Canonisation CBOR RFC 8949",
+        cat: "Compilation & Core",
+        actor: "Moteur AeterniCore d'Agence",
+        platforms: ["Desktop", "Web", "Android", "iOS"],
+        tags: ["Capsule", "CBOR", "RFC-8949", "AeterniCore"],
+        preconditions: "Fichier capsule de pré-encodage importé depuis PaxStudio Design.",
+        flow: [
+          "Déchiffrement local de la capsule et contrôle de l'empreinte SHA-256.",
+          "Validation de chaque champ par rapport aux 61 vecteurs normatifs AeterniCore.",
+          "Contrôle strict de la forme canonique RFC 8949 §4.2.1 : clés triées par longueur puis ordre lexicographique d'octets.",
+          "Validation des dates civiles sous Tag 100 (jours entiers stricts depuis epoch 1970-01-01).",
+          "Génération du payload CBOR canonique binaire pur sans aucun espace superflu."
+        ],
+        postconditions: "Charge utile canonique prête pour l'opération de scellement cryptographique.",
+        legal: "RFC 8949 (Concise Binary Object Representation - Canonical CBOR).",
+        legal_url: "https://www.rfc-editor.org/rfc/rfc8949.html"
+      },
+      {
+        id: "UC-205",
+        title: "Injection par Blocs APDU Sécurisés sur la Puce",
+        cat: "Gravure Silicium",
+        actor: "Pilote APDU PaxStation",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["APDU", "UpdateBinary", "Chunks256", "IsoDep"],
+        preconditions: "Fichiers élémentaires initialisés et payload CBOR canonisé.",
+        flow: [
+          "Segmentation des flux binaires en paquets de 256 octets maximum (APDU UPDATE BINARY).",
+          "Transmission séquentielle sur le canal IsoDep NFC avec calcul de checksum par bloc.",
+          "Gravure physique dans la mémoire non volatile EEPROM de l'ACOSJ 92 Ko.",
+          "Barre de progression en temps réel affichée à l'écran de la PaxStation (durée totale ~4.2 secondes).",
+          "Vérification de la concordance de chaque secteur gravé par lecture croisée immédiate."
+        ],
+        postconditions: "Toutes les données mémorielles et directives sont physiquement inscrites dans le silicium.",
+        legal: "ISO/IEC 14443-4 (Transmission protocols for contactless integrated circuit cards).",
+        legal_url: "https://www.iso.org/standard/73599.html"
+      },
+      {
+        id: "UC-206",
+        title: "Scellement Cryptographique COSE_Sign1 PaxFunèbre FIPS EAL5+",
+        cat: "Cryptographie & Signature",
+        actor: "Module de Sécurité Matériel (HSM / Clé Agence)",
+        platforms: ["Desktop", "Web", "Android", "iOS"],
+        tags: ["COSE_Sign1", "ES256", "Ed25519", "FIPS140", "EAL5"],
+        preconditions: "Clé privée d'autorité d'agence PaxFunèbre insérée dans le token de scellement.",
+        flow: [
+          "Génération de la structure Sig_structure déterministe (RFC 9052) englobant la charge utile.",
+          "Calcul du hachage cryptographique SHA-256 (pour ES256) ou passage direct du message (pour Ed25519).",
+          "Signature électronique qualifiée au sein du boîtier cryptographique certifié FIPS 140-2 Level 3 / CC EAL5+.",
+          "Inclusion du kid de 16 octets de l'agence et des attributs de validité mémorielle.",
+          "Injection de l'enveloppe signée COSE_Sign1 finale (Tag 18 0xd2) dans le fichier EF_SECURITY de la puce."
+        ],
+        postconditions: "La carte est scellée au nom de l'agence PaxFunèbre, inviolable et infalsifiable.",
+        legal: "Règlement européen eIDAS (Règlement UE n° 910/2014) & RFC 9052.",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
       },
       {
-        id: "UC-208",
-        title: "Vérification Contrôle Croisé Avant Remise à la Famille",
-        cat: "Assurance Qualité Pro",
-        actor: "Conseiller Funéraire",
-        tags: ["CrossCheck", "Verification", "ZeroDefect"],
-        preconditions: "Carte tout juste gravée et scellée.",
+        id: "UC-207",
+        title: "Contrôle Strict Anti-Malléabilité du s Bas (RFC 9052)",
+        cat: "Sécurité Mathématique",
+        actor: "Validateur Cryptographique PaxStation",
+        platforms: ["Desktop", "Web", "Android", "iOS"],
+        tags: ["Low-S", "AntiMalleability", "ES256", "NIST-P256"],
+        preconditions: "Enveloppe COSE_Sign1 produite en algorithme ES256 (alg: -7).",
         flow: [
-          "La station retire la carte et la repose sur le lecteur.",
-          "Exécution de la suite complète de vérification de conformité hors-ligne.",
-          "Validation que coseOpen renvoie VERIFIED avec le kid officiel de l'agence.",
-          "Lecture test de la photo et écoute audio du refrain.",
-          "Impression du procès-verbal de scellement numérique remis à la famille."
+          "Extraction des composantes r et s (32 octets chacune) de la signature ECDSA.",
+          "Vérification mathématique : la valeur s doit satisfaire strictement s <= floor(n / 2), où n est l'ordre de la courbe secp256r1.",
+          "Si s est supérieur à floor(n / 2) : inversion immédiate s' = n - s pour garantir la forme canonique unique.",
+          "Rejet formel de toute signature malléable avant injection définitive sur le silicium."
         ],
-        postconditions: "Garantie 'Zéro Défaut' avant le départ de la famille.",
-        legal: "Code de déontologie des entreprises de pompes funèbres.",
-        legal_url: "https://www.funebra.be"
+        postconditions: "Signature strictement non malléable, immunisée contre toute attaque de rejeu ou de mutation.",
+        legal: "BSI TR-03111 (Elliptic Curve Cryptography) & RFC 9052 §4.1.",
+        legal_url: "https://www.bsi.bund.de"
+      },
+      {
+        id: "UC-208",
+        title: "Verrouillage Matériel Irréversible in-silico (Anti-Tamper)",
+        cat: "Sécurité Silicium",
+        actor: "Système d'Exploitation ACOSJ",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["Lock", "ReadOnly", "LifeCycle", "AntiTamper"],
+        preconditions: "Scellement COSE_Sign1 vérifié avec succès sur la puce.",
+        flow: [
+          "Envoi de la commande de transition d'état du cycle de vie de l'Applet (TRANSITION TO SECURED / LOCKED).",
+          "Grillage virtuel des fusibles logiques d'écriture de la puce EEPROM.",
+          "Interdiction physique et irréversible de toute opération UPDATE BINARY ou ERASE ultérieure.",
+          "Bascule des fichiers élémentaires en mode READ-ONLY définitif.",
+          "Vérification que toute tentative d'écriture future retourne l'erreur matérielle 0x6982 (Security status not satisfied)."
+        ],
+        postconditions: "Silicium verrouillé pour l'éternité, intégrité physique garantie pour plus de 50 ans.",
+        legal: "Norme de sécurité matérielle ISO/IEC 15408 (Critères Communs d'évaluation de la sécurité).",
+        legal_url: "https://www.commoncriteriaportal.org"
       },
       {
         id: "UC-209",
-        title: "Attestation Médicale Scellée de Retrait Pacemaker",
-        cat: "Médico-Légal Pro",
-        actor: "Thanatopracteur / Médecin Légiste",
-        tags: ["Attestation", "Pacemaker", "OML"],
-        preconditions: "Dispositif cardiaque actif retiré du corps.",
+        title: "Impression Thermique & Laser Haute Précision Recto/Verso",
+        cat: "Impression Physique",
+        actor: "Imprimante Industrielle à Cartes CR-80",
+        platforms: ["Desktop"],
+        tags: ["Impression", "Thermique", "Dorure", "Laser"],
+        preconditions: "Carte gravée et verrouillée, positionnée dans le bac d'alimentation de l'imprimante.",
         flow: [
-          "Le praticien renseigne son numéro d'inscription à l'Ordre des Médecins.",
-          "Saisie de l'heure et du lieu de l'acte d'exérèse.",
-          "Génération du document numérique d'attestation de retrait.",
-          "Intégration de l'empreinte cryptographique de l'attestation dans le dossier funéraire.",
-          "Transmission automatique de l'autorisation au crématorium."
+          "Récupération de la trame graphique vectorielle haute définition approuvée lors du BAT.",
+          "Impression par sublimation thermique couleur 600 DPI du portrait et des ornements recto.",
+          "Dépôt d'un vernis de protection anti-UV et anti-rayures prolongeant la tenue des couleurs au-delà de 30 ans.",
+          "Application de la dorure à chaud métallique sur les lettres de l'épitaphe et le logo Le Pax Funèbre.",
+          "Gravure laser de précision au verso reprenant l'identifiant unique et les directives d'urgence."
         ],
-        postconditions: "Feu vert technique irréversible accordé pour la crémation.",
-        legal: "Code wallon de la démocratie locale et de la décentralisation (art. L1232-17 §2).",
-        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        postconditions: "Objet mémoriel physique d'une élégance souveraine prêt pour la cérémonie.",
+        legal: "Norme ISO/IEC 7810 ID-1 pour la résistance physique et thermique des cartes d'identité.",
+        legal_url: "https://www.iso.org/standard/70480.html"
       },
       {
         id: "UC-210",
-        title: "Gestion des Litiges Familiaux & Blocage OEC",
-        cat: "Juridique & Litiges",
-        actor: "Officier de l'État Civil (OEC) / Juge de Paix",
-        tags: ["Litige", "Blocage", "JusticeDePaix"],
-        preconditions: "Désaccord manifeste entre héritiers sur le mode de sépulture ou le culte.",
+        title: "Contrôle de Recette Post-Gravure & PV de Remise Officiel",
+        cat: "Assurance Qualité & Conformité",
+        actor: "Opérateur PaxFunèbre",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["Recette", "PV-Remise", "ZeroDefaut", "Audit"],
+        preconditions: "Carte imprimée et sortie du bac de réception.",
         flow: [
-          "Signalement du litige par un proche ou le conseiller funéraire.",
-          "L'Officier de l'État Civil suspend immédiatement l'autorisation d'inhumer ou de crémer.",
-          "AeterniTrak verrouille le workflow en statut 'LITIGE_BLOQUE'.",
-          "Saisine d'urgence du Juge de Paix compétent (compétence exclusive en droit belge).",
-          "Déblocage uniquement sur présentation de l'ordonnance judiciaire exécutoire."
+          "L'opérateur repose la carte imprimée sur la zone de lecture NFC.",
+          "La PaxStation déclenche la suite de recette automatisée (Test Suite 0036/0041) :",
+          "- Lecture du profil CBOR et vérification du statut VERIFIED.",
+          "- Décompression instantanée des 4 portraits WebP.",
+          "- Lecture acoustique test de 2 secondes de la voix vivante.",
+          "Génération et signature du Procès-Verbal de Scellement Numérique (PVSN) remis à la famille."
         ],
-        postconditions: "Protection du conseiller funéraire contre toute mise en cause pénale ou civile.",
-        legal: "Code judiciaire belge (art. 591, 11° - compétence du Juge de Paix en matière funéraire).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1967/10/10/1967101050/justel"
-      },
-      {
-        id: "UC-211",
-        title: "Rapatriement International & Laissez-Passer Mortuaire",
-        cat: "International & Douanes",
-        actor: "Douanes / SPF Affaires Étrangères",
-        tags: ["Rapatriement", "Strasbourg1973", "CercueilZingue"],
-        preconditions: "Décès à l'étranger ou transport de corps vers l'international.",
-        flow: [
-          "Vérification de la conformité à l'Accord de Strasbourg du 26 octobre 1973 sur le transfert des corps des personnes décédées.",
-          "Contrôle de la présence du cercueil hermétique avec enveloppe de zinc (ou matière agréée) et filtre épurateur de gaz.",
-          "Génération du laissez-passer mortuaire consulaire et scellement des plombs.",
-          "Enregistrement du code de suivi international dans la carte mémorielle."
-        ],
-        postconditions: "Franchissement fluide des frontières aéroportuaires et douanières.",
-        legal: "Accord de Strasbourg du 26 octobre 1973 sur le transfert des corps (STE n° 080).",
-        legal_url: "https://www.coe.int/fr/web/conventions/full-list?module=treaty-detail&treatynum=080"
-      },
-      {
-        id: "UC-212",
-        title: "Transmission des Identifiants Notariés du Coffre",
-        cat: "Transmission Notariée",
-        actor: "Conseiller & Mandataire Familial",
-        tags: ["Fednot", "CRT", "CoffreFamille"],
-        preconditions: "Carte gravée et remise à l'ayant droit référent.",
-        flow: [
-          "Génération du certificat d'attribution sécurisé avec code de transmission notarié.",
-          "Transmission facultative au notaire de famille pour rattachement au CRT (Registre Central des Testaments).",
-          "Activation de la période d'accueil gratuit de 3 ans sur le coffre mémoriel étendu.",
-          "Information sur la tarification perpétuelle transparente de 4,40 €/an au-delà."
-        ],
-        postconditions: "Transmission claire, digne et pérenne de la mémoire familiale.",
-        legal: "Règlement de déontologie notariale (Fédération Royale du Notariat Belge - Fednot).",
-        legal_url: "https://www.notaire.be"
+        postconditions: "Carte certifiée 'Zéro Défaut' et enregistrée dans le registre de traçabilité d'agence.",
+        legal: "Code de déontologie professionnelle des pompes funèbres de Belgique (Funebra).",
+        legal_url: "https://www.funebra.be"
       }
     ];
 
-    // Données des Micro Use-Cases pour App 3
+    // =========================================================================
+    // Données des Micro Use-Cases pour App 3 : Sanctuaire Mémoriel Mobile (12 UC)
+    // =========================================================================
     const app3UseCases = [
       {
         id: "UC-301",
-        title: "Constat Médical de Décès & Détection OML (simulateur.html Étape 1)",
-        cat: "Constat Civil",
-        actor: "Médecin Déclarant",
-        tags: ["Modele-IIIC", "OML", "simulateur.html"],
-        preconditions: "Médecin appelé au chevet du défunt (domicile, hôpital, maison de repos).",
+        title: "Scan NFC Instantané Direct Sans Login (NFC Tap Android/iOS)",
+        cat: "Accès & Identité",
+        actor: "Participant à la Cérémonie / Famille à la Maison",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["NFC", "IsoDep", "Zero-Login", "SansFriction"],
+        preconditions: "Smartphone compatible NFC (Android 10+ ou iOS 14+), carte ou médaillon reçu lors de la cérémonie posé contre le smartphone.",
         flow: [
-          "Examen clinique complet et constat irréversible du décès.",
-          "Remplissage numérique du certificat médical de décès modèle III C (adulte) ou III D (enfant de moins d'un an).",
-          "Détection d'obstacle médico-légal (OML) : mort suspecte, suicide ou accident de la voie publique.",
-          "Si OML : alerte immédiate du Procureur du Roi, saisie judiciaire du corps et blocage automatique du transport funéraire.",
-          "Si naturel : émission du volet médical et autorisation de transport vers le funérarium."
+          "Le proche approche son smartphone de la carte mémorielle ou du médaillon funéraire.",
+          "Détection électromagnétique instantanée et lecture de l'enveloppe COSE_Sign1 (Tag 18).",
+          "L'application Sanctuaire s'ouvre de manière fluide sans demander de compte, de mot de passe ni d'email.",
+          "Chargement immédiat des données mémorielles en mémoire vive sécurisée sans passerelle cloud."
         ],
-        postconditions: "Données médicales initiales consignées avec horodatage certifié.",
-        legal: "Arrêté Royal fixant les modèles de déclaration de décès & Code d'instruction criminelle.",
-        legal_url: "https://www.statbel.fgov.be"
+        postconditions: "Ouverture directe du sanctuaire dans la sérénité et le recueillement.",
+        legal: "Règlement eIDAS & Art. 5 RGPD (principe fondamental de minimisation des données).",
+        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
       },
       {
         id: "UC-302",
-        title: "Profil 1 — Dépouille de Compagnie (Catégorie 1 Mémoriel)",
-        cat: "Profils Dépouilles",
-        actor: "Vétérinaire / Centre de Sarcomusation",
-        tags: ["Compagnie", "Cat1", "Mémoriel"],
-        preconditions: "Carcasse d'animal de compagnie (chien, chat, équidé de loisir).",
+        title: "Vérification Cryptographique Hybride Ed25519 / ES256 (DEC-AET-04)",
+        cat: "Sécurité & Cryptographie",
+        actor: "Moteur AeterniCore Embarqué (WebCrypto)",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["COSE_Sign1", "Ed25519", "ES256", "TrustStore"],
+        preconditions: "Enveloppe COSE_Sign1 lue depuis la puce ACOSJ 92 Ko.",
         flow: [
-          "Réception de la dépouille et contrôle de la puce d'identification ISO (ex: DogID / CatID).",
-          "Vérification de la volonté mémorielle des propriétaires (retour des protéines en forêt cinéraire).",
-          "Enregistrement de la carcasse sous statut 'SOUS_PRODUIT_CAT_1_MEMORIEL'.",
-          "Ségrégation physique absolue dans un bac hermétique dédié, interdit de mélange avec les flux agricoles."
+          "Décodage CBOR strict RFC 8949 (vérification de l'absence totale de nombres flottants ou de structures indéfinies).",
+          "Extraction de l'identifiant de clé kid (16 octets) et consultation du Trust-Store d'autorité local.",
+          "Acheminement selon l'algorithme : Ed25519 (alg: -8) via SubtleCrypto ou ES256 NIST P-256 (alg: -7).",
+          "Contrôle anti-malléabilité du s bas pour les signatures ES256.",
+          "Validation formelle de l'empreinte mathématique et affectation du statut d'authenticité."
         ],
-        postconditions: "Dépouille prête pour le dépistage toxicologique préliminaire obligatoire.",
-        legal: "Règlement (CE) n° 1069/2009 article 8 (Matières de catégorie 1).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
+        postconditions: "Le statut cryptographique VERIFIED, UNVERIFIED ou BLOCKED est établi avec certitude.",
+        legal: "FIPS 186-5 & RFC 9052 (COSE Sign1 Cryptographic Message Syntax).",
+        legal_url: "https://www.rfc-editor.org/rfc/rfc9052.html"
       },
       {
         id: "UC-303",
-        title: "Dépistage Toxicologique LFA du Pentobarbital",
+        title: "Affichage Sanctuaire Certifié en Recueillement Nominal",
+        cat: "Expérience Sanctuaire",
+        actor: "Famille & Proches",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["UI", "Verified", "Sanctuaire", "Emotion"],
+        preconditions: "Signature validée avec succès par une clé active d'une station agréée Le Pax Funèbre.",
+        flow: [
+          "Transition visuelle apaisante vers l'interface Sanctuaire Mémoriel.",
+          "Affichage du premier portrait WebP 220x220 net entouré d'une aura dorée animée avec subtilité.",
+          "Présentation solennelle du cartouche d'hommage : nom complet, prénoms, dates civiles et épitaphe.",
+          "Lancement en fondu doux de la musique d'ambiance choisie par le défunt.",
+          "Défilement naturel du carrousel des 4 photographies mémorielles."
+        ],
+        postconditions: "La famille est en recueillement dans la dignité absolue, certitude d'authenticité inviolée.",
+        legal: "Code civil belge (art. 1382 - protection de la mémoire et droit au respect des défunts).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
+      },
+      {
+        id: "UC-304",
+        title: "Bandeau de Réserve DEC-AET-07 Option B pour Émetteur Inconnu",
+        cat: "Résilience Mémorielle",
+        actor: "Famille & Visiteur",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["DEC-AET-07", "Unverified", "Bandeau", "Continuite"],
+        preconditions: "Carte bien formée mais kid non répertorié dans la liste locale des émetteurs agréés (ex: ancienne agence ou carte hors réseau).",
+        flow: [
+          "coseOpen renvoie le statut UNVERIFIED avec le motif normatif ERR_COSE_UNKNOWN_KID.",
+          "La charge mémorielle familiale est extraite et affichée pour permettre le recueillement sans blesser les proches.",
+          "Affichage en tête d'écran d'un bandeau discret et bienveillant ambré : « Émetteur non répertorié hors-ligne • Lecture sous réserve ».",
+          "Interdiction stricte d'utiliser cette carte pour des formalités administratives ou dans The Iron Gate."
+        ],
+        postconditions: "Continuité de la mémoire assurée sans rupture, traçabilité réglementaire protégée.",
+        legal: "Arbitrage souverain Kudoro DEC-AET-07 (Option B retenue).",
+        legal_url: "#"
+      },
+      {
+        id: "UC-305",
+        title: "Blocage Hermétique sur Carte Falsifiée ou Clé Révoquée",
+        cat: "Sécurité & Anti-Fraude",
+        actor: "Système de Sécurité AeterniTrak",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["AntiTamper", "Blocked", "ZeroLeak", "Securite"],
+        preconditions: "Signature corrompue, octet altéré, tentative d'usurpation ou clé répertoriée dans la liste de révocation (CRL).",
+        flow: [
+          "coseOpen détecte l'altération lors du contrôle cryptographique.",
+          "Le système renvoie immédiatement le verdict irrévocable BLOCKED.",
+          "Blocage étanche de la mémoire : aucune donnée civile, photo ni enregistrement n'est restitué (zéro fuite).",
+          "Affichage d'un écran sobre invitant poliment à contacter l'opérateur funéraire référent."
+        ],
+        postconditions: "Usurpation d'identité post-mortem totalement neutralisée.",
+        legal: "Code pénal belge (art. 193 à 214 - répression du faux et usage de faux en écritures).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1867/06/08/1867060850/justel"
+      },
+      {
+        id: "UC-306",
+        title: "Sanctuaire Acoustique & Ducking Vocal Vivant Automatique",
+        cat: "Expérience Émotionnelle",
+        actor: "Famille & Proches",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["WebAudio", "Ducking", "VoixVivante", "Opus"],
+        preconditions: "Enregistrement vocal et fond musical présents sur la carte.",
+        flow: [
+          "La musique d'adieu joue en arrière-plan à faible intensité (gain initial 0.25).",
+          "L'utilisateur touche le bouton « Écouter la voix vivante ».",
+          "Le moteur Web Audio déclenche un ducking logarithmique (-16 dB sur la piste musicale en 300 ms).",
+          "La voix vivante se détache avec une netteté cristalline et chaleur acoustique.",
+          "À l'extinction de la voix, la musique remonte doucement à son niveau initial en 800 ms."
+        ],
+        postconditions: "Vibration émotionnelle intime, expérience sensorielle inoubliable.",
+        legal: "Protection de la voix et des attributs de la personnalité post-mortem (Code civil belge).",
+        legal_url: "https://www.autoriteprotectiondonnees.be"
+      },
+      {
+        id: "UC-307",
+        title: "Consultation des Volontés Civiles et Funéraires",
+        cat: "Dernières Volontés",
+        actor: "Proches & Organisateur Cérémonie",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Volontes", "Sepulture", "Rite", "Dispersion"],
+        preconditions: "Profil mémoriel contenant les choix funéraires exprimés du vivant du défunt.",
+        flow: [
+          "Ouverture du tiroir sécurisé des volontés depuis l'écran principal.",
+          "Affichage sans ambiguïté : mode choisi (Inhumation pleine terre, caveau familial, Crémation).",
+          "Rappel du culte ou de la cérémonie laïque demandée.",
+          "Lieu de repos désigné (concession au cimetière communal, arbre cinéraire en forêt de repos, dispersion).",
+          "Textes de lecture et hommages expressément souhaités."
+        ],
+        postconditions: "Respect rigoureux de la volonté du défunt, apaisement de tout différend intrafamilial.",
+        legal: "Loi belge du 20 juillet 1971 relative aux funérailles et sépultures.",
+        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+      },
+      {
+        id: "UC-308",
+        title: "Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (Art. L1232-17 CDLD)",
+        cat: "Directives Médicales & Sécurité",
+        actor: "Médecin, Thanatopracteur & Crématorium",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Pacemaker", "DAE", "Explosion", "CDLD"],
+        preconditions: "Profil de la Carte Directives signalant la présence d'un dispositif cardiaque actif.",
+        flow: [
+          "Bannière d'alerte rouge clignotante à l'attention des opérateurs : « Dispositif Actif Implanté Présent ».",
+          "Rappel de l'interdiction pénale de mise en bière définitive et de crémation avant extraction.",
+          "Explication du risque technique : déflagration violente des piles au lithium sous la chaleur du four crématoire (> 850°C).",
+          "Formulaire d'enregistrement de l'acte d'exérèse par le médecin thanatopracteur agréé avec son numéro d'ordre."
+        ],
+        postconditions: "Sécurité des équipes techniques assurée, certificat de retrait annexé au dossier légal.",
+        legal: "Art. L1232-17 §2 du Code wallon de la démocratie locale et de la décentralisation & Décrets régionaux.",
+        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+      },
+      {
+        id: "UC-309",
+        title: "Consultation du Statut de Don d'Organes (Consentement Présumé Loi 1986)",
+        cat: "Directives Médicales",
+        actor: "Équipe Médicale & Famille",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["DonOrganes", "Transplantation", "OptOut", "Loi1986"],
+        preconditions: "Décès survenu en centre hospitalier réanimateur.",
+        flow: [
+          "Consultation immédiate des volontés consignées sur la Carte Directives.",
+          "Rappel du principe légal en droit belge (Loi du 13 juin 1986) : tout citoyen belge ou résidant depuis plus de 6 mois est présumé donneur d'organes sauf opposition formelle de son vivant.",
+          "Procédure de vérification obligatoire auprès du Registre National du SPF Santé Publique.",
+          "Transmission transparente de l'information aux proches pour les associer avec dignité à la démarche de sauvetage."
+        ],
+        postconditions: "Procédure de prélèvement médicalement et juridiquement sécurisée.",
+        legal: "Loi belge du 13 juin 1986 sur le prélèvement et la transplantation d'organes.",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1986/06/13/1986025160/justel"
+      },
+      {
+        id: "UC-310",
+        title: "Directives Legs du Corps à la Science sous 48h",
+        cat: "Directives Médicales",
+        actor: "Faculté de Médecine & Pompes Funèbres",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["LegsCorps", "Science", "Delai48h", "Universite"],
+        preconditions: "Défunt ayant consenti un legs de son corps à une faculté d'anatomie belge.",
+        flow: [
+          "Alerte chronométrée prioritaire dès l'ouverture de la Carte Directives : transfert impératif sous 48 heures maximum.",
+          "Affichage des coordonnées directes du service de réception des corps de la faculté désignée (ex: ULiège, UCLouvain, ULB, KU Leuven).",
+          "Information des proches : impossibilité légale d'organiser une cérémonie avec cercueil ouvert.",
+          "Prise en charge logistique d'urgence par le transporteur funéraire conventionné."
+        ],
+        postconditions: "Volonté scientifique respectée dans le respect absolu des délais légaux de conservation.",
+        legal: "Arrêté Royal fixant les conditions de conservation et de remise des corps légués à la science.",
+        legal_url: "https://www.health.belgium.be"
+      },
+      {
+        id: "UC-311",
+        title: "Droit d'Accès Post-Mortem au Dossier Médical (Loi 2002 Art. 9 §4)",
+        cat: "Droits du Patient",
+        actor: "Ayants Droit & Médecin Désigné",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["DossierMedical", "SecretMedical", "Loi2002", "AyantsDroit"],
+        preconditions: "Demande formulée par le conjoint, partenaire ou descendants pour comprendre les antécédents médicaux.",
+        flow: [
+          "Vérification de l'absence d'opposition expresse formulée par le patient de son vivant dans AeterniTrak.",
+          "Application de l'art. 9 §4 de la Loi belge du 22 août 2002 : l'accès au dossier médical ne se fait pas directement par les proches mais par l'intermédiaire d'un médecin désigné.",
+          "Motifs légitimes recevables : recherche d'affections héréditaires ou élucidation des causes du décès.",
+          "Communication sécurisée de confrère à confrère dans le respect du secret médical (art. 458 Code pénal)."
+        ],
+        postconditions: "Protection du secret médical conciliée avec le besoin légitime de vérité des familles.",
+        legal: "Loi du 22 août 2002 relative aux droits du patient (art. 9 §4).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2002/08/22/2002022737/justel"
+      },
+      {
+        id: "UC-312",
+        title: "Modèle de Pérennité Séculaire & Coffre Étendu (3 ans puis 4,40 €/an)",
+        cat: "Pérennité & Économie",
+        actor: "Famille & Mandataire Mémoriel",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Tarification", "3AnsInclus", "4.40Euros", "Perennite"],
+        preconditions: "Carte ou médaillon en possession de la famille.",
+        flow: [
+          "Rappel de la promesse éthique Le Pax Funèbre : 3 années de conservation étendue offertes à l'achat du médaillon.",
+          "Zéro publicité commerciale, zéro revente de données personnelles à des tiers assureurs.",
+          "Proposition d'abonnement perpétuel transparent de 4,40 € par an pour l'ensemble du cercle familial.",
+          "Option de versement forfaitaire unique (capitalisation sur fonds de dotation séculaire).",
+          "Gestion des droits d'administration transmise au mandataire désigné sans formalité complexe."
+        ],
+        postconditions: "Mémoire familiale préservée pour les générations futures sans logique de rente abusive.",
+        legal: "Arbitrage souverain Kudoro sur le modèle économique du Sanctuaire.",
+        legal_url: "#"
+      }
+    ];
+
+    // =========================================================================
+    // Données des Micro Use-Cases pour App 4 : Filière & Traçabilité (14 UC)
+    // =========================================================================
+    const app4UseCases = [
+      {
+        id: "UC-401",
+        title: "Constat Médical Initial & Aiguillage des 4 Filières Post-Décès",
+        cat: "Constat Civil & Tri",
+        actor: "Médecin Déclarant / Vétérinaire / Inspecteur",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Constat", "Modele-IIIC", "Tri4Filieres", "simulateur.html"],
+        preconditions: "Décès survenu d'un citoyen ou carcasse animale signalée sur le territoire.",
+        flow: [
+          "Examen clinique complet et constat irréversible du décès.",
+          "Émission du modèle III C/D (humain) ou du bordereau de prise en charge vétérinaire.",
+          "Aiguillage strict vers l'une des 4 filières post-décès étanches :",
+          "1. Compagnie (Cat 1 Mémoriel) — 2. Faune Sauvage (Cat 1/2 Biocontrôle DNF) — 3. Ferme/Élevage (Cat 2 Sanitel) — 4. Déchets Abattoir (Cat 1 MRS).",
+          "Horodatage certifié de la déclaration et verrouillage de la filière d'attribution."
+        ],
+        postconditions: "Entrée en traçabilité avec assignation irréversible de filière.",
+        legal: "Arrêté Royal fixant les modèles de certificat de décès & Règlement (CE) 1069/2009.",
+        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
+      },
+      {
+        id: "UC-402",
+        title: "Profil 1 — Filière Compagnie (Catégorie 1 Mémoriel) & Ségrégation",
+        cat: "Profils Dépouilles",
+        actor: "Vétérinaire / Centre de Sarcomusation",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Compagnie", "Cat1Mémoriel", "DogID", "Segregation"],
+        preconditions: "Dépouille d'animal de compagnie confiée par ses propriétaires (chien, chat, équidé).",
+        flow: [
+          "Lecture de la puce d'identification sous-cutanée ISO 11784/11785 (DogID, CatID).",
+          "Vérification du consentement éclairé des propriétaires pour une sarcomusation cinéraire mémorielle.",
+          "Placement en bac scellé hermétique étiqueté 'SOUS-PRODUITS CAT 1 - USAGE MÉMORIEL EXCLUSIF'.",
+          "Ségrégation physique absolue interdisant tout contact avec les chaînes agricoles ou alimentaires."
+        ],
+        postconditions: "Dépouille prête pour le contrôle toxicologique obligatoire.",
+        legal: "Règlement (CE) n° 1069/2009 art. 8 & art. 19 (Dérogations funéraires pour animaux de compagnie).",
+        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
+      },
+      {
+        id: "UC-403",
+        title: "Dépistage Toxicologique LFA du Pentobarbital (Seuil 10 ppb)",
         cat: "Contrôle Biologique",
         actor: "Laboratoire Qualité / Opérateur AFSCA",
-        tags: ["Pentobarbital", "LFA", "Euthanasie"],
-        preconditions: "Prélèvement tissulaire ou liquidien sur la dépouille d'animal euthanasié.",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Pentobarbital", "LFA", "Euthanasie", "RejetC1"],
+        preconditions: "Animal ayant potentiellement fait l'objet d'un protocole d'euthanasie vétérinaire.",
         flow: [
-          "Test rapide sur bandelette immunologique à flux latéral (LFA - Lateral Flow Assay).",
-          "Détection des barbituriques (seuil de sensibilité <= 10 ppb).",
-          "Si positif : refus formel de sarcomusation ! Aiguillage immédiat vers l'incinération haute température C1.",
-          "Si négatif : attestation biologique horodatée versée au dossier de traçabilité du lot."
+          "Prélèvement d'un échantillon tissulaire ou sérique sur la carcasse.",
+          "Dépistage rapide sur bandelette immunologique à flux latéral (LFA - Lateral Flow Assay).",
+          "Détection des barbituriques et agents euthanasiants avec seuil de détection <= 10 ppb.",
+          "Si positif : refus catégorique de sarcomusation ! Aiguillage immédiat vers l'incinération haute température C1.",
+          "Si négatif : attestation d'innocuité toxicologique versée au certificat du lot."
         ],
-        postconditions: "Protection absolue des colonies larvaires d'Hermetia illucens contre les neurotoxiques.",
+        postconditions: "Protection absolue des colonies larvaires d'Hermetia illucens et de l'environnement forestier.",
         legal: "Règlement (UE) 142/2011 & Avis scientifique EFSA sur les résidus d'euthanasiques.",
         legal_url: "https://www.efsa.europa.eu"
       },
       {
-        id: "UC-304",
-        title: "Pasteurisation Thermique Mémorielle (70°C, 1 heure)",
+        id: "UC-404",
+        title: "Pasteurisation Thermique Mémorielle (70°C, 1 heure continue)",
         cat: "Traitement Thermique",
         actor: "Unité de Traitement Mémoriel",
-        tags: ["Pasteurisation", "70C-1h", "Hygiene"],
-        preconditions: "Lot issu de dépouilles de compagnie saines (LFA négatif) après biodégradation par les larves.",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["Pasteurisation", "70C-1h", "Mémoriel", "PT100"],
+        preconditions: "Matières issues de la biodégradation par les larves de dépouilles de compagnie saines (LFA négatif).",
         flow: [
-          "Transfert des matières issues de la bioconversion dans le pasteurisateur thermique.",
-          "Chauffe contrôlée à une température d'au moins 70,0°C au cœur de la matière.",
-          "Maintien de la température pendant au moins 60 minutes consécutives sans interruption.",
-          "Enregistrement télémétrique continu scellé par sonde PT100 certifiée étalonnée."
+          "Transfert des matières résiduelles dans le pasteurisateur thermique automatisé.",
+          "Montée en température contrôlée jusqu'à dépasser 70,0°C au cœur de la matrice.",
+          "Maintien constant de la température pendant 60 minutes d'horloge consécutives sans rupture thermique.",
+          "Enregistrement télémétrique continu scellé par double sonde thermométrique PT100 étalonnée."
         ],
-        postconditions: "Neutralisation des pathogènes non sporulés, respect de la norme sanitaire mémorielle.",
-        legal: "Règlement (UE) n° 142/2011, Annexe IV, Chapitre III (Normes de pasteurisation).",
+        postconditions: "Éradication complète des pathogènes végétatifs (Salmonella, Enterobacteriaceae).",
+        legal: "Règlement (UE) n° 142/2011, Annexe IV, Chapitre III (Normes européennes de pasteurisation).",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
       },
       {
-        id: "UC-305",
+        id: "UC-405",
         title: "Valorisation Forestière Cinéraire sous Dérogation DEC-AET-05",
         cat: "Destination Finale",
-        actor: "Garde Forestier / Famille",
-        tags: ["ForetCineraire", "DEC-AET-05", "FeedBan"],
-        preconditions: "Matière pasteurisée 70°C/1h, absence totale de ruminants, politique signée.",
+        actor: "Garde Forestier / Famille / Exploitant Cinéraire",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["ArbreCineraire", "DEC-AET-05", "ForetMemoire", "FeedBan"],
+        preconditions: "Lot issu de dépouilles de compagnie saines, pasteurisé à 70°C pendant 1h, politique dérogatoire signée.",
         flow: [
-          "The Iron Gate valide l'application de la dérogation Kudoro DEC-AET-05.",
-          "L'empreinte de la politique dérogatoire est intégrée sous la clé 6 du certificat de lot.",
-          "Conditionnement en urne biodégradable ou conteneur d'amendement forestier.",
-          "Épandage au pied de l'arbre du souvenir dans une forêt cinéraire privée agréée.",
-          "Blocage cryptographique absolu de tout recyclage dans la chaîne alimentaire agricole."
+          "The Iron Gate valide l'application de la dérogation souveraine DEC-AET-05.",
+          "Conditionnement des protéines et résidus sous forme d'amendement fertilisant pour arbre cinéraire du souvenir.",
+          "Épandage au pied de l'arbre mémoriel désigné dans une forêt cinéraire privée agréée.",
+          "Inscription de l'arbre et du défunt dans le cadastre mémoriel forestier.",
+          "Verrouillage cryptographique absolu interdisant toute réintroduction dans la chaîne alimentaire agricole."
         ],
-        postconditions: "Cycle naturel fermé dans la dignité, zéro risque épidémiologique.",
-        legal: "Règlement (CE) n° 1069/2009 article 19 §1 (a) & Code wallon de l'environnement.",
+        postconditions: "Boucle de retour à la nature accomplie dans le recueillement et le respect de la loi.",
+        legal: "Règlement (CE) 1069/2009 art. 19 & Décret wallon du 27 mai 2004 sur l'environnement.",
         legal_url: "https://wallex.wallonie.be/eli/loi-decret/2004/05/27/2004027150/justel"
       },
       {
-        id: "UC-306",
-        title: "Profil 2 — Faune Sauvage & Biocontrôle DNF (Catégorie 1/2)",
+        id: "UC-406",
+        title: "Profil 2 — Filière Faune Sauvage (Cat 1/2 DNF) : Badge & GPS",
         cat: "Profils Dépouilles",
-        actor: "Agent du Département de la Nature et des Forêts (DNF)",
-        tags: ["DNF", "FauneSauvage", "Biocontrol"],
-        preconditions: "Cadavre de gibier ou grand mammifère sauvage découvert en forêt (sanglier, cerf, chevreuil).",
+        actor: "Garde-Forestier du DNF (Département de la Nature et des Forêts)",
+        platforms: ["Android", "iOS", "Web"],
+        tags: ["DNF", "FauneSauvage", "GPS-Submetrique", "BadgeNFC"],
+        preconditions: "Cadavre de grand gibier sauvage découvert en milieu naturel (sanglier, cerf, chevreuil).",
         flow: [
-          "L'agent DNF arrive sur les lieux de découverte de la carcasse.",
-          "Authentification de l'agent par badge NFC professionnel sécurisé.",
-          "Prise des coordonnées GPS satellitaires avec précision submétrique.",
-          "Enregistrement de l'espèce (TaxID NCBI officiel, ex: 9823 pour Sus scrofa).",
-          "Mise en sac de transport hermétique sécurisé avec scellé numéroté."
+          "Arrivée de l'agent DNF sur le lieu de signalement de la carcasse.",
+          "Authentification de l'agent par scan de son badge NFC professionnel sécurisé.",
+          "Relevé automatique des coordonnées GPS satellitaires avec précision submétrique (< 1 mètre).",
+          "Identification de l'espèce sauvage et encodage du TaxID NCBI (ex: 9823 pour Sus scrofa).",
+          "Conditionnement en sac de confinement hermétique avec scellé numéroté DNF inviolable."
         ],
-        postconditions: "Dépouille géolocalisée et prise en charge sous autorité publique.",
-        legal: "Code forestier wallon & Règlements de police sanitaire de la faune sauvage.",
+        postconditions: "Carcasse prise en charge sous séquestre sanitaire officiel.",
+        legal: "Code forestier wallon (Décret du 15 juillet 2008) & Protocoles de police sanitaire de la faune sauvage.",
         legal_url: "https://environnement.wallonie.be"
       },
       {
-        id: "UC-307",
-        title: "Dépistages PCR Épizooties (Peste Porcine & Prions CWD)",
+        id: "UC-407",
+        title: "Dépistages PCR Épizooties en Laboratoire Agréé (PPA & CWD)",
         cat: "Contrôle Biologique",
-        actor: "Laboratoire Régional Agréé (CERVA / Sciensano)",
-        tags: ["PCR", "PPA", "CWD", "Epizootie"],
-        preconditions: "Prélèvement d'organes cibles (rate pour sanglier, obex/nœuds lymphatiques pour cervidés).",
+        actor: "Laboratoire Régional Vétérinaire Agréé (Sciensano)",
+        platforms: ["Desktop", "Web", "Android", "iOS"],
+        tags: ["PCR", "PPA", "CWD", "Sciensano", "Epizootie"],
+        preconditions: "Prélèvement d'organes cibles effectué par le garde DNF sur le gibier.",
         flow: [
-          "Analyse PCR en temps réel pour la Peste Porcine Africaine (PPA).",
-          "Test Western Blot ou ELISA rapide pour la Maladie du Dépérissement Chronique des Cervidés (CWD).",
-          "Si détection positive d'une épizootie majeure : alerte d'urgence AFSCA, confinement immédiat de la zone et incinération C1 obligatoire.",
-          "Si résultat négatif : transmission du certificat sanitaire signé par le vétérinaire inspecteur."
+          "Analyse moléculaire par PCR en temps réel pour le virus de la Peste Porcine Africaine (PPA).",
+          "Test Western Blot / ELISA pour le dépistage de la Maladie du Dépérissement Chronique des Cervidés (CWD - prions).",
+          "Si résultat positif à une épizootie majeure : alerte d'urgence AFSCA, confinement du massif forestier et incinération C1 immédiate.",
+          "Si résultat strictement négatif : émission du visa sanitaire d'admission à la transformation."
         ],
-        postconditions: "Statut sanitaire certifié avant toute admission dans le réacteur de sarcomusation.",
-        legal: "Règlement délégué (UE) 2020/687 (Mesures de lutte contre les maladies répertoriées).",
+        postconditions: "Statut sanitaire certifié par le laboratoire officiel avant toute bioconversion.",
+        legal: "Règlement délégué (UE) 2020/687 (Lutte contre les maladies animales répertoriées).",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32020R0687"
       },
       {
-        id: "UC-308",
+        id: "UC-408",
         title: "Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 minutes)",
         cat: "Traitement Thermique",
         actor: "Opérateur Autoclave Industriel",
-        tags: ["Methode1", "133C-3bars-20min", "Autoclave"],
-        preconditions: "Matières de Catégorie 1 ou 2 nécessitant une neutralisation prion obligatoire.",
+        platforms: ["Desktop", "Web", "Android"],
+        tags: ["Methode1", "133C-3bars-20min", "Autoclave", "AntiPrion"],
+        preconditions: "Matières de Catégorie 1 ou 2 nécessitant une neutralisation absolue des agents prions.",
         flow: [
-          "Réduction granulométrique obligatoire préalable à une taille de particules <= 50 mm.",
-          "Chargement en autoclave à pression de vapeur saturée.",
-          "Chauffe à une température minimale au cœur de 133,0°C sans interruption.",
-          "Maintien sous une pression absolue d'au moins 3,0 bars pendant 20 minutes consécutives.",
-          "Acquisition certifiée des courbes Pression-Température-Temps par automate homologué."
+          "Broyage préalable obligatoire de la matière à une granulométrie inférieure ou égale à 50 mm.",
+          "Chargement en autoclave industriel à vapeur saturée.",
+          "Chauffe à une température minimale au cœur de la matière de 133,0°C sans interruption.",
+          "Maintien sous pression manométrique d'au moins 3,0 bars pendant au moins 20 minutes consécutives.",
+          "Acquisition horodatée et scellée des courbes Pression-Température-Temps par automate homologué."
         ],
-        postconditions: "Destruction irréversible des agents prions (EST) conformément aux normes européennes.",
+        postconditions: "Inactivation irréversible de l'infectiosité des agents transmissibles non conventionnels (prions).",
         legal: "Règlement (UE) n° 142/2011, Annexe IV, Chapitre III, Méthode de transformation 1.",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
       },
       {
-        id: "UC-309",
-        title: "Profil 3 — Animaux de Ferme & Élevage (Catégorie 2)",
+        id: "UC-409",
+        title: "Profil 3 — Filière Élevage / Ferme (Catégorie 2) & Boucle Sanitel",
         cat: "Profils Dépouilles",
-        actor: "Éleveur / Vétérinaire d'Exploitation",
-        tags: ["Ferme", "Cat2", "Elevage"],
-        preconditions: "Mortalité naturelle en exploitation agricole (bovin, ovin, caprin, porcin).",
+        actor: "Éleveur Agricole / Vétérinaire d'Exploitation",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Ferme", "Elevage", "Cat2", "BoucleSanitel"],
+        preconditions: "Mortalité survenue dans une exploitation agricole agréée (bovins, porcins, ovins).",
         flow: [
-          "Déclaration du décès agricole dans les 24 heures.",
-          "Lecture de la boucle officielle auriculaire d'identification.",
-          "Vérification de l'absence de suspicion de maladie à déclaration obligatoire (ex: ESB, tremblante).",
-          "Attribution de la filière de valorisation technique exclusivement (Catégorie 2)."
+          "Déclaration obligatoire du décès dans les 24 heures via le terminal d'exploitation.",
+          "Lecture optique et NFC de la boucle auriculaire officielle d'identification Sanitel.",
+          "Vérification de l'absence de signes cliniques d'EST (ESB bovine, tremblante du mouton).",
+          "Attribution exclusive de la filière de valorisation technique Catégorie 2 (biodiesel, engrais minéraux).",
+          "Interdiction catégorique de tout aiguillage vers l'alimentation humaine ou animale mémorielle."
         ],
-        postconditions: "Carcasse enregistrée et préparée pour l'ingestion API officielle.",
+        postconditions: "Carcasse agricole classée en Catégorie 2 prête pour la synchronisation officielle.",
         legal: "Règlement (CE) n° 1069/2009 article 9 (Matières de catégorie 2).",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
       },
       {
-        id: "UC-310",
-        title: "Ingestion Automatique APIs Sanitel & CERISE (DEC-AET-02)",
+        id: "UC-410",
+        title: "Ingestion Automatisée APIs Sanitel & CERISE (Traçabilité Élevage)",
         cat: "Interopérabilité APIs",
-        actor: "Connecteur API AeterniCore",
-        tags: ["Sanitel", "CERISE", "AFSCA", "ARSIA", "DGZ"],
-        preconditions: "Numéro de boucle nationale ou identifiant Sanitel de l'animal.",
+        actor: "Connecteur API AeterniTrak",
+        platforms: ["Desktop", "Web", "Android", "iOS"],
+        tags: ["Sanitel", "CERISE", "SPW", "ARSIA", "DGZ"],
+        preconditions: "Numéro de boucle nationale Sanitel scanné sur la dépouille agricole.",
         flow: [
-          "Interrogation automatisée de l'API Sanitel (AFSCA) et du portail agricole wallon CERISE (SPW Agriculture).",
-          "Récupération de l'historique complet : date de naissance, race, troupeau d'origine, statut sanitaire de l'exploitation.",
-          "Contrôle du registre des traitements médicamenteux vétérinaires et des temps d'attente (antibiotiques, antiparasitaires).",
-          "Vérification auprès d'ARSIA (Wallonie) ou DGZ (Flandre) de l'absence de mise sous séquestre.",
-          "Rattachement automatique des métadonnées officielles à la revendication de lot."
+          "Appel sécurisé en temps réel aux APIs du guichet agricole wallon CERISE et du registre fédéral Sanitel (AFSCA).",
+          "Récupération de la fiche complète : race, date de naissance, historique des déplacements d'exploitation en exploitation.",
+          "Contrôle automatique du registre des traitements médicamenteux vétérinaires et respect des temps d'attente.",
+          "Interrogation des bases sanitaires régionales ARSIA (Wallonie) et DGZ (Flandre) pour confirmer l'absence de mise sous séquestre.",
+          "Agrégation des données certifiées au dossier numérique de revendication de lot."
         ],
-        postconditions: "Zéro saisie manuelle erronée, données administratives officielles infalsifiables.",
-        legal: "Arrêté Royal du 20 mai 2022 relatif à l'identification et l'enregistrement des animaux (Sanitel).",
+        postconditions: "Zéro risque d'erreur de saisie manuelle, intégrité administrative garantie.",
+        legal: "Arrêté Royal du 20 mai 2022 relatif à l'identification des animaux (Sanitel).",
         legal_url: "https://www.favv-afsca.be/sanitaire/sanitel/"
       },
       {
-        id: "UC-311",
-        title: "Profil 4 — Déchets d'Abattoir (Cat 1 MRS & Cat 3)",
+        id: "UC-411",
+        title: "Profil 4 — Filière Déchets d'Abattoir (Cat 1 MRS) & Dénaturation Bleu",
         cat: "Profils Dépouilles",
-        actor: "Inspecteur Vétérinaire d'Abattoir",
-        tags: ["Abattoir", "MRS", "MaterielsRisque"],
-        preconditions: "Sous-produits animaux issus de la chaîne d'abattage agréée.",
+        actor: "Inspecteur Vétérinaire d'Abattoir AFSCA",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Abattoir", "MRS", "BleuMethylene", "Cat1"],
+        preconditions: "Sous-produits animaux issus de la chaîne d'abattage industrielle agréée.",
         flow: [
-          "Séparation immédiate des Matériels à Risque Spécifié (MRS) : crâne, encéphale, yeux, moelle épinière des ruminants.",
-          "Classification obligatoire en Matières de Catégorie 1 (haut risque prion).",
-          "Dénaturation chimique immédiate par pulvérisation de bleu de méthylène à 0,5 % pour empêcher toute réutilisation frauduleuse.",
-          "Émission du Document Commercial (Commercial Document) normalisé AFSCA.",
-          "Stérilisation Méthode 1 obligatoire avant toute valorisation en cimenterie ou biodiesel."
+          "Ségrégation immédiate des Matériels à Risque Spécifié (MRS) : crâne, encéphale, yeux et moelle épinière des ruminants.",
+          "Classification obligatoire en Sous-Produits de Catégorie 1 (risque maximal de transmission d'EST).",
+          "Dénaturation chimique par pulvérisation d'une solution de bleu de méthylène à 0,5 % pour marquer visuellement la chair.",
+          "Émission du Document Commercial (Commercial Document) officiel AFSCA avec code QR sécurisé.",
+          "Stérilisation Méthode 1 préalable obligatoire avant expédition en cimenterie ou réacteur biodiesel."
         ],
-        postconditions: "Flux MRS chimiquement et visuellement identifié, traçabilité inviolable.",
-        legal: "Règlement (CE) n° 999/2001 Annexe V (Spécification des MRS).",
+        postconditions: "Flux MRS marqué de manière indélébile et tracé sous contrôle étatique.",
+        legal: "Règlement (CE) n° 999/2001 Annexe V (Prescriptions relatives aux MRS).",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32001R0999"
       },
       {
-        id: "UC-312",
-        title: "Évaluation Positive par The Iron Gate (Règles v1.4, P01 à P17)",
+        id: "UC-412",
+        title: "Évaluation Algorithmique Pure par The Iron Gate (G0 à G9, Anti-Prion)",
         cat: "Validation Algorithmique",
         actor: "Moteur The Iron Gate (Bushi 12)",
-        tags: ["IronGate", "DefaultDeny", "P01-P17"],
-        preconditions: "Revendication de lot complète (claim) soumise au validateur pur.",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["TheIronGate", "RegleAntiPrion", "P01-P17", "G0-G9"],
+        preconditions: "Revendication de lot complète soumise pour autorisation de signature.",
         flow: [
-          "G0 : Contrôle structurel de type, champs obligatoires et schéma.",
-          "G1 : Résolution taxonomique stricte dans le snapshot officiel (rejet des taxons non résolus, taxons humains, rangs non-espèces).",
-          "G2 : Rejet absolu des restes humains vers toute destination alimentaire ou technique.",
-          "G3 : Contrôle de catégorie de substrat (feed_grade_plant, etc.).",
-          "G4 : Barrière d'euthanasie (rejet si LFA positif ou non testé en C1 mémoriel).",
-          "G5 : Barrière d'épizootie et virologie (rejet si PCR positive en faune sauvage).",
-          "G6 : Contrôle de la méthode thermique de transformation (Méthode 1 pour Cat 1/2, pasteurisation pour C1 mémoriel).",
-          "G7 : LA RÈGLE D'OR ANTI-PRION : interdiction mathématique de recyclage au sein de la même espèce ou même classe.",
-          "G8 : Contrôle de la compatibilité des destinations (alimentation animale vs aquaculture vs technique).",
-          "G9 : Contrôle de l'organisme de bioconversion (Hermetia illucens TaxID 343691)."
+          "G0 à G3 : Contrôles de structure CBOR, résolution taxonomique stricte dans le snapshot officiel et rejet absolu des restes humains.",
+          "G4 : Barrière toxicologique d'euthanasie (rejet si LFA positif ou non testé en Cat 1 mémoriel).",
+          "G5 : Barrière d'épizootie virologique (rejet si PCR non validée en faune sauvage).",
+          "G6 : Contrôle du traitement thermique (Méthode 1 pour Cat 1/2, pasteurisation 70°C/1h pour mémoriel).",
+          "G7 : LA RÈGLE D'OR ANTI-PRION : interdiction mathématique absolue de tout recyclage intra-espèce (interdiction de nourrir une espèce avec ses propres protéines).",
+          "G8 & G9 : Contrôle de compatibilité des destinations finales et vérification de la colonie de bioconversion (Hermetia illucens TaxID 343691)."
         ],
-        postconditions: "Verdict déterministe émis : AUTHORISED (signature_permitted = true) ou BLOCKED avec liste de motifs unifiée.",
-        legal: "Règlements (CE) 999/2001, (UE) 2021/1372 & Spécification AET-SPEC-PRION-001.",
+        postconditions: "Verdict déterministe émis : AUTHORISED (signature_permitted = true) ou BLOCKED avec motifs normalisés.",
+        legal: "Règlement (CE) 999/2001, Règlement (UE) 2021/1372 & Spécification AET-SPEC-PRION-001.",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32021R1372"
       },
       {
-        id: "UC-313",
-        title: "Émission du Certificat de Lot Signé Ed25519 (Ordre 0047)",
+        id: "UC-413",
+        title: "Émission du Certificat de Lot Signé Ed25519 (AET-SPEC-CERT-001)",
         cat: "Cryptographie Filière",
         actor: "Oracle d'Émission AeterniTrak (Bushi 02)",
-        tags: ["BatchCert", "Ed25519", "AET-SPEC-CERT-001"],
-        preconditions: "The Iron Gate a émis un verdict strictement AUTHORISED.",
+        platforms: ["Desktop", "Web", "Android", "iOS"],
+        tags: ["BatchCert", "Ed25519", "COSE_Sign1", "AET-SPEC-CERT-001"],
+        preconditions: "The Iron Gate a délivré un verdict formellement AUTHORISED.",
         flow: [
-          "Calcul du SHA-256 de la chaîne canonique JCS de la revendication (Clé 1).",
-          "Insertion du statut littéral 'AUTHORISED' (Clé 2) et du timestamp UNIX Tag 1 (Clé 3).",
-          "Insertion de l'empreinte SHA-256 du snapshot taxonomique (Clé 4) et de la version des règles (Clé 5).",
-          "Si dérogation DEC-AET-05 : insertion de l'empreinte de la politique forestière (Clé 6).",
-          "Encodage CBOR déterministe à clés entières strictes.",
-          "Signature cryptographique Ed25519 par la clé de conformité de lot agréée.",
-          "Génération de l'enveloppe COSE_Sign1 (typ: application/aeternitrak-batch-claim+cbor)."
+          "Calcul du hachage SHA-256 canonique JCS de la revendication de lot (Clé 1).",
+          "Insertion du statut littéral 'AUTHORISED' (Clé 2) et de l'horodatage UNIX Tag 1 (Clé 3).",
+          "Insertion de l'empreinte du snapshot taxonomique (Clé 4) et de la version des règles v1.4 (Clé 5).",
+          "Intégration de l'empreinte de la dérogation forestière mémorielle DEC-AET-05 si applicable (Clé 6).",
+          "Encodage CBOR déterministe et signature cryptographique par la clé Ed25519 officielle de l'autorité de conformité.",
+          "Génération de l'enveloppe COSE_Sign1 (content type : application/aeternitrak-batch-claim+cbor)."
         ],
-        postconditions: "Certificat infalsifiable émis et communicable aux acheteurs de protéines et régulateurs.",
-        legal: "Spécification technique AET-SPEC-CERT-001 & Norme RFC 9052.",
+        postconditions: "Certificat de lot infalsifiable délivré aux acteurs de la filière et régulateurs.",
+        legal: "Spécification AET-SPEC-CERT-001 & RFC 9052 (COSE Sign1).",
         legal_url: "#"
       },
       {
-        id: "UC-314",
-        title: "Contrôle Réglementaire AFSCA / DNF & Audit Hors-Ligne",
-        cat: "Audit & Régulateur",
+        id: "UC-414",
+        title: "Double Audit Réglementaire AFSCA / DNF Hors-Ligne",
+        cat: "Audit & Régulateurs",
         actor: "Inspecteur AFSCA / Garde DNF",
-        tags: ["Audit", "Controle", "DoubleValidation"],
-        preconditions: "Contrôle inopiné d'un lot de protéines d'insectes transformées (PAT).",
+        platforms: ["Android", "iOS", "Web", "Desktop"],
+        tags: ["Audit", "Controle", "DoubleValidation", "HorsLigne"],
+        preconditions: "Contrôle inopiné d'un chargement de protéines d'insectes transformées (PAT) ou d'amendements forestiers.",
         flow: [
-          "L'inspecteur scanne le QR-Code sécurisé ou interroge la puce du conteneur.",
-          "L'application de contrôle effectue une double validation indépendante :",
-          "1. Vérification mathématique de la signature COSE_Sign1 par rapport à la liste d'émetteurs agréés.",
-          "2. Réévaluation intégrale de la revendication originale via The Iron Gate embarquée dans le terminal d'inspection.",
-          "Confirmation immédiate de l'absence totale de prions, de barbituriques et de contamination croisée.",
-          "Délivrance de l'attestation de conformité officielle de contrôle."
+          "L'inspecteur scanne le certificat cryptographique via son terminal mobile de contrôle.",
+          "Double vérification autonome et instantanée exécutée sans aucune connexion réseau :",
+          "1. Vérification mathématique de la signature Ed25519 par rapport à la clé publique de l'autorité AeterniTrak.",
+          "2. Réévaluation intégrale en local des règles The Iron Gate G0 à G9 sur la revendication originale.",
+          "Constat infaillible de l'absence totale de prions, de barbituriques et de recyclage illicite.",
+          "Délivrance de l'attestation de conformité réglementaire immédiate."
         ],
-        postconditions: "Traçabilité alimentaire européenne prouvée à 100%, sécurité publique garantie.",
-        legal: "Loi du 4 février 2000 relative à la création de l'Agence fédérale pour la Sécurité de la Chaîne alimentaire (AFSCA).",
+        postconditions: "Sécurité sanitaire et légale démontrée à 100% auprès des autorités publiques.",
+        legal: "Loi du 4 février 2000 relative à l'AFSCA & Règlement (UE) 2017/625 sur les contrôles officiels.",
         legal_url: "https://www.favv-afsca.be"
       }
     ];
 
-    // Données des Textes Juridiques et Lois Officielles
+    // =========================================================================
+    // Données des 24 Lois et Textes Juridiques Opposables
+    // =========================================================================
     const legalTexts = [
       {
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (CE) n° 999/2001",
         title: "Règles pour la prévention, le contrôle et l'éradication de certaines encéphalopathies spongiformes transmissibles (EST)",
-        impact: "Base légale absolue de la Règle d'Or Anti-Prion : interdiction stricte du cannibalisme intra-espèce et réglementation des farines animales (Feed-Ban).",
+        impact: "Fondement de la Règle d'Or Anti-Prion : interdiction stricte du cannibalisme intra-espèce et réglementation des farines animales (feed ban).",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32001R0999"
       },
       {
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (UE) 2021/1372",
         title: "Autorisation des protéines animales transformées (PAT) de porcins et d'insectes dans l'alimentation des volailles et porcins",
-        impact: "Définit les routes de recyclage autorisées pour les insectes (Hermetia illucens) vers la volaille et le porc sous stricte ségrégation d'espèce.",
+        impact: "Définit les routes de recyclage autorisées pour les larves d'Hermetia illucens vers la volaille et le porc sous stricte ségrégation d'espèce.",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32021R1372"
       },
       {
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (CE) n° 1069/2009",
         title: "Règles sanitaires applicables aux sous-produits animaux et produits dérivés non destinés à la consommation humaine",
-        impact: "Classification des 3 catégories de carcasses (Cat 1 haut risque, Cat 2 technique/engrais, Cat 3 alimentation). Art. 19 dérogation mémoriel animal.",
+        impact: "Classification en 3 catégories de carcasses (Cat 1 haut risque, Cat 2 technique, Cat 3 alimentation). Art. 19 dérogation mémoriel animal.",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
       },
       {
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (UE) n° 142/2011",
         title: "Mesures d'exécution du règlement (CE) n° 1069/2009 relatif aux sous-produits animaux",
-        impact: "Spécification technique de la Méthode 1 européenne (133°C, 3 bars, 20 minutes) et des normes de pasteurisation thermique (70°C, 1 heure).",
+        impact: "Spécification technique de la Méthode 1 de stérilisation (133°C, 3 bars, 20 min) et des normes de pasteurisation (70°C, 1 heure).",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
+      },
+      {
+        jurisdiction: "🇪🇺 Union Européenne",
+        ref: "Règlement (UE) n° 910/2014 (eIDAS)",
+        title: "Identification électronique et services de confiance pour les transactions électroniques au sein du marché intérieur",
+        impact: "Cadre légal de la signature électronique qualifiée et du scellement cryptographique COSE_Sign1 des profils mémoriels.",
+        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
+      },
+      {
+        jurisdiction: "🇪🇺 Union Européenne",
+        ref: "Règlement (UE) 2016/679 (RGPD)",
+        title: "Règlement général sur la protection des données (Art. 5 - Principes relatifs au traitement)",
+        impact: "Principe fondamental de minimisation : fonctionnement 100% hors-ligne, zéro compte obligatoire et zéro traçage publicitaire.",
+        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679"
+      },
+      {
+        jurisdiction: "🇪🇺 Union Européenne",
+        ref: "Règlement délégué (UE) 2020/687",
+        title: "Mesures de surveillance et de lutte contre les maladies animales répertoriées (PPA & CWD)",
+        impact: "Obligation de dépistage PCR de la Peste Porcine Africaine et de la Maladie du Dépérissement Chronique sur la faune sauvage.",
+        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32020R0687"
+      },
+      {
+        jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Loi du 20 juillet 1971",
+        title: "Loi sur les funérailles et sépultures",
+        impact: "Respect absolu de la volonté du défunt quant au mode de sépulture, au culte ou à la destination de ses cendres.",
+        url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Loi du 13 juin 1986",
         title: "Loi sur le prélèvement et la transplantation d'organes",
-        impact: "Principe du consentement présumé (opt-out). Obligation légale de consultation du registre national avant tout prélèvement post-mortem.",
+        impact: "Principe du consentement présumé (opt-out). Consultation obligatoire du registre national du SPF Santé Publique.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/1986/06/13/1986025160/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Loi du 4 février 2000",
+        title: "Création de l'Agence fédérale pour la Sécurité de la Chaîne alimentaire (AFSCA)",
+        impact: "Autorité de tutelle sur les sous-produits animaux, les contrôles sanitaires d'abattoir et l'agrément des installations de transformation.",
+        url: "https://www.favv-afsca.be"
+      },
+      {
+        jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Loi du 22 août 2002",
-        title: "Loi relative aux droits du patient (art. 9 §4)",
-        impact: "Encadre l'accès des ayants droit au dossier médical du défunt par l'intermédiaire d'un médecin désigné, sous réserve de non-opposition expresse.",
+        title: "Loi relative aux droits du patient (Art. 9 §4)",
+        impact: "Accès encadré des ayants droit au dossier médical du défunt par l'intermédiaire d'un médecin désigné, sous réserve de non-opposition.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/2002/08/22/2002022737/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Loi du 30 juillet 2018",
-        title: "Loi relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel (art. 29-30)",
-        impact: "Régit le sort des données à caractère personnel et numériques après la mort, ainsi que la validité des directives données à un mandataire.",
+        title: "Loi relative à la protection des personnes physiques à l'égard des traitements de données (Art. 29-30)",
+        impact: "Régit le sort des données à caractère personnel et numériques après la mort et la validité des mandats post-mortem.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/2018/07/30/2018040581/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
-        ref: "Code civil belge (Art. 1984 & suiv.)",
-        title: "Du contrat de mandat et mandat post-mortem",
-        impact: "Fondement juridique opposable de la désignation d'un exécuteur testamentaire ou mandataire pour la gestion du coffre mémoriel AeterniTrak.",
+        ref: "Code civil belge (Art. 1382 & 1984)",
+        title: "Responsabilité civile et mandat post-mortem",
+        impact: "Protection de la mémoire du défunt contre les atteintes illicites et fondement juridique du mandataire mémoriel de famille.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
-        ref: "Loi du 4 février 2000 & Sanitel",
-        title: "Création de l'Agence fédérale pour la Sécurité de la Chaîne alimentaire (AFSCA) & Système Sanitel",
-        impact: "Traçabilité officielle des bovins, porcins et ovins par boucles auriculaires et contrôle des temps d'attente médicamenteux vétérinaires.",
-        url: "https://www.favv-afsca.be/sanitaire/sanitel/"
+        ref: "Code pénal belge (Art. 193-214 & 458)",
+        title: "Du faux et usage de faux & Du secret médical",
+        impact: "Sanction pénale de toute altération de données scellées et sanctuarisation absolue du secret médical après la mort.",
+        url: "https://www.ejustice.just.fgov.be/eli/loi/1867/06/08/1867060850/justel"
+      },
+      {
+        jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Code judiciaire belge (Art. 591, 11°)",
+        title: "Compétence exclusive du Juge de Paix en matière funéraire",
+        impact: "Tribunal compétent en cas de litige familial sur le mode de sépulture ou les volontés exprimées.",
+        url: "https://www.ejustice.just.fgov.be/eli/loi/1967/10/10/1967101050/justel"
       },
       {
         jurisdiction: "🇧🇪 Région Wallonne",
-        ref: "Décret wallon du 6 mars 2009",
-        title: "Décret modifiant le Code de la démocratie locale et de la décentralisation relatif aux funérailles et sépultures",
-        impact: "Règlemente les modes de sépulture, la crémation, les concessions et l'obligation d'exérèse des pacemakers/défibrillateurs (art. L1232-17 §2).",
+        ref: "Code de la démocratie locale (Art. L1232-17 §2)",
+        title: "Décret wallon sur les funérailles et sépultures — Exérèse obligatoire des stimulateurs cardiaques",
+        impact: "Obligation légale d'exérèse des pacemakers et défibrillateurs avant crémation sous peine d'interdiction de l'acte.",
         url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+      },
+      {
+        jurisdiction: "🇧🇪 Région Wallonne",
+        ref: "Code forestier wallon (Décret du 15 juillet 2008)",
+        title: "Missions de police sanitaire et de biocontrôle du Département de la Nature et des Forêts (DNF)",
+        impact: "Habilite les agents du DNF pour l'authentification par badge NFC et la géolocalisation GPS des cadavres de faune sauvage.",
+        url: "https://environnement.wallonie.be"
       },
       {
         jurisdiction: "🇧🇪 Région Wallonne",
         ref: "Portail CERISE (SPW Agriculture)",
         title: "Guichet agricole et vétérinaire officiel de la Région wallonne",
-        impact: "Connexion API obligatoire pour l'ingestion des mouvements et passeports d'élevage wallons dans AeterniTrak.",
+        impact: "Ingestion automatique des identifiants d'exploitation, passeports d'élevage et temps d'attente médicamenteux.",
         url: "https://cerise.wallonie.be"
+      },
+      {
+        jurisdiction: "🇧🇪 Région Wallonne",
+        ref: "Décret wallon du 27 mai 2004",
+        title: "Livre Ier du Code de l'Environnement & Régime des forêts cinéraires privées",
+        impact: "Base légale d'agrément des espaces forestiers cinéraires pour le retour des protéines pasteurisées au pied d'un arbre mémoriel (DEC-AET-05).",
+        url: "https://wallex.wallonie.be/eli/loi-decret/2004/05/27/2004027150/justel"
       },
       {
         jurisdiction: "🇧🇪 Région Flamande",
         ref: "Décret flamand du 16 janvier 2004",
-        title: "Décret sur les sépultures et les crémations & Plateforme numérique eLys (2026)",
-        impact: "Numérisation obligatoire des déclarations de décès et autorisations de crémation en Flandre via le système eLys.",
+        title: "Décret sur les sépultures, les crémations et la plateforme numérique eLys",
+        impact: "Numérisation et télé-déclaration obligatoire des déclarations de décès et autorisations de crémation en Flandre.",
         url: "https://codex.vlaanderen.be"
       },
       {
         jurisdiction: "🇧🇪 Région Bruxelles-Capitale",
         ref: "Ordonnance du 29 novembre 2018",
-        title: "Ordonnance relative aux funérailles et sépultures dans la Région de Bruxelles-Capitale",
-        impact: "Cadre légal bruxellois pour les rites funéraires, les transferts de dépouilles et les litiges familiaux en état civil.",
+        title: "Ordonnance relative aux funérailles et sépultures en Région de Bruxelles-Capitale",
+        impact: "Cadre bruxellois applicable au respect des dernières volontés, transferts de corps et concessions publiques.",
         url: "https://irisnet.be"
+      },
+      {
+        jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Arrêté Royal du 20 mai 2022",
+        title: "Identification et enregistrement des bovins, porcins, ovins et caprins (Système Sanitel)",
+        impact: "Traçabilité nationale par boucle auriculaire obligatoire et contrôle des temps d'attente médicamenteux.",
+        url: "https://www.favv-afsca.be/sanitaire/sanitel/"
       },
       {
         jurisdiction: "🌍 International",
         ref: "Accord de Strasbourg du 26 octobre 1973",
         title: "Accord sur le transfert des corps des personnes décédées (Conseil de l'Europe, STE n° 080)",
-        impact: "Définit les règles strictes de rapatriement transfrontalier de cercueils (zinc hermétique, laissez-passer consulaire officiel).",
+        impact: "Règles internationales de rapatriement de dépouilles : cercueil hermétique avec doublure zinc et laissez-passer mortuaire officiel.",
         url: "https://www.coe.int/fr/web/conventions/full-list?module=treaty-detail&treatynum=080"
+      },
+      {
+        jurisdiction: "🌍 International",
+        ref: "Code sanitaire des animaux terrestres (WOAH / OIE)",
+        title: "Chapitre 4.14 — Gestion et élimination sécurisée des cadavres d'animaux",
+        impact: "Standards mondiaux de gestion des risques épidémiques lors de la collecte et de la bioconversion de carcasses animales.",
+        url: "https://www.woah.org"
       }
     ];
 
+    // =========================================================================
     // Fonctions d'Affichage et Interaction
+    // =========================================================================
+    function getPlatformBadges(platforms) {
+      if (!platforms) return '';
+      const map = {
+        'Android': '<span class="text-[9px] font-mono text-emerald-400 bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-800/40">📱 Android</span>',
+        'iOS': '<span class="text-[9px] font-mono text-slate-300 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">🍎 iOS</span>',
+        'Web': '<span class="text-[9px] font-mono text-sky-400 bg-sky-950/60 px-1.5 py-0.5 rounded border border-sky-800/40">🌐 Web PWA</span>',
+        'Desktop': '<span class="text-[9px] font-mono text-amber-400 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-800/40">💻 Desktop</span>'
+      };
+      return platforms.map(p => map[p] || '').join(' ');
+    }
+
     function renderUseCases(gridId, list) {
       const container = document.getElementById(gridId);
       if (!container) return;
@@ -1030,6 +1378,9 @@
             </div>
             <h3 class="text-base font-bold font-title text-white group-hover:text-gold-300 transition leading-snug">${uc.title}</h3>
             <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${uc.preconditions}</p>
+            <div class="pt-1 flex flex-wrap gap-1">
+              ${getPlatformBadges(uc.platforms)}
+            </div>
           </div>
           <div class="pt-4 border-t border-slate-850/80 mt-4 flex items-center justify-between">
             <div class="flex flex-wrap gap-1">
@@ -1076,7 +1427,7 @@
     }
 
     function openUseCaseModal(ucId) {
-      const allUcs = [...app1UseCases, ...app2UseCases, ...app3UseCases];
+      const allUcs = [...app1UseCases, ...app2UseCases, ...app3UseCases, ...app4UseCases];
       const uc = allUcs.find(u => u.id === ucId);
       if (!uc) return;
 
@@ -1089,7 +1440,10 @@
               <span class="text-xs uppercase font-mono font-bold text-slate-400">${uc.cat}</span>
             </div>
             <h2 class="text-xl font-bold font-title text-white mt-1.5">${uc.title}</h2>
-            <div class="text-xs text-slate-400 mt-1">Acteur principal : <strong class="text-gold-300">${uc.actor}</strong></div>
+            <div class="text-xs text-slate-400 mt-1 flex flex-wrap items-center gap-3">
+              <span>Acteur : <strong class="text-gold-300">${uc.actor}</strong></span>
+              <span class="border-l border-slate-700 pl-3">Plateformes : ${getPlatformBadges(uc.platforms)}</span>
+            </div>
           </div>
           <button onclick="document.getElementById('ucModal').close()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm font-bold transition">✕</button>
         </div>
@@ -1136,11 +1490,13 @@
                           uc.cat.toLowerCase().includes(q) ||
                           uc.preconditions.toLowerCase().includes(q) ||
                           uc.legal.toLowerCase().includes(q) ||
+                          (uc.platforms && uc.platforms.some(p => p.toLowerCase().includes(q))) ||
                           uc.tags.some(t => t.toLowerCase().includes(q));
 
       renderUseCases('grid-app1', app1UseCases.filter(match));
       renderUseCases('grid-app2', app2UseCases.filter(match));
       renderUseCases('grid-app3', app3UseCases.filter(match));
+      renderUseCases('grid-app4', app4UseCases.filter(match));
     }
 
     // Initialisation
@@ -1148,6 +1504,7 @@
       renderUseCases('grid-app1', app1UseCases);
       renderUseCases('grid-app2', app2UseCases);
       renderUseCases('grid-app3', app3UseCases);
+      renderUseCases('grid-app4', app4UseCases);
       renderLegalTable();
     });
   </script>
