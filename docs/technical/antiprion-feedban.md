@@ -1,10 +1,10 @@
 # Spécification Technique & Formelle — The Iron Gate (Validateur Anti-Prion & Feed-Ban)
 
 > **Document ID** : `AET-SPEC-PRION-001`  
-> **Version** : 1.4.0  
+> **Version** : 1.5.0  
 > **Statut** : Soumis pour révision  
 > **Date de référence** : 2026-10-04  
-> **Branche Git** : `fix/bushi-12-reasons-v14`  
+> **Branche Git** : `fix/bushi-12-insect-source-p18`  
 > **Auteur** : Bushi 12 (Anti-Prion & Biosecurity Lead)  
 > **Revue & Arbitrage** : Claude AI (Master Verifier)  
 > **Contrats Partagés** : Bushi 11 (Registres de filière), Bushi 01 (Déterminisme CBOR & Profil AeterniCore), Bushi 16 (QA Testvectors & Harnais)  
@@ -14,7 +14,8 @@
 > - `qa/vectors/antiprion/feedban-rules-v12.vectors.json` (64 cas règles v1.2, matrice 5.1 et DEC-AET-05)  
 > - `qa/vectors/antiprion/feedban-rules-v13.vectors.json` (10 cas règle P14)  
 > - `qa/vectors/antiprion/feedban-rules-v14.vectors.json` (19 cas règles v1.4, motifs d'infraction P15 à P17)  
-> **Total Vecteurs Validés** : 202 cas conformes
+> - `qa/vectors/antiprion/feedban-rules-v15.vectors.json` (10 cas règle v1.5, règle P18 insectes en source directe)  
+> **Total Vecteurs Validés** : 212 cas conformes
 
 ---
 
@@ -71,9 +72,17 @@ Les règles implémentées sont directement adossées aux textes officiels de l'
    - Identifiant ELI : [http://data.europa.eu/eli/reg/2011/142/2022-04-17](http://data.europa.eu/eli/reg/2011/142/2022-04-17)
 
 5. **Règlement (UE) 2017/893 de la Commission du 24 mai 2017**  
-   *Modifiant les annexes I et IV du règlement (CE) n° 999/2001 et les annexes X, XIV et XV du règlement (UE) n° 142/2011.*  
-   - Régime limitatif des substrats d'élevage pour les insectes producteurs de PAT : matières d'origine végétale saine ou matières sélectionnées de catégorie 3 (abattoir sain transformé).  
-   - **Exclusion absolue** : Les cadavres d'animaux (Cat. 1 ou Cat. 2), le fumier, les déchets de cuisine et de table, ainsi que les sous-produits d'abattoir crus excluent définitivement toute destination alimentaire humaine ou animale.  
+   *Modifiant les annexes I et IV du règlement (CE) n° 999/2001 du Parlement européen et du Conseil ainsi que les annexes X, XIV et XV du règlement (UE) n° 142/2011 de la Commission en ce qui concerne les dispositions relatives aux protéines animales transformées.*  
+   - **Article 1 et Annexe I** (modifications du règlement (CE) n° 999/2001) :  
+     - *Annexe I* : Définition légale des « insectes d'élevage » (*farmed insects*), limités aux espèces non pathogènes et non vectrices dont *Hermetia illucens* (mouche soldat noire).  
+     - *Annexe IV, Chapitre II, Section F* : Conditions de production et d'utilisation des PAT dérivées d'insectes d'élevage :  
+       - *Partie A (Conditions de transformation)* : Transformation obligatoire dans une usine de transformation de sous-produits animaux agréée (art. 24(1)(a) du règlement (CE) n° 1069/2009) selon la méthode standard 1 ou l'une des méthodes 2 à 5 ou la méthode 7 visées à l'annexe IV, chapitre III, du règlement (UE) n° 142/2011.  
+       - *Partie B (Utilisation)* : Autorisation des PAT d'insectes d'élevage et aliments composés en contenant pour l'alimentation des animaux d'aquaculture (étendue ultérieurement aux volailles et porcins par le règlement (UE) 2021/1372).  
+   - **Article 2 et Annexe II** (modifications du règlement (UE) n° 142/2011) :  
+     - *Annexe X, Chapitre II, Section 1, Partie A (Matières premières), point 2* : Exigences spécifiques relatives aux PAT dérivées d'insectes d'élevage. Les insectes doivent être nourris exclusivement avec des matières autorisées comme aliments pour animaux d'élevage (en vertu du règlement (CE) n° 767/2009) : substrats végétaux sains ou certaines matières sélectionnées de Catégorie 3 d'origine non-ruminant. L'utilisation de déchets de cuisine et de table, de déjections/fumier, de matières de Catégories 1 ou 2, ou de sous-produits d'abattoir non transformés comme substrat d'élevage des insectes exclut définitivement toute destination alimentaire humaine ou animale.  
+     - *Annexe XIV, Chapitre I, Section 1* : Exigences sanitaires applicables aux importations de PAT d'insectes.  
+     - *Annexe XV, Chapitre 1* : Modèles de certificats sanitaires officiels pour l'entrée dans l'Union.  
+   - **Portée normative de la règle P18** : L'accès légal de protéines d'insectes à l'alimentation animale (`feed`, `aquaculture_feed`) est conditionné au contrôle préalable et strict de leur substrat d'élevage (matière végétale vérifiée, règles P4 et P10). Dans toute filière où l'insecte est apporté comme source brute sans bioconversion contrôlée (ex. équarrissage direct `direct_rendering`, compostage, etc.), le substrat d'élevage larvaire n'est ni déclaré ni vérifié : cette filière est interdite en alimentation animale et produit immédiatement l'infraction `SUBSTRATE_CATEGORY_VIOLATION`. De surcroît, la nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route `insect_bioconversion` ; dans les autres routes, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min).  
    - Identifiant ELI : [http://data.europa.eu/eli/reg/2017/893/oj](http://data.europa.eu/eli/reg/2017/893/oj)
 
 ---
@@ -106,6 +115,8 @@ Les règles implémentées sont directement adossées aux textes officiels de l'
    Toute autre cible produit `TARGET_GROUP_NOT_AUTHORISED`.
 6. **Protection Absolue des Restes Humains** :  
    Toute détection d'origine humaine (taxon 9606, `material_class === "human_remains"` ou `origin_profile === "human"`) bloque instantanément et définitivement toute route alimentaire ou industrielle technique (`HUMAN_REMAINS_ROUTE_PROHIBITED`). Seule la crémation / incinération est autorisée sans dérogation (`PRION-AUTH-016`, `PRION-HARD-011`).
+7. **La Règle P18 (Insectes en Source Directe & Contrôle de Substrat — Règl. 2017/893)** :  
+   Les insectes ne peuvent entrer dans l'alimentation animale (`feed` et `aquaculture_feed`) que par la route `insect_bioconversion`, seule route où leur substrat d'élevage larvaire est formellement contrôlé (P4 : matière végétale saine `feed_grade_plant`). Tout taxon du groupe `INSECT` résolu dans `substrate.sources` vers une destination alimentaire produit immédiatement le motif bloquant `SUBSTRATE_CATEGORY_VIOLATION` (G3), quelle que soit la route empruntée. La nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route de bioconversion ; ailleurs, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min). Les usages non alimentaires (`technical`, `fertiliser`, `incineration`, `memorial_forestry`) ne sont pas visés par cette interdiction.
 
 ---
 
@@ -446,7 +457,7 @@ Le validateur exécute **10 portes séquentielles ordonnées (G0 à G9)**. L'év
 | 1 | **G1** | `TAXON_UNKNOWN` | Whitelist snapshot : taxid absent, non entier ou invalide |
 | 1 | **G1** | `TAXON_RANK_ABOVE_SPECIES` | Règle espèce : rang supérieur à l'espèce (famille, classe, etc.) |
 | 2 | **G2** | `HUMAN_REMAINS_ROUTE_PROHIBITED` | Ordre public : aucune valorisation alimentaire ou technique de l'humain |
-| 3 | **G3** | `SUBSTRATE_CATEGORY_VIOLATION` | Règl. 1069/2009 art. 12-14 ; Règl. 2017/893 (substrats d'insectes) |
+| 3 | **G3** | `SUBSTRATE_CATEGORY_VIOLATION` | Règl. 1069/2009 art. 12-14 ; Règl. 2017/893 (substrats d'insectes, règle P18) |
 | 3 | **G3** | `CATEGORY_DESTINATION_PROHIBITED` | Règl. 1069/2009 art. 12 : Catégorie 1 interdite en fertilisant |
 | 3 | **G3** | `DEROGATION_REQUIRED` | DEC-AET-05 requise : dérogation forestière obligatoire pour Cat. 1 |
 | 4 | **G4** | `PENTOBARBITAL_POSITIVE` | PROTOCOL.md §5 : Euthanasiant toxique avéré -> incinération exclusive |
@@ -461,7 +472,7 @@ Le validateur exécute **10 portes séquentielles ordonnées (G0 à G9)**. L'év
 
 ---
 
-### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.4 P9 à P17)
+### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.5 P9 à P18)
 
 ```typescript
 export interface PolicyInput {
@@ -651,7 +662,7 @@ export function evaluate(
   }
 
   // =========================================================================
-  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, P16, P17, DEC-AET-05)
+  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, P16, P17, P18, DEC-AET-05)
   // =========================================================================
   const category = substrate?.category;
   const materialClass = substrate?.material_class;
@@ -678,8 +689,15 @@ export function evaluate(
     } else {
       feedViolation = true;
     }
-    if (feedViolation || isPlantCategoryViolation) {
-      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+
+    // Règle P18 : En feed et aquaculture_feed, un taxon du groupe "INSECT" résolu dans substrate.sources
+    // vaut SUBSTRATE_CATEGORY_VIOLATION (G3), quelle que soit la route.
+    const hasInsectSource = resolvedSources.some(s => s.group === "INSECT");
+
+    if (feedViolation || isPlantCategoryViolation || hasInsectSource) {
+      if (!reasons.includes("SUBSTRATE_CATEGORY_VIOLATION")) {
+        reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+      }
     }
   } else if (use === "technical" || use === "fertiliser") {
     // Règle P12 : Portes indépendantes sans chaîne « sinon »
@@ -1226,11 +1244,11 @@ Conformément à l'exigence A6, **la revendication d'entrée complète (`claim`)
 
 ---
 
-## 8. Bilan de Validation et Couverture des 202 Vecteurs
+## 8. Bilan de Validation et Couverture des 212 Vecteurs
 
 ### 8.1 Couverture Intégrale des Suites de Vecteurs
 
-L'algorithme formel spécifié dans le présent document résout l'intégralité des **202 vecteurs de tests** répartis sur les cinq suites officielles :
+L'algorithme formel spécifié dans le présent document résout l'intégralité des **212 vecteurs de tests** répartis sur les six suites officielles :
 1. `qa/vectors/antiprion/feedban-matrix.vectors.json` (67 cas de base) :
    - 17 cas autorisés nominaux (`PRION-AUTH-001` à `017`)
    - 36 cas d'interdiction sanitaire (`PRION-BLOCK-001` à `036`)
@@ -1245,10 +1263,12 @@ L'algorithme formel spécifié dans le présent document résout l'intégralité
    - 10 cas de validation stricte de l'organisme de bioconversion (`PRION-HARD-063` à `072`).
 5. `qa/vectors/antiprion/feedban-rules-v14.vectors.json` (19 cas règles v1.4) :
    - 19 cas de fixation rigoureuse des listes de motifs d'infraction ordonnées selon les règles P15, P16 et P17 (`PRION-HARD-073` à `091`).
+6. `qa/vectors/antiprion/feedban-rules-v15.vectors.json` (10 cas règles v1.5) :
+   - 10 cas de sécurisation absolue de l'entrée des insectes en alimentation animale sous la règle P18 (`PRION-HARD-092` à `101`).
 
 ### 8.2 État de Conformité
 
-Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 202 vecteurs de tests approuvés.
+Le validateur pur `evaluate(claim, policy)` implémente l'exact ensemble de règles spécifié ci-dessus, garantissant une conformité binaire stricte aux 212 vecteurs de tests approuvés.
 
 ---
-*Fin de la spécification formelle The Iron Gate v1.4 — Bushi 12 (Anti-Prion & Biosecurity Lead)*
+*Fin de la spécification formelle The Iron Gate v1.5 — Bushi 12 (Anti-Prion & Biosecurity Lead)*

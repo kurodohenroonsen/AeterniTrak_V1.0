@@ -2,7 +2,7 @@
 /**
  * The Iron Gate — Test de Mutation du Validateur Anti-Prion & Feed-Ban (Bushi 12)
  *
- * Démontre que 7 altérations délibérées de la logique de sécurité font chacune échouer
+ * Démontre que 8 altérations délibérées de la logique de sécurité font chacune échouer
  * au moins un vecteur de test nommé dans les suites officielles :
  * 1. Liste noire au lieu de liste blanche en G3 -> échec de PRION-BLOCK-019 et PRION-HARD-012
  * 2. Température testée non typée au lieu de >= 133 -> échec de PRION-HARD-028
@@ -11,6 +11,7 @@
  * 5. Affaiblissement de la détection de sources vides hors bioconversion (P15) -> échec de PRION-HARD-073
  * 6. Omission du contrôle strict de toute source sur feed_grade_plant (P16) -> échec de PRION-HARD-080
  * 7. Omission du motif de substrat préalable à la dérogation en mémoire forestière (P17) -> échec de PRION-HARD-089
+ * 8. Retrait de l'interdiction des sources insectes en alimentation par équarrissage direct (P18) -> échec de PRION-HARD-092
  */
 
 import fs from "node:fs";
@@ -238,11 +239,23 @@ function evaluateWithMutations(claimInput, policyInput = null, mutation = null) 
       if (materialClass !== "feed_grade_plant") {
         feedViolation = true;
       }
-    } else {
-      feedViolation = true;
     }
-    if (feedViolation || isPlantCategoryViolation) {
-      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+
+    const hasInsectSource = resolvedSources.some(s => s.group === "INSECT");
+
+    // Règle P18
+    let insectViolation = false;
+    if (mutation === "MUTATION_8_OMIT_INSECT_FEED_BAN_P18") {
+      // Mutation 8 : Omettre l'interdiction des sources insectes en alimentation par équarrissage direct (v1.4)
+      insectViolation = false;
+    } else {
+      insectViolation = hasInsectSource;
+    }
+
+    if (feedViolation || isPlantCategoryViolation || insectViolation) {
+      if (!reasons.includes("SUBSTRATE_CATEGORY_VIOLATION")) {
+        reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+      }
     }
   } else if (use === "technical" || use === "fertiliser") {
     const isInvalidCategory = (category !== 1 && category !== 2 && category !== 3);
@@ -515,7 +528,7 @@ function runMutated(c, mutation) {
 }
 
 console.log("============================================================");
-console.log("The Iron Gate — Test des 7 Mutations de Sécurité (Bushi 12)");
+console.log("The Iron Gate — Test des 8 Mutations de Sécurité (Bushi 12)");
 console.log(`Suites chargées dynamiquement : ${suiteFiles.length} fichiers (${allCases.size} vecteurs au total)`);
 console.log("============================================================");
 
@@ -703,9 +716,35 @@ let allPassed = true;
   }
 }
 
+// ----------------------------------------------------------------------------
+// Mutation 8 (Règle P18) : Retrait de l'interdiction des sources insectes en alimentation par équarrissage direct
+// Fait échouer PRION-HARD-092 (Hermetia déclarée comme source, équarrissage direct, méthode 1 prouvée -> volailles)
+// ----------------------------------------------------------------------------
+{
+  const c92 = getCase("PRION-HARD-092");
+  const canonicalRes = runCanonical(c92);
+  const mutatedRes = runMutated(c92, "MUTATION_8_OMIT_INSECT_FEED_BAN_P18");
+
+  const canonicalMatches = matchesExpect(canonicalRes, c92.expect);
+  const mutatedMatches = matchesExpect(mutatedRes, c92.expect);
+
+  console.log("\n[Mutation 8] Retrait de l'interdiction des sources insectes en alimentation par équarrissage direct (Règle P18) :");
+  console.log(`  Vecteur ciblé       : PRION-HARD-092 ("${c92.title}")`);
+  console.log(`  Attendu             : verdict=${c92.expect.verdict}, reasons=[${c92.expect.reasons.join(", ")}]`);
+  console.log(`  Évaluateur canonique: verdict=${canonicalRes.verdict}, reasons=[${canonicalRes.reasons.join(", ")}] -> ${canonicalMatches ? "PASS" : "FAIL"}`);
+  console.log(`  Évaluateur muté     : verdict=${mutatedRes.verdict}, reasons=[${mutatedRes.reasons.join(", ")}] -> ${mutatedMatches ? "PASS (anomalie non détectée)" : "ÉCHEC ATTENDU (détecté)"}`);
+
+  if (canonicalMatches && !mutatedMatches) {
+    console.log("  => MUTATION 8 DÉTECTÉE : l'évaluateur muté autorise les insectes en source directe et fait échouer PRION-HARD-092.");
+  } else {
+    console.log("  => ÉCHEC DE DÉTECTION DE LA MUTATION 8.");
+    allPassed = false;
+  }
+}
+
 console.log("\n============================================================");
 if (allPassed) {
-  console.log("RÉSULTAT MUTATIONS : 7/7 mutations ciblées validées avec succès.");
+  console.log("RÉSULTAT MUTATIONS : 8/8 mutations ciblées validées avec succès.");
   process.exit(0);
 } else {
   console.log("RÉSULTAT MUTATIONS : Anomalie détectée.");

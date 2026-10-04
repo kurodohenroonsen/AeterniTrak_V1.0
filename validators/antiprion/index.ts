@@ -3,6 +3,7 @@
  * Exportations publiques pour l'évaluateur pur
  */
 
+export const RULES_VERSION = "1.5.0";
 export { evaluate } from "./evaluator.ts";
 export { resolveTaxon, TAXONOMY_MAP } from "./taxonomy.ts";
 export type {
