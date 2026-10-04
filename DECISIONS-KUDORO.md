@@ -76,12 +76,23 @@ Format d'une entrée :
   *Arbitrage* : **Option B retenue (Bandeau de réserve pour émetteur inconnu, blocage sur falsification/révocation)**.  
   *Justification* : Préserve l'expérience émotionnelle et humaine du Sanctuaire pour les familles tout en maintenant une intransigeance absolue face aux contrefaçons avérées ou aux clés compromises révoquées.
 
+- **2026-10-04 · [Support Silicium] · Kudoro (DEC-AET-01)**  
+  *Question* : Faut-il garder une cible basse capacité 32 Ko à côté de la JavaCard ACOSJ 92 Ko ?  
+  *Options* : A) Support mixte 32 Ko et 92 Ko ; B) Cartes ACOSJ 92 Ko uniquement.  
+  *Arbitrage* : **Option B retenue.** Mots de Kudoro : « QUE DES CARTES 92Ko ».  
+  *Portée* : la cible T4T 32 Ko et le choix de codec bas débit qui lui était lié sont abandonnés. Ce que la carte contient (durée et débit du mémo vocal, nombre de portraits) n'est pas décidé ici : c'est le plan mémoire du ticket `STORAGE-001`, à prouver par le calcul dans la limite des 92 160 octets (règle inviolable n° 3).
+
+- **2026-10-04 · [Traçabilité Sanitaire] · Kudoro (DEC-AET-02)**  
+  *Question* : Comment relier la filière aux registres officiels d'identification animale ?  
+  *Options* : A) Saisie manuelle ; B) Connexion par API aux guichets officiels.  
+  *Arbitrage* : **Option B retenue.** Mots de Kudoro : « prévoir cette connexion API à tous les points d'accès tel que Cerise en Wallonie ».  
+  *Portée* : l'architecture prévoit des connecteurs vers les guichets officiels, CERISE en premier. La liste des autres guichets, l'existence d'une API ouverte à un tiers pour chacun et les conditions d'accès restent à établir, sources à l'appui, avant toute spécification.
+
 ---
 
 ## 2. Décisions en Attente d'Arbitrage
 
-- `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
-- `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
-- `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
+- `DEC-AET-03` : cadre légal de la désignation du mandataire et de la transmission du coffre mémoriel. Consigne de Kudoro du 2026-10-04 : « voir ce que la loi permet ». C'est une demande d'étude, pas encore un arbitrage : étude sourcée attendue du Bushi 13 (`LEGAL-001`), puis décision.
+- `DEC-AET-05`, complément : référence de l'autorisation administrative de l'autorité compétente pour la mémoire forestière. Aucune politique réelle ne peut être émise sans elle.
 
-*`DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06`, `DEC-AET-07` : arbitrées le 2026-10-04, voir §1.*
+*`DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06`, `DEC-AET-07` : arbitrées le 2026-10-04, voir §1.*
