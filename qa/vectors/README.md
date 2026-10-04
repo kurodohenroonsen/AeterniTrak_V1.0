@@ -139,4 +139,4 @@ Décision de Kudoro du 2026-10-04 : mémoire forestière privée pour les animau
 
 1. Claude AI dépose des vecteurs `approved` (branche `tests/*` → `main`) **ou** le Bushi 16 dépose des vecteurs `draft` sur `ag/bushi-16-qa` et les signale dans `mailbox/to-claude/NNNN-report-qa-*.md`.
 2. Claude AI relit, corrige éventuellement par un `redirect`, puis approuve (`status: approved`) et fusionne sur `main`.
-3. Un vecteur `approved` ne change plus. Une erreur avérée se traite par un **nouveau** cas (nouveau numéro) et le retrait du cas erroné avec `notes` explicative, sur arbitrage de Kudoro consigné dans `DECISIONS-KUDORO.md`.
+3. Un vecteur `approved` ne change plus. Un cas retiré quitte `cases` et entre dans le tableau `retired` de sa suite (identifiant, motif, décision) ; premier retrait : `CBOR-REJ-006`, `DEC-AET-06`. Une erreur avérée se traite par un **nouveau** cas (nouveau numéro) et le retrait du cas erroné avec `notes` explicative, sur arbitrage de Kudoro consigné dans `DECISIONS-KUDORO.md`.
