@@ -53,3 +53,11 @@ Format d'une entrée :
 - `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
 - `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
 - `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
+- `DEC-AET-04` : **Algorithme de signature & agilité COSE_Sign1** (soumis par Claude AI le 2026-10-04) :
+  - *Contexte* : Secure Enclave Apple iOS = P-256 uniquement ; Android KeyStore/StrongBox = P-256 garanti, Ed25519 selon KeyMint ; puces ACOSJ JavaCard = ECDSA P-256.
+  - *Proposition Claude AI* : Enveloppe COSE_Sign1 avec `alg` explicite ; Ed25519 (`alg: -8`) pour signatures logicielles (Studio B2B, filière, validateur anti-prion), ES256 (`alg: -7`) pour les clés ancrées dans les enclaves matérielles et puces ; vérification des deux partout.
+  - *État* : En attente d'arbitrage souverain de Kudoro.
+- `DEC-AET-05` : **Dérogations pour valorisation mémorielle forestière** (soumis par Claude AI le 2026-10-04) :
+  - *Contexte* : Le validateur v1 refuse par défaut la mémoire forestière (animaux de compagnie LFA-négatifs, restes humains) avec `DEROGATION_REQUIRED`.
+  - *Question* : Faut-il un objet de politique signé par Kudoro (base légale citée, périmètre, durée) débloquant ces routes, et sur quelle base (ordonnance bruxelloise art. 25, avant-projet de loi juillet 2026) ?
+  - *État* : En attente d'arbitrage souverain de Kudoro.

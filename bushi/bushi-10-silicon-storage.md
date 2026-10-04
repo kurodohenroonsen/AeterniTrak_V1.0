@@ -12,7 +12,7 @@ Le Bushi 10 est le gestionnaire souverain des conteneurs de stockage physique et
 1. **Gestion du Budget Mémoire Matériel ACOSJ (92 160 octets) et T4T (32 768 octets)** :
    - Partitionnement rigoureux de l'espace mémoire non-volatile (EEPROM / Flash de la puce) :
      - Bloc 0 (512 o) : Métadonnées carte, version protocole, clés publiques de vérification, compteur d'accès.
-     - Bloc 1 (2 Ko) : Dossier d'identité canonique CBOR, profil civil/animal, hachages d'intégrité, signature Ed25519.
+     - Bloc 1 (2 048 octets max) : Dossier d'identité canonique CBOR (charge utile ≤ 1 900 octets), profil civil/animal, hachages d'intégrité, enveloppe de signature COSE_Sign1 (RFC 9052, ≤ 2 048 octets au total) avec agilité d'algorithme (Ed25519 `alg: -8` ou ES256 `alg: -7` selon `DEC-AET-04`).
      - Bloc 2 (20 Ko) : Portrait visuel optimisé WebP (480x480) et palette dominante RVB.
      - Bloc 3 (45 Ko) : Mémo vocal éternel encodé en Opus SILK 16 kHz.
      - Bloc 4 (15 Ko) : Registre des hommages de famille, arbre généalogique compact ou attestation de traçabilité biologique.

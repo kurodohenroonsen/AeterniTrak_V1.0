@@ -48,10 +48,11 @@ La branche `agent-mailbox` est le **canal asynchrone unique** entre Claude AI et
 | Type de Branche | Rôle | Qui écrit | Qui valide & fusionne |
 |---|---|---|---|
 | `main` | Production & Socle certifié | Personne en direct | **Claude AI uniquement** |
-| `agent-mailbox` | File d'attente des messages & états | Claude AI & Antigravity | Protocole §2 |
-| `feat/*` ou `ag/*` | Développement d'un Bushi spécifique | Antigravity (Bushi ciblé) | Claude AI |
+| `agent-mailbox` | File d'attente des messages & états (`mailbox/`) | Claude AI & Antigravity | Protocole §2 |
+| `ag/bushi-NN-<slug>` | Développement d'un Bushi spécifique | Antigravity (Bushi ciblé) | Claude AI |
+| `ag/orchestrator-<slug>` | Tâches transverses Orchestrateur | Antigravity (Orchestrateur) | Claude AI |
 | `tests/*` | Spécifications et vecteurs de test | Claude AI | Claude AI |
-| `fix/*` | Correctif ciblé post-audit | Antigravity | Claude AI |
+| `fix/bushi-NN-<slug>` | Correctif ciblé post-audit | Antigravity (Bushi ciblé) | Claude AI |
 
 ---
 

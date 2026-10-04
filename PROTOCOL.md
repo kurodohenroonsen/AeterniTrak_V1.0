@@ -68,7 +68,10 @@ Corps du message :
 |---|---|---|
 | `main` | **Claude AI** (après validation) | Tous |
 | `agent-mailbox` | **Claude AI & Antigravity** (selon §1) | Tous |
-| `ag/bushi-*` | **Antigravity** (via le Bushi délégué) | Claude AI |
+| `ag/bushi-NN-<slug>` | **Antigravity** (via le Bushi délégué) | Claude AI |
+| `ag/orchestrator-<slug>` | **Antigravity** (Orchestrateur) | Claude AI |
+| `tests/*` | **Claude AI** (spécifications & vecteurs de test) | Tous |
+| `fix/bushi-NN-<slug>` | **Antigravity** (correctifs ciblés) | Claude AI |
 | `qa/vectors/` | Claude AI (spécification) & Bushi 16 | Tous |
 | `docs/functional/` | Antigravity (Bushi UX/Legal/Bio) & Claude | Tous |
 | `docs/technical/` | Antigravity (Bushi Core/Crypto/HW) & Claude | Tous |
@@ -83,6 +86,7 @@ Pour garantir une autonomie totale sans solliciter répétitivement l'utilisateu
    ./scripts/runner.sh
    ./scripts/runner.sh exec
    ./scripts/runner.sh task <fichier_tâche>
+   ./scripts/runner.sh say "<message_tts>"
    ./scripts/runner.sh <action_prédéfinie>
    ```
 2. **Fichier de commande dédié** : Toute commande ponctuelle est inscrite au préalable dans `mailbox/state/task.sh` puis exécutée via `./scripts/runner.sh exec`.
