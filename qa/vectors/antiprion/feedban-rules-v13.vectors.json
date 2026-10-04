@@ -1,0 +1,445 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "antiprion.feedban.rules-v13",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.6 (précision P14)",
+    "qa/vectors/antiprion/taxonomy-snapshot.json"
+  ],
+  "adapter": "antiprion.feedban",
+  "description": "Règle P14 de la Porte de Fer, issue de l'audit du code livré au cycle 0004 : l'organisme de bioconversion doit être un insecte. Sans elle, un bovin ou un être humain déclaré comme « insecte » produisait une PAT classée INSECT et autorisée vers les volailles.",
+  "cases": [
+    {
+      "id": "PRION-HARD-063",
+      "title": "Bovin déclaré comme insecte de bioconversion -> PAT « d'insecte » -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 9913
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "safety",
+        "ruminant"
+      ]
+    },
+    {
+      "id": "PRION-HARD-064",
+      "title": "Être humain déclaré comme insecte de bioconversion -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 9606
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "safety",
+        "human"
+      ]
+    },
+    {
+      "id": "PRION-HARD-065",
+      "title": "Porc déclaré comme insecte de bioconversion -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 9823
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-066",
+      "title": "Poulet déclaré comme insecte de bioconversion -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 9031
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-067",
+      "title": "Chat déclaré comme insecte de bioconversion -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-05",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 9685
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-068",
+      "title": "Saumon déclaré comme insecte de bioconversion -> aquaculture truite",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-06",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 8030
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "safety",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-HARD-069",
+      "title": "Classe Insecta (rang supérieur à l'espèce) déclarée comme insecte -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-07",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 50557
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_RANK_ABOVE_SPECIES"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "rank"
+      ]
+    },
+    {
+      "id": "PRION-HARD-070",
+      "title": "Contrôle : Hermetia illucens -> porcins, méthode 7 : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-08",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "nominal"
+      ]
+    },
+    {
+      "id": "PRION-HARD-071",
+      "title": "Cadavre porcin cat. 2 -> bioconversion par un « insecte » poulet -> engrais",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-K-09",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          },
+          "insect_taxid": 9031
+        },
+        "product": "frass",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14"
+      ]
+    },
+    {
+      "id": "PRION-HARD-072",
+      "title": "DEC-AET-05 : politique chargée mais « insecte » non insecte : hors périmètre",
+      "op": "evaluate-with-policy",
+      "input": {
+        "claim": {
+          "batch_id": "AT-K-10",
+          "substrate": {
+            "category": 1,
+            "material_class": "carcass",
+            "origin_profile": "pet",
+            "sources": [
+              {
+                "taxid": 9685
+              }
+            ],
+            "pentobarbital_lfa": "negative"
+          },
+          "process": {
+            "route": "insect_bioconversion",
+            "treatment": null,
+            "insect_taxid": 9685,
+            "pasteurisation": {
+              "core_temp_c": 70,
+              "minutes": 60,
+              "evidence_sha256": "702ac10ad5230ed0b69f8cf672d6c7d94ac02630d21f0676f49fa5bdfcc41ce1"
+            }
+          },
+          "product": "frass",
+          "destination": {
+            "use": "memorial_forestry",
+            "target_taxids": []
+          }
+        },
+        "policy": {
+          "policy_id": "DEC-AET-05",
+          "version": 1,
+          "legal_basis": "DECISIONS-KUDORO.md DEC-AET-05 (2026-10-04)",
+          "authority_reference": "TEST-ONLY-AUTHORITY-REF-0001"
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "DEROGATION_REQUIRED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.6 P14 : en bioconversion, `insect_taxid` doit se résoudre en une espèce du groupe INSECT du snapshot ; tout autre organisme vaut TAXON_UNKNOWN et n'entre pas dans les sources (un mammifère déclaré « insecte » ne devient pas une PAT d'insecte)",
+      "tags": [
+        "p14",
+        "dec-aet-05"
+      ]
+    }
+  ]
+}

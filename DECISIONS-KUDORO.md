@@ -71,5 +71,9 @@ Format d'une entrée :
 - `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
 - `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
 - `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
+- `DEC-AET-06` : **Correction du vecteur approuvé `CBOR-REJ-006`** (soumis par Claude AI le 2026-10-04) :
+  - *Constat* : le vecteur attend `ERR_CBOR_NOT_SHORTEST` pour `786161`. Or `78 61 61` est un texte de longueur déclarée 97 dont un seul octet est présent : l'erreur exacte est `ERR_CBOR_TRUNCATED`. L'encodage non minimal de "a" est `78 01 61`. L'erreur est de Claude AI (cycle 0001).
+  - *Proposition* : retirer `CBOR-REJ-006` (numéro conservé, marqué erroné) ; ajouter `CBOR-REJ-034` (`780161` → `ERR_CBOR_NOT_SHORTEST`) et `CBOR-REJ-035` (`786161` → `ERR_CBOR_TRUNCATED`).
+  - *État* : En attente d'arbitrage de Kudoro (un vecteur approuvé ne se modifie que sur son accord, `qa/vectors/README.md` §6).
 
 *`DEC-AET-04` et `DEC-AET-05` : arbitrées le 2026-10-04, voir §1.*
