@@ -1,0 +1,302 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "crypto.ed25519.rfc8032",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "RFC 8032 §5.1 et §7.1",
+    "docs/technical/security-crypto.md §2.1"
+  ],
+  "adapter": "crypto.ed25519",
+  "description": "Signature et vérification Ed25519 pur (RFC 8032). Les graines privées sont celles, publiques, du RFC 8032 §7.1 : elles ne protègent rien et ne doivent jamais servir hors des tests. Valeurs produites par la bibliothèque `cryptography` (OpenSSL) et confrontées aux valeurs du RFC.",
+  "cases": [
+    {
+      "id": "ED-SIGN-001",
+      "title": "RFC 8032 §7.1 TEST 1 : clé publique et signature",
+      "op": "sign",
+      "input": {
+        "seed_hex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+        "message_hex": ""
+      },
+      "expect": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "signature_hex": "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "rfc8032",
+        "sign"
+      ]
+    },
+    {
+      "id": "ED-VER-001",
+      "title": "RFC 8032 §7.1 TEST 1 : vérification",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "",
+        "signature_hex": "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b"
+      },
+      "expect": {
+        "valid": true
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "rfc8032",
+        "verify"
+      ]
+    },
+    {
+      "id": "ED-SIGN-002",
+      "title": "RFC 8032 §7.1 TEST 2 : clé publique et signature",
+      "op": "sign",
+      "input": {
+        "seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "message_hex": "72"
+      },
+      "expect": {
+        "public_key_hex": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+        "signature_hex": "92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "rfc8032",
+        "sign"
+      ]
+    },
+    {
+      "id": "ED-VER-002",
+      "title": "RFC 8032 §7.1 TEST 2 : vérification",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+        "message_hex": "72",
+        "signature_hex": "92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00"
+      },
+      "expect": {
+        "valid": true
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "rfc8032",
+        "verify"
+      ]
+    },
+    {
+      "id": "ED-SIGN-003",
+      "title": "RFC 8032 §7.1 TEST 3 : clé publique et signature",
+      "op": "sign",
+      "input": {
+        "seed_hex": "c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7",
+        "message_hex": "af82"
+      },
+      "expect": {
+        "public_key_hex": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+        "signature_hex": "6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "rfc8032",
+        "sign"
+      ]
+    },
+    {
+      "id": "ED-VER-003",
+      "title": "RFC 8032 §7.1 TEST 3 : vérification",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+        "message_hex": "af82",
+        "signature_hex": "6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a"
+      },
+      "expect": {
+        "valid": true
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "rfc8032",
+        "verify"
+      ]
+    },
+    {
+      "id": "ED-VER-004",
+      "title": "message de 1 023 octets",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfe",
+        "signature_hex": "b93e46579f1927147d2c4945080077fb5210281fc0ee0463b04d7cd0f08d74c064c8674f5d4b4d92d1b98916bbbd38f5cf1af719d832e4642d008b7e6d748d0d"
+      },
+      "expect": {
+        "valid": true
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify"
+      ]
+    },
+    {
+      "id": "ED-VER-005",
+      "title": "un bit du message modifié",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472626b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d2c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc909"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "tamper"
+      ]
+    },
+    {
+      "id": "ED-VER-006",
+      "title": "un bit de R modifié",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9aaab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d2c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc909"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "tamper"
+      ]
+    },
+    {
+      "id": "ED-VER-007",
+      "title": "un bit de S modifié",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d3c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc909"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "tamper"
+      ]
+    },
+    {
+      "id": "ED-VER-008",
+      "title": "signature vérifiée avec une autre clé publique",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d2c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc909"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "wrong-key"
+      ]
+    },
+    {
+      "id": "ED-VER-009",
+      "title": "S non canonique (S + L) : rejet exigé par RFC 8032 §5.1.7",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6bf9d1552f712bf7cfdf5b22979f77394481536b11cc36801d30149124e2bc919"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "malleability"
+      ]
+    },
+    {
+      "id": "ED-VER-010",
+      "title": "signature de 63 octets",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d2c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc9"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "length"
+      ]
+    },
+    {
+      "id": "ED-VER-011",
+      "title": "signature de 65 octets",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d2c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc90900"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "length"
+      ]
+    },
+    {
+      "id": "ED-VER-012",
+      "title": "clé publique de 31 octets",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f70751",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "9baab75b32993cf46e89b837a19107896861ea6c2757118cae4bafdbae5bbcf6d2c91ff5dcafac242759bb869afd947f481536b11cc36801d30149124e2bc909"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify",
+        "length"
+      ]
+    },
+    {
+      "id": "ED-VER-013",
+      "title": "signature nulle (64 octets à zéro)",
+      "op": "verify",
+      "input": {
+        "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "message_hex": "41657465726e695472616b",
+        "signature_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "error": "ERR_COSE_INVALID_SIGNATURE"
+      },
+      "rule": "RFC 8032 §7.1 (vecteurs de test Ed25519) et §5.1.7 (vérification) ; clés de test publiques du RFC",
+      "tags": [
+        "verify"
+      ]
+    }
+  ]
+}

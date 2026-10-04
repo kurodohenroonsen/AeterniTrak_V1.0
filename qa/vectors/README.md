@@ -35,6 +35,11 @@ Validé par `schema/vector-suite.schema.json`. Champs obligatoires : `suite`, `v
 | `canonicalize`   | valeur JSON                           | `{utf8, hex, len, sha256}`                | core.jcs       |
 | `evaluate`       | `BatchClaim` v1                       | `{verdict, reasons[], signature_permitted}` | antiprion      |
 | `evaluate-with-policy` | `{claim, policy}` (`policy` peut être `null`) | `{verdict, reasons[], signature_permitted}` | antiprion |
+| `validate-profile` | `{hex}` | `{valid: true, len}` ou `{error}` | core.profile |
+| `sign` / `verify` | `{seed_hex, message_hex}` / `{public_key_hex, message_hex, signature_hex}` | `{public_key_hex, signature_hex}` / `{valid: true}` ou `{error}` | crypto.ed25519, crypto.es256 |
+| `kid`, `protected-header`, `sig-structure` | voir la suite | `{kid_hex}`, `{hex}`, `{hex, sha256}` | crypto.cose |
+| `cose-sign` | `{seed_hex, typ, payload_hex}` (Ed25519 seul) | `{envelope_hex, len, sha256, kid_hex}` | crypto.cose |
+| `cose-verify` | `{envelope_hex, expected_typ, trust_store}` | `{valid: true, payload_hex, kid}` ou `{error}` | crypto.cose |
 | `sign` / `verify` | défini par la suite crypto (à venir) | défini par la suite                       | crypto         |
 
 La comparaison est **exacte et binaire** : octets identiques, listes ordonnées identiques, codes d'erreur identiques. Aucune tolérance, aucune normalisation côté harnais.
@@ -124,6 +129,44 @@ Décision de Kudoro du 2026-10-04 : mémoire forestière privée pour les animau
 ### 4.6 Précision v1.3 (suite `antiprion.feedban.rules-v13`, cas `PRION-HARD-063` à `072`)
 
 - **P14 — L'organisme de bioconversion est un insecte** : sur la route `insect_bioconversion`, `process.insect_taxid` doit se résoudre en une espèce dont le groupe est `INSECT`. Tout autre organisme résolu (bovin, porc, être humain…) vaut `TAXON_UNKNOWN` en G1 et n'entre pas dans les sources. La nature « insecte » de la protéine (P6) et le périmètre de DEC-AET-05 supposent un insecte réellement résolu.
+
+### 4.7 Profil mémoriel v1 (suite `core.profile`, 61 cas)
+
+Brouillon du Bushi 16 (24 cas, 22 confirmés à l'identique par le validateur de référence de Claude AI), approuvé au cycle 0006 avec 2 attentes corrigées et 37 cas ajoutés.
+
+**Ordre de contrôle normatif** (le premier échec donne le code) :
+1. plus de 1 900 octets : `ERR_PROFILE_TOO_LARGE`, avant tout décodage ;
+2. décodage strict : l'erreur remonte avec son code `ERR_CBOR_*`. Il n'existe pas de doublon `ERR_PROFILE_*` pour une faute CBOR ;
+3. la racine n'est pas une carte : `ERR_PROFILE_NOT_A_MAP` ;
+4. une clé de la racine n'est pas un entier : `ERR_PROFILE_INVALID_KEY_TYPE` ;
+5. clé 1 absente : `ERR_PROFILE_MISSING_FIELD` ; différente de l'entier 1 : `ERR_PROFILE_UNSUPPORTED_VERSION` ;
+6. clé hors de 1..13 : `ERR_PROFILE_UNKNOWN_FIELD` ;
+7. clé obligatoire absente (2, 3, 7, 10, 11) : `ERR_PROFILE_MISSING_FIELD` ;
+8. champs dans l'ordre croissant des clés : `ERR_PROFILE_INVALID_SUBJECT_KIND`, `ERR_PROFILE_INVALID_NAME`, `ERR_PROFILE_TOO_MANY_NAMES`, `ERR_PROFILE_INVALID_DATE_TYPE`, `ERR_PROFILE_MISSING_BIRTH_DATE` (humain sans clé 4), `ERR_PROFILE_INVALID_RITE`, `ERR_PROFILE_INVALID_COUNTRY`, `ERR_PROFILE_INVALID_ASSET_REF`, `ERR_PROFILE_INVALID_HASH_LENGTH`, `ERR_PROFILE_PORTRAIT_TOO_LARGE`, `ERR_PROFILE_VOICE_TOO_LARGE`, `ERR_PROFILE_INVALID_ISSUER_ID`, `ERR_PROFILE_INVALID_EPITAPH`, `ERR_PROFILE_INVALID_SPECIES`.
+
+Dans les cartes imbriquées (`names`, références d'actifs), les mêmes codes `INVALID_KEY_TYPE`, `UNKNOWN_FIELD` et `MISSING_FIELD` s'appliquent. Les tailles se comptent en octets UTF-8. `species_taxid` n'est admis que pour un animal.
+
+### 4.8 Enveloppe COSE_Sign1 (suites `crypto.*`, 84 cas)
+
+Clés de test : graines Ed25519 du RFC 8032 §7.1 et clé P-256 du RFC 6979 A.2.5. **Ce sont des clés publiées : elles ne protègent rien.** Chaque valeur a été produite par une bibliothèque (`cryptography`, `ecdsa`) et recontrôlée par une seconde, indépendante (WebCrypto de Node).
+
+**Ordre de vérification normatif de `cose-verify`** :
+1. entrée vide ou premier octet différent de `d2` (tag 18) : `ERR_COSE_INVALID_ENVELOPE` ;
+2. décodage strict du reste : l'erreur remonte avec son code `ERR_CBOR_*`. Le tag 18 n'est admis qu'à cette position ; le décodeur strict du profil reste limité aux tags 1 et 100 ;
+3. forme : tableau de 4, `[bstr, carte, bstr, bstr de 64 octets]`, en-tête non protégé sans autre clé que 4 : sinon `ERR_COSE_INVALID_ENVELOPE` ;
+4. en-tête protégé : décodable strictement, carte, sans autre clé que 1 et 16 : sinon `ERR_COSE_INVALID_ENVELOPE` ;
+5. `alg` absent, non entier ou hors de {-8, -7} : `ERR_COSE_UNSUPPORTED_ALGORITHM` ;
+6. `typ` absent, non textuel ou différent de `expected_typ` : `ERR_COSE_TYPE_MISMATCH` ;
+7. `kid` absent ou d'une autre taille que 16 octets : `ERR_COSE_MISSING_KID` ;
+8. liste de confiance incohérente (une entrée dont le `kid` n'est pas l'empreinte de sa clé, `alg` ou taille de clé invalide, doublon) : `ERR_COSE_INVALID_TRUST_STORE` ;
+9. `kid` inconnu : `ERR_COSE_UNKNOWN_KID` ; entrée révoquée : `ERR_COSE_REVOKED_KEY` ;
+10. `alg` de l'enveloppe différent de celui de l'entrée : `ERR_COSE_ALGORITHM_MISMATCH` ;
+11. `typ` de l'enveloppe différent de celui de l'entrée : `ERR_COSE_KEY_USAGE_MISMATCH` (une clé de conformité de lot ne signe pas un profil) ;
+12. signature. ES256 : clé hors courbe `ERR_COSE_INVALID_PUBLIC_KEY`, `r` ou `s` hors de [1, n-1] `ERR_COSE_INVALID_SIGNATURE`, `s > floor(n/2)` `ERR_COSE_MALLEABLE_SIGNATURE`, sinon vérification. Ed25519 : tout échec donne `ERR_COSE_INVALID_SIGNATURE`.
+
+`floor(n/2)` de P-256 vaut `7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCF4279DCE5617E3192A8`. La valeur imprimée dans la spec v1.0.0 est fausse (cas `ES-VER-012`).
+
+**Hors périmètre de ces suites** : la validité temporelle des clés. Une carte mémorielle se lit pendant des décennies, sans horloge de confiance : la fenêtre de validité d'une clé se compare à la date d'émission portée par la charge utile vérifiée, pas à la date de lecture. Règle à écrire par le Bushi 02 (ordre 0037), vecteurs à suivre.
 
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 

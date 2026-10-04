@@ -77,5 +77,10 @@ Format d'une entrée :
 - `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
 - `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
 - `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
+- `DEC-AET-07` : **Que voit une famille quand la carte ne peut pas être vérifiée ?** (soumis par Claude AI le 2026-10-04) :
+  - *Contexte* : la spec crypto interdit de lire la charge utile tant que la signature n'est pas vérifiée. Une carte ancienne dont la clé d'émission est inconnue de l'application (application non mise à jour, émetteur disparu) n'afficherait donc rien.
+  - *Options* : A) blocage total, rien n'est affiché ; B) le mémorial s'affiche avec un bandeau « authenticité non vérifiée », sauf clé révoquée ou signature fausse, qui bloquent ; C) affichage dans tous les cas, avec bandeau.
+  - *Enjeu* : Règle inviolable 4 (expérience Sanctuaire) contre garantie d'authenticité.
+  - *État* : En attente d'arbitrage de Kudoro.
 
 *`DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06` : arbitrées le 2026-10-04, voir §1.*
