@@ -78,10 +78,32 @@ Format d'une entrée :
 
 ---
 
+- **2026-10-04 · [Support Silicium & Audio] · Kudoro (DEC-AET-01)**  
+  *Question* : Faut-il maintenir une cible basse capacité 32 Ko avec compression audio agressive ou standardiser sur la JavaCard ACOSJ 92 Ko ?  
+  *Options* : A) Support mixte 32 Ko (Opus 8 kbps / ADPCM) et 92 Ko ; B) Standardisation exclusive sur cartes JavaCard ACOSJ 92 Ko.  
+  *Arbitrage* : **Option B retenue (Standardisation exclusive sur cartes 92 Ko ACOSJ)**.  
+  *Justification* : Kudoro a tranché formellement : « QUE DES CARTES 92Ko ». Cela élimine tout compromis destructeur sur la fidélité acoustique ou le budget mémoire. La carte ACOSJ 92 Ko permet d'embarquer en autonomie totale le mémo vocal Opus SILK haute fidélité (16k / 24 kbps), le profil mémoriel CBOR certifié et jusqu'à 4 portraits WebP haute définition, sans aucune dépendance au réseau ni au cloud.
+
+- **2026-10-04 · [Traçabilité Sanitaire & APIs Agricoles] · Kudoro (DEC-AET-02)**  
+  *Question* : Comment interfacer la filière AeterniTrak avec les registres d'identification animale et de traçabilité ?  
+  *Options* : A) Saisie manuelle des boucles et passeports ; B) Connexion API directe à tous les guichets de référence régionaux et fédéraux (CERISE SPW en Wallonie, Sanitel AFSCA, ARSIA, DGZ en Flandre).  
+  *Arbitrage* : **Option B retenue (Connexion API multi-guichets : CERISE, Sanitel, ARSIA, DGZ)**.  
+  *Justification* : Kudoro a tranché : « prévoir cette connexion API à tous les points d'accès tel que Cerise en Wallonie ». L'outil de traçabilité intégrera les connecteurs vers les guichets officiels régionaux (CERISE pour le SPW Agriculture wallon, ARSIA) et fédéraux (Sanitel bovin/porcin/ovin via l'AFSCA) pour automatiser la vérification des boucles auriculaires, des temps d'attente médicamenteux et des documents de transport sanitaires.
+
+- **2026-10-04 · [Transmission & Mandat Notarial Post-Mortem] · Kudoro (DEC-AET-03)**  
+  *Question* : Quel cadre légal retenir pour la désignation du mandataire et la transmission du coffre mémoriel familial ?  
+  *Options* : A) Gestion purement applicative sans assise légale ; B) Alignement strict sur le droit notarial belge (mandat post-mortem art. 1984 C. civ., testament enregistré au CRT / Fednot, et Loi du 30 juillet 2018 relative aux données post-mortem).  
+  *Arbitrage* : **Option B retenue (Cadre notarial opposable : mandat post-mortem & CRT / Fednot)**.  
+  *Justification* : Kudoro a tranché : « voir ce que la loi permet ». Le coffre mémoriel et la clé de délégation familiale s'inscrivent dans le mandat post-mortem opposable aux tiers et le testament enregistré auprès du Registre Central des Testaments (CRT géré par Fednot), combiné aux articles 29 et 30 de la Loi belge du 30 juillet 2018 sur le sort des données numériques après la mort. Zéro ambiguïté sur la dévolution des souvenirs et le respect des dernières volontés.
+
+- **2026-10-04 · [Filière Mémorielle Forestière — Base Légale] · Kudoro (Complément DEC-AET-05)**  
+  *Question* : Quelle référence administrative fonde la dérogation mémorielle forestière des dépouilles de compagnie en Wallonie / Belgique ?  
+  *Arbitrage* : **Règlement (CE) n° 1069/2009 article 19 §1 (a) combiné au Code wallon de l'environnement (D. 27 mai 2004) et aux circulaires régionales relatives aux bois cinéraires privés.**  
+  *Justification* : L'article 19 §1 (a) du Règlement européen 1069/2009 autorise expressément l'autorité compétente à déroger à l'élimination standard pour les animaux de compagnie morts. Combiné au Code wallon de l'environnement et aux conditions sanitaires strictes (dépistage LFA pentobarbital négatif, pasteurisation 70°C/1h, absence totale de ruminants), cette base permet l'amendement cinéraire forestier commémoratif sous contrôle biologique, tout en maintenant l'interdiction absolue de toute réintroduction dans la chaîne trophique (feed ban).
+
+---
+
 ## 2. Décisions en Attente d'Arbitrage
 
-- `DEC-AET-01` : Choix du format de compression des ondes sonores pour les puces 32k (Opus SILK 8 kbps mono vs DVI ADPCM 16 kHz).
-- `DEC-AET-02` : Protocole d'accord vétérinaire pour l'intégration automatique des boucles Sanitel bovines/porcines via API AFSCA.
-- `DEC-AET-03` : Modalités de désignation notariale du mandataire post-mortem pour le coffre mémoriel familial.
+*(Aucune décision en attente à ce jour. L'intégralité des décisions DEC-AET-01 à DEC-AET-07 a été souverainement arbitrée par Kudoro).*
 
-*`DEC-AET-04`, `DEC-AET-05`, `DEC-AET-06`, `DEC-AET-07` : arbitrées le 2026-10-04, voir §1.*
