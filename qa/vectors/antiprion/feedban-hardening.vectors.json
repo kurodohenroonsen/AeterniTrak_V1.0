@@ -1,0 +1,1899 @@
+{
+  "$schema": "../schema/vector-suite.schema.json",
+  "suite": "antiprion.feedban.hardening",
+  "version": "1.0.0",
+  "issued_by": "claude",
+  "issued_at": "2026-10-04",
+  "status": "approved",
+  "spec": [
+    "qa/vectors/README.md §4.2 et §4.3 (précisions v1.1 des portes)",
+    "Règl. (UE) 142/2011 annexe X ch. II sect. 1 (méthodes de transformation des PAT)",
+    "Règl. (CE) 999/2001 annexe IV, règl. (CE) 1069/2009 art. 11-14",
+    "qa/vectors/antiprion/taxonomy-snapshot.json"
+  ],
+  "adapter": "antiprion.feedban",
+  "description": "Vecteurs de durcissement de la Porte de Fer, issus de l'audit du pseudo-code de docs/technical/antiprion-feedban.md @790e739 (fuzzing différentiel contre l'évaluateur de référence de Claude AI). Chaque cas vise un chemin où une logique par liste d'interdiction, un arrêt anticipé ou une comparaison non typée laisserait passer ou sous-rapporterait une revendication. Même adaptateur et même sémantique de comparaison que antiprion.feedban.matrix.",
+  "cases": [
+    {
+      "id": "PRION-HARD-001",
+      "title": "Alimentation sans cible + source ruminante : les deux motifs sont rapportés",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-01",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TARGET_UNSPECIFIED",
+          "FEED_BAN_RUMINANT_SOURCE",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P1 : l'évaluation est exhaustive ; TARGET_UNSPECIFIED n'arrête pas l'évaluation (seuls DESTINATION_UNSUPPORTED et la porte G2 arrêtent)",
+      "tags": [
+        "exhaustive",
+        "g0"
+      ]
+    },
+    {
+      "id": "PRION-HARD-002",
+      "title": "Source inconnue + cible ruminante : G1 n'arrête pas l'évaluation",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-02",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 99999999
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9913
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "FEED_BAN_RUMINANT_TARGET",
+          "TARGET_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P2 : G1 examine toutes les sources, l'insecte et toutes les cibles, cumule TAXON_UNKNOWN puis TAXON_RANK_ABOVE_SPECIES, et n'arrête pas l'évaluation",
+      "tags": [
+        "exhaustive",
+        "g1"
+      ]
+    },
+    {
+      "id": "PRION-HARD-003",
+      "title": "Source de rang famille + cible intra-groupe via une seconde source résolue",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-03",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9821
+            },
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9103
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_RANK_ABOVE_SPECIES",
+          "FEED_BAN_INTRA_GROUP_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P2 : G1 examine toutes les sources, l'insecte et toutes les cibles, cumule TAXON_UNKNOWN puis TAXON_RANK_ABOVE_SPECIES, et n'arrête pas l'évaluation",
+      "tags": [
+        "exhaustive",
+        "g1"
+      ]
+    },
+    {
+      "id": "PRION-HARD-004",
+      "title": "Source inconnue ET cible de rang classe : les deux motifs G1, dans l'ordre du registre",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-04",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 99999999
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            8782
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN",
+          "TAXON_RANK_ABOVE_SPECIES"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P2 : G1 examine toutes les sources, l'insecte et toutes les cibles, cumule TAXON_UNKNOWN puis TAXON_RANK_ABOVE_SPECIES, et n'arrête pas l'évaluation",
+      "tags": [
+        "exhaustive",
+        "g1"
+      ]
+    },
+    {
+      "id": "PRION-HARD-005",
+      "title": "Taxid fourni comme chaîne \"9823\" : inconnu (aucune coercition)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-05",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": "9823"
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P8 : typage strict — taxid entier, paramètres de traitement numériques ; une valeur absente ou d'un autre type n'est jamais « conforme par défaut »",
+      "tags": [
+        "type",
+        "g1"
+      ]
+    },
+    {
+      "id": "PRION-HARD-006",
+      "title": "Taxid flottant 9823.5 : inconnu",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-06",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823.5
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TAXON_UNKNOWN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P8 : typage strict — taxid entier, paramètres de traitement numériques ; une valeur absente ou d'un autre type n'est jamais « conforme par défaut »",
+      "tags": [
+        "type",
+        "g1"
+      ]
+    },
+    {
+      "id": "PRION-HARD-007",
+      "title": "Restes humains déclarés par material_class, sans aucun taxid -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-07",
+        "substrate": {
+          "category": null,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": []
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P3 : restes humains = taxon 9606 OU material_class human_remains OU origin_profile human (lecture la plus restrictive ; un taxid omis ou falsifié ne lève pas la protection)",
+      "tags": [
+        "human",
+        "g2",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-008",
+      "title": "Restes humains maquillés en taxid porcin (material_class human_remains) -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-08",
+        "substrate": {
+          "category": 2,
+          "material_class": "human_remains",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P3 : restes humains = taxon 9606 OU material_class human_remains OU origin_profile human (lecture la plus restrictive ; un taxid omis ou falsifié ne lève pas la protection)",
+      "tags": [
+        "human",
+        "g2",
+        "safety",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-HARD-009",
+      "title": "origin_profile human avec classe et taxid porcins -> engrais",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-09",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "human",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P3 : restes humains = taxon 9606 OU material_class human_remains OU origin_profile human (lecture la plus restrictive ; un taxid omis ou falsifié ne lève pas la protection)",
+      "tags": [
+        "human",
+        "g2",
+        "safety",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-HARD-010",
+      "title": "Restes humains (material_class) + taxid porcin -> alimentation volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-10",
+        "substrate": {
+          "category": 3,
+          "material_class": "human_remains",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "HUMAN_REMAINS_ROUTE_PROHIBITED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P3 : restes humains = taxon 9606 OU material_class human_remains OU origin_profile human (lecture la plus restrictive ; un taxid omis ou falsifié ne lève pas la protection)",
+      "tags": [
+        "human",
+        "g2",
+        "safety",
+        "obfuscation"
+      ]
+    },
+    {
+      "id": "PRION-HARD-011",
+      "title": "Restes humains sans taxid -> incinération : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-11",
+        "substrate": {
+          "category": null,
+          "material_class": "human_remains",
+          "origin_profile": "human",
+          "sources": []
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "incineration",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P3 : restes humains = taxon 9606 OU material_class human_remains OU origin_profile human (lecture la plus restrictive ; un taxid omis ou falsifié ne lève pas la protection)",
+      "tags": [
+        "human",
+        "g2"
+      ]
+    },
+    {
+      "id": "PRION-HARD-012",
+      "title": "Classe de matière inconnue (cat. 3) -> Hermetia -> PAT -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-12",
+        "substrate": {
+          "category": 3,
+          "material_class": "unknown",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "safety",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-013",
+      "title": "Fumier déclaré cat. 3 -> équarrissage direct -> PAT -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-13",
+        "substrate": {
+          "category": 3,
+          "material_class": "manure",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "safety",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-014",
+      "title": "Déchets de cuisine cat. 3 -> équarrissage direct -> PAT -> porcins",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-14",
+        "substrate": {
+          "category": 3,
+          "material_class": "catering_waste",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "safety",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-015",
+      "title": "Cadavre déclaré cat. 3 -> équarrissage direct -> PAT -> volailles",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-15",
+        "substrate": {
+          "category": 3,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "safety",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-016",
+      "title": "Catégorie absente (null), cadavre porcin -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-16",
+        "substrate": {
+          "category": null,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "safety",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-017",
+      "title": "Catégorie absente (null) -> engrais",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-17",
+        "substrate": {
+          "category": null,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "frass",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "safety",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-018",
+      "title": "Classe de matière inconnue (cat. 2) -> usage technique",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-18",
+        "substrate": {
+          "category": 2,
+          "material_class": "unknown",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-019",
+      "title": "Catégorie absente (null), cadavre porcin -> incinération : autorisé (l'incinération reste toujours ouverte)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-19",
+        "substrate": {
+          "category": null,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "incineration",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3"
+      ]
+    },
+    {
+      "id": "PRION-HARD-020",
+      "title": "Route de procédé inconnue (\"composting\") vers l'alimentation",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-20",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "composting",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P4 : listes d'autorisation (jamais de listes d'interdiction) pour material_class ; hors incinération, catégorie ∈ {1,2,3} et classe de matière connue obligatoires",
+      "tags": [
+        "g3",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-021",
+      "title": "PAT de lapin (cat. 3) -> aquaculture truite : autorisé (non-ruminant d'élevage)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-21",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9986
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P5 : groupes sources autorisés par liste positive — feed : porcins, volailles, insectes, poissons ; aquaculture : + équidés et lagomorphes (non-ruminants d'élevage, règl. 999/2001 annexe IV ch. II)",
+      "tags": [
+        "g8",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-HARD-022",
+      "title": "PAT de chat (cat. 3 déclaré) -> aquaculture truite : groupe source non autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-22",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9685
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P5 : groupes sources autorisés par liste positive — feed : porcins, volailles, insectes, poissons ; aquaculture : + équidés et lagomorphes (non-ruminants d'élevage, règl. 999/2001 annexe IV ch. II)",
+      "tags": [
+        "g8",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-HARD-023",
+      "title": "PAT bovines -> aquaculture saumon : ruminant source",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-23",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "FEED_BAN_RUMINANT_SOURCE",
+          "SOURCE_GROUP_NOT_AUTHORISED"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P5 : groupes sources autorisés par liste positive — feed : porcins, volailles, insectes, poissons ; aquaculture : + équidés et lagomorphes (non-ruminants d'élevage, règl. 999/2001 annexe IV ch. II)",
+      "tags": [
+        "g8",
+        "aquaculture",
+        "ruminant"
+      ]
+    },
+    {
+      "id": "PRION-HARD-024",
+      "title": "PAT de volailles (méthode 1) -> aquaculture saumon : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-24",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8030
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P5 : groupes sources autorisés par liste positive — feed : porcins, volailles, insectes, poissons ; aquaculture : + équidés et lagomorphes (non-ruminants d'élevage, règl. 999/2001 annexe IV ch. II)",
+      "tags": [
+        "g8",
+        "aquaculture"
+      ]
+    },
+    {
+      "id": "PRION-HARD-025",
+      "title": "Farine de poisson (méthode 1) -> aliment volailles : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-25",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "fishmeal",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P5 : groupes sources autorisés par liste positive — feed : porcins, volailles, insectes, poissons ; aquaculture : + équidés et lagomorphes (non-ruminants d'élevage, règl. 999/2001 annexe IV ch. II)",
+      "tags": [
+        "g8"
+      ]
+    },
+    {
+      "id": "PRION-HARD-026",
+      "title": "PAT porcines -> volailles sans aucun traitement déclaré (treatment null)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-26",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-027",
+      "title": "PAT porcines -> volailles, méthode 1 avec preuve mais sans température/pression/durée",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-27",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P8 : typage strict — taxid entier, paramètres de traitement numériques ; une valeur absente ou d'un autre type n'est jamais « conforme par défaut »",
+      "tags": [
+        "g9",
+        "safety",
+        "type"
+      ]
+    },
+    {
+      "id": "PRION-HARD-028",
+      "title": "PAT porcines -> volailles, méthode 1 avec température fournie comme chaîne \"133\"",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-28",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": "133",
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P8 : typage strict — taxid entier, paramètres de traitement numériques ; une valeur absente ou d'un autre type n'est jamais « conforme par défaut »",
+      "tags": [
+        "g9",
+        "type"
+      ]
+    },
+    {
+      "id": "PRION-HARD-029",
+      "title": "PAT porcines -> volailles, empreinte de preuve non hexadécimale (\"x\")",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-29",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "x"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-030",
+      "title": "PAT porcines -> volailles, empreinte en majuscules (64 hex minuscules exigés)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-30",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 1,
+            "core_temp_c": 133,
+            "pressure_bar": 3,
+            "minutes": 20,
+            "evidence_sha256": "04EBCF825943A6163A6287E4880066F027534C52F437AF73D231CB6ED4B61E79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9"
+      ]
+    },
+    {
+      "id": "PRION-HARD-031",
+      "title": "PAT porcines -> volailles, méthode 7 (interdite pour les PAT de mammifères)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-31",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-032",
+      "title": "PAT porcines -> volailles, méthode 3",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-32",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 3,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-033",
+      "title": "PAT de volailles -> porcins, méthode 3 avec preuve : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-33",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 3,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9"
+      ]
+    },
+    {
+      "id": "PRION-HARD-034",
+      "title": "PAT de volailles -> porcins, méthode 3 sans preuve",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-34",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 3
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-035",
+      "title": "PAT de volailles -> porcins, méthode 6 (réservée aux matières de poisson)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-35",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 9031
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 6,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9823
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-036",
+      "title": "Farine de saumon -> truite, méthode 6 avec preuve : autorisé",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-36",
+        "substrate": {
+          "category": 3,
+          "material_class": "slaughter_byproduct",
+          "origin_profile": "slaughterhouse",
+          "sources": [
+            {
+              "taxid": 8030
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 6,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "fishmeal",
+        "destination": {
+          "use": "aquaculture_feed",
+          "target_taxids": [
+            8022
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "fish"
+      ]
+    },
+    {
+      "id": "PRION-HARD-037",
+      "title": "PAT d'insectes -> volailles, méthode 6",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-37",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 6,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "insect"
+      ]
+    },
+    {
+      "id": "PRION-HARD-038",
+      "title": "PAT d'insectes -> volailles, méthode 8 (inexistante)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-38",
+        "substrate": {
+          "category": 3,
+          "material_class": "feed_grade_plant",
+          "origin_profile": "feed_industry",
+          "sources": []
+        },
+        "process": {
+          "route": "insect_bioconversion",
+          "treatment": {
+            "method": 8,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          },
+          "insect_taxid": 343691
+        },
+        "product": "insect_PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9031
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P6 : règl. (UE) 142/2011 annexe X ch. II sect. 1 — PAT de mammifères : méthode 1 exclusivement ; PAT non mammifères (volailles, insectes) : méthodes 1-5 ou 7 ; farine de poisson : méthodes 1-7 ; preuve SHA-256 (64 hex minuscules) et paramètres numériques obligatoires",
+      "tags": [
+        "g9",
+        "default-deny"
+      ]
+    },
+    {
+      "id": "PRION-HARD-039",
+      "title": "Cadavre bovin cat. 2 -> technique avec méthode 7 au lieu de la méthode 1",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-39",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 7,
+            "evidence_sha256": "a30eacf43cc36e722b1c5e63520bca7dd3d7dc47af07f1b24675acf612f16d23"
+          }
+        },
+        "product": "rendered_fat",
+        "destination": {
+          "use": "technical",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P7 : G9 ne s'applique qu'aux destinations qui exigent un traitement (feed, aquaculture, technique/engrais cat. 1-2) ; technique/engrais cat. 1-2 = méthode 1 prouvée, aucune autre",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-040",
+      "title": "Cadavre porcin cat. 2 -> engrais avec méthode 3",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-40",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9823
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 3,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "frass",
+        "destination": {
+          "use": "fertiliser",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P7 : G9 ne s'applique qu'aux destinations qui exigent un traitement (feed, aquaculture, technique/engrais cat. 1-2) ; technique/engrais cat. 1-2 = méthode 1 prouvée, aucune autre",
+      "tags": [
+        "g9",
+        "safety"
+      ]
+    },
+    {
+      "id": "PRION-HARD-041",
+      "title": "Cadavre bovin cat. 1 -> incinération avec une méthode 6 déclarée : autorisé (G9 ne concerne pas l'incinération)",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-41",
+        "substrate": {
+          "category": 1,
+          "material_class": "carcass",
+          "origin_profile": "farm",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ]
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": {
+            "method": 6,
+            "evidence_sha256": "04ebcf825943a6163a6287e4880066f027534c52f437af73d231cb6ed4b61e79"
+          }
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "incineration",
+          "target_taxids": []
+        }
+      },
+      "expect": {
+        "verdict": "AUTHORISED",
+        "reasons": [],
+        "signature_permitted": true
+      },
+      "rule": "README §4.3 P7 : G9 ne s'applique qu'aux destinations qui exigent un traitement (feed, aquaculture, technique/engrais cat. 1-2) ; technique/engrais cat. 1-2 = méthode 1 prouvée, aucune autre",
+      "tags": [
+        "g9"
+      ]
+    },
+    {
+      "id": "PRION-HARD-042",
+      "title": "Cumul : cadavre bovin cat. 2 d'origine compagnie non testé -> PAT -> bovins, sans traitement",
+      "op": "evaluate",
+      "input": {
+        "batch_id": "AT-H-42",
+        "substrate": {
+          "category": 2,
+          "material_class": "carcass",
+          "origin_profile": "pet",
+          "sources": [
+            {
+              "taxid": 9913
+            }
+          ],
+          "pentobarbital_lfa": "not_tested"
+        },
+        "process": {
+          "route": "direct_rendering",
+          "treatment": null
+        },
+        "product": "PAP",
+        "destination": {
+          "use": "feed",
+          "target_taxids": [
+            9913
+          ]
+        }
+      },
+      "expect": {
+        "verdict": "BLOCKED",
+        "reasons": [
+          "SUBSTRATE_CATEGORY_VIOLATION",
+          "PENTOBARBITAL_NOT_TESTED",
+          "FEED_BAN_RUMINANT_SOURCE",
+          "FEED_BAN_RUMINANT_TARGET",
+          "FEED_BAN_INTRA_SPECIES_VIOLATION",
+          "SOURCE_GROUP_NOT_AUTHORISED",
+          "TARGET_GROUP_NOT_AUTHORISED",
+          "TREATMENT_NOT_PROVEN"
+        ],
+        "signature_permitted": false
+      },
+      "rule": "README §4.3 P1 : l'évaluation est exhaustive ; TARGET_UNSPECIFIED n'arrête pas l'évaluation (seuls DESTINATION_UNSUPPORTED et la porte G2 arrêtent)",
+      "tags": [
+        "exhaustive",
+        "order"
+      ]
+    }
+  ]
+}
