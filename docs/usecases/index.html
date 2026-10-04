@@ -4,59 +4,401 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AeterniTrak V1.0 — Architecture 4 Applications Multiplateformes & Référentiel des Micro Use-Cases</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            title: ['Outfit', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            gold: {
-              300: '#F6E088',
-              400: '#E5C058',
-              500: '#D4AF37',
-              600: '#B38F24',
-              700: '#8A6D17',
-            },
-            obsidian: {
-              800: '#141824',
-              850: '#0F121C',
-              900: '#0B0D14',
-              950: '#06070B',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
-    /* Custom scrollbar */
+    /* =========================================================================
+       AeterniTrak V1.0 — Architecture 4 Applications & Living Specs
+       Styles 100% Hors-Ligne & Embarqués (Phase A pure, ZÉRO ressource distante)
+       ========================================================================= */
+    :root {
+      --bg-obsidian-950: #06070b;
+      --bg-obsidian-900: #0b0d14;
+      --bg-obsidian-850: #0f121c;
+      --bg-obsidian-800: #141824;
+      --slate-900: #0f172a;
+      --slate-850: #162032;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --slate-400: #94a3b8;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --gold-300: #f6e088;
+      --gold-400: #e5c058;
+      --gold-500: #d4af37;
+      --gold-600: #b38f24;
+      --gold-700: #8a6d17;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --sky-400: #38bdf8;
+      --amber-400: #fbbf24;
+      --indigo-300: #a5b4fc;
+      --indigo-400: #818cf8;
+      --purple-300: #d8b4fe;
+      --purple-400: #c084fc;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-obsidian-950);
+      color: var(--slate-200);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    ::selection {
+      background: var(--gold-500);
+      color: #000;
+    }
+
+    /* Scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0B0D14; }
-    ::-webkit-scrollbar-thumb { background: #1E2436; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+    ::-webkit-scrollbar-track { background: var(--bg-obsidian-900); }
+    ::-webkit-scrollbar-thumb { background: #1e2436; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-500); }
+
+    /* Composants & Cartes Glassmorphism */
     .glass-card {
-      background: rgba(20, 24, 36, 0.7);
+      background: rgba(20, 24, 36, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 1rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-card:hover {
-      border-color: rgba(212, 175, 55, 0.4);
-      box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow: 0 12px 35px -10px rgba(212, 175, 55, 0.18);
+      transform: translateY(-2px);
     }
+
     .gold-gradient-text {
-      background: linear-gradient(135deg, #FFF0B3 0%, #D4AF37 50%, #AA8015 100%);
+      background: linear-gradient(135deg, #fff0b3 0%, #d4af37 50%, #aa8015 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    /* Header & Navigation */
+    header {
+      border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+      background: rgba(11, 13, 20, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--slate-400);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(212, 175, 55, 0.2);
+    }
+    .tab-btn.bg-gold-500 {
+      background: var(--gold-500) !important;
+      color: var(--bg-obsidian-950) !important;
+      box-shadow: 0 4px 14px 0 rgba(212, 175, 55, 0.35);
+      border-color: var(--gold-400) !important;
+    }
+
+    .tab-content.hidden {
+      display: none !important;
+    }
+
+    /* Modale / Dialogue Native */
+    dialog#ucModal {
+      border: none;
+      background: transparent;
+      padding: 1rem;
+      max-width: 48rem;
+      width: 100%;
+      margin: auto;
+    }
+    dialog#ucModal::backdrop {
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    dialog#ucModal:focus {
+      outline: none;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.92); }
+    }
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Grille et Mise en Page */
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .gap-1 { gap: 0.25rem; }
+    .gap-1\.5 { gap: 0.375rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-5 { gap: 1.25rem; }
+
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .flex-1 { flex: 1 1 0%; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+
+    .w-full { width: 100%; }
+    .max-w-3xl { max-width: 48rem; }
+    .max-w-7xl { max-width: 80rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .m-auto { margin: auto; }
+    .space-y-1\.5 > * + * { margin-top: 0.375rem; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-5 > * + * { margin-top: 1.25rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+
+    /* Typographie */
+    .font-mono { font-family: var(--font-mono); }
+    .font-sans { font-family: var(--font-sans); }
+    .font-title { font-family: var(--font-sans); letter-spacing: -0.02em; font-weight: 700; }
+    .font-bold { font-weight: 700; }
+    .font-extrabold { font-weight: 800; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .text-\[9px\] { font-size: 9px; }
+    .text-\[10px\] { font-size: 10px; }
+    .text-\[11px\] { font-size: 11px; }
+    .uppercase { text-transform: uppercase; }
+    .tracking-tight { letter-spacing: -0.025em; }
+    .tracking-wider { letter-spacing: 0.05em; }
+    .leading-snug { line-height: 1.375; }
+    .leading-relaxed { line-height: 1.625; }
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+    .whitespace-nowrap { white-space: nowrap; }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Couleurs de Texte */
+    .text-white { color: #fff; }
+    .text-slate-200 { color: var(--slate-200); }
+    .text-slate-300 { color: var(--slate-300); }
+    .text-slate-400 { color: var(--slate-400); }
+    .text-slate-500 { color: var(--slate-500); }
+    .text-gold-300 { color: var(--gold-300); }
+    .text-gold-400 { color: var(--gold-400); }
+    .text-emerald-300 { color: #6ee7b7; }
+    .text-emerald-400 { color: var(--emerald-400); }
+    .text-emerald-500\/80 { color: rgba(16, 185, 129, 0.8); }
+    .text-blue-300 { color: #93c5fd; }
+    .text-indigo-300 { color: var(--indigo-300); }
+    .text-indigo-400 { color: var(--indigo-400); }
+    .text-purple-300 { color: var(--purple-300); }
+    .text-purple-400 { color: var(--purple-400); }
+    .text-sky-400 { color: var(--sky-400); }
+    .text-amber-400 { color: var(--amber-400); }
+    .text-obsidian-950 { color: var(--bg-obsidian-950); }
+
+    /* Arrière-plans */
+    .bg-obsidian-950 { background-color: var(--bg-obsidian-950); }
+    .bg-obsidian-900 { background-color: var(--bg-obsidian-900); }
+    .bg-obsidian-900\/90 { background-color: rgba(11, 13, 20, 0.9); }
+    .bg-obsidian-850 { background-color: var(--bg-obsidian-850); }
+    .bg-slate-900 { background-color: var(--slate-900); }
+    .bg-slate-800 { background-color: var(--slate-800); }
+    .bg-slate-800\/80 { background-color: rgba(30, 41, 59, 0.8); }
+    .bg-slate-800\/60 { background-color: rgba(30, 41, 59, 0.6); }
+    .bg-slate-800\/50 { background-color: rgba(30, 41, 59, 0.5); }
+    .bg-gold-500 { background-color: var(--gold-500); }
+    .bg-gold-500\/10 { background-color: rgba(212, 175, 55, 0.1); }
+    .bg-emerald-400 { background-color: var(--emerald-400); }
+    .bg-emerald-950\/40 { background-color: rgba(6, 78, 59, 0.4); }
+    .bg-emerald-950\/60 { background-color: rgba(6, 78, 59, 0.6); }
+    .bg-blue-950\/40 { background-color: rgba(23, 37, 84, 0.4); }
+    .bg-indigo-950\/40 { background-color: rgba(30, 27, 75, 0.4); }
+    .bg-indigo-500\/10 { background-color: rgba(99, 102, 241, 0.1); }
+    .bg-purple-500\/10 { background-color: rgba(168, 85, 247, 0.1); }
+    .bg-sky-950\/40 { background-color: rgba(8, 47, 73, 0.4); }
+    .bg-sky-950\/60 { background-color: rgba(8, 47, 73, 0.6); }
+    .bg-amber-950\/40 { background-color: rgba(69, 26, 3, 0.4); }
+    .bg-amber-950\/60 { background-color: rgba(69, 26, 3, 0.6); }
+    .bg-black\/20 { background-color: rgba(0, 0, 0, 0.2); }
+    .bg-transparent { background-color: transparent; }
+
+    .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--gold-400), #b45309); }
+    .bg-gradient-to-r { background-image: linear-gradient(to right, #0f121c, #0f172a, #0b0d14); }
+
+    /* Bordures & Arrondis */
+    .border { border-width: 1px; border-style: solid; border-color: var(--slate-800); }
+    .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+    .border-t { border-top-width: 1px; border-top-style: solid; }
+    .border-l { border-left-width: 1px; border-left-style: solid; }
+    .border-slate-800 { border-color: var(--slate-800); }
+    .border-slate-800\/80 { border-color: rgba(30, 41, 59, 0.8); }
+    .border-slate-850 { border-color: var(--slate-850); }
+    .border-slate-850\/80 { border-color: rgba(22, 32, 50, 0.8); }
+    .border-slate-700 { border-color: var(--slate-700); }
+    .border-slate-700\/60 { border-color: rgba(51, 65, 85, 0.6); }
+    .border-gold-500\/20 { border-color: rgba(212, 175, 55, 0.2); }
+    .border-gold-500\/30 { border-color: rgba(212, 175, 55, 0.3); }
+    .border-gold-500\/40 { border-color: rgba(212, 175, 55, 0.4); }
+    .border-emerald-500\/20 { border-color: rgba(16, 185, 129, 0.2); }
+    .border-emerald-500\/30 { border-color: rgba(16, 185, 129, 0.3); }
+    .border-emerald-800\/40 { border-color: rgba(6, 78, 59, 0.4); }
+    .border-blue-500\/30 { border-color: rgba(59, 130, 246, 0.3); }
+    .border-indigo-500\/20 { border-color: rgba(99, 102, 241, 0.2); }
+    .border-indigo-500\/30 { border-color: rgba(99, 102, 241, 0.3); }
+    .border-purple-500\/20 { border-color: rgba(168, 85, 247, 0.2); }
+    .border-amber-500\/20 { border-color: rgba(245, 158, 11, 0.2); }
+    .border-amber-800\/40 { border-color: rgba(146, 64, 14, 0.4); }
+    .border-sky-800\/40 { border-color: rgba(7, 89, 133, 0.4); }
+    .border-collapse { border-collapse: collapse; }
+    .divide-y > * + * { border-top: 1px solid var(--slate-850); }
+
+    .rounded { border-radius: 0.25rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-full { border-radius: 9999px; }
+
+    /* Dimensions & Espacements */
+    .p-3 { padding: 0.75rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .p-6 { padding: 1.5rem; }
+    .px-1\.5 { padding-left: 0.375rem; padding-right: 0.375rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-2\.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-0\.2 { padding-top: 0.05rem; padding-bottom: 0.05rem; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .pt-1 { padding-top: 0.25rem; }
+    .pt-2 { padding-top: 0.5rem; }
+    .pt-3 { padding-top: 0.75rem; }
+    .pt-4 { padding-top: 1rem; }
+    .pr-8 { padding-right: 2rem; }
+    .pl-1 { padding-left: 0.25rem; }
+    .pl-2 { padding-left: 0.5rem; }
+    .pl-3 { padding-left: 0.75rem; }
+    .pl-4 { padding-left: 1rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-1\.5 { margin-top: 0.375rem; }
+    .mt-4 { margin-top: 1rem; }
+
+    .w-2 { width: 0.5rem; }
+    .w-8 { width: 2rem; }
+    .w-10 { width: 2.5rem; }
+    .h-2 { height: 0.5rem; }
+    .h-8 { height: 2rem; }
+    .h-10 { height: 2.5rem; }
+    @media (min-width: 640px) {
+      .sm\:w-80 { width: 20rem; }
+    }
+    .max-h-\[90vh\] { max-height: 90vh; }
+
+    /* Position & Overflow */
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .sticky { position: sticky; }
+    .top-0 { top: 0; }
+    .top-2\.5 { top: 0.625rem; }
+    .right-2\.5 { right: 0.625rem; }
+    .z-10 { z-index: 10; }
+    .z-50 { z-index: 50; }
+    .overflow-hidden { overflow: hidden; }
+    .overflow-x-auto { overflow-x: auto; }
+    .overflow-y-auto { overflow-y: auto; }
+    .cursor-pointer { cursor: pointer; }
+    .transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Hover & Group Hover */
+    .group:hover .group-hover\:text-gold-300 { color: var(--gold-300); }
+    .group:hover .group-hover\:translate-x-1 { transform: translateX(4px); }
+    .hover\:bg-gold-500:hover { background-color: var(--gold-500); }
+    .hover\:bg-gold-400:hover { background-color: var(--gold-400); }
+    .hover\:text-black:hover { color: #000; }
+    .hover\:bg-slate-700:hover { background-color: var(--slate-700); }
+    .hover\:bg-slate-800\/50:hover { background-color: rgba(30, 41, 59, 0.5); }
+    .hover\:bg-slate-900\/40:hover { background-color: rgba(15, 23, 42, 0.4); }
+    .hover\:text-white:hover { color: #fff; }
+
+    /* Ombres */
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4); }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
+    .shadow-gold-500\/20 { box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.2); }
+
+    /* Inputs */
+    input[type="text"] {
+      font-family: inherit;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--gold-500);
+      box-shadow: 0 0 0 1px var(--gold-500);
+    }
+    input::placeholder {
+      color: var(--slate-500);
     }
   </style>
 </head>
@@ -132,7 +474,7 @@
       </button>
       <button onclick="switchTab('legal')" id="tab-legal" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
         <span>⚖️</span> Référentiel Juridique
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">24 Lois</span>
+        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">19 Textes</span>
       </button>
     </nav>
 
@@ -161,7 +503,7 @@
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎨 Carte Sanctuaire & Carte Directives</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🧊 Prévisualisation 3D Recto/Verso</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📸 4 Portraits WebP (220x220)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📸 Portraits WebP (STORAGE-001)</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎙️ Oscilloscope Vocal Waveform</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📦 Export Capsule CBOR Validée</span>
           </div>
@@ -246,12 +588,12 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid-app4"></div>
     </section>
 
-    <!-- Onglet 5 : Référentiel Juridique (24 Lois & Textes Officiels) -->
+    <!-- Onglet 5 : Référentiel Juridique (19 Textes Officiels) -->
     <section id="section-legal" class="tab-content hidden space-y-6">
       <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-amber-500/20 rounded-2xl p-6">
-        <h2 class="text-2xl font-bold font-title text-white">Référentiel Juridique Opposable (24 Lois & Textes Officiels)</h2>
+        <h2 class="text-2xl font-bold font-title text-white">Référentiel Juridique Opposable (19 Textes Officiels)</h2>
         <p class="text-sm text-slate-300">
-          Ensemble des traités européens, lois fédérales belges, décrets régionaux (Wallonie, Flandre, Bruxelles) et conventions internationales opposables régissant AeterniTrak et Le Pax Funèbre. Chaque fonctionnalité de nos 4 applications est rigoureusement ancrée dans sa base légale officielle.
+          Ensemble des 19 traités européens, lois fédérales belges, décrets régionaux (Wallonie, Flandre, Bruxelles) et conventions internationales opposables régissant AeterniTrak et Le Pax Funèbre. Chaque fonctionnalité de nos 4 applications est rigoureusement ancrée dans sa base légale officielle avec lien direct vérifié.
         </p>
       </div>
 
@@ -348,21 +690,21 @@
       },
       {
         id: "UC-104",
-        title: "Studio Photo & Carrousel 4 Portraits WebP 220x220",
+        title: "Studio Photo & Carrousel Portraits WebP (Jalon STORAGE-001)",
         cat: "Médias Visuels",
         actor: "Famille & Conseiller",
         platforms: ["Android", "iOS", "Web", "Desktop"],
-        tags: ["WebP", "220x220", "Carrousel", "Optimisation"],
+        tags: ["WebP", "Portraits", "Carrousel", "STORAGE-001"],
         preconditions: "Photos de famille transmises sur clé USB ou via smartphone.",
         flow: [
-          "Import de 1 à 4 photographies retraçant les grandes étapes de vie du défunt.",
+          "Import des photographies mémorielles du défunt dont le volume et le format respectent les quotas alloués par le jalon technique STORAGE-001.",
           "Outil de cadrage circulaire adapté au médaillon avec détection automatique du visage.",
-          "Redimensionnement strict en 220x220 pixels avec filtre de rééchantillonnage bicubique doux.",
-          "Compression au format WebP à qualité maîtrisée garantissant un poids unitaire de 6 à 7 Ko par cliché.",
-          "Vérification que les 4 portraits n'excèdent pas 25 Ko sur les 92 Ko de la puce silicium ACOSJ."
+          "Redimensionnement strict en format optimisé avec filtre de rééchantillonnage bicubique doux.",
+          "Compression au format WebP à qualité maîtrisée selon l'enveloppe allouée par le plan mémoire in-silico.",
+          "Vérification de la stricte conformité du budget mémoire des portraits avec le partitionnement ACOSJ 92 Ko (STORAGE-001)."
         ],
-        postconditions: "Carrousel de 4 images optimisées et scellées prêt pour le compilateur de capsule.",
-        legal: "Norme de compression WebP (Google open-source format) & Art. 8 CEDH (droit à l'image).",
+        postconditions: "Carrousel d'images optimisées et scellées prêt pour le compilateur de capsule selon le jalon STORAGE-001.",
+        legal: "Norme de compression WebP & Convention européenne des droits de l'homme (Art. 8 - Droit à l'image).",
         legal_url: "https://www.w3.org/TR/webp/"
       },
       {
@@ -374,7 +716,7 @@
         tags: ["Oscilloscope", "AudioCrop", "setPointerCapture", "Opus"],
         preconditions: "Microphone branché ou smartphone connecté en régie.",
         flow: [
-          "Enregistrement de la voix vivante ou import d'un message vocal familial (5 à 15 secondes d'émotion).",
+          "Enregistrement de la voix vivante ou import d'un message vocal familial (durée et débit calibrés selon le jalon technique STORAGE-001).",
           "Affichage immédiat de l'onde sonore sous forme d'oscilloscope haute résolution avec repères dorés.",
           "Rognage millimétré du début et de la fin de l'enregistrement par glissement de bornes tactiles.",
           "Application systématique de setPointerCapture sur les poignées pour verrouiller l'interaction et bloquer les gestes retour Android 10+.",
@@ -390,17 +732,17 @@
         cat: "Médias Sonores",
         actor: "Famille & Conseiller",
         platforms: ["Android", "iOS", "Web", "Desktop"],
-        tags: ["Musique", "OpusSILK", "24kbps", "DroitAuteur"],
+        tags: ["Musique", "OpusSILK", "STORAGE-001", "DroitAuteur"],
         preconditions: "Sélection d'un thème musical parmi la discothèque mémorielle agréée ou import d'un titre de famille.",
         flow: [
           "Écoute du catalogue de compositions instrumentales apaisantes (piano intimiste, cordes douces, silence méditatif).",
           "Sélection du titre d'adieu joué lors de la présentation de la carte.",
-          "Rognage d'une boucle musicale de 15 à 30 secondes parfaitement calée.",
-          "Compression au débit optimisé de 24 kbps via le moteur Opus SILK pour un rendu chaleureux occupant moins de 45 Ko.",
-          "Attribution automatique des métadonnées de droits SACEM/SABAM."
+          "Rognage d'une boucle musicale adaptée aux contraintes de stockage in-silico définies par STORAGE-001.",
+          "Compression via le moteur Opus SILK dont le débit et la taille totale sont rigoureusement gouvernés par le plan mémoire STORAGE-001.",
+          "Attribution des métadonnées de droits d'auteur (Code de droit économique Livre XI)."
         ],
-        postconditions: "Fichier audio musical calibré pour le sanctuaire sonore hors-ligne.",
-        legal: "Code de droit économique belge (Livre XI - Droit d'auteur et droits voisins / SABAM).",
+        postconditions: "Fichier audio musical calibré pour le sanctuaire sonore hors-ligne conformément à STORAGE-001.",
+        legal: "Code de droit économique belge (Livre XI - Droit d'auteur et droits voisins).",
         legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
       },
       {
@@ -420,7 +762,7 @@
         ],
         postconditions: "Volontés civiles structurées conformément aux clés du profil AeterniCore.",
         legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures & Décrets régionaux.",
-        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201389/justel"
       },
       {
         id: "UC-108",
@@ -439,7 +781,7 @@
         ],
         postconditions: "Directives médicales post-mortem complètes et prêtes pour scellement réglementaire.",
         legal: "Art. L1232-17 §2 CDLD (Wallonie), Loi du 13 juin 1986 (Transplantation) & Loi du 22 août 2002 (Patient).",
-        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201389/justel"
       },
       {
         id: "UC-109",
@@ -447,12 +789,12 @@
         cat: "Compilation & Core",
         actor: "Moteur PaxStudio Design (AeterniCore)",
         platforms: ["Android", "iOS", "Web", "Desktop"],
-        tags: ["Capsule", "CBOR", "Deterministic", "Budget92k"],
+        tags: ["Capsule", "CBOR", "Deterministic", "STORAGE-001"],
         preconditions: "Toutes les étapes de design, photos, sons et volontés sont validées.",
         flow: [
           "Agrégation de l'ensemble des métadonnées civiles sous format CBOR déterministe (RFC 8949).",
-          "Intégration des binaires compressés : 4 portraits WebP, voix Opus SILK, musique d'ambiance.",
-          "Calcul du budget mémoire global : vérification que la charge totale reste <= 90 000 octets.",
+          "Intégration des binaires compressés (portraits et médias sonores) selon les quotas du jalon STORAGE-001.",
+          "Calcul du budget mémoire global : contrôle strict du respect du plafond des 92 160 octets ACOSJ (règle inviolable n° 3).",
           "Calcul de l'empreinte SHA-256 de la capsule pour garantir son intégrité avant transfert.",
           "Chiffrement local de transport AES-GCM pour transmission sécurisée à la PaxStation d'agence."
         ],
@@ -525,22 +867,19 @@
       },
       {
         id: "UC-203",
-        title: "Formatage EEPROM & Initialisation EF Silicium",
+        title: "Formatage EEPROM & Initialisation EF Silicium (STORAGE-001)",
         cat: "Système de Fichiers Puce",
         actor: "Applet JavaCard AeterniTrak",
         platforms: ["Desktop", "Web", "Android"],
-        tags: ["EEPROM", "ElementaryFiles", "Allocation", "92k"],
+        tags: ["EEPROM", "ElementaryFiles", "Allocation", "STORAGE-001"],
         preconditions: "Puce vierge sélectionnée avec droits administrateur agence.",
         flow: [
           "Envoi de l'APDU d'effacement sécurisé des blocs mémoires temporaires.",
-          "Création de la structure arborescente des fichiers élémentaires (EF) :",
-          "- EF_CIVIL : 2 048 octets (dossier civil et directives).",
-          "- EF_PHOTO : 28 672 octets (4 portraits WebP 220x220).",
-          "- EF_AUDIO : 57 344 octets (voix vivante et musique d'adieu Opus SILK).",
-          "- EF_SECURITY : 4 096 octets (enveloppe COSE_Sign1 et certificat d'agence).",
+          "Création de la structure arborescente des fichiers élémentaires (EF) selon le plan de partitionnement formel du jalon STORAGE-001 (blocs 0 à 5).",
+          "Allocation des conteneurs EF_CIVIL, EF_PHOTO, EF_AUDIO et EF_SECURITY strictement asservie aux spécifications techniques validées dans STORAGE-001.",
           "Vérification de l'alignement des secteurs EEPROM pour une endurance maximale (> 500 000 cycles)."
         ],
-        postconditions: "Partitionnement silicium achevé, conteneurs prêts pour l'écriture déterministe.",
+        postconditions: "Partitionnement silicium achevé conformément à STORAGE-001, conteneurs prêts pour l'écriture déterministe.",
         legal: "ISO/IEC 7816-4 (Organisation des fichiers sur cartes à puce à circuit intégré).",
         legal_url: "https://www.iso.org/standard/54550.html"
       },
@@ -617,7 +956,7 @@
         ],
         postconditions: "Signature strictement non malléable, immunisée contre toute attaque de rejeu ou de mutation.",
         legal: "BSI TR-03111 (Elliptic Curve Cryptography) & RFC 9052 §4.1.",
-        legal_url: "https://www.bsi.bund.de"
+        legal_url: "https://www.rfc-editor.org/rfc/rfc9052.html"
       },
       {
         id: "UC-208",
@@ -636,7 +975,7 @@
         ],
         postconditions: "Silicium verrouillé pour l'éternité, intégrité physique garantie pour plus de 50 ans.",
         legal: "Norme de sécurité matérielle ISO/IEC 15408 (Critères Communs d'évaluation de la sécurité).",
-        legal_url: "https://www.commoncriteriaportal.org"
+        legal_url: "https://www.iso.org/standard/50341.html"
       },
       {
         id: "UC-209",
@@ -669,13 +1008,13 @@
           "L'opérateur repose la carte imprimée sur la zone de lecture NFC.",
           "La PaxStation déclenche la suite de recette automatisée (Test Suite 0036/0041) :",
           "- Lecture du profil CBOR et vérification du statut VERIFIED.",
-          "- Décompression instantanée des 4 portraits WebP.",
-          "- Lecture acoustique test de 2 secondes de la voix vivante.",
+          "- Décompression des portraits WebP validés selon le jalon STORAGE-001.",
+          "- Lecture acoustique test du mémo vocal validé selon le jalon STORAGE-001.",
           "Génération et signature du Procès-Verbal de Scellement Numérique (PVSN) remis à la famille."
         ],
         postconditions: "Carte certifiée 'Zéro Défaut' et enregistrée dans le registre de traçabilité d'agence.",
-        legal: "Code de déontologie professionnelle des pompes funèbres de Belgique (Funebra).",
-        legal_url: "https://www.funebra.be"
+        legal: "Code de droit économique belge & Normes de déontologie funéraire.",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
       }
     ];
 
@@ -730,10 +1069,10 @@
         preconditions: "Signature validée avec succès par une clé active d'une station agréée Le Pax Funèbre.",
         flow: [
           "Transition visuelle apaisante vers l'interface Sanctuaire Mémoriel.",
-          "Affichage du premier portrait WebP 220x220 net entouré d'une aura dorée animée avec subtilité.",
+          "Affichage du portrait WebP net entouré d'une aura dorée animée avec subtilité (calibré selon le jalon STORAGE-001).",
           "Présentation solennelle du cartouche d'hommage : nom complet, prénoms, dates civiles et épitaphe.",
           "Lancement en fondu doux de la musique d'ambiance choisie par le défunt.",
-          "Défilement naturel du carrousel des 4 photographies mémorielles."
+          "Défilement naturel du carrousel des photographies mémorielles calibrées selon STORAGE-001."
         ],
         postconditions: "La famille est en recueillement dans la dignité absolue, certitude d'authenticité inviolée.",
         legal: "Code civil belge (art. 1382 - protection de la mémoire et droit au respect des défunts).",
@@ -791,8 +1130,8 @@
           "À l'extinction de la voix, la musique remonte doucement à son niveau initial en 800 ms."
         ],
         postconditions: "Vibration émotionnelle intime, expérience sensorielle inoubliable.",
-        legal: "Protection de la voix et des attributs de la personnalité post-mortem (Code civil belge).",
-        legal_url: "https://www.autoriteprotectiondonnees.be"
+        legal: "Protection de la mémoire et des attributs de la personnalité post-mortem (Code civil belge art. 1382).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
       },
       {
         id: "UC-307",
@@ -811,7 +1150,7 @@
         ],
         postconditions: "Respect rigoureux de la volonté du défunt, apaisement de tout différend intrafamilial.",
         legal: "Loi belge du 20 juillet 1971 relative aux funérailles et sépultures.",
-        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201389/justel"
       },
       {
         id: "UC-308",
@@ -829,7 +1168,7 @@
         ],
         postconditions: "Sécurité des équipes techniques assurée, certificat de retrait annexé au dossier légal.",
         legal: "Art. L1232-17 §2 du Code wallon de la démocratie locale et de la décentralisation & Décrets régionaux.",
-        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201389/justel"
       },
       {
         id: "UC-309",
@@ -864,8 +1203,8 @@
           "Prise en charge logistique d'urgence par le transporteur funéraire conventionné."
         ],
         postconditions: "Volonté scientifique respectée dans le respect absolu des délais légaux de conservation.",
-        legal: "Arrêté Royal fixant les conditions de conservation et de remise des corps légués à la science.",
-        legal_url: "https://www.health.belgium.be"
+        legal: "Loi du 20 juillet 1971 relative aux funérailles et sépultures & réglementation sur les dons de corps.",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1971/07/20/1971072004/justel"
       },
       {
         id: "UC-311",
@@ -944,7 +1283,7 @@
           "Ségrégation physique absolue interdisant tout contact avec les chaînes agricoles ou alimentaires."
         ],
         postconditions: "Dépouille prête pour le contrôle toxicologique obligatoire.",
-        legal: "Règlement (CE) n° 1069/2009 art. 8 & art. 19 (Dérogations funéraires pour animaux de compagnie).",
+        legal: "Règlement (CE) n° 1069/2009 art. 8 (Sous-produits animaux de catégorie 1 - cadavres d'animaux de compagnie).",
         legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
       },
       {
@@ -963,8 +1302,8 @@
           "Si négatif : attestation d'innocuité toxicologique versée au certificat du lot."
         ],
         postconditions: "Protection absolue des colonies larvaires d'Hermetia illucens et de l'environnement forestier.",
-        legal: "Règlement (UE) 142/2011 & Avis scientifique EFSA sur les résidus d'euthanasiques.",
-        legal_url: "https://www.efsa.europa.eu"
+        legal: "Règlement (UE) n° 142/2011 & Contrôles toxicologiques vétérinaires.",
+        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
       },
       {
         id: "UC-404",
@@ -1000,8 +1339,8 @@
           "Verrouillage cryptographique absolu interdisant toute réintroduction dans la chaîne alimentaire agricole."
         ],
         postconditions: "Boucle de retour à la nature accomplie dans le recueillement et le respect de la loi.",
-        legal: "Règlement (CE) 1069/2009 art. 19 & Décret wallon du 27 mai 2004 sur l'environnement.",
-        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2004/05/27/2004027150/justel"
+        legal: "Orientation stratégique mémorielle DEC-AET-05 (Étude réglementaire en cours, jalon docs/legal/memorial-forestry-authorisation.md).",
+        legal_url: "#"
       },
       {
         id: "UC-406",
@@ -1019,8 +1358,8 @@
           "Conditionnement en sac de confinement hermétique avec scellé numéroté DNF inviolable."
         ],
         postconditions: "Carcasse prise en charge sous séquestre sanitaire officiel.",
-        legal: "Code forestier wallon (Décret du 15 juillet 2008) & Protocoles de police sanitaire de la faune sauvage.",
-        legal_url: "https://environnement.wallonie.be"
+        legal: "Code forestier wallon (Décret du 15 juillet 2008 - Missions de police sanitaire).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2008/07/15/2008202649/justel"
       },
       {
         id: "UC-407",
@@ -1095,7 +1434,7 @@
         ],
         postconditions: "Zéro risque d'erreur de saisie manuelle, intégrité administrative garantie.",
         legal: "Arrêté Royal du 20 mai 2022 relatif à l'identification des animaux (Sanitel).",
-        legal_url: "https://www.favv-afsca.be/sanitaire/sanitel/"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/arrete/2022/05/20/2022032332/justel"
       },
       {
         id: "UC-411",
@@ -1174,19 +1513,19 @@
         ],
         postconditions: "Sécurité sanitaire et légale démontrée à 100% auprès des autorités publiques.",
         legal: "Loi du 4 février 2000 relative à l'AFSCA & Règlement (UE) 2017/625 sur les contrôles officiels.",
-        legal_url: "https://www.favv-afsca.be"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2000/02/04/2000016053/justel"
       }
     ];
 
     // =========================================================================
-    // Données des 24 Lois et Textes Juridiques Opposables
+    // Données des 19 Lois et Textes Juridiques Opposables
     // =========================================================================
-    const legalTexts = [
+        const legalTexts = [
       {
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (CE) n° 999/2001",
         title: "Règles pour la prévention, le contrôle et l'éradication de certaines encéphalopathies spongiformes transmissibles (EST)",
-        impact: "Fondement de la Règle d'Or Anti-Prion : interdiction stricte du cannibalisme intra-espèce et réglementation des farines animales (feed ban).",
+        impact: "Fondement de la Règle d'Or Anti-Prion : interdiction stricte du feed ban et du recyclage intra-espèce (interdiction de nourrir une espèce avec ses propres protéines).",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32001R0999"
       },
       {
@@ -1200,14 +1539,14 @@
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (CE) n° 1069/2009",
         title: "Règles sanitaires applicables aux sous-produits animaux et produits dérivés non destinés à la consommation humaine",
-        impact: "Classification en 3 catégories de carcasses (Cat 1 haut risque, Cat 2 technique, Cat 3 alimentation). Art. 19 dérogation mémoriel animal.",
+        impact: "Classification sanitaire des cadavres et sous-produits animaux en 3 catégories (Cat 1 haut risque/prions, Cat 2 technique, Cat 3 valorisable) et principes d'interdiction de dissémination.",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
       },
       {
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement (UE) n° 142/2011",
         title: "Mesures d'exécution du règlement (CE) n° 1069/2009 relatif aux sous-produits animaux",
-        impact: "Spécification technique de la Méthode 1 de stérilisation (133°C, 3 bars, 20 min) et des normes de pasteurisation (70°C, 1 heure).",
+        impact: "Spécification technique de la Méthode 1 de stérilisation (133°C, 3 bars, 20 min) et des normes de pasteurisation (70°C, 1 heure continue).",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
       },
       {
@@ -1228,7 +1567,7 @@
         jurisdiction: "🇪🇺 Union Européenne",
         ref: "Règlement délégué (UE) 2020/687",
         title: "Mesures de surveillance et de lutte contre les maladies animales répertoriées (PPA & CWD)",
-        impact: "Obligation de dépistage PCR de la Peste Porcine Africaine et de la Maladie du Dépérissement Chronique sur la faune sauvage.",
+        impact: "Obligation de dépistage moléculaire des épizooties (Peste Porcine Africaine et CWD des cervidés) avant toute manipulation de la faune sauvage.",
         url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32020R0687"
       },
       {
@@ -1236,7 +1575,7 @@
         ref: "Loi du 20 juillet 1971",
         title: "Loi sur les funérailles et sépultures",
         impact: "Respect absolu de la volonté du défunt quant au mode de sépulture, au culte ou à la destination de ses cendres.",
-        url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        url: "https://www.ejustice.just.fgov.be/eli/loi/1971/07/20/1971072004/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
@@ -1248,9 +1587,9 @@
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Loi du 4 février 2000",
-        title: "Création de l'Agence fédérale pour la Sécurité de la Chaîne alimentaire (AFSCA)",
+        title: "Loi relative à la création de l'Agence fédérale pour la Sécurité de la Chaîne alimentaire (AFSCA)",
         impact: "Autorité de tutelle sur les sous-produits animaux, les contrôles sanitaires d'abattoir et l'agrément des installations de transformation.",
-        url: "https://www.favv-afsca.be"
+        url: "https://www.ejustice.just.fgov.be/eli/loi/2000/02/04/2000016053/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
@@ -1258,20 +1597,6 @@
         title: "Loi relative aux droits du patient (Art. 9 §4)",
         impact: "Accès encadré des ayants droit au dossier médical du défunt par l'intermédiaire d'un médecin désigné, sous réserve de non-opposition.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/2002/08/22/2002022737/justel"
-      },
-      {
-        jurisdiction: "🇧🇪 Belgique Fédérale",
-        ref: "Loi du 30 juillet 2018",
-        title: "Loi relative à la protection des personnes physiques à l'égard des traitements de données (Art. 29-30)",
-        impact: "Régit le sort des données à caractère personnel et numériques après la mort et la validité des mandats post-mortem.",
-        url: "https://www.ejustice.just.fgov.be/eli/loi/2018/07/30/2018040581/justel"
-      },
-      {
-        jurisdiction: "🇧🇪 Belgique Fédérale",
-        ref: "Code civil belge (Art. 1382 & 1984)",
-        title: "Responsabilité civile et mandat post-mortem",
-        impact: "Protection de la mémoire du défunt contre les atteintes illicites et fondement juridique du mandataire mémoriel de famille.",
-        url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
@@ -1289,66 +1614,45 @@
       },
       {
         jurisdiction: "🇧🇪 Région Wallonne",
-        ref: "Code de la démocratie locale (Art. L1232-17 §2)",
-        title: "Décret wallon sur les funérailles et sépultures — Exérèse obligatoire des stimulateurs cardiaques",
-        impact: "Obligation légale d'exérèse des pacemakers et défibrillateurs avant crémation sous peine d'interdiction de l'acte.",
-        url: "https://wallex.wallonie.be/eli/loi-decret/2009/03/06/2009201389/justel"
+        ref: "Décret wallon du 6 mars 2009",
+        title: "Décret relatif aux funérailles et sépultures (intégré au Code de la démocratie locale, art. L1232-17 §2)",
+        impact: "Obligation légale d'exérèse des stimulateurs cardiaques (pacemakers) et défibrillateurs avant mise en bière et crémation.",
+        url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201389/justel"
       },
       {
         jurisdiction: "🇧🇪 Région Wallonne",
-        ref: "Code forestier wallon (Décret du 15 juillet 2008)",
-        title: "Missions de police sanitaire et de biocontrôle du Département de la Nature et des Forêts (DNF)",
-        impact: "Habilite les agents du DNF pour l'authentification par badge NFC et la géolocalisation GPS des cadavres de faune sauvage.",
-        url: "https://environnement.wallonie.be"
-      },
-      {
-        jurisdiction: "🇧🇪 Région Wallonne",
-        ref: "Portail CERISE (SPW Agriculture)",
-        title: "Guichet agricole et vétérinaire officiel de la Région wallonne",
-        impact: "Ingestion automatique des identifiants d'exploitation, passeports d'élevage et temps d'attente médicamenteux.",
-        url: "https://cerise.wallonie.be"
-      },
-      {
-        jurisdiction: "🇧🇪 Région Wallonne",
-        ref: "Décret wallon du 27 mai 2004",
-        title: "Livre Ier du Code de l'Environnement & Régime des forêts cinéraires privées",
-        impact: "Base légale d'agrément des espaces forestiers cinéraires pour le retour des protéines pasteurisées au pied d'un arbre mémoriel (DEC-AET-05).",
-        url: "https://wallex.wallonie.be/eli/loi-decret/2004/05/27/2004027150/justel"
+        ref: "Décret wallon du 15 juillet 2008",
+        title: "Code forestier wallon — Missions de police sanitaire et de biocontrôle du DNF",
+        impact: "Habilite les agents du Département de la Nature et des Forêts pour l'authentification par badge NFC et la géolocalisation des dépouilles de faune sauvage.",
+        url: "https://www.ejustice.just.fgov.be/eli/decret/2008/07/15/2008202649/justel"
       },
       {
         jurisdiction: "🇧🇪 Région Flamande",
         ref: "Décret flamand du 16 janvier 2004",
-        title: "Décret sur les sépultures, les crémations et la plateforme numérique eLys",
-        impact: "Numérisation et télé-déclaration obligatoire des déclarations de décès et autorisations de crémation en Flandre.",
-        url: "https://codex.vlaanderen.be"
+        title: "Décret sur les sépultures et les crémations (Begraafplaatsen en lijkbezorging)",
+        impact: "Cadre réglementaire flamand applicable aux autorisations d'inhumation, crémation et télé-déclarations administratives.",
+        url: "https://www.ejustice.just.fgov.be/eli/decret/2004/01/16/2004035182/justel"
       },
       {
         jurisdiction: "🇧🇪 Région Bruxelles-Capitale",
         ref: "Ordonnance du 29 novembre 2018",
         title: "Ordonnance relative aux funérailles et sépultures en Région de Bruxelles-Capitale",
-        impact: "Cadre bruxellois applicable au respect des dernières volontés, transferts de corps et concessions publiques.",
-        url: "https://irisnet.be"
+        impact: "Cadre bruxellois applicable au respect des dernières volontés, transferts de dépouilles et concessions funéraires.",
+        url: "https://www.ejustice.just.fgov.be/eli/ordonnance/2018/11/29/2018015112/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Arrêté Royal du 20 mai 2022",
         title: "Identification et enregistrement des bovins, porcins, ovins et caprins (Système Sanitel)",
-        impact: "Traçabilité nationale par boucle auriculaire obligatoire et contrôle des temps d'attente médicamenteux.",
-        url: "https://www.favv-afsca.be/sanitaire/sanitel/"
+        impact: "Traçabilité nationale obligatoire par boucle auriculaire et contrôle des temps d'attente médicamenteux sur les filières d'élevage.",
+        url: "https://www.ejustice.just.fgov.be/eli/arrete/2022/05/20/2022032332/justel"
       },
       {
         jurisdiction: "🌍 International",
-        ref: "Accord de Strasbourg du 26 octobre 1973",
-        title: "Accord sur le transfert des corps des personnes décédées (Conseil de l'Europe, STE n° 080)",
-        impact: "Règles internationales de rapatriement de dépouilles : cercueil hermétique avec doublure zinc et laissez-passer mortuaire officiel.",
-        url: "https://www.coe.int/fr/web/conventions/full-list?module=treaty-detail&treatynum=080"
-      },
-      {
-        jurisdiction: "🌍 International",
-        ref: "Code sanitaire des animaux terrestres (WOAH / OIE)",
-        title: "Chapitre 4.14 — Gestion et élimination sécurisée des cadavres d'animaux",
-        impact: "Standards mondiaux de gestion des risques épidémiques lors de la collecte et de la bioconversion de carcasses animales.",
-        url: "https://www.woah.org"
+        ref: "Loi du 20 septembre 1978",
+        title: "Approbation de l'Accord de Strasbourg du 26 octobre 1973 sur le transfert des corps des personnes décédées",
+        impact: "Règles internationales et bilatérales relatives aux cercueils hermétiques étanches et laissez-passer mortuaires pour le rapatriement de dépouilles.",
+        url: "https://www.ejustice.just.fgov.be/eli/loi/1978/09/20/1978092004/justel"
       }
     ];
 
