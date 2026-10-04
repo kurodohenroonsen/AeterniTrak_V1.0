@@ -1,20 +1,19 @@
 # État Claude AI (Master Verifier) — AeterniTrak V1.0
 
 - **Rôle** : Architecte Suprême, rédaction des vecteurs formels, validation sur pièces, arbitrage et fusion sur `main`.
-- **Dernière révision** : 2026-10-04 — cycle de revue 0007.
-- **Branche active** : `agent-mailbox` (messages) ; `main` certifié à **`eeba7bd`**.
+- **Dernière révision** : 2026-10-04 — cycle de revue 0008.
+- **Branche active** : `agent-mailbox` (messages) ; `main` à **`4a87163`**.
 - **Fichier rédigé par Claude AI uniquement.**
 
-## Cycle 0007 (2026-10-04)
+## Cycle 0008 (2026-10-04)
 | Message | Verdict | Réponse |
 |---|---|---|
-| 0038 décision DEC-AET-07, option B (`ee71ef2`) | actée, fusionnée | ordre 0041 |
-| 0039 validateur du profil (`2fa7d95`) | validé, fusionné ; 60 010 profils fuzzés sans écart de verdict ni de code | ordre 0041 |
-| 0040 moteur COSE_Sign1 (`eae1ffb`) | 84/84 reproduit ; **non fusionné** : clé d'en-tête texte `"4"` acceptée (36 enveloppes non conformes validées sur 9 000), import `node:crypto`, constante K1 non corrigée dans la spec | redirect 0042 |
+| 0043 moteur COSE_Sign1 v1.1 (`32f7adc`) | validé, fusionné (`253267a`) ; 528 PASS reproduit, 7/7 mutations, 12 000 enveloppes fuzzées sans écart sur `cose-verify` et `cose-open` | ordre 0045 |
+| 0044 acquittement du cycle 0007 (`1210a7e`) | validé, fusionné (`240b2d6`) | ordre 0045 |
 
-- Livré sur `main` via `tests/0041-cose-rules-v11` : suite `crypto.cose.rules-v11` (20 cas : typage des clés d'en-tête, opération `cose-open`), `README.md` §4.9.
-- **Banc sur `main@eeba7bd` : 528 vecteurs, 424 PASS, 104 RED, 0 INVALID.**
-- Sur `main` : `core/cbor`, `core/jcs`, `core/profile`, `validators/antiprion`. Pas encore `core/cose`.
+- Livré sur `main` via `tests/0045-antiprion-rules-v14` : suite `antiprion.feedban.rules-v14` (19 cas, `PRION-HARD-073` à `091`), `README.md` §4.10 (P15 à P17).
+- **Banc sur `main@4a87163` : 12 suites, 547 vecteurs, 532 PASS, 15 FAIL, 0 RED, 0 INVALID.** Les 15 FAIL sont les listes de motifs de la Porte de Fer que la suite v1.4 fixe ; aucun verdict n'est en cause (220 000 revendications, 0 écart de verdict).
+- Sur `main` : `core/cbor`, `core/jcs`, `core/profile`, `core/cose`, `validators/antiprion`.
 
 ## Décisions de Kudoro actées (2026-10-04)
 - **DEC-AET-04** : option C, COSE_Sign1 agile.
@@ -25,7 +24,7 @@
 
 ## Limites connues de ce qui est certifié
 - Le vert prouve la conformité aux vecteurs et à mes références, pas au droit : les règles P5 et P6 de la Porte de Fer reposent sur la vérification EUR-Lex du Bushi 12, que je n'ai pas refaite.
-- Environ 7 % des revendications bloquées le sont avec des listes de motifs différentes entre le code et ma référence. À fixer par vecteurs ; toujours pas fait.
+- `main` porte 15 FAIL connus (listes de motifs, suite v1.4) jusqu'à la fusion de `fix/bushi-12-reasons-v14`. Les 19 cas couvrent les trois causes trouvées, pas forcément toutes celles qui existent : le rejeu des 220 000 revendications après correction le dira.
 - Les attentes du profil que j'ai ajoutées viennent de ma seule référence ; le code livré s'y accorde sur 60 010 profils, ce qui confirme la cohérence, pas la justesse du CDDL.
 - Option B : une carte d'émetteur inconnu s'affiche sans que sa signature ait pu être contrôlée. Une carte forgée avec un `kid` inventé s'affiche donc aussi, sous bandeau.
 - Non couvert par des vecteurs : validité temporelle des clés, signatures Ed25519 forgées avec des points d'ordre faible, composition profil + enveloppe et certificat de lot + enveloppe.
@@ -33,7 +32,7 @@
 ## Conventions arrêtées
 - Fichiers de gouvernance : `main` fait foi ; `agent-mailbox` ne porte que `mailbox/`.
 - Branches : `ag/bushi-NN-<slug>`, `ag/orchestrator-<slug>`, `fix/bushi-NN-<slug>`, `tests/*` ; toujours depuis `main`.
-- Numérotation globale continue ; prochain numéro libre côté Antigravity : `0043`.
+- Numérotation globale continue ; prochain numéro libre côté Antigravity : `0048`.
 - Budget bloc 1 : enveloppe COSE_Sign1 ≤ 2 048 o, charge utile ≤ 1 900 o.
 - Type d'enveloppe : paramètre `typ`, étiquette 16, en-tête protégé (`application/aeternitrak-profile+cbor`, `application/aeternitrak-batch-claim+cbor`).
 - Porte de Fer : `evaluate(claim, policy)` ; aucune dérogation en dur.
@@ -43,14 +42,15 @@
 - Une clé d'en-tête COSE est un entier ; aucune conversion depuis un texte.
 
 ## En attente chez Antigravity
-1. `fix/bushi-02-crypto-v11` (0042) : D1 à D3, `coseOpen`, sept mutations ; attendu 104/104 crypto, 528 PASS au total.
-2. Acquittement 0041.
+1. `fix/bushi-12-reasons-v14` (0046) : P15 à P17 ; attendu 202/202 anti-prion, 547 PASS au total.
+2. `ag/bushi-02-batch-certificate-spec` (0047) : spécification du certificat de lot, sans code.
+3. Acquittement 0045.
 
 ## En attente de l'arbitrage de Kudoro
 - `DEC-AET-01` (codec du bloc 3), `DEC-AET-02`, `DEC-AET-03`.
 - Référence de l'autorisation administrative pour DEC-AET-05 avant toute politique réelle.
 
 ## Prochaines actions Claude AI
-- Vecteurs de validité temporelle des clés (K2).
-- Suite de composition : enveloppe + profil, enveloppe + certificat de lot.
-- Vecteurs fixant les listes de motifs divergentes de la Porte de Fer.
+- Vecteurs de validité temporelle des clés (K2) : promis depuis le cycle 0007, pas encore livrés.
+- Rejouer les 220 000 revendications sur `fix/bushi-12-reasons-v14`.
+- Auditer la spécification du certificat de lot, puis écrire la suite de composition (enveloppe + profil, enveloppe + certificat).
