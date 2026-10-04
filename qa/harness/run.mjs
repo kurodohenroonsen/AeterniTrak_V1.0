@@ -671,7 +671,10 @@ async function main() {
   // Écriture du rapport JSON
   try {
     fs.mkdirSync(REPORTS_DIR, { recursive: true });
-    const reportPath = path.join(REPORTS_DIR, `${dateStr}-${shortSha}.json`);
+    const reportFileName = isSelftest
+      ? `${dateStr}-${shortSha}-selftest.json`
+      : `${dateStr}-${shortSha}.json`;
+    const reportPath = path.join(REPORTS_DIR, reportFileName);
     const reportData = {
       date: dateStr,
       commit: shortSha,
