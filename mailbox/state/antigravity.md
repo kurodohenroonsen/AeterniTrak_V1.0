@@ -1,27 +1,21 @@
 # État Antigravity (Orchestrateur & Swarm des 16 Bushi) — AeterniTrak V1.0
 
 - **Rôle** : Orchestrateur du Swarm multi-agents, Coordination des 16 Bushi, Implémentation Spec-First / Test-First, Exécution Zéro-Clic via `./scripts/runner.sh`.
-- **Dernière révision** : 2026-10-04 (Cycle 0009 — Clôture & Acquittement).
+- **Dernière révision** : 2026-10-04 (Cycle 0010 — Ordre PRIORITAIRE 0065 délivré).
 - **Branche active** : `agent-mailbox`.
 - **Derniers commits délivrés** :
+  - `fix/bushi-01-decoder-notation` @ `78e5da2cc23693d8492ee0d2ccd85e6c8550f819` (Rapport 0069, Ordre PRIORITAIRE 0065, règle AVN-R, AST typé CborValue, élimination complète des tests `$map` dans `core/profile` et `core/cose`, 623 PASS / 0 FAIL / 0 INVALID / 70 RED, 20/20 mutations).
   - `ag/orchestrator-cycle-0009-ack` @ `1ee3daa08e1694f4c27fcab3eb2fae9ff76f1b13` (Rapport 0063, Ordre 0052, Acquittement officiel Cycle 0009, alignement BACKLOG.md v1.5 / K2 / DEC-AET-01, boîte to-antigravity 100% purgée).
   - `ag/bushi-13-legal-postmortem-study` @ `85a8dece4960e70091e59c5dd4ab0b46c00be01e` (Rapport 0062, Redirect 0054, Études juridiques DEC-AET-03 et DEC-AET-05, Inventaire technique des guichets DEC-AET-02).
   - `ag/orchestrator-usecases-portal` @ `213e0668920f120dfa8ca2243d2fc91af57eca7c` (Rapport 0061, Redirect 0055, Portail 100% hors-ligne, CSS pur embarqué, audit juridique 19 textes officiels, U1 à U4).
   - `ag/bushi-02-batch-certificate-spec` @ `effa3c0913d0b22f3a90c1bd88e5107fd9557654` (Rapport 0060, Redirect 0053, Spécification du Certificat de Lot v1.1.0, 10 amendements A1 à A10 intégrés, Phase A pure).
   - `ag/bushi-02-key-validity` @ `0fb4afaa61f6a5c70088a46e395c42d8e60e81f2` (Rapport 0059, Ordre 0057, Règle K2, v1.2.0, 144/144 crypto PASS, 9/9 mutations).
   - `fix/bushi-12-insect-source-p18` @ `7d804cb306e9bf7ff0e099ff4f8bb2e60e133a2f` (Rapport 0058, Ordre 0056, Règle P18, v1.5.0, 212/212 PASS, 8/8 mutations).
-  - `ag/orchestrator-decision-dec-aet-08` @ `ea52868` (Rapport 0052, DEC-AET-08 4 Apps & DEC-AET-09 Multiplateforme).
-  - `ag/orchestrator-decisions-01-02-03` @ `9cdfae9` (Rapport 0051, DEC-AET-01, 02, 03 & DEC-AET-05).
-  - `fix/bushi-12-reasons-v14` @ `8e30ea58cad7701b0b26f2b4fd95c4240f4498b6` (Rapport 0049).
-  - `ag/orchestrator-cycle-0008-ack` @ `f257f14b2d3544f8149e984f881aa59db9ec2791` (Rapport 0048).
-- **Statut des chantiers (Cycle 0009)** :
-  - **Ordre 0052 (Orchestrateur — Acquittement Cycle 0009 & Backlog)** : **Terminé**, branche `ag/orchestrator-cycle-0009-ack` (commit `1ee3daa`) livrée depuis `origin/main@18f33c9`, `BACKLOG.md` aligné sur le cycle 0009 (597 vecteurs certifiés, `PRION-001` Révision v1.5, `CRYPTO-003` Révision v1.2 K2, `STORAGE-001` aligné DEC-AET-01 avec retrait T4T 32 Ko), rapport 0063 déposé, ordre 0052 purgé (P5). Boîte `mailbox/to-antigravity/` désormais vide.
-  - **Redirect 0054 (Bushi 13 & 12 — Études juridiques post-mortem & inventaire des guichets)** : **Terminé**, branche `ag/bushi-13-legal-postmortem-study` (commit `85a8dec`) livrée depuis `origin/main@18f33c9`, 3 études sourcées (`postmortem-mandate.md`, `memorial-forestry-authorisation.md`, `registry-apis.md`), rapport 0062 déposé, redirect 0054 purgé (P5).
-  - **Redirect 0055 (Orchestrateur — Portail des cas d'usage 100% hors-ligne)** : **Terminé**, branche `ag/orchestrator-usecases-portal` rebasée sur `origin/main@18f33c9` et mise à jour (commit `213e066`), rapport 0061 déposé, redirect 0055 purgé (P5). Zéro ressource distante (CSS pur embarqué), 19 textes juridiques vérifiés, jalon STORAGE-001 intégré.
-  - **Redirect 0053 (Bushi 02 — Spécification du Certificat de Lot v1.1.0)** : **Terminé**, branche `ag/bushi-02-batch-certificate-spec` rebasée sur `origin/main@18f33c9` et mise à jour (commit `effa3c0`), rapport 0060 déposé, redirect 0053 purgé (P5). Phase A pure validée (zéro code, zéro vecteur).
-  - **Ordre 0057 (Bushi 02 — Validité temporelle des clés K2)** : **Terminé**, branche `ag/bushi-02-key-validity` (commits `5b610d4` et `0fb4afa`) livrée, rapport 0059 déposé, ordre 0057 purgé (P5). 144 PASS sur 5 suites crypto, 9/9 mutations validées.
-  - **Ordre 0056 (Bushi 12 — Anti-Prion Règle P18, Insectes en alimentation)** : **Terminé**, branche `fix/bushi-12-insect-source-p18` (commit `7d804cb`) livrée, rapport 0058 déposé, ordre 0056 purgé (P5). 212 PASS sur 6 suites anti-prion, 8/8 mutations validées.
-  - **Décisions Kudoro DEC-AET-08 & DEC-AET-09** : **Terminé**, branche `ag/orchestrator-decision-dec-aet-08` (commit `ea52868`) livrée, rapport 0052 déposé.
-  - **Décisions Kudoro DEC-AET-01, 02, 03** : **Terminé**, branche `ag/orchestrator-decisions-01-02-03` (commit `9cdfae9`) livrée, rapport 0051 déposé.
-- **État boîte de réception** : `mailbox/to-antigravity/` est vide (0 message en attente).
-- **Prochaine étape** : Attente de la validation et fusion par Claude AI sur `main` des 6 branches livrées au Cycle 0009, puis ouverture du Cycle 0010.
+- **Statut des chantiers (Cycle 0010)** :
+  - **Ordre PRIORITAIRE 0065 (Bushi 01 & Bushi 16 — Confusion notation décodeur AVN-R & AST typé)** : **Terminé**, branche `fix/bushi-01-decoder-notation` (commits `a0d8735`, `7d4f304`, `78e5da2`) poussée sur `origin`. 623 PASS, 0 FAIL, 0 INVALID, 70 RED sur les 693 vecteurs de `main@98c3892`. 5/5 mutations CBOR, 5/5 mutations profil, 10/10 mutations crypto. Rapport 0069 déposé, tâche 0065 purgée (P5).
+  - **Ordre 0064 (Orchestrateur — Acquittement Cycle 0010)** : En attente de traitement.
+  - **Ordre 0066 (Bushi 02 — Implémentation du Certificat de Lot)** : En attente de traitement.
+  - **Redirect 0067 (Orchestrateur — Portail Cas d'Usage hors-ligne)** : En attente de traitement.
+  - **Redirect 0068 (Bushi 13 — Études juridiques post-mortem)** : En attente de traitement.
+- **État boîte de réception** : 4 messages en attente dans `mailbox/to-antigravity/` (0064, 0066, 0067, 0068).
+- **Prochaine étape** : Traitement ordonné des tâches restantes du Cycle 0010.
