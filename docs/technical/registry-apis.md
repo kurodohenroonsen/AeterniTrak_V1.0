@@ -34,7 +34,7 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
 ### 3.1 CERISE (SPW Agriculture — Région Wallonne)
 - **Autorité de tutelle** : Service Public de Wallonie — Agriculture, Ressources Naturelles et Environnement (SPW ARNE).
 - **Missions de la plateforme** : CERISE est le guichet électronique destiné aux exploitants agricoles wallons pour la gestion des déclarations de superficie (aides PAC), des primes et de l'inventaire d'exploitation.
-- **Portail officiel vérifié** : [https://cerise.wallonie.be](https://cerise.wallonie.be) (Portail web d'accès usager).
+- **Portails officiels vérifiés** : [https://cerise.arsia.be](https://cerise.arsia.be) (Portail web de télédéclaration CERISE géré par l'ARSIA pour les démarches et l'identification d'élevage) et [https://agriculture.wallonie.be](https://agriculture.wallonie.be) (Portail officiel de l'Agriculture en Wallonie).
 - **Existence d'une API publique** : **NON**.  
   Une inspection minutieuse des portails régionaux wallons et des catalogues de données ouvertes (Open Data Wallonie-Bruxelles) confirme qu'il n'existe aucune API publique documentée pour CERISE. L'application est strictement conçue comme une interface web interactive avec authentification fédérale CSAM (carte eID ou application itsme).
 - **Statut d'intégration AeterniTrak** :  
@@ -85,7 +85,7 @@ Conformément à la consigne de Kudoro (`DEC-AET-02`) et aux exigences de vérif
 ### 3.4 DNF (Département de la Nature et des Forêts — SPW ARNE)
 - **Autorité responsable** : Service Public de Wallonie — Agriculture, Ressources Naturelles et Environnement (SPW ARNE), Département de la Nature et des Forêts (DNF).
 - **Missions** : Gestion du domaine forestier public régional, surveillance de la faune sauvage, attribution et contrôle des bracelets cynégétiques de traçabilité du grand gibier abattu ou trouvé mort, veille éco-épidémiologique (PPA chez le sanglier, CWD chez le cerf).
-- **Portail d'information vérifié** : [https://environnement.wallonie.be/dnf](https://environnement.wallonie.be/dnf)
+- **Portail d'information vérifié** : [https://environnement.wallonie.be](https://environnement.wallonie.be) (Portail officiel de l'Environnement et des Forêts en Wallonie - SPW).
 - **Existence d'une API publique** : **NON**.  
   Le DNF ne dispose d'aucune interface informatique ouverte à des tiers. Les opérations de terrain s'appuient sur des applications internes réservées aux agents assermentés et sur la pose de scellés physiques numérotés (bracelets inviolables).
 - **Statut d'intégration AeterniTrak** :  
