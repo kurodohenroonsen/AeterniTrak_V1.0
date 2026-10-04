@@ -89,10 +89,7 @@ case "$ACTION" in
 
   test)
     log ">>> Action: RUN TESTS"
-    if [ -d "$PROJECT_ROOT/qa/vectors" ]; then
-      echo "Validating vectors in qa/vectors..." | tee -a "$OUT_FILE"
-      find "$PROJECT_ROOT/qa/vectors" -name "*.json" -o -name "*.cbor" | tee -a "$OUT_FILE"
-    fi
+    node "$PROJECT_ROOT/qa/harness/run.mjs" "$@"
     ;;
 
   say)

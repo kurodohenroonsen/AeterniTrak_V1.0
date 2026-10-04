@@ -1,0 +1,14 @@
+{
+  "name": "aeternitrak",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "AeterniTrak V1.0 — Traçabilité décentralisée & filière de sarcomusation",
+  "scripts": {
+    "test": "node qa/harness/run.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ajv": "8.17.1"
+  }
+}
