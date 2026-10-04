@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AeterniTrak V1.0 — Styles CSS Pur & Embarqué (100% Hors-Ligne, Zéro CDN)
-Design System Obsidienne Sombre, Dorures Nobles, Grand Théâtre Interactif,
-Mockups iPhone 16 Pro, Cartes 3D CR-80, Lecteur ACR1552U, Cassette LFA & Wireframes Confortables.
-Conçu par Éléonore de Saint-Aubert & Bushi 08.
+Script de génération pour scripts/portal_styles.py
+Injecte un moteur CSS complet, propre et élégant (Zéro CDN, 100% embarqué)
+couvrant l'INTÉGRALITÉ des classes utilitaires et styles de composants requis.
 """
 
-CSS_STYLES = r"""/* =========================================================================
+CSS_CONTENT = r"""/* =========================================================================
    AeterniTrak V1.0 — Design System Obsidienne Sombre & Or Impérial
    Moteur CSS Pur & Embarqué (100% Hors-Ligne, ZÉRO ressource distante)
    Conçu pour le Grand Théâtre Vivant, les Wireframes et le Référentiel
@@ -1485,3 +1484,8 @@ dialog#ucModal:focus {
 .wf-signature-boxes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
 .wf-sig-box { border: 1px dashed rgba(51, 65, 85, 0.8); border-radius: 0.5rem; padding: 0.65rem; text-align: center; background: rgba(11, 13, 20, 0.6); }
 """
+
+with open("scripts/portal_styles.py", "w", encoding="utf-8") as f:
+    f.write('#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n"""\nAeterniTrak V1.0 — Styles CSS Pur & Embarqué (100% Hors-Ligne, Zéro CDN)\nDesign System Obsidienne Sombre, Dorures Nobles, Grand Théâtre Interactif,\nMockups iPhone 16 Pro, Cartes 3D CR-80, Lecteur ACR1552U, Cassette LFA & Wireframes Confortables.\nConçu par Éléonore de Saint-Aubert & Bushi 08.\n"""\n\nCSS_STYLES = r"""' + CSS_CONTENT + '"""\n')
+
+print("Fichier scripts/portal_styles.py généré avec succès !")

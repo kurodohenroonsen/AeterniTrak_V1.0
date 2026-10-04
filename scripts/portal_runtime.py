@@ -15,7 +15,7 @@ JS_RUNTIME = """
     // État global de l'application
     const appState = {
       activeTab: 'app1',
-      portalMode: localStorage.getItem('aeternitrak_portal_mode') || 'famille', // 'famille' | 'expert'
+      portalMode: 'famille', // 'famille' | 'expert'
       viewModes: { app1: 'cards', app2: 'cards', app3: 'cards', app4: 'cards' },
       categoryFilters: { app1: 'all', app2: 'all', app3: 'all', app4: 'all' },
       wfStates: {}, // ucId -> { phase: 'p1', timer: null, isPlaying: false }
@@ -28,6 +28,13 @@ JS_RUNTIME = """
         lfaState: 'neg'
       }
     };
+
+    try {
+      const savedMode = localStorage.getItem('aeternitrak_portal_mode');
+      if (savedMode === 'expert' || savedMode === 'engineer') {
+        appState.portalMode = 'expert';
+      }
+    } catch (e) {}
 
     // Répertoire consolidé de tous les cas d'usage
     const allUseCases = [...app1UseCases, ...app2UseCases, ...app3UseCases, ...app4UseCases];
@@ -94,116 +101,126 @@ JS_RUNTIME = """
           });
         }
       } catch (e) {
-        console.warn('Audio Web non disponible:', e);
+        // Mode silencieux si AudioContext indisponible
       }
     }
 
     // =========================================================================
-    // BASULE DE MODE BIMODAL : MODE FAMILLE vs MODE EXPERT / INGÉNIEUR
+    // NAVIGATION DU GRAND THÉÂTRE VIVANT (LES 4 EXPÉRIENCES CLÉS)
+    // =========================================================================
+    function switchHeroExp(expId) {
+      const exps = ['expA', 'expB', 'expC', 'expD'];
+      exps.forEach(id => {
+        const tab = document.getElementById(`hero-tab-${id}`);
+        const panel = document.getElementById(`hero-panel-${id}`);
+        if (tab) {
+          if (id === expId) {
+            tab.classList.add('active');
+          } else {
+            tab.classList.remove('active');
+          }
+        }
+        if (panel) {
+          if (id === expId) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        }
+      });
+      playTone('soft-bell');
+    }
+
+    // =========================================================================
+    // BASCULE DE MODE BIMODAL : MODE FAMILLE vs MODE INGÉNIEUR / EXPERT
     // =========================================================================
     function setPortalMode(mode) {
-      appState.portalMode = mode;
-      localStorage.setItem('aeternitrak_portal_mode', mode);
+      const isFamille = (mode === 'family' || mode === 'famille');
+      const normalized = isFamille ? 'famille' : 'expert';
+      appState.portalMode = normalized;
+      try {
+        localStorage.setItem('aeternitrak_portal_mode', normalized);
+      } catch (e) {}
 
-      const btnFamille = document.getElementById('btn-mode-famille');
-      const btnExpert = document.getElementById('btn-mode-expert');
+      const btnFamily = document.getElementById('btn-mode-family') || document.getElementById('btn-mode-famille');
+      const btnEngineer = document.getElementById('btn-mode-engineer') || document.getElementById('btn-mode-expert');
       const desc = document.getElementById('portal-mode-desc');
 
-      if (btnFamille && btnExpert) {
-        if (mode === 'famille') {
-          btnFamille.className = 'mode-switch-btn active';
-          btnExpert.className = 'mode-switch-btn';
-          if (desc) {
-            desc.innerHTML = '<strong>Mode Famille & Conseiller :</strong> Présentation sereine, chaleureuse et digne axée sur la mémoire, l\\'hommage affectif et la simplicité absolue sans jargon technique.';
-          }
+      if (btnFamily) {
+        if (isFamille) {
+          btnFamily.className = btnFamily.classList.contains('bimodal-btn') ? 'bimodal-btn active-family' : 'mode-switch-btn active';
         } else {
-          btnFamille.className = 'mode-switch-btn';
-          btnExpert.className = 'mode-switch-btn active-expert';
-          if (desc) {
-            desc.innerHTML = '<strong>Mode Expert & Silicium :</strong> Visualisation des flux APDU ISO/IEC 7816-4, tags CBOR RFC 8949, signatures asymétriques Ed25519 et verrous sanitaires The Iron Gate.';
-          }
+          btnFamily.className = btnFamily.classList.contains('bimodal-btn') ? 'bimodal-btn' : 'mode-switch-btn';
         }
       }
 
-      // Re-rendre la section active avec le mode sélectionné
+      if (btnEngineer) {
+        if (!isFamille) {
+          btnEngineer.className = btnEngineer.classList.contains('bimodal-btn') ? 'bimodal-btn active-engineer' : 'mode-switch-btn active-expert';
+        } else {
+          btnEngineer.className = btnEngineer.classList.contains('bimodal-btn') ? 'bimodal-btn' : 'mode-switch-btn';
+        }
+      }
+
+      if (desc) {
+        if (isFamille) {
+          desc.innerHTML = '<strong>Mode Famille & Conseiller :</strong> Présentation sereine, chaleureuse et digne axée sur la mémoire, l\\'hommage affectif et la simplicité absolue sans jargon technique.';
+        } else {
+          desc.innerHTML = '<strong>Mode Ingénieur & Silicium :</strong> Spécifications in-silico, flux APDU ISO/IEC 7816-4, tags CBOR RFC 8949, signatures asymétriques Ed25519 et verrous sanitaires The Iron Gate.';
+        }
+      }
+
       renderAppSection(appState.activeTab);
     }
 
     function setReadingMode(mode) {
-      setPortalMode(mode === 'family' || mode === 'famille' ? 'famille' : 'expert');
+      setPortalMode(mode);
     }
 
     // =========================================================================
-    // LE GRAND THÉÂTRE VIVANT (4 PODS INTERACTIFS EN DIRECT)
+    // LE GRAND THÉÂTRE VIVANT : LES 4 EXPÉRIENCES INTERACTIVES EN DIRECT
     // =========================================================================
 
-    // POD 1 : CARTE PAXFUNÈBRE 3D À DOUBLE FACE
-    function toggleCard3D() {
-      const inner = document.getElementById('pax-card-3d-inner');
-      const indicator = document.getElementById('card-face-indicator');
-      const btn = document.getElementById('btn-flip-card-3d');
-
-      appState.theater.cardFlipped = !appState.theater.cardFlipped;
-
-      if (inner) {
-        if (appState.theater.cardFlipped) {
-          inner.classList.add('flipped');
-          if (indicator) {
-            indicator.textContent = 'Verso : Volontés Civiles & Médicales';
-            indicator.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-500/30';
-          }
-          if (btn) btn.innerHTML = '↺ Retourner la Carte 3D (Voir Sanctuaire Recto)';
-        } else {
-          inner.classList.remove('flipped');
-          if (indicator) {
-            indicator.textContent = 'Recto : Carte Sanctuaire Mémorielle';
-            indicator.className = 'text-xs font-mono font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded border border-gold-500/20';
-          }
-          if (btn) btn.innerHTML = '↺ Retourner la Carte 3D (Voir Directives Verso)';
-        }
-      }
-    }
-    function toggleCard3DFlip() { toggleCard3D(); }
-
-    // POD 2 : SMARTPHONE SANCTUAIRE, FLAMME & DUCKING VOCAL
-    function toggleSanctuaryAudio() {
-      const btn = document.getElementById('btn-sanctuary-audio');
+    // EXPÉRIENCE A : SANCTUAIRE MOBILE, FLAMME & DUCKING VOCAL
+    function toggleMemorialAudio() {
+      const btn = document.getElementById('memorial-play-btn') || document.getElementById('btn-sanctuary-audio');
+      const duckingIndicator = document.getElementById('ducking-indicator') || document.getElementById('sanctuary-ducking-status');
       const statusBadge = document.getElementById('sanctuary-audio-status');
-      const duckingBadge = document.getElementById('sanctuary-ducking-status');
-      const bars = document.querySelectorAll('#theater-oscilloscope .osc-bar');
+      const bars = document.querySelectorAll('#hero-panel-expA .osc-bar, #theater-oscilloscope .osc-bar, .osc-bar');
       const state = appState.theater;
 
       if (state.sanctuaryAudioPlaying) {
-        // Stopper
         state.sanctuaryAudioPlaying = false;
-        clearInterval(state.sanctuaryInterval);
-        if (btn) btn.innerHTML = '▶ Écouter l\\'Élégie Vocale (Ducking -14 dB)';
+        if (state.sanctuaryInterval) {
+          clearInterval(state.sanctuaryInterval);
+          state.sanctuaryInterval = null;
+        }
+        if (btn) btn.innerHTML = '▶ Écouter le Message';
+        if (duckingIndicator) {
+          duckingIndicator.innerHTML = '🔇 Veille';
+          duckingIndicator.className = 'font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-0.5 rounded-full border border-slate-700';
+        }
         if (statusBadge) {
           statusBadge.innerHTML = '⏸ En Veille';
           statusBadge.className = 'font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-700 flex items-center gap-1.5';
-        }
-        if (duckingBadge) {
-          duckingBadge.innerHTML = 'Ambiance Pleine (0 dB)';
-          duckingBadge.className = 'font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-700';
         }
         bars.forEach(b => {
           b.style.animationPlayState = 'paused';
           b.style.height = '8px';
         });
       } else {
-        // Démarrer
         state.sanctuaryAudioPlaying = true;
         playTone('memorial-chord');
         if (btn) btn.innerHTML = '⏸ Suspendre l\\'Écoute';
+        if (duckingIndicator) {
+          duckingIndicator.innerHTML = '🎙️ Ducking Vocal -14 dB Actif';
+          duckingIndicator.className = 'font-mono text-xs text-amber-300 bg-amber-950/80 px-2.5 py-0.5 rounded-full border border-amber-500/50 font-bold animate-pulse';
+        }
         if (statusBadge) {
           statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ▶ En Lecture (Voix Mémorielle)';
           statusBadge.className = 'font-mono text-xs text-emerald-300 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-500/40 flex items-center gap-1.5';
         }
-        if (duckingBadge) {
-          duckingBadge.innerHTML = '🎙️ Ducking Vocal -14 dB Actif';
-          duckingBadge.className = 'font-mono text-xs text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-500/50 font-bold animate-pulse';
-        }
-        bars.forEach((b, i) => {
+        bars.forEach(b => {
           b.style.animationPlayState = 'running';
         });
         state.sanctuaryInterval = setInterval(() => {
@@ -214,35 +231,113 @@ JS_RUNTIME = """
         }, 120);
       }
     }
-    function toggleMemorialAudio() { toggleSanctuaryAudio(); }
+    function toggleSanctuaryAudio() { toggleMemorialAudio(); }
 
-    // POD 3 : PAXSTATION ENCODAGE & LECTEUR ACR1552U
-    function simulateAcr1552uTap() {
-      const btn = document.getElementById('btn-acr-tap');
-      const led = document.getElementById('acr-led-apdu');
-      const terminal = document.getElementById('acr-terminal-log');
-      const eepromBar = document.getElementById('acr-eeprom-bar');
-      const eepromText = document.getElementById('acr-eeprom-text');
+    function toggleMemorialDrawer() {
+      const content = document.getElementById('memorial-drawer-content');
+      const icon = document.getElementById('memorial-drawer-icon');
+      if (!content) return;
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        if (icon) icon.textContent = '▲';
+      } else {
+        content.classList.add('hidden');
+        if (icon) icon.textContent = '▼';
+      }
+    }
+
+    // EXPÉRIENCE B : CARTE PAXFUNÈBRE 3D RÉVERSIBLE CR-80
+    function toggleCard3D() {
+      appState.theater.cardFlipped = !appState.theater.cardFlipped;
+      const isFlipped = appState.theater.cardFlipped;
+
+      const cardElem = document.getElementById('card-3d-element');
+      const paxCard = document.getElementById('pax-card-3d-inner');
+      const btn = document.getElementById('card-flip-btn') || document.getElementById('btn-flip-card-3d');
+      const indicator = document.getElementById('card-face-indicator');
+
+      if (cardElem) {
+        if (isFlipped) cardElem.classList.add('flipped');
+        else cardElem.classList.remove('flipped');
+      }
+      if (paxCard) {
+        if (isFlipped) paxCard.classList.add('flipped');
+        else paxCard.classList.remove('flipped');
+      }
+
+      if (btn) {
+        if (isFlipped) {
+          btn.innerHTML = '↺ Retourner la Carte 3D (Voir Sanctuaire Recto)';
+        } else {
+          btn.innerHTML = '🔄 Retourner la Carte (Verso Directives & Puce)';
+        }
+      }
+
+      if (indicator) {
+        if (isFlipped) {
+          indicator.textContent = 'Verso : Volontés Civiles & Médicales';
+          indicator.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-500/30';
+        } else {
+          indicator.textContent = 'Recto : Carte Sanctuaire Mémorielle';
+          indicator.className = 'text-xs font-mono font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded border border-gold-500/20';
+        }
+      }
+      playTone('soft-bell');
+    }
+    function toggleCard3DFlip() { toggleCard3D(); }
+
+    function setCard3DFinish(finish) {
+      const frontFaces = document.querySelectorAll('.card-face-front, .card-3d-front');
+      frontFaces.forEach(front => {
+        if (finish === 'gold') {
+          front.style.background = 'radial-gradient(circle at 25% 25%, #2a2312 0%, #120e06 100%)';
+          front.style.borderColor = 'rgba(212, 175, 55, 0.9)';
+          front.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.9), inset 0 0 35px rgba(212, 175, 55, 0.3)';
+        } else if (finish === 'obsidian') {
+          front.style.background = 'radial-gradient(circle at 25% 25%, #181d29 0%, #07090e 100%)';
+          front.style.borderColor = 'rgba(148, 163, 184, 0.6)';
+          front.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(51, 65, 85, 0.3)';
+        }
+      });
+      playTone('soft-bell');
+    }
+
+    // EXPÉRIENCE C : PAXSTATION ENCODAGE & LECTEUR ACR1552U
+    function startPaxStationEncoding() {
+      const dock = document.getElementById('paxstation-card-dock');
+      const led = document.getElementById('paxstation-acr-led') || document.getElementById('acr-led-apdu');
+      const terminal = document.getElementById('paxstation-log') || document.getElementById('acr-terminal-log');
+      const fill = document.getElementById('paxstation-byte-fill') || document.getElementById('acr-eeprom-bar');
+      const text = document.getElementById('paxstation-byte-text') || document.getElementById('acr-eeprom-text');
+      const btn = document.getElementById('paxstation-start-btn') || document.getElementById('btn-acr-tap');
 
       if (appState.theater.acrEncoding) return;
       appState.theater.acrEncoding = true;
-      if (btn) btn.disabled = true;
 
-      playTone('soft-bell');
-      if (led) {
-        led.className = 'w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399] animate-pulse';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Gravure Silicium en cours...';
       }
 
+      if (dock) dock.classList.add('docked');
+
+      if (led) {
+        led.className = 'w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse active';
+      }
+
+      playTone('soft-bell');
+
       const steps = [
-        { time: 100, text: '<span class="text-sky-400">[00.120] CARTE DÉTECTÉE</span> : ATR 3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 00 03 00 00 00', bytes: 14.5 },
-        { time: 500, text: '<span class="text-indigo-300">[00.520] SELECT AID</span> : CLA:00 INS:A4 P1:04 P2:00 Lc:07 A0000008450101 -> SW:9000 (ACOSJ OK)', bytes: 38.2 },
-        { time: 1000, text: '<span class="text-gold-300">[01.040] WRITE RECORD</span> : Profil civil + 2 Portraits WebP 220x220 alloués', bytes: 64.8 },
-        { time: 1500, text: '<span class="text-emerald-400">[01.580] COSE_SIGN1</span> : Ed25519 scellé in-silico (RFC 8032, Low-S conforme)', bytes: 87.5 },
-        { time: 2000, text: '<span class="text-purple-300">[02.100] HARDWARE LOCK</span> : Fusible physique activé. Mémoire EEPROM immuable.', bytes: 87.5 },
-        { time: 2400, text: '<span class="text-emerald-300 font-bold">[02.450] SUCCÈS TOTAL</span> : Carte ACOSJ 92K gravée avec succès • Prête pour la famille.', bytes: 87.5 }
+        { time: 100, text: '<span class="text-sky-400">[00.120] CARTE DÉTECTÉE</span> : ATR 3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 00 03 00 00 00', bytes: 14500, label: '14 500 / 92 160 octets (16%)' },
+        { time: 500, text: '<span class="text-indigo-300">[00.520] SELECT AID</span> : CLA:00 INS:A4 P1:04 P2:00 Lc:07 A0000008450101 -> SW:9000 (ACOSJ OK)', bytes: 38200, label: '38 200 / 92 160 octets (41%)' },
+        { time: 1000, text: '<span class="text-gold-300">[01.040] WRITE RECORD</span> : Profil civil + Portraits WebP 220x220 alloués', bytes: 64800, label: '64 800 / 92 160 octets (70%)' },
+        { time: 1500, text: '<span class="text-emerald-400">[01.580] COSE_SIGN1</span> : Ed25519 scellé in-silico (RFC 8032, Low-S conforme)', bytes: 87500, label: '87 500 / 92 160 octets (95%)' },
+        { time: 2000, text: '<span class="text-purple-300">[02.100] HARDWARE LOCK</span> : Fusible physique activé. Mémoire EEPROM immuable.', bytes: 87500, label: '87 500 / 92 160 octets (95%)' },
+        { time: 2400, text: '<span class="text-emerald-300 font-bold">[02.450] SUCCÈS TOTAL</span> : Carte ACOSJ 92K gravée avec succès • Prête pour la famille.', bytes: 87500, label: '87 500 / 92 160 octets (95%) - Scellé' }
       ];
 
-      if (terminal) terminal.innerHTML = '<span class="text-slate-400">Initialisation du couplage sans contact 13.56 MHz...</span>';
+      if (terminal) terminal.innerHTML = '<span class="text-slate-400">Initialisation du couplage sans contact 13.56 MHz (WebUSB ACR1552U)...</span>';
 
       steps.forEach((s, idx) => {
         setTimeout(() => {
@@ -250,62 +345,122 @@ JS_RUNTIME = """
             terminal.innerHTML += `<div>${s.text}</div>`;
             terminal.scrollTop = terminal.scrollHeight;
           }
-          if (eepromBar) {
-            const pct = Math.min(100, (s.bytes / 92) * 100);
-            eepromBar.style.width = `${pct}%`;
+          if (fill) {
+            const pct = Math.min(100, (s.bytes / 92160) * 100);
+            fill.style.width = `${pct}%`;
           }
-          if (eepromText) {
-            eepromText.textContent = `${s.bytes.toFixed(1)} / 92 Ko (${Math.round((s.bytes / 92) * 100)}%)`;
+          if (text) {
+            text.textContent = s.label;
           }
           if (idx === steps.length - 1) {
             appState.theater.acrEncoding = false;
-            if (btn) btn.disabled = false;
-            if (led) led.className = 'w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]';
+            if (dock) dock.classList.remove('docked');
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = '✔ Gravure Terminée (Relancer la Gravure)';
+            }
+            if (led) {
+              led.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]';
+            }
             playTone('soft-bell');
           }
         }, s.time);
       });
     }
-    function startPaxStationEncoding() { simulateAcr1552uTap(); }
+    function simulateAcr1552uTap() { startPaxStationEncoding(); }
 
-    // POD 4 : CASSETTE LFA TOXICOLOGIQUE & THE IRON GATE
-    function setLfaResult(res) {
-      const lineT = document.getElementById('lfa-line-test');
-      const badge = document.getElementById('lfa-status-badge');
-      const explanation = document.getElementById('lfa-explanation');
-      const btnNeg = document.getElementById('btn-lfa-neg');
-      const btnPos = document.getElementById('btn-lfa-pos');
+    // EXPÉRIENCE D : CASSETTE LFA TOXICOLOGIQUE & THE IRON GATE
+    function startLfaTest() {
+      const droplet = document.getElementById('lfa-droplet');
+      const stripFlow = document.getElementById('lfa-strip-flow');
+      const lineC = document.getElementById('lfa-line-c');
+      const lineT = document.getElementById('lfa-line-t');
+      const banner = document.getElementById('lfa-result-banner');
+      const btn = document.getElementById('lfa-start-btn');
+      const flags = document.querySelectorAll('.iron-gate-flag');
 
-      appState.theater.lfaState = res;
-      playTone('droplet');
-
-      if (res === 'neg') {
-        if (lineT) lineT.className = 'lfa-line-t'; // 2 bandes visibles = NÉGATIF
-        if (badge) {
-          badge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 border border-emerald-500 text-emerald-300 flex items-center gap-1.5';
-          badge.innerHTML = '✔ LFA NÉGATIF (&lt; 10 ppb) • CONFORME';
-        }
-        if (explanation) {
-          explanation.className = 'text-xs text-slate-700 bg-white/70 p-3 rounded-lg border border-slate-300 leading-relaxed';
-          explanation.innerHTML = '<strong>Deux bandes visibles (C + T) :</strong> Absence d\\'euthanasiant toxique (&lt; 10 ppb). La dépouille mémorielle est admise en unité de sarcomusation avec valorisation forestière post-stérilisation autorisée.';
-        }
-        if (btnNeg) btnNeg.className = 'wf-btn wf-btn-gold text-xs font-bold';
-        if (btnPos) btnPos.className = 'wf-btn wf-btn-sub text-xs';
-      } else {
-        if (lineT) lineT.className = 'lfa-line-t invisible'; // 1 seule bande (C) = POSITIF (> 10 ppb)
-        if (badge) {
-          badge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-red-950/90 border border-red-500 text-red-300 flex items-center gap-1.5';
-          badge.innerHTML = '✖ LFA POSITIF (&gt; 10 ppb) • REJET C1 IMMÉDIAT';
-        }
-        if (explanation) {
-          explanation.className = 'text-xs text-red-950 bg-red-100 p-3 rounded-lg border border-red-300 leading-relaxed font-medium';
-          explanation.innerHTML = '<strong>Une seule bande visible (C) :</strong> Détection de Pentobarbital &gt; 10 ppb. <em>Aiguillage bloqué</em> : Rejet impératif vers l\\'incinération de Catégorie 1 pour protéger la colonie d\\'insectes.';
-        }
-        if (btnNeg) btnNeg.className = 'wf-btn wf-btn-sub text-xs';
-        if (btnPos) btnPos.className = 'wf-btn wf-btn-danger text-xs font-bold';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Dépistage et migration capillaire en cours...';
       }
+
+      // Réinitialisation
+      if (banner) banner.classList.add('hidden');
+      if (stripFlow) stripFlow.style.width = '0%';
+      if (lineC) {
+        lineC.classList.remove('active-red');
+        lineC.style.opacity = '0.25';
+      }
+      if (lineT) {
+        lineT.classList.remove('active-red', 'invisible');
+        lineT.style.opacity = '0.25';
+      }
+      flags.forEach(f => {
+        f.style.background = '';
+        f.style.borderColor = '';
+        f.style.color = '';
+        f.classList.remove('border-emerald-500', 'text-emerald-300');
+      });
+
+      // 1. Descente de la goutte
+      playTone('droplet');
+      if (droplet) {
+        droplet.style.opacity = '1';
+        droplet.style.transform = 'translateY(18px) scale(0.9)';
+      }
+
+      // 2. Migration sur la membrane de nitrocellulose
+      setTimeout(() => {
+        if (droplet) {
+          droplet.style.opacity = '0';
+          droplet.style.transform = 'translateY(0) scale(1)';
+        }
+        if (stripFlow) {
+          stripFlow.style.width = '100%';
+        }
+      }, 400);
+
+      // 3. Révélation C et masquage T (principe compétitif)
+      setTimeout(() => {
+        if (lineC) {
+          lineC.classList.add('active-red');
+          lineC.style.opacity = '1';
+          lineC.style.background = '#dc2626';
+        }
+        if (lineT) {
+          lineT.classList.add('invisible');
+          lineT.style.opacity = '0';
+        }
+      }, 1000);
+
+      // 4. Affichage de la bannière de conformité
+      setTimeout(() => {
+        if (banner) banner.classList.remove('hidden');
+      }, 1300);
+
+      // 5. Activation séquentielle des 10 portes de The Iron Gate (G0 à G9)
+      flags.forEach((flag, idx) => {
+        setTimeout(() => {
+          flag.style.background = 'rgba(16, 185, 129, 0.2)';
+          flag.style.borderColor = 'rgba(16, 185, 129, 0.8)';
+          flag.style.color = '#6ee7b7';
+          flag.classList.add('border-emerald-500', 'text-emerald-300');
+        }, 1400 + idx * 80);
+      });
+
+      // 6. Fin du test et réactivation du bouton
+      setTimeout(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '✔ Dépistage Conforme Validé (Relancer le Dépistage)';
+        }
+        playTone('soft-bell');
+      }, 1400 + flags.length * 80 + 200);
     }
-    function startLfaTest() { setLfaResult(appState.theater.lfaState === 'neg' ? 'pos' : 'neg'); }
+
+    function setLfaResult(res) {
+      startLfaTest();
+    }
 
     // =========================================================================
     // NAVIGATION PRINCIPALE PAR ONGLETS MÉTIERS
@@ -398,7 +553,7 @@ JS_RUNTIME = """
       const uc = allUseCases.find(u => u.id === ucId);
       if (!uc || !uc.wireframe) return;
 
-      const phase = uc.wireframe.phases[phaseKey];
+      const phase = uc.wireframe.phases && uc.wireframe.phases[phaseKey];
       if (!phase) return;
 
       if (isModal) {
@@ -569,17 +724,14 @@ JS_RUNTIME = """
         const wf = uc.wireframe || {};
         const p1 = (wf.phases && wf.phases.p1) || { screenHtml: '<div class="p-6 text-sm">Aperçu en attente</div>', phaseTitle: 'Initial', caption: 'Prêt' };
         const fields = wf.formFields || [];
-        const actions = wf.actionButtons || [];
         const err = wf.errorCase || { code: 'N/A', title: 'Aucune', message: 'N/A', remediation: 'N/A' };
 
-        // Teinte et badges personnalisés selon l'application
         let appAccentBadge = '';
         if (appId === 'app1') appAccentBadge = 'text-gold-400 bg-gold-500/10 border-gold-500/30';
         else if (appId === 'app2') appAccentBadge = 'text-sky-300 bg-sky-950/80 border-sky-600/40';
         else if (appId === 'app3') appAccentBadge = 'text-purple-300 bg-purple-950/80 border-purple-600/40';
         else if (appId === 'app4') appAccentBadge = 'text-emerald-300 bg-emerald-950/80 border-emerald-600/40';
 
-        // Contenu narratif bimodal (Famille vs Expert)
         const familySummaryHtml = isFamille ? `
           <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-xs text-amber-200/90 leading-relaxed flex items-start gap-2.5">
             <span class="text-base select-none">🕊️</span>
@@ -629,7 +781,7 @@ JS_RUNTIME = """
                 <button id="sim-btn-${uc.id}" class="wf-sim-btn" onclick="toggleWfSimulation('${uc.id}')">▶ Simuler</button>
               </div>
 
-              <!-- Écran de Maquette Stylisé (Device Frame avec Hauteur Confortable) -->
+              <!-- Écran de Maquette Stylisé -->
               <div class="device-bezel">
                 <div class="device-topbar">
                   <div class="device-controls-dots">
@@ -709,10 +861,10 @@ JS_RUNTIME = """
 
       container.innerHTML = list.map(uc => {
         const wf = uc.wireframe || {};
-        const p1 = (wf.phases && wf.phases.p1) || { screenHtml: '', phaseTitle: 'Phase 1' };
-        const p2 = (wf.phases && wf.phases.p2) || { screenHtml: '', phaseTitle: 'Phase 2' };
-        const p3 = (wf.phases && wf.phases.p3) || { screenHtml: '', phaseTitle: 'Phase 3' };
-        const p4 = (wf.phases && wf.phases.p4) || { screenHtml: '', phaseTitle: 'Phase 4' };
+        const p1 = (wf.phases && wf.phases.p1) || { screenHtml: '', phaseTitle: 'Phase 1', caption: '' };
+        const p2 = (wf.phases && wf.phases.p2) || { screenHtml: '', phaseTitle: 'Phase 2', caption: '' };
+        const p3 = (wf.phases && wf.phases.p3) || { screenHtml: '', phaseTitle: 'Phase 3', caption: '' };
+        const p4 = (wf.phases && wf.phases.p4) || { screenHtml: '', phaseTitle: 'Phase 4', caption: '' };
 
         return `
         <div class="glass-card rounded-2xl p-6 space-y-4">
@@ -834,7 +986,6 @@ JS_RUNTIME = """
       const wf = uc.wireframe || {};
       const phases = wf.phases || {};
       const fields = wf.formFields || [];
-      const actions = wf.actionButtons || [];
       const err = wf.errorCase || { code: 'N/A', title: 'Aucune', message: 'N/A', remediation: 'N/A' };
       const isFamille = appState.portalMode === 'famille';
 
@@ -859,7 +1010,7 @@ JS_RUNTIME = """
               </div>
             </div>
           </div>
-          <button onclick="document.getElementById('ucModal').close()" class="text-slate-400 hover:text-white text-2xl leading-none px-2 cursor-pointer">&times;</button>
+          <button id="modal-close-btn" onclick="closeUseCaseModal()" class="text-slate-400 hover:text-white text-2xl leading-none px-2 cursor-pointer">&times;</button>
         </div>
 
         <!-- Corps de la modale en deux colonnes -->
@@ -957,7 +1108,7 @@ JS_RUNTIME = """
                   <span class="text-[10px] text-slate-400 font-mono block">Réf. Juridique :</span>
                   <span class="text-xs font-bold text-slate-200">${uc.legal}</span>
                 </div>
-                <a href="${uc.legal_url}" onclick="document.getElementById('ucModal').close(); switchTab('legal');" class="bg-gold-500 hover:bg-gold-400 text-obsidian-950 font-bold px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">
+                <a href="${uc.legal_url}" onclick="closeUseCaseModal(); switchTab('legal');" class="bg-gold-500 hover:bg-gold-400 text-obsidian-950 font-bold px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">
                   Texte de Loi ↓
                 </a>
               </div>
@@ -966,7 +1117,25 @@ JS_RUNTIME = """
         </div>
       `;
 
-      document.getElementById('ucModal').showModal();
+      const modal = document.getElementById('ucModal');
+      if (modal) {
+        if (typeof modal.showModal === 'function') {
+          modal.showModal();
+        } else {
+          modal.setAttribute('open', '');
+        }
+      }
+    }
+
+    function closeUseCaseModal() {
+      const modal = document.getElementById('ucModal');
+      if (modal) {
+        if (typeof modal.close === 'function') {
+          modal.close();
+        } else {
+          modal.removeAttribute('open');
+        }
+      }
     }
 
     function cycleModalPhase(direction) {
@@ -1022,6 +1191,7 @@ JS_RUNTIME = """
       if (modal && modal.open) {
         if (e.key === 'ArrowRight') cycleModalPhase(1);
         else if (e.key === 'ArrowLeft') cycleModalPhase(-1);
+        else if (e.key === 'Escape') closeUseCaseModal();
         else if (e.key === ' ') {
           e.preventDefault();
           toggleWfSimulation(appState.modalWfState.ucId, true);
