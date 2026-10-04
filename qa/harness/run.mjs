@@ -244,11 +244,16 @@ function decodeCborStrict(buf) {
       }
 
       if (allStringKeys) {
-        const obj = {};
-        for (const [k, v] of entries) {
-          obj[k] = v;
+        const hasDollarKey = entries.some(([k]) => typeof k === "string" && k.startsWith("$"));
+        if (!hasDollarKey) {
+          const obj = {};
+          for (const [k, v] of entries) {
+            obj[k] = v;
+          }
+          return obj;
+        } else {
+          return { $map: entries };
         }
-        return obj;
       } else {
         return { $map: entries };
       }
@@ -260,12 +265,17 @@ function decodeCborStrict(buf) {
       }
       const val = decodeItem();
       if (tag === 100) {
-        if (typeof val !== "number" && typeof val !== "bigint" && !(val && typeof val === "object" && val.$int !== undefined)) {
+        const isInt = typeof val === "number" || typeof val === "bigint" || (val && typeof val === "object" && typeof val.$int === "string");
+        if (!isInt) {
           throw new Error("ERR_CBOR_TAG_CONTENT: Tag 100 content must be an integer");
         }
       }
       if (tag === 1) {
-        if ((typeof val === "number" && val < 0) || (typeof val === "bigint" && val < 0n)) {
+        const isInt = typeof val === "number" || typeof val === "bigint" || (val && typeof val === "object" && typeof val.$int === "string");
+        if (!isInt) {
+          throw new Error("ERR_CBOR_TAG_CONTENT: Tag 1 content must be an integer");
+        }
+        if ((typeof val === "number" && val < 0) || (typeof val === "bigint" && val < 0n) || (val && typeof val === "object" && typeof val.$int === "string" && val.$int.startsWith("-"))) {
           throw new Error("ERR_CBOR_TAG_CONTENT: Tag 1 content must be non-negative integer");
         }
       }
@@ -277,6 +287,9 @@ function decodeCborStrict(buf) {
       if (info === 22) return null;
       if (info === 23) {
         throw new Error("ERR_CBOR_UNSUPPORTED_TYPE: Undefined is forbidden by profile");
+      }
+      if (info < 20) {
+        throw new Error(`ERR_CBOR_UNSUPPORTED_TYPE: Simple value simple(${info}) is forbidden by profile`);
       }
       if (info === 24) {
         if (offset >= buf.length) throw new Error("ERR_CBOR_TRUNCATED: Truncated simple value");
