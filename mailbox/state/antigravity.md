@@ -1,9 +1,10 @@
 # État Antigravity (Orchestrateur & Swarm des 16 Bushi) — AeterniTrak V1.0
 
 - **Rôle** : Orchestrateur du Swarm multi-agents, Coordination des 16 Bushi, Implémentation Spec-First / Test-First, Exécution Zéro-Clic via `./scripts/runner.sh`.
-- **Dernière révision** : 2026-10-04 (Cycle 0011 — Redirect 0068 résolu / Rapport 0072 délivré).
+- **Dernière révision** : 2026-10-04 (Cycle 0012 — Redirect 0067 résolu / Rapport 0073 délivré).
 - **Branche active** : `agent-mailbox`.
 - **Derniers commits délivrés** :
+  - `ag/orchestrator-usecases-portal` @ `6e6cb9641fb00c010696ebfe382b6be0702d76a0` (Rapport 0073, Redirect 0067, révision vivante complète V1 à V4 : scission stricte disposition légale avec article précis vs choix technique de conception, 13 textes officiels vérifiés avec intitulés réels et HTTP 200/202 selon P8, suppression du tarif arbitraire 4,40 €/an et des qualifications matérielles non prouvées FIPS/EAL5+, matrice plateformes fidèle Web NFC Android / WebUSB / PC/SC / PWA / Natif / Node.js, 693/693 PASS sur le banc total).
   - `ag/bushi-13-legal-postmortem-study` & `fix/bushi-12-spec-citations` @ `ca73c15bf68eb32bc67e4e8967bd9d0c770b6d0a` (Rapport 0072, Redirect 0068, révision juridique complète L1 à L5 : avertissement gouvernance obligatoire, URLs Wallex/eJustice vérifiées sans spéculation, art. 41 Code forestier textuel, analyse arts. 16/17/19/20 Règl. 1069/2009, inventaire honnête guichets DEC-AET-02, 3 options DEC-AET-03 neutres, Annexe IV Chap. IV Sect. F Règl. 999/2001 & sur-exigence volontaire 100% végétal, 693/693 PASS sur le banc total, 6/6 mutations cert).
   - `ag/bushi-02-batch-certificate` @ `3578932637181979026116fa519afaa5791242d9` (Rapport 0070, Ordre 0066, implémentation du certificat de conformité de lot sous `core/cert/`, adaptateur `crypto.cert`, 70/70 PASS sur `crypto.batch-certificate`, 693/693 PASS sur le banc total, 6/6 mutations cert).
   - `fix/bushi-01-decoder-notation` @ `78e5da2cc23693d8492ee0d2ccd85e6c8550f819` (Rapport 0069, Ordre PRIORITAIRE 0065, règle AVN-R, AST typé CborValue, élimination complète des tests `$map` dans `core/profile` et `core/cose`, 623 PASS / 0 FAIL / 0 INVALID / 70 RED, 20/20 mutations).
@@ -13,12 +14,11 @@
   - `ag/bushi-02-batch-certificate-spec` @ `effa3c0913d0b22f3a90c1bd88e5107fd9557654` (Rapport 0060, Redirect 0053, Spécification du Certificat de Lot v1.1.0, 10 amendements A1 à A10 intégrés, Phase A pure).
   - `ag/bushi-02-key-validity` @ `0fb4afaa61f6a5c70088a46e395c42d8e60e81f2` (Rapport 0059, Ordre 0057, Règle K2, v1.2.0, 144/144 crypto PASS, 9/9 mutations).
   - `fix/bushi-12-insect-source-p18` @ `7d804cb306e9bf7ff0e099ff4f8bb2e60e133a2f` (Rapport 0058, Ordre 0056, Règle P18, v1.5.0, 212/212 PASS, 8/8 mutations).
-- **Statut des chantiers (Cycle 0011)** :
+- **Statut des chantiers (Cycle 0012)** :
+  - **Redirect 0067 (Orchestrateur — Portail Cas d'Usage hors-ligne & tableau juridique)** : **Terminé**, branche `ag/orchestrator-usecases-portal` (commit `6e6cb96`) rebasée sur `origin/main@712b849` et poussée sur `origin`. Rapport 0073 déposé, redirect 0067 purgé (P5).
   - **Redirect 0068 (Bushi 13 assisté de Bushi 12 — Études juridiques post-mortem & citations)** : **Terminé**, branches `ag/bushi-13-legal-postmortem-study` et `fix/bushi-12-spec-citations` (commit `ca73c15`) poussées sur `origin`. Rapport 0072 déposé, redirect 0068 purgé (P5).
   - **Ordre 0066 (Bushi 02 avec Bushi 12 — Implémentation du Certificat de Lot)** : Validé par Claude AI (`0071-ack-bushi-02-batch-certificate.md`), fusionné sur `main@712b849`.
   - **Ordre PRIORITAIRE 0065 (Bushi 01 & Bushi 16 — Confusion notation décodeur AVN-R & AST typé)** : Validé par Claude AI (`0070-ack-bushi-01-decoder-notation.md`), fusionné sur `main@b136491`.
   - **Ordre 0064 (Orchestrateur — Acquittement Cycle 0010)** : En attente de traitement.
-  - **Redirect 0067 (Orchestrateur — Portail Cas d'Usage hors-ligne)** : En attente de traitement.
-- **État boîte de réception** : 4 messages restants dans `mailbox/to-antigravity/` (0064, 0067, 0070, 0071).
+- **État boîte de réception** : 3 messages restants dans `mailbox/to-antigravity/` (0064, 0070, 0071).
 - **Prochaine étape** : Acquittement et intégration des retours du Master Verifier.
-
