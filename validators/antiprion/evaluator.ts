@@ -111,13 +111,14 @@ export function evaluate(
   const proc: ProcessInput | undefined = claim.process;
   const route = proc?.route;
 
-  // Règle P9 : substrate.sources doit être un tableau.
+  // Règle P9 & P15 : substrate.sources doit être un tableau.
   // Absent ou d'un autre type => TAXON_UNKNOWN (hors incinération).
-  // En alimentation par équarrissage direct, sources vide => TAXON_UNKNOWN.
+  // En alimentation (feed ou aquaculture_feed), un tableau sources vide vaut TAXON_UNKNOWN
+  // pour toute route autre que insect_bioconversion (P15).
   if (!Array.isArray(sources)) {
     hasTaxonUnknown = true;
   } else {
-    if (isFeed && route === "direct_rendering" && sources.length === 0) {
+    if (isFeed && route !== "insect_bioconversion" && sources.length === 0) {
       hasTaxonUnknown = true;
     }
     for (const s of sources) {
@@ -169,8 +170,10 @@ export function evaluate(
   if (hasTaxonRankAbove) reasons.push("TAXON_RANK_ABOVE_SPECIES");
 
   // =========================================================================
-  // PORTE G2 : Protection des Restes Humains (Règles P3, P11, P12)
+  // PORTE G2 : Protection des Restes Humains (Règles P3, P11, P12, P15)
   // =========================================================================
+  // Règle P15 : G1 s'évalue en entier avant G2. Sur des restes humains, les motifs
+  // G1 (TAXON_UNKNOWN, TAXON_RANK_ABOVE_SPECIES) précèdent HUMAN_REMAINS_ROUTE_PROHIBITED.
   const isHuman = (
     resolvedSources.some(s => s.species_taxid === 9606 || s.group === "HUMAN") ||
     substrate?.material_class === "human_remains" ||
@@ -198,14 +201,15 @@ export function evaluate(
   }
 
   // =========================================================================
-  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, DEC-AET-05)
+  // PORTE G3 : Catégorie de Matières & Substrats (Règles P4, P10, P12, P16, P17, DEC-AET-05)
   // =========================================================================
   const category = substrate?.category;
   const materialClass = substrate?.material_class;
 
-  // Règle P10 : feed_grade_plant exclut toute source animale déclarée
-  const hasAnimalSource = (resolvedSources.length > 0);
-  const isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasAnimalSource);
+  // Règle P16 : « Source déclarée » au sens de P10 : tout élément du tableau sources compte,
+  // qu'il se résolve ou non (null, taxid mal typé, taxid hors snapshot, rang > espèce, nom sans taxid).
+  const hasDeclaredSource = Array.isArray(sources) && sources.length > 0;
+  const isPlantCategoryViolation = (materialClass === "feed_grade_plant" && hasDeclaredSource);
 
   let inDerogationScope = false;
 
@@ -239,6 +243,15 @@ export function evaluate(
       reasons.push("CATEGORY_DESTINATION_PROHIBITED");
     }
   } else if (use === "memorial_forestry") {
+    // Règle P17 : Les contrôles de substrat (P4 et P10) s'appliquent à memorial_forestry.
+    // SUBSTRATE_CATEGORY_VIOLATION précède DEROGATION_REQUIRED, avec ou sans politique.
+    const isInvalidCategory = (category !== 1 && category !== 2 && category !== 3);
+    const isInvalidMaterial = (typeof materialClass !== "string" || !KNOWN_MATERIAL_CLASSES.has(materialClass));
+
+    if (isInvalidCategory || isInvalidMaterial || isPlantCategoryViolation) {
+      reasons.push("SUBSTRATE_CATEGORY_VIOLATION");
+    }
+
     // Dérogation souveraine DEC-AET-05 (§4.3)
     const isPolicyValid = (
       policy !== null &&
