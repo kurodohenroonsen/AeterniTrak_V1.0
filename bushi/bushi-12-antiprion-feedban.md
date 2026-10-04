@@ -37,7 +37,7 @@ Avant d'écrire la logique du moteur de vérification, le Bushi 12 consulte :
    - Vecteur nominal autorisé (`PRION-AUTH-005`) : Larves d'insectes élevées sur substrat végétal/autorisé -> Aliment volaille -> Signature Ed25519 acceptée.
    - Cas cadavre exclu de l'alimentation (`PRION-BLOCK-016`) : Carcasse porcine (Cat. 2) -> Larves -> Aliment volaille -> Bloqué (`SUBSTRATE_CATEGORY_VIOLATION` selon règl. UE 2017/893, un cadavre excluant toute filière alimentaire).
    - Vecteur d'attaque intra-espèce (`PRION-BLOCK-001`) : PAT porcine -> Porcin -> Bloqué (`FEED_BAN_INTRA_SPECIES_VIOLATION`), signature refusée, journalisation d'infraction signée dans la boîte noire.
-   - Vecteur intra-groupe (`PRION-BLOCK-002`) : Volaille (poulet) -> Volaille (dinde) -> Bloqué (`FEED_BAN_INTRA_GROUP_VIOLATION` selon règl. UE 2021/1372).
+   - Vecteur intra-groupe (`PRION-BLOCK-004`) : Volaille (poulet) -> Volaille (dinde) -> Bloqué (`FEED_BAN_INTRA_GROUP_VIOLATION` selon règl. UE 2021/1372).
    - Vecteur d'obscurcissement : Tentative d'utilisation de synonymes latins ou d'identifiants hors snapshot NCBI -> Rejet par défaut (`DEFAULT_DENY`).
 
 ---

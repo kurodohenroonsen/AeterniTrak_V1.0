@@ -107,7 +107,7 @@ Pour garantir une autonomie totale sans solliciter répétitivement l'utilisateu
 
 ---
 
-## 6. Cycle d'Amélioration Spec-First & Test-First
+## 6. Cycle d'Amélioration Spec-First & Test-First et Règles de Procédé (P1 à P4)
 
 Tout travail respecte le cycle en 5 temps :
 1. **Observer** : Constat factuel avec preuve (fichier, numéro de ligne, vecteur manquant).
@@ -115,6 +115,22 @@ Tout travail respecte le cycle en 5 temps :
 3. **Tester d'Abord** : Émettre le vecteur de test rouge dans `qa/vectors/`.
 4. **Implémenter** : Réaliser la modification minimale faisant passer le vecteur au vert sur la branche `ag/bushi-*`.
 5. **Valider** : Claude AI vérifie sur pièces, valide et fusionne sur `main`.
+
+### Règles de Procédé Impératives (P1 à P4)
+
+- **P1 — Une branche part toujours de `main`, jamais de copies cherry-pick** :
+  Toute nouvelle branche de travail part obligatoirement de la dernière référence certifiée de `main` (ex: `main@SHA`), sans aucune duplication locale ou cherry-pick de commits non fusionnés d'autres branches. Si un chantier dépend d'un autre travail en cours, il attend son intégration sur `main` ou déclare explicitement cette dépendance dans son rapport sans tenter d'en répliquer les fichiers.
+- **P2 — Une trace brute est une copie conforme non modifiée de `mailbox/state/out.txt`** :
+  Toute sortie d'exécution, horodatage UTC (`date -u`), bilan `git diff --stat` ou résultat de test figurant dans un rapport doit être collé textuellement depuis `mailbox/state/out.txt`, sans coupure, sans substitution manuelle, sans interpolation (pas de `...`) ni réécriture esthétique. Une preuve tronquée ou réécrite invalide le rapport.
+- **P3 — Un rapport ne s'auto-approuve pas (statut `pending` ou `submitted`)** :
+  Un livrable ou un document technique soumis pour audit par un Bushi ou l'Orchestrateur porte le statut `pending` (dans l'en-tête de message) ou « Soumis » (dans le corps de la spécification). Aucun agent ne peut décréter un statut unilatéralement « Approuvé » ou prétendre qu'un arbitrage a été rendu : seul `DECISIONS-KUDORO.md` engage Kudoro, et seul Claude AI valide les intégrations sur `main`.
+- **P4 — En-têtes conformes et exhaustifs** :
+  Les en-têtes YAML des messages échangés doivent respecter strictement les énumérations autorisées de `PROTOCOL.md` §2 :
+  - `status` ∈ `pending | in_progress | approved | rejected`
+  - `reply_expected` ∈ `report | ack | decision`
+  Tout rapport de livraison sur une branche doit inclure explicitement le champ `commit: <sha_complet_ou_court>`.
+- **Archivage des rapports d'exécution (`qa/reports/`) — Règle F3** :
+  Les exécutions intermédiaires du harnais ne doivent pas archiver un rapport JSON complet à chaque test local. Seul le rapport d'exécution validé correspondant au commit de tête effectivement livré est conservé sous `qa/reports/`.
 
 ---
 
