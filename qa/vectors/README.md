@@ -89,6 +89,19 @@ Règles d'encodage imposées (RFC 8949 §4.2.1 *Core Deterministic Encoding* + p
 
 `reasons` est **exhaustif** (toutes les portes sont évaluées, sauf arrêt anticipé G0 `DESTINATION_UNSUPPORTED` et G2 restes humains) et **ordonné** par porte. `signature_permitted = (reasons == [])`. L'oracle de signature Ed25519 ne doit **physiquement** pas pouvoir signer une revendication dont `signature_permitted` est faux.
 
+### 4.3 Précisions v1.1 des portes (suite `antiprion.feedban.hardening`, 42 cas)
+
+Ces précisions ne modifient aucun des 67 vecteurs de la matrice ; elles ferment les chemins que la matrice seule ne discriminait pas (audit du cycle 0002).
+
+- **P1 — Exhaustivité** : seuls `DESTINATION_UNSUPPORTED` (G0) et la porte G2 arrêtent l'évaluation. `TARGET_UNSPECIFIED` et les erreurs G1 **n'arrêtent pas** : les portes suivantes s'évaluent sur les taxons résolus.
+- **P2 — G1 cumulatif** : toutes les sources, l'insecte et toutes les cibles sont examinés ; `TAXON_UNKNOWN` puis `TAXON_RANK_ABOVE_SPECIES` sont rapportés chacun au plus une fois.
+- **P3 — G2, restes humains** : la protection se déclenche si un taxon source est 9606 **ou** si `material_class = human_remains` **ou** si `origin_profile = human`. Un taxid omis ou falsifié ne la lève pas. Seule l'incinération est autorisée ; la mémoire forestière renvoie `DEROGATION_REQUIRED`.
+- **P4 — G3, listes d'autorisation** : jamais de liste d'interdiction. Alimentation : catégorie 3 **et** classe de matière autorisée pour la route (équarrissage direct : `slaughter_byproduct`, `feed_grade_plant` ; bioconversion par insectes : `feed_grade_plant`) **et** route connue. Technique, engrais, mémoire forestière : catégorie ∈ {1, 2, 3} et classe de matière connue. L'incinération reste toujours ouverte, y compris catégorie inconnue.
+- **P5 — G8, groupes sources par liste positive** : `feed` : porcins, volailles, insectes, poissons. `aquaculture_feed` : les mêmes plus équidés et lagomorphes (non-ruminants d'élevage). Tout autre groupe, y compris un groupe futur du snapshot : `SOURCE_GROUP_NOT_AUTHORISED`.
+- **P6 — G9, méthode selon la nature de la protéine** (règl. (UE) 142/2011, annexe X, ch. II, sect. 1) : la nature est « insecte » dès que la route est la bioconversion, sinon celle des sources. Mammifères (ou nature indéterminée) : **méthode 1 exclusivement**. Volailles et insectes : méthodes 1 à 5 ou 7. Poisson seul : méthodes 1 à 7. Dans tous les cas : `evidence_sha256` de 64 hexadécimaux minuscules ; pour la méthode 1, température, pression et durée numériques et au-dessus des seuils.
+- **P7 — G9, périmètre** : G9 ne s'applique qu'aux destinations qui exigent un traitement. Technique et engrais en catégorie 1 ou 2 : méthode 1 prouvée, aucune autre. Incinération et mémoire forestière : G9 ne produit aucun motif.
+- **P8 — Typage strict** : un taxid est un entier JSON ; les paramètres de traitement sont des nombres. Une valeur absente ou d'un autre type n'est jamais conforme par défaut (piège JavaScript : `undefined < 133` vaut `false`).
+
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 
 - Charge toutes les suites `qa/vectors/**/*.vectors.json`, les valide contre le schéma (échec = `INVALID`, exit 2).
