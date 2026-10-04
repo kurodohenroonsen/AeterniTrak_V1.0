@@ -145,6 +145,9 @@ export function evaluate(
       if (!res.success) {
         if (res.error === "TAXON_UNKNOWN") hasTaxonUnknown = true;
         else if (res.error === "TAXON_RANK_ABOVE_SPECIES") hasTaxonRankAbove = true;
+      } else if (res.taxon.group !== "INSECT") {
+        // Règle P14 : L'organisme de bioconversion doit être un insecte résolu
+        hasTaxonUnknown = true;
       } else {
         resolvedInsect = res.taxon;
       }
@@ -251,12 +254,15 @@ export function evaluate(
       s => s.group === "RUMINANT" || s.lineage_markers.includes(9845)
     );
 
+    // Règle P14 : insect_taxid doit impérativement avoir pour groupe résolu "INSECT"
     inDerogationScope = (
       isPolicyValid &&
       substrate?.origin_profile === "pet" &&
       category === 1 &&
       materialClass === "carcass" &&
       route === "insect_bioconversion" &&
+      resolvedInsect !== null &&
+      resolvedInsect.group === "INSECT" &&
       Array.isArray(sources) && sources.length > 0 &&
       !hasTaxonUnknown && !hasTaxonRankAbove &&
       !hasRuminantSource
@@ -312,7 +318,8 @@ export function evaluate(
     // G8 : Interdictions de Groupe & Groupes Positifs (Règl. 2021/1372 & 999/2001)
     const effectiveSourceGroups = new Set(resolvedSources.map(s => s.group));
     if (route === "insect_bioconversion" && resolvedInsect) {
-      effectiveSourceGroups.add("INSECT");
+      // Le groupe de l'organisme provient toujours de la résolution du snapshot (Règle P14)
+      effectiveSourceGroups.add(resolvedInsect.group);
     }
     const targetGroups = new Set(resolvedTargets.map(t => t.group));
 
