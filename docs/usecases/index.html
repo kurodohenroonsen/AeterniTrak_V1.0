@@ -474,7 +474,7 @@
       </button>
       <button onclick="switchTab('legal')" id="tab-legal" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/50">
         <span>⚖️</span> Référentiel Juridique
-        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">13 Textes Vérifiés</span>
+        <span class="bg-slate-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono">7 Textes Vérifiés</span>
       </button>
     </nav>
 
@@ -588,12 +588,12 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid-app4"></div>
     </section>
 
-    <!-- Onglet 5 : Référentiel Juridique (19 Textes Officiels) -->
+    <!-- Onglet 5 : Référentiel Juridique (7 Textes Officiels Vérifiés) -->
     <section id="section-legal" class="tab-content hidden space-y-6">
       <div class="bg-gradient-to-r from-obsidian-850 to-slate-900 border border-amber-500/20 rounded-2xl p-6">
-        <h2 class="text-2xl font-bold font-title text-white">Référentiel Juridique (13 Textes Officiels Vérifiés)</h2>
-        <p class="text-sm text-slate-300">
-          Ensemble des 13 traités européens, lois fédérales belges et décrets régionaux régissant les exigences d'AeterniTrak et du Pax Funèbre. Conformément aux principes de rigueur juridique et à la règle P8, chaque texte a été vérifié à son adresse officielle et analysé selon une scission stricte : la disposition légale exacte (avec son numéro d'article) est distinguée du choix de conception technique retenu par le projet.
+        <h2 class="text-2xl font-bold font-title text-white">Référentiel Juridique (7 Textes Officiels Vérifiés)</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Ensemble des 7 lois fédérales belges et décrets régionaux régissant les exigences d'AeterniTrak et du Pax Funèbre. Conformément aux principes de rigueur juridique et à la règle P8, chaque texte a été vérifié à son adresse officielle (HTTP 200 sur Justel et Wallex) et analysé selon une scission stricte : la disposition légale exacte (avec son numéro d'article) est distinguée du choix de conception technique retenu par le projet. Les règlements européens applicables (Règlements CE 999/2001, CE 1069/2009, UE 142/2011, UE 910/2014 eIDAS, UE 2016/679 RGPD, UE 2020/687 et UE 2021/1372) sont cités textuellement dans les dispositions et choix techniques sans hyperlien externe non lisible (règle anti-robot EUR-Lex HTTP 202).
         </p>
       </div>
 
@@ -649,7 +649,7 @@
         ],
         postconditions: "Le gabarit vectoriel est calibré au dixième de millimètre pour le double recto/verso.",
         legal: "Norme ISO/IEC 7810 ID-1 (spécifications des cartes physiques d'identification).",
-        legal_url: "https://www.iso.org/standard/70480.html"
+        legal_url: "#"
       },
       {
         id: "UC-102",
@@ -667,7 +667,7 @@
         ],
         postconditions: "Validation visuelle en temps réel sans nécessiter d'impression d'épreuve papier intermédiaire.",
         legal: "Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
+        legal_url: "#"
       },
       {
         id: "UC-103",
@@ -685,7 +685,7 @@
         ],
         postconditions: "Charte graphique de la carte arrêtée et conforme à la dignité de la cérémonie.",
         legal: "Règlement général sur l'accessibilité des services (Directive européenne 2019/882).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32019L0882"
+        legal_url: "#"
       },
       {
         id: "UC-104",
@@ -704,7 +704,7 @@
         ],
         postconditions: "Carrousel d'images optimisées et scellées prêt pour le compilateur de capsule selon le jalon STORAGE-001.",
         legal: "Norme de compression WebP & Convention européenne des droits de l'homme (Art. 8 - Droit à l'image).",
-        legal_url: "https://www.w3.org/TR/webp/"
+        legal_url: "#"
       },
       {
         id: "UC-105",
@@ -723,7 +723,7 @@
         ],
         postconditions: "Extrait vocal rogné avec précision, sans interruption involontaire du navigateur tactile.",
         legal: "Android Developer Guidelines (Gestural Navigation Handling) & RFC 6716 (Opus Audio).",
-        legal_url: "https://developer.android.com/develop/ui/views/touch-and-input/gestures/gesture-navigation"
+        legal_url: "#"
       },
       {
         id: "UC-106",
@@ -742,7 +742,7 @@
         ],
         postconditions: "Fichier audio musical calibré pour le sanctuaire sonore hors-ligne conformément à STORAGE-001.",
         legal: "Code de droit économique belge (Livre XI - Droit d'auteur et droits voisins).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
+        legal_url: "#"
       },
       {
         id: "UC-107",
@@ -760,8 +760,8 @@
           "Canonisation Unicode NFC automatique sur l'ensemble des textes saisis."
         ],
         postconditions: "Volontés civiles structurées conformément aux clés du profil AeterniCore.",
-        legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures & Décrets régionaux.",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201372/justel"
+        legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures (respect des volontés et sépulture).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1971/07/20/1971072005/justel"
       },
       {
         id: "UC-108",
@@ -799,7 +799,7 @@
         ],
         postconditions: "Fichier capsule (.aet-capsule) prêt à être injecté sur la puce en agence PaxFunèbre.",
         legal: "RFC 8949 (Concise Binary Object Representation) & Spécification AeterniCore.",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc8949.html"
+        legal_url: "#"
       },
       {
         id: "UC-110",
@@ -818,7 +818,7 @@
         ],
         postconditions: "Accord contractuel irrévocable obtenu, feu vert accordé pour la gravure silicium.",
         legal: "Code civil belge (art. 1322 - valeur de la signature électronique sous seing privé).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032154/justel"
       }
     ];
 
@@ -843,7 +843,7 @@
         ],
         postconditions: "Canal de communication APDU ISO 7816-4 ouvert et paré pour l'injection.",
         legal: "Norme ISO/IEC 7816-4 & W3C WebUSB API Specification.",
-        legal_url: "https://wicg.github.io/webusb/"
+        legal_url: "#"
       },
       {
         id: "UC-202",
@@ -862,7 +862,7 @@
         ],
         postconditions: "Carte authentifiée comme puce officielle certifiée Le Pax Funèbre.",
         legal: "Spécification de plateforme Java Card 3.0.5 & Sécurité matérielle in-silico (Secure Element / JavaCard).",
-        legal_url: "https://www.oracle.com/java/technologies/java-card-tech.html"
+        legal_url: "#"
       },
       {
         id: "UC-203",
@@ -880,7 +880,7 @@
         ],
         postconditions: "Partitionnement silicium achevé conformément à STORAGE-001, conteneurs prêts pour l'écriture déterministe.",
         legal: "ISO/IEC 7816-4 (Organisation des fichiers sur cartes à puce à circuit intégré).",
-        legal_url: "https://www.iso.org/standard/54550.html"
+        legal_url: "#"
       },
       {
         id: "UC-204",
@@ -899,7 +899,7 @@
         ],
         postconditions: "Charge utile canonique prête pour l'opération de scellement cryptographique.",
         legal: "RFC 8949 (Concise Binary Object Representation - Canonical CBOR).",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc8949.html"
+        legal_url: "#"
       },
       {
         id: "UC-205",
@@ -918,7 +918,7 @@
         ],
         postconditions: "Toutes les données mémorielles et directives sont physiquement inscrites dans le silicium.",
         legal: "ISO/IEC 14443-4 (Transmission protocols for contactless integrated circuit cards).",
-        legal_url: "https://www.iso.org/standard/73599.html"
+        legal_url: "#"
       },
       {
         id: "UC-206",
@@ -937,7 +937,7 @@
         ],
         postconditions: "La carte est scellée au nom de l'agence PaxFunèbre, inviolable et infalsifiable.",
         legal: "Règlement européen eIDAS (Règlement UE n° 910/2014) & RFC 9052.",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
+        legal_url: "#"
       },
       {
         id: "UC-207",
@@ -955,7 +955,7 @@
         ],
         postconditions: "Signature strictement non malléable, immunisée contre toute attaque de rejeu ou de mutation.",
         legal: "BSI TR-03111 (Elliptic Curve Cryptography) & RFC 9052 §4.1.",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc9052.html"
+        legal_url: "#"
       },
       {
         id: "UC-208",
@@ -974,7 +974,7 @@
         ],
         postconditions: "Silicium verrouillé pour l'éternité, intégrité physique garantie pour plus de 50 ans.",
         legal: "Norme de sécurité matérielle ISO/IEC 15408 (Critères Communs d'évaluation de la sécurité).",
-        legal_url: "https://www.iso.org/standard/50341.html"
+        legal_url: "#"
       },
       {
         id: "UC-209",
@@ -993,7 +993,7 @@
         ],
         postconditions: "Objet mémoriel physique d'une élégance souveraine prêt pour la cérémonie.",
         legal: "Norme ISO/IEC 7810 ID-1 pour la résistance physique et thermique des cartes d'identité.",
-        legal_url: "https://www.iso.org/standard/70480.html"
+        legal_url: "#"
       },
       {
         id: "UC-210",
@@ -1013,7 +1013,7 @@
         ],
         postconditions: "Carte certifiée 'Zéro Défaut' et enregistrée dans le registre de traçabilité d'agence.",
         legal: "Code de droit économique belge & Normes de déontologie funéraire.",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2013/02/28/2013A11134/justel"
+        legal_url: "#"
       }
     ];
 
@@ -1036,8 +1036,8 @@
           "Chargement immédiat des données mémorielles en mémoire vive sécurisée sans passerelle cloud."
         ],
         postconditions: "Ouverture directe du sanctuaire dans la sérénité et le recueillement.",
-        legal: "Règlement eIDAS & Art. 5 RGPD (principe fondamental de minimisation des données).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
+        legal: "Loi du 30 juillet 2018 relative à la protection des données & Règlement (UE) 2016/679 (RGPD).",
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/2018/07/30/2018040581/justel"
       },
       {
         id: "UC-302",
@@ -1056,7 +1056,7 @@
         ],
         postconditions: "Le statut cryptographique VERIFIED, UNVERIFIED ou BLOCKED est établi avec certitude.",
         legal: "Standard cryptographique NIST (RFC 8152 / RFC 9052 COSE Sign1).",
-        legal_url: "https://www.rfc-editor.org/rfc/rfc9052.html"
+        legal_url: "#"
       },
       {
         id: "UC-303",
@@ -1075,7 +1075,7 @@
         ],
         postconditions: "La famille est en recueillement dans la dignité absolue, certitude d'authenticité inviolée.",
         legal: "Code civil belge (art. 1382 - protection de la mémoire et droit au respect des défunts).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032154/justel"
       },
       {
         id: "UC-304",
@@ -1111,7 +1111,7 @@
         ],
         postconditions: "Usurpation d'identité post-mortem totalement neutralisée.",
         legal: "Code pénal belge (art. 193 à 214 - répression du faux et usage de faux en écritures).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1867/06/08/1867060850/justel"
+        legal_url: "#"
       },
       {
         id: "UC-306",
@@ -1130,7 +1130,7 @@
         ],
         postconditions: "Vibration émotionnelle intime, expérience sensorielle inoubliable.",
         legal: "Protection de la mémoire et des attributs de la personnalité post-mortem (Code civil belge art. 1382).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032150/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032154/justel"
       },
       {
         id: "UC-307",
@@ -1149,7 +1149,7 @@
         ],
         postconditions: "Respect rigoureux de la volonté du défunt, apaisement de tout différend intrafamilial.",
         legal: "Loi belge du 20 juillet 1971 relative aux funérailles et sépultures.",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201372/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1971/07/20/1971072005/justel"
       },
       {
         id: "UC-308",
@@ -1203,7 +1203,7 @@
         ],
         postconditions: "Volonté scientifique respectée dans le respect absolu des délais légaux de conservation.",
         legal: "Loi du 20 juillet 1971 relative aux funérailles et sépultures & réglementation sur les dons de corps.",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201372/justel"
+        legal_url: "https://www.ejustice.just.fgov.be/eli/loi/1971/07/20/1971072005/justel"
       },
       {
         id: "UC-311",
@@ -1265,7 +1265,7 @@
         ],
         postconditions: "Entrée en traçabilité avec assignation irréversible de filière.",
         legal: "Arrêté Royal fixant les modèles de certificat de décès & Règlement (CE) 1069/2009.",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
+        legal_url: "#"
       },
       {
         id: "UC-402",
@@ -1283,7 +1283,7 @@
         ],
         postconditions: "Dépouille prête pour le contrôle toxicologique obligatoire.",
         legal: "Règlement (CE) n° 1069/2009 art. 8 (Sous-produits animaux de catégorie 1 - cadavres d'animaux de compagnie).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
+        legal_url: "#"
       },
       {
         id: "UC-403",
@@ -1302,7 +1302,7 @@
         ],
         postconditions: "Protection absolue des colonies larvaires d'Hermetia illucens et de l'environnement forestier.",
         legal: "Règlement (UE) n° 142/2011 & Contrôles toxicologiques vétérinaires.",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
+        legal_url: "#"
       },
       {
         id: "UC-404",
@@ -1320,7 +1320,7 @@
         ],
         postconditions: "Éradication complète des pathogènes végétatifs (Salmonella, Enterobacteriaceae).",
         legal: "Règlement (UE) n° 142/2011, Annexe IV, Chapitre III (Normes européennes de pasteurisation).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
+        legal_url: "#"
       },
       {
         id: "UC-405",
@@ -1357,8 +1357,8 @@
           "Conditionnement en sac de confinement hermétique avec scellé numéroté DNF inviolable."
         ],
         postconditions: "Carcasse prise en charge sous séquestre sanitaire officiel.",
-        legal: "Code forestier wallon (Décret du 15 juillet 2008 - Missions de police sanitaire).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/decret/2008/07/15/2008203215/justel"
+        legal: "Code forestier wallon (Décret du 15 juillet 2008, art. 41 épandage des amendements).",
+        legal_url: "https://wallex.wallonie.be/eli/loi-decret/2008/07/15/2008203215"
       },
       {
         id: "UC-407",
@@ -1376,7 +1376,7 @@
         ],
         postconditions: "Statut sanitaire certifié par le laboratoire officiel avant toute bioconversion.",
         legal: "Règlement délégué (UE) 2020/687 (Lutte contre les maladies animales répertoriées).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32020R0687"
+        legal_url: "#"
       },
       {
         id: "UC-408",
@@ -1395,7 +1395,7 @@
         ],
         postconditions: "Inactivation irréversible de l'infectiosité des agents transmissibles non conventionnels (prions).",
         legal: "Règlement (UE) n° 142/2011, Annexe IV, Chapitre III, Méthode de transformation 1.",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
+        legal_url: "#"
       },
       {
         id: "UC-409",
@@ -1414,7 +1414,7 @@
         ],
         postconditions: "Carcasse agricole classée en Catégorie 2 prête pour la synchronisation officielle.",
         legal: "Règlement (CE) n° 1069/2009 article 9 (Matières de catégorie 2).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
+        legal_url: "#"
       },
       {
         id: "UC-410",
@@ -1433,7 +1433,7 @@
         ],
         postconditions: "Zéro risque d'erreur de saisie manuelle, intégrité administrative garantie.",
         legal: "Arrêté Royal du 20 mai 2022 relatif à l'identification des animaux (Sanitel).",
-        legal_url: "https://www.ejustice.just.fgov.be/eli/arrete/2022/05/20/2022041385/justel"
+        legal_url: "#"
       },
       {
         id: "UC-411",
@@ -1452,7 +1452,7 @@
         ],
         postconditions: "Flux MRS marqué de manière indélébile et tracé sous contrôle étatique.",
         legal: "Règlement (CE) n° 999/2001 Annexe V (Prescriptions relatives aux MRS).",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32001R0999"
+        legal_url: "#"
       },
       {
         id: "UC-412",
@@ -1472,7 +1472,7 @@
         ],
         postconditions: "Verdict déterministe émis : AUTHORISED (signature_permitted = true) ou BLOCKED avec motifs normalisés.",
         legal: "Règlement (CE) 999/2001, Règlement (UE) 2021/1372 & Spécification AET-SPEC-PRION-001.",
-        legal_url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32021R1372"
+        legal_url: "#"
       },
       {
         id: "UC-413",
@@ -1517,113 +1517,65 @@
     ];
 
     // =========================================================================
-    // Référentiel Juridique Audité (13 Textes Officiels Vérifiés - Règle P8 & V1/V2)
+    // Référentiel Juridique Audité (7 Textes Officiels Vérifiés - Règle P8 & V1/V2)
     // Scission stricte : Disposition Légale (Article) vs Choix Technique Projet
     // =========================================================================
     const legalTexts = [
       {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement (CE) n° 999/2001",
-        official_title: "Règles pour la prévention, le contrôle et l'éradication de certaines encéphalopathies spongiformes transmissibles (EST)",
-        disposition: "L'article 7 §1 et l'annexe IV interdisent d'affourager les animaux d'élevage avec des protéines dérivées d'animaux (feed-ban européen et interdiction du recyclage intra-espèce pour prévenir les EST). L'annexe V définit la liste des Matériels à Risque Spécifié (MRS) à détruire obligatoirement.",
-        project_choice: "Mise en œuvre algorithmique au sein de The Iron Gate (règles G0 à G9, règle P18 / P01-P17) : blocage cryptographique automatique de la signature de lot si l'espèce ingérée correspond à l'espèce de destination ou en présence de MRS sans bordereau de destruction.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32001R0999"
+        jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Code civil belge (Loi du 21 mars 1804)",
+        official_title: "21 MARS 1804. - CODE CIVIL (Mandat post-mortem et force probante)",
+        disposition: "L'article 2003 régit les causes d'extinction du mandat (par le décès du mandant, sauf mandat post-mortem d'intérêt commun liant les parties). L'ancien article 1322 consacre la pleine force probante de l'écrit sous seing privé et de la signature électronique.",
+        project_choice: "Modélisation du mandat post-mortem funéraire avec clause d'irrévocabilité d'intérêt commun dans les profils AeterniCore, et scellement cryptographique déterministe garantissant l'intégrité probatoire absolue de la volonté civile sans dépendre d'un tiers.",
+        url: "https://www.ejustice.just.fgov.be/eli/loi/1804/03/21/1804032154/justel"
       },
       {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement (UE) 2021/1372",
-        official_title: "Autorisation des protéines animales transformées (PAT) d'insectes dans l'alimentation des porcins et volailles",
-        disposition: "L'annexe modifiant le chapitre IV de l'annexe IV du règlement (CE) n° 999/2001 autorise l'utilisation de protéines animales transformées (PAT) issues d'insectes d'élevage pour nourrir les porcins et les volailles, sous condition stricte d'absence de contamination croisée et de traçabilité garantie.",
-        project_choice: "Aiguillage ségrégé des farines d'Hermetia illucens produites par la sarcomusation vers les seules filières agronomiques autorisées (volailles, porcins, aquaculture), avec exclusion mathématique absolue des ruminants.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32021R1372"
-      },
-      {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement (CE) n° 1069/2009",
-        official_title: "Règles sanitaires applicables aux sous-produits animaux et produits dérivés non destinés à la consommation humaine",
-        disposition: "Les articles 8, 9 et 10 établissent la classification sanitaire des sous-produits animaux en trois catégories (Cat 1 : risques EST/euthanasiants, Cat 2 : cadavres d'élevage ordinaires, Cat 3 : sous-produits d'abattoir sans risque). Les articles 12 à 14 fixent les voies d'élimination et de valorisation admissibles.",
-        project_choice: "Modélisation des 4 profils de dépouilles dans le validateur AeterniCore, avec étanchéité absolue des filières de bioconversion, traçabilité des bordereaux et séparation physique des flux mémoriels et industriels.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009R1069"
-      },
-      {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement (UE) n° 142/2011",
-        official_title: "Mesures d'exécution du règlement (CE) n° 1069/2009 relatif aux sous-produits animaux",
-        disposition: "L'annexe IV, chapitre III fixe les spécifications de la « Méthode 1 » de transformation (stérilisation sous pression : 133 °C pendant au moins 20 minutes à 3 bars absolus, granulométrie maximale 50 mm) et les normes de pasteurisation (70 °C pendant 60 minutes continues).",
-        project_choice: "Validation par télémesure des cycles thermiques des réacteurs de sarcomusation (règle G6 The Iron Gate) : vérification horodatée du cycle 133 °C / 3 bars / 20 min pour les flux Cat 1/2 et du cycle 70 °C / 1 h pour les flux mémoriels.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32011R0142"
-      },
-      {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement (UE) n° 910/2014 (eIDAS)",
-        official_title: "Identification électronique et services de confiance pour les transactions électroniques au sein du marché intérieur",
-        disposition: "Les articles 25 et 35 disposent qu'une signature ou un cachet électronique qualifié bénéficie de l'effet juridique équivalent à une signature manuscrite et d'une présomption d'intégrité et d'exactitude des données associées dans l'ensemble de l'Union européenne.",
-        project_choice: "Choix de conception technique : adoption des structures cryptographiques COSE_Sign1 (RFC 9052) signées en Ed25519 ou ES256 pour sceller de façon autonome et vérifiable hors-ligne les profils de dépouilles et les certificats de lots.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32014R0910"
-      },
-      {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement (UE) 2016/679 (RGPD)",
-        official_title: "Règlement général sur la protection des données (Protection des personnes physiques)",
-        disposition: "L'article 5 §1 c) consacre le principe de minimisation des données (données adéquates, pertinentes et limitées au strict nécessaire). Le considérant 27 rappelle que le règlement ne s'applique pas aux données à caractère personnel des personnes décédées.",
-        project_choice: "Architecture 100% hors-ligne (local-first, zero-cloud) : aucun serveur distant obligatoire, aucun compte requis pour les familles, stockage des volontés sur puce JavaCard ACOSJ et exécution autonome sur terminal utilisateur.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679"
-      },
-      {
-        jurisdiction: "🇪🇺 Union Européenne",
-        ref: "Règlement délégué (UE) 2020/687",
-        official_title: "Règles relatives à la prévention et à la lutte contre certaines maladies répertoriées (PPA & CWD)",
-        disposition: "Les articles 9 et 18 à 22 prévoient des mesures de restriction, de surveillance et d'interdiction de déplacement des carcasses lors de foyers de maladies animales de catégorie A (dont la Peste Porcine Africaine et la Maladie du Dépérissement Chronique des Cervidés).",
-        project_choice: "Conception de l'application Biocontrôle DNF : barrière sanitaire conditionnant l'admission de toute dépouille de faune sauvage à l'enregistrement préalable d'un dépistage PCR négatif validé en laboratoire agréé.",
-        url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32020R0687"
+        jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Loi du 20 juillet 1971",
+        official_title: "20 JUILLET 1971. - Loi sur les funérailles et sépultures",
+        disposition: "Consacre le principe de la liberté des funérailles et le respect strict des dernières volontés du défunt quant au mode de sépulture (inhumation ou crémation), au culte ou à la cérémonie laïque, et à la destination des cendres cinéraires (dispersion, columbarium, ou arbre cinéraire du souvenir).",
+        project_choice: "Encodage structuré et infalsifiable des volontés funéraires civiles et cultuelles dans le profil mémoriel de la puce JavaCard ACOSJ 92 Ko, opposable aux tiers et consultable hors-ligne en salon des familles sans intermédiaire.",
+        url: "https://www.ejustice.just.fgov.be/eli/loi/1971/07/20/1971072005/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Loi du 4 février 2000",
-        official_title: "Loi relative à la création de l'Agence fédérale pour la Sécurité de la chaîne alimentaire",
-        disposition: "Les articles 4 et 5 confient à l'AFSCA les missions de contrôle, d'agrément des établissements de transformation et de surveillance sanitaire sur l'ensemble de la filière agroalimentaire et des sous-produits animaux.",
-        project_choice: "Génération de rapports de traçabilité cryptographique et d'attestations de conformité conformes aux formats d'inspection sanitaire AFSCA, vérifiables instantanément et hors-ligne par les vétérinaires inspecteurs.",
+        official_title: "4 FEVRIER 2000. - Loi relative à la création de l'Agence fédérale pour la Sécurité de la Chaîne Alimentaire",
+        disposition: "Les articles 4 et 5 confient à l'AFSCA les compétences exclusives de contrôle, d'agrément des installations de valorisation de sous-produits animaux et de surveillance épidémiologique de la chaîne alimentaire et de bioconversion.",
+        project_choice: "Module d'inspection et d'audit hors-ligne pour les agents AFSCA permettant la réévaluation autonome instantanée des règles The Iron Gate G0 à G9 (en conformité avec les règlements CE 999/2001, CE 1069/2009 et UE 142/2011 cités en texte) et la vérification cryptographique Ed25519 des certificats de lots.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/2000/02/04/2000022108/justel"
       },
       {
         jurisdiction: "🇧🇪 Belgique Fédérale",
         ref: "Loi du 22 août 2002",
-        official_title: "Loi relative aux droits du patient",
-        disposition: "L'article 9 §4 ouvre un droit d'accès post-mortem au dossier médical pour les ayants droit (conjoint, partenaire, parents jusqu'au 2e degré) par l'intermédiaire d'un professionnel de la santé désigné, sauf volonté contraire formellement exprimée par le patient de son vivant.",
-        project_choice: "Ségrégation cryptographique des champs médicaux sensibles sur la carte silicium : le volet directives médicales et dossier patient est accessible séparément des hommages mémoriels publics via clé de déchiffrement réservée.",
+        official_title: "22 AOUT 2002. - Loi relative aux droits du patient",
+        disposition: "L'article 9 §4 dispose qu'après le décès du patient, les ayants droit (conjoint, partenaire, descendants) peuvent accéder au dossier médical par l'intermédiaire d'un praticien professionnel désigné, pour autant que la demande soit motivée et que le patient ne s'y soit pas expressément opposé de son vivant.",
+        project_choice: "Ségrégation cryptographique des champs médicaux sensibles sur la carte silicium : le volet des directives médicales et de l'accès au dossier patient est isolé et n'est lisible que via la clé d'habilitation du praticien professionnel désigné.",
         url: "https://www.ejustice.just.fgov.be/eli/loi/2002/08/22/2002022737/justel"
       },
       {
-        jurisdiction: "🇧🇪 Belgique Fédérale",
-        ref: "Arrêté Royal du 20 mai 2022",
-        official_title: "Arrêté royal relatif à l'identification et l'enregistrement de certains ongulés, des volailles, des lapins et de certains oiseaux",
-        disposition: "Les articles 5 à 12 imposent l'identification individuelle obligatoire des animaux d'élevage (bovins, porcins, ovins) via boucle auriculaire officielle agréée, l'enregistrement dans la base nationale Sanitel et la traçabilité des transferts d'exploitation.",
-        project_choice: "Intégration d'un module de lecture et validation de boucle Sanitel dans l'application Filière Ferme (Profil 3) pour lier cryptographiquement chaque carcasse à son identifiant Sanitel officiel avant traitement.",
-        url: "https://www.ejustice.just.fgov.be/eli/arrete/2022/05/20/2022041385/justel"
-      },
-      {
-        jurisdiction: "🇧🇪 Belgique Fédérale",
-        ref: "Code pénal belge (Loi du 8 juin 1867)",
-        official_title: "CODE PÉNAL (Faux en écritures et secret professionnel)",
-        disposition: "Les articles 193 à 214 punissent le faux commis en écritures publiques ou privées avec intention frauduleuse ou à dessein de nuire. L'article 458 réprime pénalement la violation du secret professionnel auquel sont tenues les personnes dépositaires de confidences.",
-        project_choice: "Immuabilité mathématique garantie par signature COSE_Sign1 in-silico : toute altération d'un enregistrement scellé brise la signature et interdit son exploitation, écartant tout risque de faux en écriture numérique.",
-        url: "https://www.ejustice.just.fgov.be/eli/loi/1867/06/08/1867060850/justel"
+        jurisdiction: "🇧🇪 Région Wallonne",
+        ref: "Décret wallon du 15 juillet 2008 (Code forestier)",
+        official_title: "15 JUILLET 2008. - Décret relatif au Code forestier",
+        disposition: "L'article 41 dispose textuellement : « Le Gouvernement peut fixer les conditions d'épandage des amendements et des fertilisants du sol ». Les articles suivants fixent les missions de police administrative et sylvicole des agents assermentés du Département de la Nature et des Forêts (DNF).",
+        project_choice: "Conditionnement des résidus cinéraires de sarcomusation pasteurisés sous forme d'amendements au pied d'arbres cinéraires identifiés (sous dérogation DEC-AET-05), et application mobile Biocontrôle DNF dotée de la géolocalisation GPS submétrique et de la signature par badge agent.",
+        url: "https://wallex.wallonie.be/eli/loi-decret/2008/07/15/2008203215"
       },
       {
         jurisdiction: "🇧🇪 Région Wallonne",
         ref: "Décret wallon du 6 mars 2009",
-        official_title: "Décret modifiant le CDLD relatif aux funérailles et sépultures",
-        disposition: "L'article L1232-17 §2 du Code de la démocratie locale et de la décentralisation (introduit par le décret) prescrit l'obligation d'exérèse des stimulateurs cardiaques (pacemakers) et défibrillateurs avant la mise en bière et la crémation.",
-        project_choice: "Vérification logicielle obligatoire sur la PaxStation d'encodage et dans l'application Directives : confirmation formelle de l'attestation médicale d'exérèse du pacemaker avant de permettre la validation de la capsule mémorielle.",
+        official_title: "6 MARS 2009. - Décret modifiant le CDLD relatif aux funérailles et sépultures",
+        disposition: "L'article L1232-17 §2 du Code de la démocratie locale et de la décentralisation prescrit l'obligation d'exérèse préalable des stimulateurs cardiaques (pacemakers) et défibrillateurs implantés avant toute mise en bière et crémation pour parer au risque d'explosion thermique.",
+        project_choice: "Blocage logiciel strict dans PaxStudio et PaxStation : alerte visuelle prioritaire et impossibilité de sceller la capsule d'encodage sans attestation formelle de retrait chirurgical du stimulateur renseignée par un médecin avec son numéro d'ordre.",
         url: "https://www.ejustice.just.fgov.be/eli/decret/2009/03/06/2009201372/justel"
       },
       {
-        jurisdiction: "🇧🇪 Région Wallonne",
-        ref: "Décret wallon du 15 juillet 2008",
-        official_title: "Décret relatif au Code forestier wallon",
-        disposition: "Les articles 41 et suivants définissent le statut de la forêt publique, les règles de police sanitaire sylvicole et les pouvoirs de police judiciaire et administrative attribués aux agents assermentés du Département de la Nature et des Forêts (DNF).",
-        project_choice: "Application mobile Biocontrôle DNF dotée de la géolocalisation GPS des points de collecte en forêt et de la validation sécurisée par identifiant d'agent forestier pour tracer chaque carcasse de grand gibier.",
-        url: "https://www.ejustice.just.fgov.be/eli/decret/2008/07/15/2008203215/justel"
+        jurisdiction: "🇧🇪 Belgique Fédérale",
+        ref: "Loi du 30 juillet 2018",
+        official_title: "30 JUILLET 2018. - Loi relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel",
+        disposition: "Transposition du RGPD (Règlement UE 2016/679) en droit belge, encadrant les principes de licéité, de transparence et de minimisation stricte des traitements (art. 5 RGPD) et régissant la protection des données associées aux défunts.",
+        project_choice: "Architecture 100% hors-ligne (local-first, zéro serveur distant obligatoire), stockage exclusif des volontés et médias sur carte physique JavaCard ACOSJ 92 Ko sous contrôle direct des familles, garantissant une souveraineté et minimisation intégrales des données sans aucun compte cloud.",
+        url: "https://www.ejustice.just.fgov.be/eli/loi/2018/07/30/2018040581/justel"
       }
     ];
 
