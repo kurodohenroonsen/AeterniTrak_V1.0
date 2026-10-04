@@ -40,6 +40,7 @@ Validé par `schema/vector-suite.schema.json`. Champs obligatoires : `suite`, `v
 | `kid`, `protected-header`, `sig-structure` | voir la suite | `{kid_hex}`, `{hex}`, `{hex, sha256}` | crypto.cose |
 | `cose-sign` | `{seed_hex, typ, payload_hex}` (Ed25519 seul) | `{envelope_hex, len, sha256, kid_hex}` | crypto.cose |
 | `cose-verify` | `{envelope_hex, expected_typ, trust_store}` | `{valid: true, payload_hex, kid}` ou `{error}` | crypto.cose |
+| `cose-open` | `{envelope_hex, expected_typ, trust_store}` | `{status: "VERIFIED", payload_hex, kid}`, `{status: "UNVERIFIED", reason, payload_hex}` ou `{status: "BLOCKED", error}` | crypto.cose |
 | `sign` / `verify` | défini par la suite crypto (à venir) | défini par la suite                       | crypto         |
 
 La comparaison est **exacte et binaire** : octets identiques, listes ordonnées identiques, codes d'erreur identiques. Aucune tolérance, aucune normalisation côté harnais.
@@ -167,6 +168,18 @@ Clés de test : graines Ed25519 du RFC 8032 §7.1 et clé P-256 du RFC 6979 A.2.
 `floor(n/2)` de P-256 vaut `7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCF4279DCE5617E3192A8`. La valeur imprimée dans la spec v1.0.0 est fausse (cas `ES-VER-012`).
 
 **Hors périmètre de ces suites** : la validité temporelle des clés. Une carte mémorielle se lit pendant des décennies, sans horloge de confiance : la fenêtre de validité d'une clé se compare à la date d'émission portée par la charge utile vérifiée, pas à la date de lecture. Règle à écrire par le Bushi 02 (ordre 0037), vecteurs à suivre.
+
+### 4.9 Lecture sous réserve, DEC-AET-07 option B (suite `crypto.cose.rules-v11`, 20 cas)
+
+`cose-verify` reste inchangé : il ne rend la charge utile qu'en cas de succès. `cose-open` est l'opération que l'application appelle pour afficher une carte ; elle s'appuie sur `cose-verify` et applique la décision de Kudoro :
+
+- succès : `VERIFIED`, avec la charge utile et le `kid` ;
+- **seul** `ERR_COSE_UNKNOWN_KID` donne `UNVERIFIED` : la charge utile est rendue avec le motif, l'application affiche le bandeau « authenticité non vérifiée ». Les étapes 1 à 7 de §4.8 ont donc réussi : enveloppe bien formée, algorithme autorisé, type attendu, `kid` présent ;
+- toute autre erreur donne `BLOCKED`, avec le code et **sans** charge utile : clé révoquée, signature fausse ou malléable, usage de clé non concordant, type non attendu, enveloppe mal formée, `kid` absent, liste de confiance incohérente.
+
+Une carte `UNVERIFIED` n'a aucune valeur de preuve : avec un émetteur inconnu, la signature n'a pas pu être contrôlée. Elle peut être affichée, jamais utilisée pour décider (aucune route de la Porte de Fer, aucun certificat de lot).
+
+**Clés d'en-tête** : une clé est un entier. La clé texte `"4"` n'est pas la clé 4 (`COSE-VER-041`) ; l'accepter laisserait deux encodages distincts d'une même enveloppe.
 
 ## 5. Harnais (`./scripts/runner.sh test`) — sémantique attendue (chantier QA-001, Bushi 16)
 
