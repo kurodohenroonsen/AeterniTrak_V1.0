@@ -10,7 +10,53 @@ Format d'une entrée :
 
 ## 1. Décisions Validées
 
-### 1.1 Cycle des Décisions Souveraines Spécifiques (DEC-AET-01 à DEC-AET-09)
+### 1.1 Décisions Fondatrices du Socle Technique & Gouvernance (Série DEC-AET-00)
+
+- **`DEC-AET-00-ARCH` · 2026-10-04 · [Architecture & Boîte aux Lettres Git] · Antigravity & Claude AI**  
+  *Question* : Quel modèle de collaboration multi-agents adopter pour AeterniTrak V1.0 ?  
+  *Options* : A) Orchestration API centralisée ; B) Boîte aux lettres asynchrone Git sur le modèle éprouvé de JemmaPass avec Master Verifier.  
+  *Arbitrage* : **Option B retenue**.  
+  *Justification* : Traçabilité absolue dans l'historique Git, étanchéité des couloirs de développement, zéro perte de contexte, indépendance des environnements d'exécution.
+
+- **`DEC-AET-00-SEC` · 2026-10-04 · [macOS Security & Zéro-Clic] · Antigravity**  
+  *Question* : Comment éliminer les popups d'autorisation répétitifs sous macOS lors de l'exécution des commandes des sous-agents ?  
+  *Options* : A) Valider manuellement chaque commande ; B) Script lanceur invariant `scripts/runner.sh` (Règle 7 bis JemmaPass) lisant `mailbox/state/task.sh`.  
+  *Arbitrage* : **Option B retenue (Règle 7 bis appliquée)**.  
+  *Justification* : Signature d'appel invariante autorisée une seule fois par l'OS, préservant l'autonomie totale du swarm sans clic superflu.
+
+- **`DEC-AET-00-SWARM` · 2026-10-04 · [Gouvernance Swarm & 16 Bushi] · Kudoro**  
+  *Question* : Comment structurer les responsabilités des agents au sein d'AeterniTrak ?  
+  *Options* : A) Agent généraliste unique ; B) Découpage en 16 Bushi locaux ultra-spécialisés avec fiches de poste strictes.  
+  *Arbitrage* : **Option B retenue (Les 16 Bushi)**.  
+  *Justification* : Spécialisation poussée (Core, Crypto, Android, iOS, WebUSB, Audio, Motion, UX B2C/B2B, Silicium, Traçabilité, Anti-Prion, Juridique, Pricing, Branding, QA).
+
+- **`DEC-AET-00-PRION` · 2026-10-04 · [Sécurité Sanitaire & Règle d'Or Anti-Prion] · Antigravity**  
+  *Question* : Quelle politique appliquer face au risque de transmission d'encéphalopathies spongiformes (prions) dans la filière de sarcomusation ?  
+  *Options* : A) Avertissement déclaratif dans l'interface ; B) Blocage cryptographique algorithmique strict au niveau de la signature Ed25519 (La Règle d'Or Anti-Prion).  
+  *Arbitrage* : **Option B retenue (Blocage cryptographique absolu)**.  
+  *Justification* : Respect du Règlement CE 999/2001. Interdiction catégorique du recyclage intra-espèce (feed ban). Zéro dérogation possible dans le code.
+
+- **`DEC-AET-00-SILICIUM` · 2026-10-04 · [Support Silicium Initial & Matériel ACR1552U] · Antigravity**  
+  *Question* : Quels supports physiques déployer pour les cartes et médaillons mémoriels ?  
+  *Options* : A) Puces NFC standard NTAG213 (144 octets) ; B) Puces cryptographiques haute capacité JavaCard ACOSJ 92k et tags NFC Type 4 avec lecteur de bureau ACR1552U.  
+  *Arbitrage* : **Option B retenue (Consolidée et arrêtée par `DEC-AET-01` : ACOSJ 92 Ko exclusive)**.  
+  *Justification* : Capacité requise pour stocker hors-ligne le mémo vocal Opus SILK, le portrait WebP et le dossier civil complet sans dépendance au cloud.
+
+- **`DEC-AET-00-PRICING` · 2026-10-04 · [Modèle Économique & Tarification Mémorielle] · Kudoro** *(antérieurement indexé `DEC-AET-15`)*  
+  *Question* : Quelle tarification pour l'accès étendu au Sanctuaire B2C ?  
+  *Options* : A) Gratuité totale avec publicité ; B) Abonnement cher (40-50 €/an) ; C) Accueil 3 ans inclus à l'achat du médaillon funéraire, puis abonnement modique et perpétuel de 4,40 €/an.  
+  *Arbitrage* : **Option C retenue**.  
+  *Justification* : Dignité du deuil, zéro publicité, pérennité financière séculaire et accessibilité pour toutes les familles.
+
+- **`DEC-AET-00-HOMMAGE` · 2026-10-04 · [Patrimoine & Hommage Mémoriel Guy Heyman] · Kudoro** *(antérieurement indexé `DEC-AET-16`)*  
+  *Question* : Faut-il anonymiser le prénom « Guy » dans les vecteurs de test canoniques publics (`CBOR-ENC-059`, `JCS-ENC-028`) et profils de référence ?  
+  *Options* : A) Conserver le prénom « Guy » en hommage paternel sacré ; B) Remplacer par un identifiant anonyme.  
+  *Arbitrage* : **Option A retenue (Maintien sacré du prénom Guy)**.  
+  *Justification* : Le prénom « Guy » est maintenu solennellement dans les spécifications et jeux d'essais publics en hommage au père de Kudoro (Guy Heyman). Ce nom porte l'âme du projet, sa vérité humaine et sa promesse de transmission fidèle à travers les générations.
+
+---
+
+### 1.2 Cycle des Décisions Souveraines Spécifiques (DEC-AET-01 à DEC-AET-09)
 
 - **`DEC-AET-01` · 2026-10-04 · [Support Silicium Exclusif] · Kudoro**  
   *Question* : Faut-il garder une cible basse capacité 32 Ko à côté de la JavaCard ACOSJ 92 Ko ?  
@@ -64,64 +110,29 @@ Format d'une entrée :
 
 ---
 
-### 1.2 Décisions Fondatrices du Socle Technique & Gouvernance (DEC-AET-10 à DEC-AET-16)
-
-- **`DEC-AET-10` · 2026-10-04 · [Architecture & Boîte aux Lettres Git] · Antigravity & Claude AI**  
-  *Question* : Quel modèle de collaboration multi-agents adopter pour AeterniTrak V1.0 ?  
-  *Options* : A) Orchestration API centralisée ; B) Boîte aux lettres asynchrone Git sur le modèle éprouvé de JemmaPass avec Master Verifier.  
-  *Arbitrage* : **Option B retenue**.  
-  *Justification* : Traçabilité absolue dans l'historique Git, étanchéité des couloirs de développement, zéro perte de contexte, indépendance des environnements d'exécution.
-
-- **`DEC-AET-11` · 2026-10-04 · [macOS Security & Zéro-Clic] · Antigravity**  
-  *Question* : Comment éliminer les popups d'autorisation répétitifs sous macOS lors de l'exécution des commandes des sous-agents ?  
-  *Options* : A) Valider manuellement chaque commande ; B) Script lanceur invariant `scripts/runner.sh` (Règle 7 bis JemmaPass) lisant `mailbox/state/task.sh`.  
-  *Arbitrage* : **Option B retenue (Règle 7 bis appliquée)**.  
-  *Justification* : Signature d'appel invariante autorisée une seule fois par l'OS, préservant l'autonomie totale du swarm sans clic superflu.
-
-- **`DEC-AET-12` · 2026-10-04 · [Gouvernance Swarm & 16 Bushi] · Kudoro**  
-  *Question* : Comment structurer les responsabilités des agents au sein d'AeterniTrak ?  
-  *Options* : A) Agent généraliste unique ; B) Découpage en 16 Bushi locaux ultra-spécialisés avec fiches de poste strictes.  
-  *Arbitrage* : **Option B retenue (Les 16 Bushi)**.  
-  *Justification* : Spécialisation poussée (Core, Crypto, Android, iOS, WebUSB, Audio, Motion, UX B2C/B2B, Silicium, Traçabilité, Anti-Prion, Juridique, Pricing, Branding, QA).
-
-- **`DEC-AET-13` · 2026-10-04 · [Sécurité Sanitaire & Règle d'Or Anti-Prion] · Antigravity**  
-  *Question* : Quelle politique appliquer face au risque de transmission d'encéphalopathies spongiformes (prions) dans la filière de sarcomusation ?  
-  *Options* : A) Avertissement déclaratif dans l'interface ; B) Blocage cryptographique algorithmique strict au niveau de la signature Ed25519 (La Règle d'Or Anti-Prion).  
-  *Arbitrage* : **Option B retenue (Blocage cryptographique absolu)**.  
-  *Justification* : Respect du Règlement CE 999/2001. Interdiction catégorique du recyclage intra-espèce (feed ban). Zéro dérogation possible dans le code.
-
-- **`DEC-AET-14` · 2026-10-04 · [Support Silicium Initial & Matériel ACR1552U] · Antigravity**  
-  *Question* : Quels supports physiques déployer pour les cartes et médaillons mémoriels ?  
-  *Options* : A) Puces NFC standard NTAG213 (144 octets) ; B) Puces cryptographiques haute capacité JavaCard ACOSJ 92k et tags NFC Type 4 avec lecteur de bureau ACR1552U.  
-  *Arbitrage* : **Option B retenue (Consolidée et arrêtée par `DEC-AET-01` : ACOSJ 92 Ko exclusive)**.  
-  *Justification* : Capacité requise pour stocker hors-ligne le mémo vocal Opus SILK, le portrait WebP et le dossier civil complet sans dépendance au cloud.
-
-- **`DEC-AET-15` · 2026-10-04 · [Modèle Économique & Tarification Mémorielle] · Kudoro**  
-  *Question* : Quelle tarification pour l'accès étendu au Sanctuaire B2C ?  
-  *Options* : A) Gratuité totale avec publicité ; B) Abonnement cher (40-50 €/an) ; C) Accueil 3 ans inclus à l'achat du médaillon funéraire, puis abonnement modique et perpétuel de 4,40 €/an.  
-  *Arbitrage* : **Option C retenue**.  
-  *Justification* : Dignité du deuil, zéro publicité, pérennité financière séculaire et accessibilité pour toutes les familles.
-
-- **`DEC-AET-16` · 2026-10-04 · [Patrimoine & Hommage Mémoriel Guy Heyman] · Kudoro**  
-  *Question* : Faut-il anonymiser le prénom « Guy » dans les vecteurs de test canoniques publics (`CBOR-ENC-059`, `JCS-ENC-028`) et profils de référence ?  
-  *Options* : A) Conserver le prénom « Guy » en hommage paternel sacré ; B) Remplacer par un identifiant anonyme.  
-  *Arbitrage* : **Option A retenue (Maintien sacré du prénom Guy)**.  
-  *Justification* : Le prénom « Guy » est maintenu solennellement dans les spécifications et jeux d'essais publics en hommage au père de Kudoro (Guy Heyman). Ce nom porte l'âme du projet, sa vérité humaine et sa promesse de transmission fidèle à travers les générations.
-
----
-
 ## 2. Décisions en Attente d'Arbitrage Souverain
 
 - **`DEC-AET-03`** : **Cadre légal de la désignation du mandataire et de la transmission du coffre mémoriel**.  
   Consigne de Kudoro du 2026-10-04 : *« voir ce que la loi permet »*.  
-  *État du dossier* : L'étude juridique de référence a été réalisée par le Bushi 13 dans [`docs/legal/postmortem-mandate.md`](docs/legal/postmortem-mandate.md). Elle analyse l'extinction du mandat par décès (art. 2003 ancien C. civ.), la saisine successorale (art. 724), les déclarations de dernières volontés (art. L1232-17 CDLD), le don d'organes (Loi 1986), l'exérèse du pacemaker (L1232-26) et l'accès au dossier médical (Loi 2002). Trois options juridiques sont soumises à l'arbitrage souverain de Kudoro (Option A : Hybride communal, Option B : Notarié successoral, Option C : Pacte familial moral).
+  *État du dossier & Étude Juridique de Référence* :  
+  L'étude juridique exhaustive réalisée par le Bushi 13 (Legal & Funeral Law Lead) est consultable dans [`docs/legal/postmortem-mandate.md`](docs/legal/postmortem-mandate.md). Elle analyse l'extinction du mandat civil par décès (art. 2003 ancien C. civ. belge), la saisine successorale (art. 724), les déclarations communales de dernières volontés (art. L1232-17 CDLD wallon), le don d'organes (Loi 1986), l'exérèse obligatoire du pacemaker (art. L1232-26 CDLD), l'accès au dossier médical (Loi 2002) et l'exclusion des personnes décédées du champ du RGPD (Considérant 27).  
+  Trois options juridiques rigoureusement documentées et neutres sont soumises à l'arbitrage souverain de Kudoro :  
+  - **Option A (Hybride Civil / Funéraire)** : *Ancrage Communal & Duplication Locale sur Carte ACOSJ*. Le titulaire dépose ses volontés de sépulture à la commune (art. L1232-17 CDLD wallon) ; la carte porte une copie scellée conforme. Force exécutoire absolue pour le volet funéraire physique, mais incertitude sur l'opposabilité des données numériques et des clés privées face aux héritiers légaux.  
+  - **Option B (Successoral Classique)** : *Mandat Conventionnel Formalisé par Exécuteur Testamentaire Notarié*. Le titulaire désigne un exécuteur / mandataire mémoriel par testament notarié ou olographe (art. 967 et 1025 de l'ancien C. civ.). Très solide au regard du droit des successions belge, mais contraintes de coût notarié et inopposabilité de plein droit face aux plateformes cloud tierces étrangères.  
+  - **Option C (Pacte de Confiance Décentralisé)** : *Déclaration Mémorielle Purement Privée et Morale*. Enregistrement autonome sur la carte physique ACOSJ 92 Ko et l'application Sanctuaire sans démarche administrative ni notariale. Simple, immédiat et respectueux de la souveraineté familiale dans l'intimité du deuil, mais valeur purement morale et informative sans force exécutoire judiciaire directe en cas de conflit successoral.
 
-- **`DEC-AET-05` (Complément Réglementaire)** : **Référence administrative d'expérimentation pour la valorisation forestière**.  
-  *État du dossier* : L'analyse juridique dans [`docs/legal/memorial-forestry-authorisation.md`](docs/legal/memorial-forestry-authorisation.md) démontre que la sarcomusation forestière cinéraire requiert un projet pilote sous l'article 17 du Règlement CE 1069/2009 instruit conjointement par l'AFSCA et le SPW ARNE. L'émission de certificats en production requiert l'inscription formelle de la référence d'agrément officiel (`authority_reference`).
+- **`DEC-AET-05` (Complément Réglementaire)** : **Référence administrative d'expérimentation pour la valorisation forestière cinéraire**.  
+  *État du dossier & Étude Juridique de Référence* :  
+  L'étude juridique exhaustive réalisée conjointement par le Bushi 13 et le Bushi 12 est consultable dans [`docs/legal/memorial-forestry-authorisation.md`](docs/legal/memorial-forestry-authorisation.md). Elle démontre que les cadavres d'animaux de compagnie relèvent de la Catégorie 1 (art. 8, point a, iii du Règlement CE 1069/2009) et que l'épandage de matières de Catégorie 1 est prohibé par principe (art. 36).  
+  La sarcomusation avec pasteurisation thermique (70°C, 1h) pour amendement d'arbres du souvenir en forêt cinéraire requiert impérativement :  
+  1. Un projet pilote expérimental autorisé au titre de l'**article 17 du Règlement (CE) n° 1069/2009** instruit conjointement par l'AFSCA et le SPW ARNE ;  
+  2. Une dérogation environnementale d'épandage forestier délivrée en application de l'**article 41 du Code forestier wallon** (Décret du 15 juillet 2008).  
+  *Implication technique directe en production* :  
+  Dans le moteur de traçabilité et d'intégrité biologique (`core/rules/antiprion-feedban.ts`), **le champ `authority_reference` est strictement obligatoire** pour toute affectation vers `memorial_forestry`. Tout lot réel en production exige l'inscription formelle, authentique et vérifiable de la référence de l'acte d'autorisation administrative délivré par l'autorité compétente.
 
 ---
 
 *Synthèse du Registre :*  
-- `DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04` à `DEC-AET-09` : Arbitrées et en vigueur (voir §1.1).  
-- `DEC-AET-10` à `DEC-AET-16` : Décisions fondatrices arbitrées et en vigueur (voir §1.2).  
-- `DEC-AET-03` et complément `DEC-AET-05` : Études achevées, en attente de l'arbitrage souverain de Kudoro (voir §2).
+- `DEC-AET-00-ARCH` à `DEC-AET-00-HOMMAGE` : Décisions fondatrices arbitrées et en vigueur (voir §1.1).  
+- `DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04` à `DEC-AET-09` : Décisions souveraines d'arbitrage spécifique arbitrées et en vigueur (voir §1.2).  
+- `DEC-AET-03` et complément `DEC-AET-05` : Études juridiques de référence achevées, soumises à l'arbitrage souverain de Kudoro (voir §2).

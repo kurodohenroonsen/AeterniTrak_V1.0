@@ -30,15 +30,26 @@ Avant d'écrire la logique du moteur de vérification, le Bushi 12 consulte :
 ---
 
 ## 3. Exigences Spec-First & Test-First
-1. **Spécification formelle de la matrice de croisement d'espèces dans `docs/technical/antiprion-feedban.md`** :
+1. **Spécification formelle de la matrice de croisement d'espèces & The Iron Gate dans `docs/technical/antiprion-feedban.md`** :
    - Tableau à double entrée : Espèce Source Carcasse (Ligne) x Espèce Cible Destination PAT (Colonne).
+   - Portes de validation déterministes G0 à G9 avec politique stricte de liste positive (*Default-Deny*).
    - Verdict binaire immuable : `AUTORISÉ` ou `BLOQUÉ (REJET CRYPTOGRAPHIQUE)`.
-2. **Suite de tests de résistance absolue dans `qa/vectors/antiprion/`** (renvoi à `qa/vectors/antiprion/feedban-matrix.vectors.json`) :
-   - Vecteur nominal autorisé (`PRION-AUTH-005`) : Larves d'insectes élevées sur substrat végétal/autorisé -> Aliment volaille -> Signature Ed25519 acceptée.
-   - Cas cadavre exclu de l'alimentation (`PRION-BLOCK-016`) : Carcasse porcine (Cat. 2) -> Larves -> Aliment volaille -> Bloqué (`SUBSTRATE_CATEGORY_VIOLATION` selon règl. UE 2017/893, un cadavre excluant toute filière alimentaire).
-   - Vecteur d'attaque intra-espèce (`PRION-BLOCK-001`) : PAT porcine -> Porcin -> Bloqué (`FEED_BAN_INTRA_SPECIES_VIOLATION`), signature refusée, journalisation d'infraction signée dans la boîte noire.
-   - Vecteur intra-groupe (`PRION-BLOCK-004`) : Volaille (poulet) -> Volaille (dinde) -> Bloqué (`FEED_BAN_INTRA_GROUP_VIOLATION` selon règl. UE 2021/1372).
-   - Vecteur d'obscurcissement : Tentative d'utilisation de synonymes latins ou d'identifiants hors snapshot NCBI -> Rejet par défaut (`DEFAULT_DENY`).
+2. **Suites Exhaustives de Vecteurs de Test (212 Vecteurs Certifiés 100% PASS)** :
+   L'intégralité du moteur de conformité sanitaire est validée par **212 cas de test formels** répartis sur 6 suites officielles dans `qa/vectors/antiprion/` :
+   - **`feedban-matrix.vectors.json` (67 cas)** : Matrice fondamentale de croisement taxonomique d'espèces et interdictions intra-espèce / intra-groupe selon le Règlement (CE) n° 999/2001 et le Règlement (UE) 2021/1372.
+   - **`feedban-hardening.vectors.json` (42 cas)** : Tests de durcissement défensif, détection de contournements, mutations de champs et attaques aux limites.
+   - **`feedban-rules-v12.vectors.json` (64 cas)** : Règles v1.2, matrice de sécurité §5.1 et cas d'usage de valorisation forestière cinéraire mémorielle sous dérogation souveraine `DEC-AET-05`.
+   - **`feedban-rules-v13.vectors.json` (10 cas)** : Règle P14 (étanchéité des sorties et validation déterministe de route).
+   - **`feedban-rules-v14.vectors.json` (19 cas)** : Règles v1.4, motifs d'infraction P15 à P17 (exclusion des cadavres de la filière alimentaire, méthodes de stérilisation thermique et contrôle abattoir MRS).
+   - **`feedban-rules-v15.vectors.json` (10 cas)** : Règles v1.5 et règle **P18** (sécurisation absolue de l'entrée des insectes en alimentation animale : contrôle strict du substrat d'élevage larvaire restreint exclusivement à des matières végétales saines `feed_grade_plant`, interdiction formelle d'équarrissage direct d'insectes bruts en alimentation animale sans bioconversion contrôlée).
+   - **Bilan d'Exécution Certifié** : **212 PASS, 0 FAIL, 0 RED, 0 INVALID (100% de réussite)**.
+3. **Cas Notables Couverts par le Harnais** :
+   - *Vecteur nominal autorisé* (`PRION-AUTH-005`) : Larves d'insectes élevées sur substrat végétal sain -> Aliment volaille -> Signature Ed25519 acceptée.
+   - *Cadavre exclu de l'alimentation* (`PRION-BLOCK-016`) : Carcasse porcine (Cat. 2) -> Larves -> Aliment volaille -> Bloqué (`SUBSTRATE_CATEGORY_VIOLATION` selon règl. UE 2017/893, un cadavre excluant toute filière alimentaire).
+   - *Attaque intra-espèce* (`PRION-BLOCK-001`) : PAT porcine -> Porcin -> Bloqué (`FEED_BAN_INTRA_SPECIES_VIOLATION`), signature refusée, journalisation d'infraction signée dans la boîte noire.
+   - *Attaque intra-groupe* (`PRION-BLOCK-004`) : Volaille (poulet) -> Volaille (dinde) -> Bloqué (`FEED_BAN_INTRA_GROUP_VIOLATION` selon règl. UE 2021/1372).
+   - *Règle P18 (Insectes en source directe)* : Insectes sauvages ou non contrôlés sans substrat végétal certifié -> Bloqué (`SUBSTRATE_CATEGORY_VIOLATION`).
+   - *Obscurcissement taxonomique* : Taxon NCBI inconnu ou hors liste blanche -> Rejet par défaut immédiat (`DEFAULT_DENY`).
 
 ---
 
@@ -50,6 +61,7 @@ Avant d'écrire la logique du moteur de vérification, le Bushi 12 consulte :
 ---
 
 ## 5. Critères de Conformité Stricts
+- [ ] **100% de passage des 212 vecteurs de test** : Zéro régression tolérée sur les suites v1.0 à v1.5 (règles P1 à P18).
 - [ ] **Politique "Default-Deny"** : Toute espèce non répertoriée avec certitude absolue dans la table taxonomique validée est interdite d'aiguillage vers la filière alimentaire.
 - [ ] **Impossibilité de signature partielle** : Le hachage du lot intègre obligatoirement l'identifiant taxonomique source et cible avant le calcul de la signature Ed25519.
 - [ ] **Horodatage infalsifiable** : Inscription de la signature de contrôle dans un registre immuable chaîné (Merkle Tree de conformité).

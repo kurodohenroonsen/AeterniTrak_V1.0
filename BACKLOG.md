@@ -3,22 +3,22 @@
 Ce document répertorie l'ensemble des chantiers découpés par **Application souveraine** (`DEC-AET-08`) et par **Bushi**.  
 Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de Test (`qa/vectors/`) -> Implémentation (`ag/*`) -> Validation Claude (`main`)**.  
 *Règle C1 : Un ticket n'est « Spécifié » que lorsque son fichier formel dans `docs/` existe effectivement sur `main`.*  
-*État certifié sur `main` (`e6dda35`) : 18 suites normatives, **693 vecteurs PASS** (693 PASS, 0 FAIL, 0 RED, 0 INVALID — 100% de succès), 5 bancs de mutations (**34/34 mutations détectées**, 100% sensibilité).*
+*État certifié sur `main` (`e6dda35`) : 18 suites normatives, **693 vecteurs (100% PASS, 0 FAIL, 0 RED, 0 INVALID)**, 5 bancs de mutations (**34/34 mutations détectées**, 100% sensibilité).*
 
 ---
 
 ## Synthèse par Application Souveraine (`DEC-AET-08`)
 
-- **Application 1 : PaxStudio Design B2C/B2B** (Bushi 09, 15)  
+- **Application 1 : PaxStudio Design** (Conception cartes et médaillons, famille & conseiller, Bushi 09, 15)  
   *Conception graphique, recueil des volontés, BAT numérique et prévisualisation 3D des deux cartes (Carte Sanctuaire & Carte Directives).*  
   *Spécification formelle :* [`docs/functional/app1-paxstudio-design.md`](docs/functional/app1-paxstudio-design.md) (10 micro-UCs : `UC-101` à `UC-110`).
-- **Application 2 : PaxStation Encodage B2B** (Bushi 03, 05, 10)  
+- **Application 2 : PaxStation Encodage** (Atelier gravure silicium ACR1552U, opérateur pro, Bushi 03, 05, 10)  
   *Station technique d'atelier funéraire, dialogue APDU ISO 7816-4 via ACR1552U WebUSB/PC/SC CCID, partitionnement EF ACOSJ 92 Ko (`STORAGE-001`), scellement COSE_Sign1 et fusible matériel in-silico `80 DE 01 00`.*  
   *Spécification formelle :* [`docs/functional/app2-paxstation-encodage.md`](docs/functional/app2-paxstation-encodage.md) (10 micro-UCs : `UC-201` à `UC-210`).
-- **Application 3 : Sanctuaire Mémoriel B2C** (Bushi 04, 06, 07, 08, 14)  
+- **Application 3 : Sanctuaire Mémoriel** (Recueillement 100% hors-ligne, zéro login, Bushi 04, 06, 07, 08, 14)  
   *Application de recueillement hors-ligne pour les familles et proches, NFC Tap instantané sans compte, lecteur vocal Opus SILK 16 kHz avec ducking -14 dB, cinématique Ken Burns 120 FPS, consultation sous réserve (bandeau ambré `DEC-AET-07 Option B`), tiroir des volontés civiles et médicales et modèle séculaire 4,40 €/an.*  
   *Spécification formelle :* [`docs/functional/app3-sanctuaire-memoriel.md`](docs/functional/app3-sanctuaire-memoriel.md) (12 micro-UCs : `UC-301` à `UC-312`).
-- **Application 4 : Filière Sarcomusation & Traçabilité Sanitaire** (Bushi 11, 12, 13)  
+- **Application 4 : Filière Sarcomusation & Traçabilité** (The Iron Gate, Hermetia illucens, C1/C2/MRS, Bushi 11, 12, 13)  
   *Gestion quotidienne de la filière de biodégradation par Hermetia illucens, ségrégation stricte des 4 profils de dépouilles (C1, Faune DNF, C2 Sanitel, MRS), The Iron Gate G0-G9 anti-prion (Règlement CE 999/2001), journalisation des cycles autoclaves/pasteurisation, certification de lot scellée Ed25519 et audits réglementaires AFSCA/DNF hors-ligne.*  
   *Spécification formelle :* [`docs/functional/app4-filiere-sarcomusation.md`](docs/functional/app4-filiere-sarcomusation.md) (14 micro-UCs : `UC-401` à `UC-414`).
 
@@ -36,14 +36,14 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 | `CRYPTO-002` | Bushi 02 | Dérivation de clés PBKDF2 (100k itérations) et coffre chiffré AES-GCM-256 pour cache local | P1 | Validé / Spécifié | `docs/technical/silicon-storage.md` §7 |
 | `CRYPTO-003` | Bushi 02 | Moteur COSE_Sign1 v1.2 — Agilité ES256/Ed25519 (`DEC-AET-04`), coseOpen et règle temporelle K2 | P0 | Validé | `qa/vectors/crypto/cose-*.vectors.json` (115 PASS) |
 | `CRYPTO-004` | Bushi 02 | Vérificateur ECDSA P-256 (ES256) avec contrôle strict anti-malléabilité du s bas (BSI TR-03111) | P0 | Validé | `qa/vectors/crypto/es256-verify.vectors.json` (18 PASS) |
-| `STORAGE-001` | Bushi 10 | Partitionnement formel ACOSJ 92 Ko (EF-0 à EF-5, 92 160 octets, `DEC-AET-01`, réserve > 5%) | P0 | Validé / Spécifié | [`docs/technical/silicon-storage.md`](docs/technical/silicon-storage.md) |
+| `STORAGE-001` | Bushi 10 | Partitionnement formel ACOSJ 92 Ko (EF-0 à EF-5, 92 160 octets, `DEC-AET-01`, réserve > 5%) | P0 | Spécifié / Validé | [`docs/technical/silicon-storage.md`](docs/technical/silicon-storage.md) |
 | `STORAGE-002` | Bushi 10 | Transaction atomique avec drapeau `COMMIT_FLAG` anti-arrachage RF et fusible `80 DE 01 00` | P1 | Validé / Spécifié | `docs/technical/silicon-storage.md` §4 |
 | `QA-001` | Bushi 16 | Harnais de validation des 18 suites de test via `./scripts/runner.sh test` (693 PASS) | P0 | Validé | `qa/harness/run.mjs` (693 PASS, 0 FAIL) |
 | `QA-002` | Bushi 16 | Banc d'épreuve de sensibilité aux mutations normatives (34/34 mutations détectées) | P0 | Validé | `qa/tests/mutations*.mjs` (34/34 PASS) |
 
 ---
 
-## 2. Application 1 : PaxStudio Design B2C/B2B (Bushi 09, 15)
+## 2. Application 1 : PaxStudio Design (Conception cartes et médaillons, famille & conseiller, Bushi 09, 15)
 
 *Micro-Use Cases : `UC-101` à `UC-110` formalisés dans [`docs/functional/app1-paxstudio-design.md`](docs/functional/app1-paxstudio-design.md).*
 
@@ -58,7 +58,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ---
 
-## 3. Application 2 : PaxStation Encodage B2B (Bushi 03, 05, 10)
+## 3. Application 2 : PaxStation Encodage (Atelier gravure silicium ACR1552U, opérateur pro, Bushi 03, 05, 10)
 
 *Micro-Use Cases : `UC-201` à `UC-210` formalisés dans [`docs/functional/app2-paxstation-encodage.md`](docs/functional/app2-paxstation-encodage.md).*
 
@@ -74,7 +74,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ---
 
-## 4. Application 3 : Sanctuaire Mémoriel B2C (Bushi 04, 06, 07, 08, 14)
+## 4. Application 3 : Sanctuaire Mémoriel (Recueillement 100% hors-ligne, zéro login, Bushi 04, 06, 07, 08, 14)
 
 *Micro-Use Cases : `UC-301` à `UC-312` formalisés dans [`docs/functional/app3-sanctuaire-memoriel.md`](docs/functional/app3-sanctuaire-memoriel.md).*
 
@@ -91,7 +91,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ---
 
-## 5. Application 4 : Filière Sarcomusation & Traçabilité Sanitaire (Bushi 11, 12, 13)
+## 5. Application 4 : Filière Sarcomusation & Traçabilité (The Iron Gate, Hermetia illucens, C1/C2/MRS, Bushi 11, 12, 13)
 
 *Micro-Use Cases : `UC-401` à `UC-414` formalisés dans [`docs/functional/app4-filiere-sarcomusation.md`](docs/functional/app4-filiere-sarcomusation.md).*
 

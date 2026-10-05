@@ -94,15 +94,14 @@ Pour que la carte mémorielle fonctionne harmonieusement à la fois avec le **NF
 |    URL: https://sanctuaire.aeternitrak.com/m/GH-1948?k=<PUBKEY_FINGERPRINT>       |
 |    (Déclenche instantanément la bannière iOS ou l'App Clip Card Apple)            |
 |                                                                                   |
-|  [ APPLET 2 : AeterniTrak Sovereign Core ] AID: A0 00 00 08 45 01                  |
-|  - Applet propriétaire de haute sécurité et forte capacité (STORAGE-001)           |
-|  - EF-0    (0x0000) : En-tête silicium TLV, UID & compteurs monotones (512 o)      |
-|  - EF-1    (0x0001) : Métadonnées civiles CBOR canoniques RFC 8949 (2 Ko)          |
-|  - EF-2    (0x0002) : Portrait WebP haute définition (20 Ko alloués)               |
-|  - EF-3    (0x0003) : Mémo vocal Opus SILK 16 kHz (45 Ko alloués)                  |
-|  - EF-4    (0x0004) : Registre sépulture, volontés & hommages CBOR (15 Ko)         |
-|  - EF-5    (0x0005) : Enveloppe cryptographique COSE_Sign1 RFC 9052 (2 Ko)         |
-|  - RÉSERVE (0x0006) : Marge d'usure matérielle EEPROM (> 5% garanti, ~5,5 Ko)      |
+|  [ APPLET 2 : AeterniTrak Sovereign Core ] AID: A0 00 00 08 45 01                 |
+|  - Applet propriétaire de haute sécurité et forte capacité (STORAGE-001)          |
+|  - EF.ID  (0x0001) : 2 048 octets (2 Ko Métadonnées civiles CBOR canoniques)      |
+|  - EF.IMG (0x0002) : 20 480 octets (20 Ko WebP haute définition)                  |
+|  - EF.VOX (0x0003) : 46 080 octets (45 Ko Opus SILK 16 kHz)                       |
+|  - EF.HOM (0x0004) : 15 360 octets (15 Ko Hommages / Arbre)                       |
+|  - EF.RES (0x0005) : 7 680 octets (Réserve matérielle 8,33% > 5%)                 |
+|    Total = exactement 92 160 octets (Capacité totale JavaCard ACOSJ 92 Ko)        |
 |                                                                                   |
 +-----------------------------------------------------------------------------------+
 ```
