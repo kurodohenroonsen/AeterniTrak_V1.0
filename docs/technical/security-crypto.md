@@ -660,7 +660,7 @@ AeterniTrak segmente l'architecture cryptographique en quatre familles de clés 
 ### 5.2 Rationale des Choix Algorithmiques
 
 - **Pourquoi ES256 pour les familles 1 et 3 ?**  
-  Les stations funéraires PaxFunèbre et les agents d'inspection opèrent sur des équipements mobiles (iPad, terminaux Android durcis, cartes à puce JavaCard). Les puces de sécurité matérielle (Apple Secure Enclave, Android StrongBox, ACOSJ 92k) intègrent nativement des accélérateurs cryptographiques certifiés FIPS 140-2/3 et Common Criteria EAL5+ pour la courbe NIST P-256. L'usage d'ES256 garantit que la clé privée ne peut physiquement pas être extraite du silicium.
+  Les stations funéraires PaxStation (App 2) et les agents d'inspection opèrent sur des équipements dotés d'enclaves matérielles (iPad avec Apple Secure Enclave, terminaux Android durcis avec Android StrongBox selon `DEC-AET-10`). Ces puces de sécurité matérielle intègrent nativement des accélérateurs cryptographiques pour la courbe NIST P-256. L'usage d'ES256 garantit que la clé privée ne peut physiquement pas être extraite du silicium de la station d'encodage.
 - **Pourquoi Ed25519 pour la famille 2 (Porte de Fer) ?**  
   La filière de sarcomusation requiert le traitement de dizaines de milliers de lots industriels et de requêtes P2P décentralisées. Ed25519 offre une vitesse d'exécution supérieure, une dérivation déterministe mathématique exempte de génération d'aléa par signature (éliminant tout risque de fuite de clé par biais du générateur aléatoire), et une immunité totale contre la malléabilité.
 
@@ -668,36 +668,35 @@ AeterniTrak segmente l'architecture cryptographique en quatre familles de clés 
 
 ## 6. Stockage Matériel Sécurisé & Résilience Silicium
 
-### 6.1 Architecture des Enclaves Matérielles Supportées
+### 6.1 Architecture des Enclaves Matérielles de Scellement (`DEC-AET-10`)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                 ENCLAVES MATÉRIELLES CERTIFIÉES (NON EXPORTABLES)            │
+│                 ENCLAVES MATÉRIELLES DE SCELLEMENT (STATION PAXSTATION)       │
 ├──────────────────────────────┬──────────────────────────────┬───────────────┤
-│    Apple Secure Enclave      │     Android StrongBox        │ JavaCard      │
-│        (iOS / macOS)         │       (Android 9+)           │  ACOSJ 92k    │
+│    Apple Secure Enclave      │     Android StrongBox        │ Stockage      │
+│        (iOS / macOS)         │       (Android 9+)           │  ACOSJ 92 Ko  │
 ├──────────────────────────────┼──────────────────────────────┼───────────────┤
-│ Coprocesseur SEP isolé       │ Puce Secure Element dédiée   │ Puce CC EAL5+ │
-│ Clé générée in-silico        │ Drapeau isStrongBoxBacked    │ Générée on-   │
-│ EC P-256 256 bits            │ RAM & CPU isolés physiquement│ chip via APDU │
-│ Déverrouillage FaceID/PIN    │ Authentification biométrique │ Code PIN agent│
+│ Coprocesseur SEP isolé       │ Puce Secure Element dédiée   │ Coffre EEPROM │
+│ Clé générée in-silico        │ Drapeau isStrongBoxBacked    │ Immuable      │
+│ EC P-256 256 bits            │ RAM & CPU isolés physiquement│ Scellement    │
+│ Déverrouillage biométrique   │ Authentification biométrique │ Fusible DE 01 │
 └──────────────────────────────┴──────────────────────────────┴───────────────┘
 ```
 
-1. **Apple Secure Enclave (iOS / iPadOS / macOS)** :
+1. **Apple Secure Enclave (Station iPadOS / macOS)** :
    - Les puces de la série A et M intègrent un coprocesseur cryptographique sécurisé (Secure Enclave Processor - SEP) doté de sa propre mémoire chiffrée et de son propre système d'exploitation sécurisé.
    - Les clés privées sont générées directement dans l'enclave (`kSecAttrKeyTypeECSECPrimeRandom`, taille 256 bits).
    - Les clés privées ne franchissent jamais la frontière de l'enclave sous forme en clair.
-   - L'opération de signature s'effectue au sein du SEP, sous condition d'authentification biométrique (Face ID / Touch ID) de l'opérateur PaxFunèbre.
-2. **Android StrongBox Keymaster / KeyMint (Android 9+)** :
+   - L'opération de signature s'effectue au sein du SEP de la station de gravure, sous condition d'authentification biométrique (Face ID / Touch ID) de l'opérateur PaxFunèbre.
+2. **Android StrongBox Keymaster / KeyMint (Station Android)** :
    - StrongBox s'appuie sur un matériel dédié (Secure Element séparé, tel que la puce Titan M de Google), disposant d'un microprocesseur et d'un stockage physique indépendants du processeur applicatif principal.
    - Configuration obligatoire : `setIsStrongBoxBacked(true)` combiné avec `KeyProperties.KEY_ALGORITHM_EC` et courbe P-256.
    - La clé privée est non exportable (`PURPOSE_SIGN`).
-3. **Carte à Puce JavaCard ACOSJ 92k** :
-   - Microcontrôleur cryptographique certifié Common Criteria EAL5+ avec 92 Ko de mémoire EEPROM non volatile.
-   - Applet JavaCard propriétaire dédiée AeterniTrak.
-   - Génération de clé *on-chip* via `KeyPair.genKeyPair()`, supportant nativement `ALG_ECDSA_SHA_256`.
-   - Signature déclenchée par commande APDU après validation du code PIN opérateur (APDU `VERIFY`).
+3. **Carte à Puce JavaCard ACOSJ 92 Ko (Coffre de Stockage Immuable, `DEC-AET-01`, `DEC-AET-10`)** :
+   - Microcontrôleur cryptographique avec 92 Ko de mémoire EEPROM non volatile.
+   - La carte ne génère pas de clé privée active : elle stocke l'enveloppe `COSE_Sign1` scellée par la station PaxStation dans son fichier élémentaire `EF-5`.
+   - Protection matérielle absolue via commande de soufflage du fusible in-silico `80 DE 01 00`, interdisant toute altération ultérieure.
 
 ---
 

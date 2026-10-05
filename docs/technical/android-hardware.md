@@ -84,7 +84,7 @@ Ce que Web NFC ne peut physiquement **pas** faire en raison de son abstraction d
 
 ## 3. La Passerelle Silicium Hybride : Émulation NDEF Type 4 Tag sur ACOSJ 92 Ko
 
-En application de la directive souveraine de Kudoro `DEC-AET-01` (*« QUE DES CARTES 92Ko »*), l'architecture repose exclusivement sur la puce JavaCard **ACOSJ 92 Ko** (ACS Technologies, microcontrôleur sécurisé Common Criteria EAL5+).
+En application de la directive souveraine de Kudoro `DEC-AET-01` (*« QUE DES CARTES 92Ko »*), l'architecture repose exclusivement sur la puce JavaCard **ACOSJ 92 Ko** (ACS Technologies, microcontrôleur sécurisé avec certification constructeur à confirmer).
 
 ### 3.1 Architecture Silicium Dual-Applet (Coopération In-Silico)
 Pour marier l'inviolabilité cryptographique funéraire et la lecture web instantanée, la puce ACOSJ 92 Ko embarque deux applets Java Card coopératives :
@@ -212,12 +212,13 @@ Sur la capacité brute de **92 160 octets**, le partitionnement physique est cal
 
 ```
 Capacité Silicium ACOSJ : 92 160 octets (100 %)
-├── Bloc 0 : Métadonnées carte, version protocole, clés publiques  ───>     512 o   (0.55 %)
-├── Bloc 1 : Dossier d'identité canonique CBOR / COSE_Sign1 (T4T) ───>   2 048 o   (2.22 %)  <-- EXPOSÉ WEB NFC
-├── Bloc 2 : Portrait visuel optimisé WebP (480x480) ───────────────>  20 480 o  (22.22 %)
-├── Bloc 3 : Mémo vocal éternel Opus SILK (16 kHz, ~20 s) ──────────>  46 080 o  (50.00 %)
-├── Bloc 4 : Registre des hommages de famille & traçabilité ─────────>  15 360 o  (16.67 %)
-└── Réserve d'Usure EEPROM (Wear-Leveling & Sécurité 8.3%) ─────────>   7 680 o   (8.33 %)  (> 4 600 o requis)
+├── EF-0 : En-tête silicium TLV propriétaire, UID, compteur (0x0000) ──>     512 o   (0.55 %)
+├── EF-1 : Profil civil CBOR canonique RFC 8949 (0x0001) ─────────────>   2 048 o   (2.22 %)  <-- EXPOSÉ WEB NFC
+├── EF-2 : Portrait visuel optimisé WebP 480×480 (0x0002) ────────────>  20 480 o  (22.22 %)
+├── EF-3 : Mémo vocal éternel Opus SILK (0x0003) ─────────────────────>  46 080 o  (50.00 %)
+├── EF-4 : Registre sépulture, volontés & hommages CBOR (0x0004) ─────>  15 360 o  (16.67 %)
+├── EF-5 : Enveloppe cryptographique COSE_Sign1 RFC 9052 (0x0005) ────>   2 048 o   (2.22 %)
+└── Réserve d'Usure EEPROM (Wear-Leveling & Sécurité 6,11%) ──────────>   5 632 o   (6.11 %)  (> 4 608 o requis)
 ```
 
 **Observation Fiscale du Bushi 10** :  

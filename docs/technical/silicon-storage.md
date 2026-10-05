@@ -16,7 +16,7 @@
 
 ## 1. Budget Silicium Inviolable ACOSJ 92 Ko (92 160 octets)
 
-En vertu de la décision souveraine `DEC-AET-01` de Kudoro (*« QUE DES CARTES 92Ko »*), la cible matérielle unique retenue pour le déploiement du réseau *Le Pax Funèbre* et de la filière de traçabilité est la puce cryptographique **JavaCard ACOSJ 92 Ko EEPROM** (normes ISO/IEC 7816-4 et ISO/IEC 14443-4 Type A, certification Common Criteria EAL5+).
+En vertu de la décision souveraine `DEC-AET-01` de Kudoro (*« QUE DES CARTES 92Ko »*), la cible matérielle unique retenue pour le déploiement du réseau *Le Pax Funèbre* et de la filière de traçabilité est la puce cryptographique **JavaCard ACOSJ 92 Ko EEPROM** (normes ISO/IEC 7816-4 et ISO/IEC 14443-4 Type A, certification constructeur à confirmer).
 
 L'intégralité des 92 160 octets de la mémoire non-volatile est allouée sans fragmentation à travers **6 Fichiers Élémentaires (Elementary Files - EF)** et une réserve matérielle d'usure strictement supérieure au seuil normatif de 5 % imposé par Bushi 10 :
 
@@ -154,13 +154,14 @@ La spécification `AET-SPEC-STORAGE-001` impose la prise en charge d'une **doubl
 
 1. **Mode Extended Length APDU (Nominal - PaxStation & Android Haut de Gamme)** :  
    - Utilise l'encodage étendu à 3 octets pour la longueur (`00 Lc1 Lc2` ou `00 Le1 Le2`).
-   - Permet le transfert de `EF-2` (WebP, 20 480 octets) en **une seule commande APDU**.
-   - Permet le transfert de `EF-3` (Opus, 46 080 octets) en **une seule commande APDU**.
+   - Permet le transfert de `EF-2` (WebP, 20 480 octets) en une seule commande APDU ($Lc \le 32\,767$).
+   - Permet le transfert de `EF-3` (Opus, 46 080 octets) en deux commandes étendues (2 tranches de 23 040 octets avec offset respectant l'espace adressable) ou selon les capacités du contrôleur.
    - Réduit la surcharge de protocole RF de 94 % et élimine la gigue d'acquittement.
 2. **Mode Standard APDU avec Pagination (Repli Universel - iOS CoreNFC / Lecteurs Anciens)** :  
    - Découpe les flux en trames unitaires de $Lc \le 240$ octets (pour éviter les dépassements de buffer CCID intermédiaires).
-   - L'émetteur incrémente l'offset 16 bits à chaque trame :
+   - L'émetteur incrémente l'offset à chaque trame :
      $$\text{Trame } k : P_1 = \lfloor (k \times 240) / 256 \rfloor, \quad P_2 = (k \times 240) \pmod{256}$$
+     *(Note ISO 7816-4 : pour les offsets $\ge 32\,768$ où $P_1.b8 = 1$, la commande UPDATE BINARY utilise le mode étendu ou l'encapsulation TLV INS `0xD7` / `0xB1`).*
    - Pour `EF-2` (20 480 octets) : 86 trames de 240 octets (85 trames pleines + 1 trame de 80 octets).
    - Pour `EF-3` (46 080 octets) : 192 trames de 240 octets exacts.
 
