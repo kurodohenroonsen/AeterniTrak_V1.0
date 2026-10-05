@@ -4,7 +4,7 @@
 
 > [!NOTE]
 > **Périmètre Applicatif :**
-> Le **Sanctuaire Mémoriel Mobile** est l'application grand public d'hommage et de recueillement destinée aux familles, amis et intervenants d'urgence. Déclenchée instantanément par un simple effleurement sans contact (**NFC Tap Zéro-Login, sans identifiant ni mot de passe**), elle valide l'intégrité cryptographique COSE_Sign1 en local, gère l'accueil des émetteurs selon la politique de confiance (Bandeau de réserve **Option B DEC-AET-07** pour clés inconnues), orchestre le sanctuaire acoustique avec **ducking vocal automatique (-14 dB)** et offre un tiroir d'accès solennel aux volontés civiles et médicales prioritaires (**alerte pacemaker vitale Art. L1232-17 CDLD, don d'organes, legs à la science**).
+> Le **Sanctuaire Mémoriel Mobile** est l'application grand public d'hommage et de recueillement destinée aux familles, amis et intervenants d'urgence. Déclenchée instantanément par un simple effleurement sans contact (**NFC Tap Zéro-Login, sans identifiant ni mot de passe**), elle valide l'intégrité cryptographique COSE_Sign1 en local, gère l'accueil des émetteurs selon la politique de confiance (Bandeau de réserve **Option B DEC-AET-07** pour clés inconnues), orchestre le sanctuaire acoustique avec **ducking vocal automatique (-14 dB)** et offre un tiroir d'accès solennel aux volontés civiles et médicales prioritaires (**alerte exérèse pacemaker, don d'organes, legs à la science — références à confirmer par un juriste**).
 
 ## 📌 Sommaire des Micro Use-Cases Spécifiés
 
@@ -16,12 +16,12 @@
 | [`UC-304`](#uc-304) | [Bandeau de Réserve DEC-AET-07 Option B pour Émetteur Inconnu](#uc-304) | **Résilience Mémorielle** | Famille & Régulateur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décision Kudoro DEC-AET-07 (Option B : Lisibilité mémorielle maintenue avec réserve réglementaire). |
 | [`UC-305`](#uc-305) | [Blocage Hermétique sur Carte Falsifiée ou Clé Révoquée](#uc-305) | **Sécurité & Anti-Fraude** | Système Mobile & Auditeur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Code pénal belge (art. 196 et suivants - faux en écriture et usage de faux). |
 | [`UC-306`](#uc-306) | [Sanctuaire Acoustique & Ducking Vocal Vivant Automatique](#uc-306) | **Expérience Émotionnelle** | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directives déontologiques funéraires relatives à la dignité et au respect des cérémonies. |
-| [`UC-307`](#uc-307) | [Consultation des Volontés Civiles et Funéraires](#uc-307) | **Dernières Volontés** | Famille, Exécuteur Testamentaire & Pompes Funèbres | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés). |
-| [`UC-308`](#uc-308) | [Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (Art. L1232-17 CDLD)](#uc-308) | **Directives Médicales & Sécurité** | Pompes Funèbres, Crématorium & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques). |
+| [`UC-307`](#uc-307) | [Consultation des Volontés Civiles et Funéraires](#uc-307) | **Dernières Volontés** | Famille, Exécuteur Testamentaire & Pompes Funèbres | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés) (référence à confirmer par un juriste). |
+| [`UC-308`](#uc-308) | [Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (référence à confirmer par un juriste)](#uc-308) | **Directives Médicales & Sécurité** | Pompes Funèbres, Crématorium & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
 | [`UC-309`](#uc-309) | [Consultation du Statut de Don d'Organes (Consentement Présumé Loi 1986)](#uc-309) | **Directives Médicales** | Coordinateur Hospitalier de Transplantation | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 13 juin 1986 sur le prélèvement et la transplantation d'organes (art. 10 - consentement présumé). |
-| [`UC-310`](#uc-310) | [Directives Legs du Corps à la Science sous 48h](#uc-310) | **Directives Médicales** | Famille & Faculté de Médecine | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire. |
+| [`UC-310`](#uc-310) | [Directives Legs du Corps à la Science sous 48h](#uc-310) | **Directives Médicales** | Famille & Faculté de Médecine | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire (référence à confirmer par un juriste). |
 | [`UC-311`](#uc-311) | [Droit d'Accès Post-Mortem au Dossier Médical (Loi 2002 Art. 9 §4)](#uc-311) | **Droits du Patient** | Praticien Professionnel Désigné & Ayants Droit | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 22 août 2002 relative aux droits du patient (art. 9 §4 - accès post-mortem par praticien intermédiaire). |
-| [`UC-312`](#uc-312) | [Modèle de Pérennité Séculaire & Coffre Étendu (Abonnement Mémoriel)](#uc-312) | **Pérennité & Économie** | Famille & Réseau PaxFunèbre | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directive européenne 2011/83/UE sur les droits des consommateurs (transparence et pérennité contractuelle). |
+| [`UC-312`](#uc-312) | [Politique Mémorielle PaxFunèbre & Pérennité Séculaire (DEC-AET-11)](#uc-312) | **Pérennité & Économie** | Famille & Réseau PaxFunèbre | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directive européenne 2011/83/UE sur les droits des consommateurs (transparence et pérennité contractuelle) (référence à confirmer par un juriste). |
 
 ---
 
@@ -157,8 +157,8 @@
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 80%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [CORE-READ] Décodage partition EF02 (Profile) et EF03 (Medias) : OK</code><br>
-                        <code>> [WEBP-DEC] Décompression portrait 220x220 en mémoire graphique</code><br>
+                        <code>> [CORE-READ] Décodage partition EF-1 (Profile) et EF-2 (Portrait) : OK</code><br>
+                        <code>> [WEBP-DEC] Décompression portrait 480x480 (DEC-AET-12) en mémoire graphique</code><br>
                         <code>> [OPUS-DEC] Chargement tampon audio vocal 30 secondes : Prêt</code>
                       </div>
                     </div>
@@ -415,7 +415,7 @@
 >
 > **Badge de Conformité :** `100% Hors-Ligne • Audio Actif`
 >
-> **Détail Opérationnel :** Ambiance solennelle active. Portrait 220x220 rendu avec halo doré noble.
+> **Détail Opérationnel :** Ambiance solennelle active. Portrait 480x480 (DEC-AET-12) rendu avec halo doré noble.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
@@ -452,7 +452,7 @@
                       </div>
                       <div class="wf-device-status-box">
                         <div><strong>Ouverture de l'arche mémorielle d'Henri Dubois...</strong></div>
-                        <div class="wf-subtext">Chargement de la palette Or & Obsidienne et du portrait 220x220</div>
+                        <div class="wf-subtext">Chargement de la palette Or & Obsidienne et du portrait 480x480 (DEC-AET-12)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">Entrer dans l'Espace de Recueillement</button>
@@ -1029,7 +1029,7 @@
 | **Acteur Principal** | Famille, Exécuteur Testamentaire & Pompes Funèbres |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Volontes`, `Loi1971`, `Sepulture`, `ArbreCineraire`, `Preuve` |
-| **Base Légale & Normative** | Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés). |
+| **Base Légale & Normative** | Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Acte des Volontés Civiles Scellé` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1048,16 +1048,16 @@
 2. Déchiffrement local de la structure CBOR des volontés enregistrées lors du Bon à Tirer.
 3. Affichage solennel des choix formulés :
 4. - Cérémonie laïque civile sans fleurs artificielles.
-5. - Sépulture par sarcomusation avec restitution des amendements en forêt cinéraire.
+5. - Sépulture par sarcomusation avec restitution des amendements en forêt cinéraire (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)).
 6. - Désignation de l'Arbre Mémoriel n° F-2408 dans le massif forestier ardennais agréé.
-7. Génération d'une copie numérique certifiée infalsifiable opposable à toute contestation.
+7. Génération d'une copie numérique certifiée infalsifiable opposable à toute contestation (sous réserve de conformité, référence à confirmer par un juriste).
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `wills_ceremony` | **Cérémonie Souhaitée** | `text` | `Cérémonie Civile Laïque sous les Arbres` | Cérémonie | `Loi 1971` | ⭕ Optionnel |
-| `wills_burial` | **Mode de Sépulture** | `text` | `Sarcomusation & Retour en Forêt Cinéraire` | Sépulture | `DEC-AET-05` | ⭕ Optionnel |
+| `wills_ceremony` | **Cérémonie Souhaitée** | `text` | `Cérémonie Civile Laïque sous les Arbres` | Cérémonie | `Loi 1971 (référence à confirmer par un juriste)` | ⭕ Optionnel |
+| `wills_burial` | **Mode de Sépulture** | `text` | `Sarcomusation & Retour en Forêt Cinéraire (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste))` | Sépulture | `Démonstrateur Prospectif` | ⭕ Optionnel |
 | `wills_tree` | **Arbre Cinéraire Désigné** | `text` | `Chêne du Souvenir n° F-2408 (Forêt Saint-Hubert)` | Arbre | `Cadastré` | ⭕ Optionnel |
 | `wills_timestamp` | **Horodatage Légal Scellé** | `text` | `2026-10-04T15:30:00Z (Double Émargement Certifié)` | Horodatage | `Inviolable` | ⭕ Optionnel |
 
@@ -1076,7 +1076,7 @@
 >
 > **Badge de Conformité :** `Valeur Probante Légale`
 >
-> **Détail Opérationnel :** Texte intègre conforme à la loi du 20 juillet 1971. Inaltérable in-silico.
+> **Détail Opérationnel :** Texte intègre conforme à la loi du 20 juillet 1971 (référence à confirmer par un juriste). Inaltérable in-silico.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
@@ -1153,8 +1153,8 @@
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [WILLS-RENDER] Clause 1 : Cérémonie civile laïque -> VALIDÉ</code><br>
-                        <code>> [WILLS-RENDER] Clause 2 : Sarcomusation & Forêt cinéraire -> VALIDÉ</code><br>
-                        <code>> [LAW-1971] Primauté légale de la volonté du défunt confirmée</code>
+                        <code>> [WILLS-RENDER] Clause 2 : Sarcomusation (Démonstrateur de faisabilité prospectif) & Forêt cinéraire -> VALIDÉ</code><br>
+                        <code>> [LAW-1971] Primauté légale de la volonté du défunt confirmée (référence à confirmer par un juriste)</code>
                       </div>
                     </div>
 ```
@@ -1166,11 +1166,11 @@
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">Sanctuaire • Acte des Volontés</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971 (référence à confirmer par un juriste)</span>
                       </div>
                       <div class="wf-wills-card-view">
                         <div><strong>Cérémonie :</strong> Laïque solennelle sous les arbres</div>
-                        <div><strong>Sépulture :</strong> Sarcomusation & Arbre F-2408</div>
+                        <div><strong>Sépulture :</strong> Sarcomusation & Arbre F-2408 <span class="wf-badge-warning">[Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)]</span></div>
                         <div><strong>Message :</strong> « Que la nature accueille ma mémoire en paix... »</div>
                       </div>
                       <div class="wf-btn-row">
@@ -1184,7 +1184,7 @@
 ---
 
 <a id="uc-308"></a>
-## UC-308 : Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (Art. L1232-17 CDLD)
+## UC-308 : Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (référence à confirmer par un juriste)
 
 ### 📋 Métadonnées Spécifiées
 
@@ -1195,7 +1195,7 @@
 | **Acteur Principal** | Pompes Funèbres, Crématorium & Médecin Légiste |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Pacemaker`, `DAE`, `AlerteRouge`, `Explosion`, `CDLD` |
-| **Base Légale & Normative** | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques). |
+| **Base Légale & Normative** | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Moniteur de Sécurité Vitale Pacemaker` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1214,7 +1214,7 @@
 2. Détection immédiate dans le compartiment médical de la mention d'un pacemaker ou défibrillateur implanté actif.
 3. Affichage d'un écran d'alerte de sécurité prioritaire rouge vif :
 4. - Mention expresse du risque d'explosion thermique.
-5. - Référence à l'article L1232-17 §2 du CDLD imposant l'exérèse chirurgicale préalable.
+5. - Référence à l'article L1232-17 §2 du CDLD (référence à confirmer par un juriste) imposant l'exérèse chirurgicale préalable.
 6. - Affichage du statut : soit 'Exérèse déjà certifiée par le Dr. Vaneck', soit 'ATTENTION : Exérèse non certifiée — Interdiction stricte de mise en bière'.
 7. Bouton d'appel d'urgence du praticien désigné.
 
@@ -1225,7 +1225,7 @@
 | `medical_implant` | **Dispositif Médical Actif** | `text` | `Stimulateur Cardiaque Actif (Pacemaker)` | Implant | `ALERTE VITALE` | ⭕ Optionnel |
 | `explosion_risk` | **Risque Physique** | `text` | `Explosion Thermique Majeure (> 250°C)` | Risque | `Danger Mortel` | ⭕ Optionnel |
 | `removal_status` | **Statut de Retrait Chirurgical** | `text` | `CERTIFIÉ RETIRÉ (Dr. Marc Vaneck — INAMI 1-40912-88-004)` | Statut | `Exérèse OK` | ⭕ Optionnel |
-| `legal_cdld` | **Fondement Légal** | `text` | `Art. L1232-17 §2 CDLD (Région Wallonne)` | Loi | `Imposé` | ⭕ Optionnel |
+| `legal_cdld` | **Fondement Légal** | `text` | `Art. L1232-17 §2 CDLD (référence à confirmer par un juriste)` | Loi | `Imposé` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -1251,7 +1251,7 @@
 | **Code d'Erreur Normatif** | `ERR_PACEMAKER_CRITICAL_RISK` |
 | **Intitulé de l'Incident** | **Alerte Rouge : Pacemaker Présent Non Retiré** |
 | **Condition Déclenchante** | Scan d'un corps porteur d'un stimulateur sans certificat d'exérèse renseigné. |
-| **Message d'Erreur UI** | *« DANGER DE MORT / EXPLOSION : Un stimulateur cardiaque actif est présent dans le corps. Mise en bière et crémation formellement interdites par la loi (Art. L1232-17 §2 CDLD). »* |
+| **Message d'Erreur UI** | *« DANGER DE MORT / EXPLOSION : Un stimulateur cardiaque actif est présent dans le corps. Mise en bière et crémation formellement interdites par la loi (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste). »* |
 | **Action Corrective Requise** | **Exiger l'intervention immédiate d'un médecin pour procéder à l'exérèse chirurgicale avant toute manipulation.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
@@ -1279,7 +1279,7 @@
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-alert-icon">⚠️</span>
-                        <div><strong>Contrôle Obligatoire Dispositifs Actifs (CDLD)</strong></div>
+                        <div><strong>Contrôle Obligatoire Dispositifs Actifs (référence à confirmer par un juriste)</strong></div>
                         <div class="wf-subtext">Approchez la Carte Directives pour vérification pacemaker / DAE</div>
                       </div>
                       <div class="wf-btn-row">
@@ -1318,8 +1318,8 @@
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [CDLD-CHECK] Recherche visa d'exérèse sur EF02 Médical...</code><br>
-                        <code>> [CDLD-CHECK] Visa trouvé : Signé par Dr. Marc Vaneck (INAMI 1-40912-88-004)</code><br>
+                        <code>> [LEGAL-CHECK] Recherche visa d'exérèse sur partition médicale...</code><br>
+                        <code>> [LEGAL-CHECK] Visa trouvé : Signé par Dr. Marc Vaneck (INAMI 1-40912-88-004)</code><br>
                         <code>> [SAFETY] Exérèse chirurgicale validée : Zéro risque d'explosion</code>
                       </div>
                     </div>
@@ -1338,7 +1338,7 @@
                         <span class="wf-seal-icon">🟢</span>
                         <div>
                           <strong>Exérèse Chirurgicale Certifiée par Praticien</strong>
-                          <p class="wf-subtext">Conforme Art. L1232-17 §2 CDLD • Mise en bière et cérémonies autorisées</p>
+                          <p class="wf-subtext">Conforme Art. L1232-17 §2 CDLD (référence à confirmer par un juriste) • Mise en bière et cérémonies autorisées</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -1530,7 +1530,7 @@
 | **Acteur Principal** | Famille & Faculté de Médecine |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `LegsCorps`, `Science`, `Universite`, `Delai48h`, `Anatomie` |
-| **Base Légale & Normative** | Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire. |
+| **Base Légale & Normative** | Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Protocole d'Urgence Legs à la Science (48h)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1585,7 +1585,7 @@
 | **Intitulé de l'Incident** | **Délai Légal de 48 Heures Expiré** |
 | **Condition Déclenchante** | Signalement du décès plus de 48 heures après la survenue de la mort. |
 | **Message d'Erreur UI** | *« DÉLAI DÉPASSÉ : Le délai légal de 48 heures pour le transfert vers le laboratoire d'anatomie est expiré. La faculté de médecine ne peut plus accepter le corps. »* |
-| **Action Corrective Requise** | **Basculer immédiatement vers le protocole de sépulture par sarcomusation mémorielle ou crémation civile.** |
+| **Action Corrective Requise** | **Basculer immédiatement vers le protocole de sépulture par sarcomusation mémorielle (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) ou crémation civile.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
@@ -1851,7 +1851,7 @@
 ---
 
 <a id="uc-312"></a>
-## UC-312 : Modèle de Pérennité Séculaire & Coffre Étendu (Abonnement Mémoriel)
+## UC-312 : Politique Mémorielle PaxFunèbre & Pérennité Séculaire (DEC-AET-11)
 
 ### 📋 Métadonnées Spécifiées
 
@@ -1861,8 +1861,8 @@
 | **Catégorie Métier** | **Pérennité & Économie** |
 | **Acteur Principal** | Famille & Réseau PaxFunèbre |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Perennite`, `Seculaire`, `Coffre`, `100Ans`, `LocalFirst` |
-| **Base Légale & Normative** | Directive européenne 2011/83/UE sur les droits des consommateurs (transparence et pérennité contractuelle). |
+| **Tags Clés** | `Perennite`, `Seculaire`, `DEC-AET-11`, `PolitiqueMemorielle`, `LocalFirst` |
+| **Base Légale & Normative** | Directive européenne 2011/83/UE sur les droits des consommateurs (transparence et pérennité contractuelle) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Arche de Pérennité Séculaire (100 Ans)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1873,15 +1873,15 @@
 
 > [!TIP]
 > **Postconditions Garanties :**
-> Pérennité physique et numérique garantie sur un siècle, indépendance totale vis-à-vis des serveurs cloud.
+> Pérennité physique et numérique garantie sur un siècle, discrétion tarifaire absolue et indépendance totale vis-à-vis des serveurs cloud.
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
 1. Affichage des garanties de conservation de la mémoire physique in-silico :
 2. - Rétention des données EEPROM certifiée 100 ans à température ambiante sur JavaCard ACOSJ.
 3. - Fonctionnement 100% autonome sans abonnement obligatoire : la carte reste lisible à perpétuité par simple contact NFC même sans connexion Internet.
-4. Présentation optionnelle du 'Coffre Mémoriel Étendu' : dotation familiale séculaire pour rééditions physiques de cartes ou médaillons en cas de perte par un descendant.
-5. Consultation de l'état de l'arche mémorielle familiale.
+4. - Présentation de l'accès mémoriel et de ses extensions selon la politique mémorielle Le Pax Funèbre (discrétion tarifaire absolue et dignité du deuil, DEC-AET-11).
+5. - Dotation familiale séculaire pour rééditions physiques de cartes ou médaillons en cas de perte par un descendant.
 
 ### 📝 Spécification des Champs de Saisie & Données
 
@@ -1889,7 +1889,7 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
 | `silicon_retention` | **Rétention Physique Silicium** | `text` | `100 ANS GARANTIS (Cellules EEPROM ACOSJ)` | Rétention | `100 Ans` | ⭕ Optionnel |
 | `cloud_dependency` | **Dépendance Cloud Obligatoire** | `text` | `ZÉRO DÉPENDANCE (100% Autonome Local-First)` | Cloud | `Souverain` | ⭕ Optionnel |
-| `vault_endowment` | **Dotation Mémorielle Séculaire** | `text` | `Active (Coffre Séculaire Le Pax Funèbre Namur)` | Dotation | `Actif` | ⭕ Optionnel |
+| `pricing_policy` | **Politique Mémorielle PaxFunèbre** | `text` | `Régie par la politique PaxFunèbre (Discrétion tarifaire, DEC-AET-11)` | Politique | `DEC-AET-11` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -1906,7 +1906,7 @@
 >
 > **Badge de Conformité :** `100 Ans in-silico`
 >
-> **Détail Opérationnel :** Autonomie totale sans abonnement obligatoire. Sauvegarde perpétuelle sur silicium.
+> **Détail Opérationnel :** Autonomie totale sans abonnement obligatoire. Accès régi par la politique mémorielle PaxFunèbre (DEC-AET-11).
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
@@ -1916,7 +1916,7 @@
 | **Intitulé de l'Incident** | **Dotation de Réédition Échue** |
 | **Condition Déclenchante** | Demande de fabrication d'un duplicata physique sans fonds de dotation séculaire actif. |
 | **Message d'Erreur UI** | *« Information contractuelle : Le quota de réédition physique est épuisé. La carte originale reste cependant lisible à 100% sans frais. »* |
-| **Action Corrective Requise** | **Recharger la dotation familiale en agence Le Pax Funèbre pour commander de nouveaux médaillons.** |
+| **Action Corrective Requise** | **Consulter les modalités d'accueil mémoriel auprès de l'agence Le Pax Funèbre selon la politique mémorielle en vigueur (DEC-AET-11).** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
@@ -1925,7 +1925,7 @@
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
 | **1** | **Initial / Avant Trigger** | Statut de Conservation Séculaire en Consultation | *En attente utilisateur* | La famille consulte l'arche de mémoire et les garanties matérielles de la puce ACOSJ. |
-| **2** | **Déclenchement ⚡** | Affichage des Côtés Techniques & Absence de Cloud | `Clic sur 'Consulter le Certificat de Pérennité Séculaire'` | Mise en avant des arguments souverains : Zéro abonnement requis, zéro risque de faillite cloud. |
+| **2** | **Déclenchement ⚡** | Affichage des Côtés Techniques & Absence de Cloud | `Clic sur 'Consulter le Certificat de Pérennité Séculaire'` | Mise en avant des arguments souverains : Zéro abonnement obligatoire, politique mémorielle et discrétion tarifaire PaxFunèbre (DEC-AET-11). |
 | **3** | **Traitement ⚙️** | Génération de l'Attestation Séculaire Infalsifiable | `Progression : 95%` | Scellement de l'acte de pérennité avec signature officielle de la dotation Le Pax Funèbre. |
 | **4** | **Scellement & Fin ✨** | Certificat de Pérennité Séculaire Remis | `Statut : success` | Sérénité absolue pour la famille. La mémoire d'Henri Dubois traversera les générations. |
 
@@ -1953,7 +1953,7 @@
 ```
 
 #### Phase 2 - Déclenchement : Affichage des Côtés Techniques & Absence de Cloud
-*Mise en avant des arguments souverains : Zéro abonnement requis, zéro risque de faillite cloud.*
+*Mise en avant des arguments souverains : Zéro abonnement obligatoire, politique mémorielle et discrétion tarifaire PaxFunèbre (DEC-AET-11).*
 
 ```html
 <div class="wf-screen-box">
@@ -1963,7 +1963,7 @@
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
                         <div class="wf-trigger-indicator">✓ Rétention EEPROM certifiée : 100 ans sans rafraîchissement</div>
-                        <div class="wf-subtext">Lisibilité NFC universelle garantie sur tout appareil futur ISO 14443</div>
+                        <div class="wf-subtext">Accueil et extensions mémorielles régis par la politique PaxFunèbre (DEC-AET-11)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary wf-pulse-btn">Édition du certificat séculaire...</button>
@@ -1983,7 +1983,7 @@
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [VAULT-ENG] Validation du statut local-first : ZÉRO serveur distant requis</code><br>
-                        <code>> [VAULT-ENG] Dotation séculaire agence Namur : Enregistrée sous l'acte 0491</code><br>
+                        <code>> [DEC-AET-11] Politique mémorielle PaxFunèbre appliquée (discrétion tarifaire absolue)</code><br>
                         <code>> [CRYPTO-SEAL] Attestation de souveraineté 100 ans scellée</code>
                       </div>
                     </div>
@@ -2002,7 +2002,7 @@
                         <span class="wf-seal-icon">🏛️</span>
                         <div>
                           <strong>Mémoire Transmissible aux Générations Futures</strong>
-                          <p class="wf-subtext">Puce physique ACOSJ inaltérable • Sanctuaire mobile universel sans abonnement</p>
+                          <p class="wf-subtext">Puce physique ACOSJ inaltérable • Accès mémoriel régi par la politique PaxFunèbre (DEC-AET-11)</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">

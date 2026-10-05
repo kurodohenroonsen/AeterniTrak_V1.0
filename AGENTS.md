@@ -51,20 +51,22 @@
 - Le validateur cryptographique (Bushi 12) bloque irrévocablement la signature Ed25519 en cas de correspondance d'espèces.
 
 ### B. Ségrégation des 4 Profils de Dépouilles
-1. **Compagnie (Catégorie 1 mémoriel)** : Test LFA Pentobarbital obligatoire. Si positif -> Rejet incinération C1. Si négatif -> Pasteurisation 70°C 1h pour arbres du souvenir.
-2. **Faune Sauvage (Catégorie 1/2 Biocontrôle DNF)** : Badge garde, GPS, PCR épizooties, Stérilisation Méthode 1 (133°C, 3 bars, 20 min).
-3. **Ferme & Élevage (Catégorie 2)** : Boucle Sanitel, temps d'attente médicamenteux, Méthode 1, aiguillage technique exclusif (biodiesel C2).
-4. **Déchets d'Abattoir (Catégorie 1 / MRS)** : Document AFSCA, dénaturation bleu de méthylène 0,5%, Méthode 1, combustion industrielle cimenterie.
+1. **Compagnie (Catégorie 1 mémoriel)** : Dépistage LFA Pentobarbital qualitatif obligatoire (résultat binaire). Si positif -> Rejet incinération C1. Si négatif -> Pasteurisation 70°C 1h pour arbres du souvenir (sous dérogation mémorielle forestière DEC-AET-05, politique TEST-ONLY).
+2. **Faune Sauvage (Catégorie 1/2 Biocontrôle DNF)** : Badge garde, GPS, PCR épizooties (contrôles amont déclaratifs hors Iron Gate, DEC-AET-13), Stérilisation Méthode 1 (133°C, 3 bars, 20 min).
+3. **Ferme & Élevage (Catégorie 2)** : Boucle Sanitel, temps d'attente médicamenteux (contrôles amont déclaratifs), Méthode 1, aiguillage technique exclusif (biodiesel C2).
+4. **Déchets d'Abattoir (Catégorie 1 / MRS)** : Document commercial AFSCA, dénaturation bleu de méthylène (concentration à confirmer), Méthode 1, combustion industrielle cimenterie sans bioconversion par larves.
+5. **Démonstrateur de Faisabilité Sarcomusation (`DEC-AET-15`)** : Démonstrateur de faisabilité maintenu à des fins de recherche et de modélisation prospective. Option non autorisée en l'état du droit positif actuel (référence à confirmer par un juriste). Interdiction absolue d'alimentation animale de quelque nature que ce soit pour les matières issues de restes humains.
 
-### C. Budget Mémoire Silicium ACOSJ 92 Ko (`DEC-AET-01`, `STORAGE-001`)
-- Respect intransigeant des 92 160 octets de la puce JavaCard avec partitionnement strict en 6 Fichiers Élémentaires (`EF-0` à `EF-5`) et réserve d'intégrité anti-usure > 5% (5 632 octets réservés pour wear-leveling).
+### C. Budget Mémoire Silicium ACOSJ 92 Ko (`DEC-AET-01`, `STORAGE-001`, `DEC-AET-12`)
+- Respect intransigeant des 92 160 octets de la puce JavaCard avec partitionnement strict en 6 Fichiers Élémentaires (`EF-0` à `EF-5`, total utile 86 528 octets) et réserve d'intégrité anti-usure de 5 632 octets (6,11 %, supérieur au plancher de 5 % / 4 608 octets).
+- Portrait WebP de face au format 480×480 pixels (`DEC-AET-12`, EF-2 ≤ 20 480 octets).
 
-### D. Modèle Économique & Dignité du Deuil (`DEC-AET-15`)
-- Sanctuaire B2C : Accueil offert de 3 ans avec la carte, puis 4,40 €/an sans publicité, sans traqueurs et sans coupure punitive des données physiques gravées.
+### D. Modèle Économique & Dignité du Deuil (`DEC-AET-11`)
+- Sanctuaire B2C : Respect absolu de la dignité du deuil, discrétion tarifaire totale selon la politique mémorielle PaxFunèbre (`DEC-AET-11`), sans publicité, sans traqueurs et sans coupure punitive des données physiques gravées.
 
-### E. Agilité Cryptographique COSE_Sign1 ES256 & Ed25519 (Décision Souveraine `DEC-AET-04`)
-- **Agilité Hybride Souveraine (`DEC-AET-04`)** : Prise en charge conjointe et obligatoire d'**Ed25519 (`alg: -8`, RFC 8032)** pour les signatures logicielles décentralisées, les certificats de lot sanitaire (`UC-411`) et les communications P2P, et d'**ES256 (`alg: -7`, NIST P-256 / secp256r1)** pour les signatures émises depuis les enclaves matérielles certifiées (Apple Secure Enclave, Android StrongBox KeyMint, cartes JavaCard ACOSJ 92 Ko).
+### E. Agilité Cryptographique COSE_Sign1 ES256 & Ed25519 (Décisions Souveraines `DEC-AET-04`, `DEC-AET-10`)
+- **Agilité Hybride Souveraine (`DEC-AET-04`)** : Prise en charge conjointe d'**Ed25519 (`alg: -8`, RFC 8032)** pour les signatures logicielles décentralisées, les certificats de lot sanitaire (`UC-413`) et les communications P2P, et d'**ES256 (`alg: -7`, NIST P-256 / secp256r1)** pour les signatures émises depuis les enclaves matérielles certifiées de la station PaxStation (`DEC-AET-10` : Apple Secure Enclave, Android StrongBox KeyMint). La carte ACOSJ 92 Ko stocke l'enveloppe signée de manière immuable après verrouillage par fusible in-silico (`80 DE 01 00`).
 - **Anti-malléabilité ECDSA Impérative** : Contrôle systématique et intransigeant du $s$ bas ($s \le \lfloor n/2 \rfloor$, norme BSI TR-03111). Rejet irrévocable de toute forme en $s$ haut ($s > \lfloor n/2 \rfloor$) pour prévenir toute falsification d'enveloppe sans détention de la clé privée.
 - **Vérification Universelle & Déterminisme** : Tous les validateurs sur l'ensemble des 4 applications souveraines vérifient nativement et de façon universelle les enveloppes COSE_Sign1 ES256 et Ed25519 conformément à la TrustList locale.
-- **Validation Normative du Harnais QA** : Statut certifié actuel à 100% (**693/693 PASS**, 0 FAIL, 0 RED, 0 INVALID, commit `e6dda35`) couvrant les 18 suites normatives (CBOR déterministe RFC 8949, JCS RFC 8785, Ed25519 RFC 8032, ES256 BSI TR-03111, The Iron Gate anti-prion, certificats de lot et profils COSE_Sign1 v1.2) ainsi que 5 bancs de mutations (34/34 mutations détectées, 100% de sensibilité).
+- **Banc de Tests Normatifs** : 693 vecteurs de test PASS couvrant les 18 suites normatives (CBOR déterministe RFC 8949, JCS RFC 8785, Ed25519 RFC 8032, ES256 BSI TR-03111, The Iron Gate anti-prion, certificats de lot et profils COSE_Sign1 v1.2) ainsi que 5 bancs de mutations (34 mutations détectées).
 

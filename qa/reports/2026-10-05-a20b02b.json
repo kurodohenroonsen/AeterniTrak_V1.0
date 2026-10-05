@@ -1,7 +1,7 @@
 {
   "date": "2026-10-05",
-  "commit": "97565a6",
-  "branch": "main",
+  "commit": "a20b02b",
+  "branch": "ag/orchestrator-coherence-remediation",
   "validator": "ajv 8.20.0",
   "filter": null,
   "selftest": false,

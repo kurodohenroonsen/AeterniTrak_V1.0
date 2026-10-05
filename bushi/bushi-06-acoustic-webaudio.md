@@ -25,12 +25,13 @@ Le Bushi 06 conçoit, calibre et audite le moteur acoustique immersif déployé 
      - **Marge de sécurité interne au bloc** : 8 880 octets réservés (~19.2% du bloc), permettant d'accueillir jusqu'à 36 secondes d'enregistrement vocal à 10 kbps sans aucun dépassement de capacité.
    - **Harmonisation avec le partitionnement complet `STORAGE-001` (92 160 octets)** :
      - *Bloc EF-0* (512 o) : Métadonnées carte, version protocole, compteur monotone.
-     - *Bloc EF-1* (2 048 o) : Dossier d'identité canonique CBOR (RFC 8949) + enveloppe COSE_Sign1 (RFC 9052).
+     - *Bloc EF-1* (2 048 o) : Dossier d'identité canonique CBOR (RFC 8949 §4.2.1).
      - *Bloc EF-2* (20 480 o / 20 Ko) : Portrait visuel optimisé WebP 480x480 et palette RVB.
      - *Bloc EF-3* (46 080 o / 45 Ko) : **Mémo vocal éternel Opus SILK (30 s)**.
      - *Bloc EF-4* (15 360 o / 15 Ko) : Registre d'hommages familiaux et arbre généalogique compact.
-     - *Bloc EF-5* (7 680 o / 8.33%) : Zone de réserve matérielle EEPROM anti-usure ($\ge 5\%$ imposés).
-     - **Total cumulé** = exactement **92 160 octets** (100% de la JavaCard ACOSJ 92 Ko).
+     - *Bloc EF-5* (2 048 o / 2 Ko) : Enveloppe cryptographique COSE_Sign1 scellée (RFC 9052 / RFC 9596).
+     - *Réserve d'usure* (5 632 o / 6.11%) : Zone de réserve matérielle EEPROM anti-usure ($\ge 5\%$ imposés).
+     - **Total cumulé** = exactement **92 160 octets** (86 528 octets utiles + 5 632 octets réserve = 100% de la JavaCard ACOSJ 92 Ko).
 
 2. **Algorithme de Ducking Vocal Harmonique Automatique (-14 dB)** :
    - **Mission émotionnelle & solennelle** : Lors de l'écoute du mémo vocal ou de la voix du défunt dans le Sanctuaire B2C, la musique d'ambiance s'atténue délicatement de **-14 dB** pour placer la voix au premier plan avec une intimité chaleureuse, puis reprend sa plénitude avec une infinie douceur à la fin du message.

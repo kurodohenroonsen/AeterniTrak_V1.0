@@ -54,20 +54,20 @@ Claude AI applique les critères stricts suivants par domaine :
 - Vérifier le hachage des métadonnées de l'autoclave Méthode 1 (133°C, 3 bars, 20 minutes).
 - Vérifier la ségrégation stricte des 4 profils de dépouilles (Compagnie, Faune Sauvage DNF, Ferme, Abattoir/MRS).
 
-### C. Domaine Silicium & Matériel (`qa/vectors/hardware/`)
+### C. Domaine Silicium & Matériel (ACOSJ 92 Ko & `STORAGE-001`)
 - **Consécration exclusive de l'ACOSJ 92 Ko (`DEC-AET-01`)** :
   - Rejeter catégoriquement toute référence à des cibles 32 Ko obsolètes.
   - La cible matérielle unique est la puce cryptographique JavaCard ACOSJ 92 Ko (capacité totale : 92 160 octets).
 - **Vérification du partitionnement strict `STORAGE-001` (EF-0 à EF-5)** :
   - `EF-0` (`0x0000`) : En-tête silicium TLV propriétaire, UID matériel, compteur monotone et flags (512 octets / 0,55 %).
   - `EF-1` (`0x0001` / `EF.ID`) : Profil civil CBOR canonique RFC 8949 (2 048 octets / 2 Ko / 2,22 %).
-  - `EF-2` (`0x0002` / `EF.IMG`) : Portrait visuel WebP haute définition (20 480 octets / 20 Ko / 22,22 %).
+  - `EF-2` (`0x0002` / `EF.IMG`) : Portrait visuel WebP haute définition 480×480 px (`DEC-AET-12`, 20 480 octets / 20 Ko / 22,22 %).
   - `EF-3` (`0x0003` / `EF.VOX`) : Mémo vocal Opus SILK 16 kHz (46 080 octets / 45 Ko / 50,00 %).
   - `EF-4` (`0x0004` / `EF.HOM`) : Registre sépulture, volontés & hommages CBOR (15 360 octets / 15 Ko / 16,67 %).
   - `EF-5` (`0x0005` / `EF.SIG`) : Enveloppe cryptographique COSE_Sign1 RFC 9052 (2 048 octets / 2 Ko / 2,22 %).
 - **Contrôle du budget mémoire et réserve matérielle** :
   - Cumul des fichiers de données `EF-0` à `EF-5` : **86 528 octets** (93,89 %).
-  - Réserve matérielle EEPROM inviolable : **5 632 octets** (6,11 % > seuil normatif de 5 % pour l'usure matérielle et wear-leveling).
+  - Réserve matérielle EEPROM inviolable : **5 632 octets** (6,11 % > seuil normatif de 5 % / 4 608 octets pour l'usure matérielle et wear-leveling).
 - **Dialogue APDU ISO/IEC 7816-4 & Intégrité Silicium** :
   - Vérifier la séquence ordonnée `SELECT AID`, `READ BINARY`, `UPDATE BINARY`.
   - Vérifier le protocole atomique `COMMIT_FLAG` anti-arrachage RF et le scellement définitif par fusible matériel `LOCK_FUSE` (`80 DE 01 00`).
@@ -76,22 +76,22 @@ Claude AI applique les critères stricts suivants par domaine :
 Vérifier l'étanchéité, les interfaces et la conformité des livrables selon les 4 applications souveraines :
 1. **Application 1 : PaxStudio Design B2C/B2B** (Bushi 09, 15) :
    - Conception du double support physique : Carte Sanctuaire mémorielle vs Carte Directives civiles/médicales.
-   - Studio photo : compression WebP dans la limite stricte de 20 Ko alloués par `STORAGE-001`.
+   - Studio photo : compression WebP dans la limite stricte de 20 Ko alloués par `STORAGE-001` (480×480 pixels, `DEC-AET-12`).
    - Audio : ducking sonore (-14 dB) et enregistrement Opus SILK dans la limite de 45 Ko.
    - Sortie : capsule de pré-encodage scellée CBOR.
 2. **Application 2 : PaxStation Encodage B2B** (Bushi 03, 05, 10) :
    - Environnement d'atelier pour lecteur ACR1552U (WebUSB / PC/SC).
    - Formatage silicium et partitionnement des 6 Elementary Files selon `STORAGE-001`.
-   - Scellement irrémédiable du fusible physique (`LOCK_FUSE`) rendant la carte perpétuellement non modifiable.
+   - Scellement cryptographique par l'enclave matérielle de la station (`DEC-AET-10`) et scellement irrémédiable du fusible physique (`LOCK_FUSE`, `80 DE 01 00`) rendant la carte perpétuellement non modifiable.
 3. **Application 3 : Sanctuaire Mémoriel B2C** (Bushi 04, 06, 07, 08, 14) :
-   - Recueillement hors-ligne pour les familles, zéro-téléchargement et zéro-compte (`DEC-AET-09`).
+   - Recueillement hors-ligne pour les familles, zéro-téléchargement et zéro-compte (`DEC-AET-09`), discrétion tarifaire selon la politique PaxFunèbre (`DEC-AET-11`).
    - Déclenchement universel : App Clip SwiftUI sur iOS, Web NFC / PWA Chrome sur Android.
    - Lecture directe de la puce ACOSJ 92 Ko en trames IsoDep / CoreNFC.
    - Application stricte de `DEC-AET-07` Option B : affichage solennel avec bandeau de réserve ambré bienveillant si la clé publique n'est pas répertoriée dans la TrustList locale.
 4. **Application 4 : Filière Sarcomusation & Traçabilité** (Bushi 11, 12, 13) :
-   - Traçabilité des 4 profils de dépouilles (Compagnie, Faune Sauvage DNF, Ferme, Abattoir/MRS).
+   - Traçabilité des 4 profils de dépouilles (Compagnie, Faune Sauvage DNF, Ferme, Abattoir/MRS) et maintien de la sarcomusation comme démonstrateur de faisabilité prospectif (`DEC-AET-15`).
    - The Iron Gate : blocage absolu de la signature de conformité de lot en cas de tentative de recyclage intra-espèce (feed ban strict).
-   - Contrôle du barème Méthode 1 (133°C, 3 bars, 20 min) et dépistage LFA Pentobarbital pour dérogation mémorielle forestière (`DEC-AET-05`).
+   - Contrôle du barème Méthode 1 (133°C, 3 bars, 20 min) et dépistage LFA Pentobarbital (qualitatif) pour dérogation mémorielle forestière (`DEC-AET-05`).
 
 ## 3. Émission d'Ordres dans `mailbox/to-antigravity/`
 

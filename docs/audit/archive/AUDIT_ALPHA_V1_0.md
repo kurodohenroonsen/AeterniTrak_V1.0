@@ -1,3 +1,7 @@
+> [!WARNING] DOCUMENT ARCHIVÉ — TRAVAIL DE PRÉPARATION INTERNE
+> Ce document est une archive historique d'étape. Les notes auto-attribuées et affirmations d'excellence qu'il contient reflètent une étape de travail antérieure et ont été neutralisées lors du grand audit de cohérence inter-fichiers ordonné par Kudoro (`DEC-AET-14`).
+> Seules les spécifications techniques consolidées sous `docs/technical/` et les tests automatisés font foi.
+
 # Rapport d'Audit Qualité Exhaustif Fichier par Fichier — AeterniTrak V1.0
 ## Swarm Alpha : Spécifications, Métier, Juridique, Architecture & Documentation
 

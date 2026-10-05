@@ -52,7 +52,7 @@ APPS_CONFIG = [
         "usecases": a3.APP3_USECASES,
         "color": "purple",
         "icon": "🕊️",
-        "overview": """Le **Sanctuaire Mémoriel Mobile** est l'application grand public d'hommage et de recueillement destinée aux familles, amis et intervenants d'urgence. Déclenchée instantanément par un simple effleurement sans contact (**NFC Tap Zéro-Login, sans identifiant ni mot de passe**), elle valide l'intégrité cryptographique COSE_Sign1 en local, gère l'accueil des émetteurs selon la politique de confiance (Bandeau de réserve **Option B DEC-AET-07** pour clés inconnues), orchestre le sanctuaire acoustique avec **ducking vocal automatique (-14 dB)** et offre un tiroir d'accès solennel aux volontés civiles et médicales prioritaires (**alerte pacemaker vitale Art. L1232-17 CDLD, don d'organes, legs à la science**)."""
+        "overview": """Le **Sanctuaire Mémoriel Mobile** est l'application grand public d'hommage et de recueillement destinée aux familles, amis et intervenants d'urgence. Déclenchée instantanément par un simple effleurement sans contact (**NFC Tap Zéro-Login, sans identifiant ni mot de passe**), elle valide l'intégrité cryptographique COSE_Sign1 en local, gère l'accueil des émetteurs selon la politique de confiance (Bandeau de réserve **Option B DEC-AET-07** pour clés inconnues), orchestre le sanctuaire acoustique avec **ducking vocal automatique (-14 dB)** et offre un tiroir d'accès solennel aux volontés civiles et médicales prioritaires (**alerte exérèse pacemaker, don d'organes, legs à la science — références à confirmer par un juriste**)."""
     },
     {
         "num": 4,
@@ -63,7 +63,7 @@ APPS_CONFIG = [
         "usecases": a4.APP4_USECASES,
         "color": "emerald",
         "icon": "🪰",
-        "overview": """L'application **Filière Sarcomusation & Traçabilité** régit l'intégralité de la chaîne biologique de biodégradation par les larves d'***Hermetia illucens*** (mouche soldat noire). Utilisée par les vétérinaires légistes, les gardes-forestiers DNF et les inspecteurs sanitaires AFSCA, elle assure la ségrégation stricte des 4 profils de dépouilles (Compagnie, Faune sauvage DNF, Élevage agricole Sanitel, Déchets d'abattoir MRS), le contrôle toxicologique LFA du pentobarbital (< 10 ppb), la stérilisation thermique obligatoire (Méthode 1 : 133°C, 3 bars, 20 min ou pasteurisation 70°C/1h), et le filtrage déterministe infranchissable **The Iron Gate (portes G0 à G9)** garantissant le respect absolu de la **règle d'or anti-prion** (feed-ban européen interdisant tout recyclage intraspécifique)."""
+        "overview": """L'application **Filière Sarcomusation & Traçabilité** régit l'intégralité de la chaîne biologique de biodégradation par les larves d'***Hermetia illucens*** (mouche soldat noire). Utilisée par les vétérinaires légistes, les gardes-forestiers DNF et les inspecteurs sanitaires AFSCA, elle assure la ségrégation stricte des 4 profils de dépouilles (Compagnie, Faune sauvage DNF, Élevage agricole Sanitel, Déchets d'abattoir MRS), le dépistage toxicologique qualitatif LFA du pentobarbital (absence de molécule détectée, lignes C et T visibles), la stérilisation thermique obligatoire (Méthode 1 : 133°C, 3 bars, 20 min ou pasteurisation 70°C/1h), et le filtrage déterministe infranchissable **The Iron Gate (portes G0 à G9)** garantissant le respect absolu de la **règle d'or anti-prion** (feed-ban européen interdisant tout recyclage intraspécifique)."""
     }
 ]
 
@@ -245,9 +245,9 @@ def generate_readme(apps):
     lines.append("## 🏛️ Les 4 Applications du Système AeterniTrak\n")
     lines.append("| Application | Fichier de Spécification | Périmètre Métier & Rôle | Nombre de Micro-UCs |")
     lines.append("| :--- | :--- | :--- | :---: |")
-    lines.append("| **Application 1 : PaxStudio Design** | [app1-paxstudio-design.md](./app1-paxstudio-design.md) | Outil créatif de pré-encodage, maquettage 3D des cartes et médaillons, WebP 220x220, waveforms sonores. | **10 UCs** (UC-101 à UC-110) |")
+    lines.append("| **Application 1 : PaxStudio Design** | [app1-paxstudio-design.md](./app1-paxstudio-design.md) | Outil créatif de pré-encodage, maquettage 3D des cartes et médaillons, WebP 480×480 (DEC-AET-12), waveforms sonores. | **10 UCs** (UC-101 à UC-110) |")
     lines.append("| **Application 2 : PaxStation Encodage** | [app2-paxstation-encodage.md](./app2-paxstation-encodage.md) | Station technique de bureau, gravure ACR1552U WebUSB/PC/SC, ACOSJ 92 Ko, scellement COSE_Sign1, fusible anti-tamper. | **10 UCs** (UC-201 à UC-210) |")
-    lines.append("| **Application 3 : Sanctuaire Mémoriel** | [app3-sanctuaire-memoriel.md](./app3-sanctuaire-memoriel.md) | Application B2C universelle sans login (NFC Tap), ducking vocal WebAudio, tiroir de volontés civiles Art. L1232-17 CDLD, Option B DEC-AET-07. | **12 UCs** (UC-301 à UC-312) |")
+    lines.append("| **Application 3 : Sanctuaire Mémoriel** | [app3-sanctuaire-memoriel.md](./app3-sanctuaire-memoriel.md) | Application B2C universelle sans login (NFC Tap), ducking vocal WebAudio, tiroir de volontés civiles et médicales (références à confirmer par un juriste), Option B DEC-AET-07. | **12 UCs** (UC-301 à UC-312) |")
     lines.append("| **Application 4 : Filière Sarcomusation** | [app4-filiere-sarcomusation.md](./app4-filiere-sarcomusation.md) | Filière biologique Hermetia illucens, The Iron Gate (G0-G9), feed-ban anti-prion, dépistage LFA pentobarbital, Ed25519. | **14 UCs** (UC-401 à UC-414) |")
     lines.append("| **TOTAL RÉFÉRENTIEL V1.0** | - | **Matrice d'Exécution Universelle & Certifiée** | **46 Micro-UCs** |")
     lines.append("\n---\n")

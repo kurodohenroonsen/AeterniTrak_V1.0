@@ -96,12 +96,14 @@ Pour que la carte mémorielle fonctionne harmonieusement à la fois avec le **NF
 |                                                                                   |
 |  [ APPLET 2 : AeterniTrak Sovereign Core ] AID: A0 00 00 08 45 01                 |
 |  - Applet propriétaire de haute sécurité et forte capacité (STORAGE-001)          |
-|  - EF.ID  (0x0001) : 2 048 octets (2 Ko Métadonnées civiles CBOR canoniques)      |
-|  - EF.IMG (0x0002) : 20 480 octets (20 Ko WebP haute définition)                  |
-|  - EF.VOX (0x0003) : 46 080 octets (45 Ko Opus SILK 16 kHz)                       |
-|  - EF.HOM (0x0004) : 15 360 octets (15 Ko Hommages / Arbre)                       |
-|  - EF.RES (0x0005) : 7 680 octets (Réserve matérielle 8,33% > 5%)                 |
-|    Total = exactement 92 160 octets (Capacité totale JavaCard ACOSJ 92 Ko)        |
+|  - EF-0 (0x0000) : 512 octets (En-tête silicium TLV propriétaire, UID, compteur)  |
+|  - EF-1 (0x0001) : 2 048 octets (2 Ko Métadonnées civiles CBOR canoniques)        |
+|  - EF-2 (0x0002) : 20 480 octets (20 Ko WebP haute définition 480×480)            |
+|  - EF-3 (0x0003) : 46 080 octets (45 Ko Opus SILK 16 kHz)                         |
+|  - EF-4 (0x0004) : 15 360 octets (15 Ko Hommages & Directives)                    |
+|  - EF-5 (0x0005) : 2 048 octets (2 Ko Enveloppe COSE_Sign1)                       |
+|  - Réserve matérielle EEPROM : 5 632 octets (6,11% > 5% requis)                   |
+|    Total utile = 86 528 octets | Capacité totale ACOSJ = 92 160 octets             |
 |                                                                                   |
 +-----------------------------------------------------------------------------------+
 ```

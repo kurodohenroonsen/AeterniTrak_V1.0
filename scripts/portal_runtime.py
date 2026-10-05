@@ -331,10 +331,10 @@ JS_RUNTIME = """
       const steps = [
         { time: 100, text: '<span class="text-sky-400">[00.120] CARTE DÉTECTÉE</span> : ATR 3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 00 03 00 00 00', bytes: 14500, label: '14 500 / 92 160 octets (16%)' },
         { time: 500, text: '<span class="text-indigo-300">[00.520] SELECT AID</span> : CLA:00 INS:A4 P1:04 P2:00 Lc:07 A0000008450101 -> SW:9000 (ACOSJ OK)', bytes: 38200, label: '38 200 / 92 160 octets (41%)' },
-        { time: 1000, text: '<span class="text-gold-300">[01.040] WRITE RECORD</span> : Profil civil + Portraits WebP 220x220 alloués', bytes: 64800, label: '64 800 / 92 160 octets (70%)' },
-        { time: 1500, text: '<span class="text-emerald-400">[01.580] COSE_SIGN1</span> : Ed25519 scellé in-silico (RFC 8032, Low-S conforme)', bytes: 87500, label: '87 500 / 92 160 octets (95%)' },
-        { time: 2000, text: '<span class="text-purple-300">[02.100] HARDWARE LOCK</span> : Fusible physique activé. Mémoire EEPROM immuable.', bytes: 87500, label: '87 500 / 92 160 octets (95%)' },
-        { time: 2400, text: '<span class="text-emerald-300 font-bold">[02.450] SUCCÈS TOTAL</span> : Carte ACOSJ 92K gravée avec succès • Prête pour la famille.', bytes: 87500, label: '87 500 / 92 160 octets (95%) - Scellé' }
+        { time: 1000, text: '<span class="text-gold-300">[01.040] WRITE RECORD</span> : Profil civil + Portraits WebP 480x480 (DEC-AET-12) alloués', bytes: 64800, label: '64 800 / 92 160 octets (70%)' },
+        { time: 1500, text: '<span class="text-emerald-400">[01.580] COSE_SIGN1</span> : Scellement cryptographique par PaxStation (COSE_Sign1, Tag 18, DEC-AET-10)', bytes: 86528, label: '86 528 / 92 160 octets (94%)' },
+        { time: 2000, text: '<span class="text-purple-300">[02.100] HARDWARE LOCK</span> : Fusible physique activé. Mémoire EEPROM immuable.', bytes: 86528, label: '86 528 / 92 160 octets (94%)' },
+        { time: 2400, text: '<span class="text-emerald-300 font-bold">[02.450] SUCCÈS TOTAL</span> : Carte ACOSJ 92K gravée avec succès • Prête pour la famille.', bytes: 86528, label: '86 528 / 92 160 octets (94%) - Scellé' }
       ];
 
       if (terminal) terminal.innerHTML = '<span class="text-slate-400">Initialisation du couplage sans contact 13.56 MHz (WebUSB ACR1552U)...</span>';
@@ -420,7 +420,7 @@ JS_RUNTIME = """
         }
       }, 400);
 
-      // 3. Révélation C et masquage T (principe compétitif)
+      // 3. Révélation des lignes C et T (test compétitif : C+T visibles = NÉGATIF / CONFORME)
       setTimeout(() => {
         if (lineC) {
           lineC.classList.add('active-red');
@@ -428,8 +428,10 @@ JS_RUNTIME = """
           lineC.style.background = '#dc2626';
         }
         if (lineT) {
-          lineT.classList.add('invisible');
-          lineT.style.opacity = '0';
+          lineT.classList.add('active-red');
+          lineT.classList.remove('invisible');
+          lineT.style.opacity = '1';
+          lineT.style.background = '#dc2626';
         }
       }, 1000);
 

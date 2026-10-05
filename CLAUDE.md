@@ -63,20 +63,20 @@ La branche `agent-mailbox` est le **canal asynchrone unique** entre Claude AI et
    - *Application 2 : PaxStation Encodage B2B* (station d'atelier ACR1552U, initialisation des EF silicium selon `STORAGE-001` et scellement du fusible `LOCK_FUSE`).
    - *Application 3 : Sanctuaire Mémoriel B2C* (recueillement hors-ligne zéro-téléchargement et zéro-login sur App Clip iOS / Web NFC & PWA Android, avec application stricte de l'Option B de `DEC-AET-07` : bandeau de réserve ambré bienveillant si l'autorité n'est pas répertoriée).
    - *Application 4 : Filière Sarcomusation & Traçabilité* (traçabilité biologique post-mortem des 4 profils de dépouilles, The Iron Gate anti-prion et registre décentralisé).
-3. **Agilité Cryptographique COSE_Sign1 & Anti-Malléabilité (`DEC-AET-04`)** :
-   - Vérifier l'agilité bidirectionnelle COSE_Sign1 (RFC 9052) : support obligatoire d'ES256 (`alg: -7`, NIST P-256 pour enclaves matérielles Apple Secure Enclave, Android StrongBox et ACOSJ 92 Ko) et d'Ed25519 (`alg: -8`, RFC 8032 pour signatures logicielles et filière).
+3. **Agilité Cryptographique COSE_Sign1 & Anti-Malléabilité (`DEC-AET-04`, `DEC-AET-10`)** :
+   - Vérifier l'agilité bidirectionnelle COSE_Sign1 (RFC 9052) : support obligatoire d'ES256 (`alg: -7`, NIST P-256 pour enclaves matérielles de la station PaxStation, Apple Secure Enclave, Android StrongBox selon `DEC-AET-10`) et d'Ed25519 (`alg: -8`, RFC 8032 pour signatures logicielles et filière).
    - Contrôle strict anti-malléabilité ECDSA du $s$ bas ($s \le \lfloor n/2 \rfloor$, norme BSI TR-03111) : toute signature ES256 sous forme $s$ haut doit être rejetée sans appel.
    - Validation du `kid` (16 premiers octets du SHA-256 de la clé brute) et conformité du type MIME protégé `typ`.
-4. **Respect du Budget Silicium 92 Ko (`DEC-AET-01`, `STORAGE-001`)** : Consacrer exclusivement la JavaCard ACOSJ 92 Ko (92 160 octets). Vérifier que le cumul des partitions `EF-0` à `EF-5` ne dépasse sous aucun prétexte 86 528 octets et préserve la réserve matérielle EEPROM supérieure à 5 % (5 632 octets / 6,11 % garantis).
-5. **Défense de l'Expérience Sanctuaire (`DEC-AET-09`, `DEC-AET-15`)** : Refuser toute proposition introduisant des traceurs tiers, des publicités, une télémétrie invasive ou une friction d'authentification pour les familles en deuil.
-6. **Contrôle d'Intégrité et Règles de Procédé Impératives (P1 à P8 de `PROTOCOL.md`)** :
+4. **Respect du Budget Silicium 92 Ko (`DEC-AET-01`, `STORAGE-001`, `DEC-AET-12`)** : Consacrer exclusivement la JavaCard ACOSJ 92 Ko (92 160 octets). Vérifier que le cumul des partitions `EF-0` à `EF-5` ne dépasse sous aucun prétexte 86 528 octets et préserve la réserve matérielle EEPROM supérieure à 5 % (5 632 octets / 6,11 % garantis). Portrait WebP en 480×480 ≤ 20 480 octets (`DEC-AET-12`).
+5. **Défense de l'Expérience Sanctuaire (`DEC-AET-09`, `DEC-AET-11`)** : Refuser toute proposition introduisant des traceurs tiers, des publicités, une télémétrie invasive ou une friction d'authentification pour les familles en deuil, et respecter la discrétion tarifaire souveraine (`DEC-AET-11`).
+6. **Contrôle d'Intégrité et Règles de Procédé Impératives (P1 à P8 de `PROTOCOL.md`, `DEC-AET-14`)** :
    - Refuser tout livrable dérogeant aux règles de gouvernance :
      - *P1* : Toute branche part obligatoirement de `main` certifiée.
      - *P2* : Toute trace brute d'essai est une copie conforme non altérée ni tronquée de `mailbox/state/out.txt`.
      - *P3* : Aucun rapport ne s'auto-approuve unilatéralement (statuts stricts `pending` ou `submitted`).
      - *P4* : En-têtes YAML stricts (`status`, `reply_expected`) et SHA de commit obligatoirement renseigné.
      - *P5* : Purgation systématique de boîte FIFO par `git rm` lors du traitement.
-     - *P6* : Modifications de gouvernance sur `main` uniquement.
+     - *P6* : Branche obligatoire et validation par Claude avant toute fusion vers `main` (gel de `main`, `DEC-AET-14`).
      - *P7* : Citation textuelle exacte des arbitrages de Kudoro entre guillemets.
      - *P8* : Tout lien juridique ou normatif cité a fait l'objet d'une vérification et d'une ouverture effectives.
 7. **La Règle Zéro-Clic macOS (Règle 7 bis JemmaPass)** : S'assurer que toutes les commandes déléguées à Antigravity s'exécutent strictement via le script invariant `./scripts/runner.sh` sans jamais inventer de commandes shell arbitraires.
