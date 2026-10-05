@@ -61,7 +61,7 @@ Avant de calibrer les suites d'épreuves, le Bushi 16 consulte :
 3. **Règle F3 : Archivage Sélectif du Commit de Tête dans `qa/reports/`** :
    - Conformément à la règle de procédé F3, **seul le rapport d'exécution du commit de tête livré** (format `qa/reports/<date>-<hash>.json`, ex: `qa/reports/2026-10-05-97565a6.json`) est conservé dans le dépôt.
    - Les rapports intermédiaires ou obsolètes sont systématiquement purgés à chaque fin de cycle pour préserver la netteté et la sobriété de l'historique Git.
-   - Le rapport conservé consigne l'exécution complète des 693 tests avec horodatage, hash git et statut 100% PASS opposable.
+   - Le rapport conservé consigne l'exécution complète des 693 tests avec horodatage, hash git et statut 100% PASS (sous réserve d'homologation, référence à confirmer par un juriste).
 
 ---
 

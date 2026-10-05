@@ -102,8 +102,8 @@ APP3_USECASES = [
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 80%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [CORE-READ] Décodage partition EF02 (Profile) et EF03 (Medias) : OK</code><br>
-                        <code>> [WEBP-DEC] Décompression portrait 220x220 en mémoire graphique</code><br>
+                        <code>> [CORE-READ] Décodage partition EF-1 (Profile) et EF-2 (Portrait) : OK</code><br>
+                        <code>> [WEBP-DEC] Décompression portrait 480x480 (DEC-AET-12) en mémoire graphique</code><br>
                         <code>> [OPUS-DEC] Chargement tampon audio vocal 30 secondes : Prêt</code>
                       </div>
                     </div>"""
@@ -299,7 +299,7 @@ APP3_USECASES = [
             "validationMsg": {
                 "title": "Sanctuaire Nominal Affiché",
                 "badge": "100% Hors-Ligne • Audio Actif",
-                "detail": "Ambiance solennelle active. Portrait 220x220 rendu avec halo doré noble."
+                "detail": "Ambiance solennelle active. Portrait 480x480 (DEC-AET-12) rendu avec halo doré noble."
             },
             "errorCase": {
                 "code": "ERR_SANCTUARY_OFFLINE_CACHE",
@@ -321,7 +321,7 @@ APP3_USECASES = [
                       </div>
                       <div class="wf-device-status-box">
                         <div><strong>Ouverture de l'arche mémorielle d'Henri Dubois...</strong></div>
-                        <div class="wf-subtext">Chargement de la palette Or & Obsidienne et du portrait 220x220</div>
+                        <div class="wf-subtext">Chargement de la palette Or & Obsidienne et du portrait 480x480 (DEC-AET-12)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">Entrer dans l'Espace de Recueillement</button>
@@ -789,19 +789,19 @@ APP3_USECASES = [
             "Déchiffrement local de la structure CBOR des volontés enregistrées lors du Bon à Tirer.",
             "Affichage solennel des choix formulés :",
             "- Cérémonie laïque civile sans fleurs artificielles.",
-            "- Sépulture par sarcomusation avec restitution des amendements en forêt cinéraire.",
+            "- Sépulture par sarcomusation avec restitution des amendements en forêt cinéraire (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)).",
             "- Désignation de l'Arbre Mémoriel n° F-2408 dans le massif forestier ardennais agréé.",
-            "Génération d'une copie numérique certifiée infalsifiable opposable à toute contestation."
+            "Génération d'une copie numérique certifiée infalsifiable opposable à toute contestation (sous réserve de conformité, référence à confirmer par un juriste)."
         ],
         "postconditions": "Dernières volontés du défunt portées à la connaissance des héritiers avec valeur probante légale.",
-        "legal": "Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés).",
+        "legal": "Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "mobile",
             "deviceLabel": "Sanctuaire Mobile • Acte des Volontés Civiles Scellé",
             "formFields": [
-                {"label": "Cérémonie Souhaitée", "name": "wills_ceremony", "type": "text", "value": "Cérémonie Civile Laïque sous les Arbres", "placeholder": "Cérémonie", "badge": "Loi 1971", "required": False},
-                {"label": "Mode de Sépulture", "name": "wills_burial", "type": "text", "value": "Sarcomusation & Retour en Forêt Cinéraire", "placeholder": "Sépulture", "badge": "DEC-AET-05", "required": False},
+                {"label": "Cérémonie Souhaitée", "name": "wills_ceremony", "type": "text", "value": "Cérémonie Civile Laïque sous les Arbres", "placeholder": "Cérémonie", "badge": "Loi 1971 (référence à confirmer par un juriste)", "required": False},
+                {"label": "Mode de Sépulture", "name": "wills_burial", "type": "text", "value": "Sarcomusation & Retour en Forêt Cinéraire (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste))", "placeholder": "Sépulture", "badge": "Démonstrateur Prospectif", "required": False},
                 {"label": "Arbre Cinéraire Désigné", "name": "wills_tree", "type": "text", "value": "Chêne du Souvenir n° F-2408 (Forêt Saint-Hubert)", "placeholder": "Arbre", "badge": "Cadastré", "required": False},
                 {"label": "Horodatage Légal Scellé", "name": "wills_timestamp", "type": "text", "value": "2026-10-04T15:30:00Z (Double Émargement Certifié)", "placeholder": "Horodatage", "badge": "Inviolable", "required": False}
             ],
@@ -812,7 +812,7 @@ APP3_USECASES = [
             "validationMsg": {
                 "title": "Volontés Civiles Consultables en Lecture Seule",
                 "badge": "Valeur Probante Légale",
-                "detail": "Texte intègre conforme à la loi du 20 juillet 1971. Inaltérable in-silico."
+                "detail": "Texte intègre conforme à la loi du 20 juillet 1971 (référence à confirmer par un juriste). Inaltérable in-silico."
             },
             "errorCase": {
                 "code": "ERR_POSTMORTEM_ACCESS_DENIED",
@@ -876,8 +876,8 @@ APP3_USECASES = [
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [WILLS-RENDER] Clause 1 : Cérémonie civile laïque -> VALIDÉ</code><br>
-                        <code>> [WILLS-RENDER] Clause 2 : Sarcomusation & Forêt cinéraire -> VALIDÉ</code><br>
-                        <code>> [LAW-1971] Primauté légale de la volonté du défunt confirmée</code>
+                        <code>> [WILLS-RENDER] Clause 2 : Sarcomusation (Démonstrateur de faisabilité prospectif) & Forêt cinéraire -> VALIDÉ</code><br>
+                        <code>> [LAW-1971] Primauté légale de la volonté du défunt confirmée (référence à confirmer par un juriste)</code>
                       </div>
                     </div>"""
                 },
@@ -890,11 +890,11 @@ APP3_USECASES = [
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">Sanctuaire • Acte des Volontés</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971 (référence à confirmer par un juriste)</span>
                       </div>
                       <div class="wf-wills-card-view">
                         <div><strong>Cérémonie :</strong> Laïque solennelle sous les arbres</div>
-                        <div><strong>Sépulture :</strong> Sarcomusation & Arbre F-2408</div>
+                        <div><strong>Sépulture :</strong> Sarcomusation & Arbre F-2408 <span class="wf-badge-warning">[Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)]</span></div>
                         <div><strong>Message :</strong> « Que la nature accueille ma mémoire en paix... »</div>
                       </div>
                       <div class="wf-btn-row">
@@ -907,7 +907,7 @@ APP3_USECASES = [
     },
     {
         "id": "UC-308",
-        "title": "Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (Art. L1232-17 CDLD)",
+        "title": "Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (référence à confirmer par un juriste)",
         "cat": "Directives Médicales & Sécurité",
         "actor": "Pompes Funèbres, Crématorium & Médecin Légiste",
         "platforms": ["Natif (iOS & Android)", "Web Standard (PWA Hors-Ligne)"],
@@ -918,12 +918,12 @@ APP3_USECASES = [
             "Détection immédiate dans le compartiment médical de la mention d'un pacemaker ou défibrillateur implanté actif.",
             "Affichage d'un écran d'alerte de sécurité prioritaire rouge vif :",
             "- Mention expresse du risque d'explosion thermique.",
-            "- Référence à l'article L1232-17 §2 du CDLD imposant l'exérèse chirurgicale préalable.",
+            "- Référence à l'article L1232-17 §2 du CDLD (référence à confirmer par un juriste) imposant l'exérèse chirurgicale préalable.",
             "- Affichage du statut : soit 'Exérèse déjà certifiée par le Dr. Vaneck', soit 'ATTENTION : Exérèse non certifiée — Interdiction stricte de mise en bière'.",
             "Bouton d'appel d'urgence du praticien désigné."
         ],
         "postconditions": "Sécurité physique absolue des agents funéraires garantie, zéro risque d'explosion au four crématoire ou autoclave.",
-        "legal": "Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques).",
+        "legal": "Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "mobile",
@@ -932,7 +932,7 @@ APP3_USECASES = [
                 {"label": "Dispositif Médical Actif", "name": "medical_implant", "type": "text", "value": "Stimulateur Cardiaque Actif (Pacemaker)", "placeholder": "Implant", "badge": "ALERTE VITALE", "required": False},
                 {"label": "Risque Physique", "name": "explosion_risk", "type": "text", "value": "Explosion Thermique Majeure (> 250°C)", "placeholder": "Risque", "badge": "Danger Mortel", "required": False},
                 {"label": "Statut de Retrait Chirurgical", "name": "removal_status", "type": "text", "value": "CERTIFIÉ RETIRÉ (Dr. Marc Vaneck — INAMI 1-40912-88-004)", "placeholder": "Statut", "badge": "Exérèse OK", "required": False},
-                {"label": "Fondement Légal", "name": "legal_cdld", "type": "text", "value": "Art. L1232-17 §2 CDLD (Région Wallonne)", "placeholder": "Loi", "badge": "Imposé", "required": False}
+                {"label": "Fondement Légal", "name": "legal_cdld", "type": "text", "value": "Art. L1232-17 §2 CDLD (référence à confirmer par un juriste)", "placeholder": "Loi", "badge": "Imposé", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_view_medical_cert", "label": "Consulter le Certificat d'Exérèse Officiel", "role": "primary", "state": "idle", "icon": "🩺"},
@@ -947,7 +947,7 @@ APP3_USECASES = [
                 "code": "ERR_PACEMAKER_CRITICAL_RISK",
                 "title": "Alerte Rouge : Pacemaker Présent Non Retiré",
                 "condition": "Scan d'un corps porteur d'un stimulateur sans certificat d'exérèse renseigné.",
-                "message": "DANGER DE MORT / EXPLOSION : Un stimulateur cardiaque actif est présent dans le corps. Mise en bière et crémation formellement interdites par la loi (Art. L1232-17 §2 CDLD).",
+                "message": "DANGER DE MORT / EXPLOSION : Un stimulateur cardiaque actif est présent dans le corps. Mise en bière et crémation formellement interdites par la loi (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).",
                 "remediation": "Exiger l'intervention immédiate d'un médecin pour procéder à l'exérèse chirurgicale avant toute manipulation."
             },
             "phases": {
@@ -963,7 +963,7 @@ APP3_USECASES = [
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-alert-icon">⚠️</span>
-                        <div><strong>Contrôle Obligatoire Dispositifs Actifs (CDLD)</strong></div>
+                        <div><strong>Contrôle Obligatoire Dispositifs Actifs (référence à confirmer par un juriste)</strong></div>
                         <div class="wf-subtext">Approchez la Carte Directives pour vérification pacemaker / DAE</div>
                       </div>
                       <div class="wf-btn-row">
@@ -1004,8 +1004,8 @@ APP3_USECASES = [
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [CDLD-CHECK] Recherche visa d'exérèse sur EF02 Médical...</code><br>
-                        <code>> [CDLD-CHECK] Visa trouvé : Signé par Dr. Marc Vaneck (INAMI 1-40912-88-004)</code><br>
+                        <code>> [LEGAL-CHECK] Recherche visa d'exérèse sur partition médicale...</code><br>
+                        <code>> [LEGAL-CHECK] Visa trouvé : Signé par Dr. Marc Vaneck (INAMI 1-40912-88-004)</code><br>
                         <code>> [SAFETY] Exérèse chirurgicale validée : Zéro risque d'explosion</code>
                       </div>
                     </div>"""
@@ -1025,7 +1025,7 @@ APP3_USECASES = [
                         <span class="wf-seal-icon">🟢</span>
                         <div>
                           <strong>Exérèse Chirurgicale Certifiée par Praticien</strong>
-                          <p class="wf-subtext">Conforme Art. L1232-17 §2 CDLD • Mise en bière et cérémonies autorisées</p>
+                          <p class="wf-subtext">Conforme Art. L1232-17 §2 CDLD (référence à confirmer par un juriste) • Mise en bière et cérémonies autorisées</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -1182,7 +1182,7 @@ APP3_USECASES = [
             "Bouton d'appel d'urgence du service de transport anatomique conventionné."
         ],
         "postconditions": "Procédure de legs notifiée, respect impératif du délai des 48h garanti par l'application.",
-        "legal": "Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire.",
+        "legal": "Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "mobile",
@@ -1207,7 +1207,7 @@ APP3_USECASES = [
                 "title": "Délai Légal de 48 Heures Expiré",
                 "condition": "Signalement du décès plus de 48 heures après la survenue de la mort.",
                 "message": "DÉLAI DÉPASSÉ : Le délai légal de 48 heures pour le transfert vers le laboratoire d'anatomie est expiré. La faculté de médecine ne peut plus accepter le corps.",
-                "remediation": "Basculer immédiatement vers le protocole de sépulture par sarcomusation mémorielle ou crémation civile."
+                "remediation": "Basculer immédiatement vers le protocole de sépulture par sarcomusation mémorielle (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) ou crémation civile."
             },
             "phases": {
                 "p1": {
@@ -1426,21 +1426,21 @@ APP3_USECASES = [
     },
     {
         "id": "UC-312",
-        "title": "Modèle de Pérennité Séculaire & Coffre Étendu (Abonnement Mémoriel)",
+        "title": "Politique Mémorielle PaxFunèbre & Pérennité Séculaire (DEC-AET-11)",
         "cat": "Pérennité & Économie",
         "actor": "Famille & Réseau PaxFunèbre",
         "platforms": ["Natif (iOS & Android)", "Web Standard (PWA Hors-Ligne)"],
-        "tags": ["Perennite", "Seculaire", "Coffre", "100Ans", "LocalFirst"],
+        "tags": ["Perennite", "Seculaire", "DEC-AET-11", "PolitiqueMemorielle", "LocalFirst"],
         "preconditions": "Sanctuaire mémoriel actif, consultation de l'onglet 'Pérennité & Archivage'.",
         "flow": [
             "Affichage des garanties de conservation de la mémoire physique in-silico :",
             "- Rétention des données EEPROM certifiée 100 ans à température ambiante sur JavaCard ACOSJ.",
             "- Fonctionnement 100% autonome sans abonnement obligatoire : la carte reste lisible à perpétuité par simple contact NFC même sans connexion Internet.",
-            "Présentation optionnelle du 'Coffre Mémoriel Étendu' : dotation familiale séculaire pour rééditions physiques de cartes ou médaillons en cas de perte par un descendant.",
-            "Consultation de l'état de l'arche mémorielle familiale."
+            "- Présentation de l'accès mémoriel et de ses extensions selon la politique mémorielle Le Pax Funèbre (discrétion tarifaire absolue et dignité du deuil, DEC-AET-11).",
+            "- Dotation familiale séculaire pour rééditions physiques de cartes ou médaillons en cas de perte par un descendant."
         ],
-        "postconditions": "Pérennité physique et numérique garantie sur un siècle, indépendance totale vis-à-vis des serveurs cloud.",
-        "legal": "Directive européenne 2011/83/UE sur les droits des consommateurs (transparence et pérennité contractuelle).",
+        "postconditions": "Pérennité physique et numérique garantie sur un siècle, discrétion tarifaire absolue et indépendance totale vis-à-vis des serveurs cloud.",
+        "legal": "Directive européenne 2011/83/UE sur les droits des consommateurs (transparence et pérennité contractuelle) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "mobile",
@@ -1448,7 +1448,7 @@ APP3_USECASES = [
             "formFields": [
                 {"label": "Rétention Physique Silicium", "name": "silicon_retention", "type": "text", "value": "100 ANS GARANTIS (Cellules EEPROM ACOSJ)", "placeholder": "Rétention", "badge": "100 Ans", "required": False},
                 {"label": "Dépendance Cloud Obligatoire", "name": "cloud_dependency", "type": "text", "value": "ZÉRO DÉPENDANCE (100% Autonome Local-First)", "placeholder": "Cloud", "badge": "Souverain", "required": False},
-                {"label": "Dotation Mémorielle Séculaire", "name": "vault_endowment", "type": "text", "value": "Active (Coffre Séculaire Le Pax Funèbre Namur)", "placeholder": "Dotation", "badge": "Actif", "required": False}
+                {"label": "Politique Mémorielle PaxFunèbre", "name": "pricing_policy", "type": "text", "value": "Régie par la politique PaxFunèbre (Discrétion tarifaire, DEC-AET-11)", "placeholder": "Politique", "badge": "DEC-AET-11", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_verify_vault_cert", "label": "Consulter le Certificat de Pérennité Séculaire", "role": "primary", "state": "idle", "icon": "🏛️"},
@@ -1457,14 +1457,14 @@ APP3_USECASES = [
             "validationMsg": {
                 "title": "Sanctuaire Mémoriel Séculaire Actif",
                 "badge": "100 Ans in-silico",
-                "detail": "Autonomie totale sans abonnement obligatoire. Sauvegarde perpétuelle sur silicium."
+                "detail": "Autonomie totale sans abonnement obligatoire. Accès régi par la politique mémorielle PaxFunèbre (DEC-AET-11)."
             },
             "errorCase": {
                 "code": "ERR_VAULT_DEPOSIT_EXHAUSTED",
                 "title": "Dotation de Réédition Échue",
                 "condition": "Demande de fabrication d'un duplicata physique sans fonds de dotation séculaire actif.",
                 "message": "Information contractuelle : Le quota de réédition physique est épuisé. La carte originale reste cependant lisible à 100% sans frais.",
-                "remediation": "Recharger la dotation familiale en agence Le Pax Funèbre pour commander de nouveaux médaillons."
+                "remediation": "Consulter les modalités d'accueil mémoriel auprès de l'agence Le Pax Funèbre selon la politique mémorielle en vigueur (DEC-AET-11)."
             },
             "phases": {
                 "p1": {
@@ -1491,7 +1491,7 @@ APP3_USECASES = [
                     "tabTitle": "2. Déclenchement ⚡",
                     "phaseTitle": "Affichage des Côtés Techniques & Absence de Cloud",
                     "triggerName": "Clic sur 'Consulter le Certificat de Pérennité Séculaire'",
-                    "caption": "Mise en avant des arguments souverains : Zéro abonnement requis, zéro risque de faillite cloud.",
+                    "caption": "Mise en avant des arguments souverains : Zéro abonnement obligatoire, politique mémorielle et discrétion tarifaire PaxFunèbre (DEC-AET-11).",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
@@ -1500,7 +1500,7 @@ APP3_USECASES = [
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
                         <div class="wf-trigger-indicator">✓ Rétention EEPROM certifiée : 100 ans sans rafraîchissement</div>
-                        <div class="wf-subtext">Lisibilité NFC universelle garantie sur tout appareil futur ISO 14443</div>
+                        <div class="wf-subtext">Accueil et extensions mémorielles régis par la politique PaxFunèbre (DEC-AET-11)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary wf-pulse-btn">Édition du certificat séculaire...</button>
@@ -1521,7 +1521,7 @@ APP3_USECASES = [
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [VAULT-ENG] Validation du statut local-first : ZÉRO serveur distant requis</code><br>
-                        <code>> [VAULT-ENG] Dotation séculaire agence Namur : Enregistrée sous l'acte 0491</code><br>
+                        <code>> [DEC-AET-11] Politique mémorielle PaxFunèbre appliquée (discrétion tarifaire absolue)</code><br>
                         <code>> [CRYPTO-SEAL] Attestation de souveraineté 100 ans scellée</code>
                       </div>
                     </div>"""
@@ -1541,7 +1541,7 @@ APP3_USECASES = [
                         <span class="wf-seal-icon">🏛️</span>
                         <div>
                           <strong>Mémoire Transmissible aux Générations Futures</strong>
-                          <p class="wf-subtext">Puce physique ACOSJ inaltérable • Sanctuaire mobile universel sans abonnement</p>
+                          <p class="wf-subtext">Puce physique ACOSJ inaltérable • Accès mémoriel régi par la politique PaxFunèbre (DEC-AET-11)</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">

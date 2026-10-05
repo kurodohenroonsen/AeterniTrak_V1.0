@@ -20,7 +20,7 @@ Le Bushi 07 est le créateur de l'émotion visuelle cinématique et du moteur d'
 3. **Orchestration Cinématique du Player 4 Phases** :
    - Modélisation rigoureuse des transitions de lecture de la carte mémorielle et de l'encodage selon le standard d'interaction d'AeterniTrak (Avant Trigger, Trigger Pulse, Traitement Live APDU/Crypto, Écran de Fin & Feedback).
 4. **Optimisation Visuelle WebP Silicium 92 Ko (DEC-AET-01)** :
-   - Prétraitement et compression sans artefact des portraits d'identité en format WebP sous 20 Ko (Elementary File EF03 de la JavaCard ACOSJ 92 Ko).
+   - Prétraitement et compression sans artefact des portraits d'identité en format WebP sous 20 Ko (Elementary File EF-3 de la JavaCard ACOSJ 92 Ko).
    - Extraction chromatique locale par quantification k-means pour harmoniser la brume lumineuse d'arrière-plan avec la carnation et l'atmosphère du cliché.
 5. **Accessibilité Universelle & Respect du Deuil (`prefers-reduced-motion`)** :
    - Détection native des préférences utilisateur pour désactiver tout mouvement cinématique au profit d'un fondu croisé statique et solennel.
@@ -77,7 +77,7 @@ stateDiagram-v2
 - **Cinématique & Éléments** :
   - Jauge de progression zébrée or `.wf-progress-bar` à défilement continu (`animation: progress-stripes 0.8s linear infinite`) avec fond dégradé dynamique :
     `linear-gradient(45deg, rgba(212, 175, 55, 0.85) 25%, rgba(246, 224, 136, 0.95) 50%, rgba(212, 175, 55, 0.85) 75%)`.
-  - Console télémétrique défilante `.wf-console-log` en typographie monospace (`SF Mono`, `ui-monospace`, `Consolas`) affichant les trames APDU (`SELECT EF01`, `READ BINARY 0x07D0`, `DECODE_CBOR`, `VERIFY_COSE_SIGN1`).
+  - Console télémétrique défilante `.wf-console-log` en typographie monospace (`SF Mono`, `ui-monospace`, `Consolas`) affichant les trames APDU (`SELECT EF-1`, `READ BINARY 0x07D0`, `DECODE_CBOR`, `VERIFY_COSE_SIGN1`).
   - Exécution en arrière-plan (Web Worker ou thread dédié) pour garantir une fréquence d'affichage à 120 FPS constants sans saccade (Jank-Free).
 
 ### Phase 4 : Écran de Fin & Feedback (Ouverture du Sanctuaire ou PV Officiel)
@@ -185,5 +185,5 @@ En mode de mouvement réduit, le portrait s'affiche avec son recadrage optimal f
 - [ ] **100% Hors-Ligne & Zéro CDN** : Aucune dépendance externe (polices, shaders distants, librairies d'animation lourdes). CSS pur et Canvas 2D natif.
 - [ ] **Fluidité 120 Hz ProMotion Garantie** : Aucune interruption de trame sur écrans haute fréquence (iPhone Pro, Pixel 9, iPad Pro).
 - [ ] **Respect des Décisions Souveraines Kudoro** : Application rigoureuse de la Décision `DEC-AET-07` Option B dans les transitions d'écrans de fin (bandeau ambré en cas d'émetteur inconnu, blocage sur altération).
-- [ ] **Conformité Silicium 92 Ko Exclusive (DEC-AET-01)** : Élimination de tout reliquat 32 Ko. Calibrage des vignettes portraits pour le système de fichiers EF03 d'ACOSJ.
+- [ ] **Conformité Silicium 92 Ko Exclusive (DEC-AET-01)** : Élimination de tout reliquat 32 Ko. Calibrage des vignettes portraits pour le système de fichiers EF-3 d'ACOSJ.
 - [ ] **Accessibilité AAA & Dignité** : Respect absolu de `prefers-reduced-motion`, zéro animation agressive ou clignotante incompatible avec le recueillement familial.

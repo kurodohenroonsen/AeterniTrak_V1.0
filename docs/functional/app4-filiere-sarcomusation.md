@@ -4,26 +4,26 @@
 
 > [!NOTE]
 > **Périmètre Applicatif :**
-> L'application **Filière Sarcomusation & Traçabilité** régit l'intégralité de la chaîne biologique de biodégradation par les larves d'***Hermetia illucens*** (mouche soldat noire). Utilisée par les vétérinaires légistes, les gardes-forestiers DNF et les inspecteurs sanitaires AFSCA, elle assure la ségrégation stricte des 4 profils de dépouilles (Compagnie, Faune sauvage DNF, Élevage agricole Sanitel, Déchets d'abattoir MRS), le contrôle toxicologique LFA du pentobarbital (< 10 ppb), la stérilisation thermique obligatoire (Méthode 1 : 133°C, 3 bars, 20 min ou pasteurisation 70°C/1h), et le filtrage déterministe infranchissable **The Iron Gate (portes G0 à G9)** garantissant le respect absolu de la **règle d'or anti-prion** (feed-ban européen interdisant tout recyclage intraspécifique).
+> L'application **Filière Sarcomusation & Traçabilité** régit l'intégralité de la chaîne biologique de biodégradation par les larves d'***Hermetia illucens*** (mouche soldat noire). Utilisée par les vétérinaires légistes, les gardes-forestiers DNF et les inspecteurs sanitaires AFSCA, elle assure la ségrégation stricte des 4 profils de dépouilles (Compagnie, Faune sauvage DNF, Élevage agricole Sanitel, Déchets d'abattoir MRS), le dépistage toxicologique qualitatif LFA du pentobarbital (absence de molécule détectée, lignes C et T visibles), la stérilisation thermique obligatoire (Méthode 1 : 133°C, 3 bars, 20 min ou pasteurisation 70°C/1h), et le filtrage déterministe infranchissable **The Iron Gate (portes G0 à G9)** garantissant le respect absolu de la **règle d'or anti-prion** (feed-ban européen interdisant tout recyclage intraspécifique).
 
 ## 📌 Sommaire des Micro Use-Cases Spécifiés
 
 | ID | Titre du Cas d'Usage | Catégorie Métier | Acteur | Plateformes | Référence Normative |
 | :---: | :--- | :--- | :--- | :--- | :--- |
-| [`UC-401`](#uc-401) | [Constat Médical Initial & Aiguillage des 4 Filières Post-Décès](#uc-401) | **Constat Civil & Tri** | Vétérinaire Sanitaire & Conseiller | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux). |
-| [`UC-402`](#uc-402) | [Profil 1 — Filière Compagnie (Catégorie 1 Mémoriel) & Ségrégation](#uc-402) | **Profils Dépouilles** | Opérateur de Bioconversion | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Arrêté royal du 27 avril 2007 (règles sanitaires pour les cadavres d'animaux de compagnie). |
-| [`UC-403`](#uc-403) | [Dépistage Toxicologique LFA du Pentobarbital (Seuil 10 ppb)](#uc-403) | **Contrôle Biologique** | Vétérinaire & Opérateur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directive The Iron Gate G4 et normes de sécurité toxicologique vétérinaire AFSCA. |
-| [`UC-404`](#uc-404) | [Pasteurisation Thermique Mémorielle (70°C, 1 heure continue)](#uc-404) | **Traitement Thermique** | Opérateur de Traitement Thermique | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (normes de transformation pour sous-produits animaux). |
-| [`UC-405`](#uc-405) | [Valorisation Forestière Cinéraire sous Dérogation DEC-AET-05](#uc-405) | **Destination Finale** | Garde Forestier DNF & Famille | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon du 15 juillet 2008 (Code forestier art. 41) et Dérogation souveraine DEC-AET-05. |
-| [`UC-406`](#uc-406) | [Profil 2 — Filière Faune Sauvage (Cat 1/2 DNF) : Badge & GPS](#uc-406) | **Profils Dépouilles** | Garde Forestier DNF | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon du 15 juillet 2008 relatif au Code forestier (missions de police sylvicole des agents DNF). |
-| [`UC-407`](#uc-407) | [Dépistages PCR Épizooties en Laboratoire Agréé (PPA & CWD)](#uc-407) | **Contrôle Biologique** | Biologiste de Laboratoire Agréé (Sciensano) | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement d'exécution (UE) 2021/605 (mesures spéciales de lutte contre la peste porcine africaine). |
-| [`UC-408`](#uc-408) | [Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 minutes)](#uc-408) | **Traitement Thermique** | Opérateur d'Autoclave Haute Pression | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (annexe IV, chapitre III - Méthode 1 de transformation standard). |
-| [`UC-409`](#uc-409) | [Profil 3 — Filière Élevage / Ferme (Catégorie 2) & Boucle Sanitel](#uc-409) | **Profils Dépouilles** | Éleveur & Vétérinaire Sanitaire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Arrêté royal du 23 mars 2011 (identification et enregistrement des bovins dans le système Sanitel). |
-| [`UC-410`](#uc-410) | [Ingestion Automatisée APIs Sanitel & CERISE (Traçabilité Élevage)](#uc-410) | **Interopérabilité APIs** | Système Core & Autorité AFSCA | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données avec le système Sanitel). |
-| [`UC-411`](#uc-411) | [Profil 4 — Filière Déchets d'Abattoir (Cat 1 MRS) & Dénaturation Bleu](#uc-411) | **Profils Dépouilles** | Inspecteur AFSCA & Opérateur d'Abattoir | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 999/2001 (annexe V - spécifications des Matériels à Risque Spécifié MRS). |
-| [`UC-412`](#uc-412) | [Évaluation Algorithmique Pure par The Iron Gate (G0 à G9, Anti-Prion)](#uc-412) | **Validation Algorithmique** | The Iron Gate (Moteur Déterministe) | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Spécification AeterniTrak AET-SPEC-PRION-001 et Règlement (CE) n° 999/2001 (Feed-ban). |
-| [`UC-413`](#uc-413) | [Émission du Certificat de Lot Signé Ed25519 (AET-SPEC-CERT-001)](#uc-413) | **Cryptographie Filière** | The Iron Gate & Autorité de Conformité | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Spécification technique formelle AET-SPEC-CERT-001 et Règlement (UE) 2021/1372. |
-| [`UC-414`](#uc-414) | [Double Audit Réglementaire AFSCA / DNF Hors-Ligne](#uc-414) | **Audit & Régulateurs** | Inspecteur AFSCA & Contrôleur DNF | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (UE) 2017/625 (contrôles officiels le long de la chaîne agroalimentaire). |
+| [`UC-401`](#uc-401) | [Constat Médical Initial & Aiguillage des 4 Filières Post-Décès](#uc-401) | **Constat Civil & Tri** | Vétérinaire Sanitaire & Conseiller | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux) (référence à confirmer par un juriste). |
+| [`UC-402`](#uc-402) | [Profil 1 — Filière Compagnie (Catégorie 1 Mémoriel) & Ségrégation](#uc-402) | **Profils Dépouilles** | Opérateur de Bioconversion | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Arrêté royal du 27 avril 2007 (règles sanitaires pour les cadavres d'animaux de compagnie) (référence à confirmer par un juriste). |
+| [`UC-403`](#uc-403) | [Dépistage Toxicologique Qualitatif LFA du Pentobarbital](#uc-403) | **Contrôle Biologique** | Vétérinaire & Opérateur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directive The Iron Gate G4 et normes de sécurité toxicologique vétérinaire AFSCA (référence à confirmer par un juriste). |
+| [`UC-404`](#uc-404) | [Pasteurisation Thermique Mémorielle (70°C, 1 heure continue)](#uc-404) | **Traitement Thermique** | Opérateur de Traitement Thermique | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (normes de transformation pour sous-produits animaux) (référence à confirmer par un juriste). |
+| [`UC-405`](#uc-405) | [Valorisation Forestière Cinéraire sous Dérogation DEC-AET-05](#uc-405) | **Destination Finale** | Garde Forestier DNF & Famille | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon du 15 juillet 2008 (Code forestier art. 41) et Dérogation souveraine DEC-AET-05 (référence à confirmer par un juriste). |
+| [`UC-406`](#uc-406) | [Profil 2 — Filière Faune Sauvage (Cat 1/2 DNF) : Badge & GPS](#uc-406) | **Profils Dépouilles** | Garde Forestier DNF | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon du 15 juillet 2008 relatif au Code forestier (missions de police sylvicole des agents DNF) (référence à confirmer par un juriste). |
+| [`UC-407`](#uc-407) | [Dépistages PCR Épizooties en Laboratoire Agréé (PPA & CWD)](#uc-407) | **Contrôle Biologique** | Biologiste de Laboratoire Agréé (Sciensano) | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement d'exécution (UE) 2021/605 (mesures spéciales de lutte contre la peste porcine africaine) (référence à confirmer par un juriste). |
+| [`UC-408`](#uc-408) | [Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 minutes)](#uc-408) | **Traitement Thermique** | Opérateur d'Autoclave Haute Pression | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (annexe IV, chapitre III - Méthode 1 de transformation standard) (référence à confirmer par un juriste). |
+| [`UC-409`](#uc-409) | [Profil 3 — Filière Élevage / Ferme (Catégorie 2) & Boucle Sanitel](#uc-409) | **Profils Dépouilles** | Éleveur & Vétérinaire Sanitaire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Arrêté royal du 23 mars 2011 (identification et enregistrement des bovins dans le système Sanitel) (référence à confirmer par un juriste). |
+| [`UC-410`](#uc-410) | [Ingestion Automatisée APIs Sanitel & CERISE (Traçabilité Élevage)](#uc-410) | **Interopérabilité APIs** | Système Core & Autorité AFSCA | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données avec le système Sanitel) (référence à confirmer par un juriste). |
+| [`UC-411`](#uc-411) | [Profil 4 — Filière Déchets d'Abattoir (Cat 1 MRS) & Dénaturation Bleu](#uc-411) | **Profils Dépouilles** | Inspecteur AFSCA & Opérateur d'Abattoir | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 999/2001 (annexe V - spécifications des Matériels à Risque Spécifié MRS) (référence à confirmer par un juriste). |
+| [`UC-412`](#uc-412) | [Évaluation Algorithmique Pure par The Iron Gate (G0 à G9, Anti-Prion)](#uc-412) | **Validation Algorithmique** | The Iron Gate (Moteur Déterministe) | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Spécification AeterniTrak AET-SPEC-PRION-001 et Règlement (CE) n° 999/2001 (Feed-ban) (référence à confirmer par un juriste). |
+| [`UC-413`](#uc-413) | [Émission du Certificat de Lot Signé Ed25519 (AET-SPEC-CERT-001)](#uc-413) | **Cryptographie Filière** | The Iron Gate & Autorité de Conformité | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Spécification technique formelle AET-SPEC-CERT-001 et Règlement (UE) 2021/1372 (référence à confirmer par un juriste). |
+| [`UC-414`](#uc-414) | [Double Audit Réglementaire AFSCA / DNF Hors-Ligne](#uc-414) | **Audit & Régulateurs** | Inspecteur AFSCA & Contrôleur DNF | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (UE) 2017/625 (contrôles officiels le long de la chaîne agroalimentaire) (référence à confirmer par un juriste). |
 
 ---
 
@@ -39,7 +39,7 @@
 | **Acteur Principal** | Vétérinaire Sanitaire & Conseiller |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Aiguillage`, `Triage`, `4Filieres`, `Constat`, `Biosecurite` |
-| **Base Légale & Normative** | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux). |
+| **Base Légale & Normative** | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Triage Sanitaire Initial (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -211,7 +211,7 @@
 | **Acteur Principal** | Opérateur de Bioconversion |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Compagnie`, `Profil1`, `Cat1Memoriel`, `Segregation`, `SasIndividuel` |
-| **Base Légale & Normative** | Arrêté royal du 27 avril 2007 (règles sanitaires pour les cadavres d'animaux de compagnie). |
+| **Base Légale & Normative** | Arrêté royal du 27 avril 2007 (règles sanitaires pour les cadavres d'animaux de compagnie) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Sas Mémoriel Individuel (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -365,7 +365,7 @@
 ---
 
 <a id="uc-403"></a>
-## UC-403 : Dépistage Toxicologique LFA du Pentobarbital (Seuil 10 ppb)
+## UC-403 : Dépistage Toxicologique Qualitatif LFA du Pentobarbital
 
 ### 📋 Métadonnées Spécifiées
 
@@ -375,9 +375,9 @@
 | **Catégorie Métier** | **Contrôle Biologique** |
 | **Acteur Principal** | Vétérinaire & Opérateur |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Pentobarbital`, `LFA`, `Seuil10ppb`, `Toxicologie`, `PorteG4` |
-| **Base Légale & Normative** | Directive The Iron Gate G4 et normes de sécurité toxicologique vétérinaire AFSCA. |
-| **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Spectrophotomètre LFA Pentobarbital` |
+| **Tags Clés** | `Pentobarbital`, `LFA`, `DepistageQualitatif`, `Toxicologie`, `PorteG4` |
+| **Base Légale & Normative** | Directive The Iron Gate G4 et normes de sécurité toxicologique vétérinaire AFSCA (référence à confirmer par un juriste). |
+| **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Lecteur Optique LFA Pentobarbital` |
 
 ### 🎯 Préconditions & Postconditions
 
@@ -391,29 +391,30 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Extraction liquide rapide sur bandelette de test immunochromatographique (LFA - Lateral Flow Assay).
-2. Insertion de la bandelette dans le lecteur optique spectrophotométrique connecté au terminal.
-3. Mesure de l'intensité de la ligne test par rapport au seuil légal strict de 10 ppb (parties par milliard).
-4. Évaluation de la Porte de Fer G4 (Barrière toxicologique d'euthanasie) :
-5. - Si résultat < 10 ppb : validation formelle 'PENTO_OK' et feu vert pour valorisation forestière cinéraire.
-6. - Si résultat >= 10 ppb : REJET ABSOLU, blocage irréversible de la signature et réorientation obligatoire vers incinération Catégorie 1.
-7. Scellement cryptographique du résultat spectrométrique dans la revendication de lot.
+1. Extraction liquide rapide sur bandelette de test immunochromatographique (LFA - Lateral Flow Assay) basée sur un principe compétitif.
+2. Insertion de la bandelette dans le lecteur optique connecté au terminal.
+3. Vérification de la présence des lignes de contrôle (C) et de test (T) :
+4. - Lignes C et T visibles : RÉSULTAT NÉGATIF / CONFORME (absence de pentobarbital détecté), validation formelle 'PENTO_OK' pour la filière mémorielle.
+5. - Ligne C seule visible (ligne T absente / inhibée) : RÉSULTAT POSITIF / CONTAMINÉ (présence de pentobarbital), REJET ABSOLU, blocage irréversible de la signature et réorientation obligatoire vers incinération Catégorie 1.
+6. - Ligne C absente : test non valide, obligation de réitérer le dépistage.
+7. Évaluation de la Porte de Fer G4 (Dépistage Pentobarbital) : verrouillage déterministe.
+8. Scellement cryptographique du résultat qualitatif LFA dans la revendication de lot.
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
 | `target_toxin` | **Substance Recherchée** | `text` | `Pentobarbital Sodique (Agent Euthanasique Vétérinaire)` | Substance | `Toxique` | ⭕ Optionnel |
-| `threshold_ppb` | **Seuil Réglementaire Strict** | `text` | `10.0 ppb (Limite Maximale Tolérée - Porte G4)` | Seuil | `10 ppb` | ⭕ Optionnel |
-| `measured_ppb` | **Concentration Mesurée** | `text` | `1.8 ppb (NÉGATIF — Strictement inférieur à 10 ppb)` | Mesure | `Négatif OK` | ⭕ Optionnel |
-| `gate_g4_status` | **Verdict Porte G4** | `text` | `VALIDÉ (Feu vert pour pasteurisation et forêt)` | Porte G4 | `Porte G4 OK` | ⭕ Optionnel |
+| `screening_type` | **Principe de Dépistage** | `text` | `Test immunochromatographique compétitif LFA` | Principe | `Compétitif` | ⭕ Optionnel |
+| `measured_lines` | **Lecture Optique des Lignes** | `text` | `Lignes C et T visibles (NÉGATIF — Absence de molécule détectée)` | Résultat | `C+T Conforme` | ⭕ Optionnel |
+| `gate_g4_status` | **Verdict Porte G4** | `text` | `VALIDÉ (Absence de pentobarbital, feu vert pour pasteurisation et forêt)` | Porte G4 | `Porte G4 OK` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
 | Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
 | :--- | :--- | :--- | :--- | :---: |
-| `btn_run_lfa_scan` | **Lancer la Lecture Spectrométrique LFA** | `primary` | `idle` | 🔬 |
-| `btn_simulate_pento_fail` | **Simuler Rejet Pentobarbital (> 10 ppb)** | `secondary` | `idle` | ⚠️ |
+| `btn_run_lfa_scan` | **Lancer la Lecture Optique LFA** | `primary` | `idle` | 🔬 |
+| `btn_simulate_pento_fail` | **Simuler Rejet Pentobarbital (Ligne C seule)** | `secondary` | `idle` | ⚠️ |
 
 ### ✅ Critères de Succès & Validation Normative
 
@@ -421,36 +422,36 @@
 
 > **Titre :** Test LFA Pentobarbital Conforme
 >
-> **Badge de Conformité :** `Porte G4 Franchie (< 10 ppb)`
+> **Badge de Conformité :** `Porte G4 Franchie (Lignes C+T)`
 >
-> **Détail Opérationnel :** Taux mesuré 1.8 ppb. Zéro risque toxicologique pour les écosystèmes forestiers.
+> **Détail Opérationnel :** Lignes C et T visibles (principe compétitif). Absence de molécule de pentobarbital. Zéro risque toxicologique pour les écosystèmes forestiers.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
 | Propriété d'Anomalie | Description Technique |
 | :--- | :--- |
 | **Code d'Erreur Normatif** | `ERR_PENTO_DETECTED` |
-| **Intitulé de l'Incident** | **Présence de Pentobarbital Détectée (>= 10 ppb)** |
-| **Condition Déclenchante** | Bandelette LFA positive avec concentration mesurée supérieure ou égale à 10 ppb. |
-| **Message d'Erreur UI** | *« REJET TOXICOLOGIQUE MAJEUR (Porte G4) : Pentobarbital détecté à 14.8 ppb (> 10 ppb). La dépouille contient des résidus d'euthanasique mortels pour la faune sylvicole. Valorisation forestière formellement interdite. »* |
+| **Intitulé de l'Incident** | **Présence de Pentobarbital Détectée (Ligne C Seule)** |
+| **Condition Déclenchante** | Bandelette LFA positive : ligne C seule visible, ligne test T inhibée par la molécule de pentobarbital. |
+| **Message d'Erreur UI** | *« REJET TOXICOLOGIQUE MAJEUR (Porte G4) : Bandelette LFA positive (Ligne C seule visible, ligne T absente/inhibée). Présence de résidus d'euthanasique mortels pour la faune sylvicole. Valorisation forestière formellement interdite. »* |
 | **Action Corrective Requise** | **Aiguiller immédiatement le lot vers l'incinération thermique industrielle de Catégorie 1.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
-*Canvas & Résolution Cible :* **Terminal Terrain DNF / AFSCA • Spectrophotomètre LFA Pentobarbital**
+*Canvas & Résolution Cible :* **Terminal Terrain DNF / AFSCA • Lecteur Optique LFA Pentobarbital**
 
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | **Initial / Avant Trigger** | Bandelette LFA Insérée dans le Lecteur Optique | *En attente utilisateur* | Bandelette de test insérée. Le spectrophotomètre attend l'ordre de mesure. |
-| **2** | **Déclenchement ⚡** | Scan Optique par Spectrophotométrie de Fluorescence | `Clic sur 'Lancer la Lecture' et acquisition du pic de réflectance` | Mesure spectrophotométrique de la ligne test par rapport à la ligne de contrôle. |
-| **3** | **Traitement ⚙️** | Vérification Porte G4 : Taux Mesuré 1.8 ppb (< 10 ppb) | `Progression : 92%` | Validation mathématique de la conformité par rapport au seuil critique de 10 ppb. |
+| **1** | **Initial / Avant Trigger** | Bandelette LFA Insérée dans le Lecteur Optique | *En attente utilisateur* | Bandelette de test insérée. Le lecteur attend l'ordre de numérisation optique. |
+| **2** | **Déclenchement ⚡** | Acquisition Optique de la Bandelette LFA | `Clic sur 'Lancer la Lecture' et capture haute résolution de la bandelette` | Acquisition optique et détection de contraste des lignes Contrôle (C) et Test (T). |
+| **3** | **Traitement ⚙️** | Vérification Porte G4 : Lignes C et T Validées (Négatif) | `Progression : 92%` | Validation du principe compétitif : présence de la ligne T confirmant l'absence de pentobarbital. |
 | **4** | **Scellement & Fin ✨** | Visa Sanitaire Toxicologique Délivré | `Statut : success` | Feu vert accordé pour la pasteurisation thermique et le retour en forêt mémorielle. |
 
 <details>
 <summary>🔍 Consulter les fragments HTML Wireframe de UC-403 (4 États Dépliables)</summary>
 
 #### Phase 1 - Avant Trigger : Bandelette LFA Insérée dans le Lecteur Optique
-*Bandelette de test insérée. Le spectrophotomètre attend l'ordre de mesure.*
+*Bandelette de test insérée. Le lecteur attend l'ordre de numérisation optique.*
 
 ```html
 <div class="wf-screen-box">
@@ -461,35 +462,35 @@
                       <div class="wf-device-status-box">
                         <span class="wf-test-strip-icon">🧪</span>
                         <div><strong>Bandelette LFA Pentobarbital prête pour numérisation</strong></div>
-                        <div class="wf-subtext">Seuil d'exclusion légal : 10.0 ppb • Prélèvement DEP-2026-BEL-99201</div>
+                        <div class="wf-subtext">Principe compétitif : C+T visibles = Négatif / C seule = Positif • Prélèvement DEP-2026-BEL-99201</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">🔬 Lancer la Lecture Spectrométrique LFA</button>
+                        <button class="wf-btn wf-btn-primary">🔬 Lancer la Lecture Optique LFA</button>
                       </div>
                     </div>
 ```
 
-#### Phase 2 - Déclenchement : Scan Optique par Spectrophotométrie de Fluorescence
-*Mesure spectrophotométrique de la ligne test par rapport à la ligne de contrôle.*
+#### Phase 2 - Déclenchement : Acquisition Optique de la Bandelette LFA
+*Acquisition optique et détection de contraste des lignes Contrôle (C) et Test (T).*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">AeterniTrak • Scan Spectrométrique</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Mesure Optique Active</span>
+                        <span class="wf-app-title">AeterniTrak • Scan Optique LFA</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Numérisation Active</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
-                        <div class="wf-trigger-indicator">✓ Réflectance LFA mesurée à 525 nm</div>
-                        <div class="wf-subtext">Quantification de la liaison antigène-anticorps du pentobarbital</div>
+                        <div class="wf-trigger-indicator">✓ Bandelette analysée par capteur optique haute résolution</div>
+                        <div class="wf-subtext">Vérification de la présence simultanée des lignes C (contrôle) et T (test)</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul de la concentration en ppb...</button>
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Évaluation de la conformité LFA...</button>
                       </div>
                     </div>
 ```
 
-#### Phase 3 - Traitement : Vérification Porte G4 : Taux Mesuré 1.8 ppb (< 10 ppb)
-*Validation mathématique de la conformité par rapport au seuil critique de 10 ppb.*
+#### Phase 3 - Traitement : Vérification Porte G4 : Lignes C et T Validées (Négatif)
+*Validation du principe compétitif : présence de la ligne T confirmant l'absence de pentobarbital.*
 
 ```html
 <div class="wf-screen-box">
@@ -499,9 +500,9 @@
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [LFA-QUANT] Signal ligne test : Faible (Taux calculé : 1.82 ppb)</code><br>
-                        <code>> [IRON-GATE-G4] Test d'inégalité : 1.82 ppb < 10.00 ppb -> VRAI</code><br>
-                        <code>> [GATE-VERDICT] Porte G4 franchie avec succès : PENTO_NEGATIVE_OK</code>
+                        <code>> [LFA-SCAN] Lignes détectées : Contrôle C (Visible) + Test T (Visible)</code><br>
+                        <code>> [IRON-GATE-G4] Principe compétitif : Absence de molécule détectée -> PENTO_NEGATIVE_OK</code><br>
+                        <code>> [GATE-VERDICT] Porte G4 franchie avec succès : PENTO_OK</code>
                       </div>
                     </div>
 ```
@@ -513,13 +514,13 @@
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">AeterniTrak • Visa Toxicologique</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Porte G4 Validée (1.8 ppb)</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Porte G4 Validée (Lignes C+T)</span>
                       </div>
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">🌿</span>
                         <div>
                           <strong>Absence de Résidus Euthanasiques Certifiée</strong>
-                          <p class="wf-subtext">Pentobarbital < 10 ppb • Autorisation de traitement thermique mémoriel</p>
+                          <p class="wf-subtext">Pentobarbital absent (C+T visibles) • Autorisation de traitement thermique mémoriel</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -543,8 +544,8 @@
 | **Catégorie Métier** | **Traitement Thermique** |
 | **Acteur Principal** | Opérateur de Traitement Thermique |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Pasteurisation`, `70Degres`, `1Heure`, `Thermocouple`, `PorteG6` |
-| **Base Légale & Normative** | Règlement (CE) n° 142/2011 (normes de transformation pour sous-produits animaux). |
+| **Tags Clés** | `Pasteurisation`, `70Degres`, `1Heure`, `Thermocouple`, `PorteG9` |
+| **Base Légale & Normative** | Règlement (CE) n° 142/2011 (normes de transformation pour sous-produits animaux) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Moniteur Thermique de Pasteurisation (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -564,7 +565,7 @@
 3. Montée en température progressive jusqu'à atteindre au moins 70,0°C au point le plus froid.
 4. Maintien continu et ininterrompu du palier thermique à 70,0°C pendant au moins 60 minutes.
 5. Acquisition continue des courbes de température (1 mesure par seconde) par l'automate homologué.
-6. Vérification de la Porte de Fer G6 (Traitement thermique suffisant pour pathogènes végétatifs).
+6. Vérification de la Porte de Fer G9 (Traitement Sanitaire Requis & Preuve : pasteurisation mémorielle 70°C/1h sous dérogation DEC-AET-05).
 
 ### 📝 Spécification des Champs de Saisie & Données
 
@@ -573,7 +574,7 @@
 | `temp_core` | **Température Cœur Actuelle** | `number` | `70.8°C (Seuil mini réglementaire : 70.0°C)` | Température | `70.8°C` | ⭕ Optionnel |
 | `hold_duration` | **Durée Maintien Continu** | `text` | `60 min 00 s (Palier continu sans interruption)` | Durée | `1h Validée` | ⭕ Optionnel |
 | `gauge_pressure` | **Pression Manométrique** | `text` | `Pression Atmosphérique Normale (Pasteurisation)` | Pression | `1.0 bar` | ⭕ Optionnel |
-| `gate_g6_status` | **Verdict Porte G6** | `text` | `VALIDÉ (Éradication des pathogènes végétatifs)` | Porte G6 | `Porte G6 OK` | ⭕ Optionnel |
+| `gate_g9_status` | **Verdict Porte G9** | `text` | `VALIDÉ (Pasteurisation conforme, éradication des pathogènes végétatifs)` | Porte G9 | `Porte G9 OK` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -590,7 +591,7 @@
 >
 > **Badge de Conformité :** `70°C / 1h Continue`
 >
-> **Détail Opérationnel :** Salmonella et Enterobacteriaceae éradiquées. Courbe thermique validée par la Porte G6.
+> **Détail Opérationnel :** Salmonella et Enterobacteriaceae éradiquées. Courbe thermique validée par la Porte G9.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
@@ -686,7 +687,7 @@
                         <span class="wf-seal-icon">🛡️</span>
                         <div>
                           <strong>Éradication des Pathogènes Végétatifs Certifiée</strong>
-                          <p class="wf-subtext">Porte G6 franchie • Matière saine prête pour retour forestier DEC-AET-05</p>
+                          <p class="wf-subtext">Porte G9 franchie • Matière saine prête pour retour forestier DEC-AET-05</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -711,7 +712,7 @@
 | **Acteur Principal** | Garde Forestier DNF & Famille |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `ForetCineraire`, `DEC-AET-05`, `ArbreDuSouvenir`, `Amendement`, `DNF` |
-| **Base Légale & Normative** | Décret wallon du 15 juillet 2008 (Code forestier art. 41) et Dérogation souveraine DEC-AET-05. |
+| **Base Légale & Normative** | Décret wallon du 15 juillet 2008 (Code forestier art. 41) et Dérogation souveraine DEC-AET-05 (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Cadastre Forestier Cinéraire (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -876,8 +877,8 @@
 | **Catégorie Métier** | **Profils Dépouilles** |
 | **Acteur Principal** | Garde Forestier DNF |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `FauneSauvage`, `DNF`, `BadgeAgent`, `GPS-RTK`, `Sanglier`, `Cerf` |
-| **Base Légale & Normative** | Décret wallon du 15 juillet 2008 relatif au Code forestier (missions de police sylvicole des agents DNF). |
+| **Tags Clés** | `FauneSauvage`, `DNF`, `BadgeAgent`, `GPS-RTK`, `Sanglier`, `Cerf`, `ControleAmont`, `DEC-AET-13` |
+| **Base Légale & Normative** | Décret wallon du 15 juillet 2008 relatif au Code forestier (missions de police sylvicole des agents DNF) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Module Agent DNF Faune Sauvage (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -893,7 +894,7 @@
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
 1. Arrivée de l'agent DNF sur le lieu de signalement de la carcasse.
-2. Authentification de l'agent par scan de son badge NFC professionnel sécurisé.
+2. Authentification de l'agent par scan de son badge NFC professionnel sécurisé (contrôle amont déclaratif, DEC-AET-13).
 3. Relevé automatique des coordonnées GPS satellitaires avec précision submétrique (< 1 mètre).
 4. Identification de l'espèce sauvage et encodage du TaxID NCBI (ex: 9823 pour Sus scrofa).
 5. Conditionnement en sac de confinement hermétique avec scellé numéroté DNF inviolable.
@@ -1042,8 +1043,8 @@
 | **Catégorie Métier** | **Contrôle Biologique** |
 | **Acteur Principal** | Biologiste de Laboratoire Agréé (Sciensano) |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `PCR`, `PPA`, `CWD`, `Prions`, `Epizootie`, `PorteG5` |
-| **Base Légale & Normative** | Règlement d'exécution (UE) 2021/605 (mesures spéciales de lutte contre la peste porcine africaine). |
+| **Tags Clés** | `PCR`, `PPA`, `CWD`, `Prions`, `Epizootie`, `ControleAmont`, `DEC-AET-13` |
+| **Base Légale & Normative** | Règlement d'exécution (UE) 2021/605 (mesures spéciales de lutte contre la peste porcine africaine) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Console de Laboratoire PCR (Sciensano)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1060,7 +1061,7 @@
 
 1. Analyse moléculaire par PCR en temps réel pour le virus de la Peste Porcine Africaine (PPA).
 2. Test Western Blot / ELISA pour le dépistage de la Maladie du Dépérissement Chronique des Cervidés (CWD - prions).
-3. Évaluation de la Porte de Fer G5 (Barrière d'épizootie virologique et prions faune sauvage) :
+3. Évaluation du contrôle sanitaire amont déclaratif (DEC-AET-13, Sciensano) :
 4. - Si résultat positif à une épizootie majeure : alerte d'urgence AFSCA, confinement du massif forestier et incinération C1 immédiate.
 5. - Si résultat strictement négatif : émission du visa sanitaire d'admission à la transformation.
 6. Scellement cryptographique du rapport de laboratoire dans le dossier du lot.
@@ -1072,7 +1073,7 @@
 | `pcr_asf_result` | **Test PCR PPA (Peste Porcine)** | `text` | `NÉGATIF (Ct indéterminé > 40 cycles)` | PPA | `PPA Négatif` | ⭕ Optionnel |
 | `cwd_prion_result` | **Test Prions CWD (Cervidés)** | `text` | `NÉGATIF (Western Blot sans bande PrPSc)` | CWD | `CWD Négatif` | ⭕ Optionnel |
 | `lab_certifier` | **Laboratoire Certificateur** | `text` | `Sciensano Laboratoire de Référence Nationale` | Laboratoire | `Agrément AFSCA` | ⭕ Optionnel |
-| `gate_g5_status` | **Verdict Porte G5** | `text` | `VALIDÉ (Feu vert sanitaire pour stérilisation)` | Porte G5 | `Porte G5 OK` | ⭕ Optionnel |
+| `upstream_check_status` | **Contrôle Amont Sanitaire** | `text` | `VALIDÉ (Contrôle déclaratif DEC-AET-13 conforme)` | Contrôle Amont | `DEC-AET-13 OK` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -1087,7 +1088,7 @@
 
 > **Titre :** Visa Sanitaire Laboratoire Validé
 >
-> **Badge de Conformité :** `Porte G5 Franchie (PPA/CWD Négatif)`
+> **Badge de Conformité :** `Contrôle Amont Validé (DEC-AET-13)`
 >
 > **Détail Opérationnel :** Aucun agent d'épizootie ni prion détecté. Admission pour stérilisation Méthode 1.
 
@@ -1098,7 +1099,7 @@
 | **Code d'Erreur Normatif** | `ERR_EPIZOOTIC_PCR_POSITIVE` |
 | **Intitulé de l'Incident** | **Alerte Épizootie Majeure : PCR PPA Positive** |
 | **Condition Déclenchante** | Amplification virale PPA détectée avec Ct < 35 ou détection de prions CWD. |
-| **Message d'Erreur UI** | *« ALERTE NATIONALE DE BIOSÉCURITÉ (Porte G5) : Virus PPA ou prion CWD détecté dans la carcasse. Risque épidémique majeur. »* |
+| **Message d'Erreur UI** | *« ALERTE NATIONALE DE BIOSÉCURITÉ (Contrôle Amont DEC-AET-13) : Virus PPA ou prion CWD détecté dans la carcasse. Risque épidémique majeur. »* |
 | **Action Corrective Requise** | **Déclencher le plan d'urgence sanitaire AFSCA, confiner le massif forestier et incinérer immédiatement la carcasse en Catégorie 1.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
@@ -1109,7 +1110,7 @@
 | :---: | :--- | :--- | :--- | :--- |
 | **1** | **Initial / Avant Trigger** | Échantillons d'Organes Prêts dans le Thermocycleur | *En attente utilisateur* | Échantillon de rate et ganglions prêt. Le cycle PCR attend d'être analysé. |
 | **2** | **Déclenchement ⚡** | Fin de l'Amplification & Détection de Fluorescence | `Lecture des courbes d'amplification temps réel (40 cycles)` | Constat de l'absence totale de courbe de fluorescence pour le virus PPA. |
-| **3** | **Traitement ⚙️** | Évaluation Porte G5 & Scellement Cryptographique | `Progression : 95%` | Injection du certificat d'analyse officielle dans le contrat The Iron Gate. |
+| **3** | **Traitement ⚙️** | Contrôle Amont Déclaratif (DEC-AET-13) & Scellement Cryptographique | `Progression : 95%` | Injection du certificat d'analyse officielle dans le dossier amont du lot. |
 | **4** | **Scellement & Fin ✨** | Visa Sanitaire d'Admission Délivré | `Statut : success` | Le gibier sauvage peut être admis en filière de traitement thermique haute sécurité. |
 
 <details>
@@ -1154,20 +1155,20 @@
                     </div>
 ```
 
-#### Phase 3 - Traitement : Évaluation Porte G5 & Scellement Cryptographique
-*Injection du certificat d'analyse officielle dans le contrat The Iron Gate.*
+#### Phase 3 - Traitement : Contrôle Amont Déclaratif (DEC-AET-13) & Scellement Cryptographique
+*Injection du certificat d'analyse officielle dans le dossier amont du lot.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sciensano • Contrôle Porte G5</span>
-                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle G5 (95%)</span>
+                        <span class="wf-app-title">Sciensano • Contrôle Amont DEC-AET-13</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Amont (95%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [LAB-PCR] Virus PPA : NÉGATIF (Ct > 40)</code><br>
                         <code>> [LAB-PRION] Prions CWD : NÉGATIF (Western Blot 0 bande)</code><br>
-                        <code>> [IRON-GATE-G5] Barrière d'épizootie franchie : ADMISSIBLE</code>
+                        <code>> [UPSTREAM-CHECK] Barrière d'épizootie amont (DEC-AET-13) : ADMISSIBLE</code>
                       </div>
                     </div>
 ```
@@ -1209,8 +1210,8 @@
 | **Catégorie Métier** | **Traitement Thermique** |
 | **Acteur Principal** | Opérateur d'Autoclave Haute Pression |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Methode1`, `133Degres`, `3Bars`, `20Minutes`, `Prions`, `PorteG6` |
-| **Base Légale & Normative** | Règlement (CE) n° 142/2011 (annexe IV, chapitre III - Méthode 1 de transformation standard). |
+| **Tags Clés** | `Methode1`, `133Degres`, `3Bars`, `20Minutes`, `Prions`, `PorteG9` |
+| **Base Légale & Normative** | Règlement (CE) n° 142/2011 (annexe IV, chapitre III - Méthode 1 de transformation standard) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Moniteur Autoclave Méthode 1 (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1230,7 +1231,7 @@
 3. Chauffe à une température minimale au cœur de la matière de 133,0°C sans interruption.
 4. Maintien sous pression manométrique d'au moins 3,0 bars pendant au moins 20 minutes consécutives.
 5. Acquisition horodatée et scellée des courbes Pression-Température-Temps par automate homologué.
-6. Validation de la Porte de Fer G6 (Standard européen de référence anti-prion).
+6. Validation de la Porte de Fer G9 (Traitement Sanitaire Requis & Preuve : Méthode 1 standard européen 133°C, 3 bars, 20 min).
 
 ### 📝 Spécification des Champs de Saisie & Données
 
@@ -1256,7 +1257,7 @@
 >
 > **Badge de Conformité :** `133°C / 3 bars / 20 min OK`
 >
-> **Détail Opérationnel :** Prions et agents conventionnels irréversiblement inactivés. Porte G6 satisfaite.
+> **Détail Opérationnel :** Prions et agents conventionnels irréversiblement inactivés. Porte G9 satisfaite.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
@@ -1334,7 +1335,7 @@
                       <div class="wf-console-log">
                         <code>> [AUTOCLAVE] Température cœur : 133.5°C (Tolérance : +0.5°C)</code><br>
                         <code>> [AUTOCLAVE] Pression vapeur saturée : 3.22 bars manométriques</code><br>
-                        <code>> [IRON-GATE-G6] Critères Méthode 1 européenne strictement respectés</code>
+                        <code>> [IRON-GATE-G9] Critères Méthode 1 européenne strictement respectés</code>
                       </div>
                     </div>
 ```
@@ -1352,7 +1353,7 @@
                         <span class="wf-seal-icon">♨️</span>
                         <div>
                           <strong>Inactivation Irréversible des Prions Validée</strong>
-                          <p class="wf-subtext">133°C / 3 bars / 20 min accomplis • Porte G6 validée avec succès</p>
+                          <p class="wf-subtext">133°C / 3 bars / 20 min accomplis • Porte G9 validée avec succès</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -1377,7 +1378,7 @@
 | **Acteur Principal** | Éleveur & Vétérinaire Sanitaire |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Elevage`, `Ferme`, `Sanitel`, `Boucle`, `Cat2`, `Bovine` |
-| **Base Légale & Normative** | Arrêté royal du 23 mars 2011 (identification et enregistrement des bovins dans le système Sanitel). |
+| **Base Légale & Normative** | Arrêté royal du 23 mars 2011 (identification et enregistrement des bovins dans le système Sanitel) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Module Sanitel Élevage (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1542,8 +1543,8 @@
 | **Catégorie Métier** | **Interopérabilité APIs** |
 | **Acteur Principal** | Système Core & Autorité AFSCA |
 | **Plateformes Cibles** | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `APIs`, `Sanitel`, `CERISE`, `ARSIA`, `Tracabilite` |
-| **Base Légale & Normative** | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données avec le système Sanitel). |
+| **Tags Clés** | `APIs`, `Sanitel`, `CERISE`, `ARSIA`, `Tracabilite`, `ControleAmont`, `DEC-AET-13` |
+| **Base Légale & Normative** | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données avec le système Sanitel) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Passerelle d'Interopérabilité Sanitel/CERISE` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1558,7 +1559,7 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Appel sécurisé en temps réel aux APIs du guichet agricole wallon CERISE et du registre fédéral Sanitel (AFSCA).
+1. Appel sécurisé en temps réel aux APIs du guichet agricole wallon CERISE et du registre fédéral Sanitel (AFSCA) pour vérification déclarative amont (DEC-AET-13).
 2. Récupération de la fiche complète : race, date de naissance, historique des déplacements d'exploitation en exploitation.
 3. Contrôle automatique du registre des traitements médicamenteux vétérinaires et respect des temps d'attente.
 4. Interrogation des bases sanitaires régionales ARSIA (Wallonie) et DGZ (Flandre) pour confirmer l'absence de mise sous séquestre.
@@ -1708,8 +1709,8 @@
 | **Catégorie Métier** | **Profils Dépouilles** |
 | **Acteur Principal** | Inspecteur AFSCA & Opérateur d'Abattoir |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Abattoir`, `MRS`, `BleuDeMethylene`, `Cat1`, `Denaturation` |
-| **Base Légale & Normative** | Règlement (CE) n° 999/2001 (annexe V - spécifications des Matériels à Risque Spécifié MRS). |
+| **Tags Clés** | `Abattoir`, `MRS`, `BleuDeMethylene`, `Cat1`, `Denaturation`, `ControleAmont`, `DEC-AET-13` |
+| **Base Légale & Normative** | Règlement (CE) n° 999/2001 (annexe V - spécifications des Matériels à Risque Spécifié MRS) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Contrôleur MRS & Dénaturation Bleu (IP68)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1727,7 +1728,7 @@
 1. Ségrégation immédiate des Matériels à Risque Spécifié (MRS) : crâne, encéphale, yeux et moelle épinière des ruminants.
 2. Classification obligatoire en Sous-Produits de Catégorie 1 (risque maximal de transmission d'EST).
 3. Dénaturation chimique par pulvérisation d'une solution de bleu de méthylène à 0,5 % pour marquer visuellement la chair.
-4. Émission du Document Commercial (Commercial Document) officiel AFSCA avec code QR sécurisé.
+4. Émission du Document Commercial (Commercial Document) officiel AFSCA avec code QR sécurisé (contrôle amont déclaratif, DEC-AET-13).
 5. Stérilisation Méthode 1 préalable obligatoire avant expédition en cimenterie ou réacteur biodiesel.
 
 ### 📝 Spécification des Champs de Saisie & Données
@@ -1875,7 +1876,7 @@
 | **Acteur Principal** | The Iron Gate (Moteur Déterministe) |
 | **Plateformes Cibles** | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `IronGate`, `AntiPrion`, `G0-G9`, `FeedBan`, `Whitelist` |
-| **Base Légale & Normative** | Spécification AeterniTrak AET-SPEC-PRION-001 et Règlement (CE) n° 999/2001 (Feed-ban). |
+| **Base Légale & Normative** | Spécification AeterniTrak AET-SPEC-PRION-001 et Règlement (CE) n° 999/2001 (Feed-ban) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Oracle Algorithmique The Iron Gate (G0-G9)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1890,23 +1891,28 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. G0 à G3 : Contrôles de structure CBOR, résolution taxonomique stricte dans le snapshot officiel et rejet absolu des restes humains.
-2. G4 : Barrière toxicologique d'euthanasie (rejet si LFA positif ou non testé en Cat 1 mémoriel).
-3. G5 : Barrière d'épizootie virologique (rejet si PCR non validée en faune sauvage).
-4. G6 : Contrôle du traitement thermique (Méthode 1 pour Cat 1/2, pasteurisation 70°C/1h pour mémoriel).
-5. G7 : LA RÈGLE D'OR ANTI-PRION : interdiction mathématique absolue de tout recyclage intra-espèce (interdiction de nourrir une espèce avec ses propres protéines).
-6. G8 & G9 : Contrôle de compatibilité des destinations finales et vérification de la colonie de bioconversion (Hermetia illucens TaxID 343691).
+1. G0 : Destination & Spécification des cibles (whitelist d'usages autorisés, cibles obligatoires si alimentation).
+2. G1 : Taxonomie & Lignage (résolution stricte TaxID NCBI dans le snapshot officiel, default-deny, interdiction rang > espèce).
+3. G2 : Protection Restes Humains (rejet absolu en filière générale ; en mémoire forestière : démonstrateur de faisabilité prospectif — option non autorisée par le droit positif actuel sous DEC-AET-15).
+4. G3 : Catégories & Substrats (Catégories 1, 2, 3, material classes, dérogation souveraine DEC-AET-05 pour animaux de compagnie).
+5. G4 : Dépistage Pentobarbital (Animaux de compagnie : test immunochromatographique qualitatif LFA négatif obligatoire [lignes C et T visibles] ; rejet si positif ou non testé).
+6. G5 : Feed-Ban Source Ruminant (interdiction stricte de protéines de ruminants en alimentation).
+7. G6 : Feed-Ban Cible Ruminant (interdiction stricte de nourrir des ruminants avec des PAT).
+8. G7 : LA RÈGLE D'OR ANTI-PRION / ANTI-CANNIBALISME : interdiction mathématique absolue de nourrir une espèce avec ses propres protéines (FEED_BAN_INTRA_SPECIES_VIOLATION).
+9. G8 : Feed-Ban Groupes & Espèces (vérification des filières intra-groupe et destinations positives).
+10. G9 : Traitement Sanitaire Requis & Preuve (Méthode 1 [133°C, 3 bar, 20 min] pour Cat 1/2 ou pasteurisation [70°C, 60 min] sous dérogation mémorielle DEC-AET-05, avec condensat SHA-256 de preuve).
+11. Nota : Les contrôles amont (PCR Sciensano, boucles Sanitel, documents commerciaux MRS abattoir) sont vérifiés en amont dans la chaîne documentaire déclarative (DEC-AET-13).
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `gates_g0_g3` | **Portes G0-G3 (Structure & Taxonomie)** | `text` | `100% VALIDE (Format CBOR OK, Zéro reste humain, TaxID résolu)` | G0-G3 | `G0-G3 OK` | ⭕ Optionnel |
-| `gate_g4` | **Porte G4 (Toxicologie Pentobarbital)** | `text` | `VALIDE (LFA négatif < 10 ppb)` | G4 | `G4 OK` | ⭕ Optionnel |
-| `gate_g5` | **Porte G5 (Épizooties PCR PPA/CWD)** | `text` | `VALIDE (Analyses négatives Sciensano)` | G5 | `G5 OK` | ⭕ Optionnel |
-| `gate_g6` | **Porte G6 (Traitement Thermique)** | `text` | `VALIDE (Pasteurisation 70°C/1h ou Méthode 1)` | G6 | `G6 OK` | ⭕ Optionnel |
+| `gates_g0_g3` | **Portes G0-G3 (Destination, Taxon, Humain, Substrat)** | `text` | `100% VALIDE (Format CBOR, TaxID résolu, Zéro humain, Substrat conforme)` | G0-G3 | `G0-G3 OK` | ⭕ Optionnel |
+| `gate_g4` | **Porte G4 (Dépistage Pentobarbital)** | `text` | `VALIDE (LFA négatif qualitatif, lignes C et T visibles)` | G4 | `G4 OK` | ⭕ Optionnel |
+| `gates_g5_g6` | **Portes G5-G6 (Feed-Ban Ruminants Source & Cible)** | `text` | `VALIDE (Zéro ruminant en source ni en cible alimentaire)` | G5-G6 | `G5-G6 OK` | ⭕ Optionnel |
 | `gate_g7` | **Porte G7 (RÈGLE D'OR ANTI-PRION)** | `text` | `ZÉRO RECYCLAGE INTRA-ESPÈCE (G7 Mathématiquement Satisfaite)` | G7 | `ANTI-PRION OK` | ⭕ Optionnel |
-| `gates_g8_g9` | **Portes G8-G9 (Destination & Insecte)** | `text` | `VALIDE (Hermetia illucens TaxID 343691, Destination compatible)` | G8-G9 | `G8-G9 OK` | ⭕ Optionnel |
+| `gate_g8` | **Porte G8 (Feed-Ban Groupes & Espèces)** | `text` | `VALIDE (Filières intra-groupe autorisées respectées)` | G8 | `G8 OK` | ⭕ Optionnel |
+| `gate_g9` | **Porte G9 (Traitement Sanitaire & Preuve)** | `text` | `VALIDE (Méthode 1 ou Pasteurisation 70°C/1h, Preuve SHA-256)` | G9 | `G9 OK` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -2000,8 +2006,8 @@
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [G0-G3] Format CBOR déterministe, zéro humain, TaxID résolu : OK</code><br>
-                        <code>> [G4-G6] LFA < 10 ppb, PCR PPA négative, Pasteurisation 70°C/1h : OK</code><br>
-                        <code>> [G7-G9] Pas de recyclage intra-espèce, H. illucens conforme : OK</code>
+                        <code>> [G4-G6] LFA négatif qualitatif (C+T), Feed-Ban Ruminants respecté : OK</code><br>
+                        <code>> [G7-G9] Pas de recyclage intra-espèce (G7), Groupes (G8), Traitement prouvé (G9) : OK</code>
                       </div>
                     </div>
 ```
@@ -2044,7 +2050,7 @@
 | **Acteur Principal** | The Iron Gate & Autorité de Conformité |
 | **Plateformes Cibles** | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Certificat`, `Ed25519`, `COSE_Sign1`, `AET-SPEC-CERT-001`, `HSM` |
-| **Base Légale & Normative** | Spécification technique formelle AET-SPEC-CERT-001 et Règlement (UE) 2021/1372. |
+| **Base Légale & Normative** | Spécification technique formelle AET-SPEC-CERT-001 et Règlement (UE) 2021/1372 (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Autorité de Certification de Lot Ed25519` |
 
 ### 🎯 Préconditions & Postconditions
@@ -2211,7 +2217,7 @@
 | **Acteur Principal** | Inspecteur AFSCA & Contrôleur DNF |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
 | **Tags Clés** | `Audit`, `AFSCA`, `DNF`, `HorsLigne`, `DoubleControle`, `Preuve` |
-| **Base Légale & Normative** | Règlement (UE) 2017/625 (contrôles officiels le long de la chaîne agroalimentaire). |
+| **Base Légale & Normative** | Règlement (UE) 2017/625 (contrôles officiels le long de la chaîne agroalimentaire) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Console d'Audit Réglementaire Hors-Ligne` |
 
 ### 🎯 Préconditions & Postconditions

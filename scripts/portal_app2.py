@@ -241,7 +241,7 @@ APP2_USECASES = [
                     "tabTitle": "4. Écran de Fin ✨",
                     "phaseTitle": "Carte ACOSJ Validée pour Gravure",
                     "status": "success",
-                    "caption": "Puce prête pour l'allocation des fichiers élémentaires EF01, EF02 et EF03.",
+                    "caption": "Puce prête pour l'allocation des fichiers élémentaires EF-1, EF-2 et EF-3.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
@@ -274,23 +274,26 @@ APP2_USECASES = [
         "flow": [
             "Envoi de la commande APDU de formatage sécurisé pour effacement des anciennes structures ou résidus d'usine.",
             "Création du Master File (MF) et du Dedicated File (DF AeterniTrak).",
-            "Création des trois Elementary Files (EF) prescrits par STORAGE-001 :",
-            "- `EF01 (ID)` : 2 048 octets réservés pour métadonnées et identifiant unique de carte.",
-            "- `EF02 (Profile)` : 16 384 octets réservés pour le profil CBOR complet (volontés, directives, textes).",
-            "- `EF03 (Media)` : 73 728 octets réservés pour les portraits WebP et l'audio vocal.",
+            "Création des six Fichiers Élémentaires (EF-0 à EF-5) prescrits par STORAGE-001 (table canonique 86 528 octets utiles / 92 160 octets total) :",
+            "- `EF-0 (Header/UID)` : 512 octets réservés pour passeport matériel TLV, UID, flags.",
+            "- `EF-1 (Profile)` : 2 048 octets réservés pour profil CBOR civil mémoriel canonique.",
+            "- `EF-2 (Portrait)` : 20 480 octets réservés pour portrait WebP 480×480 px (DEC-AET-12).",
+            "- `EF-3 (Voice)` : 46 080 octets réservés pour mémo vocal Opus SILK 16 kHz.",
+            "- `EF-4 (Registry)` : 15 360 octets réservés pour registre sépulture & hommages.",
+            "- `EF-5 (Signature)` : 2 048 octets réservés pour enveloppe COSE_Sign1 scellée.",
+            "- `Réserve d'usure matérielle` : 5 632 octets (6,11 % > plancher de 5 % garanti pour wear-leveling).",
             "Vérification de l'absence de fragmentation mémoire."
         ],
-        "postconditions": "Système de fichiers silicium initialisé selon la cartographie stricte du jalon STORAGE-001.",
+        "postconditions": "Système de fichiers silicium initialisé selon la table canonique stricte du jalon STORAGE-001 (86 528 octets utiles / 92 160 octets total).",
         "legal": "Spécification technique AeterniTrak STORAGE-001 (allocation EEPROM JavaCard).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "desktop",
             "deviceLabel": "PaxStation Station Pro • Partitionneur EEPROM Silicium (STORAGE-001)",
             "formFields": [
-                {"label": "Partition EF01 (Meta ID)", "name": "ef01_size", "type": "number", "value": "2048", "placeholder": "Taille", "badge": "2 Ko", "required": True},
-                {"label": "Partition EF02 (Profile CBOR)", "name": "ef02_size", "type": "number", "value": "16384", "placeholder": "Taille", "badge": "16 Ko", "required": True},
-                {"label": "Partition EF03 (Medias WebP/Opus)", "name": "ef03_size", "type": "number", "value": "73728", "placeholder": "Taille", "badge": "72 Ko", "required": True},
-                {"label": "Total Alloué", "name": "total_allocated", "type": "text", "value": "92 160 octets (100% sans fragmentation)", "placeholder": "Total", "badge": "Optimum", "required": False}
+                {"label": "Partitions Utiles (EF-0 à EF-5)", "name": "useful_size", "type": "text", "value": "86 528 octets utiles (6 EF alloués)", "placeholder": "Taille utile", "badge": "86 528 o", "required": True},
+                {"label": "Réserve d'Usure / Wear-Leveling", "name": "wear_reserve", "type": "text", "value": "5 632 octets (6,11 % > 5 %)", "placeholder": "Réserve", "badge": "5 632 o", "required": True},
+                {"label": "Total Silicium EEPROM", "name": "total_allocated", "type": "text", "value": "92 160 octets (100% sans fragmentation)", "placeholder": "Total", "badge": "92 160 o", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_format_eeprom", "label": "Initialiser la Structure EF Silicium (STORAGE-001)", "role": "primary", "state": "idle", "icon": "🗄️"},
@@ -298,31 +301,34 @@ APP2_USECASES = [
             ],
             "validationMsg": {
                 "title": "Système de Fichiers Silicium Initialisé",
-                "badge": "Jalon STORAGE-001 Validé",
-                "detail": "EF01 (2 Ko), EF02 (16 Ko), EF03 (72 Ko) alloués avec succès. Zéro fragment."
+                "badge": "Table Canonique STORAGE-001",
+                "detail": "Table canonique allouée : 86 528 octets utiles (EF-0 à EF-5), 5 632 octets réserve (6,11 %), total 92 160 octets."
             },
             "errorCase": {
                 "code": "ERR_EEPROM_QUOTA_EXCEEDED",
                 "title": "Dépassement de la Capacité EEPROM",
-                "condition": "Tentative d'allocation d'une partition dont la taille dépasse les 92 Ko de la puce physique.",
-                "message": "Erreur d'allocation : La somme des partitions demandées dépasse la taille maximale de l'EEPROM ACOSJ.",
-                "remediation": "Restaurer les tailles standard prescrites par STORAGE-001 (2 Ko, 16 Ko, 72 Ko)."
+                "condition": "Tentative d'allocation d'une partition dont la taille dépasse les 86 528 octets utiles de la puce physique.",
+                "message": "Erreur d'allocation : La somme des partitions demandées dépasse le budget utile canonique de 86 528 octets.",
+                "remediation": "Restaurer les tailles standard prescrites par la table canonique (86 528 octets utiles, 5 632 octets réserve, 92 160 octets total)."
             },
             "phases": {
                 "p1": {
                     "tabTitle": "1. Avant Trigger",
                     "phaseTitle": "EEPROM Vierge Non Partitionnée",
-                    "caption": "Carte connectée. La table de fichiers élémentaires n'est pas encore créée.",
+                    "caption": "Carte connectée. La table canonique des fichiers EF-0 à EF-5 n'est pas encore créée.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStation • Partitionneur EEPROM</span>
-                        <span class="wf-status-badge wf-badge-neutral">EEPROM Vierge (0/3 EF créés)</span>
+                        <span class="wf-status-badge wf-badge-neutral">EEPROM Vierge (0/6 EF créés)</span>
                       </div>
                       <div class="wf-content-grid">
-                        <div class="wf-mini-stat">EF01 (ID) : En attente</div>
-                        <div class="wf-mini-stat">EF02 (Profile) : En attente</div>
-                        <div class="wf-mini-stat">EF03 (Media) : En attente</div>
+                        <div class="wf-mini-stat">EF-0 (512 o) : En attente</div>
+                        <div class="wf-mini-stat">EF-1 (2 Ko) : En attente</div>
+                        <div class="wf-mini-stat">EF-2 (20 Ko) : En attente</div>
+                        <div class="wf-mini-stat">EF-3 (45 Ko) : En attente</div>
+                        <div class="wf-mini-stat">EF-4 (15 Ko) : En attente</div>
+                        <div class="wf-mini-stat">EF-5 (2 Ko) : En attente</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">🗄️ Initialiser la Structure EF Silicium</button>
@@ -332,7 +338,7 @@ APP2_USECASES = [
                 "p2": {
                     "tabTitle": "2. Déclenchement ⚡",
                     "phaseTitle": "Clic sur 'Initialiser la Structure EF Silicium'",
-                    "triggerName": "Émission des commandes APDU de création des fichiers EF01, EF02 et EF03",
+                    "triggerName": "Émission des commandes APDU de création des fichiers EF-0 à EF-5",
                     "caption": "Ordre d'écriture physique de la structure de répertoires in-silico.",
                     "screenHtml": """
                     <div class="wf-screen-box">
@@ -341,8 +347,8 @@ APP2_USECASES = [
                         <span class="wf-status-badge wf-badge-trigger">⚡ Création des Fichiers EF</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
-                        <div class="wf-trigger-indicator">✓ Envoi APDU `CREATE FILE` pour EF01, EF02 et EF03</div>
-                        <div class="wf-subtext">Partitionnement strict : 2 Ko (ID), 16 Ko (Profil), 72 Ko (Médias)</div>
+                        <div class="wf-trigger-indicator">✓ Envoi APDU `CREATE FILE` pour EF-0 à EF-5</div>
+                        <div class="wf-subtext">Table canonique : 86 528 octets utiles / 92 160 octets total (réserve 5 632 octets / 6,11 %)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary wf-pulse-btn">Écriture des tables d'allocation...</button>
@@ -362,28 +368,28 @@ APP2_USECASES = [
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 85%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [APDU-TX] 00 E0 00 00 07 62 05 01 08 00 (CREATE EF01 : 2048 o) -> 90 00</code><br>
-                        <code>> [APDU-TX] 00 E0 00 00 07 62 05 02 40 00 (CREATE EF02 : 16384 o) -> 90 00</code><br>
-                        <code>> [APDU-TX] 00 E0 00 00 07 62 05 03 20 00 (CREATE EF03 : 73728 o) -> 90 00</code>
+                        <code>> [APDU-TX] CREATE EF-0 (512 o) à EF-5 (2 048 o) -> 90 00</code><br>
+                        <code>> [SYS-EEPROM] Quota utile 86 528 o / Réserve 5 632 o (6,11 %) : Conforme</code><br>
+                        <code>> [APDU-TX] Vérification structure sans fragmentation : SUCCÈS</code>
                       </div>
                     </div>"""
                 },
                 "p4": {
                     "tabTitle": "4. Écran de Fin ✨",
-                    "phaseTitle": "Structure EF01, EF02, EF03 Initialisée avec Succès",
+                    "phaseTitle": "Structure Canonique EF-0 à EF-5 Initialisée avec Succès",
                     "status": "success",
                     "caption": "Système de fichiers prêt pour recevoir les flux de données compressés.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStation • Silicium Partitionné</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Jalon STORAGE-001 OK</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Table Canonique OK</span>
                       </div>
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">🗄️</span>
                         <div>
                           <strong>Partitions EF Silicium Créées sans Fragmentation</strong>
-                          <p class="wf-subtext">EF01 (2 Ko) • EF02 (16 Ko) • EF03 (72 Ko) • Prêt pour injection capsule</p>
+                          <p class="wf-subtext">86 528 octets utiles (EF-0 à EF-5) • Réserve 5 632 octets (6,11 %) • Total 92 160 octets</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -491,7 +497,7 @@ APP2_USECASES = [
                       <div class="wf-console-log">
                         <code>> [JCS-CORE] Recalcul SHA-256 : a4f81c9053d867c29019b7842ef84a12...b129</code><br>
                         <code>> [BAT-CHECK] Confrontation BAT : Égalité parfaite (100% concordant)</code><br>
-                        <code>> [APDU-SEG] Découpage en 306 tranches de 255 octets (Payload EF02 + EF03)</code>
+                        <code>> [APDU-SEG] Découpage en 306 tranches de 255 octets (Payload EF-2 + EF-3)</code>
                       </div>
                     </div>"""
                 },
@@ -510,7 +516,7 @@ APP2_USECASES = [
                         <span class="wf-seal-icon">⚡</span>
                         <div>
                           <strong>Capsule Validée contre l'Ordre BAT</strong>
-                          <p class="wf-subtext">306 blocs APDU prêts à être injectés sur les partitions EF02 et EF03</p>
+                          <p class="wf-subtext">306 blocs APDU prêts à être injectés sur les partitions EF-2 et EF-3</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -530,23 +536,23 @@ APP2_USECASES = [
         "tags": ["APDU", "UpdateBinary", "IsoDep", "Gravure"],
         "preconditions": "Structure EF créée et capsule découpée en 306 blocs.",
         "flow": [
-            "Sélection successive du fichier `EF02` puis `EF03` via `SELECT FILE`.",
+            "Sélection successive des fichiers `EF-0` à `EF-5` via `SELECT FILE`.",
             "Envoi cadencé des commandes APDU `UPDATE BINARY` (commande `00 D6 P1 P2 Lc [Octets]`).",
             "Contrôle systématique du mot de statut `90 00` en réponse à chaque bloc.",
             "Gestion des reprises sur incident : si un bloc échoue, rejeu automatique (max 3 tentatives).",
             "Mise à jour en temps réel de la barre de progression pour l'opérateur."
         ],
-        "postconditions": "78 412 octets gravés avec succès dans l'EEPROM de la JavaCard ACOSJ.",
+        "postconditions": "86 528 octets gravés avec succès dans l'EEPROM de la JavaCard ACOSJ (table canonique).",
         "legal": "Spécification technique ISO/IEC 7816-4 §7.2 (commandes d'écriture binaire).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "desktop",
             "deviceLabel": "PaxStation Station Pro • Graveur Silicium APDU IsoDep",
             "formFields": [
-                {"label": "Nombre de Blocs", "name": "block_count", "type": "text", "value": "306 blocs de 255 octets", "placeholder": "Blocs", "badge": "306 Blocs", "required": False},
+                {"label": "Nombre de Blocs", "name": "block_count", "type": "text", "value": "340 blocs de 255 octets", "placeholder": "Blocs", "badge": "Table Canonique", "required": False},
                 {"label": "Vitesse de Transfert", "name": "transfer_rate", "type": "text", "value": "14.2 Ko/sec (106 kbps IsoDep)", "placeholder": "Débit", "badge": "106k", "required": False},
-                {"label": "Taux d'Erreur APDU", "name": "error_rate", "type": "text", "value": "0 erreur (306/306 acquittements 90 00)", "placeholder": "Erreurs", "badge": "0 Défaut", "required": False},
-                {"label": "Temps Écoulé", "name": "elapsed_time", "type": "text", "value": "05.8 secondes", "placeholder": "Temps", "badge": "Chrono", "required": False}
+                {"label": "Taux d'Erreur APDU", "name": "error_rate", "type": "text", "value": "0 erreur (acquittements 90 00)", "placeholder": "Erreurs", "badge": "0 Défaut", "required": False},
+                {"label": "Temps Écoulé", "name": "elapsed_time", "type": "text", "value": "06.1 secondes", "placeholder": "Temps", "badge": "Chrono", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_start_burning", "label": "Lancer la Gravure Silicium", "role": "primary", "state": "idle", "icon": "🔥"},
@@ -554,30 +560,30 @@ APP2_USECASES = [
             ],
             "validationMsg": {
                 "title": "Gravure Silicium Achevée avec Succès",
-                "badge": "306/306 Blocs Écrits (90 00)",
-                "detail": "78 412 octets injectés dans les partitions EF02 et EF03 sans aucune erreur."
+                "badge": "Table Canonique Écrite (90 00)",
+                "detail": "86 528 octets injectés dans les partitions EF-0 à EF-5 sans aucune erreur."
             },
             "errorCase": {
                 "code": "ERR_APDU_WRITE_FAILURE",
                 "title": "Échec de Transmission d'un Bloc APDU",
                 "condition": "Micro-déplacement de la carte sur l'antenne provoquant un code statut `6A 84` ou perte de liaison.",
-                "message": "Erreur d'écriture : Rupture de liaison RF lors de l'injection du bloc n° 142/306.",
+                "message": "Erreur d'écriture : Rupture de liaison RF lors de l'injection d'un bloc.",
                 "remediation": "Laisser la carte immobile au contact de l'antenne et relancer la procédure d'écriture automatique."
             },
             "phases": {
                 "p1": {
                     "tabTitle": "1. Avant Trigger",
                     "phaseTitle": "Graveur en Attente de Démarrage",
-                    "caption": "Les 306 blocs sont prêts. La jauge d'écriture est à 0%.",
+                    "caption": "Les blocs sont prêts. La jauge d'écriture est à 0%.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStation • Graveur Silicium</span>
-                        <span class="wf-status-badge wf-badge-neutral">Prêt à Graver (0 / 306 Blocs)</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt à Graver (86 528 octets)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 0%;"></div></div>
                       <div class="wf-device-status-box">
-                        <div><strong>78 412 octets prêts à être écrits sur l'ACOSJ 92k</strong></div>
+                        <div><strong>86 528 octets utiles prêts à être écrits sur l'ACOSJ 92k (table canonique)</strong></div>
                         <div class="wf-subtext">Durée estimée : ~6 secondes à 106 kbps IsoDep</div>
                       </div>
                       <div class="wf-btn-row">
@@ -588,7 +594,7 @@ APP2_USECASES = [
                 "p2": {
                     "tabTitle": "2. Déclenchement ⚡",
                     "phaseTitle": "Lancement de la Rafale de Commandes APDU",
-                    "triggerName": "Clic sur 'Lancer la Gravure Silicium' et sélection du fichier EF02",
+                    "triggerName": "Clic sur 'Lancer la Gravure Silicium' et sélection des fichiers EF-0 à EF-5",
                     "caption": "Lancement de la boucle cadencée d'envoi des commandes UPDATE BINARY.",
                     "screenHtml": """
                     <div class="wf-screen-box">
@@ -607,7 +613,7 @@ APP2_USECASES = [
                 },
                 "p3": {
                     "tabTitle": "3. Traitement ⚙️",
-                    "phaseTitle": "Injection en Cours : Bloc 198 / 306 (65%)",
+                    "phaseTitle": "Injection en Cours : Blocs Silicium (65%)",
                     "progress": 65,
                     "caption": "Écriture active dans les cellules EEPROM avec acquittement 90 00 systématique.",
                     "screenHtml": """
@@ -620,7 +626,7 @@ APP2_USECASES = [
                       <div class="wf-console-log">
                         <code>> [APDU-TX] 00 D6 00 C6 FF [255 octets profil] -> < 90 00</code><br>
                         <code>> [APDU-TX] 00 D6 01 C5 FF [255 octets WebP]   -> < 90 00</code><br>
-                        <code>> [APDU-TX] 00 D6 02 C4 FF [255 octets Opus]   -> < 90 00 (Bloc 198/306)</code>
+                        <code>> [APDU-TX] 00 D6 02 C4 FF [255 octets Opus]   -> < 90 00</code>
                       </div>
                     </div>"""
                 },
@@ -628,22 +634,22 @@ APP2_USECASES = [
                     "tabTitle": "4. Écran de Fin ✨",
                     "phaseTitle": "Gravure Silicium Accomplie à 100%",
                     "status": "success",
-                    "caption": "Totalité des 78 412 octets gravés avec intégrité absolue.",
+                    "caption": "Totalité des 86 528 octets utiles gravés avec intégrité absolue.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStation • Gravure Accomplie</span>
-                        <span class="wf-status-badge wf-badge-success">✨ 306/306 Blocs Scellés (100%)</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Table Canonique Scellée (100%)</span>
                       </div>
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">💾</span>
                         <div>
                           <strong>Données Mémorielles Gravées in-silico</strong>
-                          <p class="wf-subtext">78 412 octets stockés • Prêt pour scellement cryptographique COSE_Sign1</p>
+                          <p class="wf-subtext">86 528 octets utiles stockés (EF-0 à EF-5) • Prêt pour scellement cryptographique par l'enclave station (DEC-AET-10)</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-gold">Étape Suivante : Scellement COSE_Sign1 →</button>
+                        <button class="wf-btn wf-btn-gold">Étape Suivante : Signature COSE_Sign1 →</button>
                       </div>
                     </div>"""
                 }
@@ -652,55 +658,55 @@ APP2_USECASES = [
     },
     {
         "id": "UC-206",
-        "title": "Scellement Cryptographique COSE_Sign1 PaxFunèbre (Secure Element)",
+        "title": "Scellement Cryptographique COSE_Sign1 PaxFunèbre (Enclave Station DEC-AET-10)",
         "cat": "Cryptographie & Signature",
         "actor": "Opérateur d'Encodage",
         "platforms": ["WebUSB (Chromium Desktop)", "PC/SC (Desktop Natif)"],
-        "tags": ["COSE_Sign1", "Ed25519", "ES256", "SecureElement", "RFC9052"],
+        "tags": ["COSE_Sign1", "Ed25519", "ES256", "EnclaveStation", "DEC-AET-10", "RFC9052"],
         "preconditions": "Données gravées sur la puce mais non encore signées.",
         "flow": [
-            "Appel au module matériel sécurisé (Secure Element / HSM d'agence PaxFunèbre).",
-            "Construction de la structure canonique `Sig_structure` COSE_Sign1 (Tag 18) selon la RFC 9052 :",
+            "Appel à l'enclave sécurisée de la station (PaxStation Enclave sous DEC-AET-10).",
+            "Construction de la structure canonique `Sig_structure` COSE_Sign1 (Tag 18, DEC-AET-10) selon la RFC 9052 :",
             "- Contexte : `\"Signature1\"`",
             "- En-tête protégé : `{1: -8, 16: \"application/aeternitrak-profile+cbor\"}` (Ed25519) ou `{1: -7}` (ES256)",
             "- Données associées externes : `h''` (vide)",
             "- Charge utile : le condensat SHA-256 de la capsule",
-            "Génération de la signature cryptographique par la clé d'autorité officielle.",
-            "Écriture de l'enveloppe signée COSE_Sign1 dans le fichier dédié `EF.SIGN` de la carte."
+            "Génération de la signature cryptographique par la clé d'autorité officielle de l'enclave station.",
+            "Écriture de l'enveloppe signée COSE_Sign1 dans le fichier dédié `EF-5` (0x0005) de la carte."
         ],
-        "postconditions": "Carte physique scellée avec signature COSE_Sign1 officielle infalsifiable.",
+        "postconditions": "Carte physique scellée par l'enclave station (DEC-AET-10) avec signature COSE_Sign1 officielle infalsifiable.",
         "legal": "Spécification technique IETF RFC 9052 (COSE Structures and Process) et RFC 9596 (COSE typ Header).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "desktop",
-            "deviceLabel": "PaxStation Station Pro • Module de Signature Matérielle COSE_Sign1",
+            "deviceLabel": "PaxStation Station Pro • Module de Signature Matérielle Enclave (DEC-AET-10)",
             "formFields": [
-                {"label": "Module HSM / Secure Element", "name": "hsm_module", "type": "text", "value": "PaxFunèbre Hardware Token v2.1", "placeholder": "HSM", "badge": "FIPS 140-3", "required": False},
+                {"label": "Module Enclave Station", "name": "hsm_module", "type": "text", "value": "PaxStation Enclave Sécurisée (DEC-AET-10)", "placeholder": "Enclave", "badge": "DEC-AET-10", "required": False},
                 {"label": "Algorithme Utilisé", "name": "sig_alg", "type": "select", "value": "Ed25519 (EdDSA, alg: -8, RFC 8032)", "placeholder": "Algorithme", "badge": "Recommandé", "required": True},
                 {"label": "Type MIME Protégé (typ)", "name": "mime_typ", "type": "text", "value": "application/aeternitrak-profile+cbor (RFC 9596)", "placeholder": "Type", "badge": "Protégé", "required": False},
                 {"label": "Empreinte Clé Publique (kid)", "name": "key_kid", "type": "text", "value": "3c81e592...71aa (16 octets SHA-256)", "placeholder": "kid", "badge": "16 Octets", "required": False}
             ],
             "actionButtons": [
-                {"id": "btn_sign_cose", "label": "Générer le Sceau Matériel COSE_Sign1", "role": "primary", "state": "idle", "icon": "🔐"},
+                {"id": "btn_sign_cose", "label": "Générer le Sceau Matériel COSE_Sign1 (DEC-AET-10)", "role": "primary", "state": "idle", "icon": "🔐"},
                 {"id": "btn_inspect_sig_struct", "label": "Inspecter Sig_structure", "role": "secondary", "state": "idle", "icon": "🔍"}
             ],
             "validationMsg": {
                 "title": "Sceau Cryptographique COSE_Sign1 Apposé",
-                "badge": "Tag 18 • Ed25519 Certifié",
-                "detail": "Enveloppe signée gravée sur EF.SIGN. Intégrité infalsifiable garantie sans contact."
+                "badge": "Tag 18 • Enclave DEC-AET-10",
+                "detail": "Enveloppe signée par l'enclave station (DEC-AET-10) et gravée sur EF-5. Intégrité infalsifiable garantie sans contact."
             },
             "errorCase": {
                 "code": "ERR_COSE_EXPIRED_KEY",
-                "title": "Clé de Scellement Opérateur Expirée",
-                "condition": "Tentative de signature avec un token HSM dont le certificat d'autorité est expiré.",
+                "title": "Clé de Scellement Enclave Expirée",
+                "condition": "Tentative de signature avec une enclave dont le certificat d'autorité est expiré.",
                 "message": "Erreur de sécurité : La clé matérielle de scellement a dépassé sa date limite de validité.",
-                "remediation": "Insérer le token HSM de secours ou procéder au renouvellement de clé auprès de l'autorité centrale AeterniTrak."
+                "remediation": "Procéder au renouvellement de clé auprès de l'autorité centrale AeterniTrak."
             },
             "phases": {
                 "p1": {
                     "tabTitle": "1. Avant Trigger",
                     "phaseTitle": "Données Gravées Non Signées",
-                    "caption": "Puce écrite. La partition EF.SIGN est vide, le sceau officiel n'est pas encore apposé.",
+                    "caption": "Puce écrite. La partition EF-5 est vide, le sceau officiel n'est pas encore apposé.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
@@ -709,7 +715,7 @@ APP2_USECASES = [
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-key-icon">🔑</span>
-                        <div><strong>Token HSM PaxFunèbre en ligne (Clé d'agence prête)</strong></div>
+                        <div><strong>Enclave matérielle PaxStation en ligne (DEC-AET-10)</strong></div>
                         <div class="wf-subtext">Algorithme cible : Ed25519 (alg: -8) • Enveloppe COSE_Sign1 Tag 18</div>
                       </div>
                       <div class="wf-btn-row">
@@ -719,18 +725,18 @@ APP2_USECASES = [
                 },
                 "p2": {
                     "tabTitle": "2. Déclenchement ⚡",
-                    "phaseTitle": "Appel au Secure Element & Construction de la Sig_structure",
-                    "triggerName": "Clic sur 'Générer le Sceau Matériel COSE_Sign1'",
-                    "caption": "Assemblage des en-têtes protégés déterministes et envoi du hash au coprocesseur de signature.",
+                    "phaseTitle": "Appel à l'Enclave Station (DEC-AET-10) & Construction de la Sig_structure",
+                    "triggerName": "Clic sur 'Générer le Sceau Matériel COSE_Sign1 (DEC-AET-10)'",
+                    "caption": "Assemblage des en-têtes protégés déterministes et scellement par l'enclave station (DEC-AET-10).",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStation • Moteur de Signature</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Appel Secure Element</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Appel Enclave Station</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
                         <div class="wf-trigger-indicator">⚡ Sig_structure [ "Signature1", protected, external_aad, payload ]</div>
-                        <div class="wf-subtext">Signature Ed25519 en cours par la clé privée d'autorité Le Pax Funèbre</div>
+                        <div class="wf-subtext">Signature Ed25519 en cours par l'enclave station Le Pax Funèbre (DEC-AET-10)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul cryptographique matériel...</button>
@@ -739,7 +745,7 @@ APP2_USECASES = [
                 },
                 "p3": {
                     "tabTitle": "3. Traitement ⚙️",
-                    "phaseTitle": "Signature Déterministe RFC 8032 & Injection sur EF.SIGN",
+                    "phaseTitle": "Signature Déterministe RFC 8032 & Injection sur EF-5",
                     "progress": 92,
                     "caption": "Double hachage SHA-512 sans aléa et écriture de l'enveloppe de 64 octets sur la puce.",
                     "screenHtml": """
@@ -751,8 +757,8 @@ APP2_USECASES = [
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [COSE-HDR] En-tête protégé déterministe {1: -8, 16: "application/aeternitrak-profile+cbor"}</code><br>
-                        <code>> [ED25519] Signature émise (64 octets fixes R||S) : 5a2c91f0...77b1</code><br>
-                        <code>> [APDU-SIGN] Écriture sur EF.SIGN (APDU UPDATE BINARY) : < 90 00</code>
+                        <code>> [DEC-AET-10] Scellement par enclave station validé (Tag 18)</code><br>
+                        <code>> [APDU-SIGN] Écriture sur EF-5 (APDU UPDATE BINARY) : < 90 00</code>
                       </div>
                     </div>"""
                 },
@@ -770,8 +776,8 @@ APP2_USECASES = [
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">🏆</span>
                         <div>
-                          <strong>Signature Cryptographique PaxFunèbre Apposée</strong>
-                          <p class="wf-subtext">Ed25519 • kid: 3c81e592...71aa • Inaltérable sans contact</p>
+                          <strong>Signature Cryptographique PaxStation Apposée (DEC-AET-10)</strong>
+                          <p class="wf-subtext">Ed25519 • Enclave station • kid: 3c81e592...71aa • Inaltérable sans contact</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">

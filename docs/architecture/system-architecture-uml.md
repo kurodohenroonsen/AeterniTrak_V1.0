@@ -455,17 +455,18 @@ classDiagram
 stateDiagram-v2
   [*] --> VIERGE : Sortie d'usine (EEPROM 92 Ko disponible)
 
-  VIERGE --> INITIALISEE : APDU FORMAT_APPLET<br/>(Création EF/DF & Allocation des 6 blocs)
+  VIERGE --> INITIALISEE : APDU FORMAT_APPLET<br/>(Création EF/DF & Allocation EF-0 à EF-5)
   note right of INITIALISEE
-    Bloc 0 : Métadonnées (512 o)
-    Bloc 1 : Profil CBOR (2 Ko)
-    Bloc 2 : Portrait WebP (20 Ko)
-    Bloc 3 : Voix Opus SILK (45 Ko)
-    Bloc 4 : Hommages / Arbre (15 Ko)
-    Bloc 5 : Réserve sécurité 5% (4 600 o)
+    Bloc EF-0 : Métadonnées (512 o)
+    Bloc EF-1 : Profil CBOR (2 Ko)
+    Bloc EF-2 : Portrait WebP (20 Ko)
+    Bloc EF-3 : Voix Opus SILK (45 Ko)
+    Bloc EF-4 : Hommages / Arbre (15 Ko)
+    Bloc EF-5 : Enveloppe COSE (2 Ko)
+    Réserve usure : 5 632 o (6.11%)
   end note
 
-  INITIALISEE --> GRAVEE_COSE : APDU WRITE_BLOCKS (0 à 4)<br/>(Écriture profil CBOR, WebP & Opus)
+  INITIALISEE --> GRAVEE_COSE : APDU WRITE_BLOCKS (EF-0 à EF-5)<br/>(Écriture profil CBOR, WebP, Opus & COSE)
   
   GRAVEE_COSE --> SCELLEE_LOCKED : APDU SEAL_HARDWARE_LOCK<br/>(Verrouillage fusible irréversible)
   note left of SCELLEE_LOCKED

@@ -163,7 +163,7 @@ APP1_USECASES = [
             "Bascule instantanée entre la Carte Sanctuaire et la Carte Directives."
         ],
         "postconditions": "Validation visuelle en temps réel sans nécessiter d'impression d'épreuve papier intermédiaire.",
-        "legal": "Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire).",
+        "legal": "Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -293,7 +293,7 @@ APP1_USECASES = [
             "Ajustement du contraste et contrôle de lisibilité selon les normes d'accessibilité visuelle pour personnes âgées."
         ],
         "postconditions": "Charte graphique de la carte arrêtée et conforme à la dignité de la cérémonie.",
-        "legal": "Règlement général sur l'accessibilité des services (Directive européenne 2019/882).",
+        "legal": "Règlement général sur l'accessibilité des services (Directive européenne 2019/882) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -418,33 +418,33 @@ APP1_USECASES = [
         "flow": [
             "Import des photographies mémorielles du défunt dont le volume et le format respectent les quotas alloués par le jalon technique STORAGE-001.",
             "Outil de cadrage circulaire adapté au médaillon avec détection automatique du visage.",
-            "Compression algorithmique en WebP sans perte perceptible, calibrée sous le seuil maximal de 48 Ko de la partition EF03.",
+            "Compression algorithmique en WebP sans perte perceptible, calibrée sous le seuil maximal de 48 Ko de la partition EF-3.",
             "Génération du carrousel de 3 portraits solennels prêts pour l'injection dans le silicium."
         ],
-        "postconditions": "Portraits compressés et dimensionnés à 220x220 pixels, empreintes SHA-256 enregistrées.",
-        "legal": "Règlement général sur la protection des données (RGPD art. 5 - minimisation des données).",
+        "postconditions": "Portraits compressés et dimensionnés à 480×480 pixels (WebP max 20 Ko / 20 480 octets, conforme DEC-AET-12), empreintes SHA-256 enregistrées.",
+        "legal": "Règlement général sur la protection des données (RGPD art. 5 - minimisation des données) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
             "deviceLabel": "PaxStudio Pro • Studio Photo & Compression WebP (STORAGE-001)",
             "formFields": [
                 {"label": "Fichier Source", "name": "source_photo", "type": "file", "value": "portrait_famille_hd.jpg (4.2 Mo)", "placeholder": "Choisir une photo", "badge": "Source HD", "required": True},
-                {"label": "Résolution Cible", "name": "crop_dim", "type": "text", "value": "220 × 220 pixels (Circulaire)", "placeholder": "Dimensions", "badge": "Homologué", "required": True},
-                {"label": "Quota Partition EF03", "name": "quota_ef03", "type": "text", "value": "Budget Max : 48 Ko (STORAGE-001)", "placeholder": "Quota puce", "badge": "Silicium", "required": False},
+                {"label": "Résolution Cible", "name": "crop_dim", "type": "text", "value": "480 × 480 pixels (WebP max 20 Ko / 20 480 octets, conforme DEC-AET-12)", "placeholder": "Dimensions", "badge": "DEC-AET-12", "required": True},
+                {"label": "Quota Partition EF-3", "name": "quota_ef3", "type": "text", "value": "Budget Max : 48 Ko (STORAGE-001)", "placeholder": "Quota puce", "badge": "Silicium", "required": False},
                 {"label": "Taille Compressée", "name": "webp_size", "type": "text", "value": "12.4 Ko (Consommation : 25.8% du budget)", "placeholder": "Poids final", "badge": "Optimisé", "required": False}
             ],
             "actionButtons": [
-                {"id": "btn_crop_compress", "label": "Rogner 220×220 & Compresser WebP", "role": "primary", "state": "idle", "icon": "✂️"},
+                {"id": "btn_crop_compress", "label": "Rogner 480×480 & Compresser WebP (DEC-AET-12)", "role": "primary", "state": "idle", "icon": "✂️"},
                 {"id": "btn_add_carousel", "label": "Ajouter au Carrousel (Max 3)", "role": "secondary", "state": "idle", "icon": "➕"}
             ],
             "validationMsg": {
                 "title": "Portraits WebP Validés",
                 "badge": "Jalon STORAGE-001 Conforme",
-                "detail": "Poids total 37.2 Ko pour 3 portraits. Quota partition EF03 (48 Ko) respecté."
+                "detail": "Poids total 37.2 Ko pour 3 portraits. Quota partition EF-3 (48 Ko) respecté."
             },
             "errorCase": {
                 "code": "ERR_PROFILE_TOO_LARGE",
-                "title": "Dépassement du Quota Silicium EF03",
+                "title": "Dépassement du Quota Silicium EF-3",
                 "condition": "Import d'images dont le poids compressé cumulé excède 48 Ko (limite matérielle de l'ACOSJ 92k).",
                 "message": "Erreur critique : La taille cumulée des médias (52.4 Ko) dépasse le budget strict de 48 Ko alloué par STORAGE-001.",
                 "remediation": "Abaisser la résolution de quantification WebP ou limiter le carrousel à 2 portraits."
@@ -463,17 +463,17 @@ APP1_USECASES = [
                       <div class="wf-dropzone-box">
                         <span class="wf-file-icon">🖼️</span>
                         <div><strong>portrait_famille_hd.jpg</strong> (4 210 Ko)</div>
-                        <div class="wf-subtext">Cadrage circulaire 220×220 et compression WebP requis</div>
+                        <div class="wf-subtext">Cadrage circulaire 480×480 et compression WebP (max 20 Ko / 20 480 octets, conforme DEC-AET-12) requis</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">✂️ Rogner 220×220 & Compresser WebP</button>
+                        <button class="wf-btn wf-btn-primary">✂️ Rogner 480×480 & Compresser WebP (DEC-AET-12)</button>
                       </div>
                     </div>"""
                 },
                 "p2": {
                     "tabTitle": "2. Déclenchement ⚡",
-                    "phaseTitle": "Clic sur 'Rogner 220×220 & Compresser WebP'",
-                    "triggerName": "Déclenchement du rognage facial automatique 220x220 pixels",
+                    "phaseTitle": "Clic sur 'Rogner 480×480 & Compresser WebP (DEC-AET-12)'",
+                    "triggerName": "Déclenchement du rognage facial automatique 480x480 pixels (DEC-AET-12)",
                     "caption": "Détection automatique des contours du visage et application du masque médaillon.",
                     "screenHtml": """
                     <div class="wf-screen-box">
@@ -483,7 +483,7 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-crop-canvas wf-radar-pulse">
                         <div class="wf-circle-crop-guide">
-                          <span class="wf-crop-label">Cible 220×220 px • Centrage automatique</span>
+                          <span class="wf-crop-label">Cible 480×480 px (DEC-AET-12) • Centrage automatique</span>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -504,9 +504,9 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 68%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [WEBP-CORE] Rééchantillonnage 220x220 bicubique : OK</code><br>
+                        <code>> [WEBP-CORE] Rééchantillonnage 480x480 bicubique (DEC-AET-12) : OK</code><br>
                         <code>> [WEBP-CORE] Quantification colorimétrique sans perte perceptible : 12.4 Ko</code><br>
-                        <code>> [STORAGE-001] Quota partition EF03 vérifié : 12.4 Ko / 48.0 Ko (Conforme)</code>
+                        <code>> [STORAGE-001] Quota partition EF-3 vérifié : 12.4 Ko / 48.0 Ko (Conforme)</code>
                       </div>
                     </div>"""
                 },
@@ -549,7 +549,7 @@ APP1_USECASES = [
             "Normalisation du niveau d'écoute à -23 LUFS (recommandation broadcast funéraire solennelle)."
         ],
         "postconditions": "Extrait audio vocal calibré à une durée maximale de 30 secondes, prêt pour l'intégration.",
-        "legal": "Code de la santé publique (protection de l'intégrité morale du recueillement).",
+        "legal": "Code de la santé publique (protection de l'intégrité morale du recueillement) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -676,7 +676,7 @@ APP1_USECASES = [
             "Association de la musique à la Carte Sanctuaire pour déclenchement automatique lors du scan NFC."
         ],
         "postconditions": "Piste musicale d'ambiance sélectionnée et configurée avec atténuation automatique (ducking).",
-        "legal": "Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises).",
+        "legal": "Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -797,20 +797,20 @@ APP1_USECASES = [
         "tags": ["Volontes", "Loi1971", "Ceremonie", "Sepulture"],
         "preconditions": "Famille en salon de recueillement avec le conseiller funéraire agréé.",
         "flow": [
-            "Questionnaire structuré conforme à la loi belge du 20 juillet 1971 (cérémonie civile laïque ou culte religieux).",
-            "Choix du mode de sépulture : inhumation traditionnelle, crémation cinéraire ou sarcomusation avec retour en forêt.",
+            "Questionnaire structuré conforme à la loi belge du 20 juillet 1971 (cérémonie civile laïque ou culte religieux) (référence à confirmer par un juriste).",
+            "Choix du mode de sépulture : inhumation traditionnelle, crémation cinéraire ou sarcomusation avec retour en forêt (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)).",
             "Désignation de la destination finale des cendres ou résidus mémoriels (arbre cinéraire privé agréé sous dérogation DEC-AET-05).",
             "Rédaction des souhaits spécifiques (fleurs, dons à une association, dispersion solennelle)."
         ],
         "postconditions": "Fiche de dernières volontés civiques encodée, horodatée et prête pour le scellement cryptographique.",
-        "legal": "Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt).",
+        "legal": "Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
             "deviceLabel": "PaxStudio Pro • Fiche des Volontés Civiles & Funéraires",
             "formFields": [
-                {"label": "Nature de Cérémonie", "name": "ceremony_type", "type": "select", "value": "Cérémonie Civile Laïque sous les Arbres", "placeholder": "Cérémonie", "badge": "Loi 1971", "required": True},
-                {"label": "Mode de Sépulture", "name": "burial_mode", "type": "select", "value": "Sarcomusation & Amendement Forestier", "placeholder": "Sépulture", "badge": "Filière", "required": True},
+                {"label": "Nature de Cérémonie", "name": "ceremony_type", "type": "select", "value": "Cérémonie Civile Laïque sous les Arbres", "placeholder": "Cérémonie", "badge": "Loi 1971 (référence à confirmer par un juriste)", "required": True},
+                {"label": "Mode de Sépulture", "name": "burial_mode", "type": "select", "value": "Sarcomusation & Amendement Forestier (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste))", "placeholder": "Sépulture", "badge": "Démonstrateur Prospectif", "required": True},
                 {"label": "Destination des Résidus", "name": "residue_dest", "type": "select", "value": "Arbre Cinéraire Mémoriel (Forêt Saint-Hubert)", "placeholder": "Destination", "badge": "DEC-AET-05", "required": True},
                 {"label": "Message d'Adieu Public", "name": "public_message", "type": "textarea", "value": "« Que la nature accueille ma mémoire en paix auprès des grands chênes. »", "placeholder": "Message", "badge": "Facultatif", "required": False}
             ],
@@ -820,15 +820,15 @@ APP1_USECASES = [
             ],
             "validationMsg": {
                 "title": "Volontés Civiles Encodées",
-                "badge": "Conforme Loi 20 juillet 1971",
-                "detail": "Primauté des volontés garantie. Sarcomusation et arbre cinéraire enregistrés."
+                "badge": "Conforme Loi 20 juillet 1971 (référence à confirmer par un juriste)",
+                "detail": "Primauté des volontés garantie. Sarcomusation (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) et arbre cinéraire enregistrés."
             },
             "errorCase": {
                 "code": "ERR_WILLS_SYNTAX_INVALID",
                 "title": "Clauses Incompatibles avec la Législation",
                 "condition": "Stipulation d'une clause contraire à l'ordre public ou refus de signature des ayants droit.",
                 "message": "Erreur de conformité : La disposition funéraire renseignée contrevient au cadre légal des sépultures.",
-                "remediation": "Reformuler les clauses pour s'aligner sur les options autorisées par la loi du 20 juillet 1971."
+                "remediation": "Reformuler les clauses pour s'aligner sur les options autorisées par la loi du 20 juillet 1971 (référence à confirmer par un juriste)."
             },
             "phases": {
                 "p1": {
@@ -847,7 +847,7 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-field-group">
                         <label class="wf-label">Destination Mémorielle <span class="wf-req">*</span></label>
-                        <div class="wf-select-placeholder">-- Sarcomusation & Forêt cinéraire --</div>
+                        <div class="wf-select-placeholder">-- Sarcomusation & Forêt cinéraire (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) --</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">📜 Sceller les Volontés Civiles in-silico</button>
@@ -867,7 +867,7 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-wills-summary wf-radar-pulse">
                         <div><strong>Cérémonie :</strong> Laïque solennelle</div>
-                        <div><strong>Sépulture :</strong> Sarcomusation & Retour forestier (DEC-AET-05)</div>
+                        <div><strong>Sépulture :</strong> Sarcomusation & Retour forestier (DEC-AET-05) <span class="wf-badge-warning">[Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)]</span></div>
                         <div><strong>Arbre du Souvenir :</strong> Chêne n° F-2408 (Saint-Hubert)</div>
                       </div>
                       <div class="wf-btn-row">
@@ -889,7 +889,7 @@ APP1_USECASES = [
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 75%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [CORE-CBOR] Sérialisation clé 1 (cérémonie) et clé 2 (destination) : OK</code><br>
-                        <code>> [CORE-CBOR] Vérification conformité Loi 20 juillet 1971 : SUCCÈS</code><br>
+                        <code>> [CORE-CBOR] Vérification conformité Loi 20 juillet 1971 (référence à confirmer par un juriste) : SUCCÈS</code><br>
                         <code>> [CORE-CBOR] Calcul du condensat SHA-256 des volontés : 8e4b...910a</code>
                       </div>
                     </div>"""
@@ -903,7 +903,7 @@ APP1_USECASES = [
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStudio Pro • Volontés Scellées</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971 (référence à confirmer par un juriste)</span>
                       </div>
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">⚖️</span>
@@ -929,13 +929,13 @@ APP1_USECASES = [
         "tags": ["Pacemaker", "DonOrganes", "LegsCorps", "SecuriteOperateurs"],
         "preconditions": "Accès au volet de sécurité médicale post-mortem dans PaxStudio.",
         "flow": [
-            "Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD).",
+            "Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).",
             "Si stimulateur présent : blocage strict imposant le renseignement de l'attestation chirurgicale d'exérèse avec numéro d'ordre du médecin.",
-            "Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986).",
+            "Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986 — référence à confirmer par un juriste).",
             "Enregistrement éventuel d'un protocole de legs du corps à la science sous 48h auprès d'une université conventionnée."
         ],
         "postconditions": "Volet médical post-mortem validé, alerte pacemaker levée uniquement sur certificat médical officiel.",
-        "legal": "Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques).",
+        "legal": "Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -944,7 +944,7 @@ APP1_USECASES = [
                 {"label": "Porteur de Stimulateur Cardiaque (Pacemaker)", "name": "has_pacemaker", "type": "select", "value": "OUI (Présence confirmée)", "placeholder": "Sélectionner", "badge": "ALERTE VITALE", "required": True},
                 {"label": "Attestation d'Exérèse Chirurgicale", "name": "pacemaker_cert", "type": "file", "value": "certificat_exerese_dr_vaneck.pdf", "placeholder": "Téléverser attestation", "badge": "Obligatoire si Oui", "required": True},
                 {"label": "Médecin Certificateur & N° Ordre", "name": "pacemaker_doc", "type": "text", "value": "Dr. Marc Vaneck — INAMI 1-40912-88-004", "placeholder": "Nom et INAMI", "badge": "Vérifié", "required": True},
-                {"label": "Don d'Organes (Loi 1986)", "name": "organ_donation", "type": "select", "value": "Consentement Plein et Entier Confirmé", "placeholder": "Statut don", "badge": "Loi 1986", "required": True}
+                {"label": "Don d'Organes (Loi 1986 — référence à confirmer par un juriste)", "name": "organ_donation", "type": "select", "value": "Consentement Plein et Entier Confirmé", "placeholder": "Statut don", "badge": "Loi 1986 (référence à confirmer par un juriste)", "required": True}
             ],
             "actionButtons": [
                 {"id": "btn_validate_medical", "label": "Valider le Volet Médical d'Urgence", "role": "primary", "state": "idle", "icon": "🩺"},
@@ -952,7 +952,7 @@ APP1_USECASES = [
             ],
             "validationMsg": {
                 "title": "Volet Médical d'Urgence Certifié",
-                "badge": "Conforme Art. L1232-17 CDLD",
+                "badge": "Conforme Art. L1232-17 CDLD (référence à confirmer par un juriste)",
                 "detail": "Exérèse chirurgicale du pacemaker certifiée par le Dr. Vaneck. Zéro risque d'explosion."
             },
             "errorCase": {
@@ -975,7 +975,7 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-alert-card wf-alert-red">
                         <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>
-                        <p class="wf-subtext">L'article L1232-17 §2 CDLD impose l'exérèse chirurgicale avant toute opération.</p>
+                        <p class="wf-subtext">L'article L1232-17 §2 CDLD (référence à confirmer par un juriste) impose l'exérèse chirurgicale avant toute opération.</p>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-disabled" disabled>🩺 Valider le Volet Médical (Bloqué)</button>
@@ -1010,14 +1010,14 @@ APP1_USECASES = [
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité CDLD</span>
+                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité Exérèse (référence à confirmer par un juriste)</span>
                         <span class="wf-status-badge wf-badge-process">⚙️ Vérification Légale (95%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [CDLD-CHECK] Format numéro INAMI médecin : Valide</code><br>
-                        <code>> [CDLD-CHECK] Règle Art. L1232-17 §2 satisfaite : Exérèse certifiée</code><br>
-                        <code>> [CDLD-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>
+                        <code>> [LEGAL-CHECK] Format numéro INAMI médecin : Valide</code><br>
+                        <code>> [LEGAL-CHECK] Règle Art. L1232-17 §2 satisfaite (référence à confirmer par un juriste) : Exérèse certifiée</code><br>
+                        <code>> [LEGAL-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>
                       </div>
                     </div>"""
                 },
@@ -1191,7 +1191,7 @@ APP1_USECASES = [
             "Transmission sécurisée de l'ordre d'encodage et de gravure à l'application PaxStation de l'atelier."
         ],
         "postconditions": "Ordre d'encodage officiel émis, BAT PDF/CBOR archivé localement avec double émargement.",
-        "legal": "Code civil belge (art. 1322 - valeur probante de la signature électronique).",
+        "legal": "Code civil belge (art. 1322 - valeur probante de la signature électronique) (référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -1208,7 +1208,7 @@ APP1_USECASES = [
             ],
             "validationMsg": {
                 "title": "Bon à Tirer Définitivement Validé",
-                "badge": "Conforme Art. 1322 Code Civil",
+                "badge": "Conforme Art. 1322 Code Civil (référence à confirmer par un juriste)",
                 "detail": "Double signature enregistrée. Ordre d'encodage transmis à PaxStation pour gravure physique."
             },
             "errorCase": {
@@ -1232,7 +1232,7 @@ APP1_USECASES = [
                       <div class="wf-bat-summary">
                         <div><strong>Commande :</strong> Lot Duo Le Pax Funèbre (Sanctuaire + Directives)</div>
                         <div><strong>Défunt :</strong> Henri Dubois • Empreinte CBOR : a4f8...b129</div>
-                        <div><strong>Sécurité :</strong> Pacemaker retiré (Dr. Vaneck) • Sarcomusation validée</div>
+                        <div><strong>Sécurité :</strong> Pacemaker retiré (Dr. Vaneck) • Sarcomusation (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) validée</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">✍️ Signer le BAT Numérique & Transmettre</button>
@@ -1273,7 +1273,7 @@ APP1_USECASES = [
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [BAT-LEGAL] Horodatage certifié : 2026-10-04T15:30:00Z</code><br>
-                        <code>> [BAT-LEGAL] Verrouillage contractuel non répudiable (Art. 1322 C. civ.) : OK</code><br>
+                        <code>> [BAT-LEGAL] Verrouillage contractuel non répudiable (Art. 1322 C. civ. — référence à confirmer par un juriste) : OK</code><br>
                         <code>> [NETWORK-LOCAL] Ordre d'encodage n° ORD-2026-0491 transmis à PaxStation</code>
                       </div>
                     </div>"""

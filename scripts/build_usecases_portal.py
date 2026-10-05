@@ -177,11 +177,11 @@ def generate_interactive_theater():
               <div id="memorial-drawer-content" class="hidden space-y-2 pt-2 border-t border-slate-800/80 text-xs text-slate-300">
                 <div class="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
                   <span>Mode de Sépulture : <strong>Inhumation Naturelle (Biolande)</strong></span>
-                  <span class="text-emerald-400 font-mono">Conforme CDLD</span>
+                  <span class="text-emerald-400 font-mono">Conforme (référence à confirmer par un juriste)</span>
                 </div>
                 <div class="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800">
                   <span>Don d'Organes : <strong>Favorable (Sensibilisation familiale)</strong></span>
-                  <span class="text-emerald-400 font-mono">Loi 13 Juin 1986</span>
+                  <span class="text-emerald-400 font-mono">Loi 13 Juin 1986 (référence à confirmer par un juriste)</span>
                 </div>
                 <div class="p-2.5 rounded bg-red-950/30 border border-red-500/50 text-red-200 flex items-center gap-2">
                   <span class="text-lg">⚠️</span>
@@ -250,7 +250,7 @@ def generate_interactive_theater():
                       <span class="text-2xl">⚖️</span>
                       <div>
                         <div class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold">Volontés Civiles & Médicales</div>
-                        <div class="text-xs text-slate-400">Certifié Art. L1232-17 CDLD</div>
+                        <div class="text-xs text-slate-400">Volontés funéraires (référence à confirmer par un juriste)</div>
                       </div>
                     </div>
                     <span class="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">Scellé Ed25519</span>
@@ -451,7 +451,7 @@ def generate_interactive_theater():
 
               <!-- Bannière de Résultat -->
               <div id="lfa-result-banner" class="hidden p-3 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-200 text-xs leading-snug">
-                <strong>✔ DÉPISTAGE CONFORME (&lt; 10 ppb) :</strong> Ligne T absente (principe compétitif) et Ligne C validée. Aucune molécule de pentobarbital détectée dans le broyat de larves. Valorisation biologique autorisée.
+                <strong>✔ DÉPISTAGE CONFORME :</strong> Lignes C et T visibles (principe compétitif). Absence de molécule de pentobarbital détectée dans la dépouille. Filière sarcomusation autorisée.
               </div>
             </div>
 
@@ -470,16 +470,16 @@ def generate_interactive_theater():
             <div class="space-y-1.5 bg-obsidian-950 border border-slate-800 rounded-xl p-4">
               <span class="text-xs uppercase font-mono text-gold-400 font-bold block mb-2">Les 10 Portes Sanitaires Infranchissables :</span>
               <div class="grid grid-cols-2 gap-2 text-xs">
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G0: Inscription Sanitel</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G1: Ségrégation Espèce</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G2: Dépistage LFA (&lt;10ppb)</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G3: Quarantaine 48h</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G4: Stérilisation 133°C/3b</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G5: Feed-Ban Anti-Prion</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G6: PCR Épizooties DNF</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G7: Scellement Ed25519</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G8: Aiguillage Commercial</span>
-                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G9: Certificat Inviolable</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G0: Destination &amp; Cibles</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G1: Taxonomie &amp; Lignage</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G2: Protection Restes Humains</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G3: Catégories &amp; Substrats</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G4: Dépistage Pentobarbital</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G5: Feed-Ban Source Ruminant</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G6: Feed-Ban Cible Ruminant</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G7: Règle d'Or Anti-Cannibalisme</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G8: Feed-Ban Groupes &amp; Espèces</span>
+                <span class="iron-gate-flag px-2 py-1 rounded font-mono bg-slate-900 border border-slate-800 text-slate-400">G9: Traitement Sanitaire &amp; Preuve</span>
               </div>
             </div>
           </div>
@@ -617,7 +617,7 @@ def main():
           </div>
           <h2 class="text-2xl font-bold font-title text-white">PaxStudio Design — Personnalisation des 2 Cartes & Médaillons</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            L'espace de co-création visuelle et mémorielle pour la famille et son conseiller funéraire. Permet le design recto/verso des deux cartes (Carte Sanctuaire mémorielle et Carte Directives médicales/civiles), le choix des finitions dorées, la prévisualisation 3D temps réel, le carrousel photo 220x220 WebP, l'oscilloscope vocal et la génération de la <strong>capsule de pré-encodage scellée</strong> prête pour l'agence.
+            L'espace de co-création visuelle et mémorielle pour la famille et son conseiller funéraire. Permet le design recto/verso des deux cartes (Carte Sanctuaire mémorielle et Carte Directives médicales/civiles), le choix des finitions dorées, la prévisualisation 3D temps réel, le carrousel photo 480x480 (DEC-AET-12) WebP, l'oscilloscope vocal et la génération de la <strong>capsule de pré-encodage scellée</strong> prête pour l'agence.
           </p>
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎨 Carte Sanctuaire & Directives</span>
@@ -705,14 +705,14 @@ def main():
           </div>
           <h2 class="text-2xl font-bold font-title text-white">Sanctuaire Mémoriel Mobile — Recueillement & Directives</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            L'application universelle de recueillement destinée aux familles et proches du défunt. Déclenchée instantanément par simple <strong>tap NFC sans aucun mot de passe</strong> (Zéro Login). Procède à la vérification cryptographique décentralisée COSE_Sign1, applique le bandeau de réserve DEC-AET-07 Option B en cas d'émetteur inconnu, orchestre le sanctuaire acoustique avec ducking vocal automatique (-14 dB), et garantit la consultation solennelle des volontés civiles et des directives d'urgence (alerte pacemaker Art. L1232-17 CDLD, don d'organes, legs à la science).
+            L'application universelle de recueillement destinée aux familles et proches du défunt. Déclenchée instantanément par simple <strong>tap NFC sans aucun mot de passe</strong> (Zéro Login). Procède à la vérification cryptographique décentralisée COSE_Sign1, applique le bandeau de réserve DEC-AET-07 Option B en cas d'émetteur inconnu, orchestre le sanctuaire acoustique avec ducking vocal automatique (-14 dB), et garantit la consultation solennelle des volontés civiles et des directives d'urgence (alerte exérèse pacemaker, don d'organes, legs à la science — références à confirmer par un juriste).
           </p>
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📱 NFC Instantané Zéro Login</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🔐 Vérification Ed25519 / ES256</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🎙️ Ducking Vocal Vivant</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📜 Consultation Volontés Civiles</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">⚠️ Alerte Vitale Pacemaker CDLD</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">⚠️ Alerte Vitale Pacemaker (référence à confirmer par un juriste)</span>
           </div>
         </div>
       </div>
@@ -749,11 +749,11 @@ def main():
           </div>
           <h2 class="text-2xl font-bold font-title text-white">Filière Sarcomusation & Traçabilité Post-Décès</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            La chaîne logistique et sanitaire complète régissant la décomposition biologique par les larves d'<em>Hermetia illucens</em> (mouche soldat noire). Assure la ségrégation des 4 profils de dépouilles (Compagnie, Faune sauvage DNF, Élevage Sanitel, Déchets abattoir MRS), le dépistage toxicologique LFA du pentobarbital (&lt; 10 ppb), la pasteurisation 70°C/1h, la stérilisation Méthode 1 (133°C, 3 bars, 20 min), et l'évaluation par l'oracle mathématique <strong>The Iron Gate (G0 à G9)</strong> garantissant le respect absolu de la règle d'or anti-prion et du feed-ban européen.
+            La chaîne logistique et sanitaire complète régissant la décomposition biologique par les larves d'<em>Hermetia illucens</em> (mouche soldat noire). Assure la ségrégation des 4 profils de dépouilles (Compagnie, Faune sauvage DNF, Élevage Sanitel, Déchets abattoir MRS), le dépistage toxicologique qualitatif LFA du pentobarbital, la pasteurisation 70°C/1h, la stérilisation Méthode 1 (133°C, 3 bars, 20 min), et l'évaluation par l'oracle mathématique <strong>The Iron Gate (G0 à G9)</strong> garantissant le respect absolu de la règle d'or anti-prion et du feed-ban européen.
           </p>
           <div class="flex flex-wrap gap-2 pt-2 text-xs">
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🪰 Larves Hermetia illucens (343691)</span>
-            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🧪 Dépistage LFA Pentobarbital (&lt;10 ppb)</span>
+            <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🧪 Dépistage qualitatif LFA Pentobarbital</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">♨️ Stérilisation Méthode 1 (133°C/3b)</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">🛡️ The Iron Gate (G0-G9 Anti-Prion)</span>
             <span class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">📜 Certificat de Lot Ed25519</span>

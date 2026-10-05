@@ -11,15 +11,15 @@
 | ID | Titre du Cas d'Usage | Catégorie Métier | Acteur | Plateformes | Référence Normative |
 | :---: | :--- | :--- | :--- | :--- | :--- |
 | [`UC-101`](#uc-101) | [Choix des Modèles de Carte & Médaillons (Sanctuaire & Directives)](#uc-101) | **Gabarits & Modèles** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Norme ISO/IEC 7810 ID-1 (spécifications des cartes physiques d'identification). |
-| [`UC-102`](#uc-102) | [Prévisualisation 3D Interactive Recto/Verso avec Rendu Or & Mat](#uc-102) | **Rendu 3D & Matériaux** | Famille | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire). |
-| [`UC-103`](#uc-103) | [Colorimétrie, Dorures & Typographies Solennelles](#uc-103) | **Design & Esthétique** | Conseiller & Famille | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement général sur l'accessibilité des services (Directive européenne 2019/882). |
-| [`UC-104`](#uc-104) | [Studio Photo & Carrousel Portraits WebP (Jalon STORAGE-001)](#uc-104) | **Médias Visuels** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement général sur la protection des données (RGPD art. 5 - minimisation des données). |
-| [`UC-105`](#uc-105) | [Studio Vocal & Oscilloscope Waveform Crop (Anti-Gestes Android)](#uc-105) | **Médias Sonores** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de la santé publique (protection de l'intégrité morale du recueillement). |
-| [`UC-106`](#uc-106) | [Choix & Intégration des Musiques d'Adieu & Recueillement](#uc-106) | **Médias Sonores** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises). |
-| [`UC-107`](#uc-107) | [Saisie Guidée des Dernières Volontés Civiles & Funéraires](#uc-107) | **Dernières Volontés** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt). |
-| [`UC-108`](#uc-108) | [Directives Médicales Post-Mortem (Pacemaker, Dons, Legs)](#uc-108) | **Directives Médicales** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques). |
+| [`UC-102`](#uc-102) | [Prévisualisation 3D Interactive Recto/Verso avec Rendu Or & Mat](#uc-102) | **Rendu 3D & Matériaux** | Famille | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire) (référence à confirmer par un juriste). |
+| [`UC-103`](#uc-103) | [Colorimétrie, Dorures & Typographies Solennelles](#uc-103) | **Design & Esthétique** | Conseiller & Famille | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement général sur l'accessibilité des services (Directive européenne 2019/882) (référence à confirmer par un juriste). |
+| [`UC-104`](#uc-104) | [Studio Photo & Carrousel Portraits WebP (Jalon STORAGE-001)](#uc-104) | **Médias Visuels** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement général sur la protection des données (RGPD art. 5 - minimisation des données) (référence à confirmer par un juriste). |
+| [`UC-105`](#uc-105) | [Studio Vocal & Oscilloscope Waveform Crop (Anti-Gestes Android)](#uc-105) | **Médias Sonores** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de la santé publique (protection de l'intégrité morale du recueillement) (référence à confirmer par un juriste). |
+| [`UC-106`](#uc-106) | [Choix & Intégration des Musiques d'Adieu & Recueillement](#uc-106) | **Médias Sonores** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises) (référence à confirmer par un juriste). |
+| [`UC-107`](#uc-107) | [Saisie Guidée des Dernières Volontés Civiles & Funéraires](#uc-107) | **Dernières Volontés** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt) (référence à confirmer par un juriste). |
+| [`UC-108`](#uc-108) | [Directives Médicales Post-Mortem (Pacemaker, Dons, Legs)](#uc-108) | **Directives Médicales** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
 | [`UC-109`](#uc-109) | [Génération & Validation de la Capsule de Pré-Encodage CBOR](#uc-109) | **Compilation & Core** | Conseiller & Système Core | Web Standard (PWA Hors-Ligne), Node.js / Core Engine | Spécification technique IETF RFC 8949 (déterminisme binaire CBOR). |
-| [`UC-110`](#uc-110) | [Bon à Tirer (BAT) Numérique & Validation Familiale](#uc-110) | **Validation Finale** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code civil belge (art. 1322 - valeur probante de la signature électronique). |
+| [`UC-110`](#uc-110) | [Bon à Tirer (BAT) Numérique & Validation Familiale](#uc-110) | **Validation Finale** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code civil belge (art. 1322 - valeur probante de la signature électronique) (référence à confirmer par un juriste). |
 
 ---
 
@@ -214,7 +214,7 @@
 | **Acteur Principal** | Famille |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `WebGL`, `ThreeJS`, `PBR`, `Rendu3D` |
-| **Base Légale & Normative** | Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire). |
+| **Base Légale & Normative** | Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Visionneuse 3D PBR WebGL` |
 
 ### 🎯 Préconditions & Postconditions
@@ -381,7 +381,7 @@
 | **Acteur Principal** | Conseiller & Famille |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `Palette`, `Dorures`, `Typographie`, `Harmonie` |
-| **Base Légale & Normative** | Règlement général sur l'accessibilité des services (Directive européenne 2019/882). |
+| **Base Légale & Normative** | Règlement général sur l'accessibilité des services (Directive européenne 2019/882) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Palette Chromatique & Typographies` |
 
 ### 🎯 Préconditions & Postconditions
@@ -547,7 +547,7 @@
 | **Acteur Principal** | Famille & Conseiller |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `WebP`, `Portraits`, `Carrousel`, `STORAGE-001` |
-| **Base Légale & Normative** | Règlement général sur la protection des données (RGPD art. 5 - minimisation des données). |
+| **Base Légale & Normative** | Règlement général sur la protection des données (RGPD art. 5 - minimisation des données) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Studio Photo & Compression WebP (STORAGE-001)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -558,13 +558,13 @@
 
 > [!TIP]
 > **Postconditions Garanties :**
-> Portraits compressés et dimensionnés à 220x220 pixels, empreintes SHA-256 enregistrées.
+> Portraits compressés et dimensionnés à 480×480 pixels (WebP max 20 Ko / 20 480 octets, conforme DEC-AET-12), empreintes SHA-256 enregistrées.
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
 1. Import des photographies mémorielles du défunt dont le volume et le format respectent les quotas alloués par le jalon technique STORAGE-001.
 2. Outil de cadrage circulaire adapté au médaillon avec détection automatique du visage.
-3. Compression algorithmique en WebP sans perte perceptible, calibrée sous le seuil maximal de 48 Ko de la partition EF03.
+3. Compression algorithmique en WebP sans perte perceptible, calibrée sous le seuil maximal de 48 Ko de la partition EF-3.
 4. Génération du carrousel de 3 portraits solennels prêts pour l'injection dans le silicium.
 
 ### 📝 Spécification des Champs de Saisie & Données
@@ -572,15 +572,15 @@
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
 | `source_photo` | **Fichier Source** | `file` | `portrait_famille_hd.jpg (4.2 Mo)` | Choisir une photo | `Source HD` | ✅ Requis |
-| `crop_dim` | **Résolution Cible** | `text` | `220 × 220 pixels (Circulaire)` | Dimensions | `Homologué` | ✅ Requis |
-| `quota_ef03` | **Quota Partition EF03** | `text` | `Budget Max : 48 Ko (STORAGE-001)` | Quota puce | `Silicium` | ⭕ Optionnel |
+| `crop_dim` | **Résolution Cible** | `text` | `480 × 480 pixels (WebP max 20 Ko / 20 480 octets, conforme DEC-AET-12)` | Dimensions | `DEC-AET-12` | ✅ Requis |
+| `quota_ef3` | **Quota Partition EF-3** | `text` | `Budget Max : 48 Ko (STORAGE-001)` | Quota puce | `Silicium` | ⭕ Optionnel |
 | `webp_size` | **Taille Compressée** | `text` | `12.4 Ko (Consommation : 25.8% du budget)` | Poids final | `Optimisé` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
 | Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
 | :--- | :--- | :--- | :--- | :---: |
-| `btn_crop_compress` | **Rogner 220×220 & Compresser WebP** | `primary` | `idle` | ✂️ |
+| `btn_crop_compress` | **Rogner 480×480 & Compresser WebP (DEC-AET-12)** | `primary` | `idle` | ✂️ |
 | `btn_add_carousel` | **Ajouter au Carrousel (Max 3)** | `secondary` | `idle` | ➕ |
 
 ### ✅ Critères de Succès & Validation Normative
@@ -591,14 +591,14 @@
 >
 > **Badge de Conformité :** `Jalon STORAGE-001 Conforme`
 >
-> **Détail Opérationnel :** Poids total 37.2 Ko pour 3 portraits. Quota partition EF03 (48 Ko) respecté.
+> **Détail Opérationnel :** Poids total 37.2 Ko pour 3 portraits. Quota partition EF-3 (48 Ko) respecté.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
 | Propriété d'Anomalie | Description Technique |
 | :--- | :--- |
 | **Code d'Erreur Normatif** | `ERR_PROFILE_TOO_LARGE` |
-| **Intitulé de l'Incident** | **Dépassement du Quota Silicium EF03** |
+| **Intitulé de l'Incident** | **Dépassement du Quota Silicium EF-3** |
 | **Condition Déclenchante** | Import d'images dont le poids compressé cumulé excède 48 Ko (limite matérielle de l'ACOSJ 92k). |
 | **Message d'Erreur UI** | *« Erreur critique : La taille cumulée des médias (52.4 Ko) dépasse le budget strict de 48 Ko alloué par STORAGE-001. »* |
 | **Action Corrective Requise** | **Abaisser la résolution de quantification WebP ou limiter le carrousel à 2 portraits.** |
@@ -610,7 +610,7 @@
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
 | **1** | **Initial / Avant Trigger** | Zone de Glisser-Déposer de Photo Brute | *En attente utilisateur* | Photo HD de 4.2 Mo chargée. Outil de cadrage circulaire en attente, bouton de compression inactif. |
-| **2** | **Déclenchement ⚡** | Clic sur 'Rogner 220×220 & Compresser WebP' | `Déclenchement du rognage facial automatique 220x220 pixels` | Détection automatique des contours du visage et application du masque médaillon. |
+| **2** | **Déclenchement ⚡** | Clic sur 'Rogner 480×480 & Compresser WebP (DEC-AET-12)' | `Déclenchement du rognage facial automatique 480x480 pixels (DEC-AET-12)` | Détection automatique des contours du visage et application du masque médaillon. |
 | **3** | **Traitement ⚙️** | Compression Algorithmique WebP & Vérification Quota | `Progression : 68%` | Compression sans perte perceptible et vérification stricte du budget STORAGE-001 (48 Ko max). |
 | **4** | **Scellement & Fin ✨** | Portrait Mémoriel Scellé dans le Carrousel | `Statut : success` | Photo optimisée prête pour gravure silicium. Jauge mémoire verte affichée. |
 
@@ -629,15 +629,15 @@
                       <div class="wf-dropzone-box">
                         <span class="wf-file-icon">🖼️</span>
                         <div><strong>portrait_famille_hd.jpg</strong> (4 210 Ko)</div>
-                        <div class="wf-subtext">Cadrage circulaire 220×220 et compression WebP requis</div>
+                        <div class="wf-subtext">Cadrage circulaire 480×480 et compression WebP (max 20 Ko / 20 480 octets, conforme DEC-AET-12) requis</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">✂️ Rogner 220×220 & Compresser WebP</button>
+                        <button class="wf-btn wf-btn-primary">✂️ Rogner 480×480 & Compresser WebP (DEC-AET-12)</button>
                       </div>
                     </div>
 ```
 
-#### Phase 2 - Déclenchement : Clic sur 'Rogner 220×220 & Compresser WebP'
+#### Phase 2 - Déclenchement : Clic sur 'Rogner 480×480 & Compresser WebP (DEC-AET-12)'
 *Détection automatique des contours du visage et application du masque médaillon.*
 
 ```html
@@ -648,7 +648,7 @@
                       </div>
                       <div class="wf-crop-canvas wf-radar-pulse">
                         <div class="wf-circle-crop-guide">
-                          <span class="wf-crop-label">Cible 220×220 px • Centrage automatique</span>
+                          <span class="wf-crop-label">Cible 480×480 px (DEC-AET-12) • Centrage automatique</span>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -668,9 +668,9 @@
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 68%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [WEBP-CORE] Rééchantillonnage 220x220 bicubique : OK</code><br>
+                        <code>> [WEBP-CORE] Rééchantillonnage 480x480 bicubique (DEC-AET-12) : OK</code><br>
                         <code>> [WEBP-CORE] Quantification colorimétrique sans perte perceptible : 12.4 Ko</code><br>
-                        <code>> [STORAGE-001] Quota partition EF03 vérifié : 12.4 Ko / 48.0 Ko (Conforme)</code>
+                        <code>> [STORAGE-001] Quota partition EF-3 vérifié : 12.4 Ko / 48.0 Ko (Conforme)</code>
                       </div>
                     </div>
 ```
@@ -711,7 +711,7 @@
 | **Acteur Principal** | Famille & Conseiller |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `Waveform`, `AudioCrop`, `AntiGestesAndroid`, `WebAudio` |
-| **Base Légale & Normative** | Code de la santé publique (protection de l'intégrité morale du recueillement). |
+| **Base Légale & Normative** | Code de la santé publique (protection de l'intégrité morale du recueillement) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Oscilloscope Vocal & Anti-Gestes Android` |
 
 ### 🎯 Préconditions & Postconditions
@@ -875,7 +875,7 @@
 | **Acteur Principal** | Famille & Conseiller |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `Musique`, `Recueillement`, `Ambiance`, `Fauré`, `Satie` |
-| **Base Légale & Normative** | Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises). |
+| **Base Légale & Normative** | Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Ambiance Musicale & Recueillement` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1039,7 +1039,7 @@
 | **Acteur Principal** | Famille & Conseiller |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `Volontes`, `Loi1971`, `Ceremonie`, `Sepulture` |
-| **Base Légale & Normative** | Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt). |
+| **Base Légale & Normative** | Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Fiche des Volontés Civiles & Funéraires` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1054,8 +1054,8 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Questionnaire structuré conforme à la loi belge du 20 juillet 1971 (cérémonie civile laïque ou culte religieux).
-2. Choix du mode de sépulture : inhumation traditionnelle, crémation cinéraire ou sarcomusation avec retour en forêt.
+1. Questionnaire structuré conforme à la loi belge du 20 juillet 1971 (cérémonie civile laïque ou culte religieux) (référence à confirmer par un juriste).
+2. Choix du mode de sépulture : inhumation traditionnelle, crémation cinéraire ou sarcomusation avec retour en forêt (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)).
 3. Désignation de la destination finale des cendres ou résidus mémoriels (arbre cinéraire privé agréé sous dérogation DEC-AET-05).
 4. Rédaction des souhaits spécifiques (fleurs, dons à une association, dispersion solennelle).
 
@@ -1063,8 +1063,8 @@
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `ceremony_type` | **Nature de Cérémonie** | `select` | `Cérémonie Civile Laïque sous les Arbres` | Cérémonie | `Loi 1971` | ✅ Requis |
-| `burial_mode` | **Mode de Sépulture** | `select` | `Sarcomusation & Amendement Forestier` | Sépulture | `Filière` | ✅ Requis |
+| `ceremony_type` | **Nature de Cérémonie** | `select` | `Cérémonie Civile Laïque sous les Arbres` | Cérémonie | `Loi 1971 (référence à confirmer par un juriste)` | ✅ Requis |
+| `burial_mode` | **Mode de Sépulture** | `select` | `Sarcomusation & Amendement Forestier (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste))` | Sépulture | `Démonstrateur Prospectif` | ✅ Requis |
 | `residue_dest` | **Destination des Résidus** | `select` | `Arbre Cinéraire Mémoriel (Forêt Saint-Hubert)` | Destination | `DEC-AET-05` | ✅ Requis |
 | `public_message` | **Message d'Adieu Public** | `textarea` | `« Que la nature accueille ma mémoire en paix auprès des grands chênes. »` | Message | `Facultatif` | ⭕ Optionnel |
 
@@ -1081,9 +1081,9 @@
 
 > **Titre :** Volontés Civiles Encodées
 >
-> **Badge de Conformité :** `Conforme Loi 20 juillet 1971`
+> **Badge de Conformité :** `Conforme Loi 20 juillet 1971 (référence à confirmer par un juriste)`
 >
-> **Détail Opérationnel :** Primauté des volontés garantie. Sarcomusation et arbre cinéraire enregistrés.
+> **Détail Opérationnel :** Primauté des volontés garantie. Sarcomusation (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) et arbre cinéraire enregistrés.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
@@ -1093,7 +1093,7 @@
 | **Intitulé de l'Incident** | **Clauses Incompatibles avec la Législation** |
 | **Condition Déclenchante** | Stipulation d'une clause contraire à l'ordre public ou refus de signature des ayants droit. |
 | **Message d'Erreur UI** | *« Erreur de conformité : La disposition funéraire renseignée contrevient au cadre légal des sépultures. »* |
-| **Action Corrective Requise** | **Reformuler les clauses pour s'aligner sur les options autorisées par la loi du 20 juillet 1971.** |
+| **Action Corrective Requise** | **Reformuler les clauses pour s'aligner sur les options autorisées par la loi du 20 juillet 1971 (référence à confirmer par un juriste).** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
@@ -1124,7 +1124,7 @@
                       </div>
                       <div class="wf-field-group">
                         <label class="wf-label">Destination Mémorielle <span class="wf-req">*</span></label>
-                        <div class="wf-select-placeholder">-- Sarcomusation & Forêt cinéraire --</div>
+                        <div class="wf-select-placeholder">-- Sarcomusation & Forêt cinéraire (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) --</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">📜 Sceller les Volontés Civiles in-silico</button>
@@ -1143,7 +1143,7 @@
                       </div>
                       <div class="wf-wills-summary wf-radar-pulse">
                         <div><strong>Cérémonie :</strong> Laïque solennelle</div>
-                        <div><strong>Sépulture :</strong> Sarcomusation & Retour forestier (DEC-AET-05)</div>
+                        <div><strong>Sépulture :</strong> Sarcomusation & Retour forestier (DEC-AET-05) <span class="wf-badge-warning">[Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)]</span></div>
                         <div><strong>Arbre du Souvenir :</strong> Chêne n° F-2408 (Saint-Hubert)</div>
                       </div>
                       <div class="wf-btn-row">
@@ -1164,7 +1164,7 @@
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 75%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [CORE-CBOR] Sérialisation clé 1 (cérémonie) et clé 2 (destination) : OK</code><br>
-                        <code>> [CORE-CBOR] Vérification conformité Loi 20 juillet 1971 : SUCCÈS</code><br>
+                        <code>> [CORE-CBOR] Vérification conformité Loi 20 juillet 1971 (référence à confirmer par un juriste) : SUCCÈS</code><br>
                         <code>> [CORE-CBOR] Calcul du condensat SHA-256 des volontés : 8e4b...910a</code>
                       </div>
                     </div>
@@ -1177,7 +1177,7 @@
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
                         <span class="wf-app-title">PaxStudio Pro • Volontés Scellées</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Conforme Loi 1971 (référence à confirmer par un juriste)</span>
                       </div>
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">⚖️</span>
@@ -1208,7 +1208,7 @@
 | **Acteur Principal** | Famille & Conseiller |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `Pacemaker`, `DonOrganes`, `LegsCorps`, `SecuriteOperateurs` |
-| **Base Légale & Normative** | Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques). |
+| **Base Légale & Normative** | Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Volet Médical d'Urgence & Sécurité` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1223,9 +1223,9 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD).
+1. Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).
 2. Si stimulateur présent : blocage strict imposant le renseignement de l'attestation chirurgicale d'exérèse avec numéro d'ordre du médecin.
-3. Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986).
+3. Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986 — référence à confirmer par un juriste).
 4. Enregistrement éventuel d'un protocole de legs du corps à la science sous 48h auprès d'une université conventionnée.
 
 ### 📝 Spécification des Champs de Saisie & Données
@@ -1235,7 +1235,7 @@
 | `has_pacemaker` | **Porteur de Stimulateur Cardiaque (Pacemaker)** | `select` | `OUI (Présence confirmée)` | Sélectionner | `ALERTE VITALE` | ✅ Requis |
 | `pacemaker_cert` | **Attestation d'Exérèse Chirurgicale** | `file` | `certificat_exerese_dr_vaneck.pdf` | Téléverser attestation | `Obligatoire si Oui` | ✅ Requis |
 | `pacemaker_doc` | **Médecin Certificateur & N° Ordre** | `text` | `Dr. Marc Vaneck — INAMI 1-40912-88-004` | Nom et INAMI | `Vérifié` | ✅ Requis |
-| `organ_donation` | **Don d'Organes (Loi 1986)** | `select` | `Consentement Plein et Entier Confirmé` | Statut don | `Loi 1986` | ✅ Requis |
+| `organ_donation` | **Don d'Organes (Loi 1986 — référence à confirmer par un juriste)** | `select` | `Consentement Plein et Entier Confirmé` | Statut don | `Loi 1986 (référence à confirmer par un juriste)` | ✅ Requis |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -1250,7 +1250,7 @@
 
 > **Titre :** Volet Médical d'Urgence Certifié
 >
-> **Badge de Conformité :** `Conforme Art. L1232-17 CDLD`
+> **Badge de Conformité :** `Conforme Art. L1232-17 CDLD (référence à confirmer par un juriste)`
 >
 > **Détail Opérationnel :** Exérèse chirurgicale du pacemaker certifiée par le Dr. Vaneck. Zéro risque d'explosion.
 
@@ -1289,7 +1289,7 @@
                       </div>
                       <div class="wf-alert-card wf-alert-red">
                         <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>
-                        <p class="wf-subtext">L'article L1232-17 §2 CDLD impose l'exérèse chirurgicale avant toute opération.</p>
+                        <p class="wf-subtext">L'article L1232-17 §2 CDLD (référence à confirmer par un juriste) impose l'exérèse chirurgicale avant toute opération.</p>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-disabled" disabled>🩺 Valider le Volet Médical (Bloqué)</button>
@@ -1322,14 +1322,14 @@
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité CDLD</span>
+                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité Exérèse (référence à confirmer par un juriste)</span>
                         <span class="wf-status-badge wf-badge-process">⚙️ Vérification Légale (95%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [CDLD-CHECK] Format numéro INAMI médecin : Valide</code><br>
-                        <code>> [CDLD-CHECK] Règle Art. L1232-17 §2 satisfaite : Exérèse certifiée</code><br>
-                        <code>> [CDLD-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>
+                        <code>> [LEGAL-CHECK] Format numéro INAMI médecin : Valide</code><br>
+                        <code>> [LEGAL-CHECK] Règle Art. L1232-17 §2 satisfaite (référence à confirmer par un juriste) : Exérèse certifiée</code><br>
+                        <code>> [LEGAL-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>
                       </div>
                     </div>
 ```
@@ -1538,7 +1538,7 @@
 | **Acteur Principal** | Famille & Conseiller Funéraire |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `BAT`, `Emargement`, `Signature`, `Contrat` |
-| **Base Légale & Normative** | Code civil belge (art. 1322 - valeur probante de la signature électronique). |
+| **Base Légale & Normative** | Code civil belge (art. 1322 - valeur probante de la signature électronique) (référence à confirmer par un juriste). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Bon à Tirer (BAT) Numérique Officiel` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1580,7 +1580,7 @@
 
 > **Titre :** Bon à Tirer Définitivement Validé
 >
-> **Badge de Conformité :** `Conforme Art. 1322 Code Civil`
+> **Badge de Conformité :** `Conforme Art. 1322 Code Civil (référence à confirmer par un juriste)`
 >
 > **Détail Opérationnel :** Double signature enregistrée. Ordre d'encodage transmis à PaxStation pour gravure physique.
 
@@ -1620,7 +1620,7 @@
                       <div class="wf-bat-summary">
                         <div><strong>Commande :</strong> Lot Duo Le Pax Funèbre (Sanctuaire + Directives)</div>
                         <div><strong>Défunt :</strong> Henri Dubois • Empreinte CBOR : a4f8...b129</div>
-                        <div><strong>Sécurité :</strong> Pacemaker retiré (Dr. Vaneck) • Sarcomusation validée</div>
+                        <div><strong>Sécurité :</strong> Pacemaker retiré (Dr. Vaneck) • Sarcomusation (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste)) validée</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">✍️ Signer le BAT Numérique & Transmettre</button>
@@ -1659,7 +1659,7 @@
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [BAT-LEGAL] Horodatage certifié : 2026-10-04T15:30:00Z</code><br>
-                        <code>> [BAT-LEGAL] Verrouillage contractuel non répudiable (Art. 1322 C. civ.) : OK</code><br>
+                        <code>> [BAT-LEGAL] Verrouillage contractuel non répudiable (Art. 1322 C. civ. — référence à confirmer par un juriste) : OK</code><br>
                         <code>> [NETWORK-LOCAL] Ordre d'encodage n° ORD-2026-0491 transmis à PaxStation</code>
                       </div>
                     </div>
