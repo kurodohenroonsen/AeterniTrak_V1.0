@@ -233,13 +233,23 @@ def generate_app_document(app):
     
     if app["id"] == "app4" and hasattr(a4, "TRACEABILITY_EVENTS"):
         lines.append("## ⛓️ Chaîne Événementielle Complète de Traçabilité Post-Mortem (Événements 1 à 6)\n")
-        lines.append("Cette chaîne événementielle régit l'intégralité du cycle post-mortem de la dépouille, garantissant une traçabilité sans faille, de l'instant du décès jusqu'au scellement cryptographique Ed25519 final et à la remise mémorielle.\n")
-        lines.append("| Étape | Événement Clé | Acteur Principal | Statut Scellé | Température / Thermique | Résumé & Enjeux Sanitaires | UCs Liés |")
-        lines.append("| :---: | :--- | :--- | :--- | :--- | :--- | :--- |")
+        lines.append("Cette chaîne événementielle régit l'intégralité du cycle post-mortem de la dépouille, garantissant une traçabilité sans faille, de l'instant du décès jusqu'au scellement cryptographique Ed25519 final et à la remise mémorielle, articulée rigoureusement **lieu par lieu** selon la réglementation funéraire et sanitaire belge et européenne.\n")
+        lines.append("### 🏛️ Matrice Événementielle Globale (Lieu par Lieu)\n")
+        lines.append("| Étape | Événement Clé | Lieu Réglementaire | Acteur Principal | Statut Scellé | Température / Thermique | Résumé & Enjeux Sanitaires | UCs Liés |")
+        lines.append("| :---: | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
         for evt in a4.TRACEABILITY_EVENTS:
             ucs_links = ", ".join([f"[`{u}`](#{u.lower()})" for u in evt["linked_ucs"]])
             short_sum = evt['summary'].replace("|", "-")
-            lines.append(f"| **{evt['step']}** | **{evt['name']}** (`{evt['id']}`) | {evt['actor_role']} | `{evt['seal_status_code']}` | {evt['cold_chain_temp']} | {short_sum} | {ucs_links} |")
+            loc_name = evt.get('location_name', 'Lieu d\'intervention')
+            lines.append(f"| **{evt['step']}** | **{evt['name']}** (`{evt['id']}`) | **{loc_name}** | {evt['actor_role']} | `{evt['seal_status_code']}` | {evt['cold_chain_temp']} | {short_sum} | {ucs_links} |")
+        lines.append("\n### 👤 Profil Humain (`p0`) — Traçabilité Funéraire Légale & Démonstrateur Prospectif (DEC-AET-15)\n")
+        lines.append("Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *Guy Heyman, 1942 — 2026, Matricule État Civil #NAM-2026-0814*, dépouille `AET-HUM-2026-BE-0814`) selon le cadre légal belge (Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-17 §2 - références à confirmer par un juriste) :\n")
+        lines.append("1. **Événement 1 (Survenance)** : Domicile / Chambre d'hôpital (Namur) — Médecin traitant/légiste (Certificat Modèle III C/D), visa d'absence d'obstacle médico-légal, registre SPF Santé Publique (don d'organes, consentement présumé), bracelet inviolable poignet Ed25519 (`SCL-HUM-2026-INIT`).")
+        lines.append("2. **Événement 2 (Transport Primaire)** : Trajet Domicile ➔ Salon PaxFunèbre (N4 Namur) — Fourgon SPW #1-PFN-884, caisson isotherme (0°C..+4°C), autorisation communale de transport avant mise en bière (< 24h/48h sous froid).")
+        lines.append("3. **Événement 3 (Salon & Thanatopraxie)** : Funérarium PaxFunèbre (Cellule #C3, Namur) — **Exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-17 §2 CDLD (danger d'explosion > 250°C et lithium)**, attestation médicale INAMI, mise en bière cercueil agréé.")
+        lines.append("4. **Événement 4 (Maison Communale)** : Hôtel de Ville de Namur — Acte de décès n° 0814/2026, contrôle des dernières volontés (Loi 1971 / Art. 15 CDLD), permis officiel de crémation/sépulture, scellement municipal du cercueil.")
+        lines.append("5. **Événement 5 (Transformation)** : Crématorium de Ciney (850°C) OU Bioréacteur démonstrateur prospectif Hermetia illucens (pasteurisation 70°C/1h, DEC-AET-05/15) — **Verrou absolu The Iron Gate Gate G2 (`HUMAN_REMAINS_DETECTED` ➔ interdiction mathématique de toute filière alimentaire/technique)**.")
+        lines.append("6. **Événement 6 (Sépulture & Clôture)** : Forêt Cinéraire Privée de la Basse-Sambre (Parcelle #FM-08) — Remise solennelle Médaillon ACOSJ 92 Ko (hommage et mémo vocal), amendement biologique au pied de l'arbre du souvenir familial (DEC-AET-05), scellement Ed25519 du certificat de sépulture final (`AET-SPEC-CERT-001`).\n")
         lines.append("\n---\n")
     
     # Génération des cas d'usage

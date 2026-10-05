@@ -512,6 +512,9 @@ def generate_interactive_theater():
             <!-- Commandes du Simulateur (Auto-Play & Profils) -->
             <div class="flex flex-wrap items-center gap-2">
               <div class="flex items-center gap-1 bg-obsidian-950 p-1 rounded-xl border border-slate-800 text-xs font-mono">
+                <button id="btn-trace-prof-p0" onclick="setTraceProfile('p0')" class="px-2.5 py-1.5 rounded-lg text-slate-300 hover:text-white">
+                  👤 Profil Humain
+                </button>
                 <button id="btn-trace-prof-p1" onclick="setTraceProfile('p1')" class="px-2.5 py-1.5 rounded-lg font-bold bg-gold-500 text-obsidian-950 shadow">
                   🐾 Profil 1 (Compagnie)
                 </button>
@@ -608,6 +611,24 @@ def generate_interactive_theater():
                   </div>
                 </div>
 
+                <!-- Cadre Lieu & Réglementation Souveraine -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                  <div class="p-2.5 rounded-xl bg-obsidian-950 border border-slate-800 flex items-start gap-2.5">
+                    <span class="text-base mt-0.5">📍</span>
+                    <div class="min-w-0 flex-1">
+                      <span class="text-[10px] uppercase font-mono text-slate-400 block">Lieu Réglementaire Précis</span>
+                      <strong id="trace-event-location" class="text-slate-200 text-xs block leading-snug">Domicile du déclarant / Clinique (Liège)</strong>
+                    </div>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-obsidian-950 border border-slate-800 flex items-start gap-2.5">
+                    <span class="text-base mt-0.5">⚖️</span>
+                    <div class="min-w-0 flex-1">
+                      <span class="text-[10px] uppercase font-mono text-gold-400 block">Cadre Réglementaire &amp; Loi</span>
+                      <strong id="trace-event-legal" class="text-slate-200 text-xs block leading-snug">Règlement (CE) n° 1069/2009 &amp; Arrêté royal 2007 (références à confirmer par un juriste)</strong>
+                    </div>
+                  </div>
+                </div>
+
                 <!-- Formulaire Interactif de l'Événement -->
                 <div class="space-y-3" id="trace-form-fields-container">
                   <!-- Rempli dynamiquement selon l'événement -->
@@ -686,6 +707,10 @@ def generate_interactive_theater():
                 <div class="flex items-center justify-between text-slate-300">
                   <span>📍 GPS RTK :</span>
                   <span id="trace-gps-val" class="text-gold-300">50.6333° N, 5.5667° E</span>
+                </div>
+                <div class="flex items-center justify-between text-slate-300">
+                  <span>🏛️ Lieu Événement :</span>
+                  <span id="trace-location-box-val" class="text-slate-200 truncate max-w-[200px]" title="Lieu">Liège</span>
                 </div>
                 <div class="flex items-center justify-between text-slate-300">
                   <span>⏱️ Horodatage :</span>

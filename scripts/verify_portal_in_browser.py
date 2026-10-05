@@ -174,6 +174,16 @@ def run_browser_verification():
         page.wait_for_timeout(400)
         assert "active" in page.get_attribute("#hero-panel-expE", "class"), "Hero Panel Exp E non actif"
 
+        print("    -> Test sélection du Profil Humain (p0)...")
+        page.click("#btn-trace-prof-p0")
+        page.wait_for_timeout(300)
+        dep_name_hum = page.inner_text("#trace-depouille-name")
+        assert "Guy Heyman" in dep_name_hum, f"Profil Humain non reflété dans l'identité ({dep_name_hum})"
+        loc_hum = page.inner_text("#trace-event-location")
+        assert "Namur" in loc_hum, f"Lieu du Profil Humain incorrect ({loc_hum})"
+        legal_hum = page.inner_text("#trace-event-legal")
+        assert "1971" in legal_hum, f"Base légale du Profil Humain incorrecte ({legal_hum})"
+
         print("    -> Test changement de profil (Profil 2 Faune Sauvage DNF)...")
         page.click("#btn-trace-prof-p2")
         page.wait_for_timeout(300)

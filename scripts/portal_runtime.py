@@ -479,6 +479,200 @@ JS_RUNTIME = """
     // =========================================================================
 
     const TRACE_PROFILES_DATA = {
+      p0: {
+        id: "p0",
+        name: "Profil Humain — Dignité Post-Mortem & Démonstrateur Mémoriel",
+        badge: "Profil Humain · Sujet de Droit",
+        badgeClass: "bg-purple-950 border border-purple-500/40 text-purple-300",
+        species: "Homo sapiens (TaxID NCBI: 9606 - Être Humain)",
+        deceased: "Guy Heyman (1942 — 2026, Matricule État Civil #NAM-2026-0814)",
+        depouilleId: "AET-HUM-2026-BE-0814",
+        carrier: "Fourgon Funéraire Agréé SPW #1-PFN-884 (Caisson Isotherme 0°C à +4°C)",
+        thermalTarget: "Crémation Homologuée 850°C OU Démonstrateur Sarcomusation (70°C/1h) - DEC-AET-15",
+        thermalCore: "70.2°C en continu pendant 62 minutes (Bioréacteur Démonstrateur Hermetia illucens)",
+        dest: "Urne Cinéraire Noble & Arbre du Souvenir en Forêt Cinéraire Privée (DEC-AET-05)",
+        legal: "Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-17 §2 (références à confirmer par un juriste)",
+        events: {
+          1: {
+            title: "Constat de Décès & Déclaration Initiale",
+            stage_label: "Événement 1 / 6 • Survenance & Constat de Décès",
+            location_name: "Domicile du défunt / Chambre d'Hôpital (Rue Saint-Aubain, Namur)",
+            location_details: "Domicile du défunt / Chambre d'Hôpital (ex: Rue Saint-Aubain, Namur - GPS: 50.4674° N, 4.8719° E)",
+            gps_coords: "50.4674° N, 4.8719° E (Namur - Domicile/Hôpital) [±0.5 m RTK]",
+            actor: "Médecin traitant / Médecin légiste (Certificat Modèle III C / III D)",
+            actor_role: "Médecin Traitant / Médecin Légiste",
+            actor_badge: "INAMI #1-84912-22 • Certificat Modèle III C / III D",
+            seal_id: "SCL-HUM-2026-INIT",
+            seal_status: "Bracelet Poignet Inviolable NFC/QR Ed25519 Posé & Scellé",
+            seal_status_code: "SCL-HUM-2026-INIT (SCEL_INITIALISE_NON_ROMPU)",
+            temp_readout: "18.5°C",
+            temp_badge: "AMBIANTE INITIALE",
+            temp_target: "Avant prise en charge en caisson réfrigéré",
+            temp_fill: "25%",
+            temp_fill_class: "trace-gauge-fill bg-slate-500",
+            temp_icon: "🌡️",
+            legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures & Loi du 13 juin 1986 sur le don d'organes (références à confirmer par un juriste)",
+            summary: "Constat de la réalité du décès par le médecin traitant / légiste, visa d'absence d'obstacle médico-légal (parquet non saisi), consultation du registre SPF Santé Publique pour don d'organes (Loi 13 juin 1986, consentement présumé), pose du bracelet inamovible inviolable au poignet avec scellé NFC/QR Ed25519 (SCL-HUM-2026-INIT).",
+            action_label: "⚡ Sceller le Bracelet Inviolable NFC/QR & Signer le Modèle III C",
+            form_fields: [
+              { label: "Identifiant Dépouille & Matricule", name: "depouille_id", badge: "État Civil #NAM", value: "AET-HUM-2026-BE-0814 (Matricule État Civil #NAM-2026-0814)" },
+              { label: "Identité Défunt & Espèce", name: "identity_name", badge: "Sujet de Droit", value: "Guy Heyman (1942 — 2026, TaxID NCBI: 9606)" },
+              { label: "Médecin Certificateur Assermenté", name: "officer_name", badge: "INAMI Agréé", value: "Dr. Bernard Moreau (INAMI #1-84912-22, Certificat Modèle III C / III D)" },
+              { label: "Lieu de Survenance du Décès", name: "location_event", badge: "Namur", value: "Domicile du défunt / Chambre d'Hôpital (ex: Rue Saint-Aubain, Namur - GPS: 50.4674° N, 4.8719° E)" },
+              { label: "Contrôle Réglementaire Parquet", name: "legal_obstacle", badge: "Parquet Non Saisi", value: "Visa d'absence d'obstacle médico-légal (cause naturelle, parquet non saisi)" },
+              { label: "Don d'Organes (SPF Santé Publique)", name: "organ_donation", badge: "Loi 13/06/1986", value: "Registre SPF Santé Publique consulté (Loi 13 juin 1986, consentement présumé)" },
+              { label: "Scellé Bracelet Inviolable Poignet", name: "seal_number", badge: "Ed25519 NFC/QR", value: "SCL-HUM-2026-INIT (Bracelet inamovible inviolable scellé)" }
+            ]
+          },
+          2: {
+            title: "Prise en Charge & Transport Primaire du Corps",
+            stage_label: "Événement 2 / 6 • Logistique Funéraire & Chaîne du Froid",
+            location_name: "Trajet Domicile ➔ Salon Funéraire PaxFunèbre (Itinéraire Agréé N4, Namur)",
+            location_details: "Trajet Domicile ➔ Salon Funéraire PaxFunèbre (Itinéraire Agréé N4, Namur - GPS: 50.4632° N, 4.8631° E)",
+            gps_coords: "50.4632° N, 4.8631° E (Namur - Itinéraire Agréé N4) [±0.8 m RTK]",
+            actor: "Chauffeur-porteur agréé funéraire & Police communale",
+            actor_role: "Chauffeur-Porteur Agréé Funéraire",
+            actor_badge: "Habilitation Funéraire SPW #PFN-WAL-2026-44 • Police Communale",
+            seal_id: "SCL-HUM-2026-INIT",
+            seal_status: "Scellé de Housse de Transport Intact sous Surveillance Télématique",
+            seal_status_code: "SCL-HUM-2026-INIT (SCEL_INTACT_EN_TRANSIT)",
+            temp_readout: "+2.8°C",
+            temp_badge: "CONFORME (0°C à +4°C)",
+            temp_target: "Consigne caisson réfrigéré : 0.0°C à +4.0°C",
+            temp_fill: "28%",
+            temp_fill_class: "trace-gauge-fill bg-sky-400",
+            temp_icon: "❄️",
+            legal: "Décret wallon du 6 mars 2009 modifiant le CDLD & Règlement de police (références à confirmer par un juriste)",
+            summary: "Autorisation communale de transport de corps avant mise en bière (délai légal < 24h/48h sous froid), fourgon funéraire habilité SPW, monitoring continu de la chaîne du froid (+2.8°C consigne 0°C..+4°C), scellé de housse de transport intact.",
+            action_label: "⚡ Valider le Transport Réfrigéré SPW & Émarger le Bon de Conduite",
+            form_fields: [
+              { label: "Fourgon Funéraire Agréé SPW", name: "vehicle_id", badge: "Habilité SPW", value: "Fourgon Funéraire Agréé SPW #1-PFN-884 (Caisson Isotherme 0°C à +4°C)" },
+              { label: "Chauffeur-Porteur Titulaire", name: "driver_name", badge: "Carte Pro SPW", value: "Laurent Delcroix (Chauffeur-porteur agréé funéraire & Police communale)" },
+              { label: "Autorisation Communale Transport", name: "police_clearance", badge: "Délai Légal OK", value: "Autorisation communale de transport avant mise en bière (délai < 24h/48h sous froid)" },
+              { label: "Monitoring Chaîne du Froid", name: "temp_sensor", badge: "Conforme ❄️", value: "+2.8°C continu (Consigne 0°C à +4°C régulée en caisson isotherme)" },
+              { label: "Scellé de Housse de Transport", name: "seal_check", badge: "Non Rompu 🔒", value: "Scellé de housse de transport intact • 0 infraction de confinement" },
+              { label: "Lieu & Itinéraire de Transit", name: "transit_route", badge: "N4 Namur", value: "Trajet Domicile ➔ Salon Funéraire PaxFunèbre (Itinéraire Agréé N4, Namur - GPS: 50.4632° N, 4.8631° E)" }
+            ]
+          },
+          3: {
+            title: "Salon Funéraire / Laboratoire de Thanatopraxie",
+            stage_label: "Événement 3 / 6 • Thanatopraxie & Contrôle Pacemaker Obligatoire",
+            location_name: "Funérarium PaxFunèbre, Rue Saint-Aubain 14, 5000 Namur (Cellule #C3)",
+            location_details: "Funérarium PaxFunèbre, Rue Saint-Aubain 14, 5000 Namur (Cellule de conservation frigorifique #C3)",
+            gps_coords: "50.4674° N, 4.8719° E (Funérarium PaxFunèbre, Rue Saint-Aubain 14, Namur)",
+            actor: "Thanatopracteur certifié & Maître de cérémonie",
+            actor_role: "Thanatopracteur Certifié & Maître de Cérémonie",
+            actor_badge: "Diplôme Thanatopraxie #WAL-THAN-2026-12 • Salon PaxFunèbre",
+            seal_id: "SCL-HUM-2026-INIT",
+            seal_status: "Scellé Vérifié Non Rompu • Enregistrement au Registre Funéraire",
+            seal_status_code: "SCL-HUM-2026-INIT (SCEL_VERIFIE_NON_ROMPU)",
+            temp_readout: "+2.8°C",
+            temp_badge: "CELLULE #C3 (CONFORME)",
+            temp_target: "Régulation cellule frigorifique : +2.0°C à +3.5°C",
+            temp_fill: "28%",
+            temp_fill_class: "trace-gauge-fill bg-sky-400",
+            temp_icon: "❄️",
+            legal: "Art. L1232-17 §2 du CDLD (exérèse pacemaker obligatoire) & Décret wallon du 6 mars 2009 (références à confirmer par un juriste)",
+            summary: "Contrôle d'exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-17 §2 CDLD (danger d'explosion pyrotechnique > 250°C et pollution), attestation médicale INAMI de neutralisation de la pile au lithium, mise en bière cercueil agréé.",
+            action_label: "⚡ Certifier l'Exérèse Pacemaker & Sceller la Mise en Bière",
+            form_fields: [
+              { label: "Cellule de Conservation Frigorifique", name: "assigned_cell", badge: "Cellule #C3", value: "Funérarium PaxFunèbre, Rue Saint-Aubain 14, Namur (Cellule frigorifique #C3, +2.8°C)" },
+              { label: "Exérèse Stimulateur Cardiaque", name: "pacemaker_excision", badge: "Art. L1232-17 §2", value: "OBLIGATOIRE : Contrôle d'exérèse chirurgicale du stimulateur cardiaque (Pacemaker / DAE) validé" },
+              { label: "Neutralisation Pile Lithium", name: "lithium_clearance", badge: "Visa INAMI", value: "Attestation médicale INAMI de neutralisation de la pile au lithium certifiée (anti-explosion > 250°C)" },
+              { label: "Soins & Toilette Mortuaire", name: "thanato_care", badge: "Thanatopraxie", value: "Soins de thanatopraxie accomplis dans le strict respect de la dignité post-mortem" },
+              { label: "Mise en Bière Cercueil Agréé", name: "coffin_boxing", badge: "Agrément SPW", value: "Mise en bière validée en cercueil agréé avec pose des scellés funéraires" }
+            ]
+          },
+          4: {
+            title: "Maison Communale / Mairie (Déclaration & Autorisation)",
+            stage_label: "Événement 4 / 6 • Déclaration d'État Civil & Permis Officiel",
+            location_name: "Hôtel de Ville de Namur, Service Population & État Civil, Esplanade de l'Hôtel de Ville",
+            location_details: "Hôtel de Ville de Namur, Service Population & État Civil, Esplanade de l'Hôtel de Ville, 5000 Namur",
+            gps_coords: "50.4649° N, 4.8654° E (Hôtel de Ville de Namur, Esplanade)",
+            actor: "Officier de l'État Civil / Bourgmestre",
+            actor_role: "Officier de l'État Civil / Bourgmestre",
+            actor_badge: "Ville de Namur • Sceau Municipal #ETAT-CIVIL-NAM-04",
+            seal_id: "SCL-MUN-NAM-2026-0814",
+            seal_status: "Sceau Municipal de Cercueil Apposé (Officier État Civil)",
+            seal_status_code: "SCL-MUN-NAM-2026-0814 (SCEL_MUNICIPAL_VALIDE)",
+            temp_readout: "20.0°C",
+            temp_badge: "AMB. ÉTAT CIVIL",
+            temp_target: "Guichet administratif officiel",
+            temp_fill: "38%",
+            temp_fill_class: "trace-gauge-fill bg-indigo-400",
+            temp_icon: "🏛️",
+            legal: "Loi du 20 juillet 1971 & Décret wallon du 6 mars 2009 modifiant le CDLD, Art. 15 (références à confirmer par un juriste)",
+            summary: "Acte de décès n° 0814/2026, vérification des dernières volontés du défunt (Loi 1971 / Art. 15 CDLD : sépulture, rite, mode de sépulture), délivrance du permis officiel de sépulture / crémation, scellement municipal du cercueil.",
+            action_label: "⚡ Délivrer le Permis Officiel & Sceller l'Autorisation Municipale",
+            form_fields: [
+              { label: "Lieu de Déclaration Officielle", name: "city_hall_loc", badge: "Hôtel de Ville", value: "Hôtel de Ville de Namur, Service Population & État Civil, Esplanade de l'Hôtel de Ville" },
+              { label: "Acte de Décès État Civil", name: "death_act_num", badge: "Acte #0814/2026", value: "Acte de décès n° 0814/2026 valablement enregistré aux registres de Namur" },
+              { label: "Vérification Dernières Volontés", name: "last_wishes_check", badge: "Loi 1971 / Art. 15", value: "Dernières volontés vérifiées : respect du mode de sépulture mémoriel et du rite déclaré" },
+              { label: "Permis Officiel de Sépulture", name: "burial_permit", badge: "Permis Délivré", value: "Délivrance du permis officiel de sépulture / crémation n° PERM-2026-NAM-0814" },
+              { label: "Scellement Municipal Cercueil", name: "municipal_seal", badge: "Sceau Posé", value: "Scellement municipal du cercueil apposé par le délégué du Bourgmestre" }
+            ]
+          },
+          5: {
+            title: "Crématorium Agréé OU Unité de Sarcomusation (Transformation)",
+            stage_label: "Événement 5 / 6 • Procédé Thermique & Verrou The Iron Gate G2",
+            location_name: "Crématorium du Cœur de Wallonie, Ciney OU Unité Hermetia illucens (Démonstrateur Prospectif)",
+            location_details: "Crématorium du Cœur de Wallonie, Ciney (GPS: 50.2841° N, 5.0933° E) OU Unité de Sarcomusation Mémorielle Hermetia illucens (Démonstrateur Prospectif)",
+            gps_coords: "50.2841° N, 5.0933° E (Crématorium Ciney / Unité Hermetia illucens)",
+            actor: "Opérateur de crémation / Responsable de bioconversion mémorielle",
+            actor_role: "Opérateur Crémation / Démonstrateur Mémoriel",
+            actor_badge: "Agrément Intercommunal Crématorium Ciney #CRM-WAL-02 • Démonstrateur DEC-AET-15",
+            seal_id: "SCL-SAS-CRMCIN-0814",
+            seal_status: "Sas Four / Bioréacteur Verrouillé sous Scellé Horodaté",
+            seal_status_code: "SCL-SAS-CRMCIN-0814 (SAS_INSPECTE_VERROUILLE)",
+            temp_readout: "850.0°C / 70.2°C",
+            temp_badge: "CRÉMATION 850°C OU DÉMONSTRATEUR 70.2°C",
+            temp_target: "Four crématoire : 850°C | Bioréacteur démonstrateur : 70°C/1h",
+            temp_fill: "95%",
+            temp_fill_class: "trace-gauge-fill bg-amber-500",
+            temp_icon: "🔥",
+            legal: "Décret wallon du 6 mars 2009 modifiant le CDLD & Décision Kudoro DEC-AET-15 (démonstrateur prospectif) (références à confirmer par un juriste)",
+            summary: "Visa d'exérèse pacemaker obligatoire avant introduction, four crématoire 850°C OU Bioréacteur démonstrateur (pasteurisation 70°C/1h continue selon DEC-AET-05/15), verrou absolu The Iron Gate Gate G2 (démonstrateur prospectif : HUMAN_REMAINS_DETECTED ➔ interdiction mathématique de toute filière alimentaire/technique), recueil des reliques purifiées.",
+            action_label: "⚡ Certifier le Cycle Thermique & Verrouiller les Reliques Purifiées",
+            form_fields: [
+              { label: "Lieu de Transformation Agréé", name: "crematorium_loc", badge: "Ciney / Sas Dédié", value: "Crématorium du Cœur de Wallonie, Ciney (GPS: 50.2841° N, 5.0933° E) OU Unité Hermetia illucens" },
+              { label: "Visa Exérèse Pacemaker Amont", name: "pacemaker_visa", badge: "VISA CONFORME", value: "Visa d'exérèse pacemaker obligatoire vérifié avant toute introduction" },
+              { label: "Cycle Thermique Homologué", name: "thermal_protocol", badge: "DEC-AET-15", value: "Crémation Homologuée 850°C OU Démonstrateur Sarcomusation (70°C/1h) - DEC-AET-15" },
+              { label: "Température Cœur Mesurée", name: "core_temp", badge: "Télémétrie P-T-t", value: "70.2°C en continu pendant 62 minutes (Bioréacteur Démonstrateur Hermetia illucens)" },
+              { label: "Verrou The Iron Gate Gate G2", name: "iron_gate_g2", badge: "Porte G2 Inviolable", value: "HUMAN_REMAINS_DETECTED : Interdiction mathématique de toute filière alimentaire/technique (démonstrateur prospectif)" },
+              { label: "Recueil Reliques Purifiées", name: "relics_recovery", badge: "Dignité 100%", value: "Recueil des reliques purifiées en urne cinéraire étanche sans mélange" }
+            ]
+          },
+          6: {
+            title: "Lieu de Sépulture & Recueillement Final",
+            stage_label: "Événement 6 / 6 • The Iron Gate, Sépulture & Clôture Ed25519",
+            location_name: "Forêt Cinéraire Privée de la Basse-Sambre (Parcelle Mémorielle #FM-08)",
+            location_details: "Forêt Cinéraire Privée de la Basse-Sambre (Parcelle Mémorielle de repos éternel #FM-08)",
+            gps_coords: "50.4485° N, 4.6712° E (Forêt Cinéraire Privée de la Basse-Sambre, Parcelle #FM-08)",
+            actor: "Garde-forestier DNF, Conseiller funéraire & Famille",
+            actor_role: "Garde-Forestier DNF & Conseiller Funéraire",
+            actor_badge: "Assermentation DNF #DNF-WAL-8810 • Master Key Ed25519 PaxFunèbre",
+            seal_id: "CERT-HUM-2026-LOT-0814-ED25519",
+            seal_status: "Certificat de Sépulture & Clôture Scellé Ed25519 (AET-SPEC-CERT-001)",
+            seal_status_code: "CERT-HUM-2026-LOT-0814-ED25519 (LOT_SIGNE_ET_REMIS)",
+            temp_readout: "18.0°C",
+            temp_badge: "REPOS ÉTERNEL",
+            temp_target: "Ambiance solennelle forêt cinéraire",
+            temp_fill: "35%",
+            temp_fill_class: "trace-gauge-fill bg-emerald-400",
+            temp_icon: "🕊️",
+            legal: "Loi du 20 juillet 1971, Décret wallon sur les sépultures & Arbitrage Kudoro DEC-AET-05 (références à confirmer par un juriste)",
+            summary: "Remise solennelle du Médaillon / Carte mémorielle ACOSJ 92 Ko avec l'acte d'hommage et le mémo vocal, amendement biologique au pied de l'arbre du souvenir familial (dérogation mémorielle forestière DEC-AET-05), scellement Ed25519 du certificat de sépulture inviolable final.",
+            action_label: "✔ Traçabilité Humaine 100% Validée & Scellée (Relancer dès le Début)",
+            form_fields: [
+              { label: "Lieu de Sépulture & Repos Éternel", name: "burial_plot", badge: "Forêt Cinéraire", value: "Forêt Cinéraire Privée de la Basse-Sambre (Parcelle Mémorielle de repos éternel #FM-08)" },
+              { label: "Support Silicium ACOSJ 92K", name: "acosj_support", badge: "ACOSJ 92 Ko", value: "Remise solennelle du Médaillon / Carte mémorielle ACOSJ 92 Ko avec l'acte d'hommage et le mémo vocal" },
+              { label: "Amendement & Arbre du Souvenir", name: "relics_destination", badge: "DEC-AET-05", value: "Amendement biologique au pied de l'arbre du souvenir familial (dérogation mémorielle forestière DEC-AET-05)" },
+              { label: "Certificat de Sépulture Inviolable", name: "batch_cert_id", badge: "Ed25519 Scellé", value: "Scellement Ed25519 du certificat de sépulture inviolable final (AET-SPEC-CERT-001)" },
+              { label: "Recueillement & Hommage Familial", name: "family_handover", badge: "Recueillement", value: "Remise solennelle effectuée auprès des proches dans le respect absolu des volontés du défunt" }
+            ]
+          }
+        }
+      },
       p1: {
         id: "p1",
         name: "Profil 1 — Compagnie (Catégorie 1 Mémoriel)",
@@ -491,7 +685,23 @@ JS_RUNTIME = """
         thermalTarget: "Pasteurisation Continue (70°C, 1 heure continue) - DEC-AET-05",
         thermalCore: "70.4°C en continu pendant 62 minutes (Pression atmosphérique)",
         dest: "Urne Cinéraire Noble & Arbre du Souvenir Forêt DNF (DEC-AET-05)",
-        legal: "Arrêté royal du 27 avril 2007 & Arbitrage Kudoro DEC-AET-05 (références à confirmer par un juriste)"
+        legal: "Arrêté royal du 27 avril 2007 & Arbitrage Kudoro DEC-AET-05 (références à confirmer par un juriste)",
+        locations: {
+          1: "Domicile du déclarant / Clinique Vétérinaire (Liège, Sart-Tilman - GPS: 50.6333° N, 5.5667° E)",
+          2: "Trajet Domicile -> Centre Logistique Liège (Transit E25 / Rocade Sud - GPS: 50.6120° N, 5.5340° E)",
+          3: "Unité Centrale AeterniTrak Liège, Rue de l'Énergie 12, Sart-Tilman (GPS: 50.6412° N, 5.5721° E)",
+          4: "Laboratoire de Préparation Stérile & Contrôles Amonts, Liège (GPS: 50.6412° N, 5.5721° E)",
+          5: "Unité de Bioconversion Hermetia illucens & Traitement Thermique, Liège (GPS: 50.6412° N, 5.5721° E)",
+          6: "Salon de Remise Solennelle PaxFunèbre Liège & Forêt DNF (GPS: 50.6412° N, 5.5721° E)"
+        },
+        location_names: {
+          1: "Domicile du déclarant / Clinique (Liège)",
+          2: "Itinéraire Transit Agréé E25 (Rocade Sud)",
+          3: "Unité Centrale AeterniTrak Liège (Cellule #B4)",
+          4: "Salle Technique Stérile & BioLab AeterniCore",
+          5: "Sas Hermétique de Bioconversion & Autoclaves HP",
+          6: "Salon Solennel d'Hommage & Forêt DNF"
+        }
       },
       p2: {
         id: "p2",
@@ -505,7 +715,23 @@ JS_RUNTIME = """
         thermalTarget: "Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 min)",
         thermalCore: "133.8°C, 3.1 bars absolus pendant 22 minutes",
         dest: "Valorisation Énergétique / Biocarburant Industriel Agréé (Cat 2)",
-        legal: "Règlement (CE) n° 1069/2009 & Code forestier wallon (références à confirmer par un juriste)"
+        legal: "Règlement (CE) n° 1069/2009 & Code forestier wallon (références à confirmer par un juriste)",
+        locations: {
+          1: "Massif Forestier DNF de Saint-Hubert (Balisage GPS: 50.0267° N, 5.3742° E)",
+          2: "Transit Véhicule Tout-Terrain DNF #WL-4890 vers Centre Sanitaire (Ardenne)",
+          3: "Centre Sanitaire Régional Collecteur DNF Arlon/Marche",
+          4: "Laboratoire Vétérinaire Régional (Dépistage PCR PPA & CWD prions)",
+          5: "Unité Autoclave Haute Pression (Méthode 1 : 133°C, 3 bars, 20 min)",
+          6: "Usine de Biocarburant Agréée Cat 2 / Valorisation Énergétique"
+        },
+        location_names: {
+          1: "Massif Forestier DNF de Saint-Hubert",
+          2: "Transit Véhicule Sanitaire DNF #WL-4890",
+          3: "Centre Sanitaire Régional DNF",
+          4: "Laboratoire Vétérinaire Régional",
+          5: "Autoclave Haute Pression Méthode 1",
+          6: "Usine Biocarburant Cat 2"
+        }
       },
       p3: {
         id: "p3",
@@ -519,13 +745,29 @@ JS_RUNTIME = """
         thermalTarget: "Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 min)",
         thermalCore: "134.1°C, 3.2 bars absolus pendant 20 minutes",
         dest: "Combustion Cimenterie & Graisses Techniques (Catégorie 2)",
-        legal: "Règlement (CE) n° 1069/2009 & Identification Sanitel AFSCA (références à confirmer par un juriste)"
+        legal: "Règlement (CE) n° 1069/2009 & Identification Sanitel AFSCA (références à confirmer par un juriste)",
+        locations: {
+          1: "Exploitation Agricole Bovine, Ciney (GPS: 50.2956° N, 5.1011° E)",
+          2: "Transit Camion Benne Sanitaire #2-AGR-109 (Réseau agricole N97)",
+          3: "Quai de Déchargement Hermétique Usine Sous-Produits C2",
+          4: "Poste de Contrôle Sanitaire (Boucle Sanitel & Temps d'attente médicamenteux)",
+          5: "Autoclave Industriel Réglementaire (Méthode 1 : 133°C, 3 bars, 20 min)",
+          6: "Cimenterie Agréée / Graisses Techniques Industrielles (Catégorie 2)"
+        },
+        location_names: {
+          1: "Exploitation Agricole Bovine, Ciney",
+          2: "Transit Camion Sanitaire Élevage",
+          3: "Quai Usine Sous-Produits C2",
+          4: "Poste Contrôle Sanitaire & Sanitel",
+          5: "Autoclave Méthode 1 (133°C/3 bars)",
+          6: "Cimenterie Agréée / Graisses C2"
+        }
       },
       p4: {
         id: "p4",
         name: "Profil 4 — Déchets d'Abattoir (Cat 1 MRS Dénaturé)",
         badge: "Profil 4 · Déchets Abattoir MRS C1",
-        badgeClass: "bg-purple-950 border border-purple-500/40 text-purple-300",
+        badgeClass: "bg-rose-950 border border-rose-500/40 text-rose-300",
         species: "Bos taurus (Matériel à Risque Spécifié MRS - Crâne & Moelle)",
         deceased: "Lot Déchets Abattoir Liège #ABT-2026-MRS-44",
         depouilleId: "MRS-2026-ABT-0914",
@@ -533,14 +775,30 @@ JS_RUNTIME = """
         thermalTarget: "Dénaturation Bleu 0,5% + Méthode 1 (133°C, 3 bars, 20 min)",
         thermalCore: "134.5°C, 3.3 bars absolus pendant 25 minutes",
         dest: "Incinération Dédiée Haute Température Cimenterie (Catégorie 1 MRS)",
-        legal: "Règlement (CE) n° 999/2001 annexe V (règles MRS anti-prion) (référence à confirmer par un juriste)"
+        legal: "Règlement (CE) n° 999/2001 annexe V (règles MRS anti-prion) (référence à confirmer par un juriste)",
+        locations: {
+          1: "Abattoir Industriel Agréé de Liège (GPS: 50.6512° N, 5.5418° E)",
+          2: "Transit Conteneur Hermétique Plombé #CONT-MRS-12",
+          3: "Plateforme Déchets Haut Risque Catégorie 1 MRS",
+          4: "Poste de Dénaturation Chimique Obligatoire au Bleu de Méthylène 0,5%",
+          5: "Traitement Thermique Combiné Dénaturation + Méthode 1 (133°C, 3 bars, 20 min)",
+          6: "Combustion Haute Température en Cimenterie Agréée (Catégorie 1 MRS)"
+        },
+        location_names: {
+          1: "Abattoir Industriel Agréé de Liège",
+          2: "Transit Conteneur Plombé #CONT-MRS-12",
+          3: "Plateforme Déchets Cat 1 MRS",
+          4: "Poste Dénaturation Bleu de Méthylène 0,5%",
+          5: "Traitement Dénaturation + Méthode 1",
+          6: "Incinération Cimenterie Cat 1 MRS"
+        }
       }
     };
 
     function setTraceProfile(profId) {
       if (!TRACE_PROFILES_DATA[profId]) return;
       appState.traceability.selectedProfile = profId;
-      ["p1", "p2", "p3", "p4"].forEach(id => {
+      ["p0", "p1", "p2", "p3", "p4"].forEach(id => {
         const btn = document.getElementById(`btn-trace-prof-${id}`);
         if (btn) {
           if (id === profId) {
@@ -567,10 +825,15 @@ JS_RUNTIME = """
 
     function nextTraceStep() {
       const cur = appState.traceability.currentStep;
+      const profKey = appState.traceability.selectedProfile || "p1";
       if (cur < 6) {
         goToTraceStep(cur + 1);
       } else {
-        addTraceCryptoLog("[CLÔTURE] Traçabilité complète 6/6 validée. Certificat Ed25519 émis.");
+        if (profKey === "p0") {
+          addTraceCryptoLog("[CLÔTURE] Traçabilité humaine 6/6 validée. Certificat de sépulture Ed25519 émis.");
+        } else {
+          addTraceCryptoLog("[CLÔTURE] Traçabilité complète 6/6 validée. Certificat Ed25519 émis.");
+        }
         playTone("memorial-chord");
         const actionBtn = document.getElementById("btn-trace-action");
         if (actionBtn) {
@@ -654,6 +917,7 @@ JS_RUNTIME = """
     function simulateTraceAnomaly() {
       const state = appState.traceability;
       const cur = state.currentStep;
+      const profKey = state.selectedProfile || "p1";
       const banner = document.getElementById("trace-anomaly-banner");
       const node = document.getElementById(`trace-node-${cur}`);
       const sealBadge = document.getElementById("trace-seal-status-badge");
@@ -663,42 +927,82 @@ JS_RUNTIME = """
       let title = "Anomalie Détectée";
       let desc = "";
 
-      if (cur === 1) {
-        code = "ERR_SEAL_INIT_FAILURE";
-        title = "Défaut de Scellement NFC / Clé Inconnue";
-        desc = "La puce NFC du scellé physique présente un identifiant révoqué ou corrompu. Blocage immédiat de la prise en charge.";
-        if (sealBadge) {
-          sealBadge.textContent = "🚨 SCELLÉ INVALIDE";
-          sealBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+      if (profKey === "p0") {
+        if (cur === 1) {
+          code = "ERR_MEDICO_LEGAL_OBSTACLE";
+          title = "Obstacle Médico-Légal / Saisie du Parquet";
+          desc = "Suspicion de mort violente ou indéterminée. Saisie immédiate du Procureur du Roi (Loi 1971). Interdiction absolue de toute levée de corps ou manipulation avant ordonnance de levée d'obstacle.";
+          if (sealBadge) {
+            sealBadge.textContent = "🚨 PARQUET SAISI";
+            sealBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+          }
+        } else if (cur === 2) {
+          code = "ERR_TRANSPORT_TIME_EXCEEDED";
+          title = "Dépassement du Délai Légal de Transport sans Froid (> 24h)";
+          desc = "Délai légal de transport avant mise en bière sans maintien sous froid excédé selon le décret funéraire wallon. Blocage administratif et signalement à la Police communale.";
+          if (tempBadge) {
+            tempBadge.textContent = "🚨 EXCURSION THERMIQUE (+8.6°C)";
+            tempBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+          }
+        } else if (cur === 3) {
+          code = "ERR_PACEMAKER_EXPLOSION_HAZARD";
+          title = "Présence de Stimulateur Cardiaque Non Neutralisé (Art. L1232-17 §2 CDLD)";
+          desc = "Dispositif cardiaque actif ou pile lithium détectée. Risque majeur d'explosion pyrotechnique (> 250°C) et de pollution environnementale. Refus d'admission en crémation ou bioconversion tant que l'exérèse n'est pas certifiée par médecin INAMI.";
+          if (sealBadge) {
+            sealBadge.textContent = "🚨 ALERTE PACEMAKER";
+            sealBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+          }
+        } else if (cur === 4) {
+          code = "ERR_CIVIL_PERMIT_REFUSED";
+          title = "Absence de Permis de Crémation / Déclaration Incomplète";
+          desc = "Incohérence entre les dernières volontés déclarées et la demande de la famille (Loi 1971 / Art. 15 CDLD). Permis municipal suspendu par l'officier de l'état civil.";
+        } else if (cur === 5) {
+          code = "ERR_IRON_GATE_G2_HUMAN_REMAINS";
+          title = "Alerte The Iron Gate Gate G2 : Dépouille Humaine Détectée (Démonstrateur Prospectif)";
+          desc = "Oracle The Iron Gate : déclenchement du verrou absolu (démonstrateur prospectif : HUMAN_REMAINS_DETECTED ➔ interdiction mathématique et irrévocable de toute filière alimentaire animale ou valorisation technique). Traitement mémoriel exclusif.";
+        } else if (cur === 6) {
+          code = "ERR_MEMORIAL_FOREST_DECREE";
+          title = "Non-Conformité de Sépulture Forestière (DEC-AET-05)";
+          desc = "Incompatibilité de la parcelle mémorielle avec le Code forestier wallon ou urne non biodégradable. Émission du certificat Ed25519 bloquée.";
         }
-      } else if (cur === 2) {
-        code = "ERR_COLD_CHAIN_EXCURSION";
-        title = "Rupture de la Chaîne du Froid (> +6.0°C)";
-        desc = "Sonde thermique télématique mesurant +8.4°C pendant plus de 15 minutes. Alerte transmise immédiatement à l'AFSCA et mise sous séquestre.";
-        if (tempBadge) {
-          tempBadge.textContent = "🚨 EXCURSION THERMIQUE (+8.4°C)";
-          tempBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+      } else {
+        if (cur === 1) {
+          code = "ERR_SEAL_INIT_FAILURE";
+          title = "Défaut de Scellement NFC / Clé Inconnue";
+          desc = "La puce NFC du scellé physique présente un identifiant révoqué ou corrompu. Blocage immédiat de la prise en charge.";
+          if (sealBadge) {
+            sealBadge.textContent = "🚨 SCELLÉ INVALIDE";
+            sealBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+          }
+        } else if (cur === 2) {
+          code = "ERR_COLD_CHAIN_EXCURSION";
+          title = "Rupture de la Chaîne du Froid (> +6.0°C)";
+          desc = "Sonde thermique télématique mesurant +8.4°C pendant plus de 15 minutes. Alerte transmise immédiatement à l'AFSCA et mise sous séquestre.";
+          if (tempBadge) {
+            tempBadge.textContent = "🚨 EXCURSION THERMIQUE (+8.4°C)";
+            tempBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+          }
+        } else if (cur === 3) {
+          code = "ERR_SEAL_TAMPERED";
+          title = "Rupture de Scellé Constatée à l'Admission";
+          desc = "Contrôle accélérométrique ou rupture mécanique du fil de scellé Ed25519 détectée. Refus d'admission en salon funéraire sans enquête préalable.";
+          if (sealBadge) {
+            sealBadge.textContent = "🚨 RUPTURE DE SCELLÉ";
+            sealBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
+          }
+        } else if (cur === 4) {
+          code = "ERR_PENTOBARBITAL_POSITIVE";
+          title = "Dépistage LFA Pentobarbital Positif (Ligne C Seule)";
+          desc = "Présence avérée de barbituriques létaux dans l'échantillon. Filière sarcomusation mémorielle INTERDITE : Rejet et incinération Catégorie 1 obligatoire.";
+        } else if (cur === 5) {
+          code = "ERR_THERMAL_DROP";
+          title = "Chute de Température sous le Seuil Réglementaire";
+          desc = "Baisse de température à 62°C (< 70°C) ou chute de pression autoclave (< 3 bars). Le cycle thermique est invalidé et doit être réinitialisé.";
+        } else if (cur === 6) {
+          code = "ERR_IRON_GATE_G7_PRION";
+          title = "Violation Règle d'Or Anti-Prion (Porte G7)";
+          desc = "Tentative de recyclage au sein de la même espèce détectée par l'oracle The Iron Gate. Signature Ed25519 bloquée de manière permanente.";
         }
-      } else if (cur === 3) {
-        code = "ERR_SEAL_TAMPERED";
-        title = "Rupture de Scellé Constatée à l'Admission";
-        desc = "Contrôle accélérométrique ou rupture mécanique du fil de scellé Ed25519 détectée. Refus d'admission en salon funéraire sans enquête préalable.";
-        if (sealBadge) {
-          sealBadge.textContent = "🚨 RUPTURE DE SCELLÉ";
-          sealBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/60 animate-pulse";
-        }
-      } else if (cur === 4) {
-        code = "ERR_PENTOBARBITAL_POSITIVE";
-        title = "Dépistage LFA Pentobarbital Positif (Ligne C Seule)";
-        desc = "Présence avérée de barbituriques létaux dans l'échantillon. Filière sarcomusation mémorielle INTERDITE : Rejet et incinération Catégorie 1 obligatoire.";
-      } else if (cur === 5) {
-        code = "ERR_THERMAL_DROP";
-        title = "Chute de Température sous le Seuil Réglementaire";
-        desc = "Baisse de température à 62°C (< 70°C) ou chute de pression autoclave (< 3 bars). Le cycle thermique est invalidé et doit être réinitialisé.";
-      } else if (cur === 6) {
-        code = "ERR_IRON_GATE_G7_PRION";
-        title = "Violation Règle d'Or Anti-Prion (Porte G7)";
-        desc = "Tentative de recyclage au sein de la même espèce détectée par l'oracle The Iron Gate. Signature Ed25519 bloquée de manière permanente.";
       }
 
       state.anomaly = code;
@@ -716,6 +1020,7 @@ JS_RUNTIME = """
       const evt = traceabilityEvents[stepIdx] || traceabilityEvents[0];
       const profKey = appState.traceability.selectedProfile || "p1";
       const prof = TRACE_PROFILES_DATA[profKey];
+      const evtProfData = prof && prof.events && prof.events[appState.traceability.currentStep];
 
       // Mise à jour de la frise chronologique (stepper)
       const pct = (appState.traceability.currentStep / 6) * 100;
@@ -735,16 +1040,58 @@ JS_RUNTIME = """
 
       // Mise à jour des en-têtes
       const stageBadge = document.getElementById("trace-event-stage-badge");
-      if (stageBadge) stageBadge.textContent = evt.stage_label;
+      if (stageBadge) stageBadge.textContent = (evtProfData && evtProfData.stage_label) ? evtProfData.stage_label : evt.stage_label;
 
       const titleEl = document.getElementById("trace-event-title");
-      if (titleEl) titleEl.textContent = evt.name;
+      if (titleEl) titleEl.textContent = (evtProfData && evtProfData.title) ? evtProfData.title : evt.name;
 
       const actorBadge = document.getElementById("trace-actor-badge");
-      if (actorBadge) actorBadge.textContent = evt.actor_role;
+      if (actorBadge) actorBadge.textContent = (evtProfData && evtProfData.actor_role) ? evtProfData.actor_role : evt.actor_role;
 
       const actorCred = document.getElementById("trace-actor-cred");
-      if (actorCred) actorCred.textContent = evt.actor_badge;
+      if (actorCred) actorCred.textContent = (evtProfData && evtProfData.actor_badge) ? evtProfData.actor_badge : evt.actor_badge;
+
+      // Lieu et Base Légale
+      const locEl = document.getElementById("trace-event-location");
+      const legalEl = document.getElementById("trace-event-legal");
+      const locBoxVal = document.getElementById("trace-location-box-val");
+
+      let locText = "";
+      if (evtProfData && evtProfData.location_details) {
+        locText = evtProfData.location_details;
+      } else if (prof && prof.locations && prof.locations[appState.traceability.currentStep]) {
+        locText = prof.locations[appState.traceability.currentStep];
+      } else if (evt.location_details) {
+        locText = evt.location_details;
+      } else {
+        locText = evt.gps_coords;
+      }
+      if (locEl) locEl.textContent = locText;
+
+      let locShortText = "";
+      if (evtProfData && evtProfData.location_name) {
+        locShortText = evtProfData.location_name;
+      } else if (prof && prof.location_names && prof.location_names[appState.traceability.currentStep]) {
+        locShortText = prof.location_names[appState.traceability.currentStep];
+      } else if (evt.location_name) {
+        locShortText = evt.location_name;
+      } else {
+        locShortText = locText.split("(")[0].trim();
+      }
+      if (locBoxVal) {
+        locBoxVal.textContent = locShortText;
+        locBoxVal.title = locText;
+      }
+
+      let legalText = "";
+      if (evtProfData && evtProfData.legal) {
+        legalText = evtProfData.legal;
+      } else if (prof && prof.legal) {
+        legalText = prof.legal;
+      } else if (evt.legal_basis) {
+        legalText = evt.legal_basis;
+      }
+      if (legalEl) legalEl.textContent = legalText;
 
       // Dépouille et filière
       const depName = document.getElementById("trace-depouille-name");
@@ -761,16 +1108,24 @@ JS_RUNTIME = """
 
       // Résumé
       const summaryEl = document.getElementById("trace-event-summary");
-      if (summaryEl) summaryEl.textContent = evt.summary;
+      if (summaryEl) summaryEl.textContent = (evtProfData && evtProfData.summary) ? evtProfData.summary : evt.summary;
 
       // Bouton d'action
       const actBtn = document.getElementById("btn-trace-action");
       if (actBtn) {
         if (appState.traceability.currentStep === 6) {
-          actBtn.innerHTML = "⚡ Émettre le Certificat de Lot Signé Ed25519 &amp; Clôturer";
+          if (evtProfData && evtProfData.action_label) {
+            actBtn.innerHTML = evtProfData.action_label;
+          } else {
+            actBtn.innerHTML = "⚡ Émettre le Certificat de Lot Signé Ed25519 &amp; Clôturer";
+          }
           actBtn.className = "wf-btn wf-btn-gold text-xs font-bold flex-1 py-2.5";
         } else {
-          actBtn.innerHTML = `⚡ ${evt.action_label} (Étape ${appState.traceability.currentStep + 1})`;
+          if (evtProfData && evtProfData.action_label) {
+            actBtn.innerHTML = `${evtProfData.action_label} (Étape ${appState.traceability.currentStep + 1})`;
+          } else {
+            actBtn.innerHTML = `⚡ ${evt.action_label} (Étape ${appState.traceability.currentStep + 1})`;
+          }
           actBtn.className = "wf-btn wf-btn-gold text-xs font-bold flex-1 py-2.5";
         }
         actBtn.onclick = nextTraceStep;
@@ -778,35 +1133,40 @@ JS_RUNTIME = """
 
       // Formulaire dynamique
       const formContainer = document.getElementById("trace-form-fields-container");
-      if (formContainer && evt.form_fields) {
-        let fieldsHtml = "";
-        evt.form_fields.forEach(f => {
-          let val = f.value;
-          if (f.name === "depouille_id" && prof) val = prof.depouilleId;
-          if (f.name === "identity_name" && prof) val = prof.deceased;
-          if (f.name === "species_taxid" && prof) val = prof.species;
-          if (f.name === "vehicle_id" && prof) val = prof.carrier;
-          if (f.name === "target_channel" && prof) val = prof.name;
-          if (f.name === "thermal_protocol" && prof) val = prof.thermalTarget;
-          if (f.name === "core_temp" && prof) val = prof.thermalCore;
-          if (f.name === "relics_destination" && prof) val = prof.dest;
+      if (formContainer) {
+        let fieldsToRender = (evtProfData && evtProfData.form_fields) ? evtProfData.form_fields : evt.form_fields;
+        if (fieldsToRender) {
+          let fieldsHtml = "";
+          fieldsToRender.forEach(f => {
+            let val = f.value;
+            if (!evtProfData) {
+              if (f.name === "depouille_id" && prof) val = prof.depouilleId;
+              if (f.name === "identity_name" && prof) val = prof.deceased;
+              if (f.name === "species_taxid" && prof) val = prof.species;
+              if (f.name === "vehicle_id" && prof) val = prof.carrier;
+              if (f.name === "target_channel" && prof) val = prof.name;
+              if (f.name === "thermal_protocol" && prof) val = prof.thermalTarget;
+              if (f.name === "core_temp" && prof) val = prof.thermalCore;
+              if (f.name === "relics_destination" && prof) val = prof.dest;
+            }
 
-          fieldsHtml += `
-            <div class="wf-field-group">
-              <div class="flex items-center justify-between mb-1">
-                <label class="wf-label">${f.label}</label>
-                <span class="text-[10px] font-mono text-gold-400 bg-gold-500/10 px-1.5 py-0.5 rounded border border-gold-500/20">${f.badge}</span>
+            fieldsHtml += `
+              <div class="wf-field-group">
+                <div class="flex items-center justify-between mb-1">
+                  <label class="wf-label">${f.label}</label>
+                  <span class="text-[10px] font-mono text-gold-400 bg-gold-500/10 px-1.5 py-0.5 rounded border border-gold-500/20">${f.badge}</span>
+                </div>
+                <input type="text" class="wf-input font-mono text-xs" value="${val}" readonly style="background: rgba(15, 23, 42, 0.9); color: #f8fafc; border-color: rgba(51, 65, 85, 0.8);">
               </div>
-              <input type="text" class="wf-input font-mono text-xs" value="${val}" readonly style="background: rgba(15, 23, 42, 0.9); color: #f8fafc; border-color: rgba(51, 65, 85, 0.8);">
-            </div>
-          `;
-        });
-        formContainer.innerHTML = fieldsHtml;
+            `;
+          });
+          formContainer.innerHTML = fieldsHtml;
+        }
       }
 
       // Box Scellé
       const sealIdVal = document.getElementById("trace-seal-id-val");
-      if (sealIdVal) sealIdVal.textContent = evt.seal_id;
+      if (sealIdVal) sealIdVal.textContent = (evtProfData && evtProfData.seal_id) ? evtProfData.seal_id : evt.seal_id;
 
       const sealBadge = document.getElementById("trace-seal-status-badge");
       if (sealBadge) {
@@ -822,7 +1182,14 @@ JS_RUNTIME = """
       const tempIcon = document.getElementById("trace-temp-icon");
 
       if (tempReadout && tempBadge && tempTarget && tempFill) {
-        if (evt.step === 1) {
+        if (evtProfData && evtProfData.temp_readout) {
+          tempIcon.textContent = evtProfData.temp_icon || "🌡️";
+          tempReadout.textContent = evtProfData.temp_readout;
+          tempBadge.textContent = evtProfData.temp_badge;
+          tempTarget.textContent = evtProfData.temp_target;
+          tempFill.style.width = evtProfData.temp_fill;
+          tempFill.className = evtProfData.temp_fill_class;
+        } else if (evt.step === 1) {
           tempIcon.textContent = "🌡️";
           tempReadout.textContent = "12.4°C";
           tempBadge.textContent = "AMBIANTE INITIALE";
@@ -882,15 +1249,15 @@ JS_RUNTIME = """
 
       // Box Télémétrie GPS
       const gpsVal = document.getElementById("trace-gps-val");
-      if (gpsVal) gpsVal.textContent = evt.gps_coords;
+      if (gpsVal) gpsVal.textContent = (evtProfData && evtProfData.gps_coords) ? evtProfData.gps_coords : evt.gps_coords;
 
       const timeVal = document.getElementById("trace-time-val");
-      if (timeVal) timeVal.textContent = evt.timestamp_iso;
+      if (timeVal) timeVal.textContent = (evtProfData && evtProfData.timestamp_iso) ? evtProfData.timestamp_iso : evt.timestamp_iso;
 
       const carrierVal = document.getElementById("trace-carrier-val");
       if (carrierVal && prof) carrierVal.textContent = prof.carrier;
 
-      addTraceCryptoLog(`[ÉTAPE ${evt.step}/6] ${evt.name} — Scellé: ${evt.seal_status_code}`);
+      addTraceCryptoLog(`[ÉTAPE ${evt.step}/6] ${evt.name} — Scellé: ${(evtProfData && evtProfData.seal_id) ? evtProfData.seal_id : evt.seal_status_code}`);
     }
 
     // =========================================================================
