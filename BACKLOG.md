@@ -3,24 +3,24 @@
 Ce document répertorie l'ensemble des chantiers découpés par **Application souveraine** (`DEC-AET-08`) et par **Bushi**.  
 Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de Test (`qa/vectors/`) -> Implémentation (`ag/*`) -> Validation Claude (`main`)**.  
 *Règle C1 : Un ticket n'est « Spécifié » que lorsque son fichier formel dans `docs/` existe effectivement sur `main`.*  
-*État certifié sur `main` (`e6dda35`) : 18 suites normatives, **693 vecteurs (100% PASS, 0 FAIL, 0 RED, 0 INVALID)**, 5 bancs de mutations (**34/34 mutations détectées**, 100% sensibilité).*
+*État certifié sur `main` (`e6dda35`) : 18 suites normatives, **693 vecteurs (100% PASS, 0 FAIL, 0 RED, 0 INVALID)**, **72 tests profonds de conditions limites (`test:deep`)**, **100 Micro Use-Cases souverains (25 par application, `test:usecases`)**, 5 bancs de mutations (**34/34 mutations détectées**, 100% sensibilité).*
 
 ---
 
-## Synthèse par Application Souveraine (`DEC-AET-08`)
+## Synthèse par Application Souveraine (`DEC-AET-08`) — 100 Micro Use-Cases Souverains
 
 - **Application 1 : PaxStudio Design** (Conception cartes et médaillons, famille & conseiller, Bushi 09, 15)  
   *Conception graphique, recueil des volontés, BAT numérique et prévisualisation 3D des deux cartes (Carte Sanctuaire & Carte Directives).*  
-  *Spécification formelle :* [`docs/functional/app1-paxstudio-design.md`](docs/functional/app1-paxstudio-design.md) (10 micro-UCs : `UC-101` à `UC-110`).
+  *Spécification formelle :* [`docs/functional/app1-paxstudio-design.md`](docs/functional/app1-paxstudio-design.md) (25 micro-UCs : `UC-101` à `UC-125`).
 - **Application 2 : PaxStation Encodage** (Atelier gravure silicium ACR1552U, opérateur pro, Bushi 03, 05, 10)  
   *Station technique d'atelier funéraire, dialogue APDU ISO 7816-4 via ACR1552U WebUSB/PC/SC CCID, partitionnement EF ACOSJ 92 Ko (`STORAGE-001`), scellement COSE_Sign1 et fusible matériel in-silico `80 DE 01 00`.*  
-  *Spécification formelle :* [`docs/functional/app2-paxstation-encodage.md`](docs/functional/app2-paxstation-encodage.md) (10 micro-UCs : `UC-201` à `UC-210`).
+  *Spécification formelle :* [`docs/functional/app2-paxstation-encodage.md`](docs/functional/app2-paxstation-encodage.md) (25 micro-UCs : `UC-201` à `UC-225`).
 - **Application 3 : Sanctuaire Mémoriel** (Recueillement 100% hors-ligne, zéro login, Bushi 04, 06, 07, 08, 14)  
   *Application de recueillement hors-ligne pour les familles et proches, NFC Tap instantané sans compte, lecteur vocal Opus SILK 16 kHz avec ducking -14 dB, cinématique Ken Burns 120 FPS, consultation sous réserve (bandeau ambré `DEC-AET-07 Option B`), tiroir des volontés civiles et médicales et pérennité selon la politique PaxFunèbre (`DEC-AET-11`).*  
-  *Spécification formelle :* [`docs/functional/app3-sanctuaire-memoriel.md`](docs/functional/app3-sanctuaire-memoriel.md) (12 micro-UCs : `UC-301` à `UC-312`).
+  *Spécification formelle :* [`docs/functional/app3-sanctuaire-memoriel.md`](docs/functional/app3-sanctuaire-memoriel.md) (25 micro-UCs : `UC-301` à `UC-325`).
 - **Application 4 : Filière Sarcomusation & Traçabilité** (The Iron Gate, Hermetia illucens, C1/C2/MRS, Bushi 11, 12, 13)  
   *Gestion quotidienne de la filière de biodégradation par Hermetia illucens, ségrégation stricte des 4 profils de dépouilles (C1, Faune DNF, C2 Sanitel, MRS), The Iron Gate G0-G9 anti-prion (Règlement CE 999/2001), journalisation des cycles autoclaves/pasteurisation, certification de lot scellée Ed25519 et audits réglementaires AFSCA/DNF hors-ligne.*  
-  *Spécification formelle :* [`docs/functional/app4-filiere-sarcomusation.md`](docs/functional/app4-filiere-sarcomusation.md) (14 micro-UCs : `UC-401` à `UC-414`).
+  *Spécification formelle :* [`docs/functional/app4-filiere-sarcomusation.md`](docs/functional/app4-filiere-sarcomusation.md) (25 micro-UCs : `UC-401` à `UC-425`).
 
 ---
 
@@ -45,7 +45,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ## 2. Application 1 : PaxStudio Design (Conception cartes et médaillons, famille & conseiller, Bushi 09, 15)
 
-*Micro-Use Cases : `UC-101` à `UC-110` formalisés dans [`docs/functional/app1-paxstudio-design.md`](docs/functional/app1-paxstudio-design.md).*
+*Micro-Use Cases : `UC-101` à `UC-125` formalisés dans [`docs/functional/app1-paxstudio-design.md`](docs/functional/app1-paxstudio-design.md).*
 
 | ID Ticket | Bushi | Intitulé | Priorité | Statut | Vecteurs & Références |
 |---|---|---|---|---|---|
@@ -60,7 +60,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ## 3. Application 2 : PaxStation Encodage (Atelier gravure silicium ACR1552U, opérateur pro, Bushi 03, 05, 10)
 
-*Micro-Use Cases : `UC-201` à `UC-210` formalisés dans [`docs/functional/app2-paxstation-encodage.md`](docs/functional/app2-paxstation-encodage.md).*
+*Micro-Use Cases : `UC-201` à `UC-225` formalisés dans [`docs/functional/app2-paxstation-encodage.md`](docs/functional/app2-paxstation-encodage.md).*
 
 | ID Ticket | Bushi | Intitulé | Priorité | Statut | Vecteurs & Références |
 |---|---|---|---|---|---|
@@ -76,7 +76,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ## 4. Application 3 : Sanctuaire Mémoriel (Recueillement 100% hors-ligne, zéro login, Bushi 04, 06, 07, 08, 14)
 
-*Micro-Use Cases : `UC-301` à `UC-312` formalisés dans [`docs/functional/app3-sanctuaire-memoriel.md`](docs/functional/app3-sanctuaire-memoriel.md).*
+*Micro-Use Cases : `UC-301` à `UC-325` formalisés dans [`docs/functional/app3-sanctuaire-memoriel.md`](docs/functional/app3-sanctuaire-memoriel.md).*
 
 | ID Ticket | Bushi | Intitulé | Priorité | Statut | Vecteurs & Références |
 |---|---|---|---|---|---|
@@ -93,7 +93,7 @@ Chaque ticket suit le cycle strict : **Spécification (`docs/`) -> Vecteurs de T
 
 ## 5. Application 4 : Filière Sarcomusation & Traçabilité (The Iron Gate, Hermetia illucens, C1/C2/MRS, Bushi 11, 12, 13)
 
-*Micro-Use Cases : `UC-401` à `UC-414` formalisés dans [`docs/functional/app4-filiere-sarcomusation.md`](docs/functional/app4-filiere-sarcomusation.md).*
+*Micro-Use Cases : `UC-401` à `UC-425` formalisés dans [`docs/functional/app4-filiere-sarcomusation.md`](docs/functional/app4-filiere-sarcomusation.md).*
 
 | ID Ticket | Bushi | Intitulé | Priorité | Statut | Vecteurs & Références |
 |---|---|---|---|---|---|

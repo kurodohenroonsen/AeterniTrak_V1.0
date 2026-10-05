@@ -22,7 +22,7 @@ Le Bushi 09 conçoit l'expérience et l'ergonomie des deux applications professi
 
 ---
 
-## 2. Application 1 : PaxStudio Design — Les 10 Cas d'Usage (UC-101 à UC-110)
+## 2. Application 1 : PaxStudio Design — Les 25 Cas d'Usage (UC-101 à UC-125)
 
 L'Application 1 offre un parcours d'une grande délicatesse pour matérialiser l'hommage sans heurter la douleur des familles :
 
@@ -53,10 +53,25 @@ flowchart TD
 | **UC-108** | **Directives Médicales Post-Mortem** | Vérification et encodage des impératifs vitaux | Sélecteur obligatoire d'exérèse stimulateur cardiaque (Art. L1232-24 CDLD & Modèle IIIC réglementaire), statuts don d'organes et legs 48h | Alerte rouge bloquante si présence d'un pacemaker actif |
 | **UC-109** | **Compilation Capsule CBOR Pré-Encodage** | Génération de la charge binaire d'échange | Moteur sérialiseur CBOR canonique déterministe RFC 8949 (zéro clé dupliquée, tri strict des entiers) | Charge utile $\le 1\,900\text{ octets}$ pour le bloc civil EF-1 |
 | **UC-110** | **Bon à Tirer (BAT) Numérique & Validation** | Relecture solennelle et signature conjointe | Feuille de synthèse haute fidélité avec double signature tactile famille/conseiller et horodatage | Clôture irréversible de la phase de conception |
+| **UC-111** | **Création Carte & Saisie Identité Civile / Mémorielle** | Formulaire d'admission d'identité | Champs typés état civil, date, lieu, validation RFC 8949 | Conformité eIDAS & Code civil |
+| **UC-112** | **Édition, Révision Modulaire & Contrôle Différentiel** | Modification post-saisie avant BAT | Comparateur visuel diff CBOR, horodatage révision | Traçabilité des modifications RGPD art. 16 |
+| **UC-113** | **Gestion Conflits d'État Civil & Noms Complexes UTF-8** | Noms à particules, accents, cédilles | Normaliseur Unicode NFC automatique, détection ligatures | Intégrité textuelle universelle |
+| **UC-114** | **Dépassement Quota Audio & Ré-échantillonnage d'Urgence** | Mémo vocal dépassant le budget silicium | Compresseur automatique Opus SILK adaptatif (< 46 080 octets) | Maintien sous quota EF-4 garanti |
+| **UC-115** | **Refus Signature / Révocation Mandat Représentant Légal** | Opposition formelle d'un ayant-droit | Blocage immédiat de la procédure de validation de BAT | Prévention de tout contentieux familial |
+| **UC-116** | **Conflit Résolution Portrait & Recadrage 480×480 WebP** | Photo familiale de ratio atypique | Outil de recadrage circulaire/carré temps réel haute densité | Image nette calibrée sous budget 20 Ko |
+| **UC-117** | **Calculateur d'Empreinte Octet UTF-8 en direct (EF-1)** | Saisie des textes et épitaphes en salon | Jauge dynamique d'octets avec seuil d'alerte à 1 900 octets | Protection anti-débordement EEPROM |
+| **UC-118** | **Contrôle Validité NISS Belge (Modulo 97)** | Numéro d'identification registre national | Vérificateur arithmétique Modulo 97 (pré et post-2000) | Zéro erreur d'identité civile |
+| **UC-119** | **Autocomplétion Communes & Codes Postaux Belges** | Saisie de la localité de naissance/décès | Base locale INS/NIS Statbel 100% hors-ligne | Référentiel administratif certifié |
+| **UC-120** | **Interrogation Taxonomique NCBI Locale (TaxID)** | Identification espèce pour animal de compagnie | Moteur de résolution taxonomique embarqué (TaxID 9615, 9685) | Aiguillage biologique déterministe |
+| **UC-121** | **Contrôle d'Accessibilité & Contraste WCAG AAA** | Préparation de la composition graphique | Validateur de contraste colorimétrique (> 7:1 or sur noir) | Accessibilité aînés et malvoyants |
+| **UC-122** | **Débruitage & Élimination Automatique des Silences** | Traitement du flux audio de recueillement | Algorithme de noise gate et suppression des blancs | Clarté de la voix enregistrée |
+| **UC-123** | **Génération QR Code Vectoriel de Secours (ECC M/Q)** | Préparation du verso de la carte physique | Générateur SVG vectoriel micro-gravé avec redondance Reed-Solomon | Solution de secours sans contact pérenne |
+| **UC-124** | **Simulation Signature Client & Calcul d'Empreinte JCS** | Étape préalable au BAT final | Canonisation JCS RFC 8785 et hash SHA-256 de contrôle | Intégrité mathématique absolue |
+| **UC-125** | **Émission & Télétransmission Sécurisée du BAT Numérique** | Clôture de conception avec la famille | Génération capsule .aetk scellée avec horodatage RFC 3339 | Transmission étanche vers PaxStation |
 
 ---
 
-## 3. Application 2 : PaxStation Encodage — Les 10 Cas d'Usage (UC-201 à UC-210)
+## 3. Application 2 : PaxStation Encodage — Les 25 Cas d'Usage (UC-201 à UC-225)
 
 L'Application 2 prend le relais en atelier pour la réalisation matérielle, la gravure silicium et le scellement cryptographique :
 
@@ -87,6 +102,21 @@ flowchart TD
 | **UC-208** | **Verrouillage Matériel Anti-Tamper** | Commande APDU de scellement définitif | Émission de l'instruction de passage en mode lecture seule in-silico (fusible logique activé) | Impossibilité physique d'altérer la carte post-remise |
 | **UC-209** | **Impression Thermique & Laser 600 DPI** | Pilotage de l'imprimante de carte professionnelle | Alignement micrométrique du portrait, des dorures et du QR-code cryptographique de secours | Résistance séculaire aux frottements et UV |
 | **UC-210** | **Recette Post-Gravure & PV de Remise** | Relecture NFC intégrale sans contact de contrôle | Écran de validation à 100%, génération du Procès-Verbal de remise officiel en PDF/A avec empreinte SHA-256 | Traçabilité légale complète de la remise à la famille |
+| **UC-211** | **Déconnexion Brutale & Perte RF pendant l'Écriture** | Arrachement intempestif de la carte du lecteur | Détection de tearing, transaction atomique et Tag COMMIT_FLAG | EEPROM préservée sans corruption |
+| **UC-212** | **Tentative Réécriture sur Puce Déjà Verrouillée (Fusible)** | Présentation d'une carte déjà scellée | Interrogation du Tag FUSE_STATUS (0x06), SW 0x6985 | Interdiction absolue de modification |
+| **UC-213** | **Révocation Clé Privée d'Enclave / Certificat Expiré** | Tentative de signature avec clé compromise | Rejet immédiat avec code d'erreur normatif COSE | Sécurité cryptographique d'atelier garantie |
+| **UC-214** | **Échec d'Impression Thermique/Laser & Rebut Silicium** | Bourrage ruban ou défaut d'alignement optique | Déclaration de mise au rebut (SCRAPPED), neutralisation puce | Zéro carte défectueuse remise aux familles |
+| **UC-215** | **Polling Détection Lecteur USB CCID & Événements PnP** | Connexion/Déconnexion du lecteur ACR1552U | Détection Plug-and-Play native sans blocage du thread | Stabilité opérationnelle du poste |
+| **UC-216** | **Analyse Trame Réponse ATR / ATS ISO 14443-4 Type A** | Pose de la JavaCard sur le plateau | Décodage des octets historiques et paramètres de transmission | Compatibilité ISO 14443-4 certifiée |
+| **UC-217** | **Sélection Applet APDU SELECT AID & Validation 90 00** | Initialisation de la session carte | Commande APDU canonique AID A0 00 00 08 45 01 | Applet AeterniTrak Core engagée |
+| **UC-218** | **Lecture En-tête EF-0 Silicium & Compteurs Monotones** | Diagnostic avant écriture | Contrôle du compteur d'écriture et de la version de masque | Protection contre le clonage physique |
+| **UC-219** | **Diagnostic d'Usure EEPROM & Cartographie Blocs** | Examen de la santé de la puce ACOSJ 92k | Vérification des cycles d'endurance de la flash EEPROM | Fiabilité matérielle séculaire |
+| **UC-220** | **Négociation Vitesse PPS (106 à 848 kbps)** | Optimisation du débit sans contact | Protocole Protocol Parameter Selection ISO 14443-4 | Gravure accélérée sans perte de trames |
+| **UC-221** | **Authentification Forte Opérateur FIDO2 / YubiKey** | Début de poste en atelier funéraire | Déverrouillage de l'enclave de signature par clé matérielle FIDO2 | Répudiation impossible de l'opérateur |
+| **UC-222** | **Découpage APDU Extended Length (Trames 255 o vs 64 Ko)** | Injection des fichiers multimédias volumineux | Gestion hybride APDU standard et Extended selon capacité lecteur | Transfert optimal de l'audio et des images |
+| **UC-223** | **Test à Blanc Verrouillage Matériel (Fusible Virtuel)** | Simulation pré-gravure en mode atelier école | Émulation in-silico du soufflage de fusible sans altération puce | Formation des thanatopracteurs sans perte |
+| **UC-224** | **Relecture Contrôle & Concordance Empreinte post-gravure** | Contrôle qualité obligatoire post-scellement | Relecture intégrale des 6 EF et vérification SHA-256 | Zéro écart entre BAT et carte physique |
+| **UC-225** | **Calibrage Alignement Imprimante Sublimation Thermique** | Entretien et maintenance du matériel d'atelier | Mire de calibration optique et jauge d'usure ruban quadri | Qualité d'impression ID-1 irréprochable |
 
 ---
 
@@ -105,7 +135,7 @@ Pour maintenir l'étanchéité absolue exigée par **`DEC-AET-08`** tout en inte
 
 1. **Spécification formelle dans `docs/functional/ux-studio-b2b.md`** :
    - Arbres complets de navigation pour App 1 et App 2.
-   - Protocoles de tests des 20 cas d'usage avec scénarios de succès nominaux et gestion des cas limites (perte d'alimentation USB, puce défectueuse, photo surdimensionnée).
+   - Protocoles de tests des 50 cas d'usage avec scénarios de succès nominaux et gestion des cas limites (perte d'alimentation USB, puce défectueuse, photo surdimensionnée).
 2. **Banc d'épreuve de gravure matérielle dans `qa/vectors/ux/b2b/`** :
    - Fichiers de configuration étalons pour 5 profils de défunts représentatifs (dont le profil patrimonial "Guy Heyman").
    - Test automatisé de conformité du budget EEPROM vérifiant qu'aucun fichier ne dépasse la limite des $92\,160\text{ octets}$.

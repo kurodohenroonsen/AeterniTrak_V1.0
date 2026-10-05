@@ -2024,7 +2024,7 @@ function renderInteractiveTheater(targetId = 'interactive-theater-container') {
 // ORCHESTRATEUR GLOBAL DE TESTS UNITAIRES (RUNNER IFRAME DÉCOUPLÉ)
 // =========================================================================
 const globalTestRunner = {
-  total: 64,
+  total: 100,
   currentIdx: 0,
   passed: 0,
   failed: 0,

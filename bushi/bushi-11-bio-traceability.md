@@ -8,9 +8,9 @@
 ---
 
 ## 1. Rôle et Mission
-Le Bushi 11 pilote la traçabilité biologique et réglementaire de la filière de sarcomusation (biodégradation par les larves d'Hermetia illucens) dans l'**Application 4 (Filière Sarcomusation & Traçabilité Sanitaire)** conformément à `DEC-AET-08` et aux 14 micro-usecases formels (UC-401 à UC-414) formalisés dans [`docs/functional/app4-filiere-sarcomusation.md`](../docs/functional/app4-filiere-sarcomusation.md) :
+Le Bushi 11 pilote la traçabilité biologique et réglementaire de la filière de sarcomusation (biodégradation par les larves d'Hermetia illucens) dans l'**Application 4 (Filière Sarcomusation & Traçabilité Sanitaire)** conformément à `DEC-AET-08` et aux 25 micro-usecases formels (UC-401 à UC-425) formalisés dans [`docs/functional/app4-filiere-sarcomusation.md`](../docs/functional/app4-filiere-sarcomusation.md) :
 
-### 1.1 Référentiel des 14 Micro-Usecases Formels de la Filière (UC-401 à UC-414)
+### 1.1 Référentiel des 25 Micro-Usecases Formels de la Filière (UC-401 à UC-425)
 
 | Micro-UC | Intitulé Formel | Domaine & Acteur | Base Réglementaire |
 | :---: | :--- | :--- | :--- |
@@ -28,6 +28,17 @@ Le Bushi 11 pilote la traçabilité biologique et réglementaire de la filière 
 | **`UC-412`** | **Évaluation Algorithmique Pure par The Iron Gate (G0 à G9, Anti-Prion)** | Moteur déterministe (The Iron Gate) | Spécification AET-SPEC-PRION-001 |
 | **`UC-413`** | **Émission du Certificat de Lot Signé Ed25519 (AET-SPEC-CERT-001)** | Cryptographie filière (The Iron Gate / Conformité) | Spécification AET-SPEC-CERT-001 |
 | **`UC-414`** | **Double Audit Réglementaire AFSCA / DNF Hors-Ligne** | Audit & Régulateurs (Inspecteur AFSCA & DNF) | Règlement (UE) 2017/625 |
+| **`UC-415`** | **Obstacle Médico-Légal Absolu & Enquête Judiciaire (Mise sous Scellés Parquet)** | Constat Civil & Police (Médecin Légiste & OPJ) | Code d'instruction criminelle belge (art. 44) |
+| **`UC-416`** | **Rupture de la Chaîne du Froid pendant le Transport Post-Mortem (> +4°C pendant > 2h)** | Contrôle Logistique & Biosécurité (Chauffeur & Responsable Qualité) | Règlement (CE) n° 1069/2009 |
+| **`UC-417`** | **Test Toxicologique LFA Pentobarbital Douteux ou Invalide (Absence Ligne C)** | Contrôle Toxicologique (Vétérinaire Contrôleur Sanitaire) | Règlement (CE) n° 142/2011 & Notice LFA AFSCA |
+| **`UC-418`** | **Refus Municipal du Permis de Sépulture ou Discordance d'Identité Bracelet Scellé** | Légalité Administrative (Officier d'État Civil & Directeur) | Décret wallon du 6 mars 2009 & CDLD |
+| **`UC-419`** | **Contrôle Ordre des Médecins / Vétérinaires & Numéro INAMI dans Registre Local** | Constat Civil & Tri (Vétérinaire Sanitaire & Médecin Légiste) | Arrêté royal n° 78 & Code de déontologie |
+| **`UC-420`** | **Scellement Cryptographique Ed25519 de l'Événement de Transport Primaire** | Logistique & Scellement (Chauffeur Funéraire & Transporteur) | Décret wallon du 6 mars 2009 & Règl. CE 1069/2009 |
+| **`UC-421`** | **Déchargement Datalogger Thermique & Calcul de l'Intégrale Temps/Température** | Contrôle Logistique (Opérateur Réception & Frigorifique) | Norme EN 12830 & Décision DEC-AET-03 |
+| **`UC-422`** | **Assignation Dynamique Cellule Frigorifique & Badging RFID Rayonnage** | Logistique & Stockage (Gestionnaire Cellules & Opérateur) | Règlement (CE) n° 1069/2009 |
+| **`UC-423`** | **Analyse Spectrophotométrique Courbe d'Absorption Bandelette LFA (Ratio C/T)** | Contrôle Biologique (Technicien BioLab & Praticien Admission) | Notice technique AFSCA & Décision DEC-AET-01 |
+| **`UC-424`** | **Exécution Individuelle Interactive des 10 Portes The Iron Gate (G0 à G9)** | Validation Algorithmique (The Iron Gate Oracle / Superviseur) | Règlement (CE) n° 999/2001 & Spécification The Iron Gate |
+| **`UC-425`** | **Contrôle Concession Forestière ARNE / DNF & Approbation Parcelle Mémorielle** | Destination Finale (Garde-Forestier DNF & Agent SPW ARNE) | Code forestier wallon du 15 juillet 2008 & DEC-AET-05 |
 
 ### 1.2 Ségrégation Stricte des 4 Profils de Dépouilles (Règlements CE 1069/2009 & CE 142/2011)
 1. **Ségrégation stricte des 4 profils de dépouilles (Règlement CE 1069/2009 & CE 142/2011)** :
@@ -47,10 +58,10 @@ Le Bushi 11 pilote la traçabilité biologique et réglementaire de la filière 
      - Stérilisation Méthode 1 imposée (UC-408). Combustion industrielle exclusive, sans bioconversion par larves.
 2. **Démonstrateur de Faisabilité de la Sarcomusation (`DEC-AET-15`)** :
    - Maintien du démonstrateur de faisabilité à des fins d'expérimentation et de recherche prospective.
-   - Option prospective non autorisée en l'état du droit positif actuel (référence à confirmer par un juriste).
+   - Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (DEC-AET-15).
    - Matières issues de restes humains : interdiction absolue de toute valorisation en alimentation animale.
 3. **Registre Numérique Cryptographique AFSCA / DNF** :
-   - Journalisation de chaque lot de larves, chaque étape de chauffe (courbes de température et pression horodatées), chaque signature vétérinaire (UC-412 à UC-414).
+   - Journalisation de chaque lot de larves, chaque étape de chauffe (courbes de température et pression horodatées), chaque signature vétérinaire (UC-412 à UC-425).
 
 ### 1.3 Fondement Scientifique Biologique : Hermetia illucens et Persistance des Prions (Avis EFSA 2015 & Benestad et al. 2024)
 

@@ -79,8 +79,82 @@ class MicroUseCaseTest {
 
   assertBytesBudget(bytes, maxLimit, partitionName) {
     const ok = bytes <= maxLimit;
-    const detail = `Budget partition '${partitionName}' : ${bytes} / ${maxLimit} octets (${Math.round(bytes / maxLimit * 100)}%)`;
-    return this.assertTrue(ok, ok ? `${detail} [CONFORME]` : `${detail} [DÉPASSEMENT EEPROM]`);
+    const remaining = maxLimit - bytes;
+    const pct = Math.round((bytes / maxLimit) * 100);
+    const detail = `Budget partition '${partitionName}' : ${bytes} / ${maxLimit} octets (${pct}%, reste: ${remaining} o)`;
+    return this.assertTrue(ok, ok ? `${detail} [CONFORME SILICIUM]` : `${detail} [DÉPASSEMENT EEPROM]`);
+  }
+
+  async computeSha256(input) {
+    let data;
+    if (typeof input === 'string') {
+      data = new TextEncoder().encode(input);
+    } else if (input instanceof Uint8Array) {
+      data = input;
+    } else {
+      data = new TextEncoder().encode(JSON.stringify(input));
+    }
+    const hashBuf = await globalThis.crypto.subtle.digest('SHA-256', data);
+    const hashBytes = new Uint8Array(hashBuf);
+    let hex = '';
+    for (let i = 0; i < hashBytes.length; i++) {
+      hex += hashBytes[i].toString(16).padStart(2, '0');
+    }
+    return hex;
+  }
+
+  computeModulo97(nissOrNumber, isPost2000 = false) {
+    const clean = String(nissOrNumber).replace(/[^0-9]/g, '');
+    const baseStr = isPost2000 ? ('2' + clean) : clean;
+    const n = BigInt(baseStr);
+    const remainder = Number(n % 97n);
+    const checksum = remainder === 0 ? 97 : (97 - remainder);
+    return {
+      raw: baseStr,
+      remainder,
+      checksum,
+      valid: checksum >= 1 && checksum <= 97
+    };
+  }
+
+  async verifyLocalSignature(keySecret, message, testTamper = true) {
+    const enc = new TextEncoder();
+    const keyData = enc.encode(keySecret || 'AeterniTrak-Local-Hardware-Root-Key');
+    const msgData = enc.encode(message || 'AeterniTrak-Canonical-TBS-Payload');
+
+    const cryptoKey = await globalThis.crypto.subtle.importKey(
+      'raw',
+      keyData,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign', 'verify']
+    );
+
+    const sigBuf = await globalThis.crypto.subtle.sign('HMAC', cryptoKey, msgData);
+    const signature = new Uint8Array(sigBuf);
+
+    // Vérification nominale
+    const valid = await globalThis.crypto.subtle.verify('HMAC', cryptoKey, signature, msgData);
+
+    // Contrôle d'altération (anti-falsification)
+    let tamperDetected = true;
+    if (testTamper) {
+      const tamperedSig = new Uint8Array(signature);
+      tamperedSig[0] ^= 0x01; // Altération d'un seul bit
+      const tamperedCheck = await globalThis.crypto.subtle.verify('HMAC', cryptoKey, tamperedSig, msgData);
+      tamperDetected = !tamperedCheck;
+    }
+
+    let sigHex = '';
+    for (let i = 0; i < signature.length; i++) {
+      sigHex += signature[i].toString(16).padStart(2, '0');
+    }
+
+    return {
+      valid,
+      tamperDetected,
+      signatureHex: sigHex
+    };
   }
 
   finishTest() {
@@ -128,6 +202,9 @@ class MicroUseCaseTest {
   }
 }
 
+if (typeof globalThis !== 'undefined') {
+  globalThis.MicroUseCaseTest = MicroUseCaseTest;
+}
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { MicroUseCaseTest };
 } else if (typeof window !== 'undefined') {

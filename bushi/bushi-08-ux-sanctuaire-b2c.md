@@ -27,9 +27,9 @@ Le Bushi 08 conçoit et garantit l'expérience utilisateur complète de l'**Appl
 
 ---
 
-## 2. Les 12 Cas d'Usage Détaillés du Portail Vivant (UC-301 à UC-312)
+## 2. Les 25 Cas d'Usage Détaillés du Portail Vivant (UC-301 à UC-325)
 
-L'Application 3 orchestre l'ensemble des 12 micro use-cases du recueillement familial et de la consultation citoyenne :
+L'Application 3 orchestre l'ensemble des 25 micro use-cases du recueillement familial et de la consultation citoyenne :
 
 ```mermaid
 flowchart TD
@@ -51,7 +51,7 @@ flowchart TD
     UC306 --> UC312[UC-312: Modèle Pérennité & Coffre Étendu]
 ```
 
-### Matrice des 12 Cas d'Usage de l'Application 3
+### Matrice des 25 Cas d'Usage de l'Application 3
 
 | Code | Titre du Cas d'Usage | Déclencheur & Préconditions | Flux d'Écrans & Interaction | Postcondition & Sécurité |
 | :--- | :--- | :--- | :--- | :--- |
@@ -62,11 +62,24 @@ flowchart TD
 | **UC-305** | **Blocage Hermétique Carte Falsifiée ou Clé Révoquée** | Non-concordance de la signature ou autorité révoquée | Écran noir d'obsidienne avec bouclier rouge écarlate et message de sécurité anti-fraude | Interdiction catégorique de lecture des données privées |
 | **UC-306** | **Sanctuaire Acoustique & Ducking Vocal Vivant** | Déclenchement de la voix du souvenir par l'utilisateur | Baisse automatique du fond musical de $-14\text{ dB}$, oscillation de l'onde sonore or impérial | Écoute intime et pure du mémo vocal de l'être cher |
 | **UC-307** | **Consultation des Volontés Civiles et Funéraires** | Sélection de l'onglet civisme ou demande des proches | Affichage en lecture seule certifiée des volontés funéraires (choix sarcomusation mémorielle DEC-AET-05) | Respect inaltérable de la volonté du défunt |
-| **UC-308** | **Alerte Médicale d'Urgence : Pacemaker / DAE** | Présence d'un dispositif cardiaque implanté actif | Avertissement d'urgence haute visibilité clignotant rouge/ambre rappelant l'obligation de retrait avant crémation (référence à confirmer par un juriste) | Alerte crémation immédiate avant mise en bière |
+| **UC-308** | **Alerte Médicale d'Urgence : Pacemaker / DAE** | Présence d'un dispositif cardiaque implanté actif | Avertissement d'urgence haute visibilité clignotant rouge/ambre rappelant l'obligation de retrait avant crémation (Art. L1232-24 CDLD & Modèle IIIC réglementaire) | Alerte crémation immédiate avant mise en bière |
 | **UC-309** | **Consultation du Statut de Don d'Organes** | Accès par les autorités médicales ou proches | Affichage du consentement présumé (Loi belge du 13 juin 1986, référence à confirmer par un juriste) ou de l'opposition formelle expresse | Sauvegarde des greffes d'organes en temps critique |
 | **UC-310** | **Directives Legs du Corps à la Science sous 48h** | Clause de don du corps encodée dans la carte | Affichage du décompte d'urgence 48h et des coordonnées de la faculté de médecine désignée | Notification immédiate des pompes funèbres agréées |
 | **UC-311** | **Droit d'Accès Post-Mortem Dossier Médical** | Demande d'un ayant-droit avec lien de filiation | Consultation des clauses d'autorisation selon l'Art. 9 §4 de la Loi du 22 août 2002 (référence à confirmer par un juriste) | Clarté juridique évitant tout litige successoral |
 | **UC-312** | **Pérennité Séculaire & Coffre Étendu** | Demande de renouvellement ou de dotation mémorielle | Proposition discrète de renouvellement mémoriel annuel selon la politique PaxFunèbre (DEC-AET-11) sans aucune interruption locale | Sauvegarde perpétuelle de l'archive familiale |
+| **UC-313** | **Panne Audio / Perte de Périphérique & Mode Silencieux** | Indisponibilité du module audio ou casque déconnecté | Bascule en mode sanctuaire silencieux visuel avec sous-titrage synchronisé | Recueillement préservé sans interruption |
+| **UC-314** | **Lecture de Secours par QR Code Micro-Gravé** | Carte physique rayée ou puce NFC endommagée | Scan optique haute résolution du QR code vectoriel sécurisé au verso | Continuité mémorielle garantie sans silicium actif |
+| **UC-315** | **Réclamations Contradictoires & Mise en Réserve Conservatoire** | Litige familial entre ayants droit déclaré | Verrouillage conservatoire ambré temporaire de l'hommage en ligne | Protection de la sérénité familiale en attente de médiation |
+| **UC-316** | **Mode Hors-Ligne Extrême / Zone Blanche sans Réseau** | Absence complète de signal cellulaire ou Wi-Fi | Vérification cryptographique locale par WebCrypto (Ed25519/ES256) | Autonomie 100% hors-ligne en forêt cinéraire |
+| **UC-317** | **Décodage Enregistrements NDEF Mixtes** | Détection d'un tag NDEF composite | Routage intelligent entre MIME-type applicatif et URI de secours | Interopérabilité multi-systèmes universelle |
+| **UC-318** | **Recherche Clé Publique dans TrustStore Local (kid 16 octets)** | Vérification de signature COSE_Sign1 | Recherche dichotomique de l'empreinte kid (16 octets SHA-256) | Authenticité de l'autorité émettrice certifiée |
+| **UC-319** | **Vérification Liste de Révocation Locale (CRL Hors-Ligne)** | Inspection de l'autorité de signature | Contrôle du statut de révocation dans le cache local certifié | Immunité contre les clés compromises |
+| **UC-320** | **Déverrouillage AudioContext par Geste Utilisateur** | Politique de restriction autoplay du navigateur | Activation de l'AudioContext sur première interaction tactile | Conformité stricte aux politiques navigateurs W3C |
+| **UC-321** | **Réglage Dynamique des Seuils de Ducking WebAudio (-14 dB)** | Lecture vocale en cours d'hommage | Atténuation dynamique du fond musical de -14 dB avec lissage | Clarté et intelligibilité acoustique maximale |
+| **UC-322** | **Synthèse Vocale Text-To-Speech Multilingue de l'Épitaphe** | Demande d'accessibilité vocale par l'utilisateur | Synthèse locale de l'épitaphe et des souhaits en français/anglais/néerlandais | Accessibilité universelle WCAG 2.2 AAA |
+| **UC-323** | **Signature Cryptographique Décentralisée du Livre d'Or** | Dépôt d'un message d'hommage par un proche | Signature locale asymétrique du témoignage avec horodatage scellé | Registre mémoriel inaltérable et intègre |
+| **UC-324** | **Export Fiche d'Urgence Médicale Pacemaker en PDF/A** | Réquisition médicale ou transfert vers thanatopracteur | Génération d'une fiche d'alerte certifiée PDF/A-1b horodatée | Sécurité crématoire et conformité légale |
+| **UC-325** | **Calcul d'Itinéraire Géodésique vers l'Arbre du Souvenir** | Famille en déplacement dans le massif cinéraire | Calcul Haversine et compas numérique hors-ligne vers les coordonnées GPS de l'arbre | Orientation précise sous canopée dense |
 
 ---
 

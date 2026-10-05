@@ -136,7 +136,7 @@ L'audit approfondi a porté sur **l'intégralité des 39 fichiers** de gouvernan
 
 #### 11. `bushi/bushi-05-webusb-desktop.md` (WebUSB & ACR1552U)
 - **Note** : `9.8 / 10`
-- **État actuel & Points forts** : Pilotage du lecteur ACR1552U (VID `0x072F`, PID `0x2200`), encapsulation CCID v1.1 sans pilote tiers, neutralisation du buzzer (`FF 00 52 00 00`), formalisation des 10 use-cases d'atelier (UC-201 à UC-210) avec cycle 4 phases, scellement irréversible du fusible matériel (UC-208, `80 DE 01 00`).
+- **État actuel & Points forts** : Pilotage du lecteur ACR1552U (VID `0x072F`, classe USB `0x0B` CCID standard), encapsulation CCID v1.1 sans pilote tiers, neutralisation du buzzer (`FF 00 52 00 00`), formalisation des 10 use-cases d'atelier (UC-201 à UC-210) avec cycle 4 phases, scellement irréversible du fusible matériel (UC-208, `80 DE 01 00`).
 - **Points d'amélioration obligatoires pour 9.9+/10** :
   1. Documenter la synchronisation avec le firmware v1.08 de l'ACR1552U pour la gestion des Extended APDUs.
 

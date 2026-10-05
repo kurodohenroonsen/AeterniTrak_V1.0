@@ -6,6 +6,9 @@
   "description": "AeterniTrak V1.0 — Traçabilité décentralisée & filière de sarcomusation",
   "scripts": {
     "test": "node qa/harness/run.mjs",
+    "test:deep": "node qa/tests/deep-edge-cases.mjs",
+    "test:usecases": "node scripts/test_usecases_runner.mjs",
+    "test:mutations": "node qa/tests/mutations.mjs && node qa/tests/mutations-antiprion.mjs && node qa/tests/mutations-cert.mjs && node qa/tests/mutations-crypto.mjs && node qa/tests/mutations-profile.mjs",
     "check:consistency": "node qa/consistency/check.mjs"
   },
   "dependencies": {},

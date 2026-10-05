@@ -3934,18 +3934,20 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
 1. Engagement du cycle d'évaluation déterministe de The Iron Gate.
-2. Franchissement des portes physiques et sanitaires : G0 (Scellé intact), G1 (Poids métrologique), G2 (Chaîne du froid), G3 (Substrat/Catégorie), G4 (Toxicologie Pentobarbital négatif), G5 (Exérèse Pacemaker Art. L1232-24 CDLD), G6 (Épizooties PCR).
-3. Application de la Règle d'Or Anti-Prion (Porte G7) : vérification mathématique de non-correspondance entre le TaxID de l'espèce traitée et les filières agroalimentaires de destination.
-4. Validation de l'équilibre minéral (Porte G8) et du traitement thermique légal (Porte G9 : 70°C/1h ou Méthode 1).
+2. Vérification séquentielle des Portes G0 à G4 : G0 (Destination & Whitelist), G1 (Taxonomie & Résolution), G2 (Protection Restes Humains), G3 (Catégorie SPA & Substrats), G4 (Dépistage Pentobarbital).
+3. Application stricte du Feed-Ban européen et de la Règle d'Or Anti-Prion : G5 (Exclusion Ruminants en Source), G6 (Exclusion Ruminants en Cible), G7 (Règle d'Or Anti-Cannibalisme Intra-Espèce).
+4. Validation des contrôles inter-groupes et thermiques : G8 (Feed-Ban Groupes & Espèces) et G9 (Traitement Sanitaire Requis & Preuve Thermique).
 5. Délivrance solennelle du verdict : 'AUTHORISED' et calcul du hash de lot.
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `gates_matrix` | **Matrice des 10 Portes** | `text` | `G0:OK | G1:OK | G2:OK | G3:OK | G4:OK | G5:OK | G6:OK | G7:OK | G8:OK | G9:OK` | - | `10/10 Conforme` | ⭕ Optionnel |
-| `gate_g7_prion` | **Porte G7 (Règle d'Or Anti-Prion)** | `text` | `Espèce Canis familiaris (TaxID 9615) -> Destination Mémorielle Forestière Exclusive` | - | `Feed-Ban Respecté` | ⭕ Optionnel |
-| `gate_g5_pacemaker` | **Porte G5 (Exérèse Pacemaker)** | `text` | `Explantation Documentée Conforme Art. L1232-24 CDLD & Modèle IIIC` | - | `Sécurité Incendie` | ⭕ Optionnel |
+| `gates_matrix` | **Matrice des 10 Portes de Fer** | `text` | `G0:OK | G1:OK | G2:OK | G3:OK | G4:OK | G5:OK | G6:OK | G7:OK | G8:OK | G9:OK` | - | `10/10 Conforme` | ⭕ Optionnel |
+| `gate_g5_ruminant_source` | **Porte G5 (Exclusion Ruminants en Source)** | `text` | `Source Canis familiaris (TaxID 9615, CARNIVORE) — Zéro Ruminant Source Détecté` | - | `Ruminant Source Exclu` | ⭕ Optionnel |
+| `gate_g6_ruminant_target` | **Porte G6 (Exclusion Ruminants en Cible)** | `text` | `Usage memorial_forestry — Zéro Ruminant Cible Alimentaire` | - | `Ruminant Cible Exclu` | ⭕ Optionnel |
+| `gate_g7_prion` | **Porte G7 (Règle d'Or Anti-Cannibalisme Intra-Espèce)** | `text` | `TaxID 9615 -> Destination Mémorielle Sylvicole (Règle d'Or Anti-Cannibalisme Respectée)` | - | `Anti-Cannibalisme OK` | ⭕ Optionnel |
+| `gate_g9_thermal` | **Porte G9 (Traitement Sanitaire Requis & Preuve Thermique)** | `text` | `Pasteurisation 70°C continue 62 min (Preuve Thermique SHA-256 Validée)` | - | `Preuve Thermique OK` | ⭕ Optionnel |
 | `gate_verdict` | **Verdict Automate The Iron Gate** | `text` | `AUTHORISED (Certificat de Lot Déverrouillé pour Scellement Ed25519)` | - | `AUTHORISED` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
@@ -3981,16 +3983,16 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
 
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | **Initial / Avant Trigger** | Banc d'Évaluation G0-G9 en Attente | *En attente utilisateur* | Les 10 critères de pureté et biosécurité sont chargés pour examen unitaire. |
-| **2** | **Déclenchement ⚡** | Franchissement Déterministe des Portes G0 à G6 | `Exécution de l'Automate` | Validation pas-à-pas des preuves matérielles et sanitaires. |
-| **3** | **Traitement ⚙️** | Contrôle Porte G7 : Règle d'Or Anti-Prion Respectée | `Progression : 100%` | Espèce Canis familiaris aiguillée vers sépulture forestière exclusive. |
+| **1** | **Initial / Avant Trigger** | Banc d'Évaluation G0-G9 en Attente | *En attente utilisateur* | Les 10 Portes de Fer canoniques (G0 à G9) sont chargées pour examen unitaire déterministe. |
+| **2** | **Déclenchement ⚡** | Franchissement Déterministe des Portes G0 à G6 | `Exécution de l'Automate` | Validation pas-à-pas des preuves matérielles et sanitaires G0 à G6. |
+| **3** | **Traitement ⚙️** | Contrôle Porte G7 : Règle d'Or Anti-Cannibalisme Intra-Espèce | `Progression : 100%` | Espèce Canis familiaris : zéro recyclage intra-espèce, portes G8 et G9 franchies. |
 | **4** | **Scellement & Fin ✨** | Feu Vert Émis : Certificat de Lot Déverrouillé | `Statut : success` | The Iron Gate autorise l'émission du certificat officiel AET-SPEC-CERT-001. |
 
 <details>
 <summary>🔍 Consulter les fragments HTML Wireframe de UC-424 (4 États Dépliables)</summary>
 
 #### Phase 1 - Avant Trigger : Banc d'Évaluation G0-G9 en Attente
-*Les 10 critères de pureté et biosécurité sont chargés pour examen unitaire.*
+*Les 10 Portes de Fer canoniques (G0 à G9) sont chargées pour examen unitaire déterministe.*
 
 ```html
 <div class="wf-screen-box">
@@ -4000,8 +4002,8 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-qa-icon">🛡️</span>
-                        <div><strong>Évaluation Déterministe Inviolable</strong></div>
-                        <div class="wf-subtext">Vérification de la chaîne de garde, de la toxicologie et de la règle anti-prion G7</div>
+                        <div><strong>Évaluation Déterministe Inviolable G0 à G9</strong></div>
+                        <div class="wf-subtext">Vérification des 10 Portes de Fer canoniques (evaluator.ts) : Destination, Taxonomie, Restes Humains, SPA, Pentobarbital, Feed-Ban et Preuve Thermique</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">🛡️ Lancer l'Évaluation Séquentielle G0 → G9</button>
@@ -4010,7 +4012,7 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
 ```
 
 #### Phase 2 - Déclenchement : Franchissement Déterministe des Portes G0 à G6
-*Validation pas-à-pas des preuves matérielles et sanitaires.*
+*Validation pas-à-pas des preuves matérielles et sanitaires G0 à G6.*
 
 ```html
 <div class="wf-screen-box">
@@ -4019,8 +4021,8 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                         <span class="wf-status-badge wf-badge-trigger">⚡ Test Portes G0-G6</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
-                        <div class="wf-trigger-indicator">G0: Scellé OK | G1: Poids OK | G2: Froid OK | G3: Cat OK | G4: LFA OK | G5: Pacemaker OK</div>
-                        <div class="wf-subtext">Engin d'inférence prêt pour la porte critique G7 Anti-Prion</div>
+                        <div class="wf-trigger-indicator">G0: Dest OK | G1: Taxon OK | G2: Restes Humains OK | G3: Cat/Substrats OK | G4: Pentobarbital OK | G5: Non-Ruminant Source OK | G6: Non-Ruminant Cible OK</div>
+                        <div class="wf-subtext">Engin d'inférence prêt pour la porte critique G7 (Règle d'Or Anti-Cannibalisme Intra-Espèce)</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary wf-pulse-btn">Évaluation de la règle anti-prion...</button>
@@ -4028,8 +4030,8 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                     </div>
 ```
 
-#### Phase 3 - Traitement : Contrôle Porte G7 : Règle d'Or Anti-Prion Respectée
-*Espèce Canis familiaris aiguillée vers sépulture forestière exclusive.*
+#### Phase 3 - Traitement : Contrôle Porte G7 : Règle d'Or Anti-Cannibalisme Intra-Espèce
+*Espèce Canis familiaris : zéro recyclage intra-espèce, portes G8 et G9 franchies.*
 
 ```html
 <div class="wf-screen-box">
@@ -4038,10 +4040,17 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                         <span class="wf-status-badge wf-badge-process">⚙️ Feed-Ban Strict (100%)</span>
                       </div>
                       <div class="wf-console-log">
-                        <code>> [GATE-G5] Exérèse pacemaker vérifiée selon Art. L1232-24 CDLD</code><br>
-                        <code>> [GATE-G7] TaxID 9615 -> Usage Mémoriel Forestier Exclusif (Zéro Recyclage Alimentaire)</code><br>
-                        <code>> [GATE-G9] Pasteurisation 70°C continue pendant 62 minutes attestée</code><br>
-                        <code>> [ORACLE-VERDICT] Statut global : AUTHORISED (Portes G0 à G9 = 100% conformes)</code>
+                        <code>> [GATE-G0] Destination & Whitelist : memorial_forestry supportée</code><br>
+                        <code>> [GATE-G1] Taxonomie & Résolution : TaxID 9615 (Canis familiaris, CARNIVORE)</code><br>
+                        <code>> [GATE-G2] Protection Restes Humains : Matière 100% non-humaine validée</code><br>
+                        <code>> [GATE-G3] Catégorie SPA & Substrats : Catégorie 1 mémorielle exclusive</code><br>
+                        <code>> [GATE-G4] Dépistage Pentobarbital : Négatif LFA qualitatif certifié</code><br>
+                        <code>> [GATE-G5] Exclusion Ruminants en Source : Zéro ruminant source détecté</code><br>
+                        <code>> [GATE-G6] Exclusion Ruminants en Cible : Zéro ruminant cible alimentaire</code><br>
+                        <code>> [GATE-G7] Règle d'Or Anti-Cannibalisme Intra-Espèce : Zéro recyclage intra-espèce</code><br>
+                        <code>> [GATE-G8] Feed-Ban Groupes & Espèces : Absence de croisement prohibé</code><br>
+                        <code>> [GATE-G9] Traitement Sanitaire Requis & Preuve Thermique : Pasteurisation 70°C / 62 min conforme</code><br>
+                        <code>> [ORACLE-VERDICT] Statut global : AUTHORISED (10 / 10 Portes Canoniques Validées)</code>
                       </div>
                     </div>
 ```
@@ -4059,7 +4068,7 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                         <span class="wf-seal-icon">🏆</span>
                         <div>
                           <strong>Conformité Totale Filière Démontrée</strong>
-                          <p class="wf-subtext">10/10 Portes Franchies • Règle Anti-Prion et Sécurité Sanitaire Garanties</p>
+                          <p class="wf-subtext">10/10 Portes Canoniques Franchies (G0 à G9) • Règle d'Or Anti-Prion et Sécurité Sanitaire Garanties</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
