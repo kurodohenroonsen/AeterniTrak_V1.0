@@ -15,7 +15,7 @@ from portal_legal import LEGAL_TEXTS
 from portal_app1 import APP1_USECASES
 from portal_app2 import APP2_USECASES
 from portal_app3 import APP3_USECASES
-from portal_app4 import APP4_USECASES
+from portal_app4 import APP4_USECASES, TRACEABILITY_EVENTS
 from portal_styles import CSS_STYLES
 from portal_runtime import JS_RUNTIME
 
@@ -59,7 +59,7 @@ def generate_interactive_theater():
       </div>
     </div>
 
-    <!-- Navigation des 4 Expériences Clés -->
+    <!-- Navigation des 5 Expériences Clés -->
     <div class="flex flex-wrap gap-2.5 border-b border-slate-800 pb-4">
       <button id="hero-tab-expA" class="hero-nav-btn active" onclick="switchHeroExp('expA')">
         <span>📱</span> Exp A : Sanctuaire Mobile & Flamme
@@ -72,6 +72,9 @@ def generate_interactive_theater():
       </button>
       <button id="hero-tab-expD" class="hero-nav-btn" onclick="switchHeroExp('expD')">
         <span>🪰</span> Exp D : Cassette LFA & The Iron Gate
+      </button>
+      <button id="hero-tab-expE" class="hero-nav-btn" onclick="switchHeroExp('expE')">
+        <span>⛓️</span> Exp E : Traçabilité Dépouille (6 Événements)
       </button>
     </div>
 
@@ -487,6 +490,233 @@ def generate_interactive_theater():
         </div>
       </div>
 
+      <!-- EXPÉRIENCE E : GRAND SIMULATEUR ÉVÉNEMENTIEL DE TRAÇABILITÉ DE LA DÉPOUILLE (6 ÉVÉNEMENTS) -->
+      <div id="hero-panel-expE" class="hero-panel">
+        <div class="space-y-6">
+          
+          <!-- En-tête du Simulateur Événementiel & Sélecteur de Profils -->
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold">App 4 · Filière Post-Mortem &amp; Bioconversion</span>
+                <span id="trace-live-badge" class="font-mono text-xs text-emerald-300 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/40">
+                  ● Chaîne Active Ed25519
+                </span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold font-title text-white mt-1">Simulateur Événementiel de Traçabilité de la Dépouille</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Suivi inviolable et horodaté à chaque étape : du constat médical initial au transport frigorifique (2-4°C), à la réception, aux contrôles amonts (exérèse pacemaker &amp; LFA pentobarbital), à la bioconversion Hermetia illucens et à la clôture The Iron Gate.
+              </p>
+            </div>
+
+            <!-- Commandes du Simulateur (Auto-Play & Profils) -->
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="flex items-center gap-1 bg-obsidian-950 p-1 rounded-xl border border-slate-800 text-xs font-mono">
+                <button id="btn-trace-prof-p1" onclick="setTraceProfile('p1')" class="px-2.5 py-1.5 rounded-lg font-bold bg-gold-500 text-obsidian-950 shadow">
+                  🐾 Profil 1 (Compagnie)
+                </button>
+                <button id="btn-trace-prof-p2" onclick="setTraceProfile('p2')" class="px-2.5 py-1.5 rounded-lg text-slate-300 hover:text-white">
+                  🐗 Profil 2 (Faune DNF)
+                </button>
+                <button id="btn-trace-prof-p3" onclick="setTraceProfile('p3')" class="px-2.5 py-1.5 rounded-lg text-slate-300 hover:text-white">
+                  🐄 Profil 3 (Ferme)
+                </button>
+                <button id="btn-trace-prof-p4" onclick="setTraceProfile('p4')" class="px-2.5 py-1.5 rounded-lg text-slate-300 hover:text-white">
+                  🏭 Profil 4 (Abattoir)
+                </button>
+              </div>
+
+              <button id="btn-trace-autoplay" onclick="toggleTraceAutoPlay()" class="wf-btn wf-btn-primary text-xs font-bold py-2 px-3 flex items-center gap-1.5">
+                <span>⚡</span> Auto-Play (6 Événements)
+              </button>
+              <button onclick="resetTraceTimeline()" class="wf-btn wf-btn-sub text-xs py-2 px-2.5" title="Réinitialiser au Décès">
+                <span>↺</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- FRISE CHRONOLOGIQUE INTERACTIVE (6 ÉVÉNEMENTS) -->
+          <div class="trace-stepper-wrap">
+            <div class="trace-progress-track">
+              <div id="trace-progress-fill" class="trace-progress-fill" style="width: 16.66%;"></div>
+            </div>
+            <div class="trace-stepper" id="trace-stepper-container">
+              <button class="trace-step-node active" id="trace-node-1" onclick="goToTraceStep(1)">
+                <div class="trace-node-circle">📋</div>
+                <div class="trace-node-label">1. Constat &amp; Scellé</div>
+              </button>
+              <button class="trace-step-node" id="trace-node-2" onclick="goToTraceStep(2)">
+                <div class="trace-node-circle">🚐</div>
+                <div class="trace-node-label">2. Transport Froid (2-4°C)</div>
+              </button>
+              <button class="trace-step-node" id="trace-node-3" onclick="goToTraceStep(3)">
+                <div class="trace-node-circle">⚖️</div>
+                <div class="trace-node-label">3. Admission &amp; Cellule</div>
+              </button>
+              <button class="trace-step-node" id="trace-node-4" onclick="goToTraceStep(4)">
+                <div class="trace-node-circle">🩺</div>
+                <div class="trace-node-label">4. Contrôles Amonts</div>
+              </button>
+              <button class="trace-step-node" id="trace-node-5" onclick="goToTraceStep(5)">
+                <div class="trace-node-circle">🪰</div>
+                <div class="trace-node-label">5. Bioconversion &amp; Chauffe</div>
+              </button>
+              <button class="trace-step-node" id="trace-node-6" onclick="goToTraceStep(6)">
+                <div class="trace-node-circle">🕊️</div>
+                <div class="trace-node-label">6. The Iron Gate &amp; Remise</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- PANNEAU CENTRAL DE L'ÉVÉNEMENT ACTIF (2 COLONNES) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Colonne Gauche : Formulaire Acteur & Saisie Événementielle (7/12) -->
+            <div class="lg:col-span-7 space-y-4">
+              <div class="trace-panel-body space-y-4">
+                
+                <!-- En-tête Événement & Acteur Responsable -->
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                  <div>
+                    <span id="trace-event-stage-badge" class="text-[11px] font-mono font-bold text-gold-400 uppercase tracking-wider block">
+                      Événement 1 / 6 • Déclaration Initiale
+                    </span>
+                    <h4 id="trace-event-title" class="text-lg font-bold font-title text-white">
+                      Constat de Décès &amp; Pose du Scellé Inviolable
+                    </h4>
+                  </div>
+                  <div class="text-right">
+                    <span id="trace-actor-badge" class="px-2.5 py-1 rounded-md text-xs font-mono bg-slate-900 border border-slate-700 text-slate-300">
+                      🩺 Vétérinaire / Médecin Agréé
+                    </span>
+                    <div id="trace-actor-cred" class="text-[10px] text-slate-400 font-mono mt-0.5">INAMI / AFSCA #VET-BEL-84912</div>
+                  </div>
+                </div>
+
+                <!-- Carte Résumé de la Dépouille -->
+                <div class="p-3 rounded-xl bg-obsidian-950 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase font-mono">Dépouille Identifiée</span>
+                    <strong id="trace-depouille-name" class="text-white text-sm">Adrien de Valcourt (ou Canis familiaris TaxID 9615)</strong>
+                    <span id="trace-depouille-id" class="text-gold-400 font-mono text-[11px] block">DEP-2026-BEL-99201</span>
+                  </div>
+                  <div class="text-right font-mono">
+                    <span class="text-slate-400 block text-[10px] uppercase">Régime Sanitaire</span>
+                    <span id="trace-channel-badge" class="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-bold">
+                      Profil 1 · Catégorie 1 Mémoriel
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Formulaire Interactif de l'Événement -->
+                <div class="space-y-3" id="trace-form-fields-container">
+                  <!-- Rempli dynamiquement selon l'événement -->
+                </div>
+
+                <!-- Résumé Explicatif Métier -->
+                <p id="trace-event-summary" class="text-xs text-slate-300 bg-slate-900/60 p-3 rounded-lg border border-slate-800 leading-relaxed">
+                  Constat officiel de fin de vie, horodatage certifié RFC 3339, géolocalisation par balise RTK, vérification de l'identité du défunt ou de l'animal, et scellement physique et cryptographique immédiat par scellé inviolable NFC/QR à signature Ed25519.
+                </p>
+
+                <!-- Boutons d'Action & Déclencheur d'Anomalie -->
+                <div class="flex flex-wrap items-center gap-3 pt-2">
+                  <button id="btn-trace-action" onclick="nextTraceStep()" class="wf-btn wf-btn-gold text-xs font-bold flex-1 py-2.5">
+                    ⚡ Valider &amp; Sceller l'Événement (Suivant)
+                  </button>
+                  <button id="btn-trace-anomaly" onclick="simulateTraceAnomaly()" class="wf-btn wf-btn-sub text-xs text-rose-300 border-rose-500/30 hover:bg-rose-950/40 py-2.5 px-3" title="Tester la réaction du système face à une violation">
+                    ⚠️ Simuler Anomalie
+                  </button>
+                </div>
+
+                <!-- Bannière d'Alerte Anomalie (Masquée par défaut) -->
+                <div id="trace-anomaly-banner" class="hidden p-3 rounded-lg bg-red-950/80 border border-red-500 text-red-200 text-xs space-y-1">
+                  <!-- Rempli dynamiquement lors d'une anomalie -->
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Colonne Droite : Télémétrie, Scellé, Chaîne du Froid & Console Cryptographique (5/12) -->
+            <div class="lg:col-span-5 space-y-4">
+
+              <!-- Box 1 : Statut du Scellé Inviolable NFC / Ed25519 -->
+              <div class="trace-seal-card space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xl">🔒</span>
+                    <span class="font-bold text-white uppercase tracking-wider font-mono text-[11px]">Scellé Inviolable Ed25519</span>
+                  </div>
+                  <span id="trace-seal-status-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40">
+                    INTÈGRE &bull; NON ROMPU
+                  </span>
+                </div>
+                <div class="flex items-center justify-between text-xs font-mono bg-obsidian-950/80 p-2 rounded border border-slate-800">
+                  <span class="text-slate-400">ID Scellé Physique :</span>
+                  <span id="trace-seal-id-val" class="text-sky-300 font-bold">SCELL-2026-BEL-0982-NFC</span>
+                </div>
+                <div class="text-[10px] font-mono text-slate-400 flex items-center justify-between">
+                  <span>Cryptosystème : RFC 8032 Ed25519 (alg: -8)</span>
+                  <span class="text-emerald-400">Tag 18 COSE</span>
+                </div>
+              </div>
+
+              <!-- Box 2 : Thermomètre Numérique & Chaîne du Froid -->
+              <div class="trace-thermometer-box space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span id="trace-temp-icon" class="text-lg">❄️</span>
+                    <span class="font-bold text-white uppercase tracking-wider font-mono text-[11px]">Monitoring Thermique Continu</span>
+                  </div>
+                  <span id="trace-temp-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-950 text-sky-300 border border-sky-500/40">
+                    CONFORME (2-4°C)
+                  </span>
+                </div>
+                <div class="flex items-baseline justify-between">
+                  <div class="text-2xl font-bold font-mono text-white" id="trace-temp-readout">+3.2°C</div>
+                  <span class="text-xs font-mono text-slate-400" id="trace-temp-target">Consigne : +2.0°C à +4.0°C</span>
+                </div>
+                <div class="trace-gauge-bar">
+                  <div id="trace-temp-fill" class="trace-gauge-fill bg-sky-400" style="width: 32%;"></div>
+                </div>
+              </div>
+
+              <!-- Box 3 : Télémétrie GPS & Émargement -->
+              <div class="bg-obsidian-950 border border-slate-800 rounded-xl p-3 space-y-1.5 text-xs font-mono">
+                <div class="text-slate-400 uppercase text-[10px] font-bold">Balise GPS &amp; Horodatage Certifié :</div>
+                <div class="flex items-center justify-between text-slate-300">
+                  <span>📍 GPS RTK :</span>
+                  <span id="trace-gps-val" class="text-gold-300">50.6333° N, 5.5667° E</span>
+                </div>
+                <div class="flex items-center justify-between text-slate-300">
+                  <span>⏱️ Horodatage :</span>
+                  <span id="trace-time-val" class="text-slate-400">2026-10-05 08:15 UTC</span>
+                </div>
+                <div class="flex items-center justify-between text-slate-300">
+                  <span>🚐 Logistique :</span>
+                  <span id="trace-carrier-val" class="text-slate-300 truncate max-w-[200px]">Véhicule 1-AFR-842</span>
+                </div>
+              </div>
+
+              <!-- Box 4 : Console Cryptographique & The Iron Gate Live -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                  <span>Journal Cryptographique In-Silico</span>
+                  <span class="text-emerald-400 text-[10px]">Ed25519 &bull; SHA-256</span>
+                </div>
+                <div class="trace-crypto-terminal" id="trace-crypto-log">
+                  <div class="text-slate-400">> [INIT] Chaîne de traçabilité AeterniTrak V1.0 initialisée...</div>
+                  <div class="text-emerald-400">> [SCELLÉ] SCELL-2026-BEL-0982-NFC lié à DEP-2026-BEL-99201</div>
+                  <div class="text-sky-300">> [SIGNATURE] alg: -8 (Ed25519) digest validé in-silico</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </section>
 """
@@ -540,7 +770,7 @@ def main():
         <span class="text-emerald-400/80">• 100% Validé</span>
       </div>
       <div class="bg-gold-500/15 border border-gold-500/30 text-gold-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs">
-        <span>📐</span> <strong>46 Wireframes Dédiés (4 États)</strong>
+        <span>📐</span> <strong>{total_ucs} Wireframes Dédiés (4 États)</strong>
       </div>
       <div class="bg-blue-950/40 border border-blue-500/30 text-blue-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs">
         <span>🌍</span> <strong>100% Multiplateforme</strong>
@@ -761,6 +991,25 @@ def main():
         </div>
       </div>
 
+      <!-- Vitrine Interactive du Simulateur Événementiel de Traçabilité -->
+      <div class="glass-card p-5 border-emerald-500/40 rounded-2xl flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-emerald-950/40 via-obsidian-900 to-obsidian-950 shadow-xl">
+        <div class="flex items-center gap-3.5">
+          <span class="text-3xl select-none">⛓️</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base sm:text-lg font-bold text-white font-title">Simulateur Événementiel de Traçabilité Post-Mortem de la Dépouille</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">6 Événements Inviolables</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Chaîne de traçabilité complète de la dépouille : Constat &amp; Scellé Ed25519, Transport Frigo (2-4°C), Admission &amp; Cellule, Contrôles Amonts (Exérèse Pacemaker &amp; LFA Pentobarbital), Bioconversion Hermetia illucens et Clôture The Iron Gate.
+            </p>
+          </div>
+        </div>
+        <button onclick="switchHeroExp('expE'); document.getElementById('interactive-theater').scrollIntoView();" class="wf-btn wf-btn-gold text-xs font-bold py-2.5 px-4 flex items-center gap-2">
+          <span>🎭</span> Lancer le Simulateur Événementiel dans le Grand Théâtre
+        </button>
+      </div>
+
       <!-- Barre d'Outils Ergonomique -->
       <div class="view-mode-bar">
         <div class="flex flex-wrap items-center gap-2">
@@ -830,6 +1079,7 @@ def main():
     const app2UseCases = {json.dumps(APP2_USECASES, ensure_ascii=False, indent=2)};
     const app3UseCases = {json.dumps(APP3_USECASES, ensure_ascii=False, indent=2)};
     const app4UseCases = {json.dumps(APP4_USECASES, ensure_ascii=False, indent=2)};
+    const traceabilityEvents = {json.dumps(TRACEABILITY_EVENTS, ensure_ascii=False, indent=2)};
     const legalTexts = {json.dumps(LEGAL_TEXTS, ensure_ascii=False, indent=2)};
 
 {JS_RUNTIME}

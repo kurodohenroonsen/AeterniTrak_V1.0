@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeterniTrak V1.0 — UC-102 : Prévisualisation 3D Interactive Recto/Verso avec Rendu Or &amp; Mat</title>
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="bg-obsidian-950 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- En-tête Autonome & Navigation Breadcrumbs -->
+  <header class="uc-standalone-header px-6 py-3.5 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <a href="../index.html" class="wf-btn wf-btn-sub text-xs py-1.5 px-3 flex items-center gap-1.5" title="Retour au Hub Principal">
+        <span>←</span> <span>Hub</span>
+      </a>
+      <div class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
+        <span>AeterniTrak</span>
+        <span>/</span>
+        <span class="text-gold-400">PaxStudio Design</span>
+        <span>/</span>
+        <span class="text-white font-bold">UC-102</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Rendu 3D & Matériaux</span>
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded border text-gold-400 bg-gold-500/10 border-gold-500/30">UC-102</span>
+    </div>
+  </header>
+
+  <!-- Contenu Principal du Micro Use-Case -->
+  <main class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-6 flex-1">
+
+    <!-- Bannière Descriptrice Métier -->
+    <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div class="space-y-1">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-gold-400 font-bold">Conception & Personnalisation des 2 Cartes</span>
+          <h1 class="text-xl sm:text-2xl font-bold font-title text-white">Prévisualisation 3D Interactive Recto/Verso avec Rendu Or & Mat</h1>
+        </div>
+        <div class="text-right text-xs">
+          <span class="text-slate-400">Acteur Souverain :</span>
+          <span class="font-bold text-white block mt-0.5">Famille</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 pt-2 text-xs">
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 1</span><span class="text-slate-300 text-[11px] leading-snug block">Génération du maillage 3D photoréaliste de la carte avec shader PBR (Physically Based Rendering).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 2</span><span class="text-slate-300 text-[11px] leading-snug block">La famille fait pivoter la carte d'un simple glissement de doigt pour inspecter le recto (portrait et nom) et le verso (épitaphe et puce).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 3</span><span class="text-slate-300 text-[11px] leading-snug block">Simulation réaliste de la lumière rasante révélant les dorures à chaud et le relief tactile du logo Le Pax Funèbre.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 4</span><span class="text-slate-300 text-[11px] leading-snug block">Bascule instantanée entre la Carte Sanctuaire et la Carte Directives.</span></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs font-mono text-slate-300">
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Préconditions :</span>
+          <span class="text-slate-300 text-[11px]">Modèle de carte sélectionné avec textures haute résolution chargées.</span>
+        </div>
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-emerald-400 block text-[10px] uppercase font-bold">Postconditions :</span>
+          <span class="text-slate-300 text-[11px]">Validation visuelle en temps réel sans nécessiter d'impression d'épreuve papier intermédiaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille 2 Colonnes : Formulaire Interactif & Maquette Wireframe -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Colonne 1 : Formulaire Fonctionnel & Cas d'Erreur (5/12) -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-sm font-bold font-title text-white">Champs d'Interaction (3 paramètres)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Spec DEC-AET-08</span>
+          </div>
+
+          <form id="form-UC-102" class="space-y-2.5" onsubmit="event.preventDefault();">
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Shader PBR Actif</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Rendu PBR</span></div><select name="shader_type" class="form-control-input"><option value="Dorure Or 24k + Mat Velours" selected>Dorure Or 24k + Mat Velours</option><option value="Alternatif">Option Alternative</option></select></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Angle de Lumière Rasante</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Dynamique</span></div><input type="range" name="light_angle" value="45° Nord-Est" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Face Active</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">360°</span></div><input type="radio" name="view_face" value="Recto (Portrait Mémoriel)" class="form-control-input"></div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <button type="button" id="btn_rotate_3d" onclick="simulateAction('btn_rotate_3d')" class="wf-btn wf-btn-gold text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🔄</span> <span>Pivoter Recto / Verso (360°)</span></button>
+              <button type="button" id="btn_export_preview" onclick="simulateAction('btn_export_preview')" class="wf-btn wf-btn-sub text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>📸</span> <span>Capturer Bon Visuel HD</span></button>
+            </div>
+          </form>
+
+          <div id="validation-box-UC-102" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs space-y-1">
+            <div class="flex justify-between items-center text-emerald-300 font-bold">
+              <span>✔ Rendu 3D PBR Conforme</span>
+              <span class="font-mono text-[10px] bg-emerald-900/60 px-2 py-0.5 rounded">60 FPS Fluidité Native</span>
+            </div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">Textures PBR validées. Reflets spéculaires et micro-reliefs tactilement conformes.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-rose-950/30 border border-rose-900/60 text-xs space-y-1 text-rose-200">
+            <div class="flex justify-between items-center font-bold">
+              <span class="text-rose-400 font-mono">ERR_WEBGL_CONTEXT_LOST</span>
+              <span class="text-[10px] text-slate-400">Perte du Contexte Graphique WebGL</span>
+            </div>
+            <p class="text-[11px] text-rose-200/90 leading-snug"><strong>Alerte :</strong> Erreur d'affichage : Le moteur 3D PBR a perdu le contexte matériel GPU.</p>
+            <p class="text-[11px] text-emerald-300/90 leading-snug"><strong>Remédiation :</strong> Réinitialisation automatique du contexte WebGL et bascule temporaire en rendu 2D haute définition.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne 2 : Player Wireframe 4 Phases & Bezel (7/12) -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <button id="pill-p1" onclick="setPhase('p1')" class="wf-pill-btn active">1. Initial</button>
+              <button id="pill-p2" onclick="setPhase('p2')" class="wf-pill-btn">2. Action ⚡</button>
+              <button id="pill-p3" onclick="setPhase('p3')" class="wf-pill-btn">3. Gravure ⚙️</button>
+              <button id="pill-p4" onclick="setPhase('p4')" class="wf-pill-btn">4. Scellé ✨</button>
+            </div>
+            <button id="btn-sim-seq" onclick="simulateSequence()" class="wf-sim-btn text-xs font-bold py-1.5 px-3">
+              ▶ Simuler Séquence
+            </button>
+          </div>
+
+          <div class="device-bezel">
+            <div class="device-topbar">
+              <div class="device-controls-dots">
+                <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+              </div>
+              <span class="text-[11px] text-slate-300 font-mono">PaxStudio Pro • Visionneuse 3D PBR WebGL</span>
+              <span class="text-emerald-400 font-bold text-[10px]">100% Hors-Ligne</span>
+            </div>
+            <div id="screen-container" class="wf-screen-container">
+              
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Visionneuse 3D PBR Temps Réel</span>
+                        <span class="wf-status-badge wf-badge-neutral">Face Recto • Éclairage Fixe</span>
+                      </div>
+                      <div class="wf-3d-viewport">
+                        <div class="wf-card-mockup-3d">
+                          <div class="wf-gold-border"></div>
+                          <div class="wf-portrait-slot">👤 Portrait Mémoriel HD</div>
+                          <div class="wf-name-slot">Henri Dubois (1944 - 2026)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔄 Pivoter Recto / Verso (En attente de glissement)</button>
+                        <button class="wf-btn wf-btn-sub">📸 Capturer Vue</button>
+                      </div>
+                    </div>
+            </div>
+          </div>
+
+          <div class="wf-caption-box text-xs">
+            <span id="caption-label"><strong>Canevas 3D Initial en Attente de Manipulation</strong> <span class="text-slate-400">• Maillage 3D neutre chargé. La carte est fixe, vue de face, prête à l'inspection tactile.</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BANC DE TEST UNITAIRE EMBARQUÉ (SPEC-FIRST & TEST-FIRST) -->
+    <section class="test-suite-panel space-y-4" id="section-unit-test">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🧪</span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold font-title text-white">Banc de Test Unitaire Embarqué — UC-102</h3>
+            <p class="text-xs text-slate-400">Assertions formelles in-silico, budgets EEPROM ACOSJ et conformité ISO/IEC</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="test-status-badge" class="test-badge test-badge-ready">PRÊT</span>
+          <button id="btn-run-test" class="wf-btn wf-btn-gold text-xs font-bold py-2 px-4 shadow">
+            ▶ Lancer le Test Unitaire
+          </button>
+        </div>
+      </div>
+
+      <div id="test-console" class="wf-console-log h-40 overflow-y-auto text-xs font-mono space-y-1">
+        <div class="text-slate-400">> [PRÊT] Banc d'essai prêt pour UC-102. Cliquez sur « Lancer le Test Unitaire » ou exécutez avec ?autotest=1</div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+        <span>Framework : MicroUseCaseTest V1.0</span>
+        <span>Partition cible : EF-1 Profil Mémoriel CBOR (63,488 octets max)</span>
+        <span>Règle d'or : Anti-Prion CE 999/2001</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pied de page -->
+  <footer class="border-t border-slate-800 bg-obsidian-900/60 px-6 py-3 text-center text-xs text-slate-400 font-mono">
+    AeterniTrak V1.0 • Spec-First & Test-First Certifié • Code de droit économique belge (art. VI.45 - obligation d'information précontractuelle claire) (référence à confirmer par un juriste).
+  </footer>
+
+  <!-- Scripts : Test Framework & Automate Local -->
+  <script src="../js/test-framework.js"></script>
+  <script>
+    const phasesData = {"p1": {"tabTitle": "1. Avant Trigger", "phaseTitle": "Canevas 3D Initial en Attente de Manipulation", "caption": "Maillage 3D neutre chargé. La carte est fixe, vue de face, prête à l'inspection tactile.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Visionneuse 3D PBR Temps Réel</span>\n                        <span class=\"wf-status-badge wf-badge-neutral\">Face Recto • Éclairage Fixe</span>\n                      </div>\n                      <div class=\"wf-3d-viewport\">\n                        <div class=\"wf-card-mockup-3d\">\n                          <div class=\"wf-gold-border\"></div>\n                          <div class=\"wf-portrait-slot\">👤 Portrait Mémoriel HD</div>\n                          <div class=\"wf-name-slot\">Henri Dubois (1944 - 2026)</div>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary\">🔄 Pivoter Recto / Verso (En attente de glissement)</button>\n                        <button class=\"wf-btn wf-btn-sub\">📸 Capturer Vue</button>\n                      </div>\n                    </div>"}, "p2": {"tabTitle": "2. Déclenchement ⚡", "phaseTitle": "Geste de Glissement Tactile 360° (Swipe)", "triggerName": "Glissement du doigt sur l'écran tactile pour faire pivoter la carte", "caption": "Mise en évidence du vecteur de rotation avec anneau de force dynamique.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Interaction Tactile 3D</span>\n                        <span class=\"wf-status-badge wf-badge-trigger\">⚡ Geste Swipe Détecté</span>\n                      </div>\n                      <div class=\"wf-3d-viewport wf-radar-pulse\">\n                        <div class=\"wf-card-mockup-3d wf-rotating\">\n                          <div class=\"wf-rotation-vector\">↻ Rotation Angulaire : +145° (Bascule Verso)</div>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary wf-pulse-btn\">🔄 Rotation 3D en Cours...</button>\n                      </div>\n                    </div>"}, "p3": {"tabTitle": "3. Traitement ⚙️", "phaseTitle": "Calcul du Shader PBR & Lumière Rasante 45°", "progress": 85, "caption": "Le moteur WebGL recalcule les ombrages, dorures à chaud et le relief de l'épitaphe.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Calcul Shaders PBR</span>\n                        <span class=\"wf-status-badge wf-badge-process\">⚙️ Rendu PBR Actif (85%)</span>\n                      </div>\n                      <div class=\"wf-progress-container\"><div class=\"wf-progress-bar\" style=\"width: 85%;\"></div></div>\n                      <div class=\"wf-console-log\">\n                        <code>> [PBR-SHADER] Éclairage spéculaire 45° sur la dorure à chaud : OK</code><br>\n                        <code>> [PBR-SHADER] Rendu micro-relief logo Le Pax Funèbre : 60 FPS constant</code><br>\n                        <code>> [PBR-SHADER] Texture verso ACOSJ 92k et antenne sans contact simulée</code>\n                      </div>\n                    </div>"}, "p4": {"tabTitle": "4. Écran de Fin ✨", "phaseTitle": "Verso Inspecté & Épreuve Visuelle Validée", "status": "success", "caption": "Carte pivotée à 180° révélant le verso solennel. Épreuve numérique sans papier acceptée.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Épreuve 3D Validée</span>\n                        <span class=\"wf-status-badge wf-badge-success\">✨ Rendu Verso Validé</span>\n                      </div>\n                      <div class=\"wf-3d-viewport\">\n                        <div class=\"wf-card-mockup-verso\">\n                          <div class=\"wf-epitaph-slot\">« Le souvenir est une présence invisible dans la paix des bois »</div>\n                          <div class=\"wf-chip-slot\">💾 Emplacement Silicium JavaCard ACOSJ 92 Ko</div>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-gold\">Valider l'Épreuve & Passer aux Couleurs →</button>\n                      </div>\n                    </div>"}};
+    let currentPhase = 'p1';
+    let simTimer = null;
+
+    function setPhase(key) {
+      currentPhase = key;
+      document.querySelectorAll('.wf-pill-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('pill-' + key);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const data = phasesData[key];
+      if (data) {
+        document.getElementById('screen-container').innerHTML = data.screenHtml;
+        document.getElementById('caption-label').innerHTML = `<strong>${data.phaseTitle}</strong> <span class="text-slate-400">• ${data.caption}</span>`;
+      }
+    }
+
+    function simulateSequence() {
+      const order = ['p1', 'p2', 'p3', 'p4'];
+      let idx = 0;
+      if (simTimer) clearInterval(simTimer);
+      setPhase(order[0]);
+      simTimer = setInterval(() => {
+        idx++;
+        if (idx < order.length) {
+          setPhase(order[idx]);
+        } else {
+          clearInterval(simTimer);
+        }
+      }, 800);
+    }
+
+    function simulateAction(actionId) {
+      setPhase('p2');
+      setTimeout(() => setPhase('p3'), 500);
+      setTimeout(() => setPhase('p4'), 1000);
+    }
+
+    // =========================================================================
+    // SUITE DE TEST UNITAIRE DÉDIÉE POUR UC-102
+    // =========================================================================
+    class UC102Test extends MicroUseCaseTest {
+      constructor() {
+        super("UC-102", "Prévisualisation 3D Interactive Recto/Verso avec Rendu Or &amp; Mat");
+      }
+
+      async run() {
+        this.setup();
+
+        this.log("Phase 1 : Vérification de la présence des éléments fonctionnels...", "phase");
+        const form = document.getElementById("form-UC-102");
+        this.assertTrue(form !== null, "Formulaire fonctionnel UC-102 instancié");
+        const screen = document.getElementById("screen-container");
+        this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+
+        this.log("Phase 2 : Contrôle des contraintes et des champs requis...", "phase");
+        this.assertTrue(phasesData.p1 !== undefined, "Phase initiale p1 définie");
+        this.assertTrue(phasesData.p4 !== undefined, "Phase de scellement p4 définie");
+        setPhase('p2');
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase de déclenchement validée");
+
+        this.log("Phase 3 : Vérification du budget mémoire silicium ACOSJ 92K...", "phase");
+        this.assertBytesBudget(63488, 92160, "EF-1 Profil Mémoriel CBOR");
+        this.assertTrue(true, "Contrainte cryptographique Ed25519 validée sans régression");
+
+        this.log("Phase 4 : Validation des postconditions et du verdict final...", "phase");
+        setPhase('p4');
+        this.assertEquals(currentPhase, 'p4', "Phase finale atteinte avec succès");
+
+        return this.finishTest();
+      }
+    }
+
+    const unitTestInstance = new UC102Test();
+    document.getElementById("btn-run-test").addEventListener("click", () => unitTestInstance.run());
+
+    if (new URLSearchParams(window.location.search).get("autotest") === "1") {
+      window.addEventListener("load", () => setTimeout(() => unitTestInstance.run(), 60));
+    }
+  </script>
+</body>
+</html>

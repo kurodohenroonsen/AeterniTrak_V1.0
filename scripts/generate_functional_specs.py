@@ -25,7 +25,7 @@ APPS_CONFIG = [
         "num": 1,
         "id": "app1",
         "file_name": "app1-paxstudio-design.md",
-        "title": "Application 1 — PaxStudio Design (UC-101 à UC-110)",
+        "title": "Application 1 — PaxStudio Design (UC-101 à UC-112)",
         "subtitle": "Outil Créatif de Personnalisation Graphique & Mémorielle (Familles & Conseillers)",
         "usecases": a1.APP1_USECASES,
         "color": "gold",
@@ -231,6 +231,17 @@ def generate_app_document(app):
         lines.append(f"| [`{uc['id']}`](#{uc['id'].lower()}) | [{uc['title']}](#{uc['id'].lower()}) | **{uc['cat']}** | {uc['actor']} | {', '.join(uc['platforms'])} | {uc['legal']} |")
     lines.append("\n---\n")
     
+    if app["id"] == "app4" and hasattr(a4, "TRACEABILITY_EVENTS"):
+        lines.append("## ⛓️ Chaîne Événementielle Complète de Traçabilité Post-Mortem (Événements 1 à 6)\n")
+        lines.append("Cette chaîne événementielle régit l'intégralité du cycle post-mortem de la dépouille, garantissant une traçabilité sans faille, de l'instant du décès jusqu'au scellement cryptographique Ed25519 final et à la remise mémorielle.\n")
+        lines.append("| Étape | Événement Clé | Acteur Principal | Statut Scellé | Température / Thermique | Résumé & Enjeux Sanitaires | UCs Liés |")
+        lines.append("| :---: | :--- | :--- | :--- | :--- | :--- | :--- |")
+        for evt in a4.TRACEABILITY_EVENTS:
+            ucs_links = ", ".join([f"[`{u}`](#{u.lower()})" for u in evt["linked_ucs"]])
+            short_sum = evt['summary'].replace("|", "-")
+            lines.append(f"| **{evt['step']}** | **{evt['name']}** (`{evt['id']}`) | {evt['actor_role']} | `{evt['seal_status_code']}` | {evt['cold_chain_temp']} | {short_sum} | {ucs_links} |")
+        lines.append("\n---\n")
+    
     # Génération des cas d'usage
     for uc in app["usecases"]:
         lines.append(generate_usecase_markdown(uc, app["num"]))
@@ -242,24 +253,25 @@ def generate_readme(apps):
     lines.append("# Référentiel des Spécifications Fonctionnelles & Vivantes — AeterniTrak V1.0\n")
     lines.append("Ce dossier rassemble les **spécifications fonctionnelles formelles et exhaustives** des 4 applications étanches du système **AeterniTrak V1.0** (*Le Pax Funèbre*).\n")
     
+    total_all_ucs = sum(len(a['usecases']) for a in apps)
     lines.append("## 🏛️ Les 4 Applications du Système AeterniTrak\n")
     lines.append("| Application | Fichier de Spécification | Périmètre Métier & Rôle | Nombre de Micro-UCs |")
     lines.append("| :--- | :--- | :--- | :---: |")
-    lines.append("| **Application 1 : PaxStudio Design** | [app1-paxstudio-design.md](./app1-paxstudio-design.md) | Outil créatif de pré-encodage, maquettage 3D des cartes et médaillons, WebP 480×480 (DEC-AET-12), waveforms sonores. | **10 UCs** (UC-101 à UC-110) |")
-    lines.append("| **Application 2 : PaxStation Encodage** | [app2-paxstation-encodage.md](./app2-paxstation-encodage.md) | Station technique de bureau, gravure ACR1552U WebUSB/PC/SC, ACOSJ 92 Ko, scellement COSE_Sign1, fusible anti-tamper. | **10 UCs** (UC-201 à UC-210) |")
-    lines.append("| **Application 3 : Sanctuaire Mémoriel** | [app3-sanctuaire-memoriel.md](./app3-sanctuaire-memoriel.md) | Application B2C universelle sans login (NFC Tap), ducking vocal WebAudio, tiroir de volontés civiles et médicales (références à confirmer par un juriste), Option B DEC-AET-07. | **12 UCs** (UC-301 à UC-312) |")
-    lines.append("| **Application 4 : Filière Sarcomusation** | [app4-filiere-sarcomusation.md](./app4-filiere-sarcomusation.md) | Filière biologique Hermetia illucens, The Iron Gate (G0-G9), feed-ban anti-prion, dépistage LFA pentobarbital, Ed25519. | **14 UCs** (UC-401 à UC-414) |")
-    lines.append("| **TOTAL RÉFÉRENTIEL V1.0** | - | **Matrice d'Exécution Universelle & Certifiée** | **46 Micro-UCs** |")
+    lines.append(f"| **Application 1 : PaxStudio Design** | [app1-paxstudio-design.md](./app1-paxstudio-design.md) | Outil créatif de pré-encodage, maquettage 3D des cartes et médaillons, WebP 480×480 (DEC-AET-12), waveforms sonores. | **{len(apps[0]['usecases'])} UCs** (UC-101 à UC-{100 + len(apps[0]['usecases'])}) |")
+    lines.append(f"| **Application 2 : PaxStation Encodage** | [app2-paxstation-encodage.md](./app2-paxstation-encodage.md) | Station technique de bureau, gravure ACR1552U WebUSB/PC/SC, ACOSJ 92 Ko, scellement COSE_Sign1, fusible anti-tamper. | **{len(apps[1]['usecases'])} UCs** (UC-201 à UC-{200 + len(apps[1]['usecases'])}) |")
+    lines.append(f"| **Application 3 : Sanctuaire Mémoriel** | [app3-sanctuaire-memoriel.md](./app3-sanctuaire-memoriel.md) | Application B2C universelle sans login (NFC Tap), ducking vocal WebAudio, tiroir de volontés civiles et médicales (références à confirmer par un juriste), Option B DEC-AET-07. | **{len(apps[2]['usecases'])} UCs** (UC-301 à UC-{300 + len(apps[2]['usecases'])}) |")
+    lines.append(f"| **Application 4 : Filière Sarcomusation** | [app4-filiere-sarcomusation.md](./app4-filiere-sarcomusation.md) | Filière biologique Hermetia illucens, The Iron Gate (G0-G9), feed-ban anti-prion, dépistage LFA pentobarbital, Ed25519. | **{len(apps[3]['usecases'])} UCs** (UC-401 à UC-{400 + len(apps[3]['usecases'])}) |")
+    lines.append(f"| **TOTAL RÉFÉRENTIEL V1.0** | - | **Matrice d'Exécution Universelle & Certifiée** | **{total_all_ucs} Micro-UCs** |")
     lines.append("\n---\n")
     
     lines.append("## 🔗 Liens avec l'Écosystème Documentaire AeterniTrak\n")
-    lines.append("- 🎭 **Grand Théâtre Vivant Interactif (Simulateur 46 Wireframes Dépliables)** : [`docs/usecases/index.html`](../usecases/index.html) — Visualisation graphique temps réel 100% hors-ligne avec bascule bicolore Mode Famille / Mode Ingénieur.")
+    lines.append(f"- 🎭 **Grand Théâtre Vivant Interactif (Simulateur {total_all_ucs} Wireframes Dépliables)** : [`docs/usecases/index.html`](../usecases/index.html) — Visualisation graphique temps réel 100% hors-ligne avec bascule bicolore Mode Famille / Mode Ingénieur.")
     lines.append("- 📐 **Architecture Système Globale & Modélisation UML 3-Tiers** : [`docs/architecture/system-architecture-uml.md`](../architecture/system-architecture-uml.md) et portail interactif [`docs/architecture/index.html`](../architecture/index.html).")
     lines.append("- ⚖️ **Décisions d'Arbitrage Fondatrices (Kudoro)** : [`DECISIONS-KUDORO.md`](../../DECISIONS-KUDORO.md) — Spécifiquement DEC-AET-07 (Option B bandeau de réserve), DEC-AET-08 (Zéro-Login B2C strict) et DEC-AET-09 (Universalité multiplateforme).")
     lines.append("- 🧪 **Banc de Tests Déterministes Spec-First** : `qa/test-runner.sh` — 693 vecteurs de conformité validés (100% PASS, 0 régression).")
     lines.append("\n---\n")
     
-    lines.append("## 📊 Matrice Exhaustive des 46 Micro-Use-Cases\n")
+    lines.append(f"## 📊 Matrice Exhaustive des {total_all_ucs} Micro-Use-Cases\n")
     lines.append("| ID | Titre du Cas d'Usage | Application | Catégorie | Acteur | Plateforme(s) | Base Légale / Normative | Spécification Détaillée |")
     lines.append("| :---: | :--- | :--- | :--- | :--- | :--- | :--- | :---: |")
     
@@ -303,11 +315,12 @@ def main():
         print(f"✅ Généré : {out_path} ({len(app['usecases'])} cas d'usage, {len(doc_content):,} caractères)")
         
     # 2. Générer le README.md
+    total_all_ucs = sum(len(a['usecases']) for a in APPS_CONFIG)
     readme_path = os.path.join(FUNCTIONAL_DIR, "README.md")
     readme_content = generate_readme(APPS_CONFIG)
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(readme_content)
-    print(f"✅ Généré : {readme_path} (Table exhaustive des 46 cas d'usage, {len(readme_content):,} caractères)")
+    print(f"✅ Généré : {readme_path} (Table exhaustive des {total_all_ucs} cas d'usage, {len(readme_content):,} caractères)")
     
     print(">>> Génération des 5 documents Markdown achevée avec succès !")
 

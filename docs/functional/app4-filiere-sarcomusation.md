@@ -27,6 +27,21 @@
 
 ---
 
+## ⛓️ Chaîne Événementielle Complète de Traçabilité Post-Mortem (Événements 1 à 6)
+
+Cette chaîne événementielle régit l'intégralité du cycle post-mortem de la dépouille, garantissant une traçabilité sans faille, de l'instant du décès jusqu'au scellement cryptographique Ed25519 final et à la remise mémorielle.
+
+| Étape | Événement Clé | Acteur Principal | Statut Scellé | Température / Thermique | Résumé & Enjeux Sanitaires | UCs Liés |
+| :---: | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | **Constat de Décès & Déclaration Initiale** (`EVT-01`) | Officier de Santé / Autorité Agréée | `SCEL_INITIALISE_NON_ROMPU` | 12.4°C (Température ambiante initiale) | Constat médical de fin de vie, horodatage certifié RFC 3339, géolocalisation par balise RTK, vérification de l'identité du défunt ou de l'animal, et scellement physique et cryptographique immédiat par scellé inviolable NFC/QR à signature Ed25519. | [`UC-401`](#uc-401), [`UC-406`](#uc-406), [`UC-409`](#uc-409) |
+| **2** | **Prise en Charge & Transport Sécurisé de la Dépouille** (`EVT-02`) | Conducteur Spécialisé Véhicule Agréé | `SCEL_INTACT_EN_TRANSIT` | +3.2°C (Chaîne du Froid Conforme [Consigne 2.0°C - 4.0°C]) | Prise en charge dans un véhicule funéraire/sanitaire agréé, monitoring télématique continu de la température de la chaîne du froid entre 2°C et 4°C, étapes de transit géolocalisées avec horodatage balises GPS et émargement numérique du chauffeur. | [`UC-401`](#uc-401), [`UC-406`](#uc-406), [`UC-409`](#uc-409) |
+| **3** | **Admission & Réception à l'Unité / Salon Funéraire** (`EVT-03`) | Gestionnaire d'Unité Funéraire & Sanitaire | `SCEL_VERIFIE_NON_ROMPU` | +2.8°C (Cellule Frigorifique #B4 Assignée) | Arrivée à l'unité de destination : scan sans contact du scellé inviolable, vérification de non-rupture de scellé, pesée métrologique certifiée sur balance étalonnée classe III, et assignation automatique d'une cellule réfrigérée de conservation. | [`UC-402`](#uc-402), [`UC-410`](#uc-410) |
+| **4** | **Préparation Sanitaire & Contrôles Amonts** (`EVT-04`) | Praticien Spécialiste Santé & Sécurité | `SCEL_OUVERT_CONTROLE_STERILE` | +14.0°C (Ambiante salle technique stérile) | Préparation sanitaire amont obligatoire : exérèse validée du stimulateur cardiaque (pacemaker) avant toute incinération ou traitement thermique, dépistage toxicologique qualitatif LFA du pentobarbital (cassette C+T visibles = absence de produit létal, conforme), et prélèvements PCR épizooties selon le profil de dépouille. | [`UC-403`](#uc-403), [`UC-407`](#uc-407), [`UC-411`](#uc-411) |
+| **5** | **Bioconversion / Sarcomusation & Traitement Thermique** (`EVT-05`) | Responsable Unité Biologique & Thermique | `SAS_BIOCONVERSION_SCELLE` | 70.2°C (Pasteurisation continue 1h) / Méthode 1: 133°C, 3 bars | Introduction dans le sas hermétique de bioconversion dédié par les larves d'Hermetia illucens, ségrégation stricte des flux pour interdire tout mélange, et application du traitement thermique légal : pasteurisation continue à 70°C pendant 1h continue sous dérogation DEC-AET-05 mémorielle forestière exclusive, ou stérilisation Méthode 1 européenne (133°C, 3 bars, 20 min en cœur de matière) pour les autres filières. | [`UC-402`](#uc-402), [`UC-404`](#uc-404), [`UC-408`](#uc-408) |
+| **6** | **Clôture de Traçabilité, The Iron Gate & Remise Mémorielle** (`EVT-06`) | Autorité Cryptographique & Conseiller Funéraire | `LOT_SIGNE_ET_REMIS` | Température ambiante salon d'hommage | Évaluation algorithmique pure et inviolable par l'oracle The Iron Gate (G0 à G9 : vérification stricte de la règle d'or anti-prion interdisant tout recyclage intra-espèce), scellement cryptographique Ed25519 du certificat de lot AET-SPEC-CERT-001 (COSE_Sign1), séparation méticuleuse des reliques et remise solennelle de l'urne cinéraire ou de l'amendement forestier à la famille. | [`UC-405`](#uc-405), [`UC-412`](#uc-412), [`UC-413`](#uc-413), [`UC-414`](#uc-414) |
+
+---
+
 <a id="uc-401"></a>
 ## UC-401 : Constat Médical Initial & Aiguillage des 4 Filières Post-Décès
 

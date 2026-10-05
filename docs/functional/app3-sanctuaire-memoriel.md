@@ -12,12 +12,12 @@
 | :---: | :--- | :--- | :--- | :--- | :--- |
 | [`UC-301`](#uc-301) | [Scan NFC Instantané Direct Sans Login (NFC Tap Android/iOS)](#uc-301) | **Accès & Identité** | Famille, Proches & Cérémonie | Natif (iOS & Android), Web NFC (Chrome Android), Web Standard (PWA Hors-Ligne) | Règlement général sur la protection des données (RGPD art. 5 - minimisation et souveraineté absolue des données). |
 | [`UC-302`](#uc-302) | [Vérification Cryptographique Hybride Ed25519 / ES256 (DEC-AET-04)](#uc-302) | **Sécurité & Cryptographie** | Système Mobile & Sécurité | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement eIDAS (UE 910/2014 - exigences pour les signatures électroniques avancées). |
-| [`UC-303`](#uc-303) | [Affichage Sanctuaire Certifié en Recueillement Nominal](#uc-303) | **Expérience Sanctuaire** | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Respect de la dignité des défunts et de la solennité des hommages funéraires. |
+| [`UC-303`](#uc-303) | [Affichage Sanctuaire, Recueillement & Livre d'Or Familial](#uc-303) | **Expérience Sanctuaire** | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Respect de la dignité des défunts et de la vie privée mémorielle (protection des données locales sans transfert distant). |
 | [`UC-304`](#uc-304) | [Bandeau de Réserve DEC-AET-07 Option B pour Émetteur Inconnu](#uc-304) | **Résilience Mémorielle** | Famille & Régulateur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décision Kudoro DEC-AET-07 (Option B : Lisibilité mémorielle maintenue avec réserve réglementaire). |
 | [`UC-305`](#uc-305) | [Blocage Hermétique sur Carte Falsifiée ou Clé Révoquée](#uc-305) | **Sécurité & Anti-Fraude** | Système Mobile & Auditeur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Code pénal belge (art. 196 et suivants - faux en écriture et usage de faux). |
 | [`UC-306`](#uc-306) | [Sanctuaire Acoustique & Ducking Vocal Vivant Automatique](#uc-306) | **Expérience Émotionnelle** | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directives déontologiques funéraires relatives à la dignité et au respect des cérémonies. |
 | [`UC-307`](#uc-307) | [Consultation des Volontés Civiles et Funéraires](#uc-307) | **Dernières Volontés** | Famille, Exécuteur Testamentaire & Pompes Funèbres | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 20 juillet 1971 sur les funérailles et sépultures (art. 2 - primauté absolue des volontés) (référence à confirmer par un juriste). |
-| [`UC-308`](#uc-308) | [Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (référence à confirmer par un juriste)](#uc-308) | **Directives Médicales & Sécurité** | Pompes Funèbres, Crématorium & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
+| [`UC-308`](#uc-308) | [Fiche d'Urgence Médicale Interactive & Alerte Pacemaker (référence à confirmer par un juriste)](#uc-308) | **Directives Médicales & Sécurité** | Secouristes, Urgentistes, Pompes Funèbres & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) et loi belge sur le don d'organes de 1986 (références à confirmer par un juriste). |
 | [`UC-309`](#uc-309) | [Consultation du Statut de Don d'Organes (Consentement Présumé Loi 1986)](#uc-309) | **Directives Médicales** | Coordinateur Hospitalier de Transplantation | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 13 juin 1986 sur le prélèvement et la transplantation d'organes (art. 10 - consentement présumé). |
 | [`UC-310`](#uc-310) | [Directives Legs du Corps à la Science sous 48h](#uc-310) | **Directives Médicales** | Famille & Faculté de Médecine | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon et arrêtés royaux régissant le don de corps à l'enseignement anatomique universitaire (référence à confirmer par un juriste). |
 | [`UC-311`](#uc-311) | [Droit d'Accès Post-Mortem au Dossier Médical (Loi 2002 Art. 9 §4)](#uc-311) | **Droits du Patient** | Praticien Professionnel Désigné & Ayants Droit | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 22 août 2002 relative aux droits du patient (art. 9 §4 - accès post-mortem par praticien intermédiaire). |
@@ -359,7 +359,7 @@
 ---
 
 <a id="uc-303"></a>
-## UC-303 : Affichage Sanctuaire Certifié en Recueillement Nominal
+## UC-303 : Affichage Sanctuaire, Recueillement & Livre d'Or Familial
 
 ### 📋 Métadonnées Spécifiées
 
@@ -369,151 +369,172 @@
 | **Catégorie Métier** | **Expérience Sanctuaire** |
 | **Acteur Principal** | Famille & Proches |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Sanctuaire`, `Recueillement`, `PortraitHD`, `Epitaphe`, `Design` |
-| **Base Légale & Normative** | Respect de la dignité des défunts et de la solennité des hommages funéraires. |
-| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Espace de Recueillement Solennel` |
+| **Tags Clés** | `Sanctuaire`, `Recueillement`, `Veilleuse`, `LivreDOr`, `Ducking14dB`, `WebAudio`, `Offline` |
+| **Base Légale & Normative** | Respect de la dignité des défunts et de la vie privée mémorielle (protection des données locales sans transfert distant). |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Espace de Recueillement & Livre d'Or Familial` |
 
 ### 🎯 Préconditions & Postconditions
 
 > [!NOTE]
 > **Préconditions Requises :**
-> Carte authentifiée par la vérification cryptographique.
+> Carte Sanctuaire authentifiée par la vérification cryptographique (DEC-AET-04 / DEC-AET-10).
 
 > [!TIP]
 > **Postconditions Garanties :**
-> Espace de recueillement complet affiché, ambiance sonore solennelle en cours d'exécution.
+> Veilleuse mémorielle allumée, ambiance musicale active avec ducking vocal fluide (-14 dB), pensées de la famille scellées localement hors-ligne.
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Affichage solennel du portrait haute définition du défunt au centre d'un halo doré doux.
-2. Présentation des dates de vie, de l'épitaphe personnalisée et du carrousel de portraits familiaux.
-3. Lancement automatique de la musique d'adieu sélectionnée (In Paradisum de Fauré) en fondu d'entrée doux (fade-in 2s).
-4. Bouton d'accès solennel au témoignage vocal gravé in-silico.
-5. Disponibilité immédiate en mode 100% hors-ligne (fonctionne en pleine forêt, au cimetière ou en salon familial privé).
+1. Ouverture solennelle de l'espace de recueillement avec portrait haute définition 480×480 (DEC-AET-12) et halo doré doux.
+2. Formulaire interactif de recueillement : allumage d'une veilleuse mémorielle avec flamme vacillante persistante.
+3. Sélection de l'ambiance musicale d'adieu (In Paradisum de Fauré, Pavane de Ravel, Silence Méditatif) en boucle harmonique.
+4. Lecture du mémo vocal gravé in-silico avec ducking automatique calibré à -14 dB (baisse progressive de l'ambiance musicale au profit de la voix).
+5. Saisie et recueil des pensées de la famille dans le Livre d'Or, chiffrées et stockées localement en mémoire sécurisée hors-ligne (zéro dépendance au cloud).
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `deceased_name` | **Défunt Honoré** | `text` | `Henri Dubois (1944 — 2026)` | Nom | `Certifié` | ⭕ Optionnel |
-| `epitaph_text` | **Épitaphe Mémorielle** | `text` | `« Le souvenir est une présence invisible dans la paix des bois »` | Épitaphe | `Gravé` | ⭕ Optionnel |
-| `music_state` | **Ambiance Musicale** | `text` | `In Paradisum (Fauré) — Lecture douce en cours` | Musique | `Audio Actif` | ⭕ Optionnel |
-| `network_status` | **Mode Réseau** | `text` | `100% HORS-LIGNE (Zéro connexion Internet requise)` | Réseau | `Offline` | ⭕ Optionnel |
+| `deceased_name` | **Défunt Honoré** | `text` | `Henri Dubois (1944 — 2026)` | Nom du défunt | `Certifié` | ⭕ Optionnel |
+| `candle_state` | **Veilleuse Mémorielle** | `select` | `Flamme Dorée Active (Allumage Perpétuel)` | Veilleuse | `Flamme Active` | ✅ Requis |
+| `music_selection` | **Ambiance Musicale d'Adieu** | `select` | `In Paradisum (G. Fauré) — Boucle Harmonique 432 Hz` | Choix musical | `Audio Actif` | ✅ Requis |
+| `voice_playback` | **Mémo Vocal Silicium & Ducking** | `text` | `Témoignage Audio Opus SILK (Ducking Automatique -14 dB)` | Voix | `-14 dB Calibré` | ⭕ Optionnel |
+| `guestbook_message` | **Livre d'Or Familial (Pensée)** | `textarea` | `« Ton souvenir reste une présence vivante dans la paix des bois et nos cœurs réunis. »` | Rédiger une pensée ou un hommage... | `Stockage Hors-Ligne` | ✅ Requis |
+| `guestbook_author` | **Auteur du Témoignage** | `text` | `Claire & Antoine Dubois (Enfants)` | Votre nom | `Famille` | ✅ Requis |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
 | Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
 | :--- | :--- | :--- | :--- | :---: |
-| `btn_listen_voice` | **🎙️ Écouter le Témoignage Vocal (Ducking -14 dB)** | `primary` | `idle` | 🎙️ |
-| `btn_view_wills` | **📜 Consulter les Dernières Volontés Civiles** | `secondary` | `idle` | 📜 |
+| `btn_light_candle` | **Allumer la Veilleuse Mémorielle** | `primary` | `idle` | 🕯️ |
+| `btn_listen_voice` | **Écouter le Mémo Vocal (Ducking -14 dB)** | `secondary` | `idle` | 🎙️ |
+| `btn_sign_guestbook` | **Déposer une Pensée dans le Livre d'Or** | `secondary` | `idle` | ✍️ |
 
 ### ✅ Critères de Succès & Validation Normative
 
 > [!IMPORTANT]
 
-> **Titre :** Sanctuaire Nominal Affiché
+> **Titre :** Espace de Recueillement Éclairé & Pensée Scellée
 >
-> **Badge de Conformité :** `100% Hors-Ligne • Audio Actif`
+> **Badge de Conformité :** `Veilleuse Active • Ducking -14 dB • Livre d'Or Hors-Ligne`
 >
-> **Détail Opérationnel :** Ambiance solennelle active. Portrait 480x480 (DEC-AET-12) rendu avec halo doré noble.
+> **Détail Opérationnel :** Veilleuse mémorielle allumée. Ambiance musicale avec ducking vocal fluide. Hommage familial enregistré dans le coffre chiffré hors-ligne.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
 | Propriété d'Anomalie | Description Technique |
 | :--- | :--- |
-| **Code d'Erreur Normatif** | `ERR_SANCTUARY_OFFLINE_CACHE` |
-| **Intitulé de l'Incident** | **Ressources Locales Manquantes en Mode Hors-Ligne** |
-| **Condition Déclenchante** | Navigateur ayant vidé le cache de l'application PWA lors d'un nettoyage système agressif. |
-| **Message d'Erreur UI** | *« Erreur d'exécution : Les polices ou scripts locaux du Sanctuaire sont indisponibles hors-ligne. »* |
-| **Action Corrective Requise** | **Recharger une seule fois la page avec une connexion Internet pour restaurer le cache permanent ServiceWorker.** |
+| **Code d'Erreur Normatif** | `ERR_GUESTBOOK_LOCAL_STORAGE_FULL` |
+| **Intitulé de l'Incident** | **Mémoire Locale Sécurisée Saturée** |
+| **Condition Déclenchante** | Espace de stockage local chiffré du terminal épuisé lors de l'enregistrement d'une pensée. |
+| **Message d'Erreur UI** | *« Erreur de sauvegarde locale : Impossible d'ajouter le message au livre d'or hors-ligne faute d'espace disque suffisant. »* |
+| **Action Corrective Requise** | **Libérer de l'espace sur l'appareil mobile ou exporter les messages précédents au format archive chiffrée.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
-*Canvas & Résolution Cible :* **Sanctuaire Mobile • Espace de Recueillement Solennel**
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Espace de Recueillement & Livre d'Or Familial**
 
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | **Initial / Avant Trigger** | Transition Douce vers le Sanctuaire | *En attente utilisateur* | Rideau mémoriel noir obsidienne en cours d'ouverture solennelle. |
-| **2** | **Déclenchement ⚡** | Révélation du Portrait & Lancement Musical Fondu 2s | `Apparition du portrait central avec halo doré et démarrage audio` | Le moteur WebAudio déclenche la musique 'In Paradisum' avec montée progressive du volume. |
-| **3** | **Traitement ⚙️** | Bouclage Harmonique & Lecture de l'Épitaphe | `Progression : 90%` | La musique d'ambiance boucle de manière transparente. Les textes solennels s'animent en douceur. |
-| **4** | **Scellement & Fin ✨** | Sanctuaire Mémoriel Nominal Complet | `Statut : success` | Expérience familiale sereine. La famille peut écouter le message vocal ou consulter les volontés. |
+| **1** | **Initial / Avant Trigger** | Sanctuaire Mémoriel & Formulaire de Recueillement | *En attente utilisateur* | Espace de recueillement avec veilleuse éteinte, sélecteur musical et formulaire du livre d'or familial prêt à recevoir la pensée. |
+| **2** | **Déclenchement ⚡** | Tap Allumage Veilleuse & Dépôt dans le Livre d'Or | `Tap sur 'Allumer la Veilleuse' et soumission de la pensée familiale` | Allumage immédiat de la flamme dorée et capture locale de la pensée de la famille. |
+| **3** | **Traitement ⚙️** | Scintillement de la Flamme, Ducking Sonore -14 dB & Scellement Local | `Progression : 92%` | WebAudio applique le ducking à -14 dB sur la musique lors de la lecture vocale. Chiffrement local de la pensée. |
+| **4** | **Scellement & Fin ✨** | Veilleuse Éclairée, Voix en Écoute & Livre d'Or Consigné | `Statut : success` | Sanctuaire solennel complet. La veilleuse brille, la voix résonne avec ducking, le livre d'or est scellé. |
 
 <details>
 <summary>🔍 Consulter les fragments HTML Wireframe de UC-303 (4 États Dépliables)</summary>
 
-#### Phase 1 - Avant Trigger : Transition Douce vers le Sanctuaire
-*Rideau mémoriel noir obsidienne en cours d'ouverture solennelle.*
+#### Phase 1 - Avant Trigger : Sanctuaire Mémoriel & Formulaire de Recueillement
+*Espace de recueillement avec veilleuse éteinte, sélecteur musical et formulaire du livre d'or familial prêt à recevoir la pensée.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Ouverture Mémorielle</span>
-                        <span class="wf-status-badge wf-badge-neutral">Fondu d'Entrée</span>
+                        <span class="wf-app-title">Sanctuaire • Recueillement & Livre d'Or</span>
+                        <span class="wf-status-badge wf-badge-neutral">Veilleuse en Attente</span>
                       </div>
-                      <div class="wf-device-status-box">
-                        <div><strong>Ouverture de l'arche mémorielle d'Henri Dubois...</strong></div>
-                        <div class="wf-subtext">Chargement de la palette Or & Obsidienne et du portrait 480x480 (DEC-AET-12)</div>
-                      </div>
-                      <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">Entrer dans l'Espace de Recueillement</button>
-                      </div>
-                    </div>
-```
-
-#### Phase 2 - Déclenchement : Révélation du Portrait & Lancement Musical Fondu 2s
-*Le moteur WebAudio déclenche la musique 'In Paradisum' avec montée progressive du volume.*
-
-```html
-<div class="wf-screen-box">
-                      <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Recueillement Actif</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Musique d'Ambiance Lancée</span>
-                      </div>
-                      <div class="wf-sanctuary-center wf-radar-pulse">
-                        <div class="wf-portrait-halo">👤 Portrait HD d'Henri Dubois</div>
+                      <div class="wf-sanctuary-center">
+                        <div class="wf-portrait-halo">👤 Portrait HD d'Henri Dubois (480x480 DEC-AET-12)</div>
                         <div class="wf-gold-title">Henri Dubois (1944 — 2026)</div>
+                        <div class="wf-subtext">« Le souvenir est une présence invisible dans la paix des bois »</div>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Veilleuse Mémorielle <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">🕯️ Allumer la flamme perpétuelle</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Ambiance Musicale d'Adieu</label>
+                          <div class="wf-select-placeholder">🎵 In Paradisum (G. Fauré) — Boucle 432 Hz</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Livre d'Or Familial (Pensée locale)</label>
+                          <div class="wf-select-placeholder">« Ton souvenir reste une présence vivante... »</div>
+                        </div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Recueillement en cours...</button>
+                        <button class="wf-btn wf-btn-primary">🕯️ Allumer la Veilleuse Mémorielle</button>
+                        <button class="wf-btn wf-btn-sub">🎙️ Mémo Vocal (Ducking -14 dB)</button>
                       </div>
                     </div>
 ```
 
-#### Phase 3 - Traitement : Bouclage Harmonique & Lecture de l'Épitaphe
-*La musique d'ambiance boucle de manière transparente. Les textes solennels s'animent en douceur.*
+#### Phase 2 - Déclenchement : Tap Allumage Veilleuse & Dépôt dans le Livre d'Or
+*Allumage immédiat de la flamme dorée et capture locale de la pensée de la famille.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Moteur Audio & Textes</span>
-                        <span class="wf-status-badge wf-badge-process">⚙️ Immersion (90%)</span>
+                        <span class="wf-app-title">Sanctuaire • Allumage Mémoriel</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Flamme & Hommage Actifs</span>
                       </div>
-                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 90%;"></div></div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">🕯️ Veilleuse Mémorielle Allumée • Pensée Déposée</div>
+                        <div class="wf-subtext">Claire & Antoine Dubois : « Ton souvenir reste gravé dans nos cœurs »</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Allumage du sanctuaire et activation sonore...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Scintillement de la Flamme, Ducking Sonore -14 dB & Scellement Local
+*WebAudio applique le ducking à -14 dB sur la musique lors de la lecture vocale. Chiffrement local de la pensée.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Moteur Audio & Livre d'Or</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Immersion Solennelle (92%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [AUDIO-CORE] Piste In Paradisum : Boucle harmonique sans couture active</code><br>
-                        <code>> [DSP-VOLUME] Volume stabilisé à 80% solennel</code><br>
-                        <code>> [TEXT-RENDER] Épitaphe affichée en Cormorant Garamond avec contraste AAA</code>
+                        <code>> [CANDLE-SHADER] Allumage de la flamme mémorielle : Scintillement doux 120 Hz</code><br>
+                        <code>> [AUDIO-DUCKING] Déclenchement voix Opus SILK : Atténuation musique à -14 dB</code><br>
+                        <code>> [LOCAL-VAULT] Chiffrement de la pensée familiale en AES-GCM local hors-ligne</code><br>
+                        <code>> [SYNC-ZERO] Zéro donnée transmise au réseau • Confidentialité absolue</code>
                       </div>
                     </div>
 ```
 
-#### Phase 4 - Fin de Cycle : Sanctuaire Mémoriel Nominal Complet
-*Expérience familiale sereine. La famille peut écouter le message vocal ou consulter les volontés.*
+#### Phase 4 - Fin de Cycle : Veilleuse Éclairée, Voix en Écoute & Livre d'Or Consigné
+*Sanctuaire solennel complet. La veilleuse brille, la voix résonne avec ducking, le livre d'or est scellé.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Henri Dubois</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Recueillement Nominal</span>
+                        <span class="wf-app-title">Sanctuaire • Espace de Recueillement Éclairé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Veilleuse Allumée & Livre d'Or Scellé</span>
                       </div>
                       <div class="wf-sanctuary-full">
-                        <div class="wf-portrait-circle">👤</div>
-                        <div class="wf-epitaph-quote">« Le souvenir est une présence invisible dans la paix des bois »</div>
-                        <div class="wf-music-indicator">🎵 In Paradisum (Fauré) en cours de lecture douce</div>
+                        <div class="wf-portrait-circle">🕯️ 👤</div>
+                        <div class="wf-gold-title">Veilleuse Perpétuelle d'Henri Dubois</div>
+                        <div class="wf-epitaph-quote">« Ton souvenir reste une présence vivante dans la paix des bois »</div>
+                        <div class="wf-music-indicator">🎙️ Voix d'Henri en cours d'écoute (Ducking musical -14 dB actif)</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">🎙️ Écouter le Témoignage Vocal (Ducking)</button>
-                        <button class="wf-btn wf-btn-sub">📜 Volontés Civiles</button>
+                        <button class="wf-btn wf-btn-primary">✍️ Ajouter une Autre Pensée au Livre d'Or</button>
+                        <button class="wf-btn wf-btn-sub">📜 Directives & Volontés</button>
                       </div>
                     </div>
 ```
@@ -1184,7 +1205,7 @@
 ---
 
 <a id="uc-308"></a>
-## UC-308 : Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (référence à confirmer par un juriste)
+## UC-308 : Fiche d'Urgence Médicale Interactive & Alerte Pacemaker (référence à confirmer par un juriste)
 
 ### 📋 Métadonnées Spécifiées
 
@@ -1192,157 +1213,172 @@
 | :--- | :--- |
 | **Identifiant Unique** | `UC-308` |
 | **Catégorie Métier** | **Directives Médicales & Sécurité** |
-| **Acteur Principal** | Pompes Funèbres, Crématorium & Médecin Légiste |
+| **Acteur Principal** | Secouristes, Urgentistes, Pompes Funèbres & Médecin Légiste |
 | **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `Pacemaker`, `DAE`, `AlerteRouge`, `Explosion`, `CDLD` |
-| **Base Légale & Normative** | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
-| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Moniteur de Sécurité Vitale Pacemaker` |
+| **Tags Clés** | `UrgenceMedicale`, `Secouristes`, `Pacemaker`, `DonOrganes`, `DAE`, `CDLD`, `AppelUrgence` |
+| **Base Légale & Normative** | Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) et loi belge sur le don d'organes de 1986 (références à confirmer par un juriste). |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Fiche d'Urgence Médicale Secouristes (Scan Directives)` |
 
 ### 🎯 Préconditions & Postconditions
 
 > [!NOTE]
 > **Préconditions Requises :**
-> Carte Directives présentée par un opérateur funéraire avant mise en bière.
+> Scan NFC instantané de la Carte Directives par un secouriste, urgentiste ou agent funéraire habilité (Zéro Login requis).
 
 > [!TIP]
 > **Postconditions Garanties :**
-> Sécurité physique absolue des agents funéraires garantie, zéro risque d'explosion au four crématoire ou autoclave.
+> Fiche d'urgence médicale consultée, alerte d'exérèse pacemaker levée ou confirmée, protocole de don d'organes engagé et sécurité des intervenants garantie.
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Scan instantané de la Carte Directives par l'agent funéraire ou le responsable de crématorium.
-2. Détection immédiate dans le compartiment médical de la mention d'un pacemaker ou défibrillateur implanté actif.
-3. Affichage d'un écran d'alerte de sécurité prioritaire rouge vif :
-4. - Mention expresse du risque d'explosion thermique.
-5. - Référence à l'article L1232-17 §2 du CDLD (référence à confirmer par un juriste) imposant l'exérèse chirurgicale préalable.
-6. - Affichage du statut : soit 'Exérèse déjà certifiée par le Dr. Vaneck', soit 'ATTENTION : Exérèse non certifiée — Interdiction stricte de mise en bière'.
-7. Bouton d'appel d'urgence du praticien désigné.
+1. Scan NFC immédiat de la Carte Directives civile & médicale sans aucun identifiant ni mot de passe (zéro login d'urgence pour secouristes).
+2. Ouverture instantanée de la Fiche d'Urgence Médicale Interactive sur le terminal mobile des secouristes ou urgentistes.
+3. Alerte immédiate exérèse stimulateur cardiaque / pacemaker : affichage rouge vif du danger d'explosion thermique (> 250°C), attestation chirurgicale d'exérèse (Dr. Marc Vaneck) avec rappel de l'Art. L1232-17 §2 CDLD (référence à confirmer par un juriste).
+4. Affichage direct du statut de consentement ou refus du don d'organes (cadre légal du consentement présumé de la loi de 1986 — référence à confirmer par un juriste).
+5. Mise à disposition immédiate de boutons d'appel d'urgence (SAMU 112, médecin certificateur) et des consignes post-mortem d'urgence (maintien chambre froide 4°C, délai d'exérèse < 24h, interdiction formelle de crémation sans visa).
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `medical_implant` | **Dispositif Médical Actif** | `text` | `Stimulateur Cardiaque Actif (Pacemaker)` | Implant | `ALERTE VITALE` | ⭕ Optionnel |
-| `explosion_risk` | **Risque Physique** | `text` | `Explosion Thermique Majeure (> 250°C)` | Risque | `Danger Mortel` | ⭕ Optionnel |
-| `removal_status` | **Statut de Retrait Chirurgical** | `text` | `CERTIFIÉ RETIRÉ (Dr. Marc Vaneck — INAMI 1-40912-88-004)` | Statut | `Exérèse OK` | ⭕ Optionnel |
-| `legal_cdld` | **Fondement Légal** | `text` | `Art. L1232-17 §2 CDLD (référence à confirmer par un juriste)` | Loi | `Imposé` | ⭕ Optionnel |
+| `emergency_trigger` | **Déclencheur d'Urgence** | `text` | `Scan Immédiat Carte Directives (NFC Tap Zéro-Login Secouriste)` | Déclencheur | `Priorité Vitale` | ⭕ Optionnel |
+| `pacemaker_alert` | **Alerte Stimulateur (Pacemaker / DAE)** | `text` | `PRÉSENCE CONFIRMÉE — Risque Explosion Thermique (> 250°C)` | Implant | `ALERTE ROUGE` | ✅ Requis |
+| `removal_cert` | **Statut Exérèse Chirurgicale** | `text` | `CERTIFIÉ RETIRÉ (Dr. Marc Vaneck — INAMI 1-40912-88-004)` | Exérèse | `Exérèse Conforme` | ✅ Requis |
+| `organ_donation` | **Directives Don d'Organes (Loi 1986)** | `select` | `Consentement Plein et Entier Confirmé (référence à confirmer par un juriste)` | Don organes | `Loi 1986 (réserve)` | ✅ Requis |
+| `emergency_contacts` | **Appels d'Urgence Rapides** | `text` | `SAMU 112 • Dr. Marc Vaneck (+32 81 22 33 44)` | Contacts | `Liaison Directe` | ⭕ Optionnel |
+| `post_mortem_instructions` | **Consignes Post-Mortem d'Urgence** | `text` | `Chambre froide 4°C • Délai légal exérèse < 24h • Interdiction crémation sans visa` | Consignes | `Consignes Pro` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
 | Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
 | :--- | :--- | :--- | :--- | :---: |
-| `btn_view_medical_cert` | **Consulter le Certificat d'Exérèse Officiel** | `primary` | `idle` | 🩺 |
-| `btn_call_doctor` | **Appel d'Urgence Dr. Vaneck** | `secondary` | `idle` | 📞 |
+| `btn_call_emergency_112` | **Appel d'Urgence Immédiat (112)** | `primary` | `idle` | 🚨 |
+| `btn_call_doctor_vaneck` | **Appeler Dr. Vaneck (Médecin)** | `secondary` | `idle` | 📞 |
+| `btn_view_full_medical_cert` | **Consulter Visa Exérèse Médical** | `secondary` | `idle` | 🩺 |
+| `btn_view_organ_protocol` | **Protocole Don d'Organes** | `secondary` | `idle` | 🫀 |
 
 ### ✅ Critères de Succès & Validation Normative
 
 > [!IMPORTANT]
 
-> **Titre :** Alerte Pacemaker Traitée & Certifiée
+> **Titre :** Fiche d'Urgence Médicale Secouriste Validée
 >
-> **Badge de Conformité :** `Exérèse Vérifiée Conforme`
+> **Badge de Conformité :** `Alerte Pacemaker Levée • Don d'Organes Notifié`
 >
-> **Détail Opérationnel :** Stimulateur retiré chirurgicalement. Feu vert pour mise en bière et opérations funéraires.
+> **Détail Opérationnel :** Scan Carte Directives réussi. Visa d'exérèse vérifié conforme. Statut don d'organes communiqué pour protocole d'urgence.
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
 | Propriété d'Anomalie | Description Technique |
 | :--- | :--- |
-| **Code d'Erreur Normatif** | `ERR_PACEMAKER_CRITICAL_RISK` |
+| **Code d'Erreur Normatif** | `ERR_PACEMAKER_NOT_REMOVED_CRITICAL` |
 | **Intitulé de l'Incident** | **Alerte Rouge : Pacemaker Présent Non Retiré** |
-| **Condition Déclenchante** | Scan d'un corps porteur d'un stimulateur sans certificat d'exérèse renseigné. |
-| **Message d'Erreur UI** | *« DANGER DE MORT / EXPLOSION : Un stimulateur cardiaque actif est présent dans le corps. Mise en bière et crémation formellement interdites par la loi (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste). »* |
-| **Action Corrective Requise** | **Exiger l'intervention immédiate d'un médecin pour procéder à l'exérèse chirurgicale avant toute manipulation.** |
+| **Condition Déclenchante** | Défunt porteur d'un stimulateur sans certificat médical d'exérèse renseigné. |
+| **Message d'Erreur UI** | *« DANGER DE MORT / EXPLOSION : Pacemaker actif non retiré. Manipulation, transport thermique et crémation formellement interdits (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste). »* |
+| **Action Corrective Requise** | **Interdire immédiatement toute opération thermique. Contacter le médecin requis pour exérèse chirurgicale d'urgence.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
-*Canvas & Résolution Cible :* **Sanctuaire Mobile • Moniteur de Sécurité Vitale Pacemaker**
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Fiche d'Urgence Médicale Secouristes (Scan Directives)**
 
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | **Initial / Avant Trigger** | Opérateur Approchant la Carte avant Mise en Bière | *En attente utilisateur* | Scan pré-opératoire de sécurité. L'opérateur vérifie l'absence de dispositifs explosifs. |
-| **2** | **Déclenchement ⚡** | Détection Immédiate de la Présence d'un Stimulateur | `Scan NFC de la Carte Directives révélant la balise Pacemaker` | Activation de l'écran d'alerte rouge clignotant et vérification du visa d'exérèse. |
-| **3** | **Traitement ⚙️** | Vérification du Certificat Chirurgical du Dr. Vaneck | `Progression : 98%` | Le système contrôle la validité de l'attestation numérique d'exérèse enregistrée in-silico. |
-| **4** | **Scellement & Fin ✨** | Feu Vert de Sécurité pour Mise en Bière | `Statut : success` | Alerte levée avec succès. L'attestation officielle du médecin décharge les opérateurs. |
+| **1** | **Initial / Avant Trigger** | Terminal Secouriste / Urgentiste en Écoute NFC | *En attente utilisateur* | Fiche d'urgence en attente de présentation de la Carte Directives. Scan zéro-login prêt pour secouristes. |
+| **2** | **Déclenchement ⚡** | Scan Immédiat de la Carte Directives & Alerte Prioritaire | `NFC Tap de la Carte Directives civile & médicale sans contact` | Détection instantanée de la partition d'urgence et affichage prioritaire de la bannière rouge vif. |
+| **3** | **Traitement ⚙️** | Contrôle Visa Exérèse & Directives Don d'Organes (< 150 ms) | `Progression : 98%` | Vérification in-silico du certificat d'exérèse du Dr. Vaneck et du consentement don d'organes (Loi 1986 — référence à confirmer par un juriste). |
+| **4** | **Scellement & Fin ✨** | Fiche d'Urgence Médicale Complète & Boutons d'Appel Actifs | `Statut : success` | Fiche d'urgence validée. Sécurité garantie contre l'explosion, protocole don d'organes prêt, boutons d'appel 112 opérationnels. |
 
 <details>
 <summary>🔍 Consulter les fragments HTML Wireframe de UC-308 (4 États Dépliables)</summary>
 
-#### Phase 1 - Avant Trigger : Opérateur Approchant la Carte avant Mise en Bière
-*Scan pré-opératoire de sécurité. L'opérateur vérifie l'absence de dispositifs explosifs.*
+#### Phase 1 - Avant Trigger : Terminal Secouriste / Urgentiste en Écoute NFC
+*Fiche d'urgence en attente de présentation de la Carte Directives. Scan zéro-login prêt pour secouristes.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Contrôle Sécurité Opérateur</span>
-                        <span class="wf-status-badge wf-badge-neutral">Scan Pré-Opératoire</span>
+                        <span class="wf-app-title">Sanctuaire • Fiche d'Urgence Secouriste</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Scan</span>
                       </div>
                       <div class="wf-device-status-box">
-                        <span class="wf-alert-icon">⚠️</span>
-                        <div><strong>Contrôle Obligatoire Dispositifs Actifs (référence à confirmer par un juriste)</strong></div>
-                        <div class="wf-subtext">Approchez la Carte Directives pour vérification pacemaker / DAE</div>
+                        <span class="wf-alert-icon">🚨</span>
+                        <div><strong>Scan Immédiat Carte Directives (Zéro-Login Secouriste)</strong></div>
+                        <div class="wf-subtext">Approchez la Carte Directives pour affichage instantané de l'état vital et des volontés</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">Vérifier Présence Pacemaker</button>
+                        <button class="wf-btn wf-btn-primary">🚨 Scanner Carte Directives d'Urgence</button>
                       </div>
                     </div>
 ```
 
-#### Phase 2 - Déclenchement : Détection Immédiate de la Présence d'un Stimulateur
-*Activation de l'écran d'alerte rouge clignotant et vérification du visa d'exérèse.*
+#### Phase 2 - Déclenchement : Scan Immédiat de la Carte Directives & Alerte Prioritaire
+*Détection instantanée de la partition d'urgence et affichage prioritaire de la bannière rouge vif.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Alerte Vitale Détectée</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Dispositif Actif Identifié</span>
+                        <span class="wf-app-title">Sanctuaire • Alerte Vitale Prioritaire</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Carte Détectée en 42ms</span>
                       </div>
                       <div class="wf-alert-card wf-alert-red wf-radar-pulse">
-                        <div class="wf-trigger-indicator">⚠️ ATTENTION : Défunt Porteur d'un Pacemaker</div>
-                        <div class="wf-subtext">Risque d'explosion thermique • Consultation immédiate du visa médical</div>
+                        <div class="wf-trigger-indicator">⚠️ FICHE D'URGENCE MÉDICALE : Stimulateur Cardiaque Détecté</div>
+                        <div class="wf-subtext">Vérification prioritaire de l'exérèse chirurgicale et des volontés de don d'organes</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-danger wf-pulse-btn">Contrôle du visa d'exérèse...</button>
+                        <button class="wf-btn wf-btn-danger wf-pulse-btn">Contrôle du visa d'exérèse & directives...</button>
                       </div>
                     </div>
 ```
 
-#### Phase 3 - Traitement : Vérification du Certificat Chirurgical du Dr. Vaneck
-*Le système contrôle la validité de l'attestation numérique d'exérèse enregistrée in-silico.*
+#### Phase 3 - Traitement : Contrôle Visa Exérèse & Directives Don d'Organes (< 150 ms)
+*Vérification in-silico du certificat d'exérèse du Dr. Vaneck et du consentement don d'organes (Loi 1986 — référence à confirmer par un juriste).*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Vérification Visa Médical</span>
-                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle INAMI (98%)</span>
+                        <span class="wf-app-title">Sanctuaire • Moteur d'Urgence Médicale</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle In-Silico (98%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [LEGAL-CHECK] Recherche visa d'exérèse sur partition médicale...</code><br>
-                        <code>> [LEGAL-CHECK] Visa trouvé : Signé par Dr. Marc Vaneck (INAMI 1-40912-88-004)</code><br>
-                        <code>> [SAFETY] Exérèse chirurgicale validée : Zéro risque d'explosion</code>
+                        <code>> [NFC-FAST] Directive Card AID A00000084501 détectée en 42ms</code><br>
+                        <code>> [PACEMAKER-ALERT] Stimulateur actif identifié • Recherche visa chirurgical...</code><br>
+                        <code>> [VISA-CHECK] Attestation Dr. Marc Vaneck INAMI 1-40912-88-004 : EXÉRÈSE VALIDÉE</code><br>
+                        <code>> [ORGAN-DONATION] Position lue : Consentement confirmé (Loi 1986 — référence à confirmer par un juriste)</code><br>
+                        <code>> [SAFETY-CLEAR] Feu vert opérationnel accordé aux secouristes et opérateurs</code>
                       </div>
                     </div>
 ```
 
-#### Phase 4 - Fin de Cycle : Feu Vert de Sécurité pour Mise en Bière
-*Alerte levée avec succès. L'attestation officielle du médecin décharge les opérateurs.*
+#### Phase 4 - Fin de Cycle : Fiche d'Urgence Médicale Complète & Boutons d'Appel Actifs
+*Fiche d'urgence validée. Sécurité garantie contre l'explosion, protocole don d'organes prêt, boutons d'appel 112 opérationnels.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">Sanctuaire • Feu Vert Sécurité</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Exérèse Validée</span>
+                        <span class="wf-app-title">Sanctuaire • Fiche d'Urgence Médicale Validée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Exérèse Conforme & Don Notifié</span>
                       </div>
                       <div class="wf-success-banner">
-                        <span class="wf-seal-icon">🟢</span>
+                        <span class="wf-seal-icon">🩺</span>
                         <div>
-                          <strong>Exérèse Chirurgicale Certifiée par Praticien</strong>
-                          <p class="wf-subtext">Conforme Art. L1232-17 §2 CDLD (référence à confirmer par un juriste) • Mise en bière et cérémonies autorisées</p>
+                          <strong>Exérèse Chirurgicale Conforme (Dr. Marc Vaneck)</strong>
+                          <p class="wf-subtext">Art. L1232-17 §2 CDLD (référence à confirmer par un juriste) • Don d'organes : Consentement validé (Loi 1986)</p>
+                        </div>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Appels d'Urgence Directs</label>
+                          <div class="wf-select-placeholder">🚨 SAMU 112 • Dr. Vaneck (+32 81 22 33 44)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Consigne Post-Mortem</label>
+                          <div class="wf-select-placeholder">Conservation chambre froide 4°C (délai &lt; 24h)</div>
                         </div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-gold">Étape Suivante : Don d'Organes →</button>
+                        <button class="wf-btn wf-btn-primary">🚨 Appel SAMU 112</button>
+                        <button class="wf-btn wf-btn-sub">📞 Dr. Vaneck</button>
                       </div>
                     </div>
 ```

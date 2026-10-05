@@ -168,6 +168,44 @@ def run_browser_verification():
         page.wait_for_timeout(300)
         page.locator("#interactive-theater").screenshot(path="/tmp/screenshot_expD.png")
 
+        # Exp E : Grand Simulateur Événementiel de Traçabilité de la Dépouille (6 Événements)
+        print("  [1.5] Test Hero Exp E : Simulateur Événementiel de Traçabilité (6 Événements)...")
+        page.click("#hero-tab-expE")
+        page.wait_for_timeout(400)
+        assert "active" in page.get_attribute("#hero-panel-expE", "class"), "Hero Panel Exp E non actif"
+
+        print("    -> Test changement de profil (Profil 2 Faune Sauvage DNF)...")
+        page.click("#btn-trace-prof-p2")
+        page.wait_for_timeout(300)
+        dep_name = page.inner_text("#trace-depouille-name")
+        assert "Sanglier" in dep_name, f"Profil DNF non reflété dans l'identité ({dep_name})"
+
+        print("    -> Test navigation étape par étape dans la frise chronologique...")
+        page.click("#btn-trace-prof-p1")
+        page.wait_for_timeout(200)
+        page.click("#trace-node-2")
+        page.wait_for_timeout(300)
+        temp_readout = page.inner_text("#trace-temp-readout")
+        assert "+3.2°C" in temp_readout, f"Température Événement 2 incorrecte ({temp_readout})"
+
+        page.click("#trace-node-4")
+        page.wait_for_timeout(300)
+        assert "Contrôles Amonts" in page.inner_text("#trace-event-title")
+
+        print("    -> Test simulation anomalie et restauration...")
+        page.click("#btn-trace-anomaly")
+        page.wait_for_timeout(300)
+        assert "hidden" not in (page.get_attribute("#trace-anomaly-banner", "class") or "")
+
+        print("    -> Passage à l'Événement 6 (Clôture & The Iron Gate)...")
+        page.click("#trace-node-6")
+        page.wait_for_timeout(300)
+        assert "The Iron Gate" in page.inner_text("#trace-event-title")
+
+        # Capture Screenshot Exp E
+        print("  📸 Capture screenshot Exp E dans /tmp/screenshot_expE.png...")
+        page.locator("#interactive-theater").screenshot(path="/tmp/screenshot_expE.png")
+
         # Capture Screenshot Hero HD Global
         print("  📸 Capture screenshot Hero Global dans /tmp/portal_verified_hero.png...")
         page.evaluate("window.scrollTo(0, 0)")

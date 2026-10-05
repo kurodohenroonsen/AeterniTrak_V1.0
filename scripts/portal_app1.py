@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AeterniTrak V1.0 — Définition Complète des Micro Use-Cases pour App 1 : PaxStudio Design (UC-101 à UC-110)
+AeterniTrak V1.0 — Définition Complète des Micro Use-Cases pour App 1 : PaxStudio Design (UC-101 à UC-112)
 Avec Simulateur de Wireframes Interactifs à 4 États, Spécifications des Formulaires, Actions, Validations et Erreurs Normatives.
 """
 
@@ -558,7 +558,8 @@ APP1_USECASES = [
                 {"label": "Fichier Brut", "name": "audio_raw", "type": "file", "value": "temoignage_vocal.m4a (1 min 30 s)", "placeholder": "Audio brut", "badge": "Source", "required": True},
                 {"label": "Curseur Début", "name": "crop_start", "type": "text", "value": "00:05.200", "placeholder": "Début", "badge": "Découpe", "required": True},
                 {"label": "Curseur Fin", "name": "crop_end", "type": "text", "value": "00:35.200 (Durée : 30.0 s)", "placeholder": "Fin", "badge": "Max 30s", "required": True},
-                {"label": "Normalisation EBU R128", "name": "ebu_lufs", "type": "text", "value": "-23 LUFS (Filtre anti-souffle actif)", "placeholder": "Volume", "badge": "Audio Pro", "required": False}
+                {"label": "Normalisation EBU R128", "name": "ebu_lufs", "type": "text", "value": "-23 LUFS (Filtre anti-souffle actif)", "placeholder": "Volume", "badge": "Audio Pro", "required": False},
+                {"label": "Quota Partition EF-3 (Voice)", "name": "voice_memo_quota", "type": "text", "value": "26.1 Ko (Strictement ≤ 46 080 octets, Opus SILK)", "placeholder": "Poids audio", "badge": "≤ 46 080 B", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_crop_audio", "label": "Rogner & Normaliser EBU R128 (-23 LUFS)", "role": "primary", "state": "idle", "icon": "🎙️"},
@@ -684,7 +685,8 @@ APP1_USECASES = [
             "formFields": [
                 {"label": "Piste Sélectionnée", "name": "music_track", "type": "select", "value": "Gabriel Fauré — In Paradisum (Requiem Op. 48)", "placeholder": "Choisir une musique", "badge": "Domaine Public", "required": True},
                 {"label": "Volume Nominal", "name": "music_volume", "type": "range", "value": "80% (Volume solennel)", "placeholder": "Niveau sonore", "badge": "Ambiance", "required": False},
-                {"label": "Atténuation Ducking Vocal", "name": "ducking_level", "type": "text", "value": "-14 dB automatique lors de la voix", "placeholder": "Ducking", "badge": "Actif", "required": False}
+                {"label": "Atténuation Ducking Vocal", "name": "ducking_level", "type": "text", "value": "-14 dB automatique lors de la voix", "placeholder": "Ducking", "badge": "Actif", "required": False},
+                {"label": "Fondu Enchaîné (Crossfade)", "name": "crossfade_duration", "type": "text", "value": "3.0 s (Bouclage harmonique sans coupure)", "placeholder": "Transition", "badge": "Crossfade", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_select_music", "label": "Intégrer la Piste d'Ambiance", "role": "primary", "state": "idle", "icon": "🎵"},
@@ -812,7 +814,8 @@ APP1_USECASES = [
                 {"label": "Nature de Cérémonie", "name": "ceremony_type", "type": "select", "value": "Cérémonie Civile Laïque sous les Arbres", "placeholder": "Cérémonie", "badge": "Loi 1971 (référence à confirmer par un juriste)", "required": True},
                 {"label": "Mode de Sépulture", "name": "burial_mode", "type": "select", "value": "Sarcomusation & Amendement Forestier (Démonstrateur de faisabilité prospectif — Option non autorisée par le droit positif actuel (référence à confirmer par un juriste))", "placeholder": "Sépulture", "badge": "Démonstrateur Prospectif", "required": True},
                 {"label": "Destination des Résidus", "name": "residue_dest", "type": "select", "value": "Arbre Cinéraire Mémoriel (Forêt Saint-Hubert)", "placeholder": "Destination", "badge": "DEC-AET-05", "required": True},
-                {"label": "Message d'Adieu Public", "name": "public_message", "type": "textarea", "value": "« Que la nature accueille ma mémoire en paix auprès des grands chênes. »", "placeholder": "Message", "badge": "Facultatif", "required": False}
+                {"label": "Message d'Adieu Public", "name": "public_message", "type": "textarea", "value": "« Que la nature accueille ma mémoire en paix auprès des grands chênes. »", "placeholder": "Message", "badge": "Facultatif", "required": False},
+                {"label": "Ambiance Musicale Choisie", "name": "funeral_music", "type": "select", "value": "Gabriel Fauré — In Paradisum (Requiem Op. 48)", "placeholder": "Musique", "badge": "Ambiance", "required": False}
             ],
             "actionButtons": [
                 {"id": "btn_seal_wills", "label": "Sceller les Volontés Civiles in-silico", "role": "primary", "state": "idle", "icon": "📜"},
@@ -1298,6 +1301,343 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-gold">Bascule vers App 2 : PaxStation Encodage →</button>
+                      </div>
+                    </div>"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-111",
+        "title": "Création de la Carte & Saisie Intégrale de l'Identité Civile et Mémorielle",
+        "cat": "Identité Civile & Mémorielle",
+        "actor": "Famille & Conseiller Funéraire",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": ["Identité", "ÉtatCivil", "Tag100", "CBOR", "validator.ts", "NCBI", "AeterniCore"],
+        "preconditions": "Ouverture d'un nouveau projet de carte ou médaillon dans PaxStudio Pro. Choix initial du profil : être humain (subject_kind = 1) ou animal de compagnie (subject_kind = 2).",
+        "flow": [
+            "Sélection de la typologie du sujet mémoriel : Être humain (subject_kind = 1) ou Animal de compagnie (subject_kind = 2).",
+            "Saisie obligatoire du prénom usuel (usage_name, 1 à 120 octets UTF-8, ex: « Guy » ou « Marie ») et facultative du nom patronymique / de naissance (birth_name, 1 à 120 octets, ex: « Heyman »).",
+            "Saisie ordonnée des prénoms officiels secondaires dans le tableau dédié (given_names, jusqu'à 8 prénoms maximum de 1 à 80 octets chacun).",
+            "Sélection calendaire de la date de naissance (birth_date, Tag 100 RFC 8949, obligatoire pour un sujet humain) et de la date de décès (death_date, Tag 100).",
+            "Renseignement du code pays de rattachement au format ISO 3166-1 alpha-2 en majuscules (ex: « BE » pour la Belgique, « FR » pour la France).",
+            "Attribution du code de rite cérémoniel (rite_code : entier >= 0, cérémonie civile laïque ou confessionnelle).",
+            "Conditionnement taxonomique : si animal de compagnie, sélection du taxon NCBI officiel (species_taxid : Chien 9615, Chat 9685, Cheval 9796... — strictement rejeté par validator.ts si sujet humain).",
+            "Rédaction de l'épitaphe et du texte d'hommage solennel avec jauge télémétrique live (1 à 1 600 octets UTF-8 maximum).",
+            "Audit syntaxique déterministe immédiat via validator.ts : vérification stricte des types CBOR, contrôle des bornes de taille d'octets et validation du schéma AeterniCore v1."
+        ],
+        "postconditions": "Profil mémoriel sérialisé et certifié conforme par validator.ts, structure de données CBOR normalisée prête pour l'injection des portraits 480×480 (DEC-AET-12), du mémo vocal et des dernières volontés.",
+        "legal": "Code civil (actes de l'état civil, art. 34 et suivants) et Règlement eIDAS (identification électronique sécurisée) (références à confirmer par un juriste).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "PaxStudio Pro • Fiche d'Identité Civile & Mémorielle",
+            "formFields": [
+                {"label": "Nature du Sujet (subject_kind)", "name": "subject_kind", "type": "select", "value": "1 — Être Humain (Sujet de droit)", "placeholder": "Sélectionner le profil", "badge": "Requis (1 | 2)", "required": True},
+                {"label": "Prénom Usuel (usage_name)", "name": "usage_name", "type": "text", "value": "Guy", "placeholder": "Ex: Guy, Marie", "badge": "Requis (1..120 B)", "required": True},
+                {"label": "Nom Patronyme / Naissance (birth_name)", "name": "birth_name", "type": "text", "value": "Heyman", "placeholder": "Ex: Heyman", "badge": "Optionnel (1..120 B)", "required": False},
+                {"label": "Prénoms Secondaires (given_names)", "name": "given_names", "type": "text", "value": "Jean, Robert, Émile (3/8 enregistrés)", "placeholder": "Prénoms séparés par virgule (max 8)", "badge": "Tableau Max 8", "required": False},
+                {"label": "Date de Naissance (birth_date)", "name": "birth_date", "type": "date", "value": "1942-06-14 (Tag 100 RFC 8949)", "placeholder": "AAAA-MM-JJ", "badge": "Tag 100 Requis Humain", "required": True},
+                {"label": "Date de Décès (death_date)", "name": "death_date", "type": "date", "value": "2026-10-02 (Tag 100 RFC 8949)", "placeholder": "AAAA-MM-JJ", "badge": "Tag 100 Optionnel", "required": False},
+                {"label": "Code Pays (country)", "name": "country", "type": "text", "value": "BE (Belgique)", "placeholder": "Code ISO 3166-1 alpha-2 (2 majuscules)", "badge": "ISO 3166-1 α2", "required": True},
+                {"label": "Rite Cérémoniel (rite_code)", "name": "rite_code", "type": "select", "value": "0 — Cérémonie Civile & Laïque sous les Arbres", "placeholder": "Code rite", "badge": "Entier >= 0", "required": True},
+                {"label": "Taxon NCBI Animal (species_taxid)", "name": "species_taxid", "type": "select", "value": "N/A (Verrouillé : Sujet Humain)", "placeholder": "Taxon NCBI si animal", "badge": "Animal Uniquement", "required": False},
+                {"label": "Épitaphe & Hommage (epitaph)", "name": "epitaph", "type": "textarea", "value": "« Dans le souffle du vent et la lumière des sous-bois, ta bienveillance demeure éternelle. » (142 / 1 600 octets)", "placeholder": "Épitaphe solennelle (1..1600 octets UTF-8)", "badge": "1..1600 Octets", "required": True}
+            ],
+            "actionButtons": [
+                {"id": "btn_validate_identity", "label": "Valider l'Identité Mémorielle (validator.ts)", "role": "primary", "state": "idle", "icon": "👤"},
+                {"id": "btn_toggle_species", "label": "Basculer Profil Animal (Taxon NCBI)", "role": "secondary", "state": "idle", "icon": "🐾"},
+                {"id": "btn_reset_identity", "label": "Réinitialiser la Saisie", "role": "secondary", "state": "idle", "icon": "↩"}
+            ],
+            "validationMsg": {
+                "title": "Identité Civile & Mémorielle Validée in-silico",
+                "badge": "Conforme CDDL AeterniCore v1 & Tag 100",
+                "detail": "Contrôles validator.ts réussis sans avertissement. Longueurs UTF-8 vérifiées, date Tag 100 normalisée et pays ISO 3166-1 certifié."
+            },
+            "errorCase": {
+                "code": "ERR_PROFILE_MISSING_BIRTH_DATE",
+                "title": "Date de Naissance Absente pour Sujet Humain",
+                "condition": "Validation d'un profil humain (subject_kind = 1) sans renseigner le Tag 100 de date de naissance.",
+                "message": "Violation de la règle CDDL AeterniCore §A2.2 : Pour un sujet humain, la date de naissance (Tag 100 CBOR) est strictement obligatoire dans le profil silicium.",
+                "remediation": "Renseigner la date de naissance dans le sélecteur calendaire ou basculer en profil animal (subject_kind = 2) si le sujet est un animal de compagnie."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Formulaire d'Identité & État Civil en Attente",
+                    "caption": "Formulaire complet déployé. Sélection du profil (humain/animal) et champs d'état civil en attente de saisie.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Identité Civile & Mémorielle</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Saisie</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Nature du Sujet (subject_kind) <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">1 — Être Humain (Sujet de droit)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Prénom Usuel (usage_name) <span class="wf-req">*</span></label>
+                          <div class="wf-input-placeholder">Guy</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Nom Patronyme / Naissance (birth_name)</label>
+                          <div class="wf-input-placeholder">Heyman</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Prénoms Officiels Secondaires (given_names, max 8)</label>
+                          <div class="wf-input-placeholder">Jean, Robert, Émile</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Date de Naissance (birth_date, Tag 100) <span class="wf-req">*</span></label>
+                          <div class="wf-input-placeholder">14 / 06 / 1942</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Date de Décès (death_date, Tag 100)</label>
+                          <div class="wf-input-placeholder">02 / 10 / 2026</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Code Pays (country, ISO 3166-1 α2) <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">BE — Belgique</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Rite Cérémoniel (rite_code) <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">0 — Cérémonie Civile & Laïque sous les Arbres</div>
+                        </div>
+                        <div class="wf-field-group" style="grid-column: 1 / -1;">
+                          <label class="wf-label">Épitaphe Mémorielle & Hommage (1 à 1 600 octets UTF-8) <span class="wf-req">*</span></label>
+                          <div class="wf-textarea-placeholder">« Dans le souffle du vent et la lumière des sous-bois, ta bienveillance demeure éternelle. »</div>
+                          <div class="wf-subtext text-right font-mono">142 / 1 600 octets UTF-8 • 100% Hors-Ligne</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">👤 Valider l'Identité Mémorielle (validator.ts)</button>
+                        <button class="wf-btn wf-btn-sub">🐾 Mode Animal (Taxon NCBI)</button>
+                      </div>
+                    </div>"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Validation Tactile de l'Identité Saisie",
+                    "triggerName": "Tap sur 'Valider l'Identité Mémorielle (validator.ts)'",
+                    "caption": "Saisie complétée pour Guy Heyman (1942 — 2026, BE, épitaphe 142 B) et déclenchement de l'audit syntaxique.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Validation Déclenchée</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Déclencheur validator.ts</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">⚡ Validation Déclenchée : Guy Heyman (1942 — 2026)</div>
+                        <div class="wf-selection-summary">
+                          <strong>Profil Humain :</strong> Prénom : Guy • Patronyme : Heyman • 3 Prénoms secondaires • Dates Tag 100 RFC 8949 • Pays : BE • Épitaphe : 142 octets
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Audit Syntaxique in-silico en cours...</button>
+                      </div>
+                    </div>"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Audit Syntaxique Déterministe (validator.ts)",
+                    "progress": 84,
+                    "caption": "Vérification des longueurs en octets UTF-8, typage strict des clés [1..13] et encodage Tag 100 RFC 8949.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Moteur de Validation AeterniCore</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle validator.ts (84%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 84%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [CORE-VAL] Lecture des clés racine CDDL [1..13] : schema_version=1 OK</code><br>
+                        <code>> [CORE-VAL] Clé 2 subject_kind=1 (humain) • Clé 3 names: usage_name="Guy" (3 B), birth_name="Heyman" (6 B), 3 given_names OK</code><br>
+                        <code>> [CORE-VAL] Clé 4 birth_date: Tag 100 (-869443200) • Clé 5 death_date: Tag 100 (1790908800) OK</code><br>
+                        <code>> [CORE-VAL] Clé 7 country="BE" (ISO 3166-1 alpha-2) • Clé 12 epitaph: 142 B (limite 1600 B) : CONFORME</code><br>
+                        <code>> [CORE-VAL] Clé 13 species_taxid: absent (interdit pour subject_kind=1) : SUCCÈS ZERO ANOMALIE</code>
+                      </div>
+                    </div>"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Profil Mémoriel Structuré & Verrouillé",
+                    "status": "success",
+                    "caption": "Validation in-silico réussie. Bloc Identité scellé, prêt pour l'intégration des médias et directives.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Identité Mémorielle Scellée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Profil Homologué</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏆</span>
+                        <div>
+                          <strong>Identité de Guy Heyman (1942 — 2026) Validée in-silico</strong>
+                          <p class="wf-subtext">Structure CBOR Tag 100 certifiée par validator.ts • Prêt pour intégration des portraits WebP 480×480 (DEC-AET-12) et des volontés</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Étape Suivante : Studio Photo WebP (UC-104) →</button>
+                      </div>
+                    </div>"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-112",
+        "title": "Édition, Révision Modulaire & Contrôle Différentiel du Projet CBOR",
+        "cat": "Gestion de Projet & Révision",
+        "actor": "Famille & Conseiller Funéraire",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": ["Revision", "CapsuleCBOR", "ControleDifferentiel", "DeltaBudget", "ACOSJ92k", "AuditTrail"],
+        "preconditions": "Capsule projet existante (.aetk ou archive de travail CBOR) importée dans PaxStudio Pro pour révision ou ajustement par la famille.",
+        "flow": [
+            "Chargement et déballage sécurisé de la capsule de travail existante (.aetk ou draft CBOR) en environnement 100% hors-ligne.",
+            "Affichage modulaire du tableau de bord d'édition par section : Identité civile, Portraits WebP 480×480 (DEC-AET-12), Mémo vocal Opus SILK, Musique d'ambiance et Directives.",
+            "Sélection et modification ciblée d'une ou plusieurs sections (ex: mise à jour du portrait officiel 480×480, nouvel enregistrement vocal ou réécriture de l'épitaphe).",
+            "Calcul différentiel dynamique des octets (Delta-Budget Silicium ACOSJ 92 Ko) mesurant l'impact exact sur chaque partition physique (EF-1 Métadonnées, EF-2 Identité, EF-3 Médias, EF-4 Directives).",
+            "Contrôle de non-régression syntaxique via validator.ts sur chaque bloc modifié afin de prévenir toute régression de schéma.",
+            "Vérification stricte du plafond matériel absolu de 92 160 octets (EEPROM puce ACOSJ).",
+            "Génération et scellement local de la capsule incrémentale v1.1 (.aetk) avec journal d'audit des révisions, prête pour transmission étanche à PaxStation."
+        ],
+        "postconditions": "Capsule révisée conforme à 100% au schéma AeterniCore v1, journal de modifications (audit trail) généré et delta-budget validé sous les 92 160 octets matériels.",
+        "legal": "Règlement général sur la protection des données (RGPD art. 16 - droit de rectification) (référence à confirmer par un juriste).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "PaxStudio Pro • Studio de Révision & Contrôle Différentiel",
+            "formFields": [
+                {"label": "Capsule Projet Importée", "name": "project_capsule", "type": "file", "value": "capsule_projet_guy_heyman_v1.0.aetk (34.2 Ko)", "placeholder": "Sélectionner une capsule", "badge": "Archive .aetk", "required": True},
+                {"label": "Module en Édition Active", "name": "active_module", "type": "select", "value": "Section 2 : Portrait WebP 480×480 + Section 1 : Épitaphe Mémorielle", "placeholder": "Choisir le module", "badge": "Modulaire", "required": True},
+                {"label": "Nouveau Portrait WebP (EF-2)", "name": "new_portrait", "type": "file", "value": "portrait_guy_sourire_480x480.webp (13.8 Ko, conforme DEC-AET-12)", "placeholder": "Importer portrait", "badge": "WebP 480×480", "required": False},
+                {"label": "Réenregistrement Vocal Opus SILK", "name": "new_voice_memo", "type": "file", "value": "message_guy_adieu_v2.opus (26.1 Ko ≤ 46 080 octets)", "placeholder": "Importer audio", "badge": "Opus SILK", "required": False},
+                {"label": "Ajustement Épitaphe", "name": "edit_epitaph", "type": "textarea", "value": "« Dans le souffle du vent et la lumière des sous-bois, ta bienveillance et ton sourire demeurent éternels. » (158 octets)", "placeholder": "Épitaphe mise à jour", "badge": "1..1600 Octets", "required": False},
+                {"label": "Contrôle Différentiel Silicium", "name": "silicon_delta", "type": "text", "value": "+1 420 octets (Taille totale : 35.62 Ko / 92 Ko EEPROM — Marge restante : 56.38 Ko)", "placeholder": "Delta octets", "badge": "Delta Conforme", "required": False},
+                {"label": "Motif de Révision (Audit Trail)", "name": "revision_reason", "type": "text", "value": "Ajustement familial : Ajout du portrait souriant et révision douce de l'épitaphe", "placeholder": "Raison de révision", "badge": "Audit Trail", "required": True}
+            ],
+            "actionButtons": [
+                {"id": "btn_reopen_capsule", "label": "Réouvrir une Capsule Projet (.aetk)", "role": "secondary", "state": "idle", "icon": "📂"},
+                {"id": "btn_calc_delta", "label": "Calculer le Delta Différentiel & Valider Révision", "role": "primary", "state": "idle", "icon": "⚖️"},
+                {"id": "btn_export_revision", "label": "Générer la Capsule Révisée pour PaxStation", "role": "secondary", "state": "idle", "icon": "💾"}
+            ],
+            "validationMsg": {
+                "title": "Projet Révisé & Delta-Budget Conforme",
+                "badge": "Delta Net +1 420 Octets • Marge 56.38 Ko",
+                "detail": "Toutes les modifications respectent validator.ts. Partition EF-3 et taille globale (35.62 Ko) sous le seuil matériel strict de 92 Ko de la puce ACOSJ."
+            },
+            "errorCase": {
+                "code": "ERR_REVISION_QUOTA_OVERFLOW",
+                "title": "Dépassement du Budget Silicium lors de la Révision",
+                "condition": "L'import de médias plus lourds lors de la révision porte la taille totale de la capsule au-delà des 92 160 octets de la puce ACOSJ.",
+                "message": "Erreur matérielle différentielle : Le delta calculé (+58.4 Ko) fait dépasser la capacité maximale de la carte (92 Ko EEPROM disponible).",
+                "remediation": "Compresser le portrait WebP sous les 20 Ko (DEC-AET-12) ou resserrer la durée du mémo vocal Opus SILK pour rester sous le quota global."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Capsule Existante Chargée & Diagnostic de Partitionnement",
+                    "caption": "Capsule v1.0 ouverte. Diagnostic des 4 partitions matérielles affiché, formulaire d'édition modulaire prêt.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Gestion & Révision de Projet</span>
+                        <span class="wf-status-badge wf-badge-neutral">Capsule Ouverte</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Projet Chargé <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">📁 capsule_projet_guy_heyman_v1.0.aetk (34.2 Ko)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Statut Matériel Silicium</label>
+                          <div class="wf-input-placeholder">ACOSJ 92 Ko EEPROM (34.2 Ko occupés / 57.8 Ko libres)</div>
+                        </div>
+                        <div class="wf-field-group" style="grid-column: 1 / -1;">
+                          <label class="wf-label">Sélection du Module à Modifier</label>
+                          <div class="wf-select-placeholder">✏️ Section 2 : Portrait WebP 480×480 + Section 1 : Épitaphe Mémorielle</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Nouveau Portrait WebP (EF-2)</label>
+                          <div class="wf-input-placeholder">portrait_guy_sourire_480x480.webp (13.8 Ko, DEC-AET-12)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Mémo Vocal Opus SILK (EF-3)</label>
+                          <div class="wf-input-placeholder">Conserver mémo vocal v1.0 (24.7 Ko ≤ 46 080 octets)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">⚖️ Calculer le Delta Différentiel & Valider Révision</button>
+                        <button class="wf-btn wf-btn-sub">📂 Ouvrir Autre Capsule (.aetk)</button>
+                      </div>
+                    </div>"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Application des Modifications & Clic sur 'Calculer le Delta'",
+                    "triggerName": "Tap sur 'Calculer le Delta Différentiel & Valider Révision'",
+                    "caption": "Portrait remplacé (480×480 WebP), épitaphe enrichie et déclenchement de l'audit différentiel temps réel.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Révision Active</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Déclencheur Contrôle Différentiel</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">⚡ Calcul Différentiel Déclenché : Remplacement Portrait + Épitaphe</div>
+                        <div class="wf-selection-summary">
+                          <strong>Modifications :</strong> Nouveau portrait 480×480 (+1 404 B) • Épitaphe (+16 B) • Delta brut : +1 420 octets
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Audit Différentiel Silicium en cours...</button>
+                      </div>
+                    </div>"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Audit Différentiel & Vérification validator.ts",
+                    "progress": 88,
+                    "caption": "Décompression CBOR RFC 8949, calcul du différentiel octets par partition, recalcul des empreintes SHA-256 et validation syntaxique.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Contrôleur Différentiel Silicium</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Différentiel (88%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 88%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [DIFF-ENGINE] Déballage CBOR capsule v1.0 : 34 200 octets</code><br>
+                        <code>> [DIFF-ENGINE] Partition EF-1 (Métadonnées) : delta = 0 B</code><br>
+                        <code>> [DIFF-ENGINE] Partition EF-2 (Identité & Portrait 480x480) : 12 400 B -> 13 804 B (delta = +1 404 B)</code><br>
+                        <code>> [DIFF-ENGINE] Partition EF-3 (Mémo Vocal Opus SILK) : 24 700 B (delta = 0 B ≤ 46 080 octets)</code><br>
+                        <code>> [DIFF-ENGINE] Nouveau total prévisionnel : 35 620 octets / 92 160 octets (38.6% du budget matériel)</code><br>
+                        <code>> [VALIDATOR-TS] Contrôle de non-régression syntaxique CDDL : 100% CONFORME ZERO ERREUR</code>
+                      </div>
+                    </div>"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Projet Révisé Scellé (v1.1) & Delta Approuvé",
+                    "status": "success",
+                    "caption": "Révision homologuée avec succès. Delta de +1 420 octets validé (marge restante 56.38 Ko). Capsule prête pour PaxStation.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Capsule Révisée Prête</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Projet v1.1 Scellé</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">💾</span>
+                        <div>
+                          <strong>Capsule Révisée v1.1 Générée avec Succès (35.62 Ko)</strong>
+                          <p class="wf-subtext">Delta-budget validé (+1 420 octets) • Marge EEPROM restante : 56.54 Ko • Conforme validator.ts</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Transmettre la Capsule Révisée à PaxStation →</button>
                       </div>
                     </div>"""
                 }

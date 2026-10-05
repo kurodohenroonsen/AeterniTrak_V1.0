@@ -8,126 +8,151 @@ Avec Simulateur de Wireframes Interactifs à 4 États, Spécifications des Formu
 APP2_USECASES = [
     {
         "id": "UC-201",
-        "title": "Connexion Station de Bureau ACR1552U WebUSB",
+        "title": "Connexion Station de Bureau ACR1552U WebUSB & Session Opérateur Funéraire",
         "cat": "Matériel & Poste Pro",
-        "actor": "Opérateur d'Encodage",
+        "actor": "Opérateur d'Encodage & Conseiller Funéraire",
         "platforms": ["WebUSB (Chromium Desktop)", "PC/SC (Desktop Natif)"],
-        "tags": ["ACR1552U", "WebUSB", "PCSC", "Pilote"],
-        "preconditions": "Poste de travail d'agence avec lecteur ACR1552U branché sur port USB 3.0.",
+        "tags": ["ACR1552U", "WebUSB", "PCSC", "SessionOperateur", "StrongBox", "DEC-AET-10", "ACOSJ92k"],
+        "preconditions": "Poste de travail d'agence avec lecteur ACR1552U branché sur port USB 3.0 et enclave cryptographique active de la station (DEC-AET-10).",
         "flow": [
-            "Ouverture de PaxStation Encodage sur Chrome / Edge ou client lourd de bureau.",
-            "Détection du descripteur USB Vendor ID 0x072F (Advanced Card Systems) et Product ID 0x2200 (ACR1552U USB CCID Reader).",
-            "Demande d'autorisation d'accès matériel WebUSB et initialisation du canal de commande.",
-            "Passage du voyant LED du lecteur au vert fixe (état prêt) et affichage du moniteur de liaison 106 kbps."
+            "Ouverture de PaxStation Encodage sur Chromium Desktop avec détection USB CCID du lecteur ACR1552U (VID 0x072F / PID 0x2200).",
+            "Saisie et contrôle du formulaire d'ouverture de session : ID Conseiller/Opérateur et présentation du Badge Agence PaxFunèbre.",
+            "Authentification et initialisation de l'Enclave Cryptographique active de la station (StrongBox / Secure Enclave ES256 DEC-AET-10).",
+            "Sélection et allocation du lot de puces JavaCard ACOSJ 92 Ko homologuées pour la série d'encodage.",
+            "Passage du voyant LED du lecteur au vert fixe (état prêt) et ouverture du canal sans contact 106 kbps ISO/IEC 14443-4."
         ],
-        "postconditions": "Canal de communication USB ouvert à 12 Mbps, prêt pour la détection de puces sans contact.",
-        "legal": "Spécification USB CCID (Integrated Circuit(s) Cards Interface Device, USB-IF).",
+        "postconditions": "Session opérateur funéraire ouverte, enclave ES256 prête (DEC-AET-10), lot ACOSJ 92 Ko assigné et canal USB CCID 12 Mbps opérationnel.",
+        "legal": "Spécification USB CCID (Integrated Circuit(s) Cards Interface Device, USB-IF) et politique de sécurité opérationnelle PaxFunèbre (décision souveraine DEC-AET-10).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "desktop",
-            "deviceLabel": "PaxStation Station Pro • ACR1552U USB CCID Monitor",
+            "deviceLabel": "PaxStation Station Pro • Session Opérateur & Console ACR1552U (DEC-AET-10)",
             "formFields": [
-                {"label": "Pilote Matériel", "name": "usb_driver", "type": "select", "value": "WebUSB Chromium Direct (USB CCID v1.1)", "placeholder": "Pilote", "badge": "WebUSB", "required": True},
-                {"label": "Périphérique Détecté", "name": "device_name", "type": "text", "value": "ACS ACR1552U USB Contactless Reader (VID:072F / PID:2200)", "placeholder": "Lecteur", "badge": "USB 3.0", "required": False},
-                {"label": "Baudrate RF Contactless", "name": "baudrate", "type": "text", "value": "106 kbps ISO/IEC 14443 Type A", "placeholder": "Baudrate", "badge": "106k", "required": False},
-                {"label": "Firmware Lecteur", "name": "firmware_version", "type": "text", "value": "v2.04 SAM Secure Ready", "placeholder": "Firmware", "badge": "À Jour", "required": False}
+                {"label": "ID Conseiller / Opérateur", "name": "operator_id", "type": "text", "value": "OP-NAM-8842 (Marc Lambert)", "placeholder": "Identifiant opérateur", "badge": "Authentifié", "required": True},
+                {"label": "Badge Agence PaxFunèbre", "name": "agency_badge", "type": "text", "value": "PaxFunèbre Namur Centre #AG-04 (Habilitation H3)", "placeholder": "Badge agence", "badge": "Habilité H3", "required": True},
+                {"label": "Enclave Cryptographique Station", "name": "crypto_enclave", "type": "select", "value": "Station Secure Enclave / StrongBox (ES256 DEC-AET-10)", "placeholder": "Enclave matérielle", "badge": "DEC-AET-10", "required": True},
+                {"label": "Sélection du Lot de Cartes ACOSJ 92 Ko", "name": "card_lot", "type": "select", "value": "Lot ACOSJ-92K-2026-N1 (JavaCard 92 160 octets)", "placeholder": "Lot silicium", "badge": "92 Ko EEPROM", "required": True},
+                {"label": "Pilote & Matériel Détecté", "name": "usb_driver", "type": "text", "value": "ACS ACR1552U USB CCID v1.1 (VID:072F / PID:2200 - 12 Mbps)", "placeholder": "Pilote", "badge": "WebUSB Direct", "required": False},
+                {"label": "Liaison RF & Baudrate", "name": "rf_link", "type": "text", "value": "13.56 MHz • 106 kbps ISO/IEC 14443 Type A", "placeholder": "Baudrate RF", "badge": "106 kbps", "required": False}
             ],
             "actionButtons": [
-                {"id": "btn_connect_acr", "label": "Autoriser l'Accès WebUSB AeterniTrak", "role": "primary", "state": "idle", "icon": "🔌"},
-                {"id": "btn_ping_rf", "label": "Tester Boucle RF & Bip Sonore", "role": "secondary", "state": "idle", "icon": "📡"}
+                {"id": "btn_open_session", "label": "Authentifier l'Opérateur & Ouvrir Session", "role": "primary", "state": "idle", "icon": "🔐"},
+                {"id": "btn_test_enclave", "label": "Tester Enclave ES256 & Bip Sonore", "role": "secondary", "state": "idle", "icon": "🛡️"},
+                {"id": "btn_connect_acr", "label": "Autoriser l'Accès WebUSB ACR1552U", "role": "secondary", "state": "idle", "icon": "🔌"}
             ],
             "validationMsg": {
-                "title": "Lecteur ACR1552U Connecté",
-                "badge": "Canal USB CCID 12 Mbps Ouvert",
-                "detail": "Lecteur opérationnel. Champ électromagnétique RF 13.56 MHz actif en veille."
+                "title": "Session Opérateur Funéraire Ouverte & Station Prête",
+                "badge": "Enclave ES256 Active (DEC-AET-10)",
+                "detail": "Opérateur OP-NAM-8842 identifié. Enclave matérielle de station armée. Lot ACOSJ 92 Ko verrouillé. Lecteur ACR1552U en veille RF 106 kbps."
             },
             "errorCase": {
-                "code": "ERR_ACR1552U_DEVICE_DETACHED",
-                "title": "Périphérique ACR1552U Non Détecté",
-                "condition": "Câble USB déconnecté, hub USB sous-alimenté ou absence de permission WebUSB du navigateur.",
-                "message": "Erreur matérielle : Impossible d'établir la liaison avec le lecteur de bureau ACR1552U.",
-                "remediation": "Vérifier le branchement USB, autoriser l'accès périphérique dans la barre d'adresse et recharger la session."
+                "code": "ERR_OPERATOR_AUTH_OR_ENCLAVE_FAILED",
+                "title": "Échec d'Authentification Opérateur ou Enclave Indisponible",
+                "condition": "Badge opérateur non reconnu, identifiant conseiller invalide ou échec de poignée de main avec l'enclave sécurisée de la station.",
+                "message": "Accès refusé : La station d'encodage ne peut s'authentifier auprès de l'enclave cryptographique (DEC-AET-10) ou le badge opérateur est invalide.",
+                "remediation": "Vérifier le badge d'agence PaxFunèbre, s'assurer que le module StrongBox / Secure Enclave est disponible et relancer l'identification."
             },
             "phases": {
                 "p1": {
                     "tabTitle": "1. Avant Trigger",
-                    "phaseTitle": "Station en Attente de Connexion USB",
-                    "caption": "Lecteur non appairé. L'interface affiche l'invite de connexion WebUSB.",
+                    "phaseTitle": "Formulaire d'Ouverture de Session & Authentification Station",
+                    "caption": "Formulaire opérateur en attente. ID Conseiller, badge agence et sélection du lot ACOSJ 92 Ko prêts à être validés.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Gestionnaire Périphériques</span>
-                        <span class="wf-status-badge wf-badge-alert">USB Déconnecté</span>
+                        <span class="wf-app-title">PaxStation • Ouverture de Session & Authentification Station</span>
+                        <span class="wf-status-badge wf-badge-neutral">Session Fermée</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">ID Conseiller / Opérateur <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">OP-NAM-8842 (Marc Lambert)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Badge Agence PaxFunèbre <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">Badge Agence Namur Centre #AG-04 [H3]</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Enclave Cryptographique Station <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">Station Secure Enclave / StrongBox (ES256 DEC-AET-10)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Sélection du Lot de Cartes ACOSJ 92 Ko <span class="wf-req">*</span></label>
+                          <div class="wf-select-placeholder">Lot ACOSJ-92K-2026-N1 (92 160 octets)</div>
+                        </div>
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-usb-icon">🔌</span>
-                        <div><strong>Aucun lecteur ACR1552U actif</strong></div>
-                        <div class="wf-subtext">Branchez le câble USB et accordez l'autorisation WebUSB au navigateur</div>
+                        <div><strong>Lecteur ACS ACR1552U détecté (VID:072F / PID:2200)</strong></div>
+                        <div class="wf-subtext">Liaison WebUSB 12 Mbps • En attente de déverrouillage de la session opérateur</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">🔌 Autoriser l'Accès WebUSB AeterniTrak</button>
+                        <button class="wf-btn wf-btn-primary">🔐 Authentifier l'Opérateur & Ouvrir Session</button>
+                        <button class="wf-btn wf-btn-sub">🛡️ Tester Enclave ES256</button>
                       </div>
                     </div>"""
                 },
                 "p2": {
                     "tabTitle": "2. Déclenchement ⚡",
-                    "phaseTitle": "Autorisation WebUSB Accordée par l'Opérateur",
-                    "triggerName": "Clic sur 'Autoriser l'accès WebUSB' et sélection du périphérique 0x072F",
-                    "caption": "Dialogue natif Chromium de sélection du périphérique USB avec confirmation opérateur.",
+                    "phaseTitle": "Validation des Accréditations Opérateur & Déverrouillage Enclave",
+                    "triggerName": "Tap du badge agence et clic sur 'Authentifier l'Opérateur & Ouvrir Session'",
+                    "caption": "Validation biométrique/badge opérateur et appel sécurisé du module Enclave Cryptographique (DEC-AET-10).",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Négociation USB</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Poignée de Main USB</span>
+                        <span class="wf-app-title">PaxStation • Négociation des Droits & Sécurité</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Authentification en Cours</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
-                        <div class="wf-trigger-indicator">✓ Périphérique Détecté : ACS ACR1552U (VID:072F PID:2200)</div>
-                        <div class="wf-subtext">Ouverture du descripteur de communication CCID sans pilote tiers</div>
+                        <div class="wf-trigger-indicator">✓ Badge Détecté : Marc Lambert (Habilitation H3 • Agence Namur Centre)</div>
+                        <div class="wf-subtext">Vérification de la clé d'habilitation agence et amorçage du sous-système cryptographique</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Établissement du canal sécurisé...</button>
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Initialisation de l'enclave cryptographique station...</button>
                       </div>
                     </div>"""
                 },
                 "p3": {
                     "tabTitle": "3. Traitement ⚙️",
-                    "phaseTitle": "Initialisation du Firmware & Test Boucle RF 13.56 MHz",
-                    "progress": 80,
-                    "caption": "Envoi de la commande de contrôle firmware et activation de l'antenne sans contact.",
+                    "phaseTitle": "Initialisation de l'Enclave Matérielle & Armement RF 13.56 MHz",
+                    "progress": 85,
+                    "caption": "Armement de l'enclave station pour signatures ES256 (DEC-AET-10) et mise en veille active du lecteur.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Console Matérielle</span>
-                        <span class="wf-status-badge wf-badge-process">⚙️ Initialisation USB (80%)</span>
+                        <span class="wf-app-title">PaxStation • Console de Sécurité Matérielle</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Armement Station (85%)</span>
                       </div>
-                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 80%;"></div></div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 85%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [USB-CCID] Contrôle descripteur : Firmware v2.04 SAM Secure Ready</code><br>
-                        <code>> [RF-RADIO] Allumage porteuse 13.56 MHz ISO 14443-A : Prêt</code><br>
-                        <code>> [HARDWARE] LED verte fixe allumée • Bip sonore de confirmation émis</code>
+                        <code>> [AUTH-OP] Opérateur OP-NAM-8842 vérifié : Habilitation H3 valide</code><br>
+                        <code>> [CRYPTO-ENCLAVE] Liaison Secure Enclave / StrongBox (ES256 DEC-AET-10) : Établie</code><br>
+                        <code>> [LOT-MGMT] Lot ACOSJ-92K-2026-N1 verrouillé pour 50 cartes</code><br>
+                        <code>> [RF-RADIO] ACR1552U porteuse 13.56 MHz allumée • Vitesse 106 kbps ISO 14443-4</code><br>
+                        <code>> [HARDWARE] LED verte fixe allumée • Silence sonore de recueillement activé</code>
                       </div>
                     </div>"""
                 },
                 "p4": {
                     "tabTitle": "4. Écran de Fin ✨",
-                    "phaseTitle": "Station Prête pour l'Insertion de Silicium",
+                    "phaseTitle": "Session Opérateur Ouverte & Station Prête pour Gravure",
                     "status": "success",
-                    "caption": "Lecteur prêt en écoute active. La station attend la pose de la JavaCard ACOSJ.",
+                    "caption": "Station authentifiée et prête. L'opérateur peut déposer la première JavaCard ACOSJ 92 Ko.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Poste Prêt</span>
-                        <span class="wf-status-badge wf-badge-success">✨ ACR1552U En Ligne (12 Mbps)</span>
+                        <span class="wf-app-title">PaxStation • Poste d'Encodage Opérationnel</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Session Active (OP-NAM-8842)</span>
                       </div>
                       <div class="wf-success-banner">
-                        <span class="wf-seal-icon">🟢</span>
+                        <span class="wf-seal-icon">🛡️</span>
                         <div>
-                          <strong>Poste d'Encodage Professionnel Opérationnel</strong>
-                          <p class="wf-subtext">Antenne NFC active (106 kbps) • Prêt à recevoir la JavaCard ACOSJ 92k</p>
+                          <strong>Station Authentifiée • Enclave Cryptographique Active (DEC-AET-10)</strong>
+                          <p class="wf-subtext">Opérateur : Marc Lambert (Agence Namur) • Lot ACOSJ 92 Ko prêt • Lecteur ACR1552U en écoute</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-gold">Étape Suivante : Insertion de la Carte ACOSJ →</button>
+                        <button class="wf-btn wf-btn-gold">Étape Suivante : Insertion de la JavaCard ACOSJ 92 Ko →</button>
                       </div>
                     </div>"""
                 }
@@ -1174,123 +1199,141 @@ APP2_USECASES = [
     },
     {
         "id": "UC-210",
-        "title": "Contrôle de Recette Post-Gravure & PV de Remise Officiel",
+        "title": "Diagnostic Silicium, Relecture des 6 EF & PV de Gravure Officiel",
         "cat": "Assurance Qualité & Conformité",
-        "actor": "Opérateur d'Encodage & Conseiller",
+        "actor": "Opérateur d'Encodage & Conseiller Funéraire",
         "platforms": ["PC/SC (Desktop Natif)", "Web Standard (PWA Hors-Ligne)"],
-        "tags": ["QA", "Recette", "PVRemise", "Conformite", "Coffret"],
-        "preconditions": "Carte physique imprimée et gravée reposée sur le lecteur de contrôle.",
+        "tags": ["QA", "Diagnostic", "Relecture6EF", "FusibleAntiTamper", "PVRemise", "COSE_Sign1", "DEC-AET-10"],
+        "preconditions": "Carte physique gravée et imprimée reposée sur le lecteur de contrôle qualité ACR1552U.",
         "flow": [
-            "Relecture intégrale sans fil des 78 412 octets gravés via l'antenne NFC de recette.",
-            "Vérification mathématique indépendante de la signature COSE_Sign1 par la clé publique officielle.",
-            "Confrontation de l'empreinte de relecture avec l'empreinte d'origine du Bon à Tirer (zéro différence admise).",
-            "Génération du Procès-Verbal (PV) de Remise Officiel infalsifiable avec QR code de contrôle.",
-            "Insertion solennelle des deux cartes dans leur coffret mémoriel doublé de velours Le Pax Funèbre."
+            "Relecture sans contact séquentielle des 6 Elementary Files (EF-0 à EF-5) via l'antenne NFC de recette à 106 kbps.",
+            "Audit binaire de conformité de chaque compartiment : EF-0 (Manifeste), EF-1 (Identité), EF-2 (Portrait WebP 480×480 DEC-AET-12), EF-3 (Mémo Vocal Opus), EF-4 (Volontés Civiles), EF-5 (Signature).",
+            "Vérification mathématique indépendante de la signature COSE_Sign1 apposée par l'enclave de la station (DEC-AET-10) avec contrôle anti-malléabilité du s bas (RFC 9052).",
+            "Interrogation matérielle de l'état du fusible in-silico (commande APDU 80 DE 00 00 confirmant le verrouillage irréversible anti-tamper en lecture seule).",
+            "Génération du Procès-Verbal (PV) de Remise Officiel infalsifiable avec QR code de contrôle d'intégrité et empreinte SHA-256 scellée.",
+            "Insertion solennelle des deux cartes mémorielles dans leur coffret doublé de velours Le Pax Funèbre pour remise à la famille."
         ],
-        "postconditions": "PV de remise officiel édité et signé, coffret scellé prêt pour la remise solennelle à la famille.",
-        "legal": "Code de droit économique belge (garantie de conformité des biens et services funéraires).",
+        "postconditions": "Diagnostic 100% conforme des 6 EF (EF-0 à EF-5), intégrité signature certifiée, fusible matériel in-silico verrouillé, PV de remise officiel édité et coffret prêt pour la famille.",
+        "legal": "Code de droit économique belge (garantie de conformité des biens et services funéraires — référence à confirmer par un juriste).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "desktop",
-            "deviceLabel": "PaxStation Station Pro • Banc de Recette Qualité & Édition PV",
+            "deviceLabel": "PaxStation Station Pro • Banc de Diagnostic Silicium & Édition PV",
             "formFields": [
-                {"label": "Relecture Silicium Intégrale", "name": "recheck_bytes", "type": "text", "value": "78 412 octets relus à 106 kbps (0 divergence)", "placeholder": "Relecture", "badge": "100% Intègre", "required": False},
-                {"label": "Signature COSE_Sign1", "name": "recheck_sig", "type": "text", "value": "VALIDE (Clé publique Ed25519 officielle vérifiée)", "placeholder": "Signature", "badge": "Authentique", "required": False},
-                {"label": "Numéro de Série Lot", "name": "lot_serial", "type": "text", "value": "AET-2026-LOT-NAM-0491", "placeholder": "Numéro", "badge": "Traçable", "required": False},
-                {"label": "Destinataire Officiel", "name": "recipient_family", "type": "text", "value": "Claire Dubois (Mandat n° 8841)", "placeholder": "Famille", "badge": "Mandataire", "required": False}
+                {"label": "Relecture sans Contact des 6 EF", "name": "recheck_6ef", "type": "text", "value": "EF-0 à EF-5 relus (78 412 octets sur 86 528 utiles — 0 divergence)", "placeholder": "Audit 6 EF", "badge": "6 EF Intègres", "required": False},
+                {"label": "Intégrité Signature COSE_Sign1", "name": "recheck_sig", "type": "text", "value": "VALIDE (Enclave Station DEC-AET-10 • ES256 / s bas normalisé RFC 9052)", "placeholder": "Signature", "badge": "Authentique", "required": False},
+                {"label": "État Fusible Matériel in-silico", "name": "fuse_status", "type": "text", "value": "VERROUILLÉ DÉFINITIF (APDU 80 DE 01 00 — Lecture Seule Anti-Tamper)", "placeholder": "Fusible", "badge": "Anti-Tamper Scellé", "required": False},
+                {"label": "Procès-Verbal de Remise Famille", "name": "pv_reference", "type": "text", "value": "PV-2026-NAM-0491 (Horodatage certifié & QR Code d'Intégrité)", "placeholder": "Numéro PV", "badge": "PDF Scellé", "required": False},
+                {"label": "Destinataire Mandataire", "name": "recipient_family", "type": "text", "value": "Claire Dubois (Mandat familial n° 8841)", "placeholder": "Famille", "badge": "Mandataire", "required": False}
             ],
             "actionButtons": [
-                {"id": "btn_run_qa", "label": "Lancer le Contrôle de Recette Automatisé", "role": "primary", "state": "idle", "icon": "🔬"},
-                {"id": "btn_print_pv", "label": "Éditer le PV de Remise Officiel (PDF Chiffré)", "role": "secondary", "state": "idle", "icon": "📄"}
+                {"id": "btn_run_full_diag", "label": "Lancer le Diagnostic Intégral & Relecture 6 EF", "role": "primary", "state": "idle", "icon": "🔬"},
+                {"id": "btn_print_pv", "label": "Générer le PV de Remise Officiel (PDF Scellé)", "role": "secondary", "state": "idle", "icon": "📄"},
+                {"id": "btn_seal_box", "label": "Valider la Mise en Coffret Mémoriel", "role": "secondary", "state": "idle", "icon": "🎁"}
             ],
             "validationMsg": {
-                "title": "Contrôle de Recette Qualité 100% Conforme",
-                "badge": "PV Officiel Validé",
-                "detail": "Zéro anomalie détectée. Coffret mémoriel scellé prêt pour remise solennelle à la famille."
+                "title": "Diagnostic Silicium Conforme & PV Officiel Validé",
+                "badge": "6 EF Conformes • Fusible Scellé • PV Émis",
+                "detail": "Audit sans contact des 6 EF (EF-0 à EF-5) 100% conforme. Signature enclave station vérifiée. Fusible matériel actif. Coffret prêt pour remise à la famille."
             },
             "errorCase": {
-                "code": "ERR_QA_HASH_MISMATCH",
-                "title": "Non-Concordance d'Empreinte de Recette",
-                "condition": "Altération d'un octet lors de la relecture ou divergence avec le BAT d'origine.",
-                "message": "REJET QUALITÉ CRITIQUE : L'empreinte SHA-256 relue sur la puce ne correspond pas au Bon à Tirer signé.",
-                "remediation": "Mettre la carte immédiatement au rebut, procéder à l'analyse de défaillance matérielle et réencoder une nouvelle carte."
+                "code": "ERR_DIAGNOSTIC_EF_INTEGRITY_FAIL",
+                "title": "Divergence sur Relecture des 6 EF ou Fusible Ouvert",
+                "condition": "Altération binaire sur l'un des EF (EF-0 à EF-5), fusible matériel non verrouillé ou signature COSE_Sign1 corrompue.",
+                "message": "REJET QUALITÉ CRITIQUE : L'empreinte binaire relue sur la puce ne concorde pas avec la capsule d'origine ou le fusible est resté ouvert.",
+                "remediation": "Mettre immédiatement la carte au rebut, détruire le support non conforme et consigner l'incident pour réencodage d'une nouvelle carte ACOSJ 92 Ko."
             },
             "phases": {
                 "p1": {
                     "tabTitle": "1. Avant Trigger",
-                    "phaseTitle": "Carte Terminée Déposée sur le Banc de Recette",
-                    "caption": "Carte posée sur le lecteur de contrôle qualité. L'audit automatisé est en attente.",
+                    "phaseTitle": "Carte Terminée Déposée sur le Banc de Diagnostic",
+                    "caption": "Carte posée sur le lecteur sans contact. Le formulaire de diagnostic des 6 EF et génération du PV est en attente d'exécution.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Banc de Recette Qualité</span>
-                        <span class="wf-status-badge wf-badge-neutral">En Attente d'Audit</span>
+                        <span class="wf-app-title">PaxStation • Banc de Diagnostic & Recette Qualité</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Diagnostic</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Carte en Position de Contrôle</label>
+                          <div class="wf-select-placeholder">ACOSJ-92K #NAM-2026-0491 (Henri Dubois)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Procédure de Recette</label>
+                          <div class="wf-select-placeholder">Lecture sans contact 6 EF (EF-0 à EF-5) + Signature + Fusible</div>
+                        </div>
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-qa-icon">🔬</span>
-                        <div><strong>Carte n° AET-2026-NAM-0491 en position de contrôle</strong></div>
-                        <div class="wf-subtext">Audit automatique : Relecture mémoire + Vérification signature + Concordance BAT</div>
+                        <div><strong>Banc de Diagnostic Prêt pour Relecture Intégrale</strong></div>
+                        <div class="wf-subtext">Audit automatique : Vérification binaire 6 EF + Validité COSE_Sign1 + Statut fusible in-silico</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">🔬 Lancer le Contrôle de Recette Automatisé</button>
+                        <button class="wf-btn wf-btn-primary">🔬 Lancer le Diagnostic Intégral & Relecture 6 EF</button>
                       </div>
                     </div>"""
                 },
                 "p2": {
                     "tabTitle": "2. Déclenchement ⚡",
-                    "phaseTitle": "Lancement de l'Audit Qualité Automatisé",
-                    "triggerName": "Clic sur 'Lancer le Contrôle de Recette Automatisé'",
-                    "caption": "Relecture complète des blocs APDU et vérification cryptographique hors-ligne.",
+                    "phaseTitle": "Lancement du Diagnostic & Relecture sans Contact des 6 EF",
+                    "triggerName": "Clic sur 'Lancer le Diagnostic Intégral & Relecture 6 EF'",
+                    "caption": "Interrogation séquentielle sans fil des compartiments EF-0 à EF-5 à 106 kbps et contrôle cryptographique.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Relecture Qualité</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Audit 100% Automatisé</span>
+                        <span class="wf-app-title">PaxStation • Audit Silicium en Cours</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Relecture 6 EF Active</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
-                        <div class="wf-trigger-indicator">✓ Relecture NFC des 78 412 octets en cours</div>
-                        <div class="wf-subtext">Confrontation binaire bit-à-bit avec la capsule source</div>
+                        <div class="wf-trigger-indicator">✓ Relecture NFC des 6 EF (78 412 octets relus à 106 kbps)</div>
+                        <div class="wf-subtext">Contrôle de concordance binaire bit-à-bit et interrogation du registre fusible APDU</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Audit de conformité en cours...</button>
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Relecture des 6 EF & contrôle fusible...</button>
                       </div>
                     </div>"""
                 },
                 "p3": {
                     "tabTitle": "3. Traitement ⚙️",
-                    "phaseTitle": "Vérification Mathématique COSE_Sign1 & Hachage JCS",
-                    "progress": 95,
-                    "caption": "Confirmation de la validité de la signature Ed25519 et de la fidélité au BAT.",
+                    "phaseTitle": "Audit Binaire des 6 EF & Contrôle Fusible in-silico",
+                    "progress": 96,
+                    "caption": "Validation des 6 EF (EF-0 à EF-5), vérification de la signature enclave station et confirmation du fusible verrouillé.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Moteur de Recette Qualité</span>
-                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Final (95%)</span>
+                        <span class="wf-app-title">PaxStation • Moteur de Diagnostic Silicium</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Final (96%)</span>
                       </div>
-                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [QA-READ] 78 412 octets relus : 0 divergence binaire (100% intègre)</code><br>
-                        <code>> [QA-COSE] Vérification signature Ed25519 par clé publique PaxFunèbre : VALIDE</code><br>
-                        <code>> [QA-BAT] Concordance SHA-256 avec BAT signé : PARFAITE</code>
+                        <code>> [DIAG-EF] EF-0 Manifeste (512 o) : Intègre (SHA-256 conforme)</code><br>
+                        <code>> [DIAG-EF] EF-1 Identité Civile (2 048 o) : Intègre (Henri Dubois)</code><br>
+                        <code>> [DIAG-EF] EF-2 Portrait WebP 480x480 (18 432 o, DEC-AET-12) : Intègre</code><br>
+                        <code>> [DIAG-EF] EF-3 Mémo Vocal Opus (49 152 o) : Intègre</code><br>
+                        <code>> [DIAG-EF] EF-4 Volontés Civiles (8 192 o) : Intègre</code><br>
+                        <code>> [DIAG-EF] EF-5 Signature COSE_Sign1 Enclave Station (DEC-AET-10) : VALIDE (s bas)</code><br>
+                        <code>> [FUSE-CHECK] Commande 80 DE 00 00 : Fusible in-silico VERROUILLÉ DÉFINITIF</code><br>
+                        <code>> [PV-ENGINE] Génération du PV officiel PV-2026-NAM-0491 scellé...</code>
                       </div>
                     </div>"""
                 },
                 "p4": {
                     "tabTitle": "4. Écran de Fin ✨",
-                    "phaseTitle": "PV de Remise Officiel Émis & Coffret Scellé",
+                    "phaseTitle": "Procès-Verbal de Remise Émis & Coffret Mémoriel Scellé",
                     "status": "success",
-                    "caption": "Processus d'encodage terminé avec succès. Les 2 cartes sont prêtes pour la famille.",
+                    "caption": "Diagnostic 100% conforme. Le PV officiel de remise est édité et le coffret velours est scellé pour la famille.",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStation • Commande Terminée</span>
-                        <span class="wf-status-badge wf-badge-success">✨ 100% Conforme & Remis</span>
+                        <span class="wf-app-title">PaxStation • Diagnostic Validé & PV Émis</span>
+                        <span class="wf-status-badge wf-badge-success">✨ 100% Conforme • Scellé</span>
                       </div>
                       <div class="wf-success-banner">
                         <span class="wf-seal-icon">🏆</span>
                         <div>
-                          <strong>Procès-Verbal de Remise Officiel n° PV-2026-0491 Validé</strong>
-                          <p class="wf-subtext">Carte 1 Sanctuaire & Carte 2 Directives prêtes pour remise solennelle</p>
+                          <strong>Procès-Verbal de Remise Officiel n° PV-2026-NAM-0491 Validé</strong>
+                          <p class="wf-subtext">6 EF intègres (EF-0 à EF-5) • Fusible in-silico verrouillé • Coffret velours scellé pour Claire Dubois</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">

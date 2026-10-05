@@ -6,24 +6,24 @@ Ce dossier rassemble les **spécifications fonctionnelles formelles et exhaustiv
 
 | Application | Fichier de Spécification | Périmètre Métier & Rôle | Nombre de Micro-UCs |
 | :--- | :--- | :--- | :---: |
-| **Application 1 : PaxStudio Design** | [app1-paxstudio-design.md](./app1-paxstudio-design.md) | Outil créatif de pré-encodage, maquettage 3D des cartes et médaillons, WebP 480×480 (DEC-AET-12), waveforms sonores. | **10 UCs** (UC-101 à UC-110) |
+| **Application 1 : PaxStudio Design** | [app1-paxstudio-design.md](./app1-paxstudio-design.md) | Outil créatif de pré-encodage, maquettage 3D des cartes et médaillons, WebP 480×480 (DEC-AET-12), waveforms sonores. | **12 UCs** (UC-101 à UC-112) |
 | **Application 2 : PaxStation Encodage** | [app2-paxstation-encodage.md](./app2-paxstation-encodage.md) | Station technique de bureau, gravure ACR1552U WebUSB/PC/SC, ACOSJ 92 Ko, scellement COSE_Sign1, fusible anti-tamper. | **10 UCs** (UC-201 à UC-210) |
 | **Application 3 : Sanctuaire Mémoriel** | [app3-sanctuaire-memoriel.md](./app3-sanctuaire-memoriel.md) | Application B2C universelle sans login (NFC Tap), ducking vocal WebAudio, tiroir de volontés civiles et médicales (références à confirmer par un juriste), Option B DEC-AET-07. | **12 UCs** (UC-301 à UC-312) |
 | **Application 4 : Filière Sarcomusation** | [app4-filiere-sarcomusation.md](./app4-filiere-sarcomusation.md) | Filière biologique Hermetia illucens, The Iron Gate (G0-G9), feed-ban anti-prion, dépistage LFA pentobarbital, Ed25519. | **14 UCs** (UC-401 à UC-414) |
-| **TOTAL RÉFÉRENTIEL V1.0** | - | **Matrice d'Exécution Universelle & Certifiée** | **46 Micro-UCs** |
+| **TOTAL RÉFÉRENTIEL V1.0** | - | **Matrice d'Exécution Universelle & Certifiée** | **48 Micro-UCs** |
 
 ---
 
 ## 🔗 Liens avec l'Écosystème Documentaire AeterniTrak
 
-- 🎭 **Grand Théâtre Vivant Interactif (Simulateur 46 Wireframes Dépliables)** : [`docs/usecases/index.html`](../usecases/index.html) — Visualisation graphique temps réel 100% hors-ligne avec bascule bicolore Mode Famille / Mode Ingénieur.
+- 🎭 **Grand Théâtre Vivant Interactif (Simulateur 48 Wireframes Dépliables)** : [`docs/usecases/index.html`](../usecases/index.html) — Visualisation graphique temps réel 100% hors-ligne avec bascule bicolore Mode Famille / Mode Ingénieur.
 - 📐 **Architecture Système Globale & Modélisation UML 3-Tiers** : [`docs/architecture/system-architecture-uml.md`](../architecture/system-architecture-uml.md) et portail interactif [`docs/architecture/index.html`](../architecture/index.html).
 - ⚖️ **Décisions d'Arbitrage Fondatrices (Kudoro)** : [`DECISIONS-KUDORO.md`](../../DECISIONS-KUDORO.md) — Spécifiquement DEC-AET-07 (Option B bandeau de réserve), DEC-AET-08 (Zéro-Login B2C strict) et DEC-AET-09 (Universalité multiplateforme).
 - 🧪 **Banc de Tests Déterministes Spec-First** : `qa/test-runner.sh` — 693 vecteurs de conformité validés (100% PASS, 0 régression).
 
 ---
 
-## 📊 Matrice Exhaustive des 46 Micro-Use-Cases
+## 📊 Matrice Exhaustive des 48 Micro-Use-Cases
 
 | ID | Titre du Cas d'Usage | Application | Catégorie | Acteur | Plateforme(s) | Base Légale / Normative | Spécification Détaillée |
 | :---: | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
@@ -37,7 +37,9 @@ Ce dossier rassemble les **spécifications fonctionnelles formelles et exhaustiv
 | `UC-108` | **Directives Médicales Post-Mortem (Pacemaker, Dons, Legs)** | App 1 | Directives Médicales | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Article L1232-17 §2 du CDLD (exérèse oblig... | [UC-108](./app1-paxstudio-design.md#uc-108) |
 | `UC-109` | **Génération & Validation de la Capsule de Pré-Encodage CBOR** | App 1 | Compilation & Core | Conseiller & Système Core | Web Standard (PWA Hors-Ligne), Node.js / Core Engine | Spécification technique IETF RFC 8949 (dét... | [UC-109](./app1-paxstudio-design.md#uc-109) |
 | `UC-110` | **Bon à Tirer (BAT) Numérique & Validation Familiale** | App 1 | Validation Finale | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code civil belge (art. 1322 - valeur proba... | [UC-110](./app1-paxstudio-design.md#uc-110) |
-| `UC-201` | **Connexion Station de Bureau ACR1552U WebUSB** | App 2 | Matériel & Poste Pro | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification USB CCID (Integrated Circuit... | [UC-201](./app2-paxstation-encodage.md#uc-201) |
+| `UC-111` | **Création de la Carte & Saisie Intégrale de l'Identité Civile et Mémorielle** | App 1 | Identité Civile & Mémorielle | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code civil (actes de l'état civil, art. 34... | [UC-111](./app1-paxstudio-design.md#uc-111) |
+| `UC-112` | **Édition, Révision Modulaire & Contrôle Différentiel du Projet CBOR** | App 1 | Gestion de Projet & Révision | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement général sur la protection des do... | [UC-112](./app1-paxstudio-design.md#uc-112) |
+| `UC-201` | **Connexion Station de Bureau ACR1552U WebUSB & Session Opérateur Funéraire** | App 2 | Matériel & Poste Pro | Opérateur d'Encodage & Conseiller Funéraire | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification USB CCID (Integrated Circuit... | [UC-201](./app2-paxstation-encodage.md#uc-201) |
 | `UC-202` | **Insertion JavaCard ACOSJ 92 Ko & Vérification ATS APDU** | App 2 | Silicium & Détection | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Norme ISO/IEC 7816-4 (organisation, sécuri... | [UC-202](./app2-paxstation-encodage.md#uc-202) |
 | `UC-203` | **Formatage EEPROM & Initialisation EF Silicium (STORAGE-001)** | App 2 | Système de Fichiers Puce | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification technique AeterniTrak STORAG... | [UC-203](./app2-paxstation-encodage.md#uc-203) |
 | `UC-204` | **Ingestion de la Capsule & Canonisation CBOR RFC 8949** | App 2 | Compilation & Core | Opérateur d'Encodage | WebUSB (Chromium Desktop), Node.js / Core Engine | Spécification technique IETF RFC 8949 (CBO... | [UC-204](./app2-paxstation-encodage.md#uc-204) |
@@ -46,15 +48,15 @@ Ce dossier rassemble les **spécifications fonctionnelles formelles et exhaustiv
 | `UC-207` | **Contrôle Strict Anti-Malléabilité du s Bas (RFC 9052)** | App 2 | Sécurité Mathématique | Opérateur & Moteur de Sécurité | WebUSB (Chromium Desktop), Node.js / Core Engine | Guide BSI TR-03111 (Technical Guideline: E... | [UC-207](./app2-paxstation-encodage.md#uc-207) |
 | `UC-208` | **Verrouillage Matériel Irréversible in-silico (Anti-Tamper)** | App 2 | Sécurité Silicium | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification JavaCard 3.0 Classic (Securi... | [UC-208](./app2-paxstation-encodage.md#uc-208) |
 | `UC-209` | **Impression Thermique & Laser Haute Précision Recto/Verso** | App 2 | Impression Physique | Opérateur d'Encodage | PC/SC (Desktop Natif), Web Standard (PWA Hors-Ligne) | Norme ISO/IEC 7810 ID-1 (durabilité physiq... | [UC-209](./app2-paxstation-encodage.md#uc-209) |
-| `UC-210` | **Contrôle de Recette Post-Gravure & PV de Remise Officiel** | App 2 | Assurance Qualité & Conformité | Opérateur d'Encodage & Conseiller | PC/SC (Desktop Natif), Web Standard (PWA Hors-Ligne) | Code de droit économique belge (garantie d... | [UC-210](./app2-paxstation-encodage.md#uc-210) |
+| `UC-210` | **Diagnostic Silicium, Relecture des 6 EF & PV de Gravure Officiel** | App 2 | Assurance Qualité & Conformité | Opérateur d'Encodage & Conseiller Funéraire | PC/SC (Desktop Natif), Web Standard (PWA Hors-Ligne) | Code de droit économique belge (garantie d... | [UC-210](./app2-paxstation-encodage.md#uc-210) |
 | `UC-301` | **Scan NFC Instantané Direct Sans Login (NFC Tap Android/iOS)** | App 3 | Accès & Identité | Famille, Proches & Cérémonie | Natif (iOS & Android), Web NFC (Chrome Android)... | Règlement général sur la protection des do... | [UC-301](./app3-sanctuaire-memoriel.md#uc-301) |
 | `UC-302` | **Vérification Cryptographique Hybride Ed25519 / ES256 (DEC-AET-04)** | App 3 | Sécurité & Cryptographie | Système Mobile & Sécurité | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement eIDAS (UE 910/2014 - exigences p... | [UC-302](./app3-sanctuaire-memoriel.md#uc-302) |
-| `UC-303` | **Affichage Sanctuaire Certifié en Recueillement Nominal** | App 3 | Expérience Sanctuaire | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Respect de la dignité des défunts et de la... | [UC-303](./app3-sanctuaire-memoriel.md#uc-303) |
+| `UC-303` | **Affichage Sanctuaire, Recueillement & Livre d'Or Familial** | App 3 | Expérience Sanctuaire | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Respect de la dignité des défunts et de la... | [UC-303](./app3-sanctuaire-memoriel.md#uc-303) |
 | `UC-304` | **Bandeau de Réserve DEC-AET-07 Option B pour Émetteur Inconnu** | App 3 | Résilience Mémorielle | Famille & Régulateur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décision Kudoro DEC-AET-07 (Option B : Lis... | [UC-304](./app3-sanctuaire-memoriel.md#uc-304) |
 | `UC-305` | **Blocage Hermétique sur Carte Falsifiée ou Clé Révoquée** | App 3 | Sécurité & Anti-Fraude | Système Mobile & Auditeur | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Code pénal belge (art. 196 et suivants - f... | [UC-305](./app3-sanctuaire-memoriel.md#uc-305) |
 | `UC-306` | **Sanctuaire Acoustique & Ducking Vocal Vivant Automatique** | App 3 | Expérience Émotionnelle | Famille & Proches | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Directives déontologiques funéraires relat... | [UC-306](./app3-sanctuaire-memoriel.md#uc-306) |
 | `UC-307` | **Consultation des Volontés Civiles et Funéraires** | App 3 | Dernières Volontés | Famille, Exécuteur Testamentaire & Pompes Funèbres | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 20 juillet 1971 sur les funérailles... | [UC-307](./app3-sanctuaire-memoriel.md#uc-307) |
-| `UC-308` | **Alerte Médicale d'Urgence : Exérèse Pacemaker / DAE (référence à confirmer par un juriste)** | App 3 | Directives Médicales & Sécurité | Pompes Funèbres, Crématorium & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Article L1232-17 §2 du CDLD wallon (exérès... | [UC-308](./app3-sanctuaire-memoriel.md#uc-308) |
+| `UC-308` | **Fiche d'Urgence Médicale Interactive & Alerte Pacemaker (référence à confirmer par un juriste)** | App 3 | Directives Médicales & Sécurité | Secouristes, Urgentistes, Pompes Funèbres & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Article L1232-17 §2 du CDLD wallon (exérès... | [UC-308](./app3-sanctuaire-memoriel.md#uc-308) |
 | `UC-309` | **Consultation du Statut de Don d'Organes (Consentement Présumé Loi 1986)** | App 3 | Directives Médicales | Coordinateur Hospitalier de Transplantation | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 13 juin 1986 sur le prélèvement et ... | [UC-309](./app3-sanctuaire-memoriel.md#uc-309) |
 | `UC-310` | **Directives Legs du Corps à la Science sous 48h** | App 3 | Directives Médicales | Famille & Faculté de Médecine | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décret wallon et arrêtés royaux régissant ... | [UC-310](./app3-sanctuaire-memoriel.md#uc-310) |
 | `UC-311` | **Droit d'Accès Post-Mortem au Dossier Médical (Loi 2002 Art. 9 §4)** | App 3 | Droits du Patient | Praticien Professionnel Désigné & Ayants Droit | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Loi du 22 août 2002 relative aux droits du... | [UC-311](./app3-sanctuaire-memoriel.md#uc-311) |
