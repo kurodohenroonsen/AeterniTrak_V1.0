@@ -35,91 +35,99 @@ Afin de répondre à la directive souveraine de Kudoro (*« tout un UML compréh
 
 ```mermaid
 flowchart TB
-  %% Acteurs Humains
-  subgraph ACTEURS_HUMAINS ["👥 Acteurs Humains"]
-    A_FAMILLE["👨‍👩‍👧 Famille Défunte & Proches<br/><i>(Ayants droit & Participants)</i>"]
-    A_PAX["🎩 Conseiller Funéraire<br/><i>(Opérateur PaxFunèbre)</i>"]
-    A_VET["🩺 Vétérinaire Agréé<br/><i>(Praticien Sanitaire)</i>"]
-    A_DNF["🌲 Garde-Forestier DNF<br/><i>(Agent SPW ARNE)</i>"]
-    A_AFSCA["⚖️ Inspecteur AFSCA<br/><i>(Régulateur Fédéral)</i>"]
+  %% Acteurs Humains (12 Personas Stratégiques)
+  subgraph ACTEURS_HUMAINS ["👥 Acteurs Humains & Personas Métiers (12 Rôles)"]
+    direction TB
+    subgraph B2C_FAMILLE ["Sphère Mémorielle & Citoyenne (B2C)"]
+      A_FAMILLE["👨‍👩‍👧 Famille Défunte & Proches<br/><i>(Ayants droit, recueillement, écoute vocale)</i>"]
+      A_DEFUNT["🕊️ Défunt / Citoyen Prévoyant<br/><i>(Directives anticipées, don d'organes, pacemaker L1232-24)</i>"]
+      A_SECOURISTE["🚑 Urgentiste / Secouriste / Légiste<br/><i>(Scan NFC d'urgence, sécurité crématoire)</i>"]
+    end
+
+    subgraph B2B_FUNERAIRE ["Sphère Funéraire & Atelier Silicium (B2B)"]
+      A_PAX["🎩 Conseiller Funéraire PaxFunèbre<br/><i>(Cérémonie, recueil, BAT numérique scellé)</i>"]
+      A_STATION_OP["⚙️ Opérateur d'Atelier Silicium<br/><i>(Gravure APDU ACR1552U, fusible matériel ACOSJ)</i>"]
+    end
+
+    subgraph B2B_SANTE_AGRI ["Sphère Sanitaire, Élevage & Forêt (B2B / B2G)"]
+      A_VET["🩺 Vétérinaire Sanitaire Agréé<br/><i>(Constat animal, dépistage LFA Pentobarbital)</i>"]
+      A_ELEVEUR["🐄 Éleveur / Filière Agricole<br/><i>(Dépouilles Cat 2, déclaration Sanitel / CERISE)</i>"]
+      A_ABATTOIR["🏭 Gestionnaire d'Abattoir<br/><i>(Catégorie 1 MRS, dénaturation bleu de méthylène)</i>"]
+      A_DNF["🌲 Garde-Forestier DNF / SPW ARNE<br/><i>(Cadastre sylvicole, RTK GPS, faune sauvage)</i>"]
+      A_BIOCONV_OP["🪰 Opérateur Bioréacteur Sarcomusation<br/><i>(Élevage Hermetia illucens, pasteurisation / autoclave)</i>"]
+    end
+
+    subgraph B2G_REGULATION ["Sphère Régulation & Autorités Publiques (B2G)"]
+      A_AFSCA["⚖️ Inspecteur Régulateur AFSCA<br/><i>(Audit feed-ban déterministe, The Iron Gate G0-G9)</i>"]
+      A_ETAT_CIVIL["🏛️ Officier d'État Civil / Bourgmestre<br/><i>(Permis d'inhumer/crémer, contrôle dernières volontés)</i>"]
+    end
   end
 
   %% Acteurs Matériels & Biologiques
   subgraph ACTEURS_SYSTEMES ["⚙️ Acteurs Cyber-Physiques & Biologiques"]
-    A_CARD["💳 JavaCard ACOSJ 92 Ko<br/><i>(Puce Cryptographique & Silicium)</i>"]
-    A_READER["🔌 Lecteur ACR1552U<br/><i>(WebUSB CCID Desktop)</i>"]
-    A_LARVES["🪰 Hermetia illucens<br/><i>(Bioconversion Larvaire)</i>"]
+    A_CARD["💳 JavaCard ACOSJ 92 Ko<br/><i>(86 528 o utiles, fusible matériel in-silico)</i>"]
+    A_READER["🔌 Lecteur ACR1552U USB CCID<br/><i>(Classe universelle 0x0B, WebUSB/PC-SC)</i>"]
+    A_LARVES["🪰 Hermetia illucens<br/><i>(Bioconversion enzymatique des tissus mous)</i>"]
   end
 
-  %% Écosystème AeterniTrak 4 Applications
-  subgraph AETERNI_SYSTEM ["🛡️ Écosystème AeterniTrak V1.0 (4 Applications)"]
-    subgraph APP1 ["App 1 — PaxStudio (Design & Mémorial)"]
-      UC101(["UC-101 : Composer le profil mémoriel civil & animal"])
-      UC102(["UC-102 : Étalonner le mémo vocal Opus SILK & le portrait WebP"])
-      UC103(["UC-103 : Générer l'enveloppe canonique COSE_Sign1"])
+  %% Écosystème AeterniTrak 4 Applications (100 Micro Use-Cases Souverains)
+  subgraph AETERNI_SYSTEM ["🛡️ Écosystème AeterniTrak V1.0 — 100 Micro Use-Cases Souverains"]
+    subgraph APP1 ["App 1 — PaxStudio Design (UC-101 à UC-125)"]
+      UC_APP1["🎨 25 Micro-UCs : Conception 3D, NISS Modulo 97, Cartographie INS Statbel,<br/>TaxID NCBI local, ré-échantillonnage audio SILK < 46 Ko, BAT numérique scellé"]
     end
 
-    subgraph APP2 ["App 2 — PaxStation (Encodage Silicium)"]
-      UC201(["UC-201 : Détecter et apparier le lecteur WebUSB ACR1552U"])
-      UC202(["UC-202 : Graver les 6 blocs EF sur JavaCard ACOSJ 92 Ko"])
-      UC203(["UC-203 : Sceller définitivement la puce (Hardware Lock)"])
+    subgraph APP2 ["App 2 — PaxStation Encodage (UC-201 à UC-225)"]
+      UC_APP2["🖨️ 25 Micro-UCs : Détection ACR1552U CCID, ATR/ATS ISO 14443-4,<br/>négociation PPS 848 kbps, Extended APDU, anti-tearing Tag 0x07, fusible 80 DE 01 00"]
     end
 
-    subgraph APP3 ["App 3 — Sanctuaire (Recueillement Familial)"]
-      UC301(["UC-301 : Interroger la puce par effleurement sans fil NFC"])
-      UC302(["UC-302 : Écouter le mémo vocal et contempler le sanctuaire hors-ligne"])
-      UC303(["UC-303 : Vérifier l'authenticité de l'émetteur (Bandeau de réserve)"])
+    subgraph APP3 ["App 3 — Sanctuaire Mémoriel (UC-301 à UC-325)"]
+      UC_APP3["🕊️ 25 Micro-UCs : Recueillement 100% hors-ligne, zéro login, ducking -14 dB,<br/>alerte médicale Pacemaker L1232-24, TrustStore local kid 16 o, Haversine vers l'arbre"]
     end
 
-    subgraph APP4 ["App 4 — Filière Traçabilité & The Iron Gate"]
-      UC401(["UC-401 : Enregistrer la collecte et le test LFA Pentobarbital"])
-      UC402(["UC-402 : Piloter la bioconversion et la stérilisation Méthode 1"])
-      UC403(["UC-403 : Évaluer le risque anti-prion (G0 à G9) via The Iron Gate"])
-      UC404(["UC-404 : Émettre le certificat de lot scellé Ed25519"])
-      UC405(["UC-405 : Auditer la conformité du lot et du registre feed-ban"])
+    subgraph APP4 ["App 4 — Filière Sarcomusation & Traçabilité (UC-401 à UC-425)"]
+      UC_APP4["🛡️ 25 Micro-UCs : Chaîne événementielle post-mortem (6 étapes lieu par lieu),<br/>dépistage LFA Pentobarbital C+T, The Iron Gate G0-G9 anti-prion, certificat Ed25519"]
     end
   end
 
-  %% Guichets Externes
+  %% Guichets & Référentiels Officiels
   subgraph GUICHETS_EXTERNES ["🏛️ Guichets & Registres Officiels"]
     G_CERISE["🌾 CERISE (SPW Agriculture)"]
     G_SANITEL["🏷️ Sanitel (ARSIA / DGZ)"]
     G_DOGCAT["🐕 DogID / CatID (Zetes)"]
-    G_SPW["🗺️ SPW ARNE (Faune DNF)"]
+    G_SPW["🗺️ SPW ARNE (Faune DNF & Cadastre Forestier)"]
+    G_SANTE["🏥 SPF Santé Publique (Registre National Dons Organes)"]
   end
 
-  %% Relations d'Acteurs
-  A_FAMILLE --> UC101
-  A_FAMILLE --> UC301
-  A_FAMILLE --> UC302
-  A_FAMILLE --> UC303
+  %% Relations d'Acteurs & Systèmes
+  A_FAMILLE --> UC_APP1
+  A_FAMILLE --> UC_APP3
+  A_DEFUNT -.->|Directives anticipées| UC_APP1
+  A_DEFUNT -.->|Opting-out registre| G_SANTE
+  A_SECOURISTE -->|Scan urgence NFC| UC_APP3
 
-  A_PAX --> UC101
-  A_PAX --> UC102
-  A_PAX --> UC103
-  A_PAX --> UC201
-  A_PAX --> UC202
-  A_PAX --> UC203
+  A_PAX --> UC_APP1
+  A_PAX --> UC_APP2
+  A_STATION_OP --> UC_APP2
 
-  A_READER -.->|Pont CCID| UC201
-  A_READER -.->|Transmission APDU| UC202
-  UC202 --> A_CARD
-  UC203 --> A_CARD
-  UC301 -.->|IsoDep NFC| A_CARD
+  A_READER -.->|Pont CCID universel (0x0B)| UC_APP2
+  UC_APP2 -->|Gravure APDU ISO 7816-4| A_CARD
+  UC_APP3 -.->|IsoDep NFC sans contact| A_CARD
 
-  A_VET --> UC401
+  A_VET --> UC_APP4
   A_VET -.->|Contrôle puce| G_DOGCAT
-  A_DNF --> UC401
-  A_DNF -.->|Bracelet gibier| G_SPW
+  A_ELEVEUR --> UC_APP4
+  UC_APP4 -.->|Contrôle Sanitel / CERISE| G_SANITEL
+  UC_APP4 -.->|Déclaration exploitation| G_CERISE
+  A_ABATTOIR --> UC_APP4
 
-  UC401 -.->|Boucle Sanitel| G_SANITEL
-  UC401 -.->|Exploitation| G_CERISE
+  A_DNF --> UC_APP4
+  A_DNF -.->|Bracelet RTK GPS faune| G_SPW
+  A_BIOCONV_OP --> UC_APP4
+  A_LARVES -.->|Bioconversion| UC_APP4
 
-  A_LARVES --> UC402
-  UC402 --> UC403
-  UC403 --> UC404
-  A_AFSCA --> UC405
-  UC405 -.->|Vérification hors-ligne| UC404
+  A_AFSCA -->|Audit déterministe hors-ligne| UC_APP4
+  A_ETAT_CIVIL -->|Permis de crémation / sépulture| UC_APP1
+  A_ETAT_CIVIL -->|Contrôle acte de décès| UC_APP4
 ```
 
 ---
@@ -335,11 +343,16 @@ classDiagram
     <<service>>
     +string rules_version
     +evaluate(claim: BatchClaim, snapshot: TaxonomySnapshot, policies: Policy[]) EvaluationResult
-    -checkGateG0(claim) void
-    -checkGateG1Substrate(claim) void
-    -checkGateG2Route(claim) void
-    -checkGateG3Thermal(claim) void
-    -checkGateG4AntiPrion(claim, snapshot) void
+    -checkGateG0Destination(claim) void
+    -checkGateG1Taxonomy(claim, snapshot) void
+    -checkGateG2HumanRemains(claim) void
+    -checkGateG3Substrates(claim) void
+    -checkGateG4Pentobarbital(claim) void
+    -checkGateG5RuminantSource(claim, snapshot) void
+    -checkGateG6RuminantTarget(claim, snapshot) void
+    -checkGateG7AntiCannibalism(claim, snapshot) void
+    -checkGateG8FeedBanGroups(claim, snapshot) void
+    -checkGateG9ThermalEvidence(claim) void
   }
 
   class EvaluationResult {
@@ -839,40 +852,45 @@ Le tableau suivant récapitule les correspondances conceptuelles fondamentales d
 | :--- | :--- | :--- | :--- |
 | **Profil Mémoriel** | L'âme numérique du défunt (paroles, visage, arbre de famille) gravée dans la matière. | Structure binaire CBOR (RFC 8949 §4.2.1), Tag 100 RFC 8943 pour les dates, budget $\le 1\,900\text{ octets}$. | Aucune clé inconnue tolérée ; types entiers stricts (Major 0) ; budget mémoire absolu. |
 | **Enveloppe COSE_Sign1** | Le cachet de cire inviolable du salon funéraire garantissant l'authenticité. | Enveloppe binaire signée RFC 9052 Tag `#6.18`, agilité ES256 (`-7`) et Ed25519 (`-8`), typ RFC 9596. | Séparation hermétique de domaine (`typ`) interdisant toute substitution croisée de charge utile. |
-| **Puce ACOSJ 92 Ko** | Le médaillon physique inaltérable fonctionnant 100 ans sans batterie ni réseau. | Microcontrôleur sécurisé ISO/IEC 7816-4, partitionné en 6 Elementary Files (EF), liaison NFC ISO 14443-4. | Marge de sécurité de 5% ($\ge 4\,600\text{ octets}$) toujours vierge pour préserver l'EEPROM ; verrou fusible. |
+| **Puce ACOSJ 92 Ko** | Le médaillon physique inaltérable fonctionnant 100 ans sans batterie ni réseau. | Microcontrôleur sécurisé ISO/IEC 7816-4, partitionné en 6 Elementary Files (EF), liaison NFC ISO 14443-4. | Budget utile scrupuleusement borné à $86\,528\text{ octets}$ avec réserve de $5\,632\text{ octets}$ ($6{,}11\%$) sur capacité brute de $92\,160\text{ octets}$ ; verrou fusible in-silico `80 DE 01 00`. |
 | **The Iron Gate** | Le gardien impitoyable de la santé publique empêchant toute contamination de la chaîne alimentaire. | Automate à états déterministe synchrone (G0-G9, règles P1-P18) opérant sous whitelist positive (*Default-Deny*). | Zéro recyclage intra-espèce (CE 999/2001) ; substrat larvaire limité à `feed_grade_plant` ; dérogation bloquante. |
 | **Certificat de Lot** | Le passeport officiel autorisant la valorisation écologique des protéines d'insectes. | Structure COSE_Sign1 scellant les empreintes SHA-256 de la revendication canonique JCS (RFC 8785) et du snapshot. | Aucune clé privée en mémoire vive ; réévaluation taxonomique indépendante obligatoire au contrôle. |
 | **Bandeau de Réserve** | Bienveillance pour la famille : afficher le souvenir même si l'émetteur est inconnu, mais bloquer la fraude. | Décision `DEC-AET-07` Option B : mode `UNVERIFIED` avec bandeau explicatif pour `ERR_COSE_UNKNOWN_KID`. | Blocage strict et immédiat en cas de falsification de signature mathématique ou de clé révoquée. |
 
 ---
 
-## 8. Conformité des Suites de Tests (Harnais 693/693 PASS)
+## 8. Conformité des Suites de Tests & Assurance Qualité Totale
 
-La présente modélisation architecturale reflète avec exactitude l'implémentation logicielle couverte par le banc d'assurance qualité exhaustif d'AeterniTrak V1.0 :
+La présente modélisation architecturale reflète avec exactitude l'implémentation logicielle couverte par les bancs d'assurance qualité exhaustifs d'AeterniTrak V1.0 :
 
+1. **Harnais Normatif Core (18 Suites, 693 Vecteurs)** :
 ```
-============================================================
-Suite : antiprion.feedban.hardening     :  42 PASS, 0 FAIL (42 total)
-Suite : antiprion.feedban.matrix        :  67 PASS, 0 FAIL (67 total)
-Suite : antiprion.feedban.rules-v12      :  64 PASS, 0 FAIL (64 total)
-Suite : antiprion.feedban.rules-v13      :  10 PASS, 0 FAIL (10 total)
-Suite : antiprion.feedban.rules-v14      :  19 PASS, 0 FAIL (19 total)
-Suite : antiprion.feedban.rules-v15      :  10 PASS, 0 FAIL (10 total)
-Suite : core.cbor.deterministic         : 152 PASS, 0 FAIL (152 total)
-Suite : core.cbor.rules-v12             :  16 PASS, 0 FAIL (16 total)
-Suite : core.jcs.rfc8785                :  28 PASS, 0 FAIL (28 total)
-Suite : core.profile.rules-v11          :   5 PASS, 0 FAIL (5 total)
-Suite : core.profile                    :  61 PASS, 0 FAIL (61 total)
-Suite : crypto.batch-certificate        :  70 PASS, 0 FAIL (70 total)
-Suite : crypto.cose.rules-v11           :  20 PASS, 0 FAIL (20 total)
-Suite : crypto.cose.rules-v12           :  40 PASS, 0 FAIL (40 total)
-Suite : crypto.cose.rules-v13           :   5 PASS, 0 FAIL (5 total)
-Suite : crypto.cose.sign1               :  50 PASS, 0 FAIL (50 total)
-Suite : crypto.ed25519.rfc8032          :  16 PASS, 0 FAIL (16 total)
-Suite : crypto.es256.verify             :  18 PASS, 0 FAIL (18 total)
-------------------------------------------------------------
 TOTAL GÉNÉRAL : 693 PASS, 0 FAIL, 0 RED, 0 INVALID (693 total)
-============================================================
 ```
 
-Le document `docs/architecture/system-architecture-uml.md` fait désormais foi comme **Spécification Fondatrice d'Architecture UML & Système 3-Tiers** pour l'ensemble des 16 Bushi et les prochains cycles d'intégration sur la branche `main`.
+2. **Conditions Limites & Fuzzing Mathématique / Cryptographique (`test:deep`)** :
+```
+TOTAL DEEP EDGE CASES : 72 PASS, 0 FAIL (72 total)
+```
+
+3. **Bancs d'Essais Unitaires Embarqués des 100 Micro Use-Cases (`test:usecases`)** :
+```
+TOTAL MODULAR USE-CASES : 100 PASS, 0 FAIL (2 300 assertions in-silico)
+```
+
+4. **Bancs d'Épreuve de Mutations (`test:mutations`)** :
+```
+TOTAL MUTATIONS : 34/34 DÉTECTÉES (100% SENSIBILITÉ)
+- 5/5 mutations de règles sanitaires & feed-ban
+- 4/4 mutations de certificats de lot
+- 10/10 mutations de vérificateurs COSE / signature
+- 5/5 mutations de schéma profil mémoriel V1
+- 10/10 mutations de conformité globale
+```
+
+5. **Garde-Fou Automatisé de Cohérence Inter-Fichiers (`check:consistency`)** :
+```
+✓ SUCCÈS TOTAL : 100% des vérifications de cohérence sont conformes.
+```
+
+Le document `docs/architecture/system-architecture-uml.md` fait désormais foi comme **Spécification Fondatrice d'Architecture UML & Système 3-Tiers** pour l'ensemble des 16 Bushi, les 100 Micro Use-Cases souverains et le futur site de marque officiel.
