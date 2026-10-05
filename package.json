@@ -5,7 +5,8 @@
   "private": true,
   "description": "AeterniTrak V1.0 — Traçabilité décentralisée & filière de sarcomusation",
   "scripts": {
-    "test": "node qa/harness/run.mjs"
+    "test": "node qa/harness/run.mjs",
+    "check:consistency": "node qa/consistency/check.mjs"
   },
   "dependencies": {},
   "devDependencies": {
