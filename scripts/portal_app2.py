@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AeterniTrak V1.0 — Définition Complète des Micro Use-Cases pour App 2 : PaxStation Encodage Silicium (UC-201 à UC-210)
+AeterniTrak V1.0 — Définition Complète des Micro Use-Cases pour App 2 : PaxStation Encodage Silicium (UC-201 à UC-225)
 Avec Simulateur de Wireframes Interactifs à 4 États, Spécifications des Formulaires, Actions, Validations et Erreurs Normatives.
 """
 
@@ -2078,6 +2078,2107 @@ APP2_USECASES = [
                 }
             }
         }
-    }
+    },
+{   'id': 'UC-215',
+    'title': 'Polling Détection Lecteur USB CCID & Événements PnP Carte Présente',
+    'cat': 'Silicium & Détection',
+    'actor': "Opérateur d'Atelier",
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['CCID', 'PnP', 'USB', 'PCSC', 'Detection', 'Polling', 'LecteurNFC'],
+    'preconditions': 'La PaxStation est active sur le poste pro ; le lecteur sans contact USB CCID est branché.',
+    'flow': [   'Initialisation du contexte de ressources PC/SC par le démon matériel (SCardEstablishContext).',
+                "Boucle de polling asynchrone écoutant les changements d'état du lecteur (SCardGetStatusChange).",
+                "Détection physique de l'approche d'un support sans contact dans le champ électromagnétique 13.56 MHz.",
+                "Notification d'événement matériel Plug & Play : passage à l'état SCARD_STATE_PRESENT.",
+                "Verrouillage du canal d'interrogation pour empêcher tout décrochage radiofréquence durant "
+                "l'amorçage."],
+    'postconditions': 'Le lecteur CCID est synchronisé et la présence physique de la carte sans contact est certifiée.',
+    'legal': 'Spécification USB CCID (Integrated Circuit Card Interface Devices) & Spécifications PC/SC Workgroup Part '
+             '2 & 3.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Détection Matérielle CCID & Événements PC/SC PnP',
+                     'formFields': [   {   'label': 'Lecteur USB Détecté',
+                                           'name': 'ccid_reader_model',
+                                           'type': 'text',
+                                           'value': 'Identiv uTrust 3700 F CL Reader [PCSC] (Bus 001 Dev 004)',
+                                           'badge': 'CCID USB 2.0',
+                                           'required': False},
+                                       {   'label': 'État du Champ Radiofréquence',
+                                           'name': 'rf_field_state',
+                                           'type': 'text',
+                                           'value': 'Actif • 13.56 MHz • Modulation ISO 14443 Type A activée',
+                                           'badge': 'RF Émise',
+                                           'required': False},
+                                       {   'label': 'Événement Matériel PnP',
+                                           'name': 'pcsc_event_status',
+                                           'type': 'select',
+                                           'value': 'SCARD_STATE_PRESENT (Support Détecté dans le Champ)',
+                                           'badge': 'PC/SC Événement',
+                                           'required': True},
+                                       {   'label': 'Alimentation Bus USB',
+                                           'name': 'usb_power_rail',
+                                           'type': 'text',
+                                           'value': '5.02 V • 120 mA (Tension Stable & Bruit < 15 mV)',
+                                           'badge': 'Alimentation OK',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_poll_pcsc',
+                                              'label': "Interroger l'État PC/SC Immédiat",
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🔌'},
+                                          {   'id': 'btn_reset_ccid_bus',
+                                              'label': 'Réinitialiser Bus CCID',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🔄'}],
+                     'validationMsg': {   'title': 'Lecteur USB CCID Synchronisé & Carte Détectée',
+                                          'badge': 'SCARD_STATE_PRESENT',
+                                          'detail': 'Support sans contact positionné dans le champ RF. Prêt pour la '
+                                                    "séquence d'Answer to Select (ATS)."},
+                     'errorCase': {   'code': 'ERR_CCID_READER_NOT_FOUND',
+                                      'title': 'Aucun Lecteur de Carte Détecté sur le Bus USB',
+                                      'condition': 'Périphérique CCID déconnecté ou gestionnaire pcscd indisponible.',
+                                      'message': 'Échec matériel : Aucun lecteur de carte sans contact compatible '
+                                                 "PC/SC n'est actif sur le système.",
+                                      'remediation': 'Brancher le lecteur sur un port USB direct et relancer le démon '
+                                                     'PC/SC.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Démon PC/SC en Écoute & Slot Lecteur Vide',
+                                             'caption': 'Le lecteur sans contact est prêt et alimenté, en attente de '
+                                                        "la présentation d'une carte.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Gestionnaire PC/SC USB '
+                                                           'CCID</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">En Attente de Carte (Champ 13.56 MHz '
+                                                           'Prêt)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Lecteur '
+                                                           'Assigné</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Identiv uTrust 3700 F CL '
+                                                           'Reader [PCSC]</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Statut '
+                                                           'PnP</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">SCARD_STATE_EMPTY</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🔌 Interroger l\'État PC/SC '
+                                                           'Immédiat</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Détection Approche Carte dans le Champ 13.56 MHz',
+                                             'triggerName': "Approche physique d'une carte ACOSJ sur l'antenne du "
+                                                            'lecteur',
+                                             'caption': "Couplage inductif RF détecté et transition d'état PC/SC "
+                                                        'instantanée.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Détecteur '
+                                                           'Matériel</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Carte Détectée dans le Champ</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Événement '
+                                                           'SCARD_STATE_PRESENT déclenché sur le lecteur #0</div>\n'
+                                                           '                        <div class="wf-subtext">Couplage '
+                                                           'RF stabilisé • Porteuse 13.56 MHz modulée</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Initialisation du lien sans '
+                                                           'contact...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Stabilisation Alimentation RF & Verrouillage Canal',
+                                             'progress': 90,
+                                             'caption': 'Mesure de la stabilité du signal et attribution du handle '
+                                                        'matériel PC/SC sécurisé.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôleur Bus '
+                                                           'CCID</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Connexion PC/SC (90%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 90%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [PCSC-DAEMON] '
+                                                           'SCardConnect(SCARD_SHARE_SHARED, SCARD_PROTOCOL_T1) : '
+                                                           'OK</code><br>\n'
+                                                           '                        <code>> [USB-CCID] Tension bus '
+                                                           '5.02V stable, consommation 120 mA</code><br>\n'
+                                                           '                        <code>> [RF-FIELD] Porteuse ISO '
+                                                           '14443 Type A synchronisée</code><br>\n'
+                                                           '                        <code>> [CHANNEL-LOCK] Canal '
+                                                           'exclusif réservé pour la session de gravure</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Carte Détectée & Canal PC/SC Initialisé',
+                                             'status': 'success',
+                                             'caption': 'Le support physique est solidement connecté et prêt pour la '
+                                                        'négociation de protocole.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Prêt pour '
+                                                           'Transaction</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Carte Connectée</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🎴</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Support Sans Contact '
+                                                           'Détecté & Stabilisé (SCARD_STATE_PRESENT)</strong>\n'
+                                                           '                          <p class="wf-subtext">Lecteur '
+                                                           'Identiv uTrust 3700 F • Prêt pour la lecture ATS / '
+                                                           'ATR</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Lancer l\'Identification Matérielle ATS '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-216',
+    'title': 'Analyse Trame Réponse ATR / ATS & Identification ISO 14443-4 Type A',
+    'cat': 'Silicium & Détection',
+    'actor': "Opérateur d'Atelier & Système Automatisé",
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['ATS', 'ATR', 'ISO14443', 'TypeA', 'T=CL', 'ACOSJ', 'Identification'],
+    'preconditions': 'Une carte sans contact a été positionnée sur le lecteur (UC-215).',
+    'flow': [   "Envoi de la commande d'activation RATS (Request for Answer to Select) à la puce sans contact.",
+                'Capture de la trame de réponse ATS brute retournée par le composant silicium.',
+                "Décodage normalisé des octets d'en-tête : longueur TL, octet de format T0, octets d'interface "
+                'TA/TB/TC et octets historiques.',
+                'Validation du protocole ISO 14443-4 Type A (T=CL) et vérification de la signature du contrôleur ACOSJ '
+                '92 Ko.',
+                "Contrôle de l'UID matériel (7 octets) contre le registre de sécurité d'atelier."],
+    'postconditions': 'La puce est formellement identifiée comme un composant ACOSJ 92 Ko conforme aux spécifications '
+                      "d'encodage.",
+    'legal': "Norme internationale ISO/IEC 14443-4 (Cartes d'identification sans contact - Protocole de transmission "
+             'T=CL).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Décodage ATS / ATR & Identification Matérielle ISO 14443-4',
+                     'formFields': [   {   'label': 'Trame ATS Brute (Hexadécimal)',
+                                           'name': 'ats_hex_payload',
+                                           'type': 'text',
+                                           'value': '0F 78 80 82 02 41 43 4F 53 4A 39 32 4B 90 00',
+                                           'badge': 'ATS Réponse',
+                                           'required': False},
+                                       {   'label': 'Protocole de Transmission Décodé',
+                                           'name': 'decoded_protocol',
+                                           'type': 'text',
+                                           'value': 'ISO/IEC 14443-4 Type A (T=CL Compliant)',
+                                           'badge': 'Protocole',
+                                           'required': False},
+                                       {   'label': 'Composant Silicium Identifié',
+                                           'name': 'silicon_chipset_id',
+                                           'type': 'select',
+                                           'value': 'ACS ACOSJ 92 Ko EEPROM • Microcontrôleur Sécurisé 32-bit',
+                                           'badge': 'Homologué ACOSJ',
+                                           'required': True},
+                                       {   'label': 'UID Matériel Unique (7 octets)',
+                                           'name': 'rfid_hardware_uid',
+                                           'type': 'text',
+                                           'value': '04:88:99:AA:BB:CC:DD (NXP/ACS Genuine)',
+                                           'badge': 'UID Unique',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_decode_ats_frame',
+                                              'label': 'Analyser la Trame ATS / ATR',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🔬'},
+                                          {   'id': 'btn_verify_uid_whitelist',
+                                              'label': 'Vérifier UID sur Liste Blanche',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🛡️'}],
+                     'validationMsg': {   'title': 'Trame ATS Conforme & Puce ACOSJ 92 Ko Identifiée',
+                                          'badge': 'ISO 14443-4 T=CL',
+                                          'detail': 'Le composant est un support officiel ACOSJ 92 Ko certifié. '
+                                                    'Protocole de haut niveau initialisé.'},
+                     'errorCase': {   'code': 'ERR_INVALID_ATS_SIGNATURE',
+                                      'title': 'Trame ATS Invalide ou Support Non Homologué',
+                                      'condition': 'La trame reçue ne correspond pas à la signature matérielle de '
+                                                   "l'ACOSJ ou présente une altération RF.",
+                                      'message': 'Rejet de composant : Support incompatible détecté (Mifare non '
+                                                 'sécurisé ou tag non homologué).',
+                                      'remediation': 'Remplacer la carte par un support sécurisé ACOSJ 92 Ko issu du '
+                                                     "stock officiel d'atelier."},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Carte Alimentée en Attente de Commande RATS',
+                                             'caption': 'La carte est sous tension radiofréquence, prête pour la '
+                                                        'négociation de protocole ATS.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Analyseur Protocolaire '
+                                                           'ISO 14443</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour RATS</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">UID '
+                                                           'Matériel Détecté</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">04:88:99:AA:BB:CC:DD (7 '
+                                                           'octets)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Trame '
+                                                           'ATS</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Non interrogée</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🔬 Analyser la Trame ATS / ATR</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Réception & Capture de la Trame Réponse ATS',
+                                             'triggerName': 'Émission commande RATS (Request for Answer to Select)',
+                                             'caption': 'La puce renvoie ses 15 octets ATS détaillant ses capacités '
+                                                        'mémoires et débits.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Réception ATS</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Réponse ATS 15 Octets Reçue</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Trame ATS : 0F 78 80 82 02 '
+                                                           '41 43 4F 53 4A 39 32 4B 90 00</div>\n'
+                                                           '                        <div class="wf-subtext">Signature '
+                                                           'ASCII détectée dans les octets historiques : '
+                                                           "'ACOSJ92K'</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Décodage des paramètres '
+                                                           'T=CL...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Décodage des Octets T0/TA/TB/TC & Identification Puce',
+                                             'progress': 95,
+                                             'caption': 'Validation du protocole ISO 14443-4 Type A et contrôle de '
+                                                        'conformité silicium.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Moteur d\'Identification '
+                                                           'Silicium</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Analyse Signature (95%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 95%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [ATS-DECODER] TL = 0x0F '
+                                                           '(15 octets) • T0 = 0x78 (TA, TB, TC présents)</code><br>\n'
+                                                           '                        <code>> [SPEED-CAPABILITY] TA(1) = '
+                                                           "0x80 : Support des vitesses jusqu'à 848 kbps</code><br>\n"
+                                                           '                        <code>> [CHIPSET-MATCH] Puce '
+                                                           'homologuée ACOSJ 92 Ko EEPROM (ACS Smart '
+                                                           'Cards)</code><br>\n'
+                                                           '                        <code>> [SECURITY-CHECK] UID '
+                                                           "matériel validé dans l'inventaire d'atelier</code>\n"
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Protocole ISO 14443-4 Type A Certifié & UID Validé',
+                                             'status': 'success',
+                                             'caption': 'Le composant est un support officiel authentique, prêt pour '
+                                                        "l'ouverture de l'applet.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Silicium '
+                                                           'Certifié</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ ACOSJ 92 Ko Homologué</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🏆</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Puce ACOSJ 92 Ko '
+                                                           'Officielle Reconnue (T=CL Type A)</strong>\n'
+                                                           '                          <p class="wf-subtext">UID '
+                                                           '#04:88:99:AA:BB:CC:DD • Composant certifié pour gravure '
+                                                           'funéraire</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Sélectionner l\'Applet AeterniCore (SELECT '
+                                                           'AID) →</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-217',
+    'title': "Sélection de l'Applet par Commande APDU SELECT AID & Validation SW 0x9000",
+    'cat': 'Système de Fichiers Puce',
+    'actor': 'Système Automatisé PaxStation',
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['APDU', 'SELECT', 'AID', 'SW9000', 'AppletJavaCard', 'AeterniCore'],
+    'preconditions': 'Le protocole de transmission T=CL est actif sur la puce (UC-216).',
+    'flow': [   'Forge de la commande APDU de sélection applicative selon ISO/IEC 7816-4 : CLA 0x00, INS 0xA4, P1 '
+                '0x04, P2 0x00.',
+                "Injection de l'AID souverain de l'applet AeterniCore : `A0 00 00 08 47 01 02` (7 octets).",
+                'Transmission de la trame via le canal logique 0 du protocole T=CL.',
+                "Réception et vérification du Status Word (mot d'état de retour SW1-SW2).",
+                "Confirmation de l'état `0x9000` (Succès normal) et activation de la session de commande sécurisée."],
+    'postconditions': "L'applet AeterniCore est active en mémoire vive de la puce, prête pour les opérations sur les "
+                      'partitions EF.',
+    'legal': 'Norme ISO/IEC 7816-4 (Organisation, sécurité et commandes pour les échanges) & Spécifications Java Card '
+             '3.0.5.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': "PaxStation Pro • Sélection d'Applet JavaCard AeterniCore (ISO 7816-4 SELECT AID)",
+                     'formFields': [   {   'label': 'Commande APDU SELECT AID',
+                                           'name': 'apdu_select_payload',
+                                           'type': 'text',
+                                           'value': '00 A4 04 00 07 A0 00 00 08 47 01 02 00',
+                                           'badge': 'APDU ISO 7816',
+                                           'required': False},
+                                       {   'label': "Identifiant d'Application (AID)",
+                                           'name': 'target_aid_string',
+                                           'type': 'text',
+                                           'value': 'A0000008470102 (AeterniCore Applet V1.0)',
+                                           'badge': 'AID Souverain',
+                                           'required': False},
+                                       {   'label': "Mot d'État Retourné (SW)",
+                                           'name': 'status_word_received',
+                                           'type': 'select',
+                                           'value': '0x9000 (Succès Normal • Applet Sélectionnée)',
+                                           'badge': 'SW 0x9000',
+                                           'required': True},
+                                       {   'label': 'État Machine Virtuelle Silicium',
+                                           'name': 'jc_vm_status',
+                                           'type': 'text',
+                                           'value': "Java Card VM Prête • Contexte d'exécution isolé",
+                                           'badge': 'Sécurité Silicium',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_send_select_aid',
+                                              'label': 'Transmettre APDU SELECT AID',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🎯'},
+                                          {   'id': 'btn_read_applet_lifecycle',
+                                              'label': 'Vérifier Cycle de Vie Applet',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '📋'}],
+                     'validationMsg': {   'title': 'Applet AeterniCore Sélectionnée avec Succès (SW 0x9000)',
+                                          'badge': 'SW 0x9000 Validé',
+                                          'detail': "L'applet est active et réceptive. Les fichiers élémentaires EF-0 "
+                                                    'à EF-5 sont accessibles pour transaction.'},
+                     'errorCase': {   'code': 'ERR_APDU_APPLET_NOT_FOUND',
+                                      'title': 'Échec Sélection AID (SW 0x6A82 - File / Application Not Found)',
+                                      'condition': "L'AID demandé n'est pas instancié sur le support ou a été corrompu "
+                                                   'lors de la phase usine.',
+                                      'message': "Erreur logicielle silicium : L'applet A0000008470102 est introuvable "
+                                                 'sur cette carte.',
+                                      'remediation': "Charger le paquet CAP AeterniCore via le script d'initialisation "
+                                                     "GlobalPlatform d'atelier."},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Puce Reconnue, Applet Non Encore Sélectionnée',
+                                             'caption': "Le canal T=CL est ouvert. L'APDU SELECT AID attend d'être "
+                                                        "transmise pour activer l'applet.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Gestionnaire d\'Applets '
+                                                           'Silicium</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour SELECT AID</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">AID '
+                                                           'Cible</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">A0000008470102 '
+                                                           '(AeterniCore)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Canal '
+                                                           'Logique</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Canal de Base #0 '
+                                                           '(T=CL)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🎯 Transmettre APDU SELECT AID</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': "Émission de l'APDU SELECT AID (A0 00 00 08 47 01 02)",
+                                             'triggerName': 'Envoi APDU 00 A4 04 00 07 A0000008470102 00',
+                                             'caption': "Bascule du contexte d'exécution de la machine virtuelle "
+                                                        "JavaCard vers l'instance AeterniCore.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Dialogue APDU ISO '
+                                                           '7816-4</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ APDU SELECT Transmise</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Envoi : 00 A4 04 00 07 A0 '
+                                                           '00 00 08 47 01 02 00</div>\n'
+                                                           '                        <div class="wf-subtext">Activation '
+                                                           "de l'applet sur le microcontrôleur ACOSJ</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Réception du Status '
+                                                           'Word...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Activation Contexte JavaCard & Analyse Code SW 0x9000',
+                                             'progress': 96,
+                                             'caption': 'Validation du code de succès 0x9000 et vérification des '
+                                                        'permissions de session.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Décodeur Status '
+                                                           'Word</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Analyse SW (96%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 96%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [APDU-RX] Status Word '
+                                                           'retourné : 0x9000 (Command successfully '
+                                                           'executed)</code><br>\n'
+                                                           '                        <code>> [JC-APPLET] Instance '
+                                                           'AeterniCore v1.0 initialisée en RAM</code><br>\n'
+                                                           '                        <code>> [SECURITY-DOMAIN] Droits '
+                                                           'de lecture/écriture débloqués pour session '
+                                                           'atelier</code><br>\n'
+                                                           '                        <code>> [EF-MAPPING] 6 partitions '
+                                                           'élémentaires EF-0 à EF-5 prêtes pour transaction</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Applet AeterniCore Active sur Canal 0',
+                                             'status': 'success',
+                                             'caption': 'La communication applicative est ouverte. Les commandes de '
+                                                        'lecture/écriture de fichiers sont prêtes.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Applet Active</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ SW 0x9000 Normal Execution</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🎯</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Applet AeterniCore '
+                                                           'Sélectionnée avec Succès</strong>\n'
+                                                           '                          <p class="wf-subtext">Canal '
+                                                           "logique #0 prêt • Prêt pour l'inspection de l'en-tête "
+                                                           'EF-0</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Inspecter l\'En-tête Matériel EF-0 '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-218',
+    'title': 'Lecture En-tête EF-0 Silicium & Inspection des Compteurs Monotones',
+    'cat': 'Système de Fichiers Puce',
+    'actor': "Système Automatisé & Opérateur d'Atelier",
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['EF-0', 'CompteurMonotone', 'AntiRejeu', 'EnTete', 'UID', 'Silicium'],
+    'preconditions': "L'applet AeterniCore a été sélectionnée avec succès (UC-217).",
+    'flow': [   'Envoi de la commande APDU de lecture transparente du fichier EF-0 (`00 B0 00 00 40`).',
+                "Décodage de la structure TLV de l'en-tête matériel : Tag 0x01 (version schéma), Tag 0x02 (UID "
+                "matériel), Tag 0x03 (verrous d'accès).",
+                'Extraction de la valeur du compteur monotone non-réversible géré par le silicium.',
+                "Vérification que la valeur du compteur d'écritures correspond à un support vierge d'usine (0 ou 1 "
+                'cycle de test).',
+                "Enregistrement de l'état initial dans le journal d'audit trail d'atelier pour la traçabilité de "
+                'production.'],
+    'postconditions': "L'en-tête matériel et le compteur monotone sont validés ; la carte est déclarée intègre et non "
+                      'altérée.',
+    'legal': "Spécification technique AeterniTrak EF-0 (Conteneur racine d'amorçage) & ISO/IEC 7816-4.",
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Inspection En-tête Matériel EF-0 & Compteurs Monotones',
+                     'formFields': [   {   'label': 'Fichier Élémentaire Ciblé',
+                                           'name': 'target_ef_file',
+                                           'type': 'text',
+                                           'value': "EF-0 (Fichier Racine d'Amorçage & Sécurité)",
+                                           'badge': 'EF-0 Silicium',
+                                           'required': False},
+                                       {   'label': "Compteur Monotone d'Écriture",
+                                           'name': 'monotone_counter_value',
+                                           'type': 'text',
+                                           'value': '0x00000001 (1 cycle usine • Vierge pour gravure)',
+                                           'badge': 'Anti-Rejeu',
+                                           'required': False},
+                                       {   'label': "État du Verrou d'Écriture Silicium",
+                                           'name': 'write_lock_status',
+                                           'type': 'select',
+                                           'value': 'UNLOCKED (Prêt pour Gravure Définitive)',
+                                           'badge': 'Verrou Ouvert',
+                                           'required': True},
+                                       {   'label': 'Version du Schéma Métadonnées',
+                                           'name': 'metadata_schema_rev',
+                                           'type': 'text',
+                                           'value': 'AeterniCore v1.0 • Rétrocompatibilité garantie',
+                                           'badge': 'Schéma 1.0',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_read_ef0_header',
+                                              'label': 'Lire En-tête EF-0',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '📖'},
+                                          {   'id': 'btn_audit_anti_replay',
+                                              'label': 'Auditer Compteur Anti-Rejeu',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🛡️'}],
+                     'validationMsg': {   'title': 'En-tête EF-0 Valide & Compteur Monotone Conforme',
+                                          'badge': 'EF-0 Intègre',
+                                          'detail': 'Support vierge de tout enregistrement pirate. Compteur matériel '
+                                                    "cohérent, prêt pour l'injection des données."},
+                     'errorCase': {   'code': 'ERR_MONOTONE_COUNTER_ABNORMAL',
+                                      'title': 'Valeur Anormale du Compteur Monotone Silicium',
+                                      'condition': 'Le compteur présente une valeur anormalement élevée ou '
+                                                   'incohérente, trahissant une réutilisation ou tentative de clonage.',
+                                      'message': 'Alerte sécurité anti-tamper : Le compteur monotone matériel indique '
+                                                 'que cette carte a déjà été modifiée.',
+                                      'remediation': 'Mettre la carte en quarantaine immédiate et la soumettre au '
+                                                     'contrôle qualité niveau 3.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Applet Sélectionnée, En-tête EF-0 Non Audité',
+                                             'caption': 'La carte est prête pour la lecture de son fichier racine de '
+                                                        'configuration et de sécurité.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Explorateur Silicium '
+                                                           'EF-0</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Lecture EF-0</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Cible '
+                                                           'Silicium</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">EF-0 (Racine & '
+                                                           'Monotones)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Commande</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">READ BINARY 00 B0 00 00 '
+                                                           '40</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">📖 Lire En-tête EF-0</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Envoi de la Commande READ BINARY sur EF-0',
+                                             'triggerName': 'Émission APDU 00 B0 00 00 40',
+                                             'caption': 'Extraction des 64 premiers octets structurés de la partition '
+                                                        'racine.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Transaction Silicium '
+                                                           'EF-0</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ 64 Octets Extraits</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ En-tête TLV extrait : Tag '
+                                                           '0x01 Schema 1.0 • Tag 0x02 UID • Tag 0x03 LockFlag '
+                                                           '0x00</div>\n'
+                                                           '                        <div class="wf-subtext">Compteur '
+                                                           "monotone d'écritures : 0x00000001 (1 cycle usine)</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Contrôle anti-tamper en '
+                                                           'cours...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': "Contrôle Compteur Monotone (Anti-Rejeu) & Droits d'Accès",
+                                             'progress': 97,
+                                             'caption': 'Vérification mathématique de non-altération du composant et '
+                                                        'de la virginité du support.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Auditeur de Sécurité '
+                                                           'Silicium</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Contrôle Anti-Rejeu (97%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 97%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [MONOTONE-CHECK] Compteur '
+                                                           'matériel = 1 (Conforme carte neuve sortie '
+                                                           'usine)</code><br>\n'
+                                                           '                        <code>> [LOCK-FLAG] État courant : '
+                                                           'UNLOCKED (Écriture autorisée)</code><br>\n'
+                                                           '                        <code>> [ANTI-CLONING] Signature '
+                                                           'interne EEPROM conforme</code><br>\n'
+                                                           '                        <code>> [AUDIT-TRAIL] '
+                                                           'Enregistrement du hash EF-0 dans le registre '
+                                                           'atelier</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'En-tête EF-0 Homologué & Silicium Vierge Confirmé',
+                                             'status': 'success',
+                                             'caption': 'La puce est formellement déclarée vierge, intègre et prête '
+                                                        'pour recevoir la gravure.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • EF-0 Validé</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Support Vierge Certifié</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🛡️</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>En-tête Matériel EF-0 '
+                                                           'Validé & Compteur Monotone Conforme</strong>\n'
+                                                           '                          <p class="wf-subtext">Carte '
+                                                           'neuve certifiée • Zéro tentative de rejeu • Prêt pour le '
+                                                           "diagnostic d'usure</p>\n"
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Lancer le Diagnostic d\'Usure EEPROM '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-219',
+    'title': "Diagnostic d'Usure EEPROM & Cartographie des Blocs d'Écriture",
+    'cat': 'Résilience Matérielle & Silicium',
+    'actor': 'Contrôleur Qualité Silicium',
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['EEPROM', 'Endurance', 'Diagnostic', 'SanteSilicium', 'WearLeveling', 'JEDEC'],
+    'preconditions': 'La carte est alimentée et les canaux de diagnostic usine sont ouverts.',
+    'flow': [   "Exécution d'une routine de diagnostic matériel non destructive sur l'ensemble de la matrice mémoire "
+                'non-volatile.',
+                "Lecture des registres internes d'endurance EEPROM et mesure des temps de charge de programmation de "
+                'grille.',
+                "Analyse de la table d'allocation de wear-leveling : détection d'éventuels blocs dégradés ou "
+                'réalloués.',
+                "Calcul de l'indice de santé matériel global (Health Index) selon la norme d'endurance JEDEC JESD22.",
+                'Délivrance de la certification de longévité garantissant une conservation des données sur plus de 25 '
+                'ans à 55°C.'],
+    'postconditions': 'La matrice EEPROM est certifiée à 100% de santé, garantissant une pérennité '
+                      'intergénérationnelle.',
+    'legal': 'Norme JEDEC JESD22-A117 (Endurance et rétention de données pour mémoires non volatiles EEPROM).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': "PaxStation Pro • Diagnostic d'Usure EEPROM & Cartographie Silicium (JEDEC JESD22)",
+                     'formFields': [   {   'label': "Cycles d'Écriture Consommés",
+                                           'name': 'eeprom_cycles_count',
+                                           'type': 'text',
+                                           'value': "3 cycles / 500 000 garantis (0.0006% d'usure)",
+                                           'badge': 'Endurance',
+                                           'required': False},
+                                       {   'label': 'Cartographie des Blocs Défectueux',
+                                           'name': 'bad_blocks_map',
+                                           'type': 'text',
+                                           'value': '0 bloc défectueux • 100% cellules fonctionnelles',
+                                           'badge': 'Intégrité Blocs',
+                                           'required': False},
+                                       {   'label': 'Estimation Rétention de Données',
+                                           'name': 'data_retention_estimate',
+                                           'type': 'text',
+                                           'value': '> 25 ans garanti à 55°C (Spécification ACOSJ)',
+                                           'badge': 'Pérennité',
+                                           'required': False},
+                                       {   'label': 'Indice Global de Santé Silicium',
+                                           'name': 'silicon_health_score',
+                                           'type': 'select',
+                                           'value': 'INDICE DE SANTÉ 100.0% (ÉTAT PARFAIT ATELIER)',
+                                           'badge': 'JEDEC 100%',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_run_eeprom_diagnostic',
+                                              'label': "Lancer le Diagnostic d'Usure EEPROM",
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🩺'},
+                                          {   'id': 'btn_export_longevity_cert',
+                                              'label': 'Générer Certificat de Longévité',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '📜'}],
+                     'validationMsg': {   'title': 'Diagnostic EEPROM Réussi : Santé Matérielle Certifiée 100%',
+                                          'badge': 'JEDEC JESD22 Validé',
+                                          'detail': 'Zéro bloc défaillant. La rétention des données mémorielles et '
+                                                    'directives est garantie pour le siècle à venir.'},
+                     'errorCase': {   'code': 'ERR_EEPROM_WEAR_LIMIT_REACHED',
+                                      'title': 'Usure Prématurée ou Cellules EEPROM Altérées',
+                                      'condition': "La tension de claquage ou le temps de programmation d'un secteur "
+                                                   'dépasse les tolérances usine.',
+                                      'message': 'Défaut silicium critique : La matrice EEPROM présente une anomalie '
+                                                 'de rétention.',
+                                      'remediation': 'Mettre le support au rebut (statut SCRAPPED) et prélever un '
+                                                     'nouveau support neuf.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Silicium Connecté Prêt pour Diagnostic d'Endurance",
+                                             'caption': "Le banc d'essai matériel est armé pour ausculter l'état de "
+                                                        'santé de la matrice EEPROM 92 Ko.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Banc d\'Endurance '
+                                                           'Matériel</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Diagnostic EEPROM</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Matrice '
+                                                           'Mémoire</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">EEPROM 92 Ko (ACS '
+                                                           'ACOSJ)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Norme de '
+                                                           'Référence</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">JEDEC JESD22-A117</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🩺 Lancer le Diagnostic d\'Usure '
+                                                           'EEPROM</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Lancement du Banc de Test Matériel EEPROM',
+                                             'triggerName': "Clic sur 'Lancer le Diagnostic d'Usure EEPROM'",
+                                             'caption': 'Sondage des cellules et vérification des registres de charge '
+                                                        'de la pompe à haute tension.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Sonde Silicium '
+                                                           'JEDEC</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Diagnostic Matriciel Actif</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Cartographie des 92 160 '
+                                                           "octets en cours • Mesure des temps d'accès</div>\n"
+                                                           '                        <div '
+                                                           'class="wf-subtext">Vérification de l\'absence de charges '
+                                                           "parasites piégées dans l'oxyde de grille</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Calcul de l\'indice de '
+                                                           'santé...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Audit Blocs Défectueux & Calcul Health Index (JESD22)',
+                                             'progress': 98,
+                                             'caption': "Analyse statistique de l'endurance et vérification de la "
+                                                        'garantie constructeur de rétention.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôleur '
+                                                           "d'Endurance</span>\n"
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Analyse Santé (98%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 98%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [JESD22-CHECK] Évaluation '
+                                                           'de rétention thermique équivalente 25 ans à 55°C : '
+                                                           'OK</code><br>\n'
+                                                           '                        <code>> [WEAR-LEVELING] Table '
+                                                           "d'usure uniforme, 0 bloc défectueux recensé</code><br>\n"
+                                                           '                        <code>> [CHARGE-PUMP] Tension de '
+                                                           'programmation 14.8V stabilisée</code><br>\n'
+                                                           '                        <code>> [HEALTH-INDEX] Score '
+                                                           'parfait 100.0% attribué au composant</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Matrice EEPROM 100% Saine & Rétention 25 Ans Certifiée',
+                                             'status': 'success',
+                                             'caption': 'La puce offre toutes les garanties physiques pour conserver '
+                                                        'les mémoires de manière pérenne.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Silicium Certifié '
+                                                           'JEDEC</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Santé Silicium 100%</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🏆</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Matrice EEPROM en '
+                                                           'Parfait État (Indice de Santé 100%)</strong>\n'
+                                                           '                          <p class="wf-subtext">Rétention '
+                                                           'garantie > 25 ans selon JEDEC JESD22 • Prêt pour '
+                                                           'négociation de vitesse PPS</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Négocier Vitesse PPS Maximale (848 kbps) '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-220',
+    'title': 'Négociation de Vitesse PPS (Baudrate 106 ➔ 212 ➔ 424 ➔ 848 kbps)',
+    'cat': 'Silicium & Détection',
+    'actor': 'Système Automatisé PaxStation',
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['PPS', 'Baudrate', 'Vitesse', 'ISO14443', '848kbps', 'Optimisation', 'RF'],
+    'preconditions': 'La carte a transmis son ATS indiquant la prise en charge des débits rapides (octets TA1).',
+    'flow': [   "Inspection des capacités de débit de la carte dans les paramètres de l'ATS (TA(1) codant les facteurs "
+                'DSI/DRI).',
+                'Émission de la trame de négociation PPS (Protocol and Parameter Selection) demandant le palier '
+                'maximal 848 kbps.',
+                "Attente de la trame d'acquittement PPS de la puce sous 10 millisecondes.",
+                "Bascule synchrone du modulateur du lecteur sans contact et de l'étage RF de la puce à 848 kbps.",
+                "Mesure du taux d'erreur de trame (Bit Error Rate) et accélération par un facteur 8 de la gravure des "
+                '92 Ko.'],
+    'postconditions': "Le canal de communication fonctionne à 848 kbps avec un taux d'erreur nul, réduisant le temps "
+                      'de gravure à moins de 6 secondes.',
+    'legal': 'Norme internationale ISO/IEC 14443-4 Section 5.3 (Procédure de sélection de protocole et paramètres '
+             'PPS).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Négociation de Vitesse RF PPS (Baudrate 848 kbps ISO 14443-4)',
+                     'formFields': [   {   'label': 'Débit de Base Initial',
+                                           'name': 'initial_rf_speed',
+                                           'type': 'text',
+                                           'value': '106 kbps (Débit par défaut ISO 14443)',
+                                           'badge': '106 kbps',
+                                           'required': False},
+                                       {   'label': 'Trame de Négociation PPS',
+                                           'name': 'pps_exchange_frame',
+                                           'type': 'text',
+                                           'value': 'PPSS: 0xFF • PPS0: 0x11 • PPS1: 0x33 (DSI=3, DRI=3)',
+                                           'badge': 'Trame PPS',
+                                           'required': False},
+                                       {   'label': 'Vitesse Finale Négociée',
+                                           'name': 'negotiated_baudrate',
+                                           'type': 'select',
+                                           'value': '848 KBPS (DÉBIT ULTRA-RAPIDE QUADRUPLÉ)',
+                                           'badge': '848 kbps Actif',
+                                           'required': True},
+                                       {   'label': 'Temps Estimé de Gravure 92 Ko',
+                                           'name': 'estimated_write_duration',
+                                           'type': 'text',
+                                           'value': '5.4 secondes (au lieu de 44 secondes à 106 kbps)',
+                                           'badge': 'Gain x8',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_negotiate_pps',
+                                              'label': 'Négocier Vitesse PPS Maximale',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '⚡'},
+                                          {   'id': 'btn_test_rf_ber',
+                                              'label': 'Tester la Stabilité Radio (BER)',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '📶'}],
+                     'validationMsg': {   'title': 'Négociation PPS Réussie : Débit Établi à 848 kbps',
+                                          'badge': '848 kbps Validé',
+                                          'detail': 'Le canal sans contact est cadencé à 848 kbps sans aucune perte de '
+                                                    'paquet. Temps de cycle optimisé au maximum.'},
+                     'errorCase': {   'code': 'WARN_PPS_FALLBACK_BASE_SPEED',
+                                      'title': 'Échec Négociation PPS (Repli Automatique à 106 kbps)',
+                                      'condition': "La puce n'acquitte pas la trame PPS dans le délai imparti en "
+                                                   "raison d'interférences RF.",
+                                      'message': 'Avertissement débit : Repli sécuritaire sur le débit standard 106 '
+                                                 'kbps.',
+                                      'remediation': "Recentrer la carte sur l'antenne pour minimiser les pertes de "
+                                                     'couplage magnétique.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Débit Standard 106 kbps Actif',
+                                             'caption': 'Le canal RF fonctionne à la vitesse par défaut. La '
+                                                        'négociation PPS haute vitesse est disponible.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôleur de Débit '
+                                                           'RF</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Vitesse de Base (106 kbps)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Vitesse '
+                                                           'Courante</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">106 kbps (Durée estimée 92 Ko '
+                                                           ': 44s)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Cible '
+                                                           'Négociation</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">848 kbps (Quadri-vitesse '
+                                                           'DSI=3/DRI=3)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">⚡ Négocier Vitesse PPS Maximale</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Envoi Trame de Négociation PPS pour 848 kbps',
+                                             'triggerName': 'Émission trame PPS FF 11 33',
+                                             'caption': 'Demande de bascule de cadence adressée au contrôleur sans '
+                                                        'contact de la puce.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Protocole PPS ISO '
+                                                           '14443-4</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Trame PPS Émise</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Trame PPS transmise : FF 11 '
+                                                           '33 (DSI=3, DRI=3 ➔ 848 kbps)</div>\n'
+                                                           '                        <div class="wf-subtext">Attente de '
+                                                           "l'acquittement de la puce sous 5 ms</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Bascule de modulation '
+                                                           'RF...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': "Bascule Modulateur RF & Contrôle Taux d'Erreurs BER",
+                                             'progress': 96,
+                                             'caption': 'Vérification de la clarté du signal 13.56 MHz à 848 kbps et '
+                                                        'absence de paquets corrompus.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôle '
+                                                           'Radiofréquence</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Bascule Fréquence (96%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 96%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [PPS-ACK] Acquittement '
+                                                           'reçu de la puce : FF 00 (Accordé à 848 kbps)</code><br>\n'
+                                                           '                        <code>> [RF-MODULATOR] Fréquence '
+                                                           'sous-porteuse calée à 848 kHz (fc/16)</code><br>\n'
+                                                           "                        <code>> [BER-TEST] Taux d'erreurs "
+                                                           'binaire BER mesuré : 0.000% sur 10 000 trames</code><br>\n'
+                                                           '                        <code>> [THROUGHPUT] Débit '
+                                                           'effectif : 91.2 Ko/s (Transfert total prévu en '
+                                                           '5.4s)</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Lien Radiofréquence Établi à 848 kbps (Gain Vitesse x8)',
+                                             'status': 'success',
+                                             'caption': "Le débit maximal est actif. Les opérations d'écriture de "
+                                                        "masse s'exécuteront à cadence ultra-rapide.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Débit Optimisé</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ 848 kbps Négocié</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">⚡</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Communication Cadencée à '
+                                                           '848 kbps (Gain Facteur 8)</strong>\n'
+                                                           '                          <p class="wf-subtext">Transfert '
+                                                           "des 92 Ko en 5.4s • Prêt pour l'authentification forte "
+                                                           'opérateur</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Passer à l\'Authentification Forte FIDO2 '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-221',
+    'title': 'Authentification Forte Opérateur par Clé FIDO2 / YubiKey & Enrôlement',
+    'cat': 'Sécurité Silicium & Anti-Tamper',
+    'actor': "Opérateur d'Atelier Habilité",
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['FIDO2', 'YubiKey', 'CTAP2', 'WebAuthn', 'Authentification', 'Operateur', 'Audit'],
+    'preconditions': "L'opérateur s'apprête à déverrouiller les fonctionnalités critiques d'écriture et de scellement "
+                     'matériel.',
+    'flow': [   'La PaxStation génère un challenge cryptographique pseudo-aléatoire de 32 octets (norme FIDO2 / '
+                'WebAuthn).',
+                "L'opérateur connecte sa clé matérielle FIDO2 (YubiKey Série 5) et applique son empreinte ou contact "
+                'physique tactile.',
+                'La puce cryptographique de la clé FIDO2 valide le code PIN utilisateur et signe le challenge avec sa '
+                'clé privée secp256r1.',
+                "Le module d'atelier vérifie la signature contre la clé publique enrôlée au registre des opérateurs "
+                'habilités.',
+                "Délivrance d'un jeton d'habilitation de gravure nominatif (durée 15 minutes), journalisé dans la "
+                "chaîne d'audit."],
+    'postconditions': "L'identité de l'opérateur est formellement authentifiée au plus haut niveau de confiance "
+                      'matériel.',
+    'legal': 'Standard FIDO Alliance CTAP2.1 & Recommandation W3C Web Authentication (WebAuthn Level 2).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Authentification Forte Opérateur FIDO2 / YubiKey (CTAP2)',
+                     'formFields': [   {   'label': 'Opérateur Titulaire Habilité',
+                                           'name': 'operator_fullname',
+                                           'type': 'text',
+                                           'value': 'Jean-Marc Vandamme (Matricule ATELIER-OP-08)',
+                                           'badge': 'Graveur Agréé',
+                                           'required': True},
+                                       {   'label': 'Clé Matérielle Détectée',
+                                           'name': 'fido2_device_sn',
+                                           'type': 'text',
+                                           'value': 'Yubico YubiKey 5 NFC (ID 16294801 • Firmware 5.4.3)',
+                                           'badge': 'FIDO2 / CTAP2',
+                                           'required': False},
+                                       {   'label': 'Preuve de Présence Physique',
+                                           'name': 'user_presence_verification',
+                                           'type': 'select',
+                                           'value': 'PRÉSENCE TACTILE (UP) & PIN CONFIRMÉS',
+                                           'badge': 'Touch Sensor OK',
+                                           'required': True},
+                                       {   'label': 'Jeton de Session Gravure',
+                                           'name': 'session_token_scope',
+                                           'type': 'text',
+                                           'value': 'ROLE_GRAVURE_SOUVERAINE (Expiration : 14 min 52 s)',
+                                           'badge': 'Jeton 15 min',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_fido2_authenticate',
+                                              'label': 'Authentifier par Clé FIDO2 / YubiKey',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🔑'},
+                                          {   'id': 'btn_lock_session_now',
+                                              'label': 'Verrouiller le Poste Immédiatement',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🔒'}],
+                     'validationMsg': {   'title': 'Authentification Forte Opérateur Réussie (FIDO2 CTAP2)',
+                                          'badge': 'FIDO2 Authentifié',
+                                          'detail': 'Signature matérielle vérifiée avec succès. Autorisation accordée '
+                                                    "pour l'écriture et le scellement définitif."},
+                     'errorCase': {   'code': 'ERR_OPERATOR_AUTH_REJECTED',
+                                      'title': "Échec d'Authentification FIDO2 ou Clé Non Enrôlée",
+                                      'condition': 'Signature CTAP2 invalide, clé matérielle révoquée ou contact '
+                                                   'physique non établi dans les 15 secondes.',
+                                      'message': "Accès refusé : Impossible de certifier l'habilitation de l'opérateur "
+                                                 'sur la PaxStation.',
+                                      'remediation': 'Insérer la clé YubiKey officielle enregistrée au registre '
+                                                     "d'atelier et valider le contact tactile."},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Demande d'Élévation de Privilèges pour Gravure Souveraine",
+                                             'caption': "L'écriture définitive requiert la preuve de présence physique "
+                                                        "de l'opérateur habilité via sa clé matérielle.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôle d\'Accès '
+                                                           'Matériel</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Clé FIDO2 Requise</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Opérateur Attendu</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Jean-Marc Vandamme '
+                                                           '(OP-08)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Authentification</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">FIDO2 CTAP2 (Touch '
+                                                           'Sensor)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🔑 Authentifier par Clé FIDO2 / '
+                                                           'YubiKey</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Présentation de la YubiKey & Contact Tactile Confirmé',
+                                             'triggerName': 'Touch sur le capteur doré de la YubiKey 5 NFC',
+                                             'caption': 'Signature du challenge cryptographique de 32 octets par la '
+                                                        'puce sécurisée de la clé.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Challenge CTAP2</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Présence Tactile Détectée</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Contact physique validé • '
+                                                           "Clé secp256r1 activée dans l'élément sécurisé</div>\n"
+                                                           '                        <div class="wf-subtext">Signature '
+                                                           "ECDSA renvoyée au démon d'authentification "
+                                                           "d'atelier</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Vérification de '
+                                                           "l'enrôlement...</button>\n"
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Vérification Cryptographique ECDSA & Habilitation',
+                                             'progress': 98,
+                                             'caption': 'Validation de la chaîne de confiance et émission du jeton '
+                                                        "d'autorisation de gravure.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Vérificateur '
+                                                           "d'Identité</span>\n"
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Contrôle Signature (98%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 98%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [FIDO2-CTAP2] Signature '
+                                                           'ECDSA secp256r1 vérifiée contre le registre '
+                                                           "d'atelier</code><br>\n"
+                                                           '                        <code>> [OPERATOR-ROLE] '
+                                                           "Habilitation 'GRAVEUR_SOUVERAIN' confirmée pour J.-M. "
+                                                           'Vandamme</code><br>\n'
+                                                           '                        <code>> [TOKEN-ISSUANCE] Jeton de '
+                                                           'session #TOK-OP08-8842 émis (validité 15 min)</code><br>\n'
+                                                           '                        <code>> [AUDIT-LOG] Entrée '
+                                                           "consignée : Autorisation d'écriture sur ACOSJ "
+                                                           'débloquée</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Opérateur Authentifié & Droits de Gravure Accordés',
+                                             'status': 'success',
+                                             'caption': "L'opération de gravure est formellement imputable et tracée "
+                                                        "sous l'autorité de l'opérateur.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Session '
+                                                           'Déverrouillée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Habilitation FIDO2 Accordée</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🔑</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Opérateur Officiellement '
+                                                           'Authentifié (YubiKey 5 CTAP2)</strong>\n'
+                                                           '                          <p class="wf-subtext">Jean-Marc '
+                                                           "Vandamme • Droits d'écriture et de scellement accordés "
+                                                           'pour 15 min</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Lancer l\'Injection APDU des Partitions '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-222',
+    'title': 'Découpage APDU Extended Length (Trames 255 octets vs Extended APDU 64 Ko)',
+    'cat': 'Gravure Silicium',
+    'actor': 'Système Automatisé PaxStation',
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['ExtendedAPDU', 'Trames255', 'Chunking', 'ISO7816', 'Payload', 'Optimisation'],
+    'preconditions': 'Une partition volumineuse (ex: Portrait WebP de 18 Ko dans EF-2 ou Audio de 42 Ko dans EF-3) '
+                     'doit être injectée.',
+    'flow': [   'Interrogation de la carte et du lecteur pour déterminer la compatibilité Extended Length APDU '
+                "(jusqu'à 65 535 octets par commande).",
+                'Sélection automatique de la stratégie de transfert : trames Extended directes ou segmentation en '
+                'blocs ISO classiques (255 octets max).',
+                'Calcul des offsets mémoire P1-P2 pour chaque sous-trame UPDATE BINARY en cas de découpage dynamique.',
+                'Émission séquencée avec contrôle synchrone du code retour SW 0x9000 sur chaque tranche écrite.',
+                'Vérification de la continuité binaire de la partition réassemblée in-silico.'],
+    'postconditions': 'Les données volumineuses sont injectées sans incident, avec ou sans support Extended Length.',
+    'legal': 'Norme ISO/IEC 7816-4 Section 5.1 (Structure des commandes APDU et mécanismes Extended Length).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Gestionnaire de Segmentation APDU (Extended APDU vs Blocs 255o)',
+                     'formFields': [   {   'label': 'Volume de Données à Injecter',
+                                           'name': 'payload_bytes_total',
+                                           'type': 'text',
+                                           'value': '42 100 octets (Mémo Audio EF-3)',
+                                           'badge': 'Volume Brut',
+                                           'required': False},
+                                       {   'label': 'Mode de Transmission Retenu',
+                                           'name': 'apdu_segmentation_mode',
+                                           'type': 'select',
+                                           'value': 'EXTENDED LENGTH SUPPORTÉ (Trames de 4 096 octets)',
+                                           'badge': 'Extended APDU',
+                                           'required': True},
+                                       {   'label': 'Nombre de Trames / Chunks',
+                                           'name': 'chunks_count_calculated',
+                                           'type': 'text',
+                                           'value': '11 trames Extended (vs 166 trames courtes 255 o)',
+                                           'badge': 'Optimisation x15',
+                                           'required': False},
+                                       {   'label': "Vitesse d'Injection Moyenne",
+                                           'name': 'average_write_throughput',
+                                           'type': 'text',
+                                           'value': '68.2 Ko/s (Transfert total en 617 ms)',
+                                           'badge': 'Performance',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_send_chunked_apdu',
+                                              'label': 'Transmettre en Extended APDU',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '📦'},
+                                          {   'id': 'btn_fallback_short_apdu',
+                                              'label': 'Forcer Segmentation 255 Octets',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '⚙️'}],
+                     'validationMsg': {   'title': 'Segmentation APDU Validée : Écriture Silicium Intègre',
+                                          'badge': 'Extended APDU OK',
+                                          'detail': '11 trames transmises sans aucune altération de buffer. Les 42 100 '
+                                                    'octets sont gravés dans la partition EF-3.'},
+                     'errorCase': {   'code': 'ERR_APDU_BUFFER_OVERFLOW',
+                                      'title': 'Dépassement de Capacité de Tampon APDU sur le Lecteur',
+                                      'condition': 'Le micro-lecteur sans contact sature sa mémoire tampon face à une '
+                                                   'trame Extended trop large.',
+                                      'message': 'Erreur matérielle : Tampon lecteur saturé (SW 0x6700 - Wrong '
+                                                 'Length).',
+                                      'remediation': 'Basculer immédiatement en mode de découpage strict en blocs '
+                                                     'courts de 255 octets.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Partition Volumineuse (42 Ko) en Attente d'Injection",
+                                             'caption': 'Le mémo audio volumineux doit être segmenté de façon optimale '
+                                                        'pour respecter les tampons matériels.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Moteur de Segmentation '
+                                                           'APDU</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Injection Silicium</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Données '
+                                                           'Source</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Mémo Audio EF-3 (42 100 '
+                                                           'octets)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Capacité '
+                                                           'APDU Lecteur</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Extended Length (Trames '
+                                                           "jusqu'à 64 Ko)</div>\n"
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">📦 Transmettre en Extended APDU</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Calcul du Découpage en 11 Blocs Extended de 4 Ko',
+                                             'triggerName': "Clic sur 'Transmettre en Extended APDU'",
+                                             'caption': 'Organisation des commandes UPDATE BINARY avec gestion fine '
+                                                        "des offsets d'adresses P1-P2.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Chaînage APDU ISO '
+                                                           '7816-4</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Découpage Extended Actif</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ 11 trames Extended APDU '
+                                                           'générées (10 x 4 096 octets + 1 x 1 140 octets)</div>\n'
+                                                           '                        <div '
+                                                           'class="wf-subtext">Optimisation x15 par rapport au '
+                                                           'découpage traditionnel en blocs de 255 octets</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Écriture séquencée en '
+                                                           'cours...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Injection Séquencée par Chunks & Validation SW 0x9000',
+                                             'progress': 96,
+                                             'caption': 'Transfert haute vitesse et vérification du statut 0x9000 à '
+                                                        "l'issue de chaque bloc écrit.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Graveur Silicium</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Écriture Chunks (96%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 96%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [APDU-CHUNK-1] Offset '
+                                                           '0x0000 : 4096 octets écrits ➔ SW 0x9000</code><br>\n'
+                                                           '                        <code>> [APDU-CHUNK-5] Offset '
+                                                           '0x4000 : 4096 octets écrits ➔ SW 0x9000</code><br>\n'
+                                                           '                        <code>> [APDU-CHUNK-11] Offset '
+                                                           '0xA000 : 1140 octets écrits ➔ SW 0x9000</code><br>\n'
+                                                           '                        <code>> [VERIFY] 42 100 octets '
+                                                           'logés dans EF-3 sans aucune saturation de tampon</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Partition Gravée Sans Débordement de Mémoire Tampon',
+                                             'status': 'success',
+                                             'caption': 'Le flux volumineux a été gravé en un temps record grâce au '
+                                                        'protocole Extended Length.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Partition '
+                                                           'Flashee</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Extended APDU Conforme</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">📦</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Partition Audio EF-3 '
+                                                           'Gravée avec Succès (42 100 octets)</strong>\n'
+                                                           '                          <p class="wf-subtext">11 trames '
+                                                           'Extended APDU sans erreur • Prêt pour le test à blanc du '
+                                                           'verrouillage</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Lancer le Test à Blanc du Verrouillage '
+                                                           'Matériel →</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-223',
+    'title': 'Test à Blanc du Verrouillage Matériel (Simulation Fusible Virtuel in-silico)',
+    'cat': 'Sécurité Silicium & Anti-Tamper',
+    'actor': "Opérateur d'Atelier & Contrôleur Qualité",
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['DryRun', 'FusibleVirtuel', 'TestABlanc', 'SimulationLock', 'IronGate', 'InSilico'],
+    'preconditions': "Les partitions EF-1 à EF-5 sont écrites ; l'opérateur s'apprête à déclencher le scellement "
+                     'définitif irréversible.',
+    'flow': [   "Activation de la commande de simulation de verrouillage (Dry-Run virtuel) supportée par l'applet "
+                'AeterniCore.',
+                "Bascule temporaire en mémoire vive de l'état des droits d'accès au niveau 'READ ONLY SCENARIO'.",
+                "Émission d'une commande de test d'écriture interdite (UPDATE BINARY sur EF-1) : validation du rejet "
+                "strict avec mot d'état SW 0x6982.",
+                'Vérification de la lisibilité sans entrave en lecture publique sans contact (READ BINARY) sur les '
+                'fichiers mémoriels.',
+                "Restauration de l'état nominal avec délivrance du feu vert sécuritaire pour le claquage réel du "
+                'fusible physique.'],
+    'postconditions': 'Le comportement post-verrouillage est certifié conforme in-silico, éliminant tout risque de '
+                      'blocage involontaire.',
+    'legal': 'Politique de sécurité AeterniTrak Iron Gate & Recommandations Common Criteria EAL5+.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Simulation In-Silico de Verrouillage Matériel (Dry-Run Iron '
+                                    'Gate)',
+                     'formFields': [   {   'label': 'Mode de Test Exécuté',
+                                           'name': 'dry_run_state',
+                                           'type': 'text',
+                                           'value': 'SIMULATION IN-SILICO (Zéro altération physique irréversible)',
+                                           'badge': 'Dry-Run Actif',
+                                           'required': False},
+                                       {   'label': "Sonde de Rejet d'Écriture Simulée",
+                                           'name': 'simulated_probe_write',
+                                           'type': 'text',
+                                           'value': 'UPDATE BINARY testé -> Rejet SW 0x6982 confirmé',
+                                           'badge': 'SW 0x6982 Rejet',
+                                           'required': False},
+                                       {   'label': 'Sonde de Lecture Libre Simulée',
+                                           'name': 'simulated_probe_read',
+                                           'type': 'text',
+                                           'value': 'READ BINARY testé -> Succès SW 0x9000 confirmé',
+                                           'badge': 'SW 0x9000 Lecture',
+                                           'required': False},
+                                       {   'label': "Verdict d'Autorisation de Scellement",
+                                           'name': 'burn_fuse_authorization',
+                                           'type': 'select',
+                                           'value': 'FEU VERT ACCORDÉ POUR FUSIBLE PHYSIQUE DÉFINITIF',
+                                           'badge': 'Feu Vert Scellement',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_run_dry_run_simulation',
+                                              'label': 'Lancer le Test à Blanc In-Silico',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🛡️'},
+                                          {   'id': 'btn_abort_dry_run',
+                                              'label': 'Annuler & Inspecter Données',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '↩'}],
+                     'validationMsg': {   'title': 'Test à Blanc Réussi : Comportement de Verrouillage Certifié',
+                                          'badge': 'In-Silico 100% Validé',
+                                          'detail': 'La simulation confirme le verrouillage parfait en lecture seule '
+                                                    "et le blocage absolu de toute tentative d'écriture."},
+                     'errorCase': {   'code': 'ERR_DRY_RUN_VALIDATION_FAILED',
+                                      'title': 'Échec du Test à Blanc : Anomalie Détectée avant Scellement',
+                                      'condition': 'La commande de lecture échoue sous le profil verrouillé simulé ou '
+                                                   "l'écriture n'est pas convenablement rejetée.",
+                                      'message': "Blocage de sécurité préventif : Les tables de droits d'accès "
+                                                 'présentent une incohérence.',
+                                      'remediation': 'Ne surtout pas claquer le fusible réel, ré-initialiser les '
+                                                     "descripteurs de sécurité d'EF-0."},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Données Gravées, Fusible Non Encore Claqué',
+                                             'caption': 'Toutes les partitions sont renseignées. Avant de percuter le '
+                                                        'fusible destructif, le test à blanc est requis.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Banc de Test Iron '
+                                                           'Gate</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Dry-Run In-Silico</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">État '
+                                                           'Silicium</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Partitions Écrites • Fusible '
+                                                           'Intact (UNLOCKED)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Test '
+                                                           'Préventif</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Simulation Droits READ-ONLY '
+                                                           'virtuels</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🛡️ Lancer le Test à Blanc '
+                                                           'In-Silico</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': "Activation du Profil Simulatif 'Read-Only' In-Silico",
+                                             'triggerName': "Clic sur 'Lancer le Test à Blanc In-Silico'",
+                                             'caption': 'Bascule temporaire des masques de sécurité sans claquage '
+                                                        'électrique de la diode zener.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Moteur Virtuel '
+                                                           'Anti-Tamper</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Dry-Run Actif (Simulation)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Simulation verrouillage '
+                                                           "enclenchée • Envoi de sondes d'intrusion</div>\n"
+                                                           '                        <div class="wf-subtext">Test de '
+                                                           'conformité des réponses APDU en mode lecture seule '
+                                                           'strict</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Évaluation des sondes de '
+                                                           'sécurité...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Test Sondes : Rejet Écriture (0x6982) & Succès Lecture',
+                                             'progress': 98,
+                                             'caption': "Contrôle que l'accès libre aux volontés est fluide et que "
+                                                        'toute écriture future est bannie.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Sondeur de '
+                                                           'Sécurité</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Audit Dry-Run (98%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 98%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [PROBE-WRITE] Tentative '
+                                                           'UPDATE BINARY sur EF-1 ➔ Rejeté : SW 0x6982 (Security '
+                                                           'status not satisfied) : OK</code><br>\n'
+                                                           '                        <code>> [PROBE-READ] Lecture '
+                                                           'publique READ BINARY sur EF-1 & EF-2 ➔ Succès SW 0x9000 : '
+                                                           'OK</code><br>\n'
+                                                           '                        <code>> [ED25519-CHECK] Signature '
+                                                           "d'intégrité vérifiée en mode anonyme sans contact : "
+                                                           'OK</code><br>\n'
+                                                           '                        <code>> [VERDICT] Comportement '
+                                                           'in-silico 100% conforme aux spécifications Common Criteria '
+                                                           'EAL5+</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Feu Vert Accordé pour Claquage Réel du Fusible Physique',
+                                             'status': 'success',
+                                             'caption': 'La certitude absolue est acquise que la carte sera parfaite '
+                                                        'une fois scellée définitivement.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Autorisation '
+                                                           'Validée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Feu Vert Scellement Définitif</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🛡️</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Test à Blanc In-Silico '
+                                                           'Validé sans Aucune Discordance</strong>\n'
+                                                           '                          <p class="wf-subtext">Rejet '
+                                                           "d'écriture 0x6982 certifié • Lecture publique garantie • "
+                                                           'Feu vert pour le verrou matériel</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Passer à la Relecture Intégrale de Contrôle '
+                                                           'SHA-256 →</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-224',
+    'title': "Relecture Intégrale de Contrôle & Concordance d'Empreinte SHA-256 post-gravure",
+    'cat': 'Assurance Qualité & Conformité',
+    'actor': 'Contrôleur Qualité & Système Automatisé',
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['Relecture', 'SHA256', 'Concordance', 'IntegriteBitABit', 'PostGravure', 'QA'],
+    'preconditions': "L'ensemble des données a été écrit sur la carte par la PaxStation.",
+    'flow': [   'Lancement de la procédure de contrôle qualité : relecture séquentielle bit-à-bit des partitions '
+                'gravées (EF-0 à EF-5).',
+                'Extraction intégrale des flux binaires sans décompression ni réinterprétation.',
+                "Calcul de l'empreinte cryptographique SHA-256 du flux mémoire complet lu in-situ sur la puce.",
+                "Comparaison avec l'empreinte SHA-256 de référence transmise dans le BAT initialement approuvé par le "
+                'client.',
+                "Délivrance de l'attestation de concordance binaire absolue à 100.00% et scellement du rapport dans "
+                "l'audit trail."],
+    'postconditions': 'La concordance exacte entre la volonté du client et le silicium gravé est mathématiquement '
+                      'prouvée.',
+    'legal': 'Norme FIPS PUB 180-4 (Secure Hash Standard - SHA-256) & Procédure Qualité Funéraire QA-PRO-02.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Relecture Intégrale Post-Gravure & Concordance SHA-256',
+                     'formFields': [   {   'label': 'Hash de Référence (BAT Signé)',
+                                           'name': 'reference_hash_sha256',
+                                           'type': 'text',
+                                           'value': '3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942',
+                                           'badge': 'Hash Consigne',
+                                           'required': False},
+                                       {   'label': 'Hash Relecture Mémoire Silicium',
+                                           'name': 'readback_hash_sha256',
+                                           'type': 'text',
+                                           'value': '3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942',
+                                           'badge': 'Hash Silicium',
+                                           'required': False},
+                                       {   'label': 'Résultat Concordance Binaire',
+                                           'name': 'hash_comparison_result',
+                                           'type': 'select',
+                                           'value': 'CONCORDANCE 100.00% STRICTE (ZÉRO BIT DE DIFFÉRENCE)',
+                                           'badge': 'Match SHA-256',
+                                           'required': True},
+                                       {   'label': 'Octets Lus et Vérifiés',
+                                           'name': 'total_bytes_audited',
+                                           'type': 'text',
+                                           'value': '91 420 octets vérifiés sur 92 Ko (Toutes partitions intègres)',
+                                           'badge': 'Audit Bit-à-Bit',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_execute_readback_audit',
+                                              'label': 'Lancer la Relecture Intégrale Silicium',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🔍'},
+                                          {   'id': 'btn_issue_qa_certificate',
+                                              'label': "Émettre Certificat d'Intégrité SHA-256",
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🏆'}],
+                     'validationMsg': {   'title': 'Concordance SHA-256 Bit-à-Bit Certifiée Conforme (100.00%)',
+                                          'badge': 'SHA-256 100% Match',
+                                          'detail': 'Les données logées sur la puce correspondent rigoureusement et '
+                                                    'fidèlement au BAT signé par la famille.'},
+                     'errorCase': {   'code': 'ERR_SHA256_MISMATCH_POST_WRITE',
+                                      'title': "Divergence d'Empreinte Binaire Détectée Post-Gravure",
+                                      'condition': "L'empreinte calculée sur la carte ne correspond pas au hash de "
+                                                   "référence (altération durant l'écriture).",
+                                      'message': 'Incident qualité majeur : Les données gravées sur le silicium '
+                                                 'diffèrent du document de référence.',
+                                      'remediation': "Mettre la carte au rebut (SCRAPPED), inspecter l'alimentation RF "
+                                                     'du lecteur et relancer le processus.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Carte Gravée Prête pour Relecture Intégrale Bit-à-Bit',
+                                             'caption': "Toutes les écritures sont achevées. L'audit d'intégrité "
+                                                        'bit-à-bit va comparer le silicium avec le BAT source.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôle Qualité '
+                                                           'Bit-à-Bit</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Relecture SHA-256</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Hash '
+                                                           'Référence BAT</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">3f79e2a8c149d56b009e8d4a51e68b3c...</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Partitions à relire</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">EF-0, EF-1, EF-2, EF-3, EF-4, '
+                                                           'EF-5</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🔍 Lancer la Relecture Intégrale '
+                                                           'Silicium</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Extraction des 91 420 Octets Gravés sur le Silicium',
+                                             'triggerName': "Clic sur 'Lancer la Relecture Intégrale Silicium'",
+                                             'caption': "Relecture en rafale à 848 kbps de l'intégralité des "
+                                                        'partitions mémoire de la puce ACOSJ.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Lecteur Haute '
+                                                           'Vitesse</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Relecture en Rafale 848 kbps</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ 91 420 octets extraits sans '
+                                                           'erreur de parité en 1.1 seconde</div>\n'
+                                                           '                        <div class="wf-subtext">Calcul du '
+                                                           'condensat SHA-256 sur le flux binaire extrait '
+                                                           'in-situ</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Comparaison avec l\'empreinte '
+                                                           'de consigne...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Calcul SHA-256 du Contenu Réel & Comparaison Hash BAT',
+                                             'progress': 99,
+                                             'caption': 'Comparaison binaire stricte 256 bits et scellement du '
+                                                        'résultat dans le dossier de conformité.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Comparateur '
+                                                           'Cryptographique</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Vérification Hash (99%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 99%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [EXTRACT-STREAM] '
+                                                           'Reconstitution du flux ordonné EF-0 à EF-5 : 91 420 '
+                                                           'octets</code><br>\n'
+                                                           '                        <code>> [SHA256-CALC] Hash extrait '
+                                                           ': '
+                                                           '3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942</code><br>\n'
+                                                           '                        <code>> [SHA256-BASE] Hash '
+                                                           'consigne : '
+                                                           '3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942</code><br>\n'
+                                                           '                        <code>> [MATCH-VERDICT] 100.00% '
+                                                           'IDENTIQUE • ZÉRO BIT DIVERGENT SUR TOUTE LA PUCE</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Concordance Binaire Certifiée à 100.00% (Zéro Erreur)',
+                                             'status': 'success',
+                                             'caption': 'Le contenu matériel est la copie conforme et inviolable du '
+                                                        'bon à tirer validé.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Intégrité '
+                                                           'Prouvée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Concordance SHA-256 100%</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🏆</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Concordance Bit-à-Bit '
+                                                           'Certifiée Conforme (100.00%)</strong>\n'
+                                                           '                          <p class="wf-subtext">Certificat '
+                                                           "d'intégrité SHA-256 émis • Prêt pour le calibrage de "
+                                                           "l'imprimante thermique</p>\n"
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Passer au Calibrage de l\'Impression Physique '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-225',
+    'title': 'Calibrage Alignement Imprimante Sublimation Thermique & Jauge Ruban',
+    'cat': 'Production Physique & Assurance Qualité',
+    'actor': "Opérateur d'Atelier & Technicien Maintenance",
+    'platforms': ['Poste Pro Dédié (macOS, Windows, Linux)'],
+    'tags': ['Imprimante', 'SublimationThermique', 'Fargo', 'Calibrage', 'JaugeRuban', 'AlignementLaser'],
+    'preconditions': 'Avant de lancer le cycle de personnalisation graphique et dorure thermique sur la carte '
+                     'physique.',
+    'flow': [   "Interrogation télémétrique des capteurs de l'imprimante professionnelle de retransfert (ex: Fargo "
+                'HDP5000).',
+                'Mesure des niveaux restants sur les consommables : ruban couleur YMCK, film de retransfert haute '
+                'durabilité et ruban or satiné.',
+                "Lancement de la mire d'alignement micrométrique des têtes d'impression thermique (tolérance requise < "
+                '0.05 mm).',
+                'Régulation et stabilisation de la température du rouleau chauffant à 175.0°C ± 0.5°C.',
+                "Autorisation de l'impression physique avec assurance de ne subir aucune interruption en cours de "
+                'cycle.'],
+    'postconditions': "L'imprimante est étalonnée et alimentée en consommables suffisants pour exécuter le tirage "
+                      'noble sans bavure ni rebut.',
+    'legal': 'Spécifications industrielles HID Global Fargo HDP & Norme ISO/IEC 7810 ID-1 relative à la résistance '
+             'mécanique des cartes.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'desktop',
+                     'deviceLabel': 'PaxStation Pro • Calibrage Imprimante Sublimation Retransfert & Jauge '
+                                    'Consommables',
+                     'formFields': [   {   'label': 'Imprimante Professionnelle Ciblée',
+                                           'name': 'printer_target_model',
+                                           'type': 'text',
+                                           'value': 'HID Fargo HDP5000 Retransfert HD (Connectée USB / LAN)',
+                                           'badge': 'Fargo HDP5000',
+                                           'required': False},
+                                       {   'label': 'Jauge Ruban Dorure & Couleurs',
+                                           'name': 'ribbon_consumables_gauge',
+                                           'type': 'text',
+                                           'value': '78% restant (Capacité estimée : 142 cartes complètes)',
+                                           'badge': 'Consommables OK',
+                                           'required': False},
+                                       {   'label': 'Alignement Tête Micrométrique',
+                                           'name': 'head_alignment_metric',
+                                           'type': 'text',
+                                           'value': 'Décalage X: +0.02 mm • Y: -0.01 mm (Tolérance < 0.05 mm)',
+                                           'badge': 'Aligné 0.02mm',
+                                           'required': False},
+                                       {   'label': 'Température Rouleau Retransfert',
+                                           'name': 'heating_roller_temp',
+                                           'type': 'select',
+                                           'value': '175.4 °C (TEMPÉRATURE NOMINALE STABILISÉE)',
+                                           'badge': '175°C Conforme',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_calibrate_printer_heads',
+                                              'label': 'Lancer Calibration & Nettoyage Rouleaux',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🖨️'},
+                                          {   'id': 'btn_print_alignment_pattern',
+                                              'label': 'Imprimer Mire de Contrôle Qualité',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🎯'}],
+                     'validationMsg': {   'title': 'Imprimante Sublimation Calibrée & Consommables Prêts',
+                                          'badge': 'Prêt pour Tirage Pro',
+                                          'detail': 'Têtes alignées à 0.02 mm, température à 175.4°C, réserve de ruban '
+                                                    'pour 142 cartes. Personnalisation physique autorisée.'},
+                     'errorCase': {   'code': 'WARN_RIBBON_LEVEL_CRITICAL',
+                                      'title': "Niveau Critique de Ruban d'Impression (< 5% Restant)",
+                                      'condition': 'La longueur restante de ruban or ou de film de retransfert est '
+                                                   'insuffisante pour achever la carte.',
+                                      'message': 'Avertissement consommable : Risque de rupture de ruban en cours de '
+                                                 'personnalisation physique.',
+                                      'remediation': 'Remplacer la cassette de ruban Fargo avant de lancer '
+                                                     "l'impression pour éviter une mise au rebut."},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Imprimante Fargo Connectée en Attente d'Étalonnage",
+                                             'caption': "L'imprimante professionnelle de retransfert thermique est "
+                                                        "sous tension, prête pour le cycle d'alignement.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Contrôle Imprimante '
+                                                           'Fargo HDP5000</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Calibration</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Matériel '
+                                                           'Détecté</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">HID Fargo HDP5000 '
+                                                           '(Retransfert HD)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Jauges '
+                                                           'Consommables</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Ruban YMCK 78% • Film '
+                                                           'Retransfert 82%</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🖨️ Lancer Calibration & Nettoyage '
+                                                           'Rouleaux</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Interrogation des Capteurs de Tête & Niveaux de Ruban',
+                                             'triggerName': "Clic sur 'Lancer Calibration & Nettoyage Rouleaux'",
+                                             'caption': 'Mesure des jauges optiques de ruban et activation du cycle '
+                                                        'thermique de mise à température.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Télémétrie '
+                                                           'Impression</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Étalonnage Optique Actif</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Capteurs optiques '
+                                                           'interrogés • Décalage initial mesuré : X +0.02 mm, Y -0.01 '
+                                                           'mm</div>\n'
+                                                           '                        <div class="wf-subtext">Montée en '
+                                                           'température du rouleau thermique vers la consigne '
+                                                           '175.0°C</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Stabilisation '
+                                                           'thermique...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Calibration Optique (0.02 mm) & Chauffage Rouleau à 175°C',
+                                             'progress': 97,
+                                             'caption': "Ajustement micrométrique de l'axe d'impression pour garantir "
+                                                        "l'alignement sur la carte CR-80.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Régulateur Fargo</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Alignement Tête (97%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 97%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [OPTIC-ALIGN] Tête '
+                                                           "d'impression recalée au 1/100e mm : Tolérance 0.02mm "
+                                                           'respectée</code><br>\n'
+                                                           '                        <code>> [HEAT-ROLLER] Température '
+                                                           'mesurée : 175.4°C (Consigne 175.0°C ±0.5°C '
+                                                           'validée)</code><br>\n'
+                                                           '                        <code>> [CONSUMABLES] Réserve de '
+                                                           'ruban or satiné vérifiée pour 142 impressions</code><br>\n'
+                                                           '                        <code>> [PRINTER-STATUS] Prêt pour '
+                                                           'impression haute définition sans bavure</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Imprimante Calibrée & Consommables Prêts pour Impression',
+                                             'status': 'success',
+                                             'caption': 'Le poste physique est parfaitement étalonné. La '
+                                                        'personnalisation esthétique peut débuter.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStation • Imprimante '
+                                                           'Homologuée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Fargo HDP5000 Prête</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🖨️</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Imprimante à Sublimation '
+                                                           'Thermique Calibrée au 1/100e mm</strong>\n'
+                                                           '                          <p class="wf-subtext">Rubans '
+                                                           'suffisants pour 142 cartes • Température stabilisée à '
+                                                           '175.4°C • Zéro risque de bavure</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Lancer l\'Impression Noble de la Carte '
+                                                           'Physique →</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}}
 ]
 

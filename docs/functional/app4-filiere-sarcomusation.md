@@ -1,4 +1,4 @@
-# Application 4 — Filière Sarcomusation & Traçabilité Post-Décès (UC-401 à UC-418)
+# Application 4 — Filière Sarcomusation & Traçabilité Post-Décès (UC-401 à UC-425)
 
 **Système Expert de Contrôle Biologique, Régulation Sanitaire & The Iron Gate**
 
@@ -28,6 +28,13 @@
 | [`UC-416`](#uc-416) | [Rupture de la Chaîne du Froid pendant le Transport Post-Mortem (> +4°C pendant > 2h, Déclassement C2)](#uc-416) | **Contrôle Logistique & Biosécurité** | Chauffeur-Livreur Agréé & Responsable Qualité Sas Réception | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux) & Prescriptions de transport frigorifique. |
 | [`UC-417`](#uc-417) | [Test Toxicologique LFA Pentobarbital Douteux ou Invalide (Absence Ligne C -> Quarantaine et Contre-Expertise)](#uc-417) | **Contrôle Toxicologique & Quarantaine** | Vétérinaire Contrôleur Sanitaire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (recherche de résidus médicamenteux) & Notice technique officielle cassettes LFA AFSCA. |
 | [`UC-418`](#uc-418) | [Refus Municipal du Permis de Sépulture ou Discordance d'Identité Bracelet Scellé](#uc-418) | **Légalité Administrative & Régulation** | Officier d'État Civil Municipal & Directeur de Filière | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Décret wallon du 6 mars 2009 relatif aux funérailles et sépultures & Code de la démocratie locale et de la décentralisation. |
+| [`UC-419`](#uc-419) | [Contrôle Ordre des Médecins / Vétérinaires & Numéro INAMI dans Registre Local](#uc-419) | **Constat Civil & Tri** | Vétérinaire Sanitaire & Médecin Légiste | Natif (iOS & Android), Web Standard (PWA Hors-Ligne Registres) | Arrêté royal n° 78 relatif à l'exercice des professions de santé & Code de déontologie vétérinaire belge. |
+| [`UC-420`](#uc-420) | [Scellement Cryptographique Ed25519 de l'Événement de Transport Primaire](#uc-420) | **Logistique & Scellement** | Chauffeur Funéraire Agréé / Transporteur Sanitaire | Terminal Véhicule Durci (Android IP68), PWA Hors-Ligne | Décret wallon du 6 mars 2009 relatif aux funérailles et sépultures & Règlement (CE) n° 1069/2009. |
+| [`UC-421`](#uc-421) | [Déchargement Datalogger Thermique & Calcul de l'Intégrale Temps/Température](#uc-421) | **Contrôle Logistique & Biosécurité** | Opérateur de Réception Sanitaire / Gestionnaire Frigorifique | Station de Réception PC/Mac, Terminal Tablette USB/Bluetooth | Norme EN 12830 (enregistreurs de température pour le transport) & Décision Kudoro DEC-AET-03. |
+| [`UC-422`](#uc-422) | [Assignation Dynamique Cellule Frigorifique & Badging RFID Rayonnage](#uc-422) | **Logistique & Stockage Sanitaire** | Gestionnaire de Cellules Réfrigérées / Opérateur Logistique | Terminal Industriel Embarqué Rayonnage, PWA Mobile | Règlement (CE) n° 1069/2009 (ségrégation et stockage étanche des sous-produits animaux). |
+| [`UC-423`](#uc-423) | [Analyse Spectrophotométrique Courbe d'Absorption Bandelette LFA (Ratio C/T)](#uc-423) | **Contrôle Biologique** | Technicien de Laboratoire BioLab / Praticien d'Admission | Lecteur Optique LFA Connecté (USB/BLE), Terminal Mobile Caméra Haute Résolution | Notice technique AFSCA pour le dépistage des barbituriques & Décision Kudoro DEC-AET-01. |
+| [`UC-424`](#uc-424) | [Exécution Individuelle Interactive des 10 Portes The Iron Gate (G0 à G9)](#uc-424) | **Validation Algorithmique** | The Iron Gate Oracle / Superviseur Qualité Filière | Terminal Industriel AeterniTrak, Serveur de Consensus d'Usine | Règlement (CE) n° 999/2001 (anti-prion) & Spécification The Iron Gate V1.0. |
+| [`UC-425`](#uc-425) | [Contrôle Concession Forestière ARNE / DNF & Approbation Parcelle Mémorielle](#uc-425) | **Destination Finale** | Garde-Forestier DNF / Agent SPW ARNE | Terminal Terrain Robuste DNF, PWA Cartographique Hors-Ligne | Code forestier wallon du 15 juillet 2008 & Accord cadre DNF / Le Pax Funèbre (DEC-AET-05). |
 
 ---
 
@@ -3063,6 +3070,1168 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                                             <button class="wf-btn wf-btn-gold">Émettre la Fiche Navette de Rectification d'État Civil →</button>
                                           </div>
                                         </div>
+```
+
+</details>
+
+---
+
+<a id="uc-419"></a>
+## UC-419 : Contrôle Ordre des Médecins / Vétérinaires & Numéro INAMI dans Registre Local
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-419` |
+| **Catégorie Métier** | **Constat Civil & Tri** |
+| **Acteur Principal** | Vétérinaire Sanitaire & Médecin Légiste |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne Registres) |
+| **Tags Clés** | `INAMI`, `OrdreMedecins`, `OrdreVeterinaires`, `Habilitation`, `LocalRegistry` |
+| **Base Légale & Normative** | Arrêté royal n° 78 relatif à l'exercice des professions de santé & Code de déontologie vétérinaire belge. |
+| **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Registre Ordinal Décentralisé` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Praticien se présentant pour signer le constat initial ou le bon d'admission sanitaire.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Identité et habilitation légale du praticien validées sans contestation possible.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Saisie ou scan du badge professionnel du praticien (numéro INAMI / matricule Ordre).
+2. Hachage et consultation indexée de la base de confiance locale des praticiens agréés (synchronisation asynchrone).
+3. Contrôle de l'absence de suspension ordinale ou de radiation administrative.
+4. Affichage du certificat d'agrément sanitaire AFSCA ou Santé Publique.
+5. Autorisation d'engagement de la signature du constat de décès (EVT-01).
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `practitioner_inami` | **Numéro d'Agrément / INAMI** | `text` | `1-84920-44-001 (Dr. Marc Desmet • Vétérinaire Sanitaire)` | - | `INAMI Valide` | ✅ Requis |
+| `professional_order` | **Ordre Professionnel Référent** | `text` | `Ordre des Médecins Vétérinaires (Conseil Francophone #OMV-942)` | - | `Tableau Actif` | ⭕ Optionnel |
+| `sanitary_clearance` | **Habilitation Sanitaire AeterniTrak** | `text` | `Praticien Certificateur Post-Mortem & Dépistage LFA` | - | `Habilité` | ⭕ Optionnel |
+| `disciplinary_status` | **Statut Disciplinaire Décentralisé** | `text` | `AUCUNE SANCTION / PLEIN EXERCICE DU DROIT` | - | `Conforme` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_verify_practitioner` | **Valider l'Habilitation dans le Registre Médical Local** | `primary` | `idle` | 🩺 |
+| `btn_report_practitioner_anomaly` | **Signaler une Anomalie de Référencement** | `secondary` | `idle` | ⚠️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Habilitation Ordinale & Sanitaire Confirmée
+>
+> **Badge de Conformité :** `Praticien Agréé INAMI`
+>
+> **Détail Opérationnel :** Dr. Marc Desmet habilité pour les constats civils et dépistages biologiques. Signature autorisée.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_PRACTITIONER_NOT_REGISTERED` |
+| **Intitulé de l'Incident** | **Praticien Non Identifié ou Suspendu** |
+| **Condition Déclenchante** | Matricule ordinal inexistant ou suspension temporaire signalée par l'Ordre. |
+| **Message d'Erreur UI** | *« Le praticien certificateur n'est pas habilité à signer un constat post-mortem. »* |
+| **Action Corrective Requise** | **Transférer le dossier au vétérinaire de garde ou au médecin inspecteur de zone.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Terminal Terrain DNF / AFSCA • Registre Ordinal Décentralisé**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Identification du Praticien Certificateur | *En attente utilisateur* | Saisie du numéro d'ordre ou INAMI avant engagement du constat officiel. |
+| **2** | **Déclenchement ⚡** | Recherche Indexée dans le Registre Décentralisé | `Clic sur 'Valider l'Habilitation'` | Interrogation locale chiffrée de la table ordinale sans dépendance externe. |
+| **3** | **Traitement ⚙️** | Statut Disciplinaire et Habilitations Vérifiés | `Progression : 100%` | Plein exercice du droit médical confirmé avec visa sanitaire actif. |
+| **4** | **Scellement & Fin ✨** | Habilitation Sanitaire Accordée | `Statut : success` | Le praticien est habilité à initier le constat et apposer le scellé initial. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-419 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Identification du Praticien Certificateur
+*Saisie du numéro d'ordre ou INAMI avant engagement du constat officiel.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Contrôle des Habilitations</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Saisie</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🩺</span>
+                        <div><strong>Vérification Ordinale & INAMI Requise</strong></div>
+                        <div class="wf-subtext">Consultation de la TrustBase locale des praticiens de santé agréés</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🩺 Valider l'Habilitation dans le Registre Médical Local</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Recherche Indexée dans le Registre Décentralisé
+*Interrogation locale chiffrée de la table ordinale sans dépendance externe.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Registre des Praticiens</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Requête Indexée</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">SELECT * FROM ordinale_trustbase WHERE inami = '1-84920-44-001'</div>
+                        <div class="wf-subtext">Contrôle croisé AFSCA / SPF Santé Publique in-cache</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Vérification en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Statut Disciplinaire et Habilitations Vérifiés
+*Plein exercice du droit médical confirmé avec visa sanitaire actif.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Visa Ordinal</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Praticien Actif (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [ORDRE] Dr. Marc Desmet, Conseil Régional Francophone</code><br>
+                        <code>> [INAMI] 1-84920-44-001 -> Statut ACTIF & VALIDE</code><br>
+                        <code>> [DISCIPLINE] Zéro sanction disciplinaire enregistrée</code><br>
+                        <code>> [HABILITATION] Signature autorisée pour EVT-01 Constat Initial</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Habilitation Sanitaire Accordée
+*Le praticien est habilité à initier le constat et apposer le scellé initial.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Habilitation Certifiée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Praticien Validé</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏛️</span>
+                        <div>
+                          <strong>Praticien Agréé & Reconnu</strong>
+                          <p class="wf-subtext">Dr. Marc Desmet • Prêt pour signature du constat EVT-01</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Ouvrir le Formulaire de Constat de Décès →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-420"></a>
+## UC-420 : Scellement Cryptographique Ed25519 de l'Événement de Transport Primaire
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-420` |
+| **Catégorie Métier** | **Logistique & Scellement** |
+| **Acteur Principal** | Chauffeur Funéraire Agréé / Transporteur Sanitaire |
+| **Plateformes Cibles** | Terminal Véhicule Durci (Android IP68), PWA Hors-Ligne |
+| **Tags Clés** | `TransportPrimaire`, `ScellementEd25519`, `NfcSeal`, `COSE`, `GeoTracking` |
+| **Base Légale & Normative** | Décret wallon du 6 mars 2009 relatif aux funérailles et sépultures & Règlement (CE) n° 1069/2009. |
+| **Terminal / Canvas Wireframe** | `Terminal Embarqué Véhicule • Scellement Transport EVT-02` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Constat EVT-01 validé et dépouille conditionnée en housse ou cercueil agréé.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Événement de transport primaire EVT-02 cryptographiquement inviolable et vérifiable hors-ligne.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Pose du scellé inviolable RFID/NFC haute sécurité sur le fermoir du caisson de transport.
+2. Scan NFC sans contact du scellé avec le terminal durci du véhicule.
+3. Agrégation des données d'événement : identifiant dépouille, ID scellé, plaque d'immatriculation, horodatage UTC et coordonnées GPS.
+4. Signature cryptographique Ed25519 par la clé privée matérielle du chauffeur.
+5. Émission de la preuve COSE_Sign1 ancrée dans le journal d'audit local du véhicule.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `nfc_seal_id` | **Identifiant Scellé Inviolable** | `text` | `SCELL-2026-BEL-0982-NFC (Puce RFID Haute Sécurité)` | - | `Inviolable` | ✅ Requis |
+| `transport_vehicle` | **Véhicule Funéraire Agréé** | `text` | `1-AFR-842 (Fourgon Isotherme Agrément Wallonie #AGR-FUN-12)` | - | `Agréé C1/C2` | ⭕ Optionnel |
+| `pickup_telemetry` | **Point GPS & Horodatage Prise en Charge** | `text` | `2026-10-05T09:12:04Z • 50.4501° N, 5.0210° E (Namur)` | - | `Horodaté UTC` | ⭕ Optionnel |
+| `driver_crypto_sig` | **Signature Cryptographique Chauffeur** | `text` | `ed25519:5c6d7e8f9a0b1c2d... (Clé Chauffeur #CHAUFF-88)` | - | `Ed25519` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_seal_transport_evt` | **Signer & Sceller la Prise en Charge Transport (Ed25519)** | `primary` | `idle` | 🔒 |
+| `btn_scan_nfc_vehicle_seal` | **Vérifier le Scellé Physiquement par NFC** | `secondary` | `idle` | 📱 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Événement de Transport EVT-02 Scellé
+>
+> **Badge de Conformité :** `Chaîne de Garde Inviolable`
+>
+> **Détail Opérationnel :** Scellé SCELL-0982 lié au véhicule 1-AFR-842. Signature Ed25519 générée et ancrée localement.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_TRANSPORT_SEAL_MISMATCH` |
+| **Intitulé de l'Incident** | **Divergence d'Identifiant de Scellé** |
+| **Condition Déclenchante** | Le tag NFC détecté ne concorde pas avec la référence allouée au départ du centre. |
+| **Message d'Erreur UI** | *« Impossible de sceller : le scellé apposé est non conforme au manifeste de transport. »* |
+| **Action Corrective Requise** | **Remplacer par le scellé officiel référencé et consigner l'incident au journal.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Terminal Embarqué Véhicule • Scellement Transport EVT-02**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Chargement Effectué dans le Véhicule Agréé | *En attente utilisateur* | Le caisson de transport est clos, le scellé physique est apposé. |
+| **2** | **Déclenchement ⚡** | Acquisition NFC & Empreinte Télémetrique | `Scan du Scellé & Signature Chauffeur` | Lecture de la puce sans contact et horodatage UTC par le modem durci. |
+| **3** | **Traitement ⚙️** | Génération de la Preuve COSE_Sign1 EVT-02 | `Progression : 100%` | Chaîne de garde complétée avec coordonnées GPS de départ. |
+| **4** | **Scellement & Fin ✨** | Départ Transport Autorisé & Tracé | `Statut : success` | Le véhicule est autorisé à prendre la route vers le centre de traitement. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-420 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Chargement Effectué dans le Véhicule Agréé
+*Le caisson de transport est clos, le scellé physique est apposé.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Scellement Véhicule</span>
+                        <span class="wf-status-badge wf-badge-neutral">Scellé Apposé</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🔒</span>
+                        <div><strong>Scellement Inviolable Transport Requis</strong></div>
+                        <div class="wf-subtext">Association véhicule 1-AFR-842 + Scellé NFC + Télémétrie GPS</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔒 Signer & Sceller la Prise en Charge Transport (Ed25519)</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Acquisition NFC & Empreinte Télémetrique
+*Lecture de la puce sans contact et horodatage UTC par le modem durci.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Capture NFC</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Scan Scellé 0982</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">NFC UID: 04:9A:88:F2 -> Scellé vérifié intact</div>
+                        <div class="wf-subtext">Signature matérielle Ed25519 en cours d'application par le terminal</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Scellement cryptographique...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Génération de la Preuve COSE_Sign1 EVT-02
+*Chaîne de garde complétée avec coordonnées GPS de départ.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Chaîne de Garde</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ EVT-02 Scellé (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [TRANSPORT] Véhicule 1-AFR-842, chauffeur #CHAUFF-88</code><br>
+                        <code>> [SEAL] SCELL-2026-BEL-0982-NFC vérifié non altéré</code><br>
+                        <code>> [TELEMETRY] 50.4501° N, 5.0210° E @ 09:12:04 UTC</code><br>
+                        <code>> [CHAIN] Ancrage parent EVT-01 -> hash validé</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Départ Transport Autorisé & Tracé
+*Le véhicule est autorisé à prendre la route vers le centre de traitement.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Feu Vert Transport</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Trajet Déverrouillé</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🚛</span>
+                        <div>
+                          <strong>Prise en Charge Officiellement Scellée</strong>
+                          <p class="wf-subtext">EVT-02 enregistré • Suivi continu de la chaîne du froid activé</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Activer le Monitoring Thermique de Route →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-421"></a>
+## UC-421 : Déchargement Datalogger Thermique & Calcul de l'Intégrale Temps/Température
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-421` |
+| **Catégorie Métier** | **Contrôle Logistique & Biosécurité** |
+| **Acteur Principal** | Opérateur de Réception Sanitaire / Gestionnaire Frigorifique |
+| **Plateformes Cibles** | Station de Réception PC/Mac, Terminal Tablette USB/Bluetooth |
+| **Tags Clés** | `Datalogger`, `ChaineDuFroid`, `IntegraleThermique`, `DegreeHours`, `Biosécurite` |
+| **Base Légale & Normative** | Norme EN 12830 (enregistreurs de température pour le transport) & Décision Kudoro DEC-AET-03. |
+| **Terminal / Canvas Wireframe** | `Station Réception Sanitaire • Calculateur Thermique EN 12830` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Arrivée du véhicule au centre de traitement avec datalogger actif dans le caisson.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Chaîne du froid certifiée sans rupture ; autorisation de déchargement vers la cellule froide.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Connexion sans contact (NFC ou Bluetooth Low Energy) ou USB au datalogger thermique.
+2. Téléchargement du relevé chronologique complet (mesures cadencées toutes les 30 secondes).
+3. Calcul de l'intégrale d'excursion : ∫ max(0, T(t) - 4°C) dt sur l'ensemble du trajet.
+4. Vérification du seuil critique (tolérance zéro excursion prolongée > 2 heures à +4°C).
+5. Certification numérique de la chaîne du froid et injection dans l'événement EVT-03.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `datalogger_points` | **Relevé Télémétrique Datalogger** | `text` | `428 points de mesure sur 2h45 (Échantillonnage 30s • Précision ±0.1°C)` | - | `EN 12830` | ⭕ Optionnel |
+| `temp_max` | **Température Maximale Atteinte** | `text` | `+3.4°C (Respect parfait de la limite légale +4.0°C)` | - | `Maximum OK` | ⭕ Optionnel |
+| `thermal_integral` | **Intégrale Temps/Température (>4°C)** | `text` | `0.00 °C·heure (Aucune excursion hors tolérance)` | - | `0.0 °C·h` | ⭕ Optionnel |
+| `cold_chain_verdict` | **Bilan Sanitaire Chaîne du Froid** | `text` | `CONFORME À 100% (Préservation optimale des tissus)` | - | `Chaîne Froid OK` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_ingest_datalogger` | **Décharger la Télémétrie & Calculer l'Intégrale** | `primary` | `idle` | 📉 |
+| `btn_view_temp_curve` | **Afficher la Courbe Chronologique de Température** | `secondary` | `idle` | 📊 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Chaîne du Froid Certifiée Conforme
+>
+> **Badge de Conformité :** `Intégrale Thermique Validée`
+>
+> **Détail Opérationnel :** Excursion nulle constatée. Température moyenne stabilisée à +2.6°C sur l'ensemble du transit.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_COLD_CHAIN_INTEGRAL_BREACH` |
+| **Intitulé de l'Incident** | **Dépassement Critique de l'Intégrale Thermique** |
+| **Condition Déclenchante** | Panne du groupe frigorifique durant le trajet causant une élévation prolongée de température. |
+| **Message d'Erreur UI** | *« ALERTE BIOSÉCURITÉ : La dépouille a dépassé le seuil de tolérance thermique (+6°C pendant > 2h). »* |
+| **Action Corrective Requise** | **Refuser l'admission en ligne mémorielle et réorienter vers la filière industrielle C2.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Station Réception Sanitaire • Calculateur Thermique EN 12830**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Datalogger Prêt pour Déchargement | *En attente utilisateur* | Le boîtier enregistreur est branché à la borne de déchargement rapide. |
+| **2** | **Déclenchement ⚡** | Calcul Numérique de l'Intégrale Temps/Température | `Déchargement & Intégration` | Sommation des écarts thermiques au-dessus de la ligne de consigne +4.0°C. |
+| **3** | **Traitement ⚙️** | Conformité Normative EN 12830 Validée | `Progression : 100%` | Intégrité biologique garantie, absence de multiplication bactérienne précoce. |
+| **4** | **Scellement & Fin ✨** | Chaîne du Froid Certifiée & Scellée | `Statut : success` | Le visa thermique est injecté dans le dossier d'admission EVT-03. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-421 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Datalogger Prêt pour Déchargement
+*Le boîtier enregistreur est branché à la borne de déchargement rapide.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Contrôle Thermique</span>
+                        <span class="wf-status-badge wf-badge-neutral">Datalogger Connecté</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">📉</span>
+                        <div><strong>Vérification de la Chaîne du Froid Transport</strong></div>
+                        <div class="wf-subtext">Téléchargement des 428 points de mesure PT100 et calcul de l'intégrale</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">📉 Décharger la Télémétrie & Calculer l'Intégrale</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Calcul Numérique de l'Intégrale Temps/Température
+*Sommation des écarts thermiques au-dessus de la ligne de consigne +4.0°C.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Intégrale Degrés-Heures</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Calcul Mathématique</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">∫ max(0, T - 4°C) dt = 0.000 °C·h sur 165 minutes</div>
+                        <div class="wf-subtext">Plage relevée : min +1.8°C, max +3.4°C, moyenne +2.6°C</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul de conformité...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Conformité Normative EN 12830 Validée
+*Intégrité biologique garantie, absence de multiplication bactérienne précoce.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Bilan Froid</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Chaîne Validée (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [THERMAL-EN12830] 428 points importés sans rupture</code><br>
+                        <code>> [MAX-TEMP] +3.4°C mesuré à 10:04 UTC (sous la limite +4°C)</code><br>
+                        <code>> [INTEGRAL] 0.00 °C·h -> Aucune dérive biologique</code><br>
+                        <code>> [STATUS] Feu vert pour admission en cellule de stockage #B4</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Chaîne du Froid Certifiée & Scellée
+*Le visa thermique est injecté dans le dossier d'admission EVT-03.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Admission Déverrouillée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Chaîne du Froid Parfaite</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">❄️</span>
+                        <div>
+                          <strong>Conservation Optimale Démontrée</strong>
+                          <p class="wf-subtext">Zéro excursion thermique • Autorisation de transfert en chambre froide</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Assigner la Cellule Frigorifique de Conservation →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-422"></a>
+## UC-422 : Assignation Dynamique Cellule Frigorifique & Badging RFID Rayonnage
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-422` |
+| **Catégorie Métier** | **Logistique & Stockage Sanitaire** |
+| **Acteur Principal** | Gestionnaire de Cellules Réfrigérées / Opérateur Logistique |
+| **Plateformes Cibles** | Terminal Industriel Embarqué Rayonnage, PWA Mobile |
+| **Tags Clés** | `CelluleFrigorifique`, `RFID`, `Emplacement`, `Segregation`, `ColdStorage` |
+| **Base Légale & Normative** | Règlement (CE) n° 1069/2009 (ségrégation et stockage étanche des sous-produits animaux). |
+| **Terminal / Canvas Wireframe** | `Chambre Frigorifique Ségréguée • Badging RFID Rayonnage` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Contrôle thermique du transport validé et dépouille prête à être introduite en stockage.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Dépouille en conservation sécurisée, localisation inaltérable et ségrégation garantie.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Interrogation algorithmique des disponibilités dans la chambre froide ségréguée.
+2. Filtrage étanche : la dépouille de compagnie Profil 1 ne peut être admise que dans le compartiment Mémoriel.
+3. Attribution de la cellule froide individuelle #B4 (régulation active +2.5°C à +3.5°C).
+4. L'opérateur dépose la dépouille et passe son badge lecteur sur l'étiquette RFID de la cellule.
+5. Verrouillage électromagnétique du casier et horodatage de l'entrée en conservation.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `depouille_profile` | **Profil Sanitaire Dépouille** | `text` | `PROFIL 1 : Compagnie (Catégorie 1 Mémorielle Exclusive)` | - | `Profil 1 Exclusif` | ⭕ Optionnel |
+| `assigned_cell_id` | **Cellule Assignée Algorithmiquement** | `text` | `Cellule Frigorifique Individuelle #B4 (Zone A - Mémorielle)` | - | `Cellule #B4` | ⭕ Optionnel |
+| `cell_temp` | **Température Régulée Casier** | `text` | `+2.8°C (Sonde PT100 Calibrée • PID Régulé)` | - | `+2.8°C OK` | ⭕ Optionnel |
+| `rfid_location_tag` | **Scan Tag RFID Emplacement** | `text` | `RFID-LOC-B4-9910 (Lecture sans contact confirmée)` | - | `RFID Confirmé` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_assign_cold_cell` | **Valider l'Assignation & Verrouiller la Cellule #B4** | `primary` | `idle` | ❄️ |
+| `btn_unlock_cell_door` | **Déverrouiller le Sas d'Accès Sécurisé** | `secondary` | `idle` | 🔓 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Dépouille Consignée en Cellule Frigorifique #B4
+>
+> **Badge de Conformité :** `Stockage Ségrégué Conforme`
+>
+> **Détail Opérationnel :** Verrouillage électromécanique activé. Séparation hermétique garantie selon Règlement (CE) n° 1069/2009.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_CELL_COMPATIBILITY_CONFLICT` |
+| **Intitulé de l'Incident** | **Violation de Ségrégation Sanitaire** |
+| **Condition Déclenchante** | Tentative de consigner une carcasse de compagnie dans un rayonnage de transit agricole ou abattoir. |
+| **Message d'Erreur UI** | *« ALERTE SÉGRÉGATION : Conflit de profil sanitaire détecté. Casier incompatible. »* |
+| **Action Corrective Requise** | **Sélectionner exclusivement les cellules de l'aile mémorielle étanche (Casier B1 à B12).** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Chambre Frigorifique Ségréguée • Badging RFID Rayonnage**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Sélection Automatique de Cellule Ségréguée | *En attente utilisateur* | L'algorithme analyse l'inventaire frigorifique pour attribuer un casier dédié. |
+| **2** | **Déclenchement ⚡** | Badging RFID de l'Emplacement Physique | `Scan RFID du Rayonnage` | L'opérateur effleure la pastille RFID fixée sur le montant du casier #B4. |
+| **3** | **Traitement ⚙️** | Verrouillage Électromécanique & Enregistrement | `Progression : 100%` | La cellule est scellée, l'accès est consigné dans le journal sécurisé. |
+| **4** | **Scellement & Fin ✨** | Dépouille Sécurisée en Attente de Soins | `Statut : success` | La conservation est assurée jusqu'aux opérations amonts (LFA & Pacemaker). |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-422 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Sélection Automatique de Cellule Ségréguée
+*L'algorithme analyse l'inventaire frigorifique pour attribuer un casier dédié.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Gestion Emplacements</span>
+                        <span class="wf-status-badge wf-badge-neutral">Casier Libre : #B4</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">❄️</span>
+                        <div><strong>Assignation Cellule Frigorifique Sécurisée</strong></div>
+                        <div class="wf-subtext">Contrôle de ségrégation hermétique (Profil 1 Mémoriel exclusif)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">❄️ Valider l'Assignation & Verrouiller la Cellule #B4</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Badging RFID de l'Emplacement Physique
+*L'opérateur effleure la pastille RFID fixée sur le montant du casier #B4.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Badging Emplacement</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Scan Tag RFID-B4</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">Tag RFID-LOC-B4 détecté -> Corrélation physique validée</div>
+                        <div class="wf-subtext">Vérification de la régulation PT100 casier (+2.8°C stable)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Scellement de l'emplacement...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Verrouillage Électromécanique & Enregistrement
+*La cellule est scellée, l'accès est consigné dans le journal sécurisé.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Consigne Frigorifique</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Casier Verrouillé (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [RFID-LOC] Rayon B, Niveau 2, Casier #B4 confirmé</code><br>
+                        <code>> [LOCK] Pêne électromagnétique engagé (Contact magnétique fermé)</code><br>
+                        <code>> [TEMP-MONITOR] Température courante : +2.8°C (Seuil alerte > +4.0°C)</code><br>
+                        <code>> [SÉGRÉGATION] Aucune cohabitation inter-profil permise</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Dépouille Sécurisée en Attente de Soins
+*La conservation est assurée jusqu'aux opérations amonts (LFA & Pacemaker).*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">AeterniTrak • Conservation Active</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Stockage Certifié</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🛡️</span>
+                        <div>
+                          <strong>Cellule #B4 Sécurisée</strong>
+                          <p class="wf-subtext">Température +2.8°C sous surveillance continue • Traçabilité scellée</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Passer aux Contrôles Amonts (LFA & Pacemaker) →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-423"></a>
+## UC-423 : Analyse Spectrophotométrique Courbe d'Absorption Bandelette LFA (Ratio C/T)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-423` |
+| **Catégorie Métier** | **Contrôle Biologique** |
+| **Acteur Principal** | Technicien de Laboratoire BioLab / Praticien d'Admission |
+| **Plateformes Cibles** | Lecteur Optique LFA Connecté (USB/BLE), Terminal Mobile Caméra Haute Résolution |
+| **Tags Clés** | `LFA`, `Spectrophotometrie`, `Pentobarbital`, `Ratio_C_T`, `OpticalDensity` |
+| **Base Légale & Normative** | Notice technique AFSCA pour le dépistage des barbituriques & Décision Kudoro DEC-AET-01. |
+| **Terminal / Canvas Wireframe** | `BioLab AeterniCore • Spectrophotomètre Numérique LFA (525 nm)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Écouvillonnage hépatique/sanguin réalisé et bandelette immunochromatographique incubée 10 minutes.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Verdict toxicologique quantifié, reproductible et incontestable ; Porte G4 déverrouillée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Introduction de la cassette LFA dans le tiroir du spectrophotomètre portable ou numérisation sous flux calibré.
+2. Balayage optique des bandes d'extinction à la longueur d'onde de résonance des nanoparticules d'or colloïdal (525 nm).
+3. Calcul des densités optiques surfaciques : OD_C (Ligne de Contrôle) et OD_T (Ligne de Test).
+4. Vérification du ratio C/T : présence nette de la ligne T confirmant l'absence de drogue compétitive.
+5. Émission du visa toxicologique numérique avec courbe d'extinction spectrophotométrique scellée.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `od_control` | **Densité Optique Ligne Contrôle (C)** | `text` | `OD_C = 0.842 AU (Pic d'absorption net à 525 nm • Migration valide)` | - | `Ligne C Valide` | ⭕ Optionnel |
+| `od_test` | **Densité Optique Ligne Test (T)** | `text` | `OD_T = 0.795 AU (Présente = Molécule absente du prélèvement)` | - | `Ligne T Valide` | ⭕ Optionnel |
+| `ct_ratio` | **Ratio d'Extinction Relatif (C/T)** | `text` | `0.944 (Seuil de conformité exigé > 0.600)` | - | `Conforme` | ⭕ Optionnel |
+| `pento_conc` | **Quantification Pentobarbital Estimée** | `text` | `< 5.0 ng/mL (Cut-off réglementaire AFSCA fixé à 20 ng/mL)` | - | `NÉGATIF` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_run_lfa_spectro` | **Acquérir le Spectre Optique & Calculer le Ratio C/T** | `primary` | `idle` | 🔬 |
+| `btn_calibrate_optical_sensor` | **Étalonner la Caméra avec Carte de Référence** | `secondary` | `idle` | 🎯 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Analyse Spectrophotométrique LFA Certifiée Conforme
+>
+> **Badge de Conformité :** `NÉGATIF PENTOBARBITAL (Ratio C/T 0.944)`
+>
+> **Détail Opérationnel :** Absence de barbituriques démontrée scientifiquement. Porte G4 de The Iron Gate validée.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_LFA_LINE_C_ABSENT_INVALID` |
+| **Intitulé de l'Incident** | **Bandelette LFA Défectueuse ou Pression Échantillon Insuffisante** |
+| **Condition Déclenchante** | Absence de coloration sur la ligne de contrôle C (OD_C < 0.150 AU). |
+| **Message d'Erreur UI** | *« TEST BIOLOGIQUEMENT INVALIDE : La réaction de contrôle n'a pas fonctionné. »* |
+| **Action Corrective Requise** | **Isoler la dépouille en quarantaine temporaire et effectuer un second prélèvement LFA.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **BioLab AeterniCore • Spectrophotomètre Numérique LFA (525 nm)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Cassette LFA Insérée dans la Fente Optique | *En attente utilisateur* | Incubation terminée (10 minutes). La cassette attend la mesure spectrophotométrique. |
+| **2** | **Déclenchement ⚡** | Numérisation des Bandes C et T sous LED Calibrée | `Balayage Optique LFA` | Capture spectrophotométrique haute résolution du gradient de nanoparticules. |
+| **3** | **Traitement ⚙️** | Évaluation Contre le Cut-Off Réglementaire AFSCA | `Progression : 100%` | Le ratio C/T dépasse largement le seuil minimal de 0.600. |
+| **4** | **Scellement & Fin ✨** | Visa Toxicologique Certifié | `Statut : success` | La dépouille est biologiquement apte pour l'alimentation des larves. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-423 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Cassette LFA Insérée dans la Fente Optique
+*Incubation terminée (10 minutes). La cassette attend la mesure spectrophotométrique.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">BioLab • Spectrophotomètre LFA</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt à Scanner</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🔬</span>
+                        <div><strong>Analyse Toxicologique Quantitative LFA</strong></div>
+                        <div class="wf-subtext">Mesure de réflectance optique à 525 nm pour objectivation mathématique</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔬 Acquérir le Spectre Optique & Calculer le Ratio C/T</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Numérisation des Bandes C et T sous LED Calibrée
+*Capture spectrophotométrique haute résolution du gradient de nanoparticules.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">BioLab • Balayage Optique</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Scan Spectro 525 nm</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">Intégration surfacique : Ligne C = 0.842 AU | Ligne T = 0.795 AU</div>
+                        <div class="wf-subtext">Calcul du ratio : OD_T / OD_C = 0.944 (Absence de molécule inhibitrice)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul photométrique...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Évaluation Contre le Cut-Off Réglementaire AFSCA
+*Le ratio C/T dépasse largement le seuil minimal de 0.600.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">BioLab • Bilan Toxicologique</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Spectre Conforme (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [SPECTRO] Longueur d'onde 525 nm calibrée</code><br>
+                        <code>> [PEAK-C] Contrôle présent à OD 0.842 AU (Validité biologique assurée)</code><br>
+                        <code>> [PEAK-T] Test présent à OD 0.795 AU (Pentobarbital < 5.0 ng/mL)</code><br>
+                        <code>> [VERDICT] NÉGATIF / CONFORME -> Porte G4 ouverte</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Visa Toxicologique Certifié
+*La dépouille est biologiquement apte pour l'alimentation des larves.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">BioLab • Visa Accordé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Zéro Barbiturique</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🧬</span>
+                        <div>
+                          <strong>Dépistage Pentobarbital Conforme</strong>
+                          <p class="wf-subtext">Ratio C/T 0.944 • Protection absolue de l'élevage d'Hermetia illucens</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Valider l'Exérèse Pacemaker & Passer à The Iron Gate →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-424"></a>
+## UC-424 : Exécution Individuelle Interactive des 10 Portes The Iron Gate (G0 à G9)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-424` |
+| **Catégorie Métier** | **Validation Algorithmique** |
+| **Acteur Principal** | The Iron Gate Oracle / Superviseur Qualité Filière |
+| **Plateformes Cibles** | Terminal Industriel AeterniTrak, Serveur de Consensus d'Usine |
+| **Tags Clés** | `TheIronGate`, `G0_G9`, `AntiPrion`, `10Portes`, `AutomateDeterministe`, `COSE` |
+| **Base Légale & Normative** | Règlement (CE) n° 999/2001 (anti-prion) & Spécification The Iron Gate V1.0. |
+| **Terminal / Canvas Wireframe** | `The Iron Gate • Banc d'Évaluation Déterministe G0 à G9` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Toutes les données de traçabilité (constat, chaîne du froid, LFA, pacemaker, thermique) consolidées en mémoire.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Lot officiellement autorisé pour scellement cryptographique Ed25519.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Engagement du cycle d'évaluation déterministe de The Iron Gate.
+2. Franchissement des portes physiques et sanitaires : G0 (Scellé intact), G1 (Poids métrologique), G2 (Chaîne du froid), G3 (Substrat/Catégorie), G4 (Toxicologie Pentobarbital négatif), G5 (Exérèse Pacemaker Art. L1232-24 CDLD), G6 (Épizooties PCR).
+3. Application de la Règle d'Or Anti-Prion (Porte G7) : vérification mathématique de non-correspondance entre le TaxID de l'espèce traitée et les filières agroalimentaires de destination.
+4. Validation de l'équilibre minéral (Porte G8) et du traitement thermique légal (Porte G9 : 70°C/1h ou Méthode 1).
+5. Délivrance solennelle du verdict : 'AUTHORISED' et calcul du hash de lot.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `gates_matrix` | **Matrice des 10 Portes** | `text` | `G0:OK | G1:OK | G2:OK | G3:OK | G4:OK | G5:OK | G6:OK | G7:OK | G8:OK | G9:OK` | - | `10/10 Conforme` | ⭕ Optionnel |
+| `gate_g7_prion` | **Porte G7 (Règle d'Or Anti-Prion)** | `text` | `Espèce Canis familiaris (TaxID 9615) -> Destination Mémorielle Forestière Exclusive` | - | `Feed-Ban Respecté` | ⭕ Optionnel |
+| `gate_g5_pacemaker` | **Porte G5 (Exérèse Pacemaker)** | `text` | `Explantation Documentée Conforme Art. L1232-24 CDLD & Modèle IIIC` | - | `Sécurité Incendie` | ⭕ Optionnel |
+| `gate_verdict` | **Verdict Automate The Iron Gate** | `text` | `AUTHORISED (Certificat de Lot Déverrouillé pour Scellement Ed25519)` | - | `AUTHORISED` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_execute_iron_gate_full` | **Lancer l'Évaluation Séquentielle G0 → G9** | `primary` | `idle` | 🛡️ |
+| `btn_step_by_step_gates` | **Inspecter la Preuve Cryptographique de Chaque Porte** | `secondary` | `idle` | 🔍 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Verdict The Iron Gate : AUTHORISED (10 / 10 Portes Franchies)
+>
+> **Badge de Conformité :** `Règle d'Or Anti-Prion 100% Respectée`
+>
+> **Détail Opérationnel :** Toutes les barrières mathématiques franchies. Zéro risque de contamination croisée intra-espèce.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_IRON_GATE_G7_PRION_BREACH` |
+| **Intitulé de l'Incident** | **Violation Sanitaire Règle Anti-Prion (G7)** |
+| **Condition Déclenchante** | Tentative de valoriser des protéines animales transformées dans la nutrition de la même espèce animale. |
+| **Message d'Erreur UI** | *« BLOCAGE PHYSIQUE IRRÉVOCABLE : Risque de transmission d'encéphalopathies spongiformes (prions). »* |
+| **Action Corrective Requise** | **Destruction immédiate du lot par incinération en filière agréée Catégorie 1.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **The Iron Gate • Banc d'Évaluation Déterministe G0 à G9**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Banc d'Évaluation G0-G9 en Attente | *En attente utilisateur* | Les 10 critères de pureté et biosécurité sont chargés pour examen unitaire. |
+| **2** | **Déclenchement ⚡** | Franchissement Déterministe des Portes G0 à G6 | `Exécution de l'Automate` | Validation pas-à-pas des preuves matérielles et sanitaires. |
+| **3** | **Traitement ⚙️** | Contrôle Porte G7 : Règle d'Or Anti-Prion Respectée | `Progression : 100%` | Espèce Canis familiaris aiguillée vers sépulture forestière exclusive. |
+| **4** | **Scellement & Fin ✨** | Feu Vert Émis : Certificat de Lot Déverrouillé | `Statut : success` | The Iron Gate autorise l'émission du certificat officiel AET-SPEC-CERT-001. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-424 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Banc d'Évaluation G0-G9 en Attente
+*Les 10 critères de pureté et biosécurité sont chargés pour examen unitaire.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">The Iron Gate • Barrière Cryptographique</span>
+                        <span class="wf-status-badge wf-badge-neutral">10 Portes Prêtes</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🛡️</span>
+                        <div><strong>Évaluation Déterministe Inviolable</strong></div>
+                        <div class="wf-subtext">Vérification de la chaîne de garde, de la toxicologie et de la règle anti-prion G7</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🛡️ Lancer l'Évaluation Séquentielle G0 → G9</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Franchissement Déterministe des Portes G0 à G6
+*Validation pas-à-pas des preuves matérielles et sanitaires.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">The Iron Gate • Pipeline Actif</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Test Portes G0-G6</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">G0: Scellé OK | G1: Poids OK | G2: Froid OK | G3: Cat OK | G4: LFA OK | G5: Pacemaker OK</div>
+                        <div class="wf-subtext">Engin d'inférence prêt pour la porte critique G7 Anti-Prion</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Évaluation de la règle anti-prion...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Contrôle Porte G7 : Règle d'Or Anti-Prion Respectée
+*Espèce Canis familiaris aiguillée vers sépulture forestière exclusive.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">The Iron Gate • Porte G7 Validée</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Feed-Ban Strict (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [GATE-G5] Exérèse pacemaker vérifiée selon Art. L1232-24 CDLD</code><br>
+                        <code>> [GATE-G7] TaxID 9615 -> Usage Mémoriel Forestier Exclusif (Zéro Recyclage Alimentaire)</code><br>
+                        <code>> [GATE-G9] Pasteurisation 70°C continue pendant 62 minutes attestée</code><br>
+                        <code>> [ORACLE-VERDICT] Statut global : AUTHORISED (Portes G0 à G9 = 100% conformes)</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Feu Vert Émis : Certificat de Lot Déverrouillé
+*The Iron Gate autorise l'émission du certificat officiel AET-SPEC-CERT-001.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">The Iron Gate • Verdict Définitif</span>
+                        <span class="wf-status-badge wf-badge-success">✨ AUTHORISED</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏆</span>
+                        <div>
+                          <strong>Conformité Totale Filière Démontrée</strong>
+                          <p class="wf-subtext">10/10 Portes Franchies • Règle Anti-Prion et Sécurité Sanitaire Garanties</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Signer le Certificat de Lot Ed25519 (AET-SPEC-CERT-001) →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-425"></a>
+## UC-425 : Contrôle Concession Forestière ARNE / DNF & Approbation Parcelle Mémorielle
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-425` |
+| **Catégorie Métier** | **Destination Finale** |
+| **Acteur Principal** | Garde-Forestier DNF / Agent SPW ARNE |
+| **Plateformes Cibles** | Terminal Terrain Robuste DNF, PWA Cartographique Hors-Ligne |
+| **Tags Clés** | `DNF`, `SPW_ARNE`, `ConcessionForestiere`, `CadastreForet`, `ParcelleMémorielle`, `DEC-AET-05` |
+| **Base Légale & Normative** | Code forestier wallon du 15 juillet 2008 & Accord cadre DNF / Le Pax Funèbre (DEC-AET-05). |
+| **Terminal / Canvas Wireframe** | `Terminal DNF Mobile • Cadastre des Sépultures Forestières` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Certificat de lot AET-SPEC-CERT-001 émis et famille sollicitant l'arbre du souvenir en massif domanial.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Autorisation d'inhumation/épandage cinéraire accordée, parcelle protégée pour 99 ans.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Saisie de la référence de concession forestière DNF (ex: CONC-DNF-2026-LIEGE-0482).
+2. Vérification cartographique SIG de la parcelle cadastrale boisée (Cantonnement de Liège / Sart-Tilman).
+3. Contrôle du quota d'amendement phosphocalcique toléré pour le biome forestier (seuil < 0.50 kg/m²).
+4. Signature numérique de l'agrément parcellaire par le garde-forestier DNF habilité.
+5. Inscription définitive au registre des concessions cinéraires séculaires sous dérogation DEC-AET-05.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `dnf_concession_ref` | **Titre de Concession DNF** | `text` | `CONC-DNF-2026-LIEGE-0482 (Massif Domanial du Sart-Tilman)` | - | `Bail Cinéraire` | ✅ Requis |
+| `dnf_parcel_tree` | **Parcelle Cadastrale & Arbre** | `text` | `Division 4, Section B, Parcelle 104/A • Chêne Noble #42` | - | `Arbre Répertorié` | ⭕ Optionnel |
+| `soil_mineral_load` | **Charge Minérale Sol Mesurée** | `text` | `0.14 kg/m² (Seuil d'équilibre sylvicole maximal : 0.50 kg/m²)` | - | `Équilibre Vert` | ⭕ Optionnel |
+| `dnf_agent_badge` | **Agent DNF Instrumentant** | `text` | `Matricule DNF-AGENT-5491 (Cantonnement de Liège - SPW ARNE)` | - | `Garde Forestier` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_approve_dnf_parcel` | **Approuver la Concession & Signer l'Affectation Parcellaire** | `primary` | `idle` | 🌲 |
+| `btn_inspect_forestry_cadastre` | **Consulter le Registre Cadastral DNF Hors-Ligne** | `secondary` | `idle` | 🗺️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Concession Forestière DNF Approuvée
+>
+> **Badge de Conformité :** `Parcelle 104/A Validée`
+>
+> **Détail Opérationnel :** Amendement mémoriel conforme aux équilibres sylvicoles. Inscription au cadastre DNF scellée pour 99 ans.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_FORESTRY_PARCEL_CAPACITY_EXCEEDED` |
+| **Intitulé de l'Incident** | **Quota Écologique de Parcelle Atteint** |
+| **Condition Déclenchante** | La charge minérale cumulée dépasse le seuil sylvicole autorisé pour la protection des sols. |
+| **Message d'Erreur UI** | *« ALERTE ÉCOLOGIQUE : La parcelle a atteint son quota d'accueil mémoriel pour cette décennie. »* |
+| **Action Corrective Requise** | **Proposer à la famille un chêne de substitution sur la parcelle 105/C en régénération.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Terminal DNF Mobile • Cadastre des Sépultures Forestières**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Examen de la Concession Cinéraire Forestière | *En attente utilisateur* | Le garde DNF vérifie l'éligibilité de la parcelle pour le repos mémoriel. |
+| **2** | **Déclenchement ⚡** | Vérification Cadastrale SIG & Charge du Sol | `Validation Garde DNF` | Contrôle cartographique et balance écologique du sol forestier. |
+| **3** | **Traitement ⚙️** | Signature Numérique Garde-Forestier & Ancrage | `Progression : 100%` | Bail cinéraire forestier scellé pour 99 ans sous dérogation DEC-AET-05. |
+| **4** | **Scellement & Fin ✨** | Sanctuaire Forestier Officiellement Consacré | `Statut : success` | La famille peut désormais se recueillir en toute sérénité sous les frondaisons. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-425 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Examen de la Concession Cinéraire Forestière
+*Le garde DNF vérifie l'éligibilité de la parcelle pour le repos mémoriel.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">DNF • Sépultures Forestières</span>
+                        <span class="wf-status-badge wf-badge-neutral">Dossier en Attente</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🌲</span>
+                        <div><strong>Agrément Sylvicole Parcelle 104/A</strong></div>
+                        <div class="wf-subtext">Contrôle de la capacité phosphocalcique et affectation du Chêne #42</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🌲 Approuver la Concession & Signer l'Affectation Parcellaire</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Vérification Cadastrale SIG & Charge du Sol
+*Contrôle cartographique et balance écologique du sol forestier.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">DNF • SIG Cadastral</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Analyse Sol 104/A</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">Charge minérale : 0.14 kg/m² sur limite tolérée 0.50 kg/m²</div>
+                        <div class="wf-subtext">Parcelle écologiquement réceptive • Zéro impact négatif sur la faune</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Scellement de la concession...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Signature Numérique Garde-Forestier & Ancrage
+*Bail cinéraire forestier scellé pour 99 ans sous dérogation DEC-AET-05.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">DNF • Visa Forestier</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Agrément Émis (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [DNF-CADASTRE] Parcelle 104/A, Cantonnement Liège</code><br>
+                        <code>> [ARBRE] Chêne séculaire #42 géoréférencé 50.4182° N, 5.8821° E</code><br>
+                        <code>> [DÉROGATION] DEC-AET-05 appliquée pour valorisation cinéraire noble</code><br>
+                        <code>> [SIGNATURE] Agent DNF-5491 -> Approbation enregistrée</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Sanctuaire Forestier Officiellement Consacré
+*La famille peut désormais se recueillir en toute sérénité sous les frondaisons.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">DNF • Sanctuaire Ouvert</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Parcelle Consacrée</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🍃</span>
+                        <div>
+                          <strong>Concession Cinéraire Active</strong>
+                          <p class="wf-subtext">Repos mémoriel garanti sous la protection du Code forestier wallon</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Générer le Livret Mémoriel Forestier de la Famille →</button>
+                      </div>
+                    </div>
 ```
 
 </details>

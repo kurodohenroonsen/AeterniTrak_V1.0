@@ -24,6 +24,17 @@
 | [`UC-212`](#uc-212) | [Tentative de Réécriture sur Puce Déjà Verrouillée / Fusible Grillé (Tag 0x06 LOCK_FUSE = 0x01, SW 0x6985)](#uc-212) | **Sécurité Silicium & Anti-Tamper** | Opérateur d'Atelier Funéraire | Poste Pro Dédié (macOS, Windows, Linux) | Spécification technique AET-SPEC-STORAGE-001 §2.1 (Tag 0x06 FUSE_STATUS) & Décision Kudoro DEC-AET-01. |
 | [`UC-213`](#uc-213) | [Révocation de Clé Privée d'Enclave ou Certificat d'Opérateur Expiré](#uc-213) | **Cryptographie & Contrôle d'Accès** | Administrateur Système & Opérateur Funéraire | Poste Pro Dédié (macOS, Windows, Linux) | Norme IETF RFC 9052 §3 (gestion des identifiants kid et clés COSE) & Décision Kudoro DEC-AET-10. |
 | [`UC-214`](#uc-214) | [Échec d'Impression Thermique/Laser & Procédure de Rebut Silicium (SCRAPPED)](#uc-214) | **Production Physique & Assurance Qualité** | Opérateur d'Atelier & Contrôleur Qualité | Poste Pro Dédié (macOS, Windows, Linux) | Norme ISO/IEC 7810 (critères d'aspect et d'intégrité des cartes d'identification) & Protocole Qualité PaxFunèbre QA-PRO-04. |
+| [`UC-215`](#uc-215) | [Polling Détection Lecteur USB CCID & Événements PnP Carte Présente](#uc-215) | **Silicium & Détection** | Opérateur d'Atelier | Poste Pro Dédié (macOS, Windows, Linux) | Spécification USB CCID (Integrated Circuit Card Interface Devices) & Spécifications PC/SC Workgroup Part 2 & 3. |
+| [`UC-216`](#uc-216) | [Analyse Trame Réponse ATR / ATS & Identification ISO 14443-4 Type A](#uc-216) | **Silicium & Détection** | Opérateur d'Atelier & Système Automatisé | Poste Pro Dédié (macOS, Windows, Linux) | Norme internationale ISO/IEC 14443-4 (Cartes d'identification sans contact - Protocole de transmission T=CL). |
+| [`UC-217`](#uc-217) | [Sélection de l'Applet par Commande APDU SELECT AID & Validation SW 0x9000](#uc-217) | **Système de Fichiers Puce** | Système Automatisé PaxStation | Poste Pro Dédié (macOS, Windows, Linux) | Norme ISO/IEC 7816-4 (Organisation, sécurité et commandes pour les échanges) & Spécifications Java Card 3.0.5. |
+| [`UC-218`](#uc-218) | [Lecture En-tête EF-0 Silicium & Inspection des Compteurs Monotones](#uc-218) | **Système de Fichiers Puce** | Système Automatisé & Opérateur d'Atelier | Poste Pro Dédié (macOS, Windows, Linux) | Spécification technique AeterniTrak EF-0 (Conteneur racine d'amorçage) & ISO/IEC 7816-4. |
+| [`UC-219`](#uc-219) | [Diagnostic d'Usure EEPROM & Cartographie des Blocs d'Écriture](#uc-219) | **Résilience Matérielle & Silicium** | Contrôleur Qualité Silicium | Poste Pro Dédié (macOS, Windows, Linux) | Norme JEDEC JESD22-A117 (Endurance et rétention de données pour mémoires non volatiles EEPROM). |
+| [`UC-220`](#uc-220) | [Négociation de Vitesse PPS (Baudrate 106 ➔ 212 ➔ 424 ➔ 848 kbps)](#uc-220) | **Silicium & Détection** | Système Automatisé PaxStation | Poste Pro Dédié (macOS, Windows, Linux) | Norme internationale ISO/IEC 14443-4 Section 5.3 (Procédure de sélection de protocole et paramètres PPS). |
+| [`UC-221`](#uc-221) | [Authentification Forte Opérateur par Clé FIDO2 / YubiKey & Enrôlement](#uc-221) | **Sécurité Silicium & Anti-Tamper** | Opérateur d'Atelier Habilité | Poste Pro Dédié (macOS, Windows, Linux) | Standard FIDO Alliance CTAP2.1 & Recommandation W3C Web Authentication (WebAuthn Level 2). |
+| [`UC-222`](#uc-222) | [Découpage APDU Extended Length (Trames 255 octets vs Extended APDU 64 Ko)](#uc-222) | **Gravure Silicium** | Système Automatisé PaxStation | Poste Pro Dédié (macOS, Windows, Linux) | Norme ISO/IEC 7816-4 Section 5.1 (Structure des commandes APDU et mécanismes Extended Length). |
+| [`UC-223`](#uc-223) | [Test à Blanc du Verrouillage Matériel (Simulation Fusible Virtuel in-silico)](#uc-223) | **Sécurité Silicium & Anti-Tamper** | Opérateur d'Atelier & Contrôleur Qualité | Poste Pro Dédié (macOS, Windows, Linux) | Politique de sécurité AeterniTrak Iron Gate & Recommandations Common Criteria EAL5+. |
+| [`UC-224`](#uc-224) | [Relecture Intégrale de Contrôle & Concordance d'Empreinte SHA-256 post-gravure](#uc-224) | **Assurance Qualité & Conformité** | Contrôleur Qualité & Système Automatisé | Poste Pro Dédié (macOS, Windows, Linux) | Norme FIPS PUB 180-4 (Secure Hash Standard - SHA-256) & Procédure Qualité Funéraire QA-PRO-02. |
+| [`UC-225`](#uc-225) | [Calibrage Alignement Imprimante Sublimation Thermique & Jauge Ruban](#uc-225) | **Production Physique & Assurance Qualité** | Opérateur d'Atelier & Technicien Maintenance | Poste Pro Dédié (macOS, Windows, Linux) | Spécifications industrielles HID Global Fargo HDP & Norme ISO/IEC 7810 ID-1 relative à la résistance mécanique des cartes. |
 
 ---
 
@@ -2404,6 +2415,1898 @@
                                             <button class="wf-btn wf-btn-gold">✨ Allouer une Nouvelle Carte Vierge et Relancer</button>
                                           </div>
                                         </div>
+```
+
+</details>
+
+---
+
+<a id="uc-215"></a>
+## UC-215 : Polling Détection Lecteur USB CCID & Événements PnP Carte Présente
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-215` |
+| **Catégorie Métier** | **Silicium & Détection** |
+| **Acteur Principal** | Opérateur d'Atelier |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `CCID`, `PnP`, `USB`, `PCSC`, `Detection`, `Polling`, `LecteurNFC` |
+| **Base Légale & Normative** | Spécification USB CCID (Integrated Circuit Card Interface Devices) & Spécifications PC/SC Workgroup Part 2 & 3. |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Détection Matérielle CCID & Événements PC/SC PnP` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> La PaxStation est active sur le poste pro ; le lecteur sans contact USB CCID est branché.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le lecteur CCID est synchronisé et la présence physique de la carte sans contact est certifiée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Initialisation du contexte de ressources PC/SC par le démon matériel (SCardEstablishContext).
+2. Boucle de polling asynchrone écoutant les changements d'état du lecteur (SCardGetStatusChange).
+3. Détection physique de l'approche d'un support sans contact dans le champ électromagnétique 13.56 MHz.
+4. Notification d'événement matériel Plug & Play : passage à l'état SCARD_STATE_PRESENT.
+5. Verrouillage du canal d'interrogation pour empêcher tout décrochage radiofréquence durant l'amorçage.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `ccid_reader_model` | **Lecteur USB Détecté** | `text` | `Identiv uTrust 3700 F CL Reader [PCSC] (Bus 001 Dev 004)` | - | `CCID USB 2.0` | ⭕ Optionnel |
+| `rf_field_state` | **État du Champ Radiofréquence** | `text` | `Actif • 13.56 MHz • Modulation ISO 14443 Type A activée` | - | `RF Émise` | ⭕ Optionnel |
+| `pcsc_event_status` | **Événement Matériel PnP** | `select` | `SCARD_STATE_PRESENT (Support Détecté dans le Champ)` | - | `PC/SC Événement` | ✅ Requis |
+| `usb_power_rail` | **Alimentation Bus USB** | `text` | `5.02 V • 120 mA (Tension Stable & Bruit < 15 mV)` | - | `Alimentation OK` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_poll_pcsc` | **Interroger l'État PC/SC Immédiat** | `primary` | `idle` | 🔌 |
+| `btn_reset_ccid_bus` | **Réinitialiser Bus CCID** | `secondary` | `idle` | 🔄 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Lecteur USB CCID Synchronisé & Carte Détectée
+>
+> **Badge de Conformité :** `SCARD_STATE_PRESENT`
+>
+> **Détail Opérationnel :** Support sans contact positionné dans le champ RF. Prêt pour la séquence d'Answer to Select (ATS).
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_CCID_READER_NOT_FOUND` |
+| **Intitulé de l'Incident** | **Aucun Lecteur de Carte Détecté sur le Bus USB** |
+| **Condition Déclenchante** | Périphérique CCID déconnecté ou gestionnaire pcscd indisponible. |
+| **Message d'Erreur UI** | *« Échec matériel : Aucun lecteur de carte sans contact compatible PC/SC n'est actif sur le système. »* |
+| **Action Corrective Requise** | **Brancher le lecteur sur un port USB direct et relancer le démon PC/SC.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Détection Matérielle CCID & Événements PC/SC PnP**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Démon PC/SC en Écoute & Slot Lecteur Vide | *En attente utilisateur* | Le lecteur sans contact est prêt et alimenté, en attente de la présentation d'une carte. |
+| **2** | **Déclenchement ⚡** | Détection Approche Carte dans le Champ 13.56 MHz | `Approche physique d'une carte ACOSJ sur l'antenne du lecteur` | Couplage inductif RF détecté et transition d'état PC/SC instantanée. |
+| **3** | **Traitement ⚙️** | Stabilisation Alimentation RF & Verrouillage Canal | `Progression : 90%` | Mesure de la stabilité du signal et attribution du handle matériel PC/SC sécurisé. |
+| **4** | **Scellement & Fin ✨** | Carte Détectée & Canal PC/SC Initialisé | `Statut : success` | Le support physique est solidement connecté et prêt pour la négociation de protocole. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-215 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Démon PC/SC en Écoute & Slot Lecteur Vide
+*Le lecteur sans contact est prêt et alimenté, en attente de la présentation d'une carte.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Gestionnaire PC/SC USB CCID</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Carte (Champ 13.56 MHz Prêt)</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Lecteur Assigné</label>
+                          <div class="wf-input-placeholder">Identiv uTrust 3700 F CL Reader [PCSC]</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Statut PnP</label>
+                          <div class="wf-input-placeholder">SCARD_STATE_EMPTY</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔌 Interroger l'État PC/SC Immédiat</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Détection Approche Carte dans le Champ 13.56 MHz
+*Couplage inductif RF détecté et transition d'état PC/SC instantanée.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Détecteur Matériel</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Carte Détectée dans le Champ</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Événement SCARD_STATE_PRESENT déclenché sur le lecteur #0</div>
+                        <div class="wf-subtext">Couplage RF stabilisé • Porteuse 13.56 MHz modulée</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Initialisation du lien sans contact...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Stabilisation Alimentation RF & Verrouillage Canal
+*Mesure de la stabilité du signal et attribution du handle matériel PC/SC sécurisé.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôleur Bus CCID</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Connexion PC/SC (90%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 90%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [PCSC-DAEMON] SCardConnect(SCARD_SHARE_SHARED, SCARD_PROTOCOL_T1) : OK</code><br>
+                        <code>> [USB-CCID] Tension bus 5.02V stable, consommation 120 mA</code><br>
+                        <code>> [RF-FIELD] Porteuse ISO 14443 Type A synchronisée</code><br>
+                        <code>> [CHANNEL-LOCK] Canal exclusif réservé pour la session de gravure</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Carte Détectée & Canal PC/SC Initialisé
+*Le support physique est solidement connecté et prêt pour la négociation de protocole.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Prêt pour Transaction</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Carte Connectée</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🎴</span>
+                        <div>
+                          <strong>Support Sans Contact Détecté & Stabilisé (SCARD_STATE_PRESENT)</strong>
+                          <p class="wf-subtext">Lecteur Identiv uTrust 3700 F • Prêt pour la lecture ATS / ATR</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Lancer l'Identification Matérielle ATS →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-216"></a>
+## UC-216 : Analyse Trame Réponse ATR / ATS & Identification ISO 14443-4 Type A
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-216` |
+| **Catégorie Métier** | **Silicium & Détection** |
+| **Acteur Principal** | Opérateur d'Atelier & Système Automatisé |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `ATS`, `ATR`, `ISO14443`, `TypeA`, `T=CL`, `ACOSJ`, `Identification` |
+| **Base Légale & Normative** | Norme internationale ISO/IEC 14443-4 (Cartes d'identification sans contact - Protocole de transmission T=CL). |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Décodage ATS / ATR & Identification Matérielle ISO 14443-4` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Une carte sans contact a été positionnée sur le lecteur (UC-215).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La puce est formellement identifiée comme un composant ACOSJ 92 Ko conforme aux spécifications d'encodage.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Envoi de la commande d'activation RATS (Request for Answer to Select) à la puce sans contact.
+2. Capture de la trame de réponse ATS brute retournée par le composant silicium.
+3. Décodage normalisé des octets d'en-tête : longueur TL, octet de format T0, octets d'interface TA/TB/TC et octets historiques.
+4. Validation du protocole ISO 14443-4 Type A (T=CL) et vérification de la signature du contrôleur ACOSJ 92 Ko.
+5. Contrôle de l'UID matériel (7 octets) contre le registre de sécurité d'atelier.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `ats_hex_payload` | **Trame ATS Brute (Hexadécimal)** | `text` | `0F 78 80 82 02 41 43 4F 53 4A 39 32 4B 90 00` | - | `ATS Réponse` | ⭕ Optionnel |
+| `decoded_protocol` | **Protocole de Transmission Décodé** | `text` | `ISO/IEC 14443-4 Type A (T=CL Compliant)` | - | `Protocole` | ⭕ Optionnel |
+| `silicon_chipset_id` | **Composant Silicium Identifié** | `select` | `ACS ACOSJ 92 Ko EEPROM • Microcontrôleur Sécurisé 32-bit` | - | `Homologué ACOSJ` | ✅ Requis |
+| `rfid_hardware_uid` | **UID Matériel Unique (7 octets)** | `text` | `04:88:99:AA:BB:CC:DD (NXP/ACS Genuine)` | - | `UID Unique` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_decode_ats_frame` | **Analyser la Trame ATS / ATR** | `primary` | `idle` | 🔬 |
+| `btn_verify_uid_whitelist` | **Vérifier UID sur Liste Blanche** | `secondary` | `idle` | 🛡️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Trame ATS Conforme & Puce ACOSJ 92 Ko Identifiée
+>
+> **Badge de Conformité :** `ISO 14443-4 T=CL`
+>
+> **Détail Opérationnel :** Le composant est un support officiel ACOSJ 92 Ko certifié. Protocole de haut niveau initialisé.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_INVALID_ATS_SIGNATURE` |
+| **Intitulé de l'Incident** | **Trame ATS Invalide ou Support Non Homologué** |
+| **Condition Déclenchante** | La trame reçue ne correspond pas à la signature matérielle de l'ACOSJ ou présente une altération RF. |
+| **Message d'Erreur UI** | *« Rejet de composant : Support incompatible détecté (Mifare non sécurisé ou tag non homologué). »* |
+| **Action Corrective Requise** | **Remplacer la carte par un support sécurisé ACOSJ 92 Ko issu du stock officiel d'atelier.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Décodage ATS / ATR & Identification Matérielle ISO 14443-4**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Carte Alimentée en Attente de Commande RATS | *En attente utilisateur* | La carte est sous tension radiofréquence, prête pour la négociation de protocole ATS. |
+| **2** | **Déclenchement ⚡** | Réception & Capture de la Trame Réponse ATS | `Émission commande RATS (Request for Answer to Select)` | La puce renvoie ses 15 octets ATS détaillant ses capacités mémoires et débits. |
+| **3** | **Traitement ⚙️** | Décodage des Octets T0/TA/TB/TC & Identification Puce | `Progression : 95%` | Validation du protocole ISO 14443-4 Type A et contrôle de conformité silicium. |
+| **4** | **Scellement & Fin ✨** | Protocole ISO 14443-4 Type A Certifié & UID Validé | `Statut : success` | Le composant est un support officiel authentique, prêt pour l'ouverture de l'applet. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-216 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Carte Alimentée en Attente de Commande RATS
+*La carte est sous tension radiofréquence, prête pour la négociation de protocole ATS.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Analyseur Protocolaire ISO 14443</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour RATS</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">UID Matériel Détecté</label>
+                          <div class="wf-input-placeholder">04:88:99:AA:BB:CC:DD (7 octets)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Trame ATS</label>
+                          <div class="wf-input-placeholder">Non interrogée</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔬 Analyser la Trame ATS / ATR</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Réception & Capture de la Trame Réponse ATS
+*La puce renvoie ses 15 octets ATS détaillant ses capacités mémoires et débits.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Réception ATS</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Réponse ATS 15 Octets Reçue</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Trame ATS : 0F 78 80 82 02 41 43 4F 53 4A 39 32 4B 90 00</div>
+                        <div class="wf-subtext">Signature ASCII détectée dans les octets historiques : 'ACOSJ92K'</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Décodage des paramètres T=CL...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Décodage des Octets T0/TA/TB/TC & Identification Puce
+*Validation du protocole ISO 14443-4 Type A et contrôle de conformité silicium.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Moteur d'Identification Silicium</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Analyse Signature (95%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [ATS-DECODER] TL = 0x0F (15 octets) • T0 = 0x78 (TA, TB, TC présents)</code><br>
+                        <code>> [SPEED-CAPABILITY] TA(1) = 0x80 : Support des vitesses jusqu'à 848 kbps</code><br>
+                        <code>> [CHIPSET-MATCH] Puce homologuée ACOSJ 92 Ko EEPROM (ACS Smart Cards)</code><br>
+                        <code>> [SECURITY-CHECK] UID matériel validé dans l'inventaire d'atelier</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Protocole ISO 14443-4 Type A Certifié & UID Validé
+*Le composant est un support officiel authentique, prêt pour l'ouverture de l'applet.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Silicium Certifié</span>
+                        <span class="wf-status-badge wf-badge-success">✨ ACOSJ 92 Ko Homologué</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏆</span>
+                        <div>
+                          <strong>Puce ACOSJ 92 Ko Officielle Reconnue (T=CL Type A)</strong>
+                          <p class="wf-subtext">UID #04:88:99:AA:BB:CC:DD • Composant certifié pour gravure funéraire</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Sélectionner l'Applet AeterniCore (SELECT AID) →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-217"></a>
+## UC-217 : Sélection de l'Applet par Commande APDU SELECT AID & Validation SW 0x9000
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-217` |
+| **Catégorie Métier** | **Système de Fichiers Puce** |
+| **Acteur Principal** | Système Automatisé PaxStation |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `APDU`, `SELECT`, `AID`, `SW9000`, `AppletJavaCard`, `AeterniCore` |
+| **Base Légale & Normative** | Norme ISO/IEC 7816-4 (Organisation, sécurité et commandes pour les échanges) & Spécifications Java Card 3.0.5. |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Sélection d'Applet JavaCard AeterniCore (ISO 7816-4 SELECT AID)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Le protocole de transmission T=CL est actif sur la puce (UC-216).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'applet AeterniCore est active en mémoire vive de la puce, prête pour les opérations sur les partitions EF.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Forge de la commande APDU de sélection applicative selon ISO/IEC 7816-4 : CLA 0x00, INS 0xA4, P1 0x04, P2 0x00.
+2. Injection de l'AID souverain de l'applet AeterniCore : `A0 00 00 08 47 01 02` (7 octets).
+3. Transmission de la trame via le canal logique 0 du protocole T=CL.
+4. Réception et vérification du Status Word (mot d'état de retour SW1-SW2).
+5. Confirmation de l'état `0x9000` (Succès normal) et activation de la session de commande sécurisée.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `apdu_select_payload` | **Commande APDU SELECT AID** | `text` | `00 A4 04 00 07 A0 00 00 08 47 01 02 00` | - | `APDU ISO 7816` | ⭕ Optionnel |
+| `target_aid_string` | **Identifiant d'Application (AID)** | `text` | `A0000008470102 (AeterniCore Applet V1.0)` | - | `AID Souverain` | ⭕ Optionnel |
+| `status_word_received` | **Mot d'État Retourné (SW)** | `select` | `0x9000 (Succès Normal • Applet Sélectionnée)` | - | `SW 0x9000` | ✅ Requis |
+| `jc_vm_status` | **État Machine Virtuelle Silicium** | `text` | `Java Card VM Prête • Contexte d'exécution isolé` | - | `Sécurité Silicium` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_send_select_aid` | **Transmettre APDU SELECT AID** | `primary` | `idle` | 🎯 |
+| `btn_read_applet_lifecycle` | **Vérifier Cycle de Vie Applet** | `secondary` | `idle` | 📋 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Applet AeterniCore Sélectionnée avec Succès (SW 0x9000)
+>
+> **Badge de Conformité :** `SW 0x9000 Validé`
+>
+> **Détail Opérationnel :** L'applet est active et réceptive. Les fichiers élémentaires EF-0 à EF-5 sont accessibles pour transaction.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_APDU_APPLET_NOT_FOUND` |
+| **Intitulé de l'Incident** | **Échec Sélection AID (SW 0x6A82 - File / Application Not Found)** |
+| **Condition Déclenchante** | L'AID demandé n'est pas instancié sur le support ou a été corrompu lors de la phase usine. |
+| **Message d'Erreur UI** | *« Erreur logicielle silicium : L'applet A0000008470102 est introuvable sur cette carte. »* |
+| **Action Corrective Requise** | **Charger le paquet CAP AeterniCore via le script d'initialisation GlobalPlatform d'atelier.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Sélection d'Applet JavaCard AeterniCore (ISO 7816-4 SELECT AID)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Puce Reconnue, Applet Non Encore Sélectionnée | *En attente utilisateur* | Le canal T=CL est ouvert. L'APDU SELECT AID attend d'être transmise pour activer l'applet. |
+| **2** | **Déclenchement ⚡** | Émission de l'APDU SELECT AID (A0 00 00 08 47 01 02) | `Envoi APDU 00 A4 04 00 07 A0000008470102 00` | Bascule du contexte d'exécution de la machine virtuelle JavaCard vers l'instance AeterniCore. |
+| **3** | **Traitement ⚙️** | Activation Contexte JavaCard & Analyse Code SW 0x9000 | `Progression : 96%` | Validation du code de succès 0x9000 et vérification des permissions de session. |
+| **4** | **Scellement & Fin ✨** | Applet AeterniCore Active sur Canal 0 | `Statut : success` | La communication applicative est ouverte. Les commandes de lecture/écriture de fichiers sont prêtes. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-217 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Puce Reconnue, Applet Non Encore Sélectionnée
+*Le canal T=CL est ouvert. L'APDU SELECT AID attend d'être transmise pour activer l'applet.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Gestionnaire d'Applets Silicium</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour SELECT AID</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">AID Cible</label>
+                          <div class="wf-input-placeholder">A0000008470102 (AeterniCore)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Canal Logique</label>
+                          <div class="wf-input-placeholder">Canal de Base #0 (T=CL)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🎯 Transmettre APDU SELECT AID</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Émission de l'APDU SELECT AID (A0 00 00 08 47 01 02)
+*Bascule du contexte d'exécution de la machine virtuelle JavaCard vers l'instance AeterniCore.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Dialogue APDU ISO 7816-4</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ APDU SELECT Transmise</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Envoi : 00 A4 04 00 07 A0 00 00 08 47 01 02 00</div>
+                        <div class="wf-subtext">Activation de l'applet sur le microcontrôleur ACOSJ</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Réception du Status Word...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Activation Contexte JavaCard & Analyse Code SW 0x9000
+*Validation du code de succès 0x9000 et vérification des permissions de session.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Décodeur Status Word</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Analyse SW (96%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [APDU-RX] Status Word retourné : 0x9000 (Command successfully executed)</code><br>
+                        <code>> [JC-APPLET] Instance AeterniCore v1.0 initialisée en RAM</code><br>
+                        <code>> [SECURITY-DOMAIN] Droits de lecture/écriture débloqués pour session atelier</code><br>
+                        <code>> [EF-MAPPING] 6 partitions élémentaires EF-0 à EF-5 prêtes pour transaction</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Applet AeterniCore Active sur Canal 0
+*La communication applicative est ouverte. Les commandes de lecture/écriture de fichiers sont prêtes.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Applet Active</span>
+                        <span class="wf-status-badge wf-badge-success">✨ SW 0x9000 Normal Execution</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🎯</span>
+                        <div>
+                          <strong>Applet AeterniCore Sélectionnée avec Succès</strong>
+                          <p class="wf-subtext">Canal logique #0 prêt • Prêt pour l'inspection de l'en-tête EF-0</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Inspecter l'En-tête Matériel EF-0 →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-218"></a>
+## UC-218 : Lecture En-tête EF-0 Silicium & Inspection des Compteurs Monotones
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-218` |
+| **Catégorie Métier** | **Système de Fichiers Puce** |
+| **Acteur Principal** | Système Automatisé & Opérateur d'Atelier |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `EF-0`, `CompteurMonotone`, `AntiRejeu`, `EnTete`, `UID`, `Silicium` |
+| **Base Légale & Normative** | Spécification technique AeterniTrak EF-0 (Conteneur racine d'amorçage) & ISO/IEC 7816-4. |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Inspection En-tête Matériel EF-0 & Compteurs Monotones` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> L'applet AeterniCore a été sélectionnée avec succès (UC-217).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'en-tête matériel et le compteur monotone sont validés ; la carte est déclarée intègre et non altérée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Envoi de la commande APDU de lecture transparente du fichier EF-0 (`00 B0 00 00 40`).
+2. Décodage de la structure TLV de l'en-tête matériel : Tag 0x01 (version schéma), Tag 0x02 (UID matériel), Tag 0x03 (verrous d'accès).
+3. Extraction de la valeur du compteur monotone non-réversible géré par le silicium.
+4. Vérification que la valeur du compteur d'écritures correspond à un support vierge d'usine (0 ou 1 cycle de test).
+5. Enregistrement de l'état initial dans le journal d'audit trail d'atelier pour la traçabilité de production.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `target_ef_file` | **Fichier Élémentaire Ciblé** | `text` | `EF-0 (Fichier Racine d'Amorçage & Sécurité)` | - | `EF-0 Silicium` | ⭕ Optionnel |
+| `monotone_counter_value` | **Compteur Monotone d'Écriture** | `text` | `0x00000001 (1 cycle usine • Vierge pour gravure)` | - | `Anti-Rejeu` | ⭕ Optionnel |
+| `write_lock_status` | **État du Verrou d'Écriture Silicium** | `select` | `UNLOCKED (Prêt pour Gravure Définitive)` | - | `Verrou Ouvert` | ✅ Requis |
+| `metadata_schema_rev` | **Version du Schéma Métadonnées** | `text` | `AeterniCore v1.0 • Rétrocompatibilité garantie` | - | `Schéma 1.0` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_read_ef0_header` | **Lire En-tête EF-0** | `primary` | `idle` | 📖 |
+| `btn_audit_anti_replay` | **Auditer Compteur Anti-Rejeu** | `secondary` | `idle` | 🛡️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** En-tête EF-0 Valide & Compteur Monotone Conforme
+>
+> **Badge de Conformité :** `EF-0 Intègre`
+>
+> **Détail Opérationnel :** Support vierge de tout enregistrement pirate. Compteur matériel cohérent, prêt pour l'injection des données.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_MONOTONE_COUNTER_ABNORMAL` |
+| **Intitulé de l'Incident** | **Valeur Anormale du Compteur Monotone Silicium** |
+| **Condition Déclenchante** | Le compteur présente une valeur anormalement élevée ou incohérente, trahissant une réutilisation ou tentative de clonage. |
+| **Message d'Erreur UI** | *« Alerte sécurité anti-tamper : Le compteur monotone matériel indique que cette carte a déjà été modifiée. »* |
+| **Action Corrective Requise** | **Mettre la carte en quarantaine immédiate et la soumettre au contrôle qualité niveau 3.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Inspection En-tête Matériel EF-0 & Compteurs Monotones**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Applet Sélectionnée, En-tête EF-0 Non Audité | *En attente utilisateur* | La carte est prête pour la lecture de son fichier racine de configuration et de sécurité. |
+| **2** | **Déclenchement ⚡** | Envoi de la Commande READ BINARY sur EF-0 | `Émission APDU 00 B0 00 00 40` | Extraction des 64 premiers octets structurés de la partition racine. |
+| **3** | **Traitement ⚙️** | Contrôle Compteur Monotone (Anti-Rejeu) & Droits d'Accès | `Progression : 97%` | Vérification mathématique de non-altération du composant et de la virginité du support. |
+| **4** | **Scellement & Fin ✨** | En-tête EF-0 Homologué & Silicium Vierge Confirmé | `Statut : success` | La puce est formellement déclarée vierge, intègre et prête pour recevoir la gravure. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-218 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Applet Sélectionnée, En-tête EF-0 Non Audité
+*La carte est prête pour la lecture de son fichier racine de configuration et de sécurité.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Explorateur Silicium EF-0</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Lecture EF-0</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Cible Silicium</label>
+                          <div class="wf-input-placeholder">EF-0 (Racine & Monotones)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Commande</label>
+                          <div class="wf-input-placeholder">READ BINARY 00 B0 00 00 40</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">📖 Lire En-tête EF-0</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Envoi de la Commande READ BINARY sur EF-0
+*Extraction des 64 premiers octets structurés de la partition racine.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Transaction Silicium EF-0</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ 64 Octets Extraits</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ En-tête TLV extrait : Tag 0x01 Schema 1.0 • Tag 0x02 UID • Tag 0x03 LockFlag 0x00</div>
+                        <div class="wf-subtext">Compteur monotone d'écritures : 0x00000001 (1 cycle usine)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Contrôle anti-tamper en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Contrôle Compteur Monotone (Anti-Rejeu) & Droits d'Accès
+*Vérification mathématique de non-altération du composant et de la virginité du support.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Auditeur de Sécurité Silicium</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Anti-Rejeu (97%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 97%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [MONOTONE-CHECK] Compteur matériel = 1 (Conforme carte neuve sortie usine)</code><br>
+                        <code>> [LOCK-FLAG] État courant : UNLOCKED (Écriture autorisée)</code><br>
+                        <code>> [ANTI-CLONING] Signature interne EEPROM conforme</code><br>
+                        <code>> [AUDIT-TRAIL] Enregistrement du hash EF-0 dans le registre atelier</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : En-tête EF-0 Homologué & Silicium Vierge Confirmé
+*La puce est formellement déclarée vierge, intègre et prête pour recevoir la gravure.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • EF-0 Validé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Support Vierge Certifié</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🛡️</span>
+                        <div>
+                          <strong>En-tête Matériel EF-0 Validé & Compteur Monotone Conforme</strong>
+                          <p class="wf-subtext">Carte neuve certifiée • Zéro tentative de rejeu • Prêt pour le diagnostic d'usure</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Lancer le Diagnostic d'Usure EEPROM →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-219"></a>
+## UC-219 : Diagnostic d'Usure EEPROM & Cartographie des Blocs d'Écriture
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-219` |
+| **Catégorie Métier** | **Résilience Matérielle & Silicium** |
+| **Acteur Principal** | Contrôleur Qualité Silicium |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `EEPROM`, `Endurance`, `Diagnostic`, `SanteSilicium`, `WearLeveling`, `JEDEC` |
+| **Base Légale & Normative** | Norme JEDEC JESD22-A117 (Endurance et rétention de données pour mémoires non volatiles EEPROM). |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Diagnostic d'Usure EEPROM & Cartographie Silicium (JEDEC JESD22)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> La carte est alimentée et les canaux de diagnostic usine sont ouverts.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La matrice EEPROM est certifiée à 100% de santé, garantissant une pérennité intergénérationnelle.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Exécution d'une routine de diagnostic matériel non destructive sur l'ensemble de la matrice mémoire non-volatile.
+2. Lecture des registres internes d'endurance EEPROM et mesure des temps de charge de programmation de grille.
+3. Analyse de la table d'allocation de wear-leveling : détection d'éventuels blocs dégradés ou réalloués.
+4. Calcul de l'indice de santé matériel global (Health Index) selon la norme d'endurance JEDEC JESD22.
+5. Délivrance de la certification de longévité garantissant une conservation des données sur plus de 25 ans à 55°C.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `eeprom_cycles_count` | **Cycles d'Écriture Consommés** | `text` | `3 cycles / 500 000 garantis (0.0006% d'usure)` | - | `Endurance` | ⭕ Optionnel |
+| `bad_blocks_map` | **Cartographie des Blocs Défectueux** | `text` | `0 bloc défectueux • 100% cellules fonctionnelles` | - | `Intégrité Blocs` | ⭕ Optionnel |
+| `data_retention_estimate` | **Estimation Rétention de Données** | `text` | `> 25 ans garanti à 55°C (Spécification ACOSJ)` | - | `Pérennité` | ⭕ Optionnel |
+| `silicon_health_score` | **Indice Global de Santé Silicium** | `select` | `INDICE DE SANTÉ 100.0% (ÉTAT PARFAIT ATELIER)` | - | `JEDEC 100%` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_run_eeprom_diagnostic` | **Lancer le Diagnostic d'Usure EEPROM** | `primary` | `idle` | 🩺 |
+| `btn_export_longevity_cert` | **Générer Certificat de Longévité** | `secondary` | `idle` | 📜 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Diagnostic EEPROM Réussi : Santé Matérielle Certifiée 100%
+>
+> **Badge de Conformité :** `JEDEC JESD22 Validé`
+>
+> **Détail Opérationnel :** Zéro bloc défaillant. La rétention des données mémorielles et directives est garantie pour le siècle à venir.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_EEPROM_WEAR_LIMIT_REACHED` |
+| **Intitulé de l'Incident** | **Usure Prématurée ou Cellules EEPROM Altérées** |
+| **Condition Déclenchante** | La tension de claquage ou le temps de programmation d'un secteur dépasse les tolérances usine. |
+| **Message d'Erreur UI** | *« Défaut silicium critique : La matrice EEPROM présente une anomalie de rétention. »* |
+| **Action Corrective Requise** | **Mettre le support au rebut (statut SCRAPPED) et prélever un nouveau support neuf.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Diagnostic d'Usure EEPROM & Cartographie Silicium (JEDEC JESD22)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Silicium Connecté Prêt pour Diagnostic d'Endurance | *En attente utilisateur* | Le banc d'essai matériel est armé pour ausculter l'état de santé de la matrice EEPROM 92 Ko. |
+| **2** | **Déclenchement ⚡** | Lancement du Banc de Test Matériel EEPROM | `Clic sur 'Lancer le Diagnostic d'Usure EEPROM'` | Sondage des cellules et vérification des registres de charge de la pompe à haute tension. |
+| **3** | **Traitement ⚙️** | Audit Blocs Défectueux & Calcul Health Index (JESD22) | `Progression : 98%` | Analyse statistique de l'endurance et vérification de la garantie constructeur de rétention. |
+| **4** | **Scellement & Fin ✨** | Matrice EEPROM 100% Saine & Rétention 25 Ans Certifiée | `Statut : success` | La puce offre toutes les garanties physiques pour conserver les mémoires de manière pérenne. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-219 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Silicium Connecté Prêt pour Diagnostic d'Endurance
+*Le banc d'essai matériel est armé pour ausculter l'état de santé de la matrice EEPROM 92 Ko.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Banc d'Endurance Matériel</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Diagnostic EEPROM</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Matrice Mémoire</label>
+                          <div class="wf-input-placeholder">EEPROM 92 Ko (ACS ACOSJ)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Norme de Référence</label>
+                          <div class="wf-input-placeholder">JEDEC JESD22-A117</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🩺 Lancer le Diagnostic d'Usure EEPROM</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Lancement du Banc de Test Matériel EEPROM
+*Sondage des cellules et vérification des registres de charge de la pompe à haute tension.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Sonde Silicium JEDEC</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Diagnostic Matriciel Actif</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Cartographie des 92 160 octets en cours • Mesure des temps d'accès</div>
+                        <div class="wf-subtext">Vérification de l'absence de charges parasites piégées dans l'oxyde de grille</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul de l'indice de santé...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Audit Blocs Défectueux & Calcul Health Index (JESD22)
+*Analyse statistique de l'endurance et vérification de la garantie constructeur de rétention.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôleur d'Endurance</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Analyse Santé (98%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [JESD22-CHECK] Évaluation de rétention thermique équivalente 25 ans à 55°C : OK</code><br>
+                        <code>> [WEAR-LEVELING] Table d'usure uniforme, 0 bloc défectueux recensé</code><br>
+                        <code>> [CHARGE-PUMP] Tension de programmation 14.8V stabilisée</code><br>
+                        <code>> [HEALTH-INDEX] Score parfait 100.0% attribué au composant</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Matrice EEPROM 100% Saine & Rétention 25 Ans Certifiée
+*La puce offre toutes les garanties physiques pour conserver les mémoires de manière pérenne.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Silicium Certifié JEDEC</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Santé Silicium 100%</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏆</span>
+                        <div>
+                          <strong>Matrice EEPROM en Parfait État (Indice de Santé 100%)</strong>
+                          <p class="wf-subtext">Rétention garantie > 25 ans selon JEDEC JESD22 • Prêt pour négociation de vitesse PPS</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Négocier Vitesse PPS Maximale (848 kbps) →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-220"></a>
+## UC-220 : Négociation de Vitesse PPS (Baudrate 106 ➔ 212 ➔ 424 ➔ 848 kbps)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-220` |
+| **Catégorie Métier** | **Silicium & Détection** |
+| **Acteur Principal** | Système Automatisé PaxStation |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `PPS`, `Baudrate`, `Vitesse`, `ISO14443`, `848kbps`, `Optimisation`, `RF` |
+| **Base Légale & Normative** | Norme internationale ISO/IEC 14443-4 Section 5.3 (Procédure de sélection de protocole et paramètres PPS). |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Négociation de Vitesse RF PPS (Baudrate 848 kbps ISO 14443-4)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> La carte a transmis son ATS indiquant la prise en charge des débits rapides (octets TA1).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le canal de communication fonctionne à 848 kbps avec un taux d'erreur nul, réduisant le temps de gravure à moins de 6 secondes.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Inspection des capacités de débit de la carte dans les paramètres de l'ATS (TA(1) codant les facteurs DSI/DRI).
+2. Émission de la trame de négociation PPS (Protocol and Parameter Selection) demandant le palier maximal 848 kbps.
+3. Attente de la trame d'acquittement PPS de la puce sous 10 millisecondes.
+4. Bascule synchrone du modulateur du lecteur sans contact et de l'étage RF de la puce à 848 kbps.
+5. Mesure du taux d'erreur de trame (Bit Error Rate) et accélération par un facteur 8 de la gravure des 92 Ko.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `initial_rf_speed` | **Débit de Base Initial** | `text` | `106 kbps (Débit par défaut ISO 14443)` | - | `106 kbps` | ⭕ Optionnel |
+| `pps_exchange_frame` | **Trame de Négociation PPS** | `text` | `PPSS: 0xFF • PPS0: 0x11 • PPS1: 0x33 (DSI=3, DRI=3)` | - | `Trame PPS` | ⭕ Optionnel |
+| `negotiated_baudrate` | **Vitesse Finale Négociée** | `select` | `848 KBPS (DÉBIT ULTRA-RAPIDE QUADRUPLÉ)` | - | `848 kbps Actif` | ✅ Requis |
+| `estimated_write_duration` | **Temps Estimé de Gravure 92 Ko** | `text` | `5.4 secondes (au lieu de 44 secondes à 106 kbps)` | - | `Gain x8` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_negotiate_pps` | **Négocier Vitesse PPS Maximale** | `primary` | `idle` | ⚡ |
+| `btn_test_rf_ber` | **Tester la Stabilité Radio (BER)** | `secondary` | `idle` | 📶 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Négociation PPS Réussie : Débit Établi à 848 kbps
+>
+> **Badge de Conformité :** `848 kbps Validé`
+>
+> **Détail Opérationnel :** Le canal sans contact est cadencé à 848 kbps sans aucune perte de paquet. Temps de cycle optimisé au maximum.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `WARN_PPS_FALLBACK_BASE_SPEED` |
+| **Intitulé de l'Incident** | **Échec Négociation PPS (Repli Automatique à 106 kbps)** |
+| **Condition Déclenchante** | La puce n'acquitte pas la trame PPS dans le délai imparti en raison d'interférences RF. |
+| **Message d'Erreur UI** | *« Avertissement débit : Repli sécuritaire sur le débit standard 106 kbps. »* |
+| **Action Corrective Requise** | **Recentrer la carte sur l'antenne pour minimiser les pertes de couplage magnétique.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Négociation de Vitesse RF PPS (Baudrate 848 kbps ISO 14443-4)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Débit Standard 106 kbps Actif | *En attente utilisateur* | Le canal RF fonctionne à la vitesse par défaut. La négociation PPS haute vitesse est disponible. |
+| **2** | **Déclenchement ⚡** | Envoi Trame de Négociation PPS pour 848 kbps | `Émission trame PPS FF 11 33` | Demande de bascule de cadence adressée au contrôleur sans contact de la puce. |
+| **3** | **Traitement ⚙️** | Bascule Modulateur RF & Contrôle Taux d'Erreurs BER | `Progression : 96%` | Vérification de la clarté du signal 13.56 MHz à 848 kbps et absence de paquets corrompus. |
+| **4** | **Scellement & Fin ✨** | Lien Radiofréquence Établi à 848 kbps (Gain Vitesse x8) | `Statut : success` | Le débit maximal est actif. Les opérations d'écriture de masse s'exécuteront à cadence ultra-rapide. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-220 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Débit Standard 106 kbps Actif
+*Le canal RF fonctionne à la vitesse par défaut. La négociation PPS haute vitesse est disponible.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôleur de Débit RF</span>
+                        <span class="wf-status-badge wf-badge-neutral">Vitesse de Base (106 kbps)</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Vitesse Courante</label>
+                          <div class="wf-input-placeholder">106 kbps (Durée estimée 92 Ko : 44s)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Cible Négociation</label>
+                          <div class="wf-input-placeholder">848 kbps (Quadri-vitesse DSI=3/DRI=3)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">⚡ Négocier Vitesse PPS Maximale</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Envoi Trame de Négociation PPS pour 848 kbps
+*Demande de bascule de cadence adressée au contrôleur sans contact de la puce.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Protocole PPS ISO 14443-4</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Trame PPS Émise</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Trame PPS transmise : FF 11 33 (DSI=3, DRI=3 ➔ 848 kbps)</div>
+                        <div class="wf-subtext">Attente de l'acquittement de la puce sous 5 ms</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Bascule de modulation RF...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Bascule Modulateur RF & Contrôle Taux d'Erreurs BER
+*Vérification de la clarté du signal 13.56 MHz à 848 kbps et absence de paquets corrompus.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôle Radiofréquence</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Bascule Fréquence (96%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [PPS-ACK] Acquittement reçu de la puce : FF 00 (Accordé à 848 kbps)</code><br>
+                        <code>> [RF-MODULATOR] Fréquence sous-porteuse calée à 848 kHz (fc/16)</code><br>
+                        <code>> [BER-TEST] Taux d'erreurs binaire BER mesuré : 0.000% sur 10 000 trames</code><br>
+                        <code>> [THROUGHPUT] Débit effectif : 91.2 Ko/s (Transfert total prévu en 5.4s)</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Lien Radiofréquence Établi à 848 kbps (Gain Vitesse x8)
+*Le débit maximal est actif. Les opérations d'écriture de masse s'exécuteront à cadence ultra-rapide.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Débit Optimisé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ 848 kbps Négocié</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">⚡</span>
+                        <div>
+                          <strong>Communication Cadencée à 848 kbps (Gain Facteur 8)</strong>
+                          <p class="wf-subtext">Transfert des 92 Ko en 5.4s • Prêt pour l'authentification forte opérateur</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Passer à l'Authentification Forte FIDO2 →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-221"></a>
+## UC-221 : Authentification Forte Opérateur par Clé FIDO2 / YubiKey & Enrôlement
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-221` |
+| **Catégorie Métier** | **Sécurité Silicium & Anti-Tamper** |
+| **Acteur Principal** | Opérateur d'Atelier Habilité |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `FIDO2`, `YubiKey`, `CTAP2`, `WebAuthn`, `Authentification`, `Operateur`, `Audit` |
+| **Base Légale & Normative** | Standard FIDO Alliance CTAP2.1 & Recommandation W3C Web Authentication (WebAuthn Level 2). |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Authentification Forte Opérateur FIDO2 / YubiKey (CTAP2)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> L'opérateur s'apprête à déverrouiller les fonctionnalités critiques d'écriture et de scellement matériel.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'identité de l'opérateur est formellement authentifiée au plus haut niveau de confiance matériel.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. La PaxStation génère un challenge cryptographique pseudo-aléatoire de 32 octets (norme FIDO2 / WebAuthn).
+2. L'opérateur connecte sa clé matérielle FIDO2 (YubiKey Série 5) et applique son empreinte ou contact physique tactile.
+3. La puce cryptographique de la clé FIDO2 valide le code PIN utilisateur et signe le challenge avec sa clé privée secp256r1.
+4. Le module d'atelier vérifie la signature contre la clé publique enrôlée au registre des opérateurs habilités.
+5. Délivrance d'un jeton d'habilitation de gravure nominatif (durée 15 minutes), journalisé dans la chaîne d'audit.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `operator_fullname` | **Opérateur Titulaire Habilité** | `text` | `Jean-Marc Vandamme (Matricule ATELIER-OP-08)` | - | `Graveur Agréé` | ✅ Requis |
+| `fido2_device_sn` | **Clé Matérielle Détectée** | `text` | `Yubico YubiKey 5 NFC (ID 16294801 • Firmware 5.4.3)` | - | `FIDO2 / CTAP2` | ⭕ Optionnel |
+| `user_presence_verification` | **Preuve de Présence Physique** | `select` | `PRÉSENCE TACTILE (UP) & PIN CONFIRMÉS` | - | `Touch Sensor OK` | ✅ Requis |
+| `session_token_scope` | **Jeton de Session Gravure** | `text` | `ROLE_GRAVURE_SOUVERAINE (Expiration : 14 min 52 s)` | - | `Jeton 15 min` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_fido2_authenticate` | **Authentifier par Clé FIDO2 / YubiKey** | `primary` | `idle` | 🔑 |
+| `btn_lock_session_now` | **Verrouiller le Poste Immédiatement** | `secondary` | `idle` | 🔒 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Authentification Forte Opérateur Réussie (FIDO2 CTAP2)
+>
+> **Badge de Conformité :** `FIDO2 Authentifié`
+>
+> **Détail Opérationnel :** Signature matérielle vérifiée avec succès. Autorisation accordée pour l'écriture et le scellement définitif.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_OPERATOR_AUTH_REJECTED` |
+| **Intitulé de l'Incident** | **Échec d'Authentification FIDO2 ou Clé Non Enrôlée** |
+| **Condition Déclenchante** | Signature CTAP2 invalide, clé matérielle révoquée ou contact physique non établi dans les 15 secondes. |
+| **Message d'Erreur UI** | *« Accès refusé : Impossible de certifier l'habilitation de l'opérateur sur la PaxStation. »* |
+| **Action Corrective Requise** | **Insérer la clé YubiKey officielle enregistrée au registre d'atelier et valider le contact tactile.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Authentification Forte Opérateur FIDO2 / YubiKey (CTAP2)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Demande d'Élévation de Privilèges pour Gravure Souveraine | *En attente utilisateur* | L'écriture définitive requiert la preuve de présence physique de l'opérateur habilité via sa clé matérielle. |
+| **2** | **Déclenchement ⚡** | Présentation de la YubiKey & Contact Tactile Confirmé | `Touch sur le capteur doré de la YubiKey 5 NFC` | Signature du challenge cryptographique de 32 octets par la puce sécurisée de la clé. |
+| **3** | **Traitement ⚙️** | Vérification Cryptographique ECDSA & Habilitation | `Progression : 98%` | Validation de la chaîne de confiance et émission du jeton d'autorisation de gravure. |
+| **4** | **Scellement & Fin ✨** | Opérateur Authentifié & Droits de Gravure Accordés | `Statut : success` | L'opération de gravure est formellement imputable et tracée sous l'autorité de l'opérateur. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-221 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Demande d'Élévation de Privilèges pour Gravure Souveraine
+*L'écriture définitive requiert la preuve de présence physique de l'opérateur habilité via sa clé matérielle.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôle d'Accès Matériel</span>
+                        <span class="wf-status-badge wf-badge-neutral">Clé FIDO2 Requise</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Opérateur Attendu</label>
+                          <div class="wf-input-placeholder">Jean-Marc Vandamme (OP-08)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Authentification</label>
+                          <div class="wf-input-placeholder">FIDO2 CTAP2 (Touch Sensor)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔑 Authentifier par Clé FIDO2 / YubiKey</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Présentation de la YubiKey & Contact Tactile Confirmé
+*Signature du challenge cryptographique de 32 octets par la puce sécurisée de la clé.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Challenge CTAP2</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Présence Tactile Détectée</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Contact physique validé • Clé secp256r1 activée dans l'élément sécurisé</div>
+                        <div class="wf-subtext">Signature ECDSA renvoyée au démon d'authentification d'atelier</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Vérification de l'enrôlement...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Vérification Cryptographique ECDSA & Habilitation
+*Validation de la chaîne de confiance et émission du jeton d'autorisation de gravure.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Vérificateur d'Identité</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Signature (98%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [FIDO2-CTAP2] Signature ECDSA secp256r1 vérifiée contre le registre d'atelier</code><br>
+                        <code>> [OPERATOR-ROLE] Habilitation 'GRAVEUR_SOUVERAIN' confirmée pour J.-M. Vandamme</code><br>
+                        <code>> [TOKEN-ISSUANCE] Jeton de session #TOK-OP08-8842 émis (validité 15 min)</code><br>
+                        <code>> [AUDIT-LOG] Entrée consignée : Autorisation d'écriture sur ACOSJ débloquée</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Opérateur Authentifié & Droits de Gravure Accordés
+*L'opération de gravure est formellement imputable et tracée sous l'autorité de l'opérateur.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Session Déverrouillée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Habilitation FIDO2 Accordée</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🔑</span>
+                        <div>
+                          <strong>Opérateur Officiellement Authentifié (YubiKey 5 CTAP2)</strong>
+                          <p class="wf-subtext">Jean-Marc Vandamme • Droits d'écriture et de scellement accordés pour 15 min</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Lancer l'Injection APDU des Partitions →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-222"></a>
+## UC-222 : Découpage APDU Extended Length (Trames 255 octets vs Extended APDU 64 Ko)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-222` |
+| **Catégorie Métier** | **Gravure Silicium** |
+| **Acteur Principal** | Système Automatisé PaxStation |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `ExtendedAPDU`, `Trames255`, `Chunking`, `ISO7816`, `Payload`, `Optimisation` |
+| **Base Légale & Normative** | Norme ISO/IEC 7816-4 Section 5.1 (Structure des commandes APDU et mécanismes Extended Length). |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Gestionnaire de Segmentation APDU (Extended APDU vs Blocs 255o)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Une partition volumineuse (ex: Portrait WebP de 18 Ko dans EF-2 ou Audio de 42 Ko dans EF-3) doit être injectée.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Les données volumineuses sont injectées sans incident, avec ou sans support Extended Length.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Interrogation de la carte et du lecteur pour déterminer la compatibilité Extended Length APDU (jusqu'à 65 535 octets par commande).
+2. Sélection automatique de la stratégie de transfert : trames Extended directes ou segmentation en blocs ISO classiques (255 octets max).
+3. Calcul des offsets mémoire P1-P2 pour chaque sous-trame UPDATE BINARY en cas de découpage dynamique.
+4. Émission séquencée avec contrôle synchrone du code retour SW 0x9000 sur chaque tranche écrite.
+5. Vérification de la continuité binaire de la partition réassemblée in-silico.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `payload_bytes_total` | **Volume de Données à Injecter** | `text` | `42 100 octets (Mémo Audio EF-3)` | - | `Volume Brut` | ⭕ Optionnel |
+| `apdu_segmentation_mode` | **Mode de Transmission Retenu** | `select` | `EXTENDED LENGTH SUPPORTÉ (Trames de 4 096 octets)` | - | `Extended APDU` | ✅ Requis |
+| `chunks_count_calculated` | **Nombre de Trames / Chunks** | `text` | `11 trames Extended (vs 166 trames courtes 255 o)` | - | `Optimisation x15` | ⭕ Optionnel |
+| `average_write_throughput` | **Vitesse d'Injection Moyenne** | `text` | `68.2 Ko/s (Transfert total en 617 ms)` | - | `Performance` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_send_chunked_apdu` | **Transmettre en Extended APDU** | `primary` | `idle` | 📦 |
+| `btn_fallback_short_apdu` | **Forcer Segmentation 255 Octets** | `secondary` | `idle` | ⚙️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Segmentation APDU Validée : Écriture Silicium Intègre
+>
+> **Badge de Conformité :** `Extended APDU OK`
+>
+> **Détail Opérationnel :** 11 trames transmises sans aucune altération de buffer. Les 42 100 octets sont gravés dans la partition EF-3.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_APDU_BUFFER_OVERFLOW` |
+| **Intitulé de l'Incident** | **Dépassement de Capacité de Tampon APDU sur le Lecteur** |
+| **Condition Déclenchante** | Le micro-lecteur sans contact sature sa mémoire tampon face à une trame Extended trop large. |
+| **Message d'Erreur UI** | *« Erreur matérielle : Tampon lecteur saturé (SW 0x6700 - Wrong Length). »* |
+| **Action Corrective Requise** | **Basculer immédiatement en mode de découpage strict en blocs courts de 255 octets.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Gestionnaire de Segmentation APDU (Extended APDU vs Blocs 255o)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Partition Volumineuse (42 Ko) en Attente d'Injection | *En attente utilisateur* | Le mémo audio volumineux doit être segmenté de façon optimale pour respecter les tampons matériels. |
+| **2** | **Déclenchement ⚡** | Calcul du Découpage en 11 Blocs Extended de 4 Ko | `Clic sur 'Transmettre en Extended APDU'` | Organisation des commandes UPDATE BINARY avec gestion fine des offsets d'adresses P1-P2. |
+| **3** | **Traitement ⚙️** | Injection Séquencée par Chunks & Validation SW 0x9000 | `Progression : 96%` | Transfert haute vitesse et vérification du statut 0x9000 à l'issue de chaque bloc écrit. |
+| **4** | **Scellement & Fin ✨** | Partition Gravée Sans Débordement de Mémoire Tampon | `Statut : success` | Le flux volumineux a été gravé en un temps record grâce au protocole Extended Length. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-222 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Partition Volumineuse (42 Ko) en Attente d'Injection
+*Le mémo audio volumineux doit être segmenté de façon optimale pour respecter les tampons matériels.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Moteur de Segmentation APDU</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Injection Silicium</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Données Source</label>
+                          <div class="wf-input-placeholder">Mémo Audio EF-3 (42 100 octets)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Capacité APDU Lecteur</label>
+                          <div class="wf-input-placeholder">Extended Length (Trames jusqu'à 64 Ko)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">📦 Transmettre en Extended APDU</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Calcul du Découpage en 11 Blocs Extended de 4 Ko
+*Organisation des commandes UPDATE BINARY avec gestion fine des offsets d'adresses P1-P2.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Chaînage APDU ISO 7816-4</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Découpage Extended Actif</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ 11 trames Extended APDU générées (10 x 4 096 octets + 1 x 1 140 octets)</div>
+                        <div class="wf-subtext">Optimisation x15 par rapport au découpage traditionnel en blocs de 255 octets</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Écriture séquencée en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Injection Séquencée par Chunks & Validation SW 0x9000
+*Transfert haute vitesse et vérification du statut 0x9000 à l'issue de chaque bloc écrit.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Graveur Silicium</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Écriture Chunks (96%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [APDU-CHUNK-1] Offset 0x0000 : 4096 octets écrits ➔ SW 0x9000</code><br>
+                        <code>> [APDU-CHUNK-5] Offset 0x4000 : 4096 octets écrits ➔ SW 0x9000</code><br>
+                        <code>> [APDU-CHUNK-11] Offset 0xA000 : 1140 octets écrits ➔ SW 0x9000</code><br>
+                        <code>> [VERIFY] 42 100 octets logés dans EF-3 sans aucune saturation de tampon</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Partition Gravée Sans Débordement de Mémoire Tampon
+*Le flux volumineux a été gravé en un temps record grâce au protocole Extended Length.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Partition Flashee</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Extended APDU Conforme</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">📦</span>
+                        <div>
+                          <strong>Partition Audio EF-3 Gravée avec Succès (42 100 octets)</strong>
+                          <p class="wf-subtext">11 trames Extended APDU sans erreur • Prêt pour le test à blanc du verrouillage</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Lancer le Test à Blanc du Verrouillage Matériel →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-223"></a>
+## UC-223 : Test à Blanc du Verrouillage Matériel (Simulation Fusible Virtuel in-silico)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-223` |
+| **Catégorie Métier** | **Sécurité Silicium & Anti-Tamper** |
+| **Acteur Principal** | Opérateur d'Atelier & Contrôleur Qualité |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `DryRun`, `FusibleVirtuel`, `TestABlanc`, `SimulationLock`, `IronGate`, `InSilico` |
+| **Base Légale & Normative** | Politique de sécurité AeterniTrak Iron Gate & Recommandations Common Criteria EAL5+. |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Simulation In-Silico de Verrouillage Matériel (Dry-Run Iron Gate)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Les partitions EF-1 à EF-5 sont écrites ; l'opérateur s'apprête à déclencher le scellement définitif irréversible.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le comportement post-verrouillage est certifié conforme in-silico, éliminant tout risque de blocage involontaire.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Activation de la commande de simulation de verrouillage (Dry-Run virtuel) supportée par l'applet AeterniCore.
+2. Bascule temporaire en mémoire vive de l'état des droits d'accès au niveau 'READ ONLY SCENARIO'.
+3. Émission d'une commande de test d'écriture interdite (UPDATE BINARY sur EF-1) : validation du rejet strict avec mot d'état SW 0x6982.
+4. Vérification de la lisibilité sans entrave en lecture publique sans contact (READ BINARY) sur les fichiers mémoriels.
+5. Restauration de l'état nominal avec délivrance du feu vert sécuritaire pour le claquage réel du fusible physique.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `dry_run_state` | **Mode de Test Exécuté** | `text` | `SIMULATION IN-SILICO (Zéro altération physique irréversible)` | - | `Dry-Run Actif` | ⭕ Optionnel |
+| `simulated_probe_write` | **Sonde de Rejet d'Écriture Simulée** | `text` | `UPDATE BINARY testé -> Rejet SW 0x6982 confirmé` | - | `SW 0x6982 Rejet` | ⭕ Optionnel |
+| `simulated_probe_read` | **Sonde de Lecture Libre Simulée** | `text` | `READ BINARY testé -> Succès SW 0x9000 confirmé` | - | `SW 0x9000 Lecture` | ⭕ Optionnel |
+| `burn_fuse_authorization` | **Verdict d'Autorisation de Scellement** | `select` | `FEU VERT ACCORDÉ POUR FUSIBLE PHYSIQUE DÉFINITIF` | - | `Feu Vert Scellement` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_run_dry_run_simulation` | **Lancer le Test à Blanc In-Silico** | `primary` | `idle` | 🛡️ |
+| `btn_abort_dry_run` | **Annuler & Inspecter Données** | `secondary` | `idle` | ↩ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Test à Blanc Réussi : Comportement de Verrouillage Certifié
+>
+> **Badge de Conformité :** `In-Silico 100% Validé`
+>
+> **Détail Opérationnel :** La simulation confirme le verrouillage parfait en lecture seule et le blocage absolu de toute tentative d'écriture.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_DRY_RUN_VALIDATION_FAILED` |
+| **Intitulé de l'Incident** | **Échec du Test à Blanc : Anomalie Détectée avant Scellement** |
+| **Condition Déclenchante** | La commande de lecture échoue sous le profil verrouillé simulé ou l'écriture n'est pas convenablement rejetée. |
+| **Message d'Erreur UI** | *« Blocage de sécurité préventif : Les tables de droits d'accès présentent une incohérence. »* |
+| **Action Corrective Requise** | **Ne surtout pas claquer le fusible réel, ré-initialiser les descripteurs de sécurité d'EF-0.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Simulation In-Silico de Verrouillage Matériel (Dry-Run Iron Gate)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Données Gravées, Fusible Non Encore Claqué | *En attente utilisateur* | Toutes les partitions sont renseignées. Avant de percuter le fusible destructif, le test à blanc est requis. |
+| **2** | **Déclenchement ⚡** | Activation du Profil Simulatif 'Read-Only' In-Silico | `Clic sur 'Lancer le Test à Blanc In-Silico'` | Bascule temporaire des masques de sécurité sans claquage électrique de la diode zener. |
+| **3** | **Traitement ⚙️** | Test Sondes : Rejet Écriture (0x6982) & Succès Lecture | `Progression : 98%` | Contrôle que l'accès libre aux volontés est fluide et que toute écriture future est bannie. |
+| **4** | **Scellement & Fin ✨** | Feu Vert Accordé pour Claquage Réel du Fusible Physique | `Statut : success` | La certitude absolue est acquise que la carte sera parfaite une fois scellée définitivement. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-223 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Données Gravées, Fusible Non Encore Claqué
+*Toutes les partitions sont renseignées. Avant de percuter le fusible destructif, le test à blanc est requis.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Banc de Test Iron Gate</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Dry-Run In-Silico</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">État Silicium</label>
+                          <div class="wf-input-placeholder">Partitions Écrites • Fusible Intact (UNLOCKED)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Test Préventif</label>
+                          <div class="wf-input-placeholder">Simulation Droits READ-ONLY virtuels</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🛡️ Lancer le Test à Blanc In-Silico</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Activation du Profil Simulatif 'Read-Only' In-Silico
+*Bascule temporaire des masques de sécurité sans claquage électrique de la diode zener.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Moteur Virtuel Anti-Tamper</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Dry-Run Actif (Simulation)</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Simulation verrouillage enclenchée • Envoi de sondes d'intrusion</div>
+                        <div class="wf-subtext">Test de conformité des réponses APDU en mode lecture seule strict</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Évaluation des sondes de sécurité...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Test Sondes : Rejet Écriture (0x6982) & Succès Lecture
+*Contrôle que l'accès libre aux volontés est fluide et que toute écriture future est bannie.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Sondeur de Sécurité</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Audit Dry-Run (98%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [PROBE-WRITE] Tentative UPDATE BINARY sur EF-1 ➔ Rejeté : SW 0x6982 (Security status not satisfied) : OK</code><br>
+                        <code>> [PROBE-READ] Lecture publique READ BINARY sur EF-1 & EF-2 ➔ Succès SW 0x9000 : OK</code><br>
+                        <code>> [ED25519-CHECK] Signature d'intégrité vérifiée en mode anonyme sans contact : OK</code><br>
+                        <code>> [VERDICT] Comportement in-silico 100% conforme aux spécifications Common Criteria EAL5+</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Feu Vert Accordé pour Claquage Réel du Fusible Physique
+*La certitude absolue est acquise que la carte sera parfaite une fois scellée définitivement.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Autorisation Validée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Feu Vert Scellement Définitif</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🛡️</span>
+                        <div>
+                          <strong>Test à Blanc In-Silico Validé sans Aucune Discordance</strong>
+                          <p class="wf-subtext">Rejet d'écriture 0x6982 certifié • Lecture publique garantie • Feu vert pour le verrou matériel</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Passer à la Relecture Intégrale de Contrôle SHA-256 →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-224"></a>
+## UC-224 : Relecture Intégrale de Contrôle & Concordance d'Empreinte SHA-256 post-gravure
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-224` |
+| **Catégorie Métier** | **Assurance Qualité & Conformité** |
+| **Acteur Principal** | Contrôleur Qualité & Système Automatisé |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `Relecture`, `SHA256`, `Concordance`, `IntegriteBitABit`, `PostGravure`, `QA` |
+| **Base Légale & Normative** | Norme FIPS PUB 180-4 (Secure Hash Standard - SHA-256) & Procédure Qualité Funéraire QA-PRO-02. |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Relecture Intégrale Post-Gravure & Concordance SHA-256` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> L'ensemble des données a été écrit sur la carte par la PaxStation.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La concordance exacte entre la volonté du client et le silicium gravé est mathématiquement prouvée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Lancement de la procédure de contrôle qualité : relecture séquentielle bit-à-bit des partitions gravées (EF-0 à EF-5).
+2. Extraction intégrale des flux binaires sans décompression ni réinterprétation.
+3. Calcul de l'empreinte cryptographique SHA-256 du flux mémoire complet lu in-situ sur la puce.
+4. Comparaison avec l'empreinte SHA-256 de référence transmise dans le BAT initialement approuvé par le client.
+5. Délivrance de l'attestation de concordance binaire absolue à 100.00% et scellement du rapport dans l'audit trail.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `reference_hash_sha256` | **Hash de Référence (BAT Signé)** | `text` | `3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942` | - | `Hash Consigne` | ⭕ Optionnel |
+| `readback_hash_sha256` | **Hash Relecture Mémoire Silicium** | `text` | `3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942` | - | `Hash Silicium` | ⭕ Optionnel |
+| `hash_comparison_result` | **Résultat Concordance Binaire** | `select` | `CONCORDANCE 100.00% STRICTE (ZÉRO BIT DE DIFFÉRENCE)` | - | `Match SHA-256` | ✅ Requis |
+| `total_bytes_audited` | **Octets Lus et Vérifiés** | `text` | `91 420 octets vérifiés sur 92 Ko (Toutes partitions intègres)` | - | `Audit Bit-à-Bit` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_execute_readback_audit` | **Lancer la Relecture Intégrale Silicium** | `primary` | `idle` | 🔍 |
+| `btn_issue_qa_certificate` | **Émettre Certificat d'Intégrité SHA-256** | `secondary` | `idle` | 🏆 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Concordance SHA-256 Bit-à-Bit Certifiée Conforme (100.00%)
+>
+> **Badge de Conformité :** `SHA-256 100% Match`
+>
+> **Détail Opérationnel :** Les données logées sur la puce correspondent rigoureusement et fidèlement au BAT signé par la famille.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_SHA256_MISMATCH_POST_WRITE` |
+| **Intitulé de l'Incident** | **Divergence d'Empreinte Binaire Détectée Post-Gravure** |
+| **Condition Déclenchante** | L'empreinte calculée sur la carte ne correspond pas au hash de référence (altération durant l'écriture). |
+| **Message d'Erreur UI** | *« Incident qualité majeur : Les données gravées sur le silicium diffèrent du document de référence. »* |
+| **Action Corrective Requise** | **Mettre la carte au rebut (SCRAPPED), inspecter l'alimentation RF du lecteur et relancer le processus.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Relecture Intégrale Post-Gravure & Concordance SHA-256**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Carte Gravée Prête pour Relecture Intégrale Bit-à-Bit | *En attente utilisateur* | Toutes les écritures sont achevées. L'audit d'intégrité bit-à-bit va comparer le silicium avec le BAT source. |
+| **2** | **Déclenchement ⚡** | Extraction des 91 420 Octets Gravés sur le Silicium | `Clic sur 'Lancer la Relecture Intégrale Silicium'` | Relecture en rafale à 848 kbps de l'intégralité des partitions mémoire de la puce ACOSJ. |
+| **3** | **Traitement ⚙️** | Calcul SHA-256 du Contenu Réel & Comparaison Hash BAT | `Progression : 99%` | Comparaison binaire stricte 256 bits et scellement du résultat dans le dossier de conformité. |
+| **4** | **Scellement & Fin ✨** | Concordance Binaire Certifiée à 100.00% (Zéro Erreur) | `Statut : success` | Le contenu matériel est la copie conforme et inviolable du bon à tirer validé. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-224 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Carte Gravée Prête pour Relecture Intégrale Bit-à-Bit
+*Toutes les écritures sont achevées. L'audit d'intégrité bit-à-bit va comparer le silicium avec le BAT source.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôle Qualité Bit-à-Bit</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Relecture SHA-256</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Hash Référence BAT</label>
+                          <div class="wf-input-placeholder">3f79e2a8c149d56b009e8d4a51e68b3c...</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Partitions à relire</label>
+                          <div class="wf-input-placeholder">EF-0, EF-1, EF-2, EF-3, EF-4, EF-5</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔍 Lancer la Relecture Intégrale Silicium</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Extraction des 91 420 Octets Gravés sur le Silicium
+*Relecture en rafale à 848 kbps de l'intégralité des partitions mémoire de la puce ACOSJ.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Lecteur Haute Vitesse</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Relecture en Rafale 848 kbps</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ 91 420 octets extraits sans erreur de parité en 1.1 seconde</div>
+                        <div class="wf-subtext">Calcul du condensat SHA-256 sur le flux binaire extrait in-situ</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Comparaison avec l'empreinte de consigne...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Calcul SHA-256 du Contenu Réel & Comparaison Hash BAT
+*Comparaison binaire stricte 256 bits et scellement du résultat dans le dossier de conformité.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Comparateur Cryptographique</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Vérification Hash (99%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 99%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [EXTRACT-STREAM] Reconstitution du flux ordonné EF-0 à EF-5 : 91 420 octets</code><br>
+                        <code>> [SHA256-CALC] Hash extrait : 3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942</code><br>
+                        <code>> [SHA256-BASE] Hash consigne : 3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942</code><br>
+                        <code>> [MATCH-VERDICT] 100.00% IDENTIQUE • ZÉRO BIT DIVERGENT SUR TOUTE LA PUCE</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Concordance Binaire Certifiée à 100.00% (Zéro Erreur)
+*Le contenu matériel est la copie conforme et inviolable du bon à tirer validé.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Intégrité Prouvée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Concordance SHA-256 100%</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏆</span>
+                        <div>
+                          <strong>Concordance Bit-à-Bit Certifiée Conforme (100.00%)</strong>
+                          <p class="wf-subtext">Certificat d'intégrité SHA-256 émis • Prêt pour le calibrage de l'imprimante thermique</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Passer au Calibrage de l'Impression Physique →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-225"></a>
+## UC-225 : Calibrage Alignement Imprimante Sublimation Thermique & Jauge Ruban
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-225` |
+| **Catégorie Métier** | **Production Physique & Assurance Qualité** |
+| **Acteur Principal** | Opérateur d'Atelier & Technicien Maintenance |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `Imprimante`, `SublimationThermique`, `Fargo`, `Calibrage`, `JaugeRuban`, `AlignementLaser` |
+| **Base Légale & Normative** | Spécifications industrielles HID Global Fargo HDP & Norme ISO/IEC 7810 ID-1 relative à la résistance mécanique des cartes. |
+| **Terminal / Canvas Wireframe** | `PaxStation Pro • Calibrage Imprimante Sublimation Retransfert & Jauge Consommables` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Avant de lancer le cycle de personnalisation graphique et dorure thermique sur la carte physique.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'imprimante est étalonnée et alimentée en consommables suffisants pour exécuter le tirage noble sans bavure ni rebut.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Interrogation télémétrique des capteurs de l'imprimante professionnelle de retransfert (ex: Fargo HDP5000).
+2. Mesure des niveaux restants sur les consommables : ruban couleur YMCK, film de retransfert haute durabilité et ruban or satiné.
+3. Lancement de la mire d'alignement micrométrique des têtes d'impression thermique (tolérance requise < 0.05 mm).
+4. Régulation et stabilisation de la température du rouleau chauffant à 175.0°C ± 0.5°C.
+5. Autorisation de l'impression physique avec assurance de ne subir aucune interruption en cours de cycle.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `printer_target_model` | **Imprimante Professionnelle Ciblée** | `text` | `HID Fargo HDP5000 Retransfert HD (Connectée USB / LAN)` | - | `Fargo HDP5000` | ⭕ Optionnel |
+| `ribbon_consumables_gauge` | **Jauge Ruban Dorure & Couleurs** | `text` | `78% restant (Capacité estimée : 142 cartes complètes)` | - | `Consommables OK` | ⭕ Optionnel |
+| `head_alignment_metric` | **Alignement Tête Micrométrique** | `text` | `Décalage X: +0.02 mm • Y: -0.01 mm (Tolérance < 0.05 mm)` | - | `Aligné 0.02mm` | ⭕ Optionnel |
+| `heating_roller_temp` | **Température Rouleau Retransfert** | `select` | `175.4 °C (TEMPÉRATURE NOMINALE STABILISÉE)` | - | `175°C Conforme` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_calibrate_printer_heads` | **Lancer Calibration & Nettoyage Rouleaux** | `primary` | `idle` | 🖨️ |
+| `btn_print_alignment_pattern` | **Imprimer Mire de Contrôle Qualité** | `secondary` | `idle` | 🎯 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Imprimante Sublimation Calibrée & Consommables Prêts
+>
+> **Badge de Conformité :** `Prêt pour Tirage Pro`
+>
+> **Détail Opérationnel :** Têtes alignées à 0.02 mm, température à 175.4°C, réserve de ruban pour 142 cartes. Personnalisation physique autorisée.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `WARN_RIBBON_LEVEL_CRITICAL` |
+| **Intitulé de l'Incident** | **Niveau Critique de Ruban d'Impression (< 5% Restant)** |
+| **Condition Déclenchante** | La longueur restante de ruban or ou de film de retransfert est insuffisante pour achever la carte. |
+| **Message d'Erreur UI** | *« Avertissement consommable : Risque de rupture de ruban en cours de personnalisation physique. »* |
+| **Action Corrective Requise** | **Remplacer la cassette de ruban Fargo avant de lancer l'impression pour éviter une mise au rebut.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Pro • Calibrage Imprimante Sublimation Retransfert & Jauge Consommables**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Imprimante Fargo Connectée en Attente d'Étalonnage | *En attente utilisateur* | L'imprimante professionnelle de retransfert thermique est sous tension, prête pour le cycle d'alignement. |
+| **2** | **Déclenchement ⚡** | Interrogation des Capteurs de Tête & Niveaux de Ruban | `Clic sur 'Lancer Calibration & Nettoyage Rouleaux'` | Mesure des jauges optiques de ruban et activation du cycle thermique de mise à température. |
+| **3** | **Traitement ⚙️** | Calibration Optique (0.02 mm) & Chauffage Rouleau à 175°C | `Progression : 97%` | Ajustement micrométrique de l'axe d'impression pour garantir l'alignement sur la carte CR-80. |
+| **4** | **Scellement & Fin ✨** | Imprimante Calibrée & Consommables Prêts pour Impression | `Statut : success` | Le poste physique est parfaitement étalonné. La personnalisation esthétique peut débuter. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-225 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Imprimante Fargo Connectée en Attente d'Étalonnage
+*L'imprimante professionnelle de retransfert thermique est sous tension, prête pour le cycle d'alignement.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Contrôle Imprimante Fargo HDP5000</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Calibration</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Matériel Détecté</label>
+                          <div class="wf-input-placeholder">HID Fargo HDP5000 (Retransfert HD)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Jauges Consommables</label>
+                          <div class="wf-input-placeholder">Ruban YMCK 78% • Film Retransfert 82%</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🖨️ Lancer Calibration & Nettoyage Rouleaux</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Interrogation des Capteurs de Tête & Niveaux de Ruban
+*Mesure des jauges optiques de ruban et activation du cycle thermique de mise à température.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Télémétrie Impression</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Étalonnage Optique Actif</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Capteurs optiques interrogés • Décalage initial mesuré : X +0.02 mm, Y -0.01 mm</div>
+                        <div class="wf-subtext">Montée en température du rouleau thermique vers la consigne 175.0°C</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Stabilisation thermique...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Calibration Optique (0.02 mm) & Chauffage Rouleau à 175°C
+*Ajustement micrométrique de l'axe d'impression pour garantir l'alignement sur la carte CR-80.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Régulateur Fargo</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Alignement Tête (97%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 97%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [OPTIC-ALIGN] Tête d'impression recalée au 1/100e mm : Tolérance 0.02mm respectée</code><br>
+                        <code>> [HEAT-ROLLER] Température mesurée : 175.4°C (Consigne 175.0°C ±0.5°C validée)</code><br>
+                        <code>> [CONSUMABLES] Réserve de ruban or satiné vérifiée pour 142 impressions</code><br>
+                        <code>> [PRINTER-STATUS] Prêt pour impression haute définition sans bavure</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Imprimante Calibrée & Consommables Prêts pour Impression
+*Le poste physique est parfaitement étalonné. La personnalisation esthétique peut débuter.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Imprimante Homologuée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Fargo HDP5000 Prête</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🖨️</span>
+                        <div>
+                          <strong>Imprimante à Sublimation Thermique Calibrée au 1/100e mm</strong>
+                          <p class="wf-subtext">Rubans suffisants pour 142 cartes • Température stabilisée à 175.4°C • Zéro risque de bavure</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Lancer l'Impression Noble de la Carte Physique →</button>
+                      </div>
+                    </div>
 ```
 
 </details>

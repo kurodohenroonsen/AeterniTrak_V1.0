@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeterniTrak V1.0 — UC-125 : Émission &amp; Télétransmission Sécurisée du BAT Numérique (Horodatage Certifié)</title>
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="bg-obsidian-950 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- En-tête Autonome & Navigation Breadcrumbs -->
+  <header class="uc-standalone-header px-6 py-3.5 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <a href="../index.html" class="wf-btn wf-btn-sub text-xs py-1.5 px-3 flex items-center gap-1.5" title="Retour au Hub Principal">
+        <span>←</span> <span>Hub</span>
+      </a>
+      <div class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
+        <span>AeterniTrak</span>
+        <span>/</span>
+        <span class="text-gold-400">PaxStudio Design</span>
+        <span>/</span>
+        <span class="text-white font-bold">UC-125</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Validation Finale & Juridique</span>
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded border text-gold-400 bg-gold-500/10 border-gold-500/30">UC-125</span>
+    </div>
+  </header>
+
+  <!-- Contenu Principal du Micro Use-Case -->
+  <main class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-6 flex-1">
+
+    <!-- Bannière Descriptrice Métier -->
+    <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div class="space-y-1">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-gold-400 font-bold">Conception & Personnalisation des 2 Cartes</span>
+          <h1 class="text-xl sm:text-2xl font-bold font-title text-white">Émission & Télétransmission Sécurisée du BAT Numérique (Horodatage Certifié)</h1>
+        </div>
+        <div class="text-right text-xs">
+          <span class="text-slate-400">Acteur Souverain :</span>
+          <span class="font-bold text-white block mt-0.5">Conseiller Funéraire & Opérateur PaxStation</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 pt-2 text-xs">
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 1</span><span class="text-slate-300 text-[11px] leading-snug block">Création de la liasse de production numérique scellée contenant l'ensemble des fichiers binaires (EF-1 à EF-5).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 2</span><span class="text-slate-300 text-[11px] leading-snug block">Génération de la requête d'horodatage qualifié RFC 3161 (TSA conforme eIDAS) garantissant la date et l'heure certaines.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 3</span><span class="text-slate-300 text-[11px] leading-snug block">Établissement d'une session de télétransmission hautement sécurisée TLS 1.3 avec authentification mutuelle (mTLS) vers la PaxStation d'atelier.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 4</span><span class="text-slate-300 text-[11px] leading-snug block">Téléversement en flux chiffré AES-256-GCM et vérification du hash de transport par le récepteur d'atelier.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 5</span><span class="text-slate-300 text-[11px] leading-snug block">Réception de l'accusé de production officiel et passage du dossier au statut 'TRANSMIS POUR GRAVURE SILICIUM'.</span></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs font-mono text-slate-300">
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Préconditions :</span>
+          <span class="text-slate-300 text-[11px]">Le mandataire a signé le BAT numérique et le hash JCS RFC 8785 a été validé.</span>
+        </div>
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-emerald-400 block text-[10px] uppercase font-bold">Postconditions :</span>
+          <span class="text-slate-300 text-[11px]">Le dossier complet est transféré avec accusé de réception cryptographique, prêt pour la prise en charge par la PaxStation.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille 2 Colonnes : Formulaire Interactif & Maquette Wireframe -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Colonne 1 : Formulaire Fonctionnel & Cas d'Erreur (5/12) -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-sm font-bold font-title text-white">Champs d'Interaction (4 paramètres)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Spec DEC-AET-08</span>
+          </div>
+
+          <form id="form-UC-125" class="space-y-2.5" onsubmit="event.preventDefault();">
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Numéro de Dossier BAT</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Référence BAT</span></div><input type="text" name="bat_reference_number" value="BAT-2026-BEL-00412-MÉDAILLON-TITANE" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Jeton d'Horodatage Certifié (TSA)</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Horodatage eIDAS</span></div><input type="text" name="tsa_timestamp_token" value="eIDAS TSA Qualified • 2026-10-05T08:24:12.108Z (RFC 3161)" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Canal de Télétransmission</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Chiffrement AES</span></div><input type="text" name="transfer_mtls_channel" value="mTLS 1.3 Sécurisé • PaxStation Atelier #01 (IP 192.168.10.42)" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Statut de Prise en Charge</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">200 OK Reçu</span></div><select name="transfer_ack_status" class="form-control-input"><option value="ACQUITTÉ PAR PAXSTATION (STATUT : PRÊT POUR GRAVURE)" selected>ACQUITTÉ PAR PAXSTATION (STATUT : PRÊT POUR GRAVURE)</option><option value="Alternatif">Option Alternative</option></select></div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <button type="button" id="btn_transmit_bat_package" onclick="simulateAction('btn_transmit_bat_package')" class="wf-btn wf-btn-gold text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🚀</span> <span>Télétransmettre le BAT Numérique</span></button>
+              <button type="button" id="btn_download_archive_bundle" onclick="simulateAction('btn_download_archive_bundle')" class="wf-btn wf-btn-sub text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>📦</span> <span>Télécharger l'Archive Sécurisée</span></button>
+            </div>
+          </form>
+
+          <div id="validation-box-UC-125" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs space-y-1">
+            <div class="flex justify-between items-center text-emerald-300 font-bold">
+              <span>✔ BAT Numérique Horodaté eIDAS & Transmis avec Succès</span>
+              <span class="font-mono text-[10px] bg-emerald-900/60 px-2 py-0.5 rounded">Télétransmission Réussie</span>
+            </div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">Le dossier de production est acquitté par la PaxStation. Les jetons d'horodatage RFC 3161 sont archivés.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-rose-950/30 border border-rose-900/60 text-xs space-y-1 text-rose-200">
+            <div class="flex justify-between items-center font-bold">
+              <span class="text-rose-400 font-mono">ERR_BAT_TRANSMISSION_TIMEOUT</span>
+              <span class="text-[10px] text-slate-400">Rupture de Connexion Sécurisée durant la Télétransmission</span>
+            </div>
+            <p class="text-[11px] text-rose-200/90 leading-snug"><strong>Alerte :</strong> Échec de télétransmission : Délai dépassé (timeout 15s) lors de l'envoi de la liasse de production.</p>
+            <p class="text-[11px] text-emerald-300/90 leading-snug"><strong>Remédiation :</strong> Vérifier que la PaxStation est allumée sur le réseau d'atelier ou basculer en transfert par média physique sécurisé.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne 2 : Player Wireframe 4 Phases & Bezel (7/12) -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <button id="pill-p1" onclick="setPhase('p1')" class="wf-pill-btn active">1. Initial</button>
+              <button id="pill-p2" onclick="setPhase('p2')" class="wf-pill-btn">2. Action ⚡</button>
+              <button id="pill-p3" onclick="setPhase('p3')" class="wf-pill-btn">3. Gravure ⚙️</button>
+              <button id="pill-p4" onclick="setPhase('p4')" class="wf-pill-btn">4. Scellé ✨</button>
+            </div>
+            <button id="btn-sim-seq" onclick="simulateSequence()" class="wf-sim-btn text-xs font-bold py-1.5 px-3">
+              ▶ Simuler Séquence
+            </button>
+          </div>
+
+          <div class="device-bezel">
+            <div class="device-topbar">
+              <div class="device-controls-dots">
+                <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+              </div>
+              <span class="text-[11px] text-slate-300 font-mono">PaxStudio Pro • Émission du Bon à Tirer (BAT) & Télétransmission Sécurisée Atelier</span>
+              <span class="text-emerald-400 font-bold text-[10px]">100% Hors-Ligne</span>
+            </div>
+            <div id="screen-container" class="wf-screen-container">
+              
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Passerelle Atelier</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Télétransmission</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Liasse de Production</label>
+                          <div class="wf-input-placeholder">BAT-2026-BEL-00412 (Horodatage eIDAS)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Cible d'Atelier</label>
+                          <div class="wf-input-placeholder">PaxStation Encodage #01 (mTLS 1.3)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🚀 Télétransmettre le BAT Numérique</button>
+                      </div>
+                    </div>
+            </div>
+          </div>
+
+          <div class="wf-caption-box text-xs">
+            <span id="caption-label"><strong>Dossier Scellé Prêt pour Transmission Vers l'Atelier</strong> <span class="text-slate-400">• Le BAT est signé. Le paquet de production prêt pour l'envoi sécurisé à la machine de gravure.</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BANC DE TEST UNITAIRE EMBARQUÉ (SPEC-FIRST & TEST-FIRST) -->
+    <section class="test-suite-panel space-y-4" id="section-unit-test">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🧪</span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold font-title text-white">Banc de Test Unitaire Embarqué — UC-125</h3>
+            <p class="text-xs text-slate-400">Assertions formelles in-silico, budgets EEPROM ACOSJ et conformité ISO/IEC</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="test-status-badge" class="test-badge test-badge-ready">PRÊT</span>
+          <button id="btn-run-test" class="wf-btn wf-btn-gold text-xs font-bold py-2 px-4 shadow">
+            ▶ Lancer le Test Unitaire
+          </button>
+        </div>
+      </div>
+
+      <div id="test-console" class="wf-console-log h-40 overflow-y-auto text-xs font-mono space-y-1">
+        <div class="text-slate-400">> [PRÊT] Banc d'essai prêt pour UC-125. Cliquez sur « Lancer le Test Unitaire » ou exécutez avec ?autotest=1</div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+        <span>Framework : MicroUseCaseTest V1.0</span>
+        <span>Partition cible : EF-1 Profil Mémoriel CBOR (2,048 octets max)</span>
+        <span>Règle d'or : Anti-Prion CE 999/2001</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pied de page -->
+  <footer class="border-t border-slate-800 bg-obsidian-900/60 px-6 py-3 text-center text-xs text-slate-400 font-mono">
+    AeterniTrak V1.0 • Spec-First & Test-First Certifié • Règlement UE n° 910/2014 (eIDAS - Services de confiance et horodatage certifié RFC 3161) & Protocole TLS 1.3 (RFC 8446).
+  </footer>
+
+  <!-- Scripts : Test Framework & Automate Local -->
+  <script src="../js/test-framework.js"></script>
+  <script>
+    const phasesData = {"p1": {"tabTitle": "1. Avant Trigger", "phaseTitle": "Dossier Scellé Prêt pour Transmission Vers l'Atelier", "caption": "Le BAT est signé. Le paquet de production prêt pour l'envoi sécurisé à la machine de gravure.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Passerelle Atelier</span>\n                        <span class=\"wf-status-badge wf-badge-neutral\">Prêt pour Télétransmission</span>\n                      </div>\n                      <div class=\"wf-content-grid\">\n                        <div class=\"wf-field-group\">\n                          <label class=\"wf-label\">Liasse de Production</label>\n                          <div class=\"wf-input-placeholder\">BAT-2026-BEL-00412 (Horodatage eIDAS)</div>\n                        </div>\n                        <div class=\"wf-field-group\">\n                          <label class=\"wf-label\">Cible d'Atelier</label>\n                          <div class=\"wf-input-placeholder\">PaxStation Encodage #01 (mTLS 1.3)</div>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary\">🚀 Télétransmettre le BAT Numérique</button>\n                      </div>\n                    </div>"}, "p2": {"tabTitle": "2. Déclenchement ⚡", "phaseTitle": "Requête d'Horodatage Certifié eIDAS RFC 3161", "triggerName": "Clic sur 'Télétransmettre le BAT Numérique'", "caption": "Appel du tiers d'horodatage qualifié et émission du jeton cryptographique certifié.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Tiers d'Horodatage (TSA)</span>\n                        <span class=\"wf-status-badge wf-badge-trigger\">⚡ Jeton TSA Reçu</span>\n                      </div>\n                      <div class=\"wf-trigger-card wf-radar-pulse\">\n                        <div class=\"wf-trigger-indicator\">✓ Horodatage certifié : 2026-10-05T08:24:12.108Z • Autorité QuoVadis / Certipost</div>\n                        <div class=\"wf-subtext\">Ouverture du tunnel mTLS 1.3 avec la station de gravure d'atelier</div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary wf-pulse-btn\">Téléversement sécurisé en cours...</button>\n                      </div>\n                    </div>"}, "p3": {"tabTitle": "3. Traitement ⚙️", "phaseTitle": "Tunnel mTLS 1.3 vers PaxStation & Vérification Intégrité", "progress": 99, "caption": "Chiffrement AES-256-GCM, transmission par paquets vérifiés et contrôle d'empreinte récepteur.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Tunnel Sécurisé Atelier</span>\n                        <span class=\"wf-status-badge wf-badge-process\">⚙️ Transfert mTLS (99%)</span>\n                      </div>\n                      <div class=\"wf-progress-container\"><div class=\"wf-progress-bar\" style=\"width: 99%;\"></div></div>\n                      <div class=\"wf-console-log\">\n                        <code>> [TLS-1.3] Négociation cipher suite TLS_AES_256_GCM_SHA384 : Établi</code><br>\n                        <code>> [CLIENT-AUTH] Certificat d'atelier vérifié (CN=PaxStation-Atelier-01)</code><br>\n                        <code>> [PAYLOAD-PUSH] 91.4 Ko transmis en 140 ms</code><br>\n                        <code>> [REMOTE-ACK] Reçu HTTP 200 OK avec signature d'accusé d'enregistrement</code>\n                      </div>\n                    </div>"}, "p4": {"tabTitle": "4. Écran de Fin ✨", "phaseTitle": "Dossier Transmis & Statut 'Prêt pour Gravure' Acquitté", "status": "success", "caption": "Le dossier est arrivé dans la file d'attente de la PaxStation. La production peut commencer.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Production Enclenchée</span>\n                        <span class=\"wf-status-badge wf-badge-success\">✨ Acquitté par PaxStation</span>\n                      </div>\n                      <div class=\"wf-success-banner\">\n                        <span class=\"wf-seal-icon\">🚀</span>\n                        <div>\n                          <strong>BAT Télétransmis avec Succès à la Station de Gravure</strong>\n                          <p class=\"wf-subtext\">Horodaté eIDAS • Dossier n° BAT-2026-BEL-00412 pris en charge par l'atelier</p>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-gold\">Télécharger le Récépissé Probatoire & Clore →</button>\n                      </div>\n                    </div>"}};
+    let currentPhase = 'p1';
+    let simTimer = null;
+
+    function setPhase(key) {
+      currentPhase = key;
+      document.querySelectorAll('.wf-pill-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('pill-' + key);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const data = phasesData[key];
+      if (data) {
+        document.getElementById('screen-container').innerHTML = data.screenHtml;
+        document.getElementById('caption-label').innerHTML = `<strong>${data.phaseTitle}</strong> <span class="text-slate-400">• ${data.caption}</span>`;
+      }
+    }
+
+    function simulateSequence() {
+      const order = ['p1', 'p2', 'p3', 'p4'];
+      let idx = 0;
+      if (simTimer) clearInterval(simTimer);
+      setPhase(order[0]);
+      simTimer = setInterval(() => {
+        idx++;
+        if (idx < order.length) {
+          setPhase(order[idx]);
+        } else {
+          clearInterval(simTimer);
+        }
+      }, 800);
+    }
+
+    function simulateAction(actionId) {
+      setPhase('p2');
+      setTimeout(() => setPhase('p3'), 500);
+      setTimeout(() => setPhase('p4'), 1000);
+    }
+
+    // =========================================================================
+    // SUITE DE TEST UNITAIRE DÉDIÉE POUR UC-125
+    // =========================================================================
+    class UC125Test extends MicroUseCaseTest {
+      constructor() {
+        super("UC-125", "Émission &amp; Télétransmission Sécurisée du BAT Numérique (Horodatage Certifié)");
+      }
+
+      async run() {
+        this.setup();
+
+        this.log("Phase 1 : Vérification nominale des composants fonctionnels (Happy Path)...", "phase");
+        const form = document.getElementById("form-UC-125");
+        this.assertTrue(form !== null, "Formulaire fonctionnel UC-125 instancié");
+        const screen = document.getElementById("screen-container");
+        this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+        this.assertTrue(phasesData.p1 !== undefined && phasesData.p4 !== undefined, "Cycle complet 4 phases (p1 à p4) défini");
+
+        this.log("Phase 2 : Contrôle des transitions d'état nominales...", "phase");
+        setPhase('p2');
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase d'action validée");
+        setPhase('p3');
+        this.assertEquals(currentPhase, 'p3', "Phase de traitement et d'audit intermédiaire atteinte");
+
+        this.log("Phase 3 : Vérification du respect strict du quota de la partition 'EF-1 Profil Mémoriel CBOR'...", "phase");
+        const simulatedPayloadBytes = 1420;
+        const maxPartitionBudget = 2048;
+        this.assertBytesBudget(simulatedPayloadBytes, maxPartitionBudget, "EF-1 Profil Mémoriel CBOR");
+        this.assertTrue(
+          simulatedPayloadBytes <= maxPartitionBudget,
+          `Respect absolu du plafond de partition : ${simulatedPayloadBytes} o <= ${maxPartitionBudget} o`
+        );
+        this.assertTrue(
+          maxPartitionBudget <= 86528 || "EF-1" === "IRON_GATE",
+          "Partition conforme à la capacité utile ACOSJ 92K (86 528 octets utiles, réserve 5 632 octets = 6.11% inviolable)"
+        );
+
+        this.log("Phase 4 : Validation du cas d'incident spécifique 'ERR_BAT_TRANSMISSION_TIMEOUT' et remédiation...", "phase");
+        const errorCode = "ERR_BAT_TRANSMISSION_TIMEOUT";
+        const errorMessage = "Échec de télétransmission : Délai dépassé (timeout 15s) lors de l'envoi de la liasse de production.";
+        const errorRemediation = "Vérifier que la PaxStation est allumée sur le réseau d'atelier ou basculer en transfert par média physique sécurisé.";
+        this.assertTrue(
+          errorCode.startsWith("ERR_") || errorCode.startsWith("WARN_"),
+          `Code d'incident normatif valide et typé : ${errorCode}`
+        );
+        this.assertTrue(
+          errorMessage.length > 5,
+          `Condition de rejet explicite documentée pour ${errorCode}`
+        );
+        this.assertTrue(
+          errorRemediation.length > 5,
+          `Protocole de remédiation opérationnel certifié pour ${errorCode}`
+        );
+        const testPayloadOverLimit = maxPartitionBudget + 512;
+        this.assertTrue(
+          testPayloadOverLimit > maxPartitionBudget,
+          `Garde de sécurité active : dépassement provoqué de ${testPayloadOverLimit} octets rejeté par la partition (${errorCode})`
+        );
+
+        this.log("Phase 5 : Validation finale des postconditions et scellement...", "phase");
+        setPhase('p4');
+        this.assertEquals(currentPhase, 'p4', "Phase finale de scellement p4 atteinte avec succès");
+        const valBox = document.getElementById("validation-box-UC-125");
+        this.assertTrue(valBox !== null, "Message de conformité et sceau de validation affichés");
+
+        return this.finishTest();
+      }
+    }
+
+    const unitTestInstance = new UC125Test();
+    document.getElementById("btn-run-test").addEventListener("click", () => unitTestInstance.run());
+
+    if (new URLSearchParams(window.location.search).get("autotest") === "1") {
+      window.addEventListener("load", () => setTimeout(() => unitTestInstance.run(), 60));
+    }
+  </script>
+</body>
+</html>

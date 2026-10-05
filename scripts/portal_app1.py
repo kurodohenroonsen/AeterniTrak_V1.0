@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AeterniTrak V1.0 — Définition Complète des Micro Use-Cases pour App 1 : PaxStudio Design (UC-101 à UC-112)
+AeterniTrak V1.0 — Définition Complète des Micro Use-Cases pour App 1 : PaxStudio Design (UC-101 à UC-125)
 Avec Simulateur de Wireframes Interactifs à 4 États, Spécifications des Formulaires, Actions, Validations et Erreurs Normatives.
 """
 
@@ -2387,6 +2387,1750 @@ APP1_USECASES = [
                 }
             }
         }
-    }
+    },
+{   'id': 'UC-117',
+    'title': "Calculateur d'Empreinte Octet UTF-8 en direct vs Limite Silicium (1 900 o EF-1)",
+    'cat': 'Compilation & Core',
+    'actor': 'Famille & Conseiller Funéraire',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['Silicium', 'UTF8', 'EF-1', 'Empreinte', 'JaugeOctets', 'Plafond1900', 'RFC3629'],
+    'preconditions': "Saisie ou importation des textes d'épitaphe et d'hommages dans PaxStudio avec limitation "
+                     'matérielle de la partition textuelle EF-1.',
+    'flow': [   "L'utilisateur rédige les textes d'hommage et directives civiles dans l'éditeur de PaxStudio.",
+                "Le moteur binaire intercepte chaque frappe et calcule l'empreinte en octets UTF-8 stricts selon la "
+                'RFC 3629.',
+                'Comparaison temps réel avec la réserve physique allouée à la partition EF-1 sur la puce ACOSJ (1 900 '
+                'octets).',
+                "Mise à jour de la jauge avec seuils chromatiques : vert (< 80%), orange (80-95%) et rouge d'alerte (> "
+                '95%).',
+                "Blocage préventif des dépassements avec proposition d'élagage automatique des espaces et ligatures."],
+    'postconditions': 'Le texte est garanti inférieur ou égal à 1 900 octets UTF-8, assurant une écriture sans '
+                      'débordement de tampon dans la puce.',
+    'legal': 'Norme ISO/IEC 10646 (Jeu universel de caractères codés UTF-8 / RFC 3629) & Spécification AeterniTrak '
+             'EF-1 (1 900 octets max).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': "PaxStudio Pro • Calculateur d'Empreinte UTF-8 vs Limite Silicium (Partition EF-1)",
+                     'formFields': [   {   'label': 'Texte Mémoriel / Épitaphe Saisi',
+                                           'name': 'epitaph_text',
+                                           'type': 'text',
+                                           'value': 'À notre père et guide vénéré, dont la bienveillance illuminera '
+                                                    'nos cœurs à jamais...',
+                                           'badge': 'UTF-8 Dynamique',
+                                           'required': True},
+                                       {   'label': 'Empreinte Binaire Réelle',
+                                           'name': 'byte_count_realtime',
+                                           'type': 'text',
+                                           'value': '1 842 octets / 1 900 octets (Marge libre : 58 octets)',
+                                           'badge': 'Jauge Silicium',
+                                           'required': False},
+                                       {   'label': 'Caractères Multi-Octets Détectés',
+                                           'name': 'multibyte_analysis',
+                                           'type': 'text',
+                                           'value': '3 emojis (12 octets) • 24 caractères accentués (48 octets)',
+                                           'badge': 'Analyse RFC 3629',
+                                           'required': False},
+                                       {   'label': 'Statut Partition EF-1',
+                                           'name': 'ef1_buffer_status',
+                                           'type': 'select',
+                                           'value': '96.9% Utilisé (Seuil Vigilance Orange < 1 900 octets)',
+                                           'badge': 'Puce ACOSJ 92K',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_optimize_utf8',
+                                              'label': 'Élaguer Espaces & Optimiser UTF-8',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '✂️'},
+                                          {   'id': 'btn_simulate_ef1_burn',
+                                              'label': 'Simuler Injection dans EF-1',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '💾'}],
+                     'validationMsg': {   'title': 'Empreinte UTF-8 Conforme au Plafond EF-1 (1 842 / 1 900 octets)',
+                                          'badge': 'Conforme Silicium EF-1',
+                                          'detail': "Le volume textuel s'insère parfaitement dans la partition EF-1 "
+                                                    'sans risque de troncature ni débordement.'},
+                     'errorCase': {   'code': 'ERR_EF1_SILICON_OVERFLOW',
+                                      'title': 'Dépassement de Capacité Silicium EF-1 (> 1 900 Octets)',
+                                      'condition': "L'encodage UTF-8 du texte dépasse le plafond strict de 1 900 "
+                                                   'octets alloué à la partition EF-1.',
+                                      'message': 'Erreur matérielle : La mémoire allouée à la partition textuelle EF-1 '
+                                                 '(1 900 o) est saturée de 42 octets.',
+                                      'remediation': "Raccourcir l'épitaphe ou remplacer les caractères multi-octets "
+                                                     'non essentiels pour repasser sous 1 900 octets.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Texte Saisi avec Jauge d'Empreinte en Temps Réel",
+                                             'caption': "L'utilisateur tape son texte d'hommage. La jauge calcule "
+                                                        "l'empreinte UTF-8 à chaque frappe.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Calculateur UTF-8 '
+                                                           'EF-1</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Saisie Active (1 842 o / 1 900 '
+                                                           'o)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Texte '
+                                                           'Hommage</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">À notre père et guide '
+                                                           'vénéré... (Saisie en cours)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Jauge '
+                                                           'Silicium EF-1</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder" style="color: #f59e0b;">96.9% '
+                                                           'saturé (58 octets disponibles)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">✂️ Élaguer Espaces & Optimiser '
+                                                           'UTF-8</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': "Déclenchement de l'Optimisation des Espaces & Caractères",
+                                             'triggerName': "Clic sur 'Élaguer Espaces & Optimiser UTF-8'",
+                                             'caption': 'Nettoyage des espaces doubles, conversion des retours '
+                                                        'chariots en LF simples et analyse des caractères 4-octets.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Moteur '
+                                                           "d'Optimisation UTF-8</span>\n"
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Optimisation Binaire Active</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Élagage de 62 octets '
+                                                           'superflus (espaces insécables, CRLF -> LF)</div>\n'
+                                                           '                        <div '
+                                                           'class="wf-subtext">Compression textuelle sans altération '
+                                                           "sémantique de l'hommage familial</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Recalcul de l\'empreinte '
+                                                           'silicium...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': "Recalcul Binaire & Validation d'Insertion dans EF-1",
+                                             'progress': 92,
+                                             'caption': 'Vérification de conformité RFC 3629 et contrôle du seuil de '
+                                                        'sécurité de la puce ACOSJ.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Contrôleur Silicium '
+                                                           'EF-1</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Contrôle Quota (92%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 92%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [UTF8-ENGINE] Encodage '
+                                                           'canonique RFC 3629 calculé : 1 780 octets</code><br>\n'
+                                                           '                        <code>> [SILICON-ALLOC] Partition '
+                                                           'EF-1 : 1 780 / 1 900 octets (Marge libre : 120 '
+                                                           'octets)</code><br>\n'
+                                                           '                        <code>> [INTEGRITY] Zéro caractère '
+                                                           'UTF-8 malformé détecté</code><br>\n'
+                                                           '                        <code>> [VERDICT] Quota validé '
+                                                           'pour la gravure sur puce ACOSJ 92 Ko</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Empreinte Optimisée & Quota EF-1 Sécurisé',
+                                             'status': 'success',
+                                             'caption': 'Le texte est parfaitement dimensionné pour la mémoire '
+                                                        'physique de la puce.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Texte Homologué '
+                                                           'Silicium</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ 1 780 o • Conforme EF-1</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">📜</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Empreinte Textuelle '
+                                                           'Validée avec Succès (1 780 octets)</strong>\n'
+                                                           '                          <p class="wf-subtext">Plafond 1 '
+                                                           "900 octets d'EF-1 respecté • 120 octets de réserve de "
+                                                           'sécurité</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Insérer dans la Partition Textuelle EF-1 '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-118',
+    'title': 'Contrôle de Validité NISS Belge (Numéro de Registre National & Algorithme Modulo 97)',
+    'cat': 'Identité Civile & Mémorielle',
+    'actor': "Conseiller Funéraire & Officier d'État Civil",
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['NISS', 'RegistreNational', 'Modulo97', 'EtatCivil', 'Belgique', 'Contrôle'],
+    'preconditions': "Saisie du numéro d'identification du registre national belge (NISS à 11 chiffres) du défunt ou "
+                     'mandataire.',
+    'flow': [   "Saisie ou numérisation du NISS belge à 11 chiffres (format AAMMJJ-SSS-CC) sur la fiche d'état civil.",
+                'Vérification du format structurel : cohérence de la date de naissance et du numéro de suite '
+                'journalier.',
+                "Exécution de l'algorithme légal Modulo 97 : prise en compte du siècle (addition de 2 000 000 000 pour "
+                "les naissances dès l'an 2000).",
+                'Comparaison de la clé calculée (97 - reste) avec les deux derniers chiffres de contrôle.',
+                "Affichage immédiat de l'exactitude de l'état civil ou alerte immédiate en cas de falsification ou de "
+                'faute de frappe.'],
+    'postconditions': 'Le NISS est mathématiquement certifié conforme aux spécifications du Registre national belge.',
+    'legal': 'Loi belge du 8 août 1983 organisant un Registre national des personnes physiques & Algorithme officiel '
+             'Modulo 97.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': "PaxStudio Pro • Contrôle d'État Civil & Clé Modulo 97 du Registre National (NISS)",
+                     'formFields': [   {   'label': 'NISS Belge (11 chiffres)',
+                                           'name': 'niss_number',
+                                           'type': 'text',
+                                           'value': '72.05.14-315.89',
+                                           'badge': 'Registre National',
+                                           'required': True},
+                                       {   'label': 'Algorithme de Contrôle Légal',
+                                           'name': 'modulo_check_algo',
+                                           'type': 'text',
+                                           'value': 'Modulo 97 • Reste = 97 - (720514315 % 97) = 89',
+                                           'badge': 'Mathématique',
+                                           'required': False},
+                                       {   'label': 'Données Civiles Déduites',
+                                           'name': 'niss_extracted_data',
+                                           'type': 'text',
+                                           'value': 'Date : 14/05/1972 • Sexe : Masculin (Chiffre de suite 315 impair)',
+                                           'badge': 'Extraction Auto',
+                                           'required': False},
+                                       {   'label': 'Statut Validation État Civil',
+                                           'name': 'civil_status_validation',
+                                           'type': 'select',
+                                           'value': 'CONFORME & CERTIFIÉ REGISTRE NATIONAL',
+                                           'badge': 'Loi 08/08/1983',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_validate_niss',
+                                              'label': 'Vérifier la Clé Modulo 97',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🇧🇪'},
+                                          {   'id': 'btn_scan_eid',
+                                              'label': 'Scanner Carte eID Belge',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '💳'}],
+                     'validationMsg': {   'title': 'NISS Belge Authentifié avec Succès (Modulo 97 Conforme)',
+                                          'badge': 'Clé 89 Valide',
+                                          'detail': "Le numéro d'identification correspond parfaitement à l'algorithme "
+                                                    'légal du Registre national des personnes physiques.'},
+                     'errorCase': {   'code': 'ERR_INVALID_NISS_CHECKSUM',
+                                      'title': 'Échec du Contrôle Modulo 97 du NISS Belge',
+                                      'condition': 'La clé de contrôle saisie ne correspond pas au calcul officiel de '
+                                                   'division euclidienne par 97.',
+                                      'message': "Erreur d'état civil : Discordance sur la clé NISS (clé fournie != 97 "
+                                                 "- reste). Risque d'erreur de saisie.",
+                                      'remediation': "Vérifier la carte eID belge ou l'extrait d'acte de naissance et "
+                                                     'ressaisir les 11 chiffres.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'NISS Saisi en Attente de Contrôle Algorithmique',
+                                             'caption': "Le conseiller a reporté le NISS de la pièce d'identité. Le "
+                                                        'bouton de vérification est prêt.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Registre National '
+                                                           'Belge</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">En Attente de Vérification</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">NISS à '
+                                                           'Contrôler</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">72.05.14-315.89</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Algorithme Légal</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Modulo 97 (Loi du '
+                                                           '08/08/1983)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🇧🇪 Vérifier la Clé Modulo 97</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Déclenchement du Calcul Modulo 97 Bicentenaire',
+                                             'triggerName': "Clic sur 'Vérifier la Clé Modulo 97'",
+                                             'caption': "Traitement de l'expression mathématique et vérification des "
+                                                        'critères de siècle.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Moteur Arithmétique '
+                                                           'NISS</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Calcul Modulo 97</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Base de calcul : 720514315 '
+                                                           '% 97 = 8 ➔ Clé attendue = 97 - 8 = 89</div>\n'
+                                                           '                        <div '
+                                                           'class="wf-subtext">Correspondance parfaite avec la clé '
+                                                           'déclarée (89)</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Extraction des données '
+                                                           'civiles...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Validation de Cohérence Date de Naissance & Sexe',
+                                             'progress': 98,
+                                             'caption': 'Vérification croisée avec la date de naissance déclarée et '
+                                                        'cohérence du numéro de série.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Validation État '
+                                                           'Civil</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Vérification Concordance '
+                                                           '(98%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 98%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [NISS-CHECK] Division '
+                                                           'euclidienne 720514315 % 97 = 8 : Clé 89 exacte</code><br>\n'
+                                                           '                        <code>> [CIVIL-DATE] Date extraite '
+                                                           ': 14 mai 1972 (Cohérence calendrier grégorien '
+                                                           'validée)</code><br>\n'
+                                                           '                        <code>> [CIVIL-GENDER] Numéro de '
+                                                           'suite 315 impair : Sexe masculin confirmé</code><br>\n'
+                                                           '                        <code>> [REGISTRY-STATUS] '
+                                                           'Homologation État Civil Belge accordée</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'NISS Homologué & Identité Civile Certifiée',
+                                             'status': 'success',
+                                             'caption': "L'identité est mathématiquement vérifiée. Zéro risque "
+                                                        "d'erreur d'homonymie ou d'usurpation.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • État Civil '
+                                                           'Conforme</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ NISS Certifié Modulo 97</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🇧🇪</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Numéro de Registre '
+                                                           'National Validé (72.05.14-315.89)</strong>\n'
+                                                           '                          <p class="wf-subtext">Clé 89 '
+                                                           "certifiée conforme • Données d'état civil scellées dans le "
+                                                           'projet</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Enregistrer l\'Identité Civile & Continuer '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-119',
+    'title': 'Recherche & Autocomplétion Référentiel Communes / Codes Postaux Belges (Base INS/NIS Statbel)',
+    'cat': 'Identité Civile & Mémorielle',
+    'actor': 'Conseiller Funéraire & Famille',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['Statbel', 'CodePostal', 'CommunesBelges', 'INS', 'Autocompletion', 'Localisation'],
+    'preconditions': 'Saisie de la commune de décès, de cérémonie funéraire ou de concession de sépulture.',
+    'flow': [   "Saisie prédictive des premiers caractères du toponyme ou du code postal belge (ex: '7000' ou 'Mons').",
+                'Interrogation de la base de données embarquée Statbel (Office belge de statistique) fonctionnant 100% '
+                'hors-ligne.',
+                'Affichage instantané des suggestions normalisées avec code INS officiel (ex: 53053 pour Mons, 21004 '
+                'pour Bruxelles).',
+                "Sélection de l'entité : renseignement automatique de la province, région linguistique et "
+                'arrondissement administratif.',
+                'Association pérenne du code INS dans les actes de transport et de déclaration de '
+                'crémation/sarcomusation.'],
+    'postconditions': 'La commune et le code postal sont rigoureusement indexés sur la nomenclature officielle '
+                      'Statbel.',
+    'legal': 'Arrêté royal fixant la nomenclature officielle des communes et arrondissements belges (Base INS '
+             'Statbel).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': 'PaxStudio Pro • Référentiel Géographique Belge Statbel (Codes INS & Postaux)',
+                     'formFields': [   {   'label': 'Recherche Commune ou Code Postal',
+                                           'name': 'search_postal_commune',
+                                           'type': 'text',
+                                           'value': '7000 Mons',
+                                           'badge': 'Recherche Statbel',
+                                           'required': True},
+                                       {   'label': 'Code INS Statbel Associé',
+                                           'name': 'ins_statbel_code',
+                                           'type': 'text',
+                                           'value': '53053 (Ville de Mons)',
+                                           'badge': 'Officiel INS',
+                                           'required': False},
+                                       {   'label': 'Province & Arrondissement',
+                                           'name': 'administrative_region',
+                                           'type': 'text',
+                                           'value': 'Province de Hainaut • Arrondissement de Mons • Wallonie',
+                                           'badge': 'Région',
+                                           'required': False},
+                                       {   'label': 'Législation Funéraire Applicable',
+                                           'name': 'regional_funeral_law',
+                                           'type': 'select',
+                                           'value': 'Décret funéraire wallon du 6 mars 2009 (Région Wallonne)',
+                                           'badge': 'Droit Régional',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_confirm_commune',
+                                              'label': 'Valider la Commune INS',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🏛️'},
+                                          {   'id': 'btn_show_cemetery_map',
+                                              'label': 'Consulter Registre Cimetières',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🗺️'}],
+                     'validationMsg': {   'title': 'Commune Belge et Code INS 53053 Validés',
+                                          'badge': 'Statbel Conforme',
+                                          'detail': 'Commune rattachée avec précision. Les formulaires légaux '
+                                                    'appliquent automatiquement le droit funéraire régional.'},
+                     'errorCase': {   'code': 'ERR_COMMUNE_NOT_FOUND_STATBEL',
+                                      'title': 'Code Postal ou Entité Inconnue dans le Référentiel Statbel',
+                                      'condition': "Saisie d'un code postal invalide ou toponyme introuvable dans la "
+                                                   'table des unités administratives belges.',
+                                      'message': "Anomalie d'adressage : La commune renseignée ne correspond à aucun "
+                                                 'code INS officiel belge.',
+                                      'remediation': 'Sélectionner la commune via la recherche assistée ou vérifier '
+                                                     "l'orthographe du toponyme."},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Saisie Prédictive de la Commune ou Code Postal',
+                                             'caption': "L'utilisateur tape les premiers chiffres ou lettres pour "
+                                                        'déclencher la recherche dans la base Statbel.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Référentiel '
+                                                           'Statbel</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Saisie Assistée</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Recherche Toponymique</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">7000 Mons...</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Base '
+                                                           'Embarquée</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Statbel 2026 (581 Communes '
+                                                           'Belges Hors-Ligne)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🏛️ Valider la Commune INS</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Interrogation Locale de la Base INS Statbel',
+                                             'triggerName': "Sélection de la suggestion '7000 Mons (Code INS 53053)'",
+                                             'caption': "Résolution des métadonnées régionales, de l'arrondissement "
+                                                        'judiciaire et du décret applicable.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Moteur Géographique '
+                                                           'Statbel</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Correspondance Trouvée</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Entité identifiée : Ville '
+                                                           'de Mons • Code INS 53053</div>\n'
+                                                           '                        <div class="wf-subtext">Région '
+                                                           'Wallonne • Province de Hainaut • Décret funéraire wallon '
+                                                           'du 06/03/2009</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Liaison administrative en '
+                                                           'cours...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Injection des Coordonnées Officielles dans les Actes',
+                                             'progress': 95,
+                                             'caption': 'Mise à jour automatique des formulaires de transport de corps '
+                                                        'et des déclarations communales.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Gestionnaire '
+                                                           'Administratif</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Injection INS (95%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 95%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [STATBEL-DB] Code postal '
+                                                           '7000 lié au code INS 53053 (Mons)</code><br>\n'
+                                                           '                        <code>> [JURISDICTION] '
+                                                           'Arrondissement judiciaire de Mons validé</code><br>\n'
+                                                           '                        <code>> [REGIONAL-LAW] Paramétrage '
+                                                           "des délais légaux d'inhumation (Décret Wallonie) : "
+                                                           'OK</code><br>\n'
+                                                           '                        <code>> [GEO-TAG] Coordonnées '
+                                                           'centroïde communal rattachées pour traçabilité</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Commune Rattachée & Législation Régionale Associée',
+                                             'status': 'success',
+                                             'caption': 'Lieu de repos rattaché à la base officielle Statbel sans '
+                                                        'aucune ambiguïté géographique.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Localisation '
+                                                           'Validée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Code INS 53053 Scellé</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🏛️</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Ville de Mons (7000) • '
+                                                           'Référentiel Statbel Validé</strong>\n'
+                                                           '                          <p class="wf-subtext">Code INS '
+                                                           '53053 • Décret funéraire wallon activé pour les '
+                                                           'formalités</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Passer au Choix de la Sépulture / Concession '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-120',
+    'title': 'Interrogation Taxonomique NCBI Locale (TaxID & Espèces Compagnon 9615, 9685, 9796)',
+    'cat': 'Identité Civile & Mémorielle',
+    'actor': "Conseiller Animalier & Propriétaire de l'Animal",
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['NCBI', 'TaxID', 'Taxonomie', 'AnimauxCompagnie', 'CanisLupus', 'FelisCatus', 'EquusCaballus'],
+    'preconditions': "Création d'un dossier Sanctuaire mémoriel pour un animal familier de compagnie (canin, félin, "
+                     'équin).',
+    'flow': [   "Sélection de l'espèce animale ou recherche par dénomination vernaculaire dans le module mémoriel "
+                'animalier.',
+                'Résolution locale instantanée du taxon dans la base embarquée NCBI Taxonomy (sans appel réseau).',
+                'Association stricte du TaxID : Canis lupus familiaris (9615), Felis catus (9685), Equus caballus '
+                '(9796).',
+                "Vérification croisée avec le numéro de transpondeur RFID (ISO 11784/11785) et l'organisme "
+                "d'identification (DogID / CatID).",
+                "Scellement du TaxID dans la structure de données pour verrouiller l'orientation sanitaire Catégorie 1 "
+                'mémorielle.'],
+    'postconditions': "Le TaxID NCBI officiel est scellé dans l'en-tête de la capsule, garantissant le respect strict "
+                      'de la filière sanitaire.',
+    'legal': 'Base taxonomique NCBI Taxonomy & Règlement (CE) n° 1069/2009 établissant des règles sanitaires '
+             'applicables aux sous-produits animaux.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': 'PaxStudio Pro • Référentiel Taxonomique NCBI & Registre Animalier (ISO 11784)',
+                     'formFields': [   {   'label': "Nom Vernaculaire de l'Espèce",
+                                           'name': 'vernacular_species',
+                                           'type': 'select',
+                                           'value': 'Chien domestique (Canis lupus familiaris)',
+                                           'badge': 'Animal Familier',
+                                           'required': True},
+                                       {   'label': 'Identifiant Taxonomique NCBI',
+                                           'name': 'ncbi_taxid_resolved',
+                                           'type': 'text',
+                                           'value': 'TaxID: 9615 (NCBI Reference Taxonomy)',
+                                           'badge': 'Souverain NCBI',
+                                           'required': False},
+                                       {   'label': 'Puce Électronique RFID Vétérinaire',
+                                           'name': 'vet_rfid_chip',
+                                           'type': 'text',
+                                           'value': '967000010294812 (ISO 11784/11785 • Registre DogID)',
+                                           'badge': 'Transpondeur',
+                                           'required': True},
+                                       {   'label': 'Classification Sous-Produit Animal',
+                                           'name': 'animal_byproduct_cat',
+                                           'type': 'text',
+                                           'value': 'Catégorie 1 Mémoriel Pur • Sarcomusation Homologuée',
+                                           'badge': 'CE 1069/2009',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_lock_taxid',
+                                              'label': 'Verrouiller TaxID & Filière Sanitaire',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🧬'},
+                                          {   'id': 'btn_lookup_dogid',
+                                              'label': 'Interroger Base DogID / CatID',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🔍'}],
+                     'validationMsg': {   'title': 'TaxID NCBI 9615 Résolu & Filière Mémorielle Verrouillée',
+                                          'badge': 'Canis lupus familiaris',
+                                          'detail': 'Classification biologique officielle verrouillée. Orientation '
+                                                    "Catégorie 1 validée sans risque de conflit d'espèce."},
+                     'errorCase': {   'code': 'ERR_UNKNOWN_TAXID_SPECIES',
+                                      'title': 'Espèce Non Identifiée ou Hors Cadre Mémoriel Autorisé',
+                                      'condition': "L'animal saisi ne correspond à aucun TaxID homologué pour la "
+                                                   'filière mémorielle de compagnie.',
+                                      'message': "Erreur de filière : L'espèce saisie ne peut être admise en "
+                                                 'sarcomusation de compagnie mémorielle.',
+                                      'remediation': 'Sélectionner une espèce autorisée (TaxID 9615, 9685, 9796) ou '
+                                                     'orienter vers la filière agricole Catégorie 2.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Sélection de l'Espèce de l'Animal Familier",
+                                             'caption': "Le conseiller sélectionne la race et l'espèce pour "
+                                                        'rattachement au référentiel NCBI.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Mémorial '
+                                                           'Animalier</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">En Attente de Taxonomie</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Espèce / '
+                                                           'Animal Familier</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Chien domestique (Canis lupus '
+                                                           'familiaris)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Puce '
+                                                           'Transpondeur ISO 11784</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">967000010294812 '
+                                                           '(DogID)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🧬 Verrouiller TaxID & Filière '
+                                                           'Sanitaire</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Résolution Déterministe dans le Référentiel NCBI',
+                                             'triggerName': "Clic sur 'Verrouiller TaxID & Filière Sanitaire'",
+                                             'caption': "Recherche dans l'index taxonomique local et contrôle des "
+                                                        "règles d'orientation vétérinaire CE 1069/2009.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Index Taxonomique '
+                                                           'NCBI</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Taxon Résolu (9615)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ TaxID 9615 résolu : '
+                                                           'Eukaryota > Metazoa > Carnivora > Canis lupus '
+                                                           'familiaris</div>\n'
+                                                           '                        <div '
+                                                           'class="wf-subtext">Orientation sanitaire : Catégorie 1 '
+                                                           'Mémoriel Pur • Règle Anti-Prion respectée</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Scellement de la filière '
+                                                           'sanitaire...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Contrôle de Traçabilité Sanitaire & Règle Anti-Prion',
+                                             'progress': 94,
+                                             'caption': "Vérification qu'aucun recyclage d'espèce n'est techniquement "
+                                                        'possible et scellement du TaxID.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Contrôle Biologique & '
+                                                           'Sanitaire</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Contrôle Filière (94%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 94%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [NCBI-TAXONOMY] TaxID 9615 '
+                                                           'validé avec rang espèce exact</code><br>\n'
+                                                           '                        <code>> [ANTI-PRION-RULE] '
+                                                           'Verrouillage strict : Exclusion de tout débouché '
+                                                           'alimentaire</code><br>\n'
+                                                           '                        <code>> [CE-1069/2009] Attribution '
+                                                           'filière Catégorie 1 Mémoriel Familier : OK</code><br>\n'
+                                                           '                        <code>> [TRANSPONDER] Puce '
+                                                           '967000010294812 liée de façon irrévocable au TaxID '
+                                                           '9615</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Espèce Verrouillée en Filière Mémorielle Pure',
+                                             'status': 'success',
+                                             'caption': "L'animal est inscrit avec sa traçabilité biologique complète "
+                                                        'et inaltérable.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Mémorial Animalier '
+                                                           'Homologué</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ TaxID 9615 Scellé</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🐾</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Canis lupus familiaris '
+                                                           '(TaxID 9615) • Filière Cat 1 Validée</strong>\n'
+                                                           '                          <p class="wf-subtext">Puce DogID '
+                                                           '967000010294812 rattachée • Conformité sanitaire '
+                                                           'européenne scellée</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Créer la Carte Sanctuaire Animalière '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-121',
+    'title': "Contrôle d'Accessibilité & Contraste WCAG AAA Or/Obsidienne avant Gravure",
+    'cat': 'Design & Esthétique',
+    'actor': 'Graphiste & Contrôleur Qualité PaxStudio',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['Accessibilité', 'WCAG21', 'ContrasteAAA', 'Ratio7:1', 'OrObsidienne', 'GravureLaser'],
+    'preconditions': 'Composition visuelle de la carte physique ou du médaillon avec choix de la typographie et des '
+                     'teintes métalliques.',
+    'flow': [   "Positionnement des textes d'épitaphe et patronymes sur le fond noble (fond obsidienne satiné ou "
+                'titane brossé).',
+                'Le moteur graphique calcule la luminance relative des couleurs de premier plan (or satiné #D4AF37) et '
+                "d'arrière-plan (#0B0F19).",
+                "Application de l'algorithme WCAG 2.1 pour déterminer le ratio de contraste photométrique exact.",
+                "Vérification du seuil d'excellence niveau AAA : ratio supérieur ou égal à 7.0:1 pour les textes "
+                'courants et 4.5:1 pour les grands titres.',
+                'Validation du gabarit pour la gravure laser sans éblouissement et avec lisibilité garantie sous tous '
+                'les angles de lumière.'],
+    'postconditions': 'Le contraste chromatique est certifié WCAG 2.1 AAA, garantissant une lisibilité intemporelle '
+                      'sur le support physique.',
+    'legal': 'Recommandations internationales W3C WCAG 2.1 (Critère 1.4.6 Contraste Amélioré AAA) & Norme ergonomique '
+             'ISO 9241-303.',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': "PaxStudio Pro • Contrôle Optique d'Accessibilité WCAG 2.1 AAA & Gravure Laser",
+                     'formFields': [   {   'label': 'Couleur Texte / Gravure Laser',
+                                           'name': 'fg_color_hex',
+                                           'type': 'text',
+                                           'value': '#D4AF37 (Or Satiné Micro-Brossé)',
+                                           'badge': 'Premier Plan',
+                                           'required': True},
+                                       {   'label': 'Fond du Support Physique',
+                                           'name': 'bg_color_hex',
+                                           'type': 'text',
+                                           'value': '#0B0F19 (Noir Obsidienne Titane)',
+                                           'badge': 'Arrière-Plan',
+                                           'required': True},
+                                       {   'label': 'Ratio de Contraste Mesuré',
+                                           'name': 'contrast_measured_ratio',
+                                           'type': 'text',
+                                           'value': '8.24 : 1 (Exigence AAA : ≥ 7.00 : 1)',
+                                           'badge': 'Optique W3C',
+                                           'required': False},
+                                       {   'label': 'Niveau de Conformité WCAG',
+                                           'name': 'wcag_compliance_badge',
+                                           'type': 'select',
+                                           'value': 'NIVEAU AAA CERTIFIÉ (LISIBILITÉ MAXIMALE)',
+                                           'badge': 'WCAG 2.1 AAA',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_audit_contrast',
+                                              'label': 'Auditer le Contraste Optique',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '👁️'},
+                                          {   'id': 'btn_optimize_palette',
+                                              'label': 'Ajuster Teinte Laser Auto',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '✨'}],
+                     'validationMsg': {   'title': 'Contraste Photométrique Certifié WCAG 2.1 Niveau AAA (8.24:1)',
+                                          'badge': 'WCAG AAA 8.24:1',
+                                          'detail': 'Lisibilité parfaite sous lumière directe et rasante. Gravure '
+                                                    'laser autorisée sur support or et obsidienne.'},
+                     'errorCase': {   'code': 'ERR_INSUFFICIENT_CONTRAST_RATIO',
+                                      'title': 'Contraste Insuffisant pour Gravure Noble (< 7.0:1)',
+                                      'condition': 'La nuance de dorure choisie sur fond clair présente un ratio '
+                                                   "inférieur au standard d'excellence AAA (ex: 3.4:1).",
+                                      'message': "Défaut d'accessibilité visuelle : Le ratio mesuré (3.4:1) rendra le "
+                                                 "texte difficilement déchiffrable avec l'âge.",
+                                      'remediation': 'Assombrir le support ou intensifier la densité de la dorure '
+                                                     'laser pour atteindre le seuil minimal de 7.0:1.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Maquette Graphique avec Palette Or Satiné / Obsidienne',
+                                             'caption': "La palette de couleurs nobles est positionnée. L'audit "
+                                                        "d'accessibilité est prêt à être lancé.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Laboratoire '
+                                                           'Chromatique</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Audit Prêt</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Premier '
+                                                           'Plan (Laser)</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder" style="color: '
+                                                           '#d4af37;">#D4AF37 Or Satiné</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Fond '
+                                                           'Physique</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">#0B0F19 Obsidienne '
+                                                           'Profonde</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">👁️ Auditer le Contraste Optique</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Mesure Photométrique de Luminance Relative WCAG 2.1',
+                                             'triggerName': "Clic sur 'Auditer le Contraste Optique'",
+                                             'caption': 'Calcul des luminances relatives normalisées L1 et L2 selon la '
+                                                        'recommandation W3C.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Calculateur '
+                                                           'Photométrique</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Mesure W3C Active</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Ratio calculé : (L1 + 0.05) '
+                                                           '/ (L2 + 0.05) = 8.24 : 1</div>\n'
+                                                           '                        <div class="wf-subtext">Seuil AAA '
+                                                           'requis (7.00:1) largement dépassé • Rendu optique noble '
+                                                           'garanti</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Simulation optique sous '
+                                                           'lumière rasante...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Contrôle des Angles de Vision & Réflexion Métallique',
+                                             'progress': 96,
+                                             'caption': 'Simulation de la gravure laser sous éclairage oblique et '
+                                                        "vérification d'absence de reflets éblouissants.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Simulateur Optique '
+                                                           'Laser</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Contrôle ISO 9241 (96%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 96%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [WCAG-CALC] Luminance '
+                                                           'relative premier plan : 0.441 • Arrière-plan : '
+                                                           '0.009</code><br>\n'
+                                                           '                        <code>> [CONTRAST-RATIO] 8.24 : 1 '
+                                                           '(Exigence WCAG 2.1 AAA respectée avec 17.7% de '
+                                                           'marge)</code><br>\n'
+                                                           '                        <code>> [ISO-9241-303] Lisibilité '
+                                                           "sous angle d'incidence 45° : Conforme</code><br>\n"
+                                                           '                        <code>> [LASER-SPEC] Puissance '
+                                                           'recommandée : 28W fibre laser • Focale 160mm</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Contraste Optique Certifié AAA pour Gravure Noble',
+                                             'status': 'success',
+                                             'caption': 'La carte est garantie parfaitement lisible par tous, sans '
+                                                        'fatigue visuelle ni perte de contraste.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Accessibilité '
+                                                           'Validée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Ratio 8.24:1 WCAG AAA</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🏆</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Contraste Certifié '
+                                                           'Niveau AAA (Or Satiné / Obsidienne)</strong>\n'
+                                                           '                          <p class="wf-subtext">Lisibilité '
+                                                           'intergénérationnelle garantie • Gabarit prêt pour la '
+                                                           'gravure laser</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Valider le Gabarit Visuel & Continuer '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-122',
+    'title': 'Débruitage & Élimination Automatique des Silences Audio Waveform (< 46 080 o)',
+    'cat': 'Médias Sonores',
+    'actor': 'Famille & Ingénieur du Son PaxStudio',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['Audio', 'VAD', 'Debruitage', 'Silences', 'Opus', 'EF-3', 'Plafond46Ko'],
+    'preconditions': "Importation d'un hommage vocal ou d'un mémo audio familial contenant des souffles ou des "
+                     'silences prolongés.',
+    'flow': [   "Génération de la forme d'onde (waveform) sonore et analyse de l'enveloppe d'énergie acoustique.",
+                'Exécution du module Voice Activity Detection (VAD) avec détection et suppression des plages de '
+                'silence initiales et finales.',
+                "Application d'un algorithme de débruitage par soustraction spectrale pour filtrer le bruit de fond "
+                'microphonique.',
+                'Recompression intelligente en flux Opus SILK 12 kbps mono adapté aux contraintes de la puce silicium.',
+                "Contrôle strict que le volume sonore final n'excède pas les 46 080 octets disponibles dans la "
+                'partition EF-3.'],
+    'postconditions': "L'onde audio est nettoyée, la voix est intelligible et le volume final respecte rigoureusement "
+                      'le quota EF-3.',
+    'legal': "Recommandation UIT-T G.729 (Détection d'activité vocale) & Spécification silicium AeterniTrak EF-3 (46 "
+             '080 octets).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': 'PaxStudio Pro • Traitement Acoustique & Élagage des Silences (Partition EF-3)',
+                     'formFields': [   {   'label': 'Fichier Audio Importé',
+                                           'name': 'raw_audio_track',
+                                           'type': 'text',
+                                           'value': 'hommage_vocal_papa_2024.wav (01:12 • 4.2 Mo)',
+                                           'badge': 'Source Brute',
+                                           'required': True},
+                                       {   'label': "Détection d'Activité Vocale (VAD)",
+                                           'name': 'vad_silence_stripping',
+                                           'type': 'text',
+                                           'value': '24 secondes de silences et bruits blancs éliminés',
+                                           'badge': 'Gain Audio',
+                                           'required': False},
+                                       {   'label': 'Débruitage Spectral Adaptatif',
+                                           'name': 'spectral_denoise_profile',
+                                           'type': 'select',
+                                           'value': 'Atténuation Souffle Micro -14 dB (Spectre Vocal Préservé)',
+                                           'badge': 'UIT-T G.729',
+                                           'required': True},
+                                       {   'label': 'Taille Finale Encodée EF-3',
+                                           'name': 'ef3_final_encoded_size',
+                                           'type': 'text',
+                                           'value': '38 912 octets / 46 080 octets (84.4% de la partition)',
+                                           'badge': 'Quota Respecté',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_strip_and_denoise',
+                                              'label': 'Éliminer Silences & Débruiter',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🎙️'},
+                                          {   'id': 'btn_listen_ab_test',
+                                              'label': 'Écouter le Rendu Nettoyé',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '▶️'}],
+                     'validationMsg': {   'title': 'Audio Nettoyé avec Succès & Intégré sous Quota EF-3',
+                                          'badge': '38.9 Ko / 46 Ko Conforme',
+                                          'detail': 'Voix limpide, silences éliminés, gain de 24 secondes. Fichier '
+                                                    'scellé pour écriture dans la partition sonore EF-3.'},
+                     'errorCase': {   'code': 'WARN_AUDIO_SN_RATIO_TOO_LOW',
+                                      'title': 'Rapport Signal sur Bruit Vocal Insuffisant (< 6 dB)',
+                                      'condition': "L'enregistrement présente un niveau de bruit parasite trop élevé "
+                                                   'empêchant une restitution vocale digne.',
+                                      'message': 'Avertissement acoustique : La voix est couverte par un bruit de fond '
+                                                 'mécanique ou éolien important.',
+                                      'remediation': 'Activer le filtre passe-bande vocal renforcé (300-3400 Hz) ou '
+                                                     'enregistrer un message dans un lieu calme.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Piste Audio Brute avec Souffle et Plages de Silence',
+                                             'caption': "L'hommage vocal importé dure 72 secondes avec 24 secondes de "
+                                                        'silences et bruits de fond.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Studio '
+                                                           'Acoustique</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Audio Brut (72s • Souffle '
+                                                           'Détecté)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label '
+                                                           'class="wf-label">Enregistrement Source</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">hommage_vocal_papa_2024.wav '
+                                                           '(01:12)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Cible '
+                                                           'Silicium EF-3</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Quota strict : 46 080 octets '
+                                                           'max</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🎙️ Éliminer Silences & Débruiter</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Activation du Module VAD (Voice Activity Detection)',
+                                             'triggerName': "Clic sur 'Éliminer Silences & Débruiter'",
+                                             'caption': "Détection des plages d'énergie vocale et coupure nette des "
+                                                        'silences aux extrémités.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Filtre VAD & '
+                                                           'Débruitage</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Traitement Acoustique Actif</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ 24.2 secondes de silences '
+                                                           'élaguées • Souffle micro atténué de -14 dB</div>\n'
+                                                           '                        <div class="wf-subtext">Durée '
+                                                           'utile ramenée à 48 secondes • Énergie vocale '
+                                                           'rehaussée</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Re-quantification Opus '
+                                                           'SILK...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Encodage Opus SILK & Validation du Plafond EF-3',
+                                             'progress': 94,
+                                             'caption': 'Compression dynamique et pesée binaire pour injection dans la '
+                                                        'partition silicium EF-3.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Contrôle Silicium '
+                                                           'EF-3</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Contrôle Quota (94%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 94%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [VAD-ENGINE] Découpage des '
+                                                           'silences : Durée 47.8s (Gain de 33% en volume)</code><br>\n'
+                                                           '                        <code>> [NOISE-REDUCE] '
+                                                           'Soustraction spectrale appliquée sur 3 bandes '
+                                                           'critiques</code><br>\n'
+                                                           '                        <code>> [OPUS-ENCODE] Flux Opus '
+                                                           'SILK 12 kbps généré : 38 912 octets</code><br>\n'
+                                                           '                        <code>> [STORAGE-EF3] 38 912 / 46 '
+                                                           '080 octets (Marge libre : 7 168 octets) : VALIDÉ</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'Flux Vocal Épuré à 38.9 Ko (Plafond EF-3 Respecté)',
+                                             'status': 'success',
+                                             'caption': "La voix du défunt est immortalisée avec pureté et s'insère "
+                                                        'sans contrainte dans la puce.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Voix Éternelle '
+                                                           'Scellée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ 38.9 Ko • Conforme EF-3</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🎵</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>Hommage Sonore Haute '
+                                                           'Définition Prêt pour Gravure</strong>\n'
+                                                           '                          <p class="wf-subtext">38 912 '
+                                                           'octets • Silences éliminés • Qualité vocale optimale sur '
+                                                           'puce ACOSJ</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Insérer dans la Partition Sonore EF-3 '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-123',
+    'title': "Génération & Validation du QR Code Vectoriel de Secours (Correction d'Erreur ECC Niveau M/Q)",
+    'cat': 'Validation Finale & Juridique',
+    'actor': 'Conseiller Funéraire & Famille',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['QRCode', 'Secours', 'ECC', 'ReedSolomon', 'ISO18004', 'VectorielSVG', 'Redondance'],
+    'preconditions': "Les données récapitulatives et l'URL de vérification sont prêtes pour l'impression physique au "
+                     'dos du support.',
+    'flow': [   "Extraction de l'adresse de vérification canonique et des identifiants cryptographiques essentiels.",
+                'Sélection de la politique de tolérance aux pannes Reed-Solomon : Niveau M (15% de redondance) ou '
+                'Niveau Q (25% de tolérance aux rayures).',
+                "Génération du maillage vectoriel SVG pur garantissant des arêtes nettes à l'échelle micrométrique "
+                'pour la gravure laser.',
+                'Application stricte de la zone de silence (quiet zone) de 4 modules conformément à la norme ISO/IEC '
+                '18004.',
+                'Simulation optique de dégradations mécaniques (rayure, usure de frottement) pour certifier la '
+                'lisibilité universelle par smartphone.'],
+    'postconditions': 'Le QR code vectoriel est validé avec 25% de redondance matérielle, prêt pour la gravure de '
+                      'secours au verso.',
+    'legal': "Norme internationale ISO/IEC 18004 (Technologie de l'information - Symbologies de code à barres - QR "
+             'Code 2005).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': 'PaxStudio Pro • Moteur de Gravure QR Code Vectoriel & Tolérance Reed-Solomon',
+                     'formFields': [   {   'label': 'Charge Utile / URL Canonique',
+                                           'name': 'qr_target_payload',
+                                           'type': 'text',
+                                           'value': 'https://aeternitrak.be/v?id=AET-2026-BEL-0912&sig=c4b8... (114 '
+                                                    'car.)',
+                                           'badge': 'Payload Scellé',
+                                           'required': True},
+                                       {   'label': "Correction d'Erreur Reed-Solomon",
+                                           'name': 'ecc_level_choice',
+                                           'type': 'select',
+                                           'value': 'Niveau Q (25% de tolérance aux rayures physiques)',
+                                           'badge': 'ISO 18004',
+                                           'required': True},
+                                       {   'label': 'Zone de Quiétude (Quiet Zone)',
+                                           'name': 'quiet_zone_spec',
+                                           'type': 'text',
+                                           'value': '4 modules périphériques respectés au 1/100e mm',
+                                           'badge': 'Contrainte Laser',
+                                           'required': False},
+                                       {   'label': 'Format Vectoriel Exporté',
+                                           'name': 'qr_vector_format',
+                                           'type': 'text',
+                                           'value': 'SVG 100% Vectoriel Pur (Résolution infinie • Zéro artefact)',
+                                           'badge': 'HD Gravure',
+                                           'required': False}],
+                     'actionButtons': [   {   'id': 'btn_generate_vector_qr',
+                                              'label': 'Générer le QR Code Vectoriel',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🔲'},
+                                          {   'id': 'btn_simulate_scratch_test',
+                                              'label': 'Simuler Rayure & Test Décodage',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '🔬'}],
+                     'validationMsg': {   'title': 'QR Code Vectoriel Généré & Tolérance Reed-Solomon Niveau Q '
+                                                   'Conforme',
+                                          'badge': 'ISO 18004 ECC Q',
+                                          'detail': 'Le QR code est lisible même avec 25% de dégradation de surface. '
+                                                    'Prêt pour gravure physique au verso.'},
+                     'errorCase': {   'code': 'ERR_QR_PAYLOAD_TOO_DENSE',
+                                      'title': 'Charge Utile Trop Volumineuse pour la Surface Laser Disponible',
+                                      'condition': 'La longueur du texte encodé dépasse la résolution optique gravable '
+                                                   'sur médaillon de 35 mm.',
+                                      'message': 'Risque de non-lecture : La densité de modules dépasse les capacités '
+                                                 'de résolution optique du laser.',
+                                      'remediation': "Compresser l'URL ou substituer la charge utile brute par un "
+                                                     'identifiant court sécurisé.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Configuration de la Redondance Optique de Secours',
+                                             'caption': 'Sélection du niveau de tolérance Reed-Solomon pour le QR code '
+                                                        'gravé au dos de la carte.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Secours Optique '
+                                                           'QR</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">En Attente de Génération</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Charge '
+                                                           'Utile Canonique</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">https://aeternitrak.be/v?id=AET-2026-BEL-0912</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Niveau '
+                                                           'Reed-Solomon</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Niveau Q (25% Tolérance '
+                                                           'Rayures)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🔲 Générer le QR Code Vectoriel</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Calcul de la Matrice QR Code avec Tolérance Reed-Solomon Q',
+                                             'triggerName': "Clic sur 'Générer le QR Code Vectoriel'",
+                                             'caption': 'Génération de la matrice de modules binaires et ajout des '
+                                                        'blocs de parité Reed-Solomon.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Moteur ISO/IEC '
+                                                           '18004</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Matrice Vectorielle Calculée</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Matrice Version 4 (33x33 '
+                                                           'modules) • Masque optique 101 sélectionné</div>\n'
+                                                           '                        <div class="wf-subtext">Ajout de '
+                                                           '44 octets de redondance Reed-Solomon (Niveau Q - 25% '
+                                                           'récupérable)</div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Simulation de rayure '
+                                                           'laser...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Vectorisation SVG Submillimétrique & Simulation de Rayure',
+                                             'progress': 97,
+                                             'caption': 'Vérification de la décodabilité optique avec une simulation '
+                                                        "d'abrasion de 22% de la surface.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Banc de Résilience '
+                                                           'Optique</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Test Abrasions (97%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 97%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [QR-ENGINE] Traçage SVG '
+                                                           'vectoriel : Coordonnées au 1/100e de '
+                                                           'millimètre</code><br>\n'
+                                                           '                        <code>> [QUIET-ZONE] Marge '
+                                                           'périphérique de 4 modules validée</code><br>\n'
+                                                           '                        <code>> [SCRATCH-SIM] Dégradation '
+                                                           'simulée : 22% de la surface altérée</code><br>\n'
+                                                           '                        <code>> [DECODER-CHECK] Décodage '
+                                                           "Reed-Solomon 100% réussi sans perte d'information</code>\n"
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'QR Code de Secours Homologué (25% Tolérance)',
+                                             'status': 'success',
+                                             'caption': 'La voie optique de secours est certifiée inaltérable et '
+                                                        "résistante aux années d'usage.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Secours Optique '
+                                                           'Validé</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ ISO 18004 Niveau Q</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🔲</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>QR Code Vectoriel '
+                                                           'Homologué pour Gravure Verso</strong>\n'
+                                                           '                          <p class="wf-subtext">Tolérance '
+                                                           'Reed-Solomon 25% • Résolution laser vectorielle pure '
+                                                           'scellée</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Intégrer au Verso de la Carte Physique '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-124',
+    'title': "Simulation Signature Client & Calcul d'Empreinte JCS RFC 8785",
+    'cat': 'Validation Finale & Juridique',
+    'actor': 'Mandataire Légal & Conseiller Funéraire',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['JCS', 'RFC8785', 'Canonisation', 'SHA256', 'SignatureTactile', 'eIDAS', 'EF-5'],
+    'preconditions': "Toutes les étapes de conception de la carte sont finalisées ; le mandataire s'apprête à valider "
+                     'le projet.',
+    'flow': [   "Rassemblement de l'arbre complet des métadonnées du projet mémoriel au format JSON structuré.",
+                "Exécution de l'algorithme officiel JSON Canonicalization Scheme selon la RFC 8785 (tri déterministe "
+                'des clés, standardisation des flottants).',
+                "Calcul de l'empreinte binaire SHA-256 du document canonique, produisant un digest invariable de 32 "
+                'octets.',
+                'Capture sur tablette du tracé de signature biométrique du mandataire légal avec coordonnées '
+                'vectorielles et horodatage.',
+                "Liaison cryptographique entre le tracé de signature, l'empreinte JCS RFC 8785 et l'enveloppe finale "
+                'de la partition EF-5.'],
+    'postconditions': "Le document projet dispose d'une forme canonique inviolable et d'un condensat SHA-256 certifié "
+                      'eIDAS.',
+    'legal': 'Norme RFC 8785 (JSON Canonicalization Scheme - JCS) & Règlement UE 910/2014 (eIDAS - intégrité des actes '
+             'dématérialisés).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': 'PaxStudio Pro • Canonisation JCS RFC 8785 & Signature Numérique du Mandataire',
+                     'formFields': [   {   'label': 'Objet JSON du Projet Funéraire',
+                                           'name': 'json_project_structure',
+                                           'type': 'text',
+                                           'value': 'Structure AeterniCore {v: 1.0, decedent: {...}, directives: '
+                                                    '{...}}',
+                                           'badge': 'Schéma 1.0',
+                                           'required': False},
+                                       {   'label': 'Canonisation JCS (RFC 8785)',
+                                           'name': 'jcs_canon_status',
+                                           'type': 'select',
+                                           'value': 'CANONISATION DÉTERMINISTE RFC 8785 VALIDÉE',
+                                           'badge': 'RFC 8785',
+                                           'required': True},
+                                       {   'label': 'Digest SHA-256 Immuable',
+                                           'name': 'jcs_sha256_digest',
+                                           'type': 'text',
+                                           'value': '3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942',
+                                           'badge': 'SHA-256 Digest',
+                                           'required': False},
+                                       {   'label': 'Mandataire Signataire',
+                                           'name': 'mandat_signer_identity',
+                                           'type': 'text',
+                                           'value': 'Mme Sophie Dumont (Ayant Droit • Identité vérifiée eID)',
+                                           'badge': 'Signataire',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_canonize_and_hash',
+                                              'label': 'Canoniser (RFC 8785) & Calculer SHA-256',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🔒'},
+                                          {   'id': 'btn_capture_signature_pad',
+                                              'label': 'Capturer Signature Tactile',
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '✍️'}],
+                     'validationMsg': {   'title': 'Projet Canonisé selon la RFC 8785 & Empreinte SHA-256 Scellée',
+                                          'badge': 'RFC 8785 SHA-256 OK',
+                                          'detail': "Forme canonique binaire déterministe générée. L'empreinte SHA-256 "
+                                                    'est liée de façon indélébile au tracé de signature.'},
+                     'errorCase': {   'code': 'ERR_JCS_CANONICALIZATION_FAILED',
+                                      'title': 'Échec de Canonisation JCS ou Clés JSON Dupliquées',
+                                      'condition': 'Le document JSON comporte des structures circulaires ou des clés '
+                                                   'dupliquées non conformes à la RFC 8785.',
+                                      'message': "Erreur de sérialisation : Impossible d'obtenir une empreinte "
+                                                 'déterministe sur le document projet.',
+                                      'remediation': 'Vérifier la validité syntaxique JSON et éliminer les propriétés '
+                                                     'dynamiques non sérialisables.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': 'Dossier Funéraire Complet Prêt pour Canonisation JCS',
+                                             'caption': 'Toutes les volontés et données mémorielles sont compilées. Le '
+                                                        'scellement cryptographique attend la signature.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Canonisation & '
+                                                           'Scellement</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">En Attente de Signature</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Projet '
+                                                           'Mémoriel</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">Dossier #BAT-2026-BEL-00412 '
+                                                           '(7 Partitions)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Standard '
+                                                           'Cryptographique</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">RFC 8785 (JCS) + '
+                                                           'SHA-256</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🔒 Canoniser (RFC 8785) & Calculer '
+                                                           'SHA-256</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': 'Normalisation Binaire RFC 8785 & Capture de Signature',
+                                             'triggerName': "Clic sur 'Canoniser (RFC 8785)' et signature sur pad "
+                                                            'tactile',
+                                             'caption': 'Tri lexicographique des clés en UTF-8 et recueil du tracé '
+                                                        'biométrique du mandataire.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Moteur RFC '
+                                                           '8785</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Canonisation Déterministe</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Canonisation binaire JCS '
+                                                           'achevée • Tracé signature capturé (412 points '
+                                                           'vectoriels)</div>\n'
+                                                           '                        <div class="wf-subtext">Génération '
+                                                           "du digest SHA-256 inaltérable à l'octet près</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Calcul de l\'empreinte de '
+                                                           'scellement...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': "Calcul de l'Empreinte Déterministe SHA-256 du Document JCS",
+                                             'progress': 98,
+                                             'caption': "Création du jeton probatoire liant l'identité du mandataire à "
+                                                        "l'intégrité intégrale du projet.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Module '
+                                                           'Cryptographique</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Scellement Hash (98%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 98%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [JCS-ENGINE] 187 clés JSON '
+                                                           'triées selon les points de code Unicode UTF-8</code><br>\n'
+                                                           '                        <code>> [SHA256] Empreinte : '
+                                                           '3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942</code><br>\n'
+                                                           '                        <code>> [SIGNATURE] Liaison '
+                                                           'biométrique avec Sophie Dumont (eID certifiée) : '
+                                                           'OK</code><br>\n'
+                                                           '                        <code>> [COSE-SIGN1] Enveloppe '
+                                                           'prête pour injection dans la partition EF-5</code>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': 'BAT Numérique Canonisé & Empreinte Scellée Définitivement',
+                                             'status': 'success',
+                                             'caption': 'Le document projet est désormais mathématiquement '
+                                                        'inaltérable.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • BAT Scellé</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ JCS RFC 8785 Validé</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">📜</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>BAT Funéraire Validé & '
+                                                           'Scellé par Empreinte SHA-256</strong>\n'
+                                                           '                          <p class="wf-subtext">Signature '
+                                                           'du mandataire liée au condensat déterministe • Prêt pour '
+                                                           'télétransmission atelier</p>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Émettre & Télétransmettre le BAT Numérique '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}},
+{   'id': 'UC-125',
+    'title': 'Émission & Télétransmission Sécurisée du BAT Numérique (Horodatage Certifié)',
+    'cat': 'Validation Finale & Juridique',
+    'actor': 'Conseiller Funéraire & Opérateur PaxStation',
+    'platforms': ['Web Standard (PWA Hors-Ligne)', 'Natif (iOS & Android)'],
+    'tags': ['BAT', 'Horodatage', 'RFC3161', 'Teletransmission', 'TLS13', 'eIDAS', 'Production'],
+    'preconditions': 'Le mandataire a signé le BAT numérique et le hash JCS RFC 8785 a été validé.',
+    'flow': [   "Création de la liasse de production numérique scellée contenant l'ensemble des fichiers binaires "
+                '(EF-1 à EF-5).',
+                "Génération de la requête d'horodatage qualifié RFC 3161 (TSA conforme eIDAS) garantissant la date et "
+                "l'heure certaines.",
+                "Établissement d'une session de télétransmission hautement sécurisée TLS 1.3 avec authentification "
+                "mutuelle (mTLS) vers la PaxStation d'atelier.",
+                'Téléversement en flux chiffré AES-256-GCM et vérification du hash de transport par le récepteur '
+                "d'atelier.",
+                "Réception de l'accusé de production officiel et passage du dossier au statut 'TRANSMIS POUR GRAVURE "
+                "SILICIUM'."],
+    'postconditions': 'Le dossier complet est transféré avec accusé de réception cryptographique, prêt pour la prise '
+                      'en charge par la PaxStation.',
+    'legal': 'Règlement UE n° 910/2014 (eIDAS - Services de confiance et horodatage certifié RFC 3161) & Protocole TLS '
+             '1.3 (RFC 8446).',
+    'legal_url': '#section-legal',
+    'wireframe': {   'device': 'tablet',
+                     'deviceLabel': 'PaxStudio Pro • Émission du Bon à Tirer (BAT) & Télétransmission Sécurisée '
+                                    'Atelier',
+                     'formFields': [   {   'label': 'Numéro de Dossier BAT',
+                                           'name': 'bat_reference_number',
+                                           'type': 'text',
+                                           'value': 'BAT-2026-BEL-00412-MÉDAILLON-TITANE',
+                                           'badge': 'Référence BAT',
+                                           'required': False},
+                                       {   'label': "Jeton d'Horodatage Certifié (TSA)",
+                                           'name': 'tsa_timestamp_token',
+                                           'type': 'text',
+                                           'value': 'eIDAS TSA Qualified • 2026-10-05T08:24:12.108Z (RFC 3161)',
+                                           'badge': 'Horodatage eIDAS',
+                                           'required': True},
+                                       {   'label': 'Canal de Télétransmission',
+                                           'name': 'transfer_mtls_channel',
+                                           'type': 'text',
+                                           'value': 'mTLS 1.3 Sécurisé • PaxStation Atelier #01 (IP 192.168.10.42)',
+                                           'badge': 'Chiffrement AES',
+                                           'required': False},
+                                       {   'label': 'Statut de Prise en Charge',
+                                           'name': 'transfer_ack_status',
+                                           'type': 'select',
+                                           'value': 'ACQUITTÉ PAR PAXSTATION (STATUT : PRÊT POUR GRAVURE)',
+                                           'badge': '200 OK Reçu',
+                                           'required': True}],
+                     'actionButtons': [   {   'id': 'btn_transmit_bat_package',
+                                              'label': 'Télétransmettre le BAT Numérique',
+                                              'role': 'primary',
+                                              'state': 'idle',
+                                              'icon': '🚀'},
+                                          {   'id': 'btn_download_archive_bundle',
+                                              'label': "Télécharger l'Archive Sécurisée",
+                                              'role': 'secondary',
+                                              'state': 'idle',
+                                              'icon': '📦'}],
+                     'validationMsg': {   'title': 'BAT Numérique Horodaté eIDAS & Transmis avec Succès',
+                                          'badge': 'Télétransmission Réussie',
+                                          'detail': 'Le dossier de production est acquitté par la PaxStation. Les '
+                                                    "jetons d'horodatage RFC 3161 sont archivés."},
+                     'errorCase': {   'code': 'ERR_BAT_TRANSMISSION_TIMEOUT',
+                                      'title': 'Rupture de Connexion Sécurisée durant la Télétransmission',
+                                      'condition': "La station d'atelier PaxStation ne répond pas sur le canal mTLS ou "
+                                                   "le certificat d'authentification a expiré.",
+                                      'message': 'Échec de télétransmission : Délai dépassé (timeout 15s) lors de '
+                                                 "l'envoi de la liasse de production.",
+                                      'remediation': "Vérifier que la PaxStation est allumée sur le réseau d'atelier "
+                                                     'ou basculer en transfert par média physique sécurisé.'},
+                     'phases': {   'p1': {   'tabTitle': '1. Avant Trigger',
+                                             'phaseTitle': "Dossier Scellé Prêt pour Transmission Vers l'Atelier",
+                                             'caption': "Le BAT est signé. Le paquet de production prêt pour l'envoi "
+                                                        'sécurisé à la machine de gravure.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Passerelle '
+                                                           'Atelier</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-neutral">Prêt pour Télétransmission</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-content-grid">\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Liasse '
+                                                           'de Production</label>\n'
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">BAT-2026-BEL-00412 '
+                                                           '(Horodatage eIDAS)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                        <div class="wf-field-group">\n'
+                                                           '                          <label class="wf-label">Cible '
+                                                           "d'Atelier</label>\n"
+                                                           '                          <div '
+                                                           'class="wf-input-placeholder">PaxStation Encodage #01 (mTLS '
+                                                           '1.3)</div>\n'
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary">🚀 Télétransmettre le BAT '
+                                                           'Numérique</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p2': {   'tabTitle': '2. Déclenchement ⚡',
+                                             'phaseTitle': "Requête d'Horodatage Certifié eIDAS RFC 3161",
+                                             'triggerName': "Clic sur 'Télétransmettre le BAT Numérique'",
+                                             'caption': "Appel du tiers d'horodatage qualifié et émission du jeton "
+                                                        'cryptographique certifié.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Tiers d\'Horodatage '
+                                                           '(TSA)</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-trigger">⚡ Jeton TSA Reçu</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-trigger-card '
+                                                           'wf-radar-pulse">\n'
+                                                           '                        <div '
+                                                           'class="wf-trigger-indicator">✓ Horodatage certifié : '
+                                                           '2026-10-05T08:24:12.108Z • Autorité QuoVadis / '
+                                                           'Certipost</div>\n'
+                                                           '                        <div class="wf-subtext">Ouverture '
+                                                           'du tunnel mTLS 1.3 avec la station de gravure '
+                                                           "d'atelier</div>\n"
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-primary wf-pulse-btn">Téléversement sécurisé en '
+                                                           'cours...</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p3': {   'tabTitle': '3. Traitement ⚙️',
+                                             'phaseTitle': 'Tunnel mTLS 1.3 vers PaxStation & Vérification Intégrité',
+                                             'progress': 99,
+                                             'caption': 'Chiffrement AES-256-GCM, transmission par paquets vérifiés et '
+                                                        "contrôle d'empreinte récepteur.",
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Tunnel Sécurisé '
+                                                           'Atelier</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-process">⚙️ Transfert mTLS (99%)</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div '
+                                                           'class="wf-progress-container"><div class="wf-progress-bar" '
+                                                           'style="width: 99%;"></div></div>\n'
+                                                           '                      <div class="wf-console-log">\n'
+                                                           '                        <code>> [TLS-1.3] Négociation '
+                                                           'cipher suite TLS_AES_256_GCM_SHA384 : Établi</code><br>\n'
+                                                           '                        <code>> [CLIENT-AUTH] Certificat '
+                                                           "d'atelier vérifié (CN=PaxStation-Atelier-01)</code><br>\n"
+                                                           '                        <code>> [PAYLOAD-PUSH] 91.4 Ko '
+                                                           'transmis en 140 ms</code><br>\n'
+                                                           '                        <code>> [REMOTE-ACK] Reçu HTTP 200 '
+                                                           "OK avec signature d'accusé d'enregistrement</code>\n"
+                                                           '                      </div>\n'
+                                                           '                    </div>'},
+                                   'p4': {   'tabTitle': '4. Écran de Fin ✨',
+                                             'phaseTitle': "Dossier Transmis & Statut 'Prêt pour Gravure' Acquitté",
+                                             'status': 'success',
+                                             'caption': "Le dossier est arrivé dans la file d'attente de la "
+                                                        'PaxStation. La production peut commencer.',
+                                             'screenHtml': '\n'
+                                                           '                    <div class="wf-screen-box">\n'
+                                                           '                      <div class="wf-header-bar">\n'
+                                                           '                        <span '
+                                                           'class="wf-app-title">PaxStudio Pro • Production '
+                                                           'Enclenchée</span>\n'
+                                                           '                        <span class="wf-status-badge '
+                                                           'wf-badge-success">✨ Acquitté par PaxStation</span>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-success-banner">\n'
+                                                           '                        <span '
+                                                           'class="wf-seal-icon">🚀</span>\n'
+                                                           '                        <div>\n'
+                                                           '                          <strong>BAT Télétransmis avec '
+                                                           'Succès à la Station de Gravure</strong>\n'
+                                                           '                          <p class="wf-subtext">Horodaté '
+                                                           'eIDAS • Dossier n° BAT-2026-BEL-00412 pris en charge par '
+                                                           "l'atelier</p>\n"
+                                                           '                        </div>\n'
+                                                           '                      </div>\n'
+                                                           '                      <div class="wf-btn-row">\n'
+                                                           '                        <button class="wf-btn '
+                                                           'wf-btn-gold">Télécharger le Récépissé Probatoire & Clore '
+                                                           '→</button>\n'
+                                                           '                      </div>\n'
+                                                           '                    </div>'}}}}
 ]
 

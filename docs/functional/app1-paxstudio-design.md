@@ -26,6 +26,15 @@
 | [`UC-114`](#uc-114) | [Dépassement de Quota Audio & Ré-échantillonnage d'Urgence Opus SILK (< 46 080 octets)](#uc-114) | **Médias Sonores** | Conseiller Funéraire & Studio Acoustique | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Spécification technique AeterniTrak STORAGE-001 (partitionnement silicium EF-3) & Norme IETF RFC 6716 (Codec Opus). |
 | [`UC-115`](#uc-115) | [Refus de Signature ou Révocation du Mandat par le Représentant Légal](#uc-115) | **Validation Finale & Juridique** | Représentant Légal & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement Général sur la Protection des Données (RGPD Art. 7 §3 - retrait du consentement) & Code civil (mandat et dévolution funéraire). |
 | [`UC-116`](#uc-116) | [Conflit de Résolution / Ratio Portrait & Recadrage Intelligent 480x480 WebP](#uc-116) | **Médias Visuels** | Famille & Graphiste PaxStudio | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Décision Kudoro DEC-AET-12 (spécification portrait WebP 480×480) & Jalon STORAGE-001 (partition silicium EF-2). |
+| [`UC-117`](#uc-117) | [Calculateur d'Empreinte Octet UTF-8 en direct vs Limite Silicium (1 900 o EF-1)](#uc-117) | **Compilation & Core** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Norme ISO/IEC 10646 (Jeu universel de caractères codés UTF-8 / RFC 3629) & Spécification AeterniTrak EF-1 (1 900 octets max). |
+| [`UC-118`](#uc-118) | [Contrôle de Validité NISS Belge (Numéro de Registre National & Algorithme Modulo 97)](#uc-118) | **Identité Civile & Mémorielle** | Conseiller Funéraire & Officier d'État Civil | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Loi belge du 8 août 1983 organisant un Registre national des personnes physiques & Algorithme officiel Modulo 97. |
+| [`UC-119`](#uc-119) | [Recherche & Autocomplétion Référentiel Communes / Codes Postaux Belges (Base INS/NIS Statbel)](#uc-119) | **Identité Civile & Mémorielle** | Conseiller Funéraire & Famille | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Arrêté royal fixant la nomenclature officielle des communes et arrondissements belges (Base INS Statbel). |
+| [`UC-120`](#uc-120) | [Interrogation Taxonomique NCBI Locale (TaxID & Espèces Compagnon 9615, 9685, 9796)](#uc-120) | **Identité Civile & Mémorielle** | Conseiller Animalier & Propriétaire de l'Animal | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Base taxonomique NCBI Taxonomy & Règlement (CE) n° 1069/2009 établissant des règles sanitaires applicables aux sous-produits animaux. |
+| [`UC-121`](#uc-121) | [Contrôle d'Accessibilité & Contraste WCAG AAA Or/Obsidienne avant Gravure](#uc-121) | **Design & Esthétique** | Graphiste & Contrôleur Qualité PaxStudio | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Recommandations internationales W3C WCAG 2.1 (Critère 1.4.6 Contraste Amélioré AAA) & Norme ergonomique ISO 9241-303. |
+| [`UC-122`](#uc-122) | [Débruitage & Élimination Automatique des Silences Audio Waveform (< 46 080 o)](#uc-122) | **Médias Sonores** | Famille & Ingénieur du Son PaxStudio | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Recommandation UIT-T G.729 (Détection d'activité vocale) & Spécification silicium AeterniTrak EF-3 (46 080 octets). |
+| [`UC-123`](#uc-123) | [Génération & Validation du QR Code Vectoriel de Secours (Correction d'Erreur ECC Niveau M/Q)](#uc-123) | **Validation Finale & Juridique** | Conseiller Funéraire & Famille | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Norme internationale ISO/IEC 18004 (Technologie de l'information - Symbologies de code à barres - QR Code 2005). |
+| [`UC-124`](#uc-124) | [Simulation Signature Client & Calcul d'Empreinte JCS RFC 8785](#uc-124) | **Validation Finale & Juridique** | Mandataire Légal & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Norme RFC 8785 (JSON Canonicalization Scheme - JCS) & Règlement UE 910/2014 (eIDAS - intégrité des actes dématérialisés). |
+| [`UC-125`](#uc-125) | [Émission & Télétransmission Sécurisée du BAT Numérique (Horodatage Certifié)](#uc-125) | **Validation Finale & Juridique** | Conseiller Funéraire & Opérateur PaxStation | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement UE n° 910/2014 (eIDAS - Services de confiance et horodatage certifié RFC 3161) & Protocole TLS 1.3 (RFC 8446). |
 
 ---
 
@@ -2787,6 +2796,1554 @@
                                             <button class="wf-btn wf-btn-gold">Insérer dans la Carte Sanctuaire & Valider →</button>
                                           </div>
                                         </div>
+```
+
+</details>
+
+---
+
+<a id="uc-117"></a>
+## UC-117 : Calculateur d'Empreinte Octet UTF-8 en direct vs Limite Silicium (1 900 o EF-1)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-117` |
+| **Catégorie Métier** | **Compilation & Core** |
+| **Acteur Principal** | Famille & Conseiller Funéraire |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `Silicium`, `UTF8`, `EF-1`, `Empreinte`, `JaugeOctets`, `Plafond1900`, `RFC3629` |
+| **Base Légale & Normative** | Norme ISO/IEC 10646 (Jeu universel de caractères codés UTF-8 / RFC 3629) & Spécification AeterniTrak EF-1 (1 900 octets max). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Calculateur d'Empreinte UTF-8 vs Limite Silicium (Partition EF-1)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Saisie ou importation des textes d'épitaphe et d'hommages dans PaxStudio avec limitation matérielle de la partition textuelle EF-1.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le texte est garanti inférieur ou égal à 1 900 octets UTF-8, assurant une écriture sans débordement de tampon dans la puce.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. L'utilisateur rédige les textes d'hommage et directives civiles dans l'éditeur de PaxStudio.
+2. Le moteur binaire intercepte chaque frappe et calcule l'empreinte en octets UTF-8 stricts selon la RFC 3629.
+3. Comparaison temps réel avec la réserve physique allouée à la partition EF-1 sur la puce ACOSJ (1 900 octets).
+4. Mise à jour de la jauge avec seuils chromatiques : vert (< 80%), orange (80-95%) et rouge d'alerte (> 95%).
+5. Blocage préventif des dépassements avec proposition d'élagage automatique des espaces et ligatures.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `epitaph_text` | **Texte Mémoriel / Épitaphe Saisi** | `text` | `À notre père et guide vénéré, dont la bienveillance illuminera nos cœurs à jamais...` | - | `UTF-8 Dynamique` | ✅ Requis |
+| `byte_count_realtime` | **Empreinte Binaire Réelle** | `text` | `1 842 octets / 1 900 octets (Marge libre : 58 octets)` | - | `Jauge Silicium` | ⭕ Optionnel |
+| `multibyte_analysis` | **Caractères Multi-Octets Détectés** | `text` | `3 emojis (12 octets) • 24 caractères accentués (48 octets)` | - | `Analyse RFC 3629` | ⭕ Optionnel |
+| `ef1_buffer_status` | **Statut Partition EF-1** | `select` | `96.9% Utilisé (Seuil Vigilance Orange < 1 900 octets)` | - | `Puce ACOSJ 92K` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_optimize_utf8` | **Élaguer Espaces & Optimiser UTF-8** | `primary` | `idle` | ✂️ |
+| `btn_simulate_ef1_burn` | **Simuler Injection dans EF-1** | `secondary` | `idle` | 💾 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Empreinte UTF-8 Conforme au Plafond EF-1 (1 842 / 1 900 octets)
+>
+> **Badge de Conformité :** `Conforme Silicium EF-1`
+>
+> **Détail Opérationnel :** Le volume textuel s'insère parfaitement dans la partition EF-1 sans risque de troncature ni débordement.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_EF1_SILICON_OVERFLOW` |
+| **Intitulé de l'Incident** | **Dépassement de Capacité Silicium EF-1 (> 1 900 Octets)** |
+| **Condition Déclenchante** | L'encodage UTF-8 du texte dépasse le plafond strict de 1 900 octets alloué à la partition EF-1. |
+| **Message d'Erreur UI** | *« Erreur matérielle : La mémoire allouée à la partition textuelle EF-1 (1 900 o) est saturée de 42 octets. »* |
+| **Action Corrective Requise** | **Raccourcir l'épitaphe ou remplacer les caractères multi-octets non essentiels pour repasser sous 1 900 octets.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Calculateur d'Empreinte UTF-8 vs Limite Silicium (Partition EF-1)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Texte Saisi avec Jauge d'Empreinte en Temps Réel | *En attente utilisateur* | L'utilisateur tape son texte d'hommage. La jauge calcule l'empreinte UTF-8 à chaque frappe. |
+| **2** | **Déclenchement ⚡** | Déclenchement de l'Optimisation des Espaces & Caractères | `Clic sur 'Élaguer Espaces & Optimiser UTF-8'` | Nettoyage des espaces doubles, conversion des retours chariots en LF simples et analyse des caractères 4-octets. |
+| **3** | **Traitement ⚙️** | Recalcul Binaire & Validation d'Insertion dans EF-1 | `Progression : 92%` | Vérification de conformité RFC 3629 et contrôle du seuil de sécurité de la puce ACOSJ. |
+| **4** | **Scellement & Fin ✨** | Empreinte Optimisée & Quota EF-1 Sécurisé | `Statut : success` | Le texte est parfaitement dimensionné pour la mémoire physique de la puce. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-117 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Texte Saisi avec Jauge d'Empreinte en Temps Réel
+*L'utilisateur tape son texte d'hommage. La jauge calcule l'empreinte UTF-8 à chaque frappe.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Calculateur UTF-8 EF-1</span>
+                        <span class="wf-status-badge wf-badge-neutral">Saisie Active (1 842 o / 1 900 o)</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Texte Hommage</label>
+                          <div class="wf-input-placeholder">À notre père et guide vénéré... (Saisie en cours)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Jauge Silicium EF-1</label>
+                          <div class="wf-input-placeholder" style="color: #f59e0b;">96.9% saturé (58 octets disponibles)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">✂️ Élaguer Espaces & Optimiser UTF-8</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Déclenchement de l'Optimisation des Espaces & Caractères
+*Nettoyage des espaces doubles, conversion des retours chariots en LF simples et analyse des caractères 4-octets.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Moteur d'Optimisation UTF-8</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Optimisation Binaire Active</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Élagage de 62 octets superflus (espaces insécables, CRLF -> LF)</div>
+                        <div class="wf-subtext">Compression textuelle sans altération sémantique de l'hommage familial</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Recalcul de l'empreinte silicium...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Recalcul Binaire & Validation d'Insertion dans EF-1
+*Vérification de conformité RFC 3629 et contrôle du seuil de sécurité de la puce ACOSJ.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Contrôleur Silicium EF-1</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Quota (92%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [UTF8-ENGINE] Encodage canonique RFC 3629 calculé : 1 780 octets</code><br>
+                        <code>> [SILICON-ALLOC] Partition EF-1 : 1 780 / 1 900 octets (Marge libre : 120 octets)</code><br>
+                        <code>> [INTEGRITY] Zéro caractère UTF-8 malformé détecté</code><br>
+                        <code>> [VERDICT] Quota validé pour la gravure sur puce ACOSJ 92 Ko</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Empreinte Optimisée & Quota EF-1 Sécurisé
+*Le texte est parfaitement dimensionné pour la mémoire physique de la puce.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Texte Homologué Silicium</span>
+                        <span class="wf-status-badge wf-badge-success">✨ 1 780 o • Conforme EF-1</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">📜</span>
+                        <div>
+                          <strong>Empreinte Textuelle Validée avec Succès (1 780 octets)</strong>
+                          <p class="wf-subtext">Plafond 1 900 octets d'EF-1 respecté • 120 octets de réserve de sécurité</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Insérer dans la Partition Textuelle EF-1 →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-118"></a>
+## UC-118 : Contrôle de Validité NISS Belge (Numéro de Registre National & Algorithme Modulo 97)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-118` |
+| **Catégorie Métier** | **Identité Civile & Mémorielle** |
+| **Acteur Principal** | Conseiller Funéraire & Officier d'État Civil |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `NISS`, `RegistreNational`, `Modulo97`, `EtatCivil`, `Belgique`, `Contrôle` |
+| **Base Légale & Normative** | Loi belge du 8 août 1983 organisant un Registre national des personnes physiques & Algorithme officiel Modulo 97. |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Contrôle d'État Civil & Clé Modulo 97 du Registre National (NISS)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Saisie du numéro d'identification du registre national belge (NISS à 11 chiffres) du défunt ou mandataire.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le NISS est mathématiquement certifié conforme aux spécifications du Registre national belge.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Saisie ou numérisation du NISS belge à 11 chiffres (format AAMMJJ-SSS-CC) sur la fiche d'état civil.
+2. Vérification du format structurel : cohérence de la date de naissance et du numéro de suite journalier.
+3. Exécution de l'algorithme légal Modulo 97 : prise en compte du siècle (addition de 2 000 000 000 pour les naissances dès l'an 2000).
+4. Comparaison de la clé calculée (97 - reste) avec les deux derniers chiffres de contrôle.
+5. Affichage immédiat de l'exactitude de l'état civil ou alerte immédiate en cas de falsification ou de faute de frappe.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `niss_number` | **NISS Belge (11 chiffres)** | `text` | `72.05.14-315.89` | - | `Registre National` | ✅ Requis |
+| `modulo_check_algo` | **Algorithme de Contrôle Légal** | `text` | `Modulo 97 • Reste = 97 - (720514315 % 97) = 89` | - | `Mathématique` | ⭕ Optionnel |
+| `niss_extracted_data` | **Données Civiles Déduites** | `text` | `Date : 14/05/1972 • Sexe : Masculin (Chiffre de suite 315 impair)` | - | `Extraction Auto` | ⭕ Optionnel |
+| `civil_status_validation` | **Statut Validation État Civil** | `select` | `CONFORME & CERTIFIÉ REGISTRE NATIONAL` | - | `Loi 08/08/1983` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_validate_niss` | **Vérifier la Clé Modulo 97** | `primary` | `idle` | 🇧🇪 |
+| `btn_scan_eid` | **Scanner Carte eID Belge** | `secondary` | `idle` | 💳 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** NISS Belge Authentifié avec Succès (Modulo 97 Conforme)
+>
+> **Badge de Conformité :** `Clé 89 Valide`
+>
+> **Détail Opérationnel :** Le numéro d'identification correspond parfaitement à l'algorithme légal du Registre national des personnes physiques.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_INVALID_NISS_CHECKSUM` |
+| **Intitulé de l'Incident** | **Échec du Contrôle Modulo 97 du NISS Belge** |
+| **Condition Déclenchante** | La clé de contrôle saisie ne correspond pas au calcul officiel de division euclidienne par 97. |
+| **Message d'Erreur UI** | *« Erreur d'état civil : Discordance sur la clé NISS (clé fournie != 97 - reste). Risque d'erreur de saisie. »* |
+| **Action Corrective Requise** | **Vérifier la carte eID belge ou l'extrait d'acte de naissance et ressaisir les 11 chiffres.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Contrôle d'État Civil & Clé Modulo 97 du Registre National (NISS)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | NISS Saisi en Attente de Contrôle Algorithmique | *En attente utilisateur* | Le conseiller a reporté le NISS de la pièce d'identité. Le bouton de vérification est prêt. |
+| **2** | **Déclenchement ⚡** | Déclenchement du Calcul Modulo 97 Bicentenaire | `Clic sur 'Vérifier la Clé Modulo 97'` | Traitement de l'expression mathématique et vérification des critères de siècle. |
+| **3** | **Traitement ⚙️** | Validation de Cohérence Date de Naissance & Sexe | `Progression : 98%` | Vérification croisée avec la date de naissance déclarée et cohérence du numéro de série. |
+| **4** | **Scellement & Fin ✨** | NISS Homologué & Identité Civile Certifiée | `Statut : success` | L'identité est mathématiquement vérifiée. Zéro risque d'erreur d'homonymie ou d'usurpation. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-118 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : NISS Saisi en Attente de Contrôle Algorithmique
+*Le conseiller a reporté le NISS de la pièce d'identité. Le bouton de vérification est prêt.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Registre National Belge</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Vérification</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">NISS à Contrôler</label>
+                          <div class="wf-input-placeholder">72.05.14-315.89</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Algorithme Légal</label>
+                          <div class="wf-input-placeholder">Modulo 97 (Loi du 08/08/1983)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🇧🇪 Vérifier la Clé Modulo 97</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Déclenchement du Calcul Modulo 97 Bicentenaire
+*Traitement de l'expression mathématique et vérification des critères de siècle.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Moteur Arithmétique NISS</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Calcul Modulo 97</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Base de calcul : 720514315 % 97 = 8 ➔ Clé attendue = 97 - 8 = 89</div>
+                        <div class="wf-subtext">Correspondance parfaite avec la clé déclarée (89)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Extraction des données civiles...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Validation de Cohérence Date de Naissance & Sexe
+*Vérification croisée avec la date de naissance déclarée et cohérence du numéro de série.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Validation État Civil</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Vérification Concordance (98%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [NISS-CHECK] Division euclidienne 720514315 % 97 = 8 : Clé 89 exacte</code><br>
+                        <code>> [CIVIL-DATE] Date extraite : 14 mai 1972 (Cohérence calendrier grégorien validée)</code><br>
+                        <code>> [CIVIL-GENDER] Numéro de suite 315 impair : Sexe masculin confirmé</code><br>
+                        <code>> [REGISTRY-STATUS] Homologation État Civil Belge accordée</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : NISS Homologué & Identité Civile Certifiée
+*L'identité est mathématiquement vérifiée. Zéro risque d'erreur d'homonymie ou d'usurpation.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • État Civil Conforme</span>
+                        <span class="wf-status-badge wf-badge-success">✨ NISS Certifié Modulo 97</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🇧🇪</span>
+                        <div>
+                          <strong>Numéro de Registre National Validé (72.05.14-315.89)</strong>
+                          <p class="wf-subtext">Clé 89 certifiée conforme • Données d'état civil scellées dans le projet</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Enregistrer l'Identité Civile & Continuer →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-119"></a>
+## UC-119 : Recherche & Autocomplétion Référentiel Communes / Codes Postaux Belges (Base INS/NIS Statbel)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-119` |
+| **Catégorie Métier** | **Identité Civile & Mémorielle** |
+| **Acteur Principal** | Conseiller Funéraire & Famille |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `Statbel`, `CodePostal`, `CommunesBelges`, `INS`, `Autocompletion`, `Localisation` |
+| **Base Légale & Normative** | Arrêté royal fixant la nomenclature officielle des communes et arrondissements belges (Base INS Statbel). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Référentiel Géographique Belge Statbel (Codes INS & Postaux)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Saisie de la commune de décès, de cérémonie funéraire ou de concession de sépulture.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La commune et le code postal sont rigoureusement indexés sur la nomenclature officielle Statbel.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Saisie prédictive des premiers caractères du toponyme ou du code postal belge (ex: '7000' ou 'Mons').
+2. Interrogation de la base de données embarquée Statbel (Office belge de statistique) fonctionnant 100% hors-ligne.
+3. Affichage instantané des suggestions normalisées avec code INS officiel (ex: 53053 pour Mons, 21004 pour Bruxelles).
+4. Sélection de l'entité : renseignement automatique de la province, région linguistique et arrondissement administratif.
+5. Association pérenne du code INS dans les actes de transport et de déclaration de crémation/sarcomusation.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `search_postal_commune` | **Recherche Commune ou Code Postal** | `text` | `7000 Mons` | - | `Recherche Statbel` | ✅ Requis |
+| `ins_statbel_code` | **Code INS Statbel Associé** | `text` | `53053 (Ville de Mons)` | - | `Officiel INS` | ⭕ Optionnel |
+| `administrative_region` | **Province & Arrondissement** | `text` | `Province de Hainaut • Arrondissement de Mons • Wallonie` | - | `Région` | ⭕ Optionnel |
+| `regional_funeral_law` | **Législation Funéraire Applicable** | `select` | `Décret funéraire wallon du 6 mars 2009 (Région Wallonne)` | - | `Droit Régional` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_confirm_commune` | **Valider la Commune INS** | `primary` | `idle` | 🏛️ |
+| `btn_show_cemetery_map` | **Consulter Registre Cimetières** | `secondary` | `idle` | 🗺️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Commune Belge et Code INS 53053 Validés
+>
+> **Badge de Conformité :** `Statbel Conforme`
+>
+> **Détail Opérationnel :** Commune rattachée avec précision. Les formulaires légaux appliquent automatiquement le droit funéraire régional.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_COMMUNE_NOT_FOUND_STATBEL` |
+| **Intitulé de l'Incident** | **Code Postal ou Entité Inconnue dans le Référentiel Statbel** |
+| **Condition Déclenchante** | Saisie d'un code postal invalide ou toponyme introuvable dans la table des unités administratives belges. |
+| **Message d'Erreur UI** | *« Anomalie d'adressage : La commune renseignée ne correspond à aucun code INS officiel belge. »* |
+| **Action Corrective Requise** | **Sélectionner la commune via la recherche assistée ou vérifier l'orthographe du toponyme.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Référentiel Géographique Belge Statbel (Codes INS & Postaux)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Saisie Prédictive de la Commune ou Code Postal | *En attente utilisateur* | L'utilisateur tape les premiers chiffres ou lettres pour déclencher la recherche dans la base Statbel. |
+| **2** | **Déclenchement ⚡** | Interrogation Locale de la Base INS Statbel | `Sélection de la suggestion '7000 Mons (Code INS 53053)'` | Résolution des métadonnées régionales, de l'arrondissement judiciaire et du décret applicable. |
+| **3** | **Traitement ⚙️** | Injection des Coordonnées Officielles dans les Actes | `Progression : 95%` | Mise à jour automatique des formulaires de transport de corps et des déclarations communales. |
+| **4** | **Scellement & Fin ✨** | Commune Rattachée & Législation Régionale Associée | `Statut : success` | Lieu de repos rattaché à la base officielle Statbel sans aucune ambiguïté géographique. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-119 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Saisie Prédictive de la Commune ou Code Postal
+*L'utilisateur tape les premiers chiffres ou lettres pour déclencher la recherche dans la base Statbel.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Référentiel Statbel</span>
+                        <span class="wf-status-badge wf-badge-neutral">Saisie Assistée</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Recherche Toponymique</label>
+                          <div class="wf-input-placeholder">7000 Mons...</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Base Embarquée</label>
+                          <div class="wf-input-placeholder">Statbel 2026 (581 Communes Belges Hors-Ligne)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🏛️ Valider la Commune INS</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Interrogation Locale de la Base INS Statbel
+*Résolution des métadonnées régionales, de l'arrondissement judiciaire et du décret applicable.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Moteur Géographique Statbel</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Correspondance Trouvée</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Entité identifiée : Ville de Mons • Code INS 53053</div>
+                        <div class="wf-subtext">Région Wallonne • Province de Hainaut • Décret funéraire wallon du 06/03/2009</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Liaison administrative en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Injection des Coordonnées Officielles dans les Actes
+*Mise à jour automatique des formulaires de transport de corps et des déclarations communales.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Gestionnaire Administratif</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Injection INS (95%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [STATBEL-DB] Code postal 7000 lié au code INS 53053 (Mons)</code><br>
+                        <code>> [JURISDICTION] Arrondissement judiciaire de Mons validé</code><br>
+                        <code>> [REGIONAL-LAW] Paramétrage des délais légaux d'inhumation (Décret Wallonie) : OK</code><br>
+                        <code>> [GEO-TAG] Coordonnées centroïde communal rattachées pour traçabilité</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Commune Rattachée & Législation Régionale Associée
+*Lieu de repos rattaché à la base officielle Statbel sans aucune ambiguïté géographique.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Localisation Validée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Code INS 53053 Scellé</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏛️</span>
+                        <div>
+                          <strong>Ville de Mons (7000) • Référentiel Statbel Validé</strong>
+                          <p class="wf-subtext">Code INS 53053 • Décret funéraire wallon activé pour les formalités</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Passer au Choix de la Sépulture / Concession →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-120"></a>
+## UC-120 : Interrogation Taxonomique NCBI Locale (TaxID & Espèces Compagnon 9615, 9685, 9796)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-120` |
+| **Catégorie Métier** | **Identité Civile & Mémorielle** |
+| **Acteur Principal** | Conseiller Animalier & Propriétaire de l'Animal |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `NCBI`, `TaxID`, `Taxonomie`, `AnimauxCompagnie`, `CanisLupus`, `FelisCatus`, `EquusCaballus` |
+| **Base Légale & Normative** | Base taxonomique NCBI Taxonomy & Règlement (CE) n° 1069/2009 établissant des règles sanitaires applicables aux sous-produits animaux. |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Référentiel Taxonomique NCBI & Registre Animalier (ISO 11784)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Création d'un dossier Sanctuaire mémoriel pour un animal familier de compagnie (canin, félin, équin).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le TaxID NCBI officiel est scellé dans l'en-tête de la capsule, garantissant le respect strict de la filière sanitaire.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Sélection de l'espèce animale ou recherche par dénomination vernaculaire dans le module mémoriel animalier.
+2. Résolution locale instantanée du taxon dans la base embarquée NCBI Taxonomy (sans appel réseau).
+3. Association stricte du TaxID : Canis lupus familiaris (9615), Felis catus (9685), Equus caballus (9796).
+4. Vérification croisée avec le numéro de transpondeur RFID (ISO 11784/11785) et l'organisme d'identification (DogID / CatID).
+5. Scellement du TaxID dans la structure de données pour verrouiller l'orientation sanitaire Catégorie 1 mémorielle.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `vernacular_species` | **Nom Vernaculaire de l'Espèce** | `select` | `Chien domestique (Canis lupus familiaris)` | - | `Animal Familier` | ✅ Requis |
+| `ncbi_taxid_resolved` | **Identifiant Taxonomique NCBI** | `text` | `TaxID: 9615 (NCBI Reference Taxonomy)` | - | `Souverain NCBI` | ⭕ Optionnel |
+| `vet_rfid_chip` | **Puce Électronique RFID Vétérinaire** | `text` | `967000010294812 (ISO 11784/11785 • Registre DogID)` | - | `Transpondeur` | ✅ Requis |
+| `animal_byproduct_cat` | **Classification Sous-Produit Animal** | `text` | `Catégorie 1 Mémoriel Pur • Sarcomusation Homologuée` | - | `CE 1069/2009` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_lock_taxid` | **Verrouiller TaxID & Filière Sanitaire** | `primary` | `idle` | 🧬 |
+| `btn_lookup_dogid` | **Interroger Base DogID / CatID** | `secondary` | `idle` | 🔍 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** TaxID NCBI 9615 Résolu & Filière Mémorielle Verrouillée
+>
+> **Badge de Conformité :** `Canis lupus familiaris`
+>
+> **Détail Opérationnel :** Classification biologique officielle verrouillée. Orientation Catégorie 1 validée sans risque de conflit d'espèce.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_UNKNOWN_TAXID_SPECIES` |
+| **Intitulé de l'Incident** | **Espèce Non Identifiée ou Hors Cadre Mémoriel Autorisé** |
+| **Condition Déclenchante** | L'animal saisi ne correspond à aucun TaxID homologué pour la filière mémorielle de compagnie. |
+| **Message d'Erreur UI** | *« Erreur de filière : L'espèce saisie ne peut être admise en sarcomusation de compagnie mémorielle. »* |
+| **Action Corrective Requise** | **Sélectionner une espèce autorisée (TaxID 9615, 9685, 9796) ou orienter vers la filière agricole Catégorie 2.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Référentiel Taxonomique NCBI & Registre Animalier (ISO 11784)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Sélection de l'Espèce de l'Animal Familier | *En attente utilisateur* | Le conseiller sélectionne la race et l'espèce pour rattachement au référentiel NCBI. |
+| **2** | **Déclenchement ⚡** | Résolution Déterministe dans le Référentiel NCBI | `Clic sur 'Verrouiller TaxID & Filière Sanitaire'` | Recherche dans l'index taxonomique local et contrôle des règles d'orientation vétérinaire CE 1069/2009. |
+| **3** | **Traitement ⚙️** | Contrôle de Traçabilité Sanitaire & Règle Anti-Prion | `Progression : 94%` | Vérification qu'aucun recyclage d'espèce n'est techniquement possible et scellement du TaxID. |
+| **4** | **Scellement & Fin ✨** | Espèce Verrouillée en Filière Mémorielle Pure | `Statut : success` | L'animal est inscrit avec sa traçabilité biologique complète et inaltérable. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-120 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Sélection de l'Espèce de l'Animal Familier
+*Le conseiller sélectionne la race et l'espèce pour rattachement au référentiel NCBI.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Mémorial Animalier</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Taxonomie</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Espèce / Animal Familier</label>
+                          <div class="wf-input-placeholder">Chien domestique (Canis lupus familiaris)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Puce Transpondeur ISO 11784</label>
+                          <div class="wf-input-placeholder">967000010294812 (DogID)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🧬 Verrouiller TaxID & Filière Sanitaire</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Résolution Déterministe dans le Référentiel NCBI
+*Recherche dans l'index taxonomique local et contrôle des règles d'orientation vétérinaire CE 1069/2009.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Index Taxonomique NCBI</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Taxon Résolu (9615)</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ TaxID 9615 résolu : Eukaryota > Metazoa > Carnivora > Canis lupus familiaris</div>
+                        <div class="wf-subtext">Orientation sanitaire : Catégorie 1 Mémoriel Pur • Règle Anti-Prion respectée</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Scellement de la filière sanitaire...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Contrôle de Traçabilité Sanitaire & Règle Anti-Prion
+*Vérification qu'aucun recyclage d'espèce n'est techniquement possible et scellement du TaxID.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Contrôle Biologique & Sanitaire</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Filière (94%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 94%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [NCBI-TAXONOMY] TaxID 9615 validé avec rang espèce exact</code><br>
+                        <code>> [ANTI-PRION-RULE] Verrouillage strict : Exclusion de tout débouché alimentaire</code><br>
+                        <code>> [CE-1069/2009] Attribution filière Catégorie 1 Mémoriel Familier : OK</code><br>
+                        <code>> [TRANSPONDER] Puce 967000010294812 liée de façon irrévocable au TaxID 9615</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Espèce Verrouillée en Filière Mémorielle Pure
+*L'animal est inscrit avec sa traçabilité biologique complète et inaltérable.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Mémorial Animalier Homologué</span>
+                        <span class="wf-status-badge wf-badge-success">✨ TaxID 9615 Scellé</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🐾</span>
+                        <div>
+                          <strong>Canis lupus familiaris (TaxID 9615) • Filière Cat 1 Validée</strong>
+                          <p class="wf-subtext">Puce DogID 967000010294812 rattachée • Conformité sanitaire européenne scellée</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Créer la Carte Sanctuaire Animalière →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-121"></a>
+## UC-121 : Contrôle d'Accessibilité & Contraste WCAG AAA Or/Obsidienne avant Gravure
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-121` |
+| **Catégorie Métier** | **Design & Esthétique** |
+| **Acteur Principal** | Graphiste & Contrôleur Qualité PaxStudio |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `Accessibilité`, `WCAG21`, `ContrasteAAA`, `Ratio7:1`, `OrObsidienne`, `GravureLaser` |
+| **Base Légale & Normative** | Recommandations internationales W3C WCAG 2.1 (Critère 1.4.6 Contraste Amélioré AAA) & Norme ergonomique ISO 9241-303. |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Contrôle Optique d'Accessibilité WCAG 2.1 AAA & Gravure Laser` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Composition visuelle de la carte physique ou du médaillon avec choix de la typographie et des teintes métalliques.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le contraste chromatique est certifié WCAG 2.1 AAA, garantissant une lisibilité intemporelle sur le support physique.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Positionnement des textes d'épitaphe et patronymes sur le fond noble (fond obsidienne satiné ou titane brossé).
+2. Le moteur graphique calcule la luminance relative des couleurs de premier plan (or satiné #D4AF37) et d'arrière-plan (#0B0F19).
+3. Application de l'algorithme WCAG 2.1 pour déterminer le ratio de contraste photométrique exact.
+4. Vérification du seuil d'excellence niveau AAA : ratio supérieur ou égal à 7.0:1 pour les textes courants et 4.5:1 pour les grands titres.
+5. Validation du gabarit pour la gravure laser sans éblouissement et avec lisibilité garantie sous tous les angles de lumière.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `fg_color_hex` | **Couleur Texte / Gravure Laser** | `text` | `#D4AF37 (Or Satiné Micro-Brossé)` | - | `Premier Plan` | ✅ Requis |
+| `bg_color_hex` | **Fond du Support Physique** | `text` | `#0B0F19 (Noir Obsidienne Titane)` | - | `Arrière-Plan` | ✅ Requis |
+| `contrast_measured_ratio` | **Ratio de Contraste Mesuré** | `text` | `8.24 : 1 (Exigence AAA : ≥ 7.00 : 1)` | - | `Optique W3C` | ⭕ Optionnel |
+| `wcag_compliance_badge` | **Niveau de Conformité WCAG** | `select` | `NIVEAU AAA CERTIFIÉ (LISIBILITÉ MAXIMALE)` | - | `WCAG 2.1 AAA` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_audit_contrast` | **Auditer le Contraste Optique** | `primary` | `idle` | 👁️ |
+| `btn_optimize_palette` | **Ajuster Teinte Laser Auto** | `secondary` | `idle` | ✨ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Contraste Photométrique Certifié WCAG 2.1 Niveau AAA (8.24:1)
+>
+> **Badge de Conformité :** `WCAG AAA 8.24:1`
+>
+> **Détail Opérationnel :** Lisibilité parfaite sous lumière directe et rasante. Gravure laser autorisée sur support or et obsidienne.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_INSUFFICIENT_CONTRAST_RATIO` |
+| **Intitulé de l'Incident** | **Contraste Insuffisant pour Gravure Noble (< 7.0:1)** |
+| **Condition Déclenchante** | La nuance de dorure choisie sur fond clair présente un ratio inférieur au standard d'excellence AAA (ex: 3.4:1). |
+| **Message d'Erreur UI** | *« Défaut d'accessibilité visuelle : Le ratio mesuré (3.4:1) rendra le texte difficilement déchiffrable avec l'âge. »* |
+| **Action Corrective Requise** | **Assombrir le support ou intensifier la densité de la dorure laser pour atteindre le seuil minimal de 7.0:1.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Contrôle Optique d'Accessibilité WCAG 2.1 AAA & Gravure Laser**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Maquette Graphique avec Palette Or Satiné / Obsidienne | *En attente utilisateur* | La palette de couleurs nobles est positionnée. L'audit d'accessibilité est prêt à être lancé. |
+| **2** | **Déclenchement ⚡** | Mesure Photométrique de Luminance Relative WCAG 2.1 | `Clic sur 'Auditer le Contraste Optique'` | Calcul des luminances relatives normalisées L1 et L2 selon la recommandation W3C. |
+| **3** | **Traitement ⚙️** | Contrôle des Angles de Vision & Réflexion Métallique | `Progression : 96%` | Simulation de la gravure laser sous éclairage oblique et vérification d'absence de reflets éblouissants. |
+| **4** | **Scellement & Fin ✨** | Contraste Optique Certifié AAA pour Gravure Noble | `Statut : success` | La carte est garantie parfaitement lisible par tous, sans fatigue visuelle ni perte de contraste. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-121 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Maquette Graphique avec Palette Or Satiné / Obsidienne
+*La palette de couleurs nobles est positionnée. L'audit d'accessibilité est prêt à être lancé.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Laboratoire Chromatique</span>
+                        <span class="wf-status-badge wf-badge-neutral">Audit Prêt</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Premier Plan (Laser)</label>
+                          <div class="wf-input-placeholder" style="color: #d4af37;">#D4AF37 Or Satiné</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Fond Physique</label>
+                          <div class="wf-input-placeholder">#0B0F19 Obsidienne Profonde</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">👁️ Auditer le Contraste Optique</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Mesure Photométrique de Luminance Relative WCAG 2.1
+*Calcul des luminances relatives normalisées L1 et L2 selon la recommandation W3C.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Calculateur Photométrique</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Mesure W3C Active</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Ratio calculé : (L1 + 0.05) / (L2 + 0.05) = 8.24 : 1</div>
+                        <div class="wf-subtext">Seuil AAA requis (7.00:1) largement dépassé • Rendu optique noble garanti</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Simulation optique sous lumière rasante...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Contrôle des Angles de Vision & Réflexion Métallique
+*Simulation de la gravure laser sous éclairage oblique et vérification d'absence de reflets éblouissants.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Simulateur Optique Laser</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle ISO 9241 (96%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [WCAG-CALC] Luminance relative premier plan : 0.441 • Arrière-plan : 0.009</code><br>
+                        <code>> [CONTRAST-RATIO] 8.24 : 1 (Exigence WCAG 2.1 AAA respectée avec 17.7% de marge)</code><br>
+                        <code>> [ISO-9241-303] Lisibilité sous angle d'incidence 45° : Conforme</code><br>
+                        <code>> [LASER-SPEC] Puissance recommandée : 28W fibre laser • Focale 160mm</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Contraste Optique Certifié AAA pour Gravure Noble
+*La carte est garantie parfaitement lisible par tous, sans fatigue visuelle ni perte de contraste.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Accessibilité Validée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Ratio 8.24:1 WCAG AAA</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏆</span>
+                        <div>
+                          <strong>Contraste Certifié Niveau AAA (Or Satiné / Obsidienne)</strong>
+                          <p class="wf-subtext">Lisibilité intergénérationnelle garantie • Gabarit prêt pour la gravure laser</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Valider le Gabarit Visuel & Continuer →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-122"></a>
+## UC-122 : Débruitage & Élimination Automatique des Silences Audio Waveform (< 46 080 o)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-122` |
+| **Catégorie Métier** | **Médias Sonores** |
+| **Acteur Principal** | Famille & Ingénieur du Son PaxStudio |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `Audio`, `VAD`, `Debruitage`, `Silences`, `Opus`, `EF-3`, `Plafond46Ko` |
+| **Base Légale & Normative** | Recommandation UIT-T G.729 (Détection d'activité vocale) & Spécification silicium AeterniTrak EF-3 (46 080 octets). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Traitement Acoustique & Élagage des Silences (Partition EF-3)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Importation d'un hommage vocal ou d'un mémo audio familial contenant des souffles ou des silences prolongés.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'onde audio est nettoyée, la voix est intelligible et le volume final respecte rigoureusement le quota EF-3.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Génération de la forme d'onde (waveform) sonore et analyse de l'enveloppe d'énergie acoustique.
+2. Exécution du module Voice Activity Detection (VAD) avec détection et suppression des plages de silence initiales et finales.
+3. Application d'un algorithme de débruitage par soustraction spectrale pour filtrer le bruit de fond microphonique.
+4. Recompression intelligente en flux Opus SILK 12 kbps mono adapté aux contraintes de la puce silicium.
+5. Contrôle strict que le volume sonore final n'excède pas les 46 080 octets disponibles dans la partition EF-3.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `raw_audio_track` | **Fichier Audio Importé** | `text` | `hommage_vocal_papa_2024.wav (01:12 • 4.2 Mo)` | - | `Source Brute` | ✅ Requis |
+| `vad_silence_stripping` | **Détection d'Activité Vocale (VAD)** | `text` | `24 secondes de silences et bruits blancs éliminés` | - | `Gain Audio` | ⭕ Optionnel |
+| `spectral_denoise_profile` | **Débruitage Spectral Adaptatif** | `select` | `Atténuation Souffle Micro -14 dB (Spectre Vocal Préservé)` | - | `UIT-T G.729` | ✅ Requis |
+| `ef3_final_encoded_size` | **Taille Finale Encodée EF-3** | `text` | `38 912 octets / 46 080 octets (84.4% de la partition)` | - | `Quota Respecté` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_strip_and_denoise` | **Éliminer Silences & Débruiter** | `primary` | `idle` | 🎙️ |
+| `btn_listen_ab_test` | **Écouter le Rendu Nettoyé** | `secondary` | `idle` | ▶️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Audio Nettoyé avec Succès & Intégré sous Quota EF-3
+>
+> **Badge de Conformité :** `38.9 Ko / 46 Ko Conforme`
+>
+> **Détail Opérationnel :** Voix limpide, silences éliminés, gain de 24 secondes. Fichier scellé pour écriture dans la partition sonore EF-3.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `WARN_AUDIO_SN_RATIO_TOO_LOW` |
+| **Intitulé de l'Incident** | **Rapport Signal sur Bruit Vocal Insuffisant (< 6 dB)** |
+| **Condition Déclenchante** | L'enregistrement présente un niveau de bruit parasite trop élevé empêchant une restitution vocale digne. |
+| **Message d'Erreur UI** | *« Avertissement acoustique : La voix est couverte par un bruit de fond mécanique ou éolien important. »* |
+| **Action Corrective Requise** | **Activer le filtre passe-bande vocal renforcé (300-3400 Hz) ou enregistrer un message dans un lieu calme.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Traitement Acoustique & Élagage des Silences (Partition EF-3)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Piste Audio Brute avec Souffle et Plages de Silence | *En attente utilisateur* | L'hommage vocal importé dure 72 secondes avec 24 secondes de silences et bruits de fond. |
+| **2** | **Déclenchement ⚡** | Activation du Module VAD (Voice Activity Detection) | `Clic sur 'Éliminer Silences & Débruiter'` | Détection des plages d'énergie vocale et coupure nette des silences aux extrémités. |
+| **3** | **Traitement ⚙️** | Encodage Opus SILK & Validation du Plafond EF-3 | `Progression : 94%` | Compression dynamique et pesée binaire pour injection dans la partition silicium EF-3. |
+| **4** | **Scellement & Fin ✨** | Flux Vocal Épuré à 38.9 Ko (Plafond EF-3 Respecté) | `Statut : success` | La voix du défunt est immortalisée avec pureté et s'insère sans contrainte dans la puce. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-122 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Piste Audio Brute avec Souffle et Plages de Silence
+*L'hommage vocal importé dure 72 secondes avec 24 secondes de silences et bruits de fond.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Studio Acoustique</span>
+                        <span class="wf-status-badge wf-badge-neutral">Audio Brut (72s • Souffle Détecté)</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Enregistrement Source</label>
+                          <div class="wf-input-placeholder">hommage_vocal_papa_2024.wav (01:12)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Cible Silicium EF-3</label>
+                          <div class="wf-input-placeholder">Quota strict : 46 080 octets max</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🎙️ Éliminer Silences & Débruiter</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Activation du Module VAD (Voice Activity Detection)
+*Détection des plages d'énergie vocale et coupure nette des silences aux extrémités.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Filtre VAD & Débruitage</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Traitement Acoustique Actif</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ 24.2 secondes de silences élaguées • Souffle micro atténué de -14 dB</div>
+                        <div class="wf-subtext">Durée utile ramenée à 48 secondes • Énergie vocale rehaussée</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Re-quantification Opus SILK...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Encodage Opus SILK & Validation du Plafond EF-3
+*Compression dynamique et pesée binaire pour injection dans la partition silicium EF-3.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Contrôle Silicium EF-3</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Quota (94%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 94%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [VAD-ENGINE] Découpage des silences : Durée 47.8s (Gain de 33% en volume)</code><br>
+                        <code>> [NOISE-REDUCE] Soustraction spectrale appliquée sur 3 bandes critiques</code><br>
+                        <code>> [OPUS-ENCODE] Flux Opus SILK 12 kbps généré : 38 912 octets</code><br>
+                        <code>> [STORAGE-EF3] 38 912 / 46 080 octets (Marge libre : 7 168 octets) : VALIDÉ</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Flux Vocal Épuré à 38.9 Ko (Plafond EF-3 Respecté)
+*La voix du défunt est immortalisée avec pureté et s'insère sans contrainte dans la puce.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Voix Éternelle Scellée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ 38.9 Ko • Conforme EF-3</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🎵</span>
+                        <div>
+                          <strong>Hommage Sonore Haute Définition Prêt pour Gravure</strong>
+                          <p class="wf-subtext">38 912 octets • Silences éliminés • Qualité vocale optimale sur puce ACOSJ</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Insérer dans la Partition Sonore EF-3 →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-123"></a>
+## UC-123 : Génération & Validation du QR Code Vectoriel de Secours (Correction d'Erreur ECC Niveau M/Q)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-123` |
+| **Catégorie Métier** | **Validation Finale & Juridique** |
+| **Acteur Principal** | Conseiller Funéraire & Famille |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `QRCode`, `Secours`, `ECC`, `ReedSolomon`, `ISO18004`, `VectorielSVG`, `Redondance` |
+| **Base Légale & Normative** | Norme internationale ISO/IEC 18004 (Technologie de l'information - Symbologies de code à barres - QR Code 2005). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Moteur de Gravure QR Code Vectoriel & Tolérance Reed-Solomon` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Les données récapitulatives et l'URL de vérification sont prêtes pour l'impression physique au dos du support.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le QR code vectoriel est validé avec 25% de redondance matérielle, prêt pour la gravure de secours au verso.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Extraction de l'adresse de vérification canonique et des identifiants cryptographiques essentiels.
+2. Sélection de la politique de tolérance aux pannes Reed-Solomon : Niveau M (15% de redondance) ou Niveau Q (25% de tolérance aux rayures).
+3. Génération du maillage vectoriel SVG pur garantissant des arêtes nettes à l'échelle micrométrique pour la gravure laser.
+4. Application stricte de la zone de silence (quiet zone) de 4 modules conformément à la norme ISO/IEC 18004.
+5. Simulation optique de dégradations mécaniques (rayure, usure de frottement) pour certifier la lisibilité universelle par smartphone.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `qr_target_payload` | **Charge Utile / URL Canonique** | `text` | `https://aeternitrak.be/v?id=AET-2026-BEL-0912&sig=c4b8... (114 car.)` | - | `Payload Scellé` | ✅ Requis |
+| `ecc_level_choice` | **Correction d'Erreur Reed-Solomon** | `select` | `Niveau Q (25% de tolérance aux rayures physiques)` | - | `ISO 18004` | ✅ Requis |
+| `quiet_zone_spec` | **Zone de Quiétude (Quiet Zone)** | `text` | `4 modules périphériques respectés au 1/100e mm` | - | `Contrainte Laser` | ⭕ Optionnel |
+| `qr_vector_format` | **Format Vectoriel Exporté** | `text` | `SVG 100% Vectoriel Pur (Résolution infinie • Zéro artefact)` | - | `HD Gravure` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_generate_vector_qr` | **Générer le QR Code Vectoriel** | `primary` | `idle` | 🔲 |
+| `btn_simulate_scratch_test` | **Simuler Rayure & Test Décodage** | `secondary` | `idle` | 🔬 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** QR Code Vectoriel Généré & Tolérance Reed-Solomon Niveau Q Conforme
+>
+> **Badge de Conformité :** `ISO 18004 ECC Q`
+>
+> **Détail Opérationnel :** Le QR code est lisible même avec 25% de dégradation de surface. Prêt pour gravure physique au verso.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_QR_PAYLOAD_TOO_DENSE` |
+| **Intitulé de l'Incident** | **Charge Utile Trop Volumineuse pour la Surface Laser Disponible** |
+| **Condition Déclenchante** | La longueur du texte encodé dépasse la résolution optique gravable sur médaillon de 35 mm. |
+| **Message d'Erreur UI** | *« Risque de non-lecture : La densité de modules dépasse les capacités de résolution optique du laser. »* |
+| **Action Corrective Requise** | **Compresser l'URL ou substituer la charge utile brute par un identifiant court sécurisé.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Moteur de Gravure QR Code Vectoriel & Tolérance Reed-Solomon**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Configuration de la Redondance Optique de Secours | *En attente utilisateur* | Sélection du niveau de tolérance Reed-Solomon pour le QR code gravé au dos de la carte. |
+| **2** | **Déclenchement ⚡** | Calcul de la Matrice QR Code avec Tolérance Reed-Solomon Q | `Clic sur 'Générer le QR Code Vectoriel'` | Génération de la matrice de modules binaires et ajout des blocs de parité Reed-Solomon. |
+| **3** | **Traitement ⚙️** | Vectorisation SVG Submillimétrique & Simulation de Rayure | `Progression : 97%` | Vérification de la décodabilité optique avec une simulation d'abrasion de 22% de la surface. |
+| **4** | **Scellement & Fin ✨** | QR Code de Secours Homologué (25% Tolérance) | `Statut : success` | La voie optique de secours est certifiée inaltérable et résistante aux années d'usage. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-123 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Configuration de la Redondance Optique de Secours
+*Sélection du niveau de tolérance Reed-Solomon pour le QR code gravé au dos de la carte.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Secours Optique QR</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Génération</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Charge Utile Canonique</label>
+                          <div class="wf-input-placeholder">https://aeternitrak.be/v?id=AET-2026-BEL-0912</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Niveau Reed-Solomon</label>
+                          <div class="wf-input-placeholder">Niveau Q (25% Tolérance Rayures)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔲 Générer le QR Code Vectoriel</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Calcul de la Matrice QR Code avec Tolérance Reed-Solomon Q
+*Génération de la matrice de modules binaires et ajout des blocs de parité Reed-Solomon.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Moteur ISO/IEC 18004</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Matrice Vectorielle Calculée</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Matrice Version 4 (33x33 modules) • Masque optique 101 sélectionné</div>
+                        <div class="wf-subtext">Ajout de 44 octets de redondance Reed-Solomon (Niveau Q - 25% récupérable)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Simulation de rayure laser...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Vectorisation SVG Submillimétrique & Simulation de Rayure
+*Vérification de la décodabilité optique avec une simulation d'abrasion de 22% de la surface.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Banc de Résilience Optique</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Test Abrasions (97%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 97%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [QR-ENGINE] Traçage SVG vectoriel : Coordonnées au 1/100e de millimètre</code><br>
+                        <code>> [QUIET-ZONE] Marge périphérique de 4 modules validée</code><br>
+                        <code>> [SCRATCH-SIM] Dégradation simulée : 22% de la surface altérée</code><br>
+                        <code>> [DECODER-CHECK] Décodage Reed-Solomon 100% réussi sans perte d'information</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : QR Code de Secours Homologué (25% Tolérance)
+*La voie optique de secours est certifiée inaltérable et résistante aux années d'usage.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Secours Optique Validé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ ISO 18004 Niveau Q</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🔲</span>
+                        <div>
+                          <strong>QR Code Vectoriel Homologué pour Gravure Verso</strong>
+                          <p class="wf-subtext">Tolérance Reed-Solomon 25% • Résolution laser vectorielle pure scellée</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Intégrer au Verso de la Carte Physique →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-124"></a>
+## UC-124 : Simulation Signature Client & Calcul d'Empreinte JCS RFC 8785
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-124` |
+| **Catégorie Métier** | **Validation Finale & Juridique** |
+| **Acteur Principal** | Mandataire Légal & Conseiller Funéraire |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `JCS`, `RFC8785`, `Canonisation`, `SHA256`, `SignatureTactile`, `eIDAS`, `EF-5` |
+| **Base Légale & Normative** | Norme RFC 8785 (JSON Canonicalization Scheme - JCS) & Règlement UE 910/2014 (eIDAS - intégrité des actes dématérialisés). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Canonisation JCS RFC 8785 & Signature Numérique du Mandataire` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Toutes les étapes de conception de la carte sont finalisées ; le mandataire s'apprête à valider le projet.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le document projet dispose d'une forme canonique inviolable et d'un condensat SHA-256 certifié eIDAS.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Rassemblement de l'arbre complet des métadonnées du projet mémoriel au format JSON structuré.
+2. Exécution de l'algorithme officiel JSON Canonicalization Scheme selon la RFC 8785 (tri déterministe des clés, standardisation des flottants).
+3. Calcul de l'empreinte binaire SHA-256 du document canonique, produisant un digest invariable de 32 octets.
+4. Capture sur tablette du tracé de signature biométrique du mandataire légal avec coordonnées vectorielles et horodatage.
+5. Liaison cryptographique entre le tracé de signature, l'empreinte JCS RFC 8785 et l'enveloppe finale de la partition EF-5.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `json_project_structure` | **Objet JSON du Projet Funéraire** | `text` | `Structure AeterniCore {v: 1.0, decedent: {...}, directives: {...}}` | - | `Schéma 1.0` | ⭕ Optionnel |
+| `jcs_canon_status` | **Canonisation JCS (RFC 8785)** | `select` | `CANONISATION DÉTERMINISTE RFC 8785 VALIDÉE` | - | `RFC 8785` | ✅ Requis |
+| `jcs_sha256_digest` | **Digest SHA-256 Immuable** | `text` | `3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942` | - | `SHA-256 Digest` | ⭕ Optionnel |
+| `mandat_signer_identity` | **Mandataire Signataire** | `text` | `Mme Sophie Dumont (Ayant Droit • Identité vérifiée eID)` | - | `Signataire` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_canonize_and_hash` | **Canoniser (RFC 8785) & Calculer SHA-256** | `primary` | `idle` | 🔒 |
+| `btn_capture_signature_pad` | **Capturer Signature Tactile** | `secondary` | `idle` | ✍️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Projet Canonisé selon la RFC 8785 & Empreinte SHA-256 Scellée
+>
+> **Badge de Conformité :** `RFC 8785 SHA-256 OK`
+>
+> **Détail Opérationnel :** Forme canonique binaire déterministe générée. L'empreinte SHA-256 est liée de façon indélébile au tracé de signature.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_JCS_CANONICALIZATION_FAILED` |
+| **Intitulé de l'Incident** | **Échec de Canonisation JCS ou Clés JSON Dupliquées** |
+| **Condition Déclenchante** | Le document JSON comporte des structures circulaires ou des clés dupliquées non conformes à la RFC 8785. |
+| **Message d'Erreur UI** | *« Erreur de sérialisation : Impossible d'obtenir une empreinte déterministe sur le document projet. »* |
+| **Action Corrective Requise** | **Vérifier la validité syntaxique JSON et éliminer les propriétés dynamiques non sérialisables.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Canonisation JCS RFC 8785 & Signature Numérique du Mandataire**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Dossier Funéraire Complet Prêt pour Canonisation JCS | *En attente utilisateur* | Toutes les volontés et données mémorielles sont compilées. Le scellement cryptographique attend la signature. |
+| **2** | **Déclenchement ⚡** | Normalisation Binaire RFC 8785 & Capture de Signature | `Clic sur 'Canoniser (RFC 8785)' et signature sur pad tactile` | Tri lexicographique des clés en UTF-8 et recueil du tracé biométrique du mandataire. |
+| **3** | **Traitement ⚙️** | Calcul de l'Empreinte Déterministe SHA-256 du Document JCS | `Progression : 98%` | Création du jeton probatoire liant l'identité du mandataire à l'intégrité intégrale du projet. |
+| **4** | **Scellement & Fin ✨** | BAT Numérique Canonisé & Empreinte Scellée Définitivement | `Statut : success` | Le document projet est désormais mathématiquement inaltérable. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-124 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Dossier Funéraire Complet Prêt pour Canonisation JCS
+*Toutes les volontés et données mémorielles sont compilées. Le scellement cryptographique attend la signature.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Canonisation & Scellement</span>
+                        <span class="wf-status-badge wf-badge-neutral">En Attente de Signature</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Projet Mémoriel</label>
+                          <div class="wf-input-placeholder">Dossier #BAT-2026-BEL-00412 (7 Partitions)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Standard Cryptographique</label>
+                          <div class="wf-input-placeholder">RFC 8785 (JCS) + SHA-256</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔒 Canoniser (RFC 8785) & Calculer SHA-256</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Normalisation Binaire RFC 8785 & Capture de Signature
+*Tri lexicographique des clés en UTF-8 et recueil du tracé biométrique du mandataire.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Moteur RFC 8785</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Canonisation Déterministe</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Canonisation binaire JCS achevée • Tracé signature capturé (412 points vectoriels)</div>
+                        <div class="wf-subtext">Génération du digest SHA-256 inaltérable à l'octet près</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul de l'empreinte de scellement...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Calcul de l'Empreinte Déterministe SHA-256 du Document JCS
+*Création du jeton probatoire liant l'identité du mandataire à l'intégrité intégrale du projet.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Module Cryptographique</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Scellement Hash (98%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [JCS-ENGINE] 187 clés JSON triées selon les points de code Unicode UTF-8</code><br>
+                        <code>> [SHA256] Empreinte : 3f79e2a8c149d56b009e8d4a51e68b3c9420bf824f912e61a84f3c05e1a7b942</code><br>
+                        <code>> [SIGNATURE] Liaison biométrique avec Sophie Dumont (eID certifiée) : OK</code><br>
+                        <code>> [COSE-SIGN1] Enveloppe prête pour injection dans la partition EF-5</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : BAT Numérique Canonisé & Empreinte Scellée Définitivement
+*Le document projet est désormais mathématiquement inaltérable.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • BAT Scellé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ JCS RFC 8785 Validé</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">📜</span>
+                        <div>
+                          <strong>BAT Funéraire Validé & Scellé par Empreinte SHA-256</strong>
+                          <p class="wf-subtext">Signature du mandataire liée au condensat déterministe • Prêt pour télétransmission atelier</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Émettre & Télétransmettre le BAT Numérique →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-125"></a>
+## UC-125 : Émission & Télétransmission Sécurisée du BAT Numérique (Horodatage Certifié)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-125` |
+| **Catégorie Métier** | **Validation Finale & Juridique** |
+| **Acteur Principal** | Conseiller Funéraire & Opérateur PaxStation |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `BAT`, `Horodatage`, `RFC3161`, `Teletransmission`, `TLS13`, `eIDAS`, `Production` |
+| **Base Légale & Normative** | Règlement UE n° 910/2014 (eIDAS - Services de confiance et horodatage certifié RFC 3161) & Protocole TLS 1.3 (RFC 8446). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Émission du Bon à Tirer (BAT) & Télétransmission Sécurisée Atelier` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Le mandataire a signé le BAT numérique et le hash JCS RFC 8785 a été validé.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Le dossier complet est transféré avec accusé de réception cryptographique, prêt pour la prise en charge par la PaxStation.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Création de la liasse de production numérique scellée contenant l'ensemble des fichiers binaires (EF-1 à EF-5).
+2. Génération de la requête d'horodatage qualifié RFC 3161 (TSA conforme eIDAS) garantissant la date et l'heure certaines.
+3. Établissement d'une session de télétransmission hautement sécurisée TLS 1.3 avec authentification mutuelle (mTLS) vers la PaxStation d'atelier.
+4. Téléversement en flux chiffré AES-256-GCM et vérification du hash de transport par le récepteur d'atelier.
+5. Réception de l'accusé de production officiel et passage du dossier au statut 'TRANSMIS POUR GRAVURE SILICIUM'.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `bat_reference_number` | **Numéro de Dossier BAT** | `text` | `BAT-2026-BEL-00412-MÉDAILLON-TITANE` | - | `Référence BAT` | ⭕ Optionnel |
+| `tsa_timestamp_token` | **Jeton d'Horodatage Certifié (TSA)** | `text` | `eIDAS TSA Qualified • 2026-10-05T08:24:12.108Z (RFC 3161)` | - | `Horodatage eIDAS` | ✅ Requis |
+| `transfer_mtls_channel` | **Canal de Télétransmission** | `text` | `mTLS 1.3 Sécurisé • PaxStation Atelier #01 (IP 192.168.10.42)` | - | `Chiffrement AES` | ⭕ Optionnel |
+| `transfer_ack_status` | **Statut de Prise en Charge** | `select` | `ACQUITTÉ PAR PAXSTATION (STATUT : PRÊT POUR GRAVURE)` | - | `200 OK Reçu` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_transmit_bat_package` | **Télétransmettre le BAT Numérique** | `primary` | `idle` | 🚀 |
+| `btn_download_archive_bundle` | **Télécharger l'Archive Sécurisée** | `secondary` | `idle` | 📦 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** BAT Numérique Horodaté eIDAS & Transmis avec Succès
+>
+> **Badge de Conformité :** `Télétransmission Réussie`
+>
+> **Détail Opérationnel :** Le dossier de production est acquitté par la PaxStation. Les jetons d'horodatage RFC 3161 sont archivés.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_BAT_TRANSMISSION_TIMEOUT` |
+| **Intitulé de l'Incident** | **Rupture de Connexion Sécurisée durant la Télétransmission** |
+| **Condition Déclenchante** | La station d'atelier PaxStation ne répond pas sur le canal mTLS ou le certificat d'authentification a expiré. |
+| **Message d'Erreur UI** | *« Échec de télétransmission : Délai dépassé (timeout 15s) lors de l'envoi de la liasse de production. »* |
+| **Action Corrective Requise** | **Vérifier que la PaxStation est allumée sur le réseau d'atelier ou basculer en transfert par média physique sécurisé.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Émission du Bon à Tirer (BAT) & Télétransmission Sécurisée Atelier**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Dossier Scellé Prêt pour Transmission Vers l'Atelier | *En attente utilisateur* | Le BAT est signé. Le paquet de production prêt pour l'envoi sécurisé à la machine de gravure. |
+| **2** | **Déclenchement ⚡** | Requête d'Horodatage Certifié eIDAS RFC 3161 | `Clic sur 'Télétransmettre le BAT Numérique'` | Appel du tiers d'horodatage qualifié et émission du jeton cryptographique certifié. |
+| **3** | **Traitement ⚙️** | Tunnel mTLS 1.3 vers PaxStation & Vérification Intégrité | `Progression : 99%` | Chiffrement AES-256-GCM, transmission par paquets vérifiés et contrôle d'empreinte récepteur. |
+| **4** | **Scellement & Fin ✨** | Dossier Transmis & Statut 'Prêt pour Gravure' Acquitté | `Statut : success` | Le dossier est arrivé dans la file d'attente de la PaxStation. La production peut commencer. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-125 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Dossier Scellé Prêt pour Transmission Vers l'Atelier
+*Le BAT est signé. Le paquet de production prêt pour l'envoi sécurisé à la machine de gravure.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Passerelle Atelier</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour Télétransmission</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">Liasse de Production</label>
+                          <div class="wf-input-placeholder">BAT-2026-BEL-00412 (Horodatage eIDAS)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Cible d'Atelier</label>
+                          <div class="wf-input-placeholder">PaxStation Encodage #01 (mTLS 1.3)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🚀 Télétransmettre le BAT Numérique</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Requête d'Horodatage Certifié eIDAS RFC 3161
+*Appel du tiers d'horodatage qualifié et émission du jeton cryptographique certifié.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Tiers d'Horodatage (TSA)</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Jeton TSA Reçu</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">✓ Horodatage certifié : 2026-10-05T08:24:12.108Z • Autorité QuoVadis / Certipost</div>
+                        <div class="wf-subtext">Ouverture du tunnel mTLS 1.3 avec la station de gravure d'atelier</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Téléversement sécurisé en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Tunnel mTLS 1.3 vers PaxStation & Vérification Intégrité
+*Chiffrement AES-256-GCM, transmission par paquets vérifiés et contrôle d'empreinte récepteur.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Tunnel Sécurisé Atelier</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Transfert mTLS (99%)</span>
+                      </div>
+                      <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 99%;"></div></div>
+                      <div class="wf-console-log">
+                        <code>> [TLS-1.3] Négociation cipher suite TLS_AES_256_GCM_SHA384 : Établi</code><br>
+                        <code>> [CLIENT-AUTH] Certificat d'atelier vérifié (CN=PaxStation-Atelier-01)</code><br>
+                        <code>> [PAYLOAD-PUSH] 91.4 Ko transmis en 140 ms</code><br>
+                        <code>> [REMOTE-ACK] Reçu HTTP 200 OK avec signature d'accusé d'enregistrement</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Dossier Transmis & Statut 'Prêt pour Gravure' Acquitté
+*Le dossier est arrivé dans la file d'attente de la PaxStation. La production peut commencer.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStudio Pro • Production Enclenchée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Acquitté par PaxStation</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🚀</span>
+                        <div>
+                          <strong>BAT Télétransmis avec Succès à la Station de Gravure</strong>
+                          <p class="wf-subtext">Horodaté eIDAS • Dossier n° BAT-2026-BEL-00412 pris en charge par l'atelier</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Télécharger le Récépissé Probatoire & Clore →</button>
+                      </div>
+                    </div>
 ```
 
 </details>

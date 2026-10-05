@@ -1,4 +1,4 @@
-# Application 3 — Sanctuaire Mémoriel Mobile & B2C (UC-301 à UC-316)
+# Application 3 — Sanctuaire Mémoriel Mobile & B2C (UC-301 à UC-325)
 
 **Application Universelle de Recueillement, Hommage & Consultation des Directives**
 
@@ -26,6 +26,15 @@
 | [`UC-314`](#uc-314) | [Lecture de Secours par QR Code Micro-Gravé sur Carte Endommagée](#uc-314) | **Résilience Mémorielle & Secours** | Proches du Défunt & Conseiller Funéraire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Norme ISO/IEC 18004 (code à barres matriciel QR Code haute densité) & Principe de résilience mémorielle séculaire. |
 | [`UC-315`](#uc-315) | [Réclamations Contradictoires des Ayants Droit sur l'Arbre du Souvenir (Mise en Réserve Conservatoire)](#uc-315) | **Arbitrage & Volontés Funéraires** | Ayants Droit & Médiateur / Notaire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Loi du 20 juillet 1971 sur les funérailles et sépultures & Code civil (règles de dévolution des décisions funéraires). |
 | [`UC-316`](#uc-316) | [Mode Hors-Ligne Extrême / Zone Blanche sans Réseau en Forêt Mémorielle (WebCrypto Local Ed25519)](#uc-316) | **Sécurité & Résilience Hors-Ligne** | Famille en Forêt Cinéraire & Garde-Forestier | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Décision Kudoro DEC-AET-09 (universalité d'accès sans contact hors-ligne) & Charte de résilience mémorielle séculaire. |
+| [`UC-317`](#uc-317) | [Décodage Enregistrements NDEF Mixtes (MIME Type vs URI Record Dispatcher)](#uc-317) | **Accès & Identité** | PWA Sanctuaire / Parser NDEF Bas Niveau | Web NFC (Chrome Android), Natif (iOS CoreNFC & Android IsoDep), Lecteur USB-C NFC | Spécification NFC Forum NDEF Type 4 Tag v2.0 & RFC 8152 (CBOR Object Signing and Encryption). |
+| [`UC-318`](#uc-318) | [Recherche Clé Publique dans le TrustStore Local par Key ID (kid 16 octets)](#uc-318) | **Sécurité & Cryptographie** | Gestionnaire de Clés Souverain / Moteur Cryptographique | Natif (iOS & Android), Web Standard (PWA Hors-Ligne IndexedDB) | Norme RFC 9052 (COSE Structure) & Décision Kudoro DEC-AET-04 (validation cryptographique locale souveraine). |
+| [`UC-319`](#uc-319) | [Vérification Liste de Révocation Locale (CRL / Statut de Clé hors-ligne)](#uc-319) | **Sécurité & Anti-Fraude** | Contrôleur de Révocation Cryptographique | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | RFC 5280 (X.509 CRL Profile) adapté aux environnements contraints IoT & Règlement eIDAS. |
+| [`UC-320`](#uc-320) | [Déverrouillage AudioContext par Geste Utilisateur Conforme Politiques Navigateurs](#uc-320) | **Expérience Émotionnelle & WebAudio** | Visiteur / Famille en Recueillement | Web Standard (PWA Safari iOS / Chrome / Firefox), Natif Hybride (Capacitor/WebView) | W3C Web Audio API Recommendation & Apple WebKit Autoplay Policy Guidelines. |
+| [`UC-321`](#uc-321) | [Réglage Dynamique des Seuils de Ducking WebAudio (-14 dB, Attaque/Relâche)](#uc-321) | **Expérience Émotionnelle** | Proches / Famille Ajustant le Confort d'Écoute | Natif (iOS & Android), Web Standard (PWA WebAudio) | Spécification technique AET-SPEC-AUDIO-002 & Recommandation UIT-R BS.1770-4 (mesure de sonie audio). |
+| [`UC-322`](#uc-322) | [Synthèse Vocale Text-To-Speech Multilingue de l'Épitaphe Mémorielle](#uc-322) | **Accessibilité & Expérience Mémorielle** | Famille, Malvoyants, Personnes Âgées | Web Speech API (SpeechSynthesis), Natif (AVSpeechSynthesizer / Android TTS) | Directive européenne sur l'accessibilité (Directive UE 2019/882) & WCAG 2.2 Niveau AAA. |
+| [`UC-323`](#uc-323) | [Signature Cryptographique Décentralisée d'un Message du Livre d'Or](#uc-323) | **Expérience Sanctuaire & Cryptographie** | Proche ou Membre de la Famille Laissant un Témoignage | Natif (iOS & Android), Web Standard (PWA WebCrypto) | Règlement eIDAS (signatures électroniques avancées) & Spécification P2P Pollen AeterniTrak. |
+| [`UC-324`](#uc-324) | [Export Fiche d'Urgence Médicale Pacemaker au Format PDF/A Conforme](#uc-324) | **Directives Médicales & Sécurité** | Médecin Urgentiste, Thanatopracteur, Conseiller Funéraire | Natif (iOS & Android), Web Standard (PWA Générateur PDF/A) | Art. L1232-24 CDLD & Modèle IIIC réglementaire & Norme ISO 19005-1 (PDF/A). |
+| [`UC-325`](#uc-325) | [Calcul d'Itinéraire Géodésique & Boussole vers l'Arbre du Souvenir (Formule de Haversine)](#uc-325) | **Guidage & Forêt Mémorielle** | Famille en Déplacement dans la Forêt Cinéraire DNF | Natif (iOS CoreLocation & Android Location), Web Geolocation API & DeviceOrientation | Convention domaniale DNF / Le Pax Funèbre pour la préservation des massifs forestiers classés. |
 
 ---
 
@@ -2720,6 +2729,1500 @@
                                             <button class="wf-btn wf-btn-gold">🕊️ Écouter le Mémo Vocal sous l'Arbre du Souvenir</button>
                                           </div>
                                         </div>
+```
+
+</details>
+
+---
+
+<a id="uc-317"></a>
+## UC-317 : Décodage Enregistrements NDEF Mixtes (MIME Type vs URI Record Dispatcher)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-317` |
+| **Catégorie Métier** | **Accès & Identité** |
+| **Acteur Principal** | PWA Sanctuaire / Parser NDEF Bas Niveau |
+| **Plateformes Cibles** | Web NFC (Chrome Android), Natif (iOS CoreNFC & Android IsoDep), Lecteur USB-C NFC |
+| **Tags Clés** | `NDEF`, `MIMEType`, `UriRecord`, `NfcDispatcher`, `IsoDep`, `Type4Tag` |
+| **Base Légale & Normative** | Spécification NFC Forum NDEF Type 4 Tag v2.0 & RFC 8152 (CBOR Object Signing and Encryption). |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Routeur NDEF Bas Niveau` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Effleurement NFC d'une carte mémorielle ou médaillon contenant une structure NDEF composite (Well-Known URI + MIME media type).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Payload binaire CBOR extrait et injecté dans le moteur cryptographique COSE_Sign1 in-device.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Capture de l'événement de détection NDEF par l'antenne NFC du smartphone en moins de 40 ms.
+2. Parsing séquentiel des octets d'en-tête (TNF Type Name Format et Chunk Flags).
+3. Identification de l'enregistrement 1 : URI Well-Known (fallback d'accès universel).
+4. Identification de l'enregistrement 2 : MIME application/vnd.aeternitrak.sanctuary+cbor (charge utile chiffrée et scellée de 42 812 octets).
+5. Aiguillage du flux binaire brut vers le décodeur CBOR in-memory sans redirection de page web inutile.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `ndef_tnf` | **Type Name Format (TNF)** | `text` | `0x02 (MIME_MEDIA) & 0x01 (WELL_KNOWN URI)` | - | `Composite` | ⭕ Optionnel |
+| `rec_uri` | **Record 1 (Fallback URI)** | `text` | `https://sanctuary.aeternitrak.eu/u/AET-BEL-84920` | - | `URI Record` | ⭕ Optionnel |
+| `rec_mime` | **Record 2 (MIME CBOR)** | `text` | `application/vnd.aeternitrak.sanctuary+cbor (42 812 octets)` | - | `MIME Payload` | ⭕ Optionnel |
+| `dispatch_policy` | **Stratégie Dispatcher** | `text` | `PRIORITÉ BINAIRE IN-SILICO (Zéro Redirection Web)` | - | `Local First` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_dispatch_ndef` | **Dégrouper & Router les Enregistrements NDEF** | `primary` | `idle` | 🔀 |
+| `btn_raw_hex_ndef` | **Inspecter Trame Hexadécimale NDEF** | `secondary` | `idle` | 🔍 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Enregistrements NDEF Mixtes Décodés avec Succès
+>
+> **Badge de Conformité :** `NDEF Parsing 100% OK`
+>
+> **Détail Opérationnel :** Ségrégation validée : Payload binaire CBOR (42.8 Ko) routé vers le moteur cryptographique local sans requête HTTP.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_NDEF_MALFORMED_HEADER` |
+| **Intitulé de l'Incident** | **En-Tête NDEF Corrompu ou TNF Réservé** |
+| **Condition Déclenchante** | Corruption de mémoire EEPROM ou écriture interrompue générant un TNF non standard (0x07). |
+| **Message d'Erreur UI** | *« Erreur de parsing NDEF : Le format des enregistrements est corrompu. Impossible d'extraire la charge utile binaire. »* |
+| **Action Corrective Requise** | **Approcher à nouveau la carte du terminal ou recourir à la lecture de secours par QR code micro-gravé.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Routeur NDEF Bas Niveau**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Trame NDEF Brute Détectée sur l'Antenne | *En attente utilisateur* | Le contrôleur NFC a capté une charge utile composite sur la puce Type 4. |
+| **2** | **Déclenchement ⚡** | Séparation des Enregistrements dans le Buffer | `Clic sur 'Dégrouper & Router'` | Le moteur d'inspection analyse les offsets et isole le bloc applicatif CBOR. |
+| **3** | **Traitement ⚙️** | Aiguillage Local-First Vers Décodeur CBOR | `Progression : 96%` | Redirection web contournée avec succès pour privilégier le déchiffrement direct. |
+| **4** | **Scellement & Fin ✨** | Payload Prêt pour Vérification Cryptographique | `Statut : success` | Le flux binaire est mis à disposition du moteur sans transition web superflue. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-317 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Trame NDEF Brute Détectée sur l'Antenne
+*Le contrôleur NFC a capté une charge utile composite sur la puce Type 4.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Décodeur NDEF Bas Niveau</span>
+                        <span class="wf-status-badge wf-badge-neutral">Trame Reçue (43.2 Ko)</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">📡</span>
+                        <div><strong>Enregistrements NDEF Multiples Présents</strong></div>
+                        <div class="wf-subtext">TNF 0x01 (URI universelle) + TNF 0x02 (MIME binaire in-silico)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔀 Dégrouper & Router les Enregistrements NDEF</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Séparation des Enregistrements dans le Buffer
+*Le moteur d'inspection analyse les offsets et isole le bloc applicatif CBOR.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Dispatcher NDEF</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Découpage Binaire</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">Parsing des offsets : Rec#1 @0x0003 (URI) | Rec#2 @0x004A (CBOR)</div>
+                        <div class="wf-subtext">Isolation du bloc MIME sans altération des signatures cryptographiques</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Routage in-memory en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Aiguillage Local-First Vers Décodeur CBOR
+*Redirection web contournée avec succès pour privilégier le déchiffrement direct.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Routeur Local-First</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Payload Isolé (96%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [NDEF] TNF=0x01 Type="U" -> Ignoré (zéro redirection réseau demandée)</code><br>
+                        <code>> [NDEF] TNF=0x02 Type="application/vnd.aeternitrak.sanctuary+cbor"</code><br>
+                        <code>> [DISPATCH] 42 812 octets dirigés vers le pipeline WebCrypto</code><br>
+                        <code>> [LOCAL-FIRST] Traitement in-silico 100% autonome validé</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Payload Prêt pour Vérification Cryptographique
+*Le flux binaire est mis à disposition du moteur sans transition web superflue.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Parsing Achevée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Données Prêtes</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">📦</span>
+                        <div>
+                          <strong>Charge Utile Mémorielle Extraite sans Réseau</strong>
+                          <p class="wf-subtext">42 812 octets CBOR prêts pour vérification COSE_Sign1</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Passer au Contrôle Cryptographique Ed25519 →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-318"></a>
+## UC-318 : Recherche Clé Publique dans le TrustStore Local par Key ID (kid 16 octets)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-318` |
+| **Catégorie Métier** | **Sécurité & Cryptographie** |
+| **Acteur Principal** | Gestionnaire de Clés Souverain / Moteur Cryptographique |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne IndexedDB) |
+| **Tags Clés** | `TrustStore`, `KeyID`, `kid`, `Ed25519`, `IndexedDB`, `LocalFirst` |
+| **Base Légale & Normative** | Norme RFC 9052 (COSE Structure) & Décision Kudoro DEC-AET-04 (validation cryptographique locale souveraine). |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Annuaire Cryptographique Local` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Charge utile COSE_Sign1 extraite contenant l'en-tête non protégé kid = 0x9a8b7c6d5e4f3210.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Clé publique Ed25519 identifiée et chargée en mémoire vive pour validation mathématique.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Extraction de l'en-tête COSE_Sign1 non protégé portant le kid (16 octets / 128 bits).
+2. Interrogation indexée du TrustStore local persistant (IndexedDB / SQLite chiffré).
+3. Recherche par clé primaire sur le hash de clé d'autorité funéraire certifiée.
+4. Association confirmée avec l'Autorité Funéraire Émettrice (ex: Le Pax Funèbre Liège #01).
+5. Fourniture de la clé publique Ed25519 non altérée au vérificateur mathématique.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `cose_kid` | **Key Identifier Extrait (kid)** | `text` | `9a8b7c6d5e4f3210 (16 octets hexadécimaux)` | - | `128 bits` | ⭕ Optionnel |
+| `truststore_storage` | **Emplacement TrustStore** | `text` | `IndexedDB Chiffré Local (TrustStore v2.4 • 24 clés)` | - | `Hors-Ligne` | ⭕ Optionnel |
+| `issuer_name` | **Entité Associée** | `text` | `Le Pax Funèbre • Unité Centrale Liège (#PAX-LIEGE-01)` | - | `Autorité Funéraire` | ⭕ Optionnel |
+| `pubkey_hex` | **Clé Publique Ed25519 Résolue** | `text` | `ed25519:pub:7e8d9c0b1a2f445566778899aabbccddeeff0011` | - | `Curve25519` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_lookup_kid` | **Rechercher la Clé Publique dans le TrustStore Local** | `primary` | `idle` | 🔑 |
+| `btn_verify_truststore_seal` | **Vérifier l'Empreinte de la TrustList** | `secondary` | `idle` | 🛡️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Clé Publique Ed25519 Résolue dans le TrustStore Local
+>
+> **Badge de Conformité :** `Confiance Souveraine Établie`
+>
+> **Détail Opérationnel :** Identifiant 9a8b... certifié. Clé publique de l'autorité 'Le Pax Funèbre Liège' prête pour le calcul de signature.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_TRUSTSTORE_KID_NOT_FOUND` |
+| **Intitulé de l'Incident** | **Key ID Absent de la Base Locale** |
+| **Condition Déclenchante** | Carte émise par un réseau tiers non synchronisé ou clé forgée. |
+| **Message d'Erreur UI** | *« Le Key ID extrait ne figure pas dans le magasin de clés locales de l'application. »* |
+| **Action Corrective Requise** | **Appliquer le bandeau d'avertissement de réserve DEC-AET-07 Option B sans bloquer l'hommage familial.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Annuaire Cryptographique Local**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Demande de Résolution du Key Identifier (kid) | *En attente utilisateur* | L'enveloppe COSE a fourni un identifiant de 16 octets à vérifier. |
+| **2** | **Déclenchement ⚡** | Requête Indexée dans le Magasin In-Device | `Clic sur 'Rechercher la Clé Publique'` | Scan instantané de l'index B-Tree chiffré dans le stockage du navigateur. |
+| **3** | **Traitement ⚙️** | Clé Publique Trouvée & Ancrée Localement | `Progression : 100%` | La clé de l'autorité 'Le Pax Funèbre Liège #01' a été identifiée en 12 ms. |
+| **4** | **Scellement & Fin ✨** | Autorité Certifiée & Clé Disponible | `Statut : success` | La clé publique est mise à disposition pour le calcul cryptographique final. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-318 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Demande de Résolution du Key Identifier (kid)
+*L'enveloppe COSE a fourni un identifiant de 16 octets à vérifier.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • TrustStore Local</span>
+                        <span class="wf-status-badge wf-badge-neutral">kid: 9a8b7c6d...</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🔑</span>
+                        <div><strong>Recherche d'Autorité Requise</strong></div>
+                        <div class="wf-subtext">Correspondance demandée dans le magasin local IndexedDB souverain</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🔑 Rechercher la Clé Publique dans le TrustStore Local</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Requête Indexée dans le Magasin In-Device
+*Scan instantané de l'index B-Tree chiffré dans le stockage du navigateur.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Interrogation Clé</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Scan Index B-Tree</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">SELECT pubkey FROM truststore WHERE kid = '9a8b7c6d5e4f3210'</div>
+                        <div class="wf-subtext">Interrogation locale sans transmission de métadonnées vers Internet</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Recherche locale en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Clé Publique Trouvée & Ancrée Localement
+*La clé de l'autorité 'Le Pax Funèbre Liège #01' a été identifiée en 12 ms.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Clé Confirmée</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Correspondance (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [TRUSTSTORE] kid 9a8b7c6d... -> Trouvé dans partition IndexedDB</code><br>
+                        <code>> [ISSUER] Autorité : Le Pax Funèbre - Région Wallonne (#PAX-LIEGE-01)</code><br>
+                        <code>> [ED25519] Clé publique 32 octets chargée dans SubtleCrypto</code><br>
+                        <code>> [LATENCE] Résolution achevée en 12 millisecondes</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Autorité Certifiée & Clé Disponible
+*La clé publique est mise à disposition pour le calcul cryptographique final.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Confiance Établie</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Émetteur Certifié</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🏛️</span>
+                        <div>
+                          <strong>Autorité Funéraire Officielle Identifiée</strong>
+                          <p class="wf-subtext">Le Pax Funèbre Liège #01 • Clé publique Ed25519 validée</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Lancer la Vérification Mathématique de Signature →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-319"></a>
+## UC-319 : Vérification Liste de Révocation Locale (CRL / Statut de Clé hors-ligne)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-319` |
+| **Catégorie Métier** | **Sécurité & Anti-Fraude** |
+| **Acteur Principal** | Contrôleur de Révocation Cryptographique |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
+| **Tags Clés** | `CRL`, `Revocation`, `KeyStatus`, `AntiFraude`, `Ed25519`, `DeltaCRL` |
+| **Base Légale & Normative** | RFC 5280 (X.509 CRL Profile) adapté aux environnements contraints IoT & Règlement eIDAS. |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Filtre Anti-Révocation In-Device` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Clé publique résolue et identifiant de puce extrait.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Statut sain (Good Status) certifié ; continuation du flux d'accès au sanctuaire.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Chargement du filtre Bloom de révocation optimisé (256 Ko) depuis le cache persistant.
+2. Hachage SHA-256 du couple {UID_Silicium, kid_Clé}.
+3. Interrogation du filtre de révocation sans fuite de métadonnées.
+4. Confirmation d'absence d'inscription dans la liste des cartes perdues, volées ou révoquées.
+5. Attribution de l'attribut d'intégrité 'Active & Non Révoquée' au contexte d'exécution.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `crl_version` | **Version CRL Locale** | `text` | `CRL Delta v148 (Scellée Ed25519 au 2026-10-04)` | - | `Scellée` | ⭕ Optionnel |
+| `checked_uid` | **UID Silicium Contrôlé** | `text` | `04:A2:8B:11:9C:5F:80 (JavaCard ACOSJ)` | - | `UID Hardware` | ⭕ Optionnel |
+| `bloom_status` | **Filtre Bloom de Révocation** | `text` | `262 144 bits (0 match • Zéro collision détectée)` | - | `Statut Sain` | ⭕ Optionnel |
+| `revocation_verdict` | **Verdict de Validité** | `text` | `GOOD STATUS (Carte et Clé Absolument Valides)` | - | `Non Révoqué` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_check_revocation` | **Exécuter le Contrôle d'Intégrité & Révocation Locale** | `primary` | `idle` | 🛡️ |
+| `btn_crl_manifest` | **Consulter le Manifeste de Sécurité** | `secondary` | `idle` | 📜 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Statut Cryptographique Vérifié : Carte Active & Non Révoquée
+>
+> **Badge de Conformité :** `Statut Sain / Good Status`
+>
+> **Détail Opérationnel :** Zéro correspondance dans la table des révocations. Clé autorisée pour les 100 prochaines années.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_KEY_REVOKED_FRAUD_DETECTED` |
+| **Intitulé de l'Incident** | **Carte Répudiée ou Clé Révoquée** |
+| **Condition Déclenchante** | La carte a été déclarée volée ou annulée suite à une réémission administrative. |
+| **Message d'Erreur UI** | *« ALERTE SÉCURITÉ : Ce support mémoriel a été révoqué par l'autorité émettrice. »* |
+| **Action Corrective Requise** | **Contacter immédiatement Le Pax Funèbre pour renouvellement de la carte physique.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Filtre Anti-Révocation In-Device**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Contrôle Préalable Anti-Répudiation | *En attente utilisateur* | Vérification systématique avant d'accorder l'accès aux volontés du défunt. |
+| **2** | **Déclenchement ⚡** | Hachage Double & Test des 12 Fonctions de Hachage | `Clic sur 'Contrôle d'Intégrité'` | Calcul matriciel instantané sur le filtre Bloom sans déchiffrement lourd. |
+| **3** | **Traitement ⚙️** | Absence de Révocation Démontrée | `Progression : 100%` | La carte et la clé sont actives et saines. |
+| **4** | **Scellement & Fin ✨** | Passeport Mémoriel Intègre & Confirmé | `Statut : success` | Sécurité confirmée : aucune déclaration de vol ou d'annulation n'existe. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-319 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Contrôle Préalable Anti-Répudiation
+*Vérification systématique avant d'accorder l'accès aux volontés du défunt.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Contrôle de Validité</span>
+                        <span class="wf-status-badge wf-badge-neutral">CRL Delta Prête</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🛡️</span>
+                        <div><strong>Vérification Anti-Révocation Requise</strong></div>
+                        <div class="wf-subtext">Filtre Bloom de 256 Ko scellé cryptographiquement en cache</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🛡️ Exécuter le Contrôle d'Intégrité & Révocation Locale</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Hachage Double & Test des 12 Fonctions de Hachage
+*Calcul matriciel instantané sur le filtre Bloom sans déchiffrement lourd.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Filtre Bloom</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Évaluation Mathématique</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">Test k=12 fonctions de hash sur UID 04:A2:8B...</div>
+                        <div class="wf-subtext">Zéro bit positif : absence mathématiquement certaine dans la liste noire</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Évaluation instantanée...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Absence de Révocation Démontrée
+*La carte et la clé sont actives et saines.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Statut Sain</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Vérifié (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [CRL-CHECK] Filtre Bloom testé : Zéro collision constatée</code><br>
+                        <code>> [STATUS] UID 04:A2:8B:11:9C:5F:80 -> Statut 'ACTIF'</code><br>
+                        <code>> [KEY-INTEGRITY] Clé Le Pax Funèbre non compromise</code><br>
+                        <code>> [VERDICT] Autorisation d'ouverture accordée sans restriction</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Passeport Mémoriel Intègre & Confirmé
+*Sécurité confirmée : aucune déclaration de vol ou d'annulation n'existe.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Intégrité Totale</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Statut Garanti</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">✅</span>
+                        <div>
+                          <strong>Support Mémoriel Actif & Non Répudié</strong>
+                          <p class="wf-subtext">Vérification de révocation locale réussie • Authenticité préservée</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Accéder au Sanctuaire Mémoriel →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-320"></a>
+## UC-320 : Déverrouillage AudioContext par Geste Utilisateur Conforme Politiques Navigateurs
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-320` |
+| **Catégorie Métier** | **Expérience Émotionnelle & WebAudio** |
+| **Acteur Principal** | Visiteur / Famille en Recueillement |
+| **Plateformes Cibles** | Web Standard (PWA Safari iOS / Chrome / Firefox), Natif Hybride (Capacitor/WebView) |
+| **Tags Clés** | `WebAudio`, `AudioContext`, `AutoplayPolicy`, `UserGesture`, `ResumeState` |
+| **Base Légale & Normative** | W3C Web Audio API Recommendation & Apple WebKit Autoplay Policy Guidelines. |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Passerelle Sonore WebAudio` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Page du sanctuaire ouverte dans un navigateur mobile avec AudioContext à l'état initial suspended.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Moteur WebAudio opérationnel sans distorsion ni blocage audio.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Présentation d'une invite visuelle solennelle et tactile (« Éveiller le Sanctuaire Sonore »).
+2. Capture de l'événement pointerdown/touchend direct de l'utilisateur.
+3. Exécution synchrone de audioContext.resume() dans la boucle événementielle du navigateur.
+4. Vérification de la transition d'état vers audioContext.state === 'running'.
+5. Préchauffage transparent du Master GainNode et des bus de spatialisation stéréo.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `audio_initial_state` | **État Initial WebAudio** | `text` | `suspended (Politique Navigateur Safari/Chrome Active)` | - | `Suspendu` | ⭕ Optionnel |
+| `user_gesture_type` | **Geste Utilisateur Requis** | `text` | `PointerEvent (touchend / click explicite sur bouton)` | - | `Geste Humain` | ⭕ Optionnel |
+| `sample_rate` | **Fréquence d'Échantillonnage** | `text` | `48 000 Hz (Stéréo Flottante 32 bits)` | - | `Haute Définition` | ⭕ Optionnel |
+| `audio_latency` | **Latence Audio Estimée** | `text` | `12 ms (Tampon interactif ultra-court)` | - | `Temps Réel` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_unlock_audiocontext` | **🕊️ Toucher pour Éveiller le Sanctuaire Sonore** | `primary` | `idle` | 🎵 |
+| `btn_silent_sanctuary` | **Poursuivre en Silence Visuel** | `secondary` | `idle` | 🤫 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** AudioContext Déverrouillé avec Succès
+>
+> **Badge de Conformité :** `WebAudio Running (48 kHz)`
+>
+> **Détail Opérationnel :** Conformité W3C Autoplay atteinte. Moteur acoustique et filtres de réverbération mémoriels activés.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_AUDIOCONTEXT_BLOCKED_NO_GESTURE` |
+| **Intitulé de l'Incident** | **Verrouillage Autoplay Non Franchi** |
+| **Condition Déclenchante** | Tentative d'émission sonore par script sans interaction utilisateur préalable. |
+| **Message d'Erreur UI** | *« Le navigateur a bloqué la lecture sonore pour respecter la vie privée acoustique. »* |
+| **Action Corrective Requise** | **Inviter l'utilisateur à toucher délicatement l'écran pour autoriser l'ambiance sonore.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Passerelle Sonore WebAudio**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Sanctuaire Silencieux en Attente d'Interaction | *En attente utilisateur* | L'AudioContext est suspendu pour respecter les politiques Safari et Chrome. |
+| **2** | **Déclenchement ⚡** | Appel Synchrone audioContext.resume() | `Geste Tactile / Clic Détecté` | Le thread audio s'éveille immédiatement sur l'événement PointerDown. |
+| **3** | **Traitement ⚙️** | Préchauffage du Graphe Audio & Master Gain | `Progression : 100%` | Mise en place de la rampe de volume douce pour éviter tout bruit parasite. |
+| **4** | **Scellement & Fin ✨** | Sanctuaire Sonore Ouvert et Apaisant | `Statut : success` | L'ambiance musicale résonne délicatement dans les écouteurs ou le haut-parleur. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-320 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Sanctuaire Silencieux en Attente d'Interaction
+*L'AudioContext est suspendu pour respecter les politiques Safari et Chrome.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Ambiance Sonore</span>
+                        <span class="wf-status-badge wf-badge-neutral">AudioContext Suspendu</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🕊️</span>
+                        <div><strong>Entrer dans l'Espace d'Écoute Solennel</strong></div>
+                        <div class="wf-subtext">Un simple geste réveille la nappe musicale et la voix de l'être cher</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🕊️ Toucher pour Éveiller le Sanctuaire Sonore</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Appel Synchrone audioContext.resume()
+*Le thread audio s'éveille immédiatement sur l'événement PointerDown.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Éveil Sonore</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Déverrouillage API</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">audioCtx.resume() exécuté dans le gestionnaire de clic</div>
+                        <div class="wf-subtext">Transition d'état : suspended -> running (latence 12 ms)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Initialisation du graphe audio...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Préchauffage du Graphe Audio & Master Gain
+*Mise en place de la rampe de volume douce pour éviter tout bruit parasite.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Graphe WebAudio</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Moteur Actif (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [AUDIO-CTX] State = 'running' (SampleRate: 48000 Hz)</code><br>
+                        <code>> [MASTER-GAIN] Gain initialisé à 0.0 -> rampe vers 1.0 en 300 ms</code><br>
+                        <code>> [SPATIAL-BUS] Réverbération à convolution mémorielle enclenchée</code><br>
+                        <code>> [AUTOPLAY-POLICY] Conforme aux normes W3C & WebKit</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Sanctuaire Sonore Ouvert et Apaisant
+*L'ambiance musicale résonne délicatement dans les écouteurs ou le haut-parleur.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Harmonie Sonore</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Son Prêt & Fluide</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🎵</span>
+                        <div>
+                          <strong>Espace Acoustique Ouvert</strong>
+                          <p class="wf-subtext">Ambiance musicale active • Prêt pour le mémo vocal et l'épitaphe</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Écouter l'Épitaphe Mémorielle →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-321"></a>
+## UC-321 : Réglage Dynamique des Seuils de Ducking WebAudio (-14 dB, Attaque/Relâche)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-321` |
+| **Catégorie Métier** | **Expérience Émotionnelle** |
+| **Acteur Principal** | Proches / Famille Ajustant le Confort d'Écoute |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA WebAudio) |
+| **Tags Clés** | `Ducking`, `WebAudio`, `GainNode`, `DynamicsCompressor`, `Parametric` |
+| **Base Légale & Normative** | Spécification technique AET-SPEC-AUDIO-002 & Recommandation UIT-R BS.1770-4 (mesure de sonie audio). |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Console de Sonie Mémorielle` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Sanctuaire sonore actif avec piste musicale atmosphérique et mémo vocal en mémoire.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Paramètres DSP injectés dans le graphe WebAudio avec transition soyeuse.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Sélection du profil d'écoute (intimiste, cérémonie de groupe, personne malentendante).
+2. Ajustement du gain d'atténuation du bus musical (-14 dB par défaut, paramétrable de -6 à -24 dB).
+3. Définition de la rampe d'attaque (exponentialRampToValueAtTime à 80 ms pour éliminer tout décrochage sec).
+4. Définition de la rampe de relâchement (retour progressif en 1200 ms après fin de la voix).
+5. Écoute de test interactive validant la parfaite intelligibilité des fréquences vocales (1 kHz - 4 kHz).
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `ducking_level` | **Niveau de Ducking Musical** | `text` | `-14.0 dB (Atténuation douce de la nappe musicale)` | - | `-14 dB` | ⭕ Optionnel |
+| `attack_time` | **Constante de Temps d'Attaque** | `text` | `80 millisecondes (Courbe exponentielle sans clic)` | - | `80 ms` | ⭕ Optionnel |
+| `release_time` | **Constante de Temps de Relâche** | `text` | `1 200 millisecondes (Retour solennel progressif)` | - | `1.2 s` | ⭕ Optionnel |
+| `vad_threshold` | **Détecteur d'Activité Vocale (VAD)** | `text` | `-28 dBFS (Détection immédiate des syllabes douces)` | - | `VAD Actif` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_apply_ducking_params` | **Appliquer les Paramètres de Ducking Acoustique** | `primary` | `idle` | 🎚️ |
+| `btn_test_audio_ducking` | **Tester l'Atténuation avec Simulation Vocale** | `secondary` | `idle` | 🎧 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Paramètres de Ducking Acoustique Appliqués
+>
+> **Badge de Conformité :** `Intelligibilité Vocale Maximale`
+>
+> **Détail Opérationnel :** Courbe d'atténuation programmée sur le GainNode. Rapport voix/musique optimisé (+14 dB pour la parole).
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_AUDIO_DSP_CLIPPING` |
+| **Intitulé de l'Incident** | **Risque d'Écrêtage DSP** |
+| **Condition Déclenchante** | Volume de voix brut trop élevé causant une distorsion numérique sur le bus master. |
+| **Message d'Erreur UI** | *« Le signal combiné atteint le seuil d'écrêtage (+0.8 dBFS). »* |
+| **Action Corrective Requise** | **Engager automatiquement le limiteur brickwall et abaisser le pré-gain vocal de -3 dB.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Console de Sonie Mémorielle**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Console de Réglage des Niveaux Sonores | *En attente utilisateur* | Paramètres standard appliqués : -14 dB pour la nappe sous la voix. |
+| **2** | **Déclenchement ⚡** | Programmation des Rampes Audio Paramétriques | `Validation des Nouveaux Seuils` | Les valeurs de transition sont envoyées à l'AudioParam de l'API WebAudio. |
+| **3** | **Traitement ⚙️** | Simulation Vocale & Contrôle de Clarté | `Progression : 100%` | Vérification en temps réel de l'absence de claquement ou de coupure brusque. |
+| **4** | **Scellement & Fin ✨** | Confort d'Écoute Parfait pour les Proches | `Statut : success` | La voix de l'être cher se détache avec une clarté émouvante et respectueuse. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-321 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Console de Réglage des Niveaux Sonores
+*Paramètres standard appliqués : -14 dB pour la nappe sous la voix.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Confort Acoustique</span>
+                        <span class="wf-status-badge wf-badge-neutral">Profil Standard (-14 dB)</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🎚️</span>
+                        <div><strong>Équilibrage Voix / Nappe Atmosphérique</strong></div>
+                        <div class="wf-subtext">Adapté aux oreilles sensibles et aux environnements calmes</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🎚️ Appliquer les Paramètres de Ducking Acoustique</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Programmation des Rampes Audio Paramétriques
+*Les valeurs de transition sont envoyées à l'AudioParam de l'API WebAudio.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Injection DSP</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Courbes Exponentielles</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">gainNode.gain.exponentialRampToValueAtTime(0.2, now + 0.08)</div>
+                        <div class="wf-subtext">Descente de 0 dB à -14 dB en 80 ms, relâchement en 1 200 ms</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Application aux filtres...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Simulation Vocale & Contrôle de Clarté
+*Vérification en temps réel de l'absence de claquement ou de coupure brusque.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Écoute Contrôlée</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ DSP Stabilisé (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [DUCKING-DSP] Atténuation -14 dB validée sur canal musical</code><br>
+                        <code>> [INTELLIGIBILITÉ] Indice STI estimé : 0.88 (Excellent)</code><br>
+                        <code>> [RAMPE-ATTAQUE] 80 ms sans discontinuité de phase</code><br>
+                        <code>> [DYNAMICS] Compresseur limiteur calé à -0.3 dBFS de sécurité</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Confort d'Écoute Parfait pour les Proches
+*La voix de l'être cher se détache avec une clarté émouvante et respectueuse.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Acoustique Maîtrisée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Sonie Optimale</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🎧</span>
+                        <div>
+                          <strong>Ducking Vocal Calibré</strong>
+                          <p class="wf-subtext">Écoute cristalline • Harmonie parfaite entre souvenirs et musique</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Écouter le Message Vocal d'Origine →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-322"></a>
+## UC-322 : Synthèse Vocale Text-To-Speech Multilingue de l'Épitaphe Mémorielle
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-322` |
+| **Catégorie Métier** | **Accessibilité & Expérience Mémorielle** |
+| **Acteur Principal** | Famille, Malvoyants, Personnes Âgées |
+| **Plateformes Cibles** | Web Speech API (SpeechSynthesis), Natif (AVSpeechSynthesizer / Android TTS) |
+| **Tags Clés** | `TTS`, `SyntheseVocale`, `Accessibilite`, `WebSpeech`, `Multilingue` |
+| **Base Légale & Normative** | Directive européenne sur l'accessibilité (Directive UE 2019/882) & WCAG 2.2 Niveau AAA. |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Voix Mémorielle Universelle` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Épitaphe textuelle chargée depuis la puce ou la capsule mémorielle.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Message moral entendu dans un silence respectueux, transcription accessible validée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Sélection automatique de la voix locale haute définition correspondant à la langue de l'épitaphe (fr-BE, nl-BE, de-DE, en-GB).
+2. Calibrage solennel du débit (rate: 0.85x) et de la hauteur tonale (pitch: 0.95) pour une élocution digne et chaleureuse.
+3. Envoi du texte balisé au moteur SpeechSynthesis du système d'exploitation.
+4. Atténuation synchrone de la musique d'ambiance en arrière-plan via le bus de ducking.
+5. Notification visuelle avec mise en surbrillance karaoké bienveillante mot à mot pour les personnes âgées.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `tts_engine` | **Moteur TTS Système** | `text` | `SpeechSynthesis API Native (In-Device / Hors-Ligne)` | - | `Local & Privé` | ⭕ Optionnel |
+| `tts_voice` | **Langue & Voix Solennelle** | `text` | `fr-BE (Français Belgique • Voix Chaleureuse & Posée)` | - | `fr-BE` | ⭕ Optionnel |
+| `speech_rate` | **Cadence d'Élocution** | `text` | `0.85x (Tempo ralenti propice au recueillement)` | - | `Solennel` | ⭕ Optionnel |
+| `epitaph_preview` | **Extrait d'Épitaphe Mémorielle** | `text` | `« Ne pleurez pas mon départ, contemplez les arbres où je vis désormais. »` | - | `Testament Moral` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_play_tts_epitaph` | **🕊️ Faire Résonner l'Épitaphe à Voix Haute** | `primary` | `idle` | 🔊 |
+| `btn_stop_tts` | **Mettre en Pause la Lecture Solennelle** | `secondary` | `idle` | ⏸️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Lecture Vocale Solennelle Engagée
+>
+> **Badge de Conformité :** `Synthèse Phonétique Active`
+>
+> **Détail Opérationnel :** Élocution posée à 0.85x en cours. Ducking automatique appliqué à la nappe sonore.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_TTS_SYNTHESIS_VOICE_UNAVAILABLE` |
+| **Intitulé de l'Incident** | **Pack de Langue Synthétique Introuvable** |
+| **Condition Déclenchante** | Système d'exploitation sans pack de synthèse vocale pour la langue cible. |
+| **Message d'Erreur UI** | *« Impossible d'initialiser la voix haute fidélité demandée. »* |
+| **Action Corrective Requise** | **Utiliser la voix générique intégrée ou activer le mode d'affichage gros caractères pour malvoyants.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Voix Mémorielle Universelle**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Texte de l'Épitaphe Prêt pour la Voix | *En attente utilisateur* | Les derniers mots du défunt sont affichés avec l'option de lecture vocale. |
+| **2** | **Déclenchement ⚡** | Instanciation SpeechSynthesisUtterance | `Clic sur 'Faire Résonner l'Épitaphe'` | Le moteur vocal s'apprête à prononcer la phrase avec le débit solennel. |
+| **3** | **Traitement ⚙️** | Lecture en Cours & Défilement Bienveillant | `Progression : 65%` | Les mots résonnent dans le silence avec accompagnement visuel adapté. |
+| **4** | **Scellement & Fin ✨** | Parole Conclue dans la Sérénité | `Statut : success` | La nappe musicale retrouve doucement son volume initial. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-322 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Texte de l'Épitaphe Prêt pour la Voix
+*Les derniers mots du défunt sont affichés avec l'option de lecture vocale.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Testament Moral</span>
+                        <span class="wf-status-badge wf-badge-neutral">Accessibilité Active</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🔊</span>
+                        <div><strong>Vocalisation de l'Épitaphe Mémorielle</strong></div>
+                        <div class="wf-subtext">Synthèse vocale douce à 0.85x pour aînés et recueillement les yeux clos</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🕊️ Faire Résonner l'Épitaphe à Voix Haute</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Instanciation SpeechSynthesisUtterance
+*Le moteur vocal s'apprête à prononcer la phrase avec le débit solennel.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Synthèse Vocale</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Émission Phonétique</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">window.speechSynthesis.speak(utterance) • Voix fr-BE</div>
+                        <div class="wf-subtext">Activation synchrone de l'atténuation musicale (-14 dB)</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Élocution en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Lecture en Cours & Défilement Bienveillant
+*Les mots résonnent dans le silence avec accompagnement visuel adapté.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Parole Active</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Vocalisation (65%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [TTS-ENGINE] Voix locale haute fidélité active (fr-BE)</code><br>
+                        <code>> [SPEECH] « ...contemplez les arbres où je vis désormais. »</code><br>
+                        <code>> [DUCKING] Musique d'ambiance maintenue à -14 dB</code><br>
+                        <code>> [ACCESSIBILITÉ] Conformité WCAG 2.2 AAA respectée</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Parole Conclue dans la Sérénité
+*La nappe musicale retrouve doucement son volume initial.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Paix Retrouvée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Message Entendu</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🕊️</span>
+                        <div>
+                          <strong>Dernières Paroles Résonnées avec Dignité</strong>
+                          <p class="wf-subtext">Recueillement achevé • Retour feutré de la nappe musicale</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Signer le Livre d'Or Mémoriel →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-323"></a>
+## UC-323 : Signature Cryptographique Décentralisée d'un Message du Livre d'Or
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-323` |
+| **Catégorie Métier** | **Expérience Sanctuaire & Cryptographie** |
+| **Acteur Principal** | Proche ou Membre de la Famille Laissant un Témoignage |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA WebCrypto) |
+| **Tags Clés** | `LivreDor`, `SignatureCryptographique`, `Ed25519`, `WebCrypto`, `P2P`, `Pollen` |
+| **Base Légale & Normative** | Règlement eIDAS (signatures électroniques avancées) & Spécification P2P Pollen AeterniTrak. |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Sceau Décentralisé du Livre d'Or` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Proche connecté au sanctuaire local via NFC ou PWA et rédigeant un mot d'adieu.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Message scellé et certifié inaltérable pour les siècles à venir dans la mémoire distribuée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Saisie de l'hommage et du nom du proche dans le formulaire du Livre d'Or.
+2. Génération ou récupération de la paire de clés Ed25519 in-device de l'auteur.
+3. Canonisation JSON du message (RFC 8785 JCS - JSON Canonicalization Scheme).
+4. Signature cryptographique Ed25519 de l'empreinte SHA-256 via SubtleCrypto (14 ms).
+5. Encapsulation dans un Pollen P2P réplicable en Bluetooth LE ou synchronisable lors du retour en réseau.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `author_identity` | **Auteur du Témoignage** | `text` | `Camille de Valcourt (Filleule & Famille)` | - | `Identité Vérifiée` | ✅ Requis |
+| `testimony_body` | **Hommage Mémoriel** | `text` | `« Merci pour ta bonté infinie et pour tout ce que tu nous as transmis sous ces grands chênes. »` | - | `Texte Scellé` | ✅ Requis |
+| `guestbook_crypto` | **Moteur Cryptographique** | `text` | `SubtleCrypto Ed25519 (Courbe Curve25519 • JCS Canonisation)` | - | `Ed25519` | ⭕ Optionnel |
+| `payload_hash` | **Empreinte SHA-256 du Témoignage** | `text` | `SHA-256: d4f3a18e9c0b2f5a6b7c8d9e0f1a2b3c...` | - | `Inaltérable` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_sign_guestbook_entry` | **Sceller & Signer l'Hommage Cryptographique** | `primary` | `idle` | ✍️ |
+| `btn_preview_guestbook_pollen` | **Prévisualiser le Paquet Pollen P2P** | `secondary` | `idle` | 📦 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Hommage Mémoriel Cryptographiquement Scellé
+>
+> **Badge de Conformité :** `Signature Ed25519 Valide`
+>
+> **Détail Opérationnel :** Pollen P2P généré en 14 ms. Intégrité et provenance inaltérables garanties sans autorité centrale.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_GUESTBOOK_PAYLOAD_TOO_LARGE` |
+| **Intitulé de l'Incident** | **Message Trop Volumineux pour Silicium/P2P** |
+| **Condition Déclenchante** | Dépassement du quota de 2 Ko par entrée de livre d'or hors-ligne. |
+| **Message d'Erreur UI** | *« La charge utile dépasse la limite permise pour la réplication sans contact. »* |
+| **Action Corrective Requise** | **Condenser le texte de l'hommage à l'essentiel pour préserver le stockage solennel.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Sceau Décentralisé du Livre d'Or**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Rédaction de l'Hommage Familial | *En attente utilisateur* | Le témoignage d'affection est rédigé avec émotion par le proche. |
+| **2** | **Déclenchement ⚡** | Canonisation JSON & Signature RFC 8032 | `Clic sur 'Sceller & Signer'` | Calcul local de la signature sans envoyer le moindre mot sur Internet. |
+| **3** | **Traitement ⚙️** | Génération du Paquet Pollen Distribué | `Progression : 100%` | Le message devient une assertion cryptographique autonome. |
+| **4** | **Scellement & Fin ✨** | Témoignage Gravé dans la Mémoire Éternelle | `Statut : success` | Le souvenir est protégé contre toute altération ou suppression future. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-323 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Rédaction de l'Hommage Familial
+*Le témoignage d'affection est rédigé avec émotion par le proche.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Livre d'Or</span>
+                        <span class="wf-status-badge wf-badge-neutral">Témoignage Rédigé</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">✍️</span>
+                        <div><strong>Scellement Inaltérable Souhaité</strong></div>
+                        <div class="wf-subtext">Signature mathématique Ed25519 garantissant l'intégrité séculaire</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">✍️ Sceller & Signer l'Hommage Cryptographique</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Canonisation JSON & Signature RFC 8032
+*Calcul local de la signature sans envoyer le moindre mot sur Internet.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Signature P2P</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ SubtleCrypto.sign()</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">JCS RFC 8785 -> SHA-256 -> Signature Ed25519 (64 octets)</div>
+                        <div class="wf-subtext">Clé d'auteur locale in-device • Horodatage cryptographique certifié</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Scellement en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Génération du Paquet Pollen Distribué
+*Le message devient une assertion cryptographique autonome.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Pollen Mémoriel</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Paquet Prêt (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [CRYPTO-SIGN] Ed25519 signature calculée en 14 ms</code><br>
+                        <code>> [POLLEN-CID] CID IPFS/P2P : bafybeigdyrzt5sfp7udm...</code><br>
+                        <code>> [REPLICATION] Prêt pour diffusion mesh BLE / Carte mémorielle</code><br>
+                        <code>> [CONFIDENTIALITÉ] Respect strict de la vie privée familiale</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Témoignage Gravé dans la Mémoire Éternelle
+*Le souvenir est protégé contre toute altération ou suppression future.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Hommage Préservé</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Scellé pour l'Éternité</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">📜</span>
+                        <div>
+                          <strong>Hommage Enregistré avec Succès</strong>
+                          <p class="wf-subtext">Signature Ed25519 vérifiée • Témoignage associé au sanctuaire</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Voir le Livre d'Or Complété →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-324"></a>
+## UC-324 : Export Fiche d'Urgence Médicale Pacemaker au Format PDF/A Conforme
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-324` |
+| **Catégorie Métier** | **Directives Médicales & Sécurité** |
+| **Acteur Principal** | Médecin Urgentiste, Thanatopracteur, Conseiller Funéraire |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Générateur PDF/A) |
+| **Tags Clés** | `Pacemaker`, `PDF-A`, `UrgenceMedicale`, `SecuriteIncendie`, `ArtL1232-24` |
+| **Base Légale & Normative** | Art. L1232-24 CDLD & Modèle IIIC réglementaire & Norme ISO 19005-1 (PDF/A). |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Export Réglementaire Modèle IIIC` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Données médicales d'urgence lues depuis la partition EF4 de la carte mémorielle.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Fiche PDF/A générée, prête pour certification de l'exérèse et archivage légal.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Détection in-silico de l'alerte vitale : Présence d'un stimulateur cardiaque actif.
+2. Extraction des références techniques du dispositif (Medtronic Viva XT S/N 84920).
+3. Compilation selon le modèle officiel wallon Annexe IIIC (Art. L1232-24 CDLD).
+4. Génération in-browser du document au format PDF/A-1b (archivage pérenne ISO 19005-1 avec métadonnées XMP).
+5. Mise à disposition pour signature de l'exérèse chirurgicale par le praticien habilité.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `implant_type` | **Dispositif Médical Implanté** | `text` | `Stimulateur Cardiaque Actif (Medtronic Viva XT S/N 84920)` | - | `ALERTE VITALE` | ⭕ Optionnel |
+| `legal_framework` | **Cadre Juridique Wallon** | `text` | `Art. L1232-24 CDLD & Modèle IIIC réglementaire` | - | `Obligatoire` | ⭕ Optionnel |
+| `hazard_level` | **Risque Sanitaire / Explosion** | `text` | `Risque Majeur Déflagration en Incinérateur / Traitement Thermique` | - | `Danger Incendie` | ⭕ Optionnel |
+| `pdf_standard` | **Norme d'Archivage Documentaire** | `text` | `PDF/A-1b Conforme ISO 19005-1 (Profil Colorimétrique sRGB & XMP)` | - | `Pérenne ISO` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_export_pacemaker_pdfa` | **Générer le Document Officiel PDF/A Conforme** | `primary` | `idle` | 📄 |
+| `btn_print_emergency_sheet` | **Impression Directe Fiche IIIC** | `secondary` | `idle` | 🖨️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Document Réglementaire PDF/A Modèle IIIC Généré
+>
+> **Badge de Conformité :** `Art. L1232-24 CDLD Certifié`
+>
+> **Détail Opérationnel :** Fiche officielle prête pour transmission immédiate au médecin légiste ou thanatopracteur pour exérèse.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_PDF_GENERATION_FAILED` |
+| **Intitulé de l'Incident** | **Échec de Compilation PDF/A** |
+| **Condition Déclenchante** | Ressource de police ou profil ICC manquant dans le générateur in-browser. |
+| **Message d'Erreur UI** | *« Impossible de certifier le document selon le standard ISO PDF/A. »* |
+| **Action Corrective Requise** | **Basculer en mode affichage direct HTML pour impression papier immédiate.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Export Réglementaire Modèle IIIC**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Alerte Dispositif Implantable Détectée | *En attente utilisateur* | Présence confirmée d'un stimulateur cardiaque nécessitant attestation d'exérèse. |
+| **2** | **Déclenchement ⚡** | Compilation des Métadonnées Conformes ISO 19005-1 | `Clic sur 'Générer Document Officiel'` | Création du fichier PDF/A-1b pérenne avec inclusion des polices vectorielles. |
+| **3** | **Traitement ⚙️** | Vérification de Conformité Normative | `Progression : 100%` | Validation de l'absence de balises dynamiques interdites par la norme PDF/A. |
+| **4** | **Scellement & Fin ✨** | Document Prêt pour Remise aux Autorités | `Statut : success` | Le document officiel peut être imprimé ou transmis pour la levée de corps. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-324 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Alerte Dispositif Implantable Détectée
+*Présence confirmée d'un stimulateur cardiaque nécessitant attestation d'exérèse.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Sécurité Médicale</span>
+                        <span class="wf-status-badge wf-badge-neutral">Alerte Pacemaker Active</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">⚠️</span>
+                        <div><strong>Attestation d'Exérèse Réglementaire Obligatoire</strong></div>
+                        <div class="wf-subtext">Art. L1232-24 CDLD & Modèle IIIC réglementaire avant crémation / bioconversion</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">📄 Générer le Document Officiel PDF/A Conforme</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Compilation des Métadonnées Conformes ISO 19005-1
+*Création du fichier PDF/A-1b pérenne avec inclusion des polices vectorielles.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Compilateur PDF/A</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Binaire ISO 19005-1</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">pdfmake / jsPDF : Injection schéma XMP pdfaExtension</div>
+                        <div class="wf-subtext">Intégration du numéro de série Medtronic S/N 84920 et visa civil</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Compilation PDF/A en cours...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Vérification de Conformité Normative
+*Validation de l'absence de balises dynamiques interdites par la norme PDF/A.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Contrôle Qualité PDF</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ PDF/A Certifié (100%)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [PDF-A] Profil PDF/A-1b validé sans balise JavaScript externe</code><br>
+                        <code>> [XMP] Métadonnées réglementaires : Modèle IIIC Wallonie</code><br>
+                        <code>> [DISPOSITIF] Pacemaker Medtronic Viva XT consigné pour exérèse</code><br>
+                        <code>> [ARCHIVE] Document prêt pour conservation légale de 30 ans</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Document Prêt pour Remise aux Autorités
+*Le document officiel peut être imprimé ou transmis pour la levée de corps.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Fiche Officielle Prête</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Modèle IIIC Conforme</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🩺</span>
+                        <div>
+                          <strong>Fiche Réglementaire Générée</strong>
+                          <p class="wf-subtext">Art. L1232-24 CDLD • Conforme pour signature thanatopracteur</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Télécharger / Partager le PDF/A Officiel →</button>
+                      </div>
+                    </div>
+```
+
+</details>
+
+---
+
+<a id="uc-325"></a>
+## UC-325 : Calcul d'Itinéraire Géodésique & Boussole vers l'Arbre du Souvenir (Formule de Haversine)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-325` |
+| **Catégorie Métier** | **Guidage & Forêt Mémorielle** |
+| **Acteur Principal** | Famille en Déplacement dans la Forêt Cinéraire DNF |
+| **Plateformes Cibles** | Natif (iOS CoreLocation & Android Location), Web Geolocation API & DeviceOrientation |
+| **Tags Clés** | `Geodesie`, `Haversine`, `Boussole`, `GPS`, `ForetCineraire`, `ArbreDuSouvenir` |
+| **Base Légale & Normative** | Convention domaniale DNF / Le Pax Funèbre pour la préservation des massifs forestiers classés. |
+| **Terminal / Canvas Wireframe** | `Sanctuaire Mobile • Boussole Mémorielle Forestière` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Coordonnées GPS de l'Arbre du Souvenir lues sur la carte et capteurs GPS/magnétomètre du smartphone actifs.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Visiteur guidé avec sérénité jusqu'au pied de l'arbre cinéraire sans signalétique physique invasive.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Lecture des coordonnées géodésiques de la sépulture mémorielle (50.4182° N, 5.8821° E).
+2. Acquisition de la position GPS courante du visiteur sous la canopée forestière.
+3. Calcul de la distance grand-cercle par la formule mathématique de Haversine (précision métrique in-device).
+4. Calcul de l'azimut (bearing) géodésique et couplage avec le capteur magnétique (boussole).
+5. Affichage d'une aiguille de boussole solennelle orientant le regard directement vers le chêne séculaire.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `tree_gps` | **Coordonnées Arbre du Souvenir** | `text` | `50.4182° N, 5.8821° E (Chêne Séculaire #PARC-DNF-42)` | - | `Arbre Scellé` | ⭕ Optionnel |
+| `user_gps` | **Position Visiteur en Forêt** | `text` | `50.4170° N, 5.8805° E (Précision : ± 2.8 mètres)` | - | `GPS Fix OK` | ⭕ Optionnel |
+| `haversine_dist` | **Distance Calculée (Haversine)** | `text` | `174 mètres à vol d'oiseau (Formule R·c sur sphère WGS84)` | - | `174 m` | ⭕ Optionnel |
+| `compass_azimuth` | **Cap & Azimut Magnétique** | `text` | `38° Nord-Nord-Est (Aiguille gyroscopique fluide)` | - | `38° NNE` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_calc_haversine_route` | **Calculer le Cap Géodésique & Activer la Boussole** | `primary` | `idle` | 🧭 |
+| `btn_calibrate_compass` | **Étalonner le Capteur Magnétique** | `secondary` | `idle` | 🔄 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Guidage Géodésique Actif vers l'Arbre du Souvenir
+>
+> **Badge de Conformité :** `Boussole Forestière Précise`
+>
+> **Détail Opérationnel :** Distance : 174 mètres • Azimut : 38° NNE. Aiguille orientée vers le chêne de recueillement.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_GPS_SIGNAL_WEAK_CANOPY` |
+| **Intitulé de l'Incident** | **Précision GPS Insuffisante sous Canopée** |
+| **Condition Déclenchante** | Feuillage dense et humidité réduisant la visibilité des constellations GNSS. |
+| **Message d'Erreur UI** | *« Précision géodésique dégradée (> 30 mètres). »* |
+| **Action Corrective Requise** | **Suivre le sentier balisé DNF jusqu'à la borne cinéraire physique #B-42.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sanctuaire Mobile • Boussole Mémorielle Forestière**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Entrée dans le Massif Forestier DNF | *En attente utilisateur* | La famille est en lisière de forêt et recherche l'arbre mémoriel. |
+| **2** | **Déclenchement ⚡** | Calcul de la Formule de Haversine & Azimut | `Clic sur 'Calculer le Cap'` | Résolution des coordonnées sphériques WGS84 dans le microprocesseur. |
+| **3** | **Traitement ⚙️** | Couplage Gyroscope & Boussole Magnétique | `Progression : 100%` | Aiguille mémorielle stabilisée pointant vers le chêne cinéraire. |
+| **4** | **Scellement & Fin ✨** | Boussole Active & Arbre en Vue | `Statut : success` | Le recueillement s'opère dans la paix des grands arbres séculaires. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-325 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Entrée dans le Massif Forestier DNF
+*La famille est en lisière de forêt et recherche l'arbre mémoriel.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Forêt Cinéraire</span>
+                        <span class="wf-status-badge wf-badge-neutral">Arbre #42 Enregistré</span>
+                      </div>
+                      <div class="wf-device-status-box">
+                        <span class="wf-qa-icon">🌲</span>
+                        <div><strong>Orientation vers l'Arbre du Souvenir</strong></div>
+                        <div class="wf-subtext">Calcul trigonométrique Haversine 100% hors-ligne dans le smartphone</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🧭 Calculer le Cap Géodésique & Activer la Boussole</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 2 - Déclenchement : Calcul de la Formule de Haversine & Azimut
+*Résolution des coordonnées sphériques WGS84 dans le microprocesseur.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Géodésie Locale</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Trigonométrie Sphérique</span>
+                      </div>
+                      <div class="wf-trigger-card wf-radar-pulse">
+                        <div class="wf-trigger-indicator">a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2) -> d = 174 m</div>
+                        <div class="wf-subtext">Calcul du bearing initial θ = atan2(sin Δλ ⋅ cos φ2, ...) = 38°</div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Alignement gyroscopique...</button>
+                      </div>
+                    </div>
+```
+
+#### Phase 3 - Traitement : Couplage Gyroscope & Boussole Magnétique
+*Aiguille mémorielle stabilisée pointant vers le chêne cinéraire.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Capteur d'Orientation</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Cap Verrouillé (38° NNE)</span>
+                      </div>
+                      <div class="wf-console-log">
+                        <code>> [HAVERSINE] Distance calculée : 174.2 mètres</code><br>
+                        <code>> [BEARING] Azimut géographique : 38.4° NNE</code><br>
+                        <code>> [COMPASS] DeviceOrientation actif (précision ±1.5°)</code><br>
+                        <code>> [OFFLINE-GEO] Zéro transfert de position géographique vers l'extérieur</code>
+                      </div>
+                    </div>
+```
+
+#### Phase 4 - Fin de Cycle : Boussole Active & Arbre en Vue
+*Le recueillement s'opère dans la paix des grands arbres séculaires.*
+
+```html
+<div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">Sanctuaire • Arbre Atteint</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Destination en Vue</span>
+                      </div>
+                      <div class="wf-success-banner">
+                        <span class="wf-seal-icon">🍃</span>
+                        <div>
+                          <strong>Chêne du Souvenir Localisé</strong>
+                          <p class="wf-subtext">Parcelle DNF 104/A • Vous êtes au pied de l'Arbre mémoriel</p>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-gold">Ouvrir le Sanctuaire au Pied de l'Arbre →</button>
+                      </div>
+                    </div>
 ```
 
 </details>

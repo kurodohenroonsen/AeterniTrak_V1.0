@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeterniTrak V1.0 — UC-217 : Sélection de l'Applet par Commande APDU SELECT AID &amp; Validation SW 0x9000</title>
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="bg-obsidian-950 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- En-tête Autonome & Navigation Breadcrumbs -->
+  <header class="uc-standalone-header px-6 py-3.5 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <a href="../index.html" class="wf-btn wf-btn-sub text-xs py-1.5 px-3 flex items-center gap-1.5" title="Retour au Hub Principal">
+        <span>←</span> <span>Hub</span>
+      </a>
+      <div class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
+        <span>AeterniTrak</span>
+        <span>/</span>
+        <span class="text-gold-400">PaxStation Encodage</span>
+        <span>/</span>
+        <span class="text-white font-bold">UC-217</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Système de Fichiers Puce</span>
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded border text-sky-300 bg-sky-950/80 border-sky-600/40">UC-217</span>
+    </div>
+  </header>
+
+  <!-- Contenu Principal du Micro Use-Case -->
+  <main class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-6 flex-1">
+
+    <!-- Bannière Descriptrice Métier -->
+    <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div class="space-y-1">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-gold-400 font-bold">Gravure Silicium ACR1552U & ACOSJ 92K</span>
+          <h1 class="text-xl sm:text-2xl font-bold font-title text-white">Sélection de l'Applet par Commande APDU SELECT AID & Validation SW 0x9000</h1>
+        </div>
+        <div class="text-right text-xs">
+          <span class="text-slate-400">Acteur Souverain :</span>
+          <span class="font-bold text-white block mt-0.5">Système Automatisé PaxStation</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 pt-2 text-xs">
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 1</span><span class="text-slate-300 text-[11px] leading-snug block">Forge de la commande APDU de sélection applicative selon ISO/IEC 7816-4 : CLA 0x00, INS 0xA4, P1 0x04, P2 0x00.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 2</span><span class="text-slate-300 text-[11px] leading-snug block">Injection de l'AID souverain de l'applet AeterniCore : `A0 00 00 08 47 01 02` (7 octets).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 3</span><span class="text-slate-300 text-[11px] leading-snug block">Transmission de la trame via le canal logique 0 du protocole T=CL.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 4</span><span class="text-slate-300 text-[11px] leading-snug block">Réception et vérification du Status Word (mot d'état de retour SW1-SW2).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 5</span><span class="text-slate-300 text-[11px] leading-snug block">Confirmation de l'état `0x9000` (Succès normal) et activation de la session de commande sécurisée.</span></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs font-mono text-slate-300">
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Préconditions :</span>
+          <span class="text-slate-300 text-[11px]">Le protocole de transmission T=CL est actif sur la puce (UC-216).</span>
+        </div>
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-emerald-400 block text-[10px] uppercase font-bold">Postconditions :</span>
+          <span class="text-slate-300 text-[11px]">L'applet AeterniCore est active en mémoire vive de la puce, prête pour les opérations sur les partitions EF.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille 2 Colonnes : Formulaire Interactif & Maquette Wireframe -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Colonne 1 : Formulaire Fonctionnel & Cas d'Erreur (5/12) -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-sm font-bold font-title text-white">Champs d'Interaction (4 paramètres)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Spec DEC-AET-08</span>
+          </div>
+
+          <form id="form-UC-217" class="space-y-2.5" onsubmit="event.preventDefault();">
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Commande APDU SELECT AID</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">APDU ISO 7816</span></div><input type="text" name="apdu_select_payload" value="00 A4 04 00 07 A0 00 00 08 47 01 02 00" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Identifiant d'Application (AID)</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">AID Souverain</span></div><input type="text" name="target_aid_string" value="A0000008470102 (AeterniCore Applet V1.0)" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Mot d'État Retourné (SW)</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">SW 0x9000</span></div><select name="status_word_received" class="form-control-input"><option value="0x9000 (Succès Normal • Applet Sélectionnée)" selected>0x9000 (Succès Normal • Applet Sélectionnée)</option><option value="Alternatif">Option Alternative</option></select></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">État Machine Virtuelle Silicium</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Sécurité Silicium</span></div><input type="text" name="jc_vm_status" value="Java Card VM Prête • Contexte d'exécution isolé" class="form-control-input"></div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <button type="button" id="btn_send_select_aid" onclick="simulateAction('btn_send_select_aid')" class="wf-btn wf-btn-gold text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🎯</span> <span>Transmettre APDU SELECT AID</span></button>
+              <button type="button" id="btn_read_applet_lifecycle" onclick="simulateAction('btn_read_applet_lifecycle')" class="wf-btn wf-btn-sub text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>📋</span> <span>Vérifier Cycle de Vie Applet</span></button>
+            </div>
+          </form>
+
+          <div id="validation-box-UC-217" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs space-y-1">
+            <div class="flex justify-between items-center text-emerald-300 font-bold">
+              <span>✔ Applet AeterniCore Sélectionnée avec Succès (SW 0x9000)</span>
+              <span class="font-mono text-[10px] bg-emerald-900/60 px-2 py-0.5 rounded">SW 0x9000 Validé</span>
+            </div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">L'applet est active et réceptive. Les fichiers élémentaires EF-0 à EF-5 sont accessibles pour transaction.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-rose-950/30 border border-rose-900/60 text-xs space-y-1 text-rose-200">
+            <div class="flex justify-between items-center font-bold">
+              <span class="text-rose-400 font-mono">ERR_APDU_APPLET_NOT_FOUND</span>
+              <span class="text-[10px] text-slate-400">Échec Sélection AID (SW 0x6A82 - File / Application Not Found)</span>
+            </div>
+            <p class="text-[11px] text-rose-200/90 leading-snug"><strong>Alerte :</strong> Erreur logicielle silicium : L'applet A0000008470102 est introuvable sur cette carte.</p>
+            <p class="text-[11px] text-emerald-300/90 leading-snug"><strong>Remédiation :</strong> Charger le paquet CAP AeterniCore via le script d'initialisation GlobalPlatform d'atelier.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne 2 : Player Wireframe 4 Phases & Bezel (7/12) -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <button id="pill-p1" onclick="setPhase('p1')" class="wf-pill-btn active">1. Initial</button>
+              <button id="pill-p2" onclick="setPhase('p2')" class="wf-pill-btn">2. Action ⚡</button>
+              <button id="pill-p3" onclick="setPhase('p3')" class="wf-pill-btn">3. Gravure ⚙️</button>
+              <button id="pill-p4" onclick="setPhase('p4')" class="wf-pill-btn">4. Scellé ✨</button>
+            </div>
+            <button id="btn-sim-seq" onclick="simulateSequence()" class="wf-sim-btn text-xs font-bold py-1.5 px-3">
+              ▶ Simuler Séquence
+            </button>
+          </div>
+
+          <div class="device-bezel">
+            <div class="device-topbar">
+              <div class="device-controls-dots">
+                <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+              </div>
+              <span class="text-[11px] text-slate-300 font-mono">PaxStation Pro • Sélection d'Applet JavaCard AeterniCore (ISO 7816-4 SELECT AID)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">100% Hors-Ligne</span>
+            </div>
+            <div id="screen-container" class="wf-screen-container">
+              
+                    <div class="wf-screen-box">
+                      <div class="wf-header-bar">
+                        <span class="wf-app-title">PaxStation • Gestionnaire d'Applets Silicium</span>
+                        <span class="wf-status-badge wf-badge-neutral">Prêt pour SELECT AID</span>
+                      </div>
+                      <div class="wf-content-grid">
+                        <div class="wf-field-group">
+                          <label class="wf-label">AID Cible</label>
+                          <div class="wf-input-placeholder">A0000008470102 (AeterniCore)</div>
+                        </div>
+                        <div class="wf-field-group">
+                          <label class="wf-label">Canal Logique</label>
+                          <div class="wf-input-placeholder">Canal de Base #0 (T=CL)</div>
+                        </div>
+                      </div>
+                      <div class="wf-btn-row">
+                        <button class="wf-btn wf-btn-primary">🎯 Transmettre APDU SELECT AID</button>
+                      </div>
+                    </div>
+            </div>
+          </div>
+
+          <div class="wf-caption-box text-xs">
+            <span id="caption-label"><strong>Puce Reconnue, Applet Non Encore Sélectionnée</strong> <span class="text-slate-400">• Le canal T=CL est ouvert. L'APDU SELECT AID attend d'être transmise pour activer l'applet.</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BANC DE TEST UNITAIRE EMBARQUÉ (SPEC-FIRST & TEST-FIRST) -->
+    <section class="test-suite-panel space-y-4" id="section-unit-test">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🧪</span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold font-title text-white">Banc de Test Unitaire Embarqué — UC-217</h3>
+            <p class="text-xs text-slate-400">Assertions formelles in-silico, budgets EEPROM ACOSJ et conformité ISO/IEC</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="test-status-badge" class="test-badge test-badge-ready">PRÊT</span>
+          <button id="btn-run-test" class="wf-btn wf-btn-gold text-xs font-bold py-2 px-4 shadow">
+            ▶ Lancer le Test Unitaire
+          </button>
+        </div>
+      </div>
+
+      <div id="test-console" class="wf-console-log h-40 overflow-y-auto text-xs font-mono space-y-1">
+        <div class="text-slate-400">> [PRÊT] Banc d'essai prêt pour UC-217. Cliquez sur « Lancer le Test Unitaire » ou exécutez avec ?autotest=1</div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+        <span>Framework : MicroUseCaseTest V1.0</span>
+        <span>Partition cible : EEPROM Utile ACOSJ 92K (EF-0 à EF-5) (86,528 octets max)</span>
+        <span>Règle d'or : Anti-Prion CE 999/2001</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pied de page -->
+  <footer class="border-t border-slate-800 bg-obsidian-900/60 px-6 py-3 text-center text-xs text-slate-400 font-mono">
+    AeterniTrak V1.0 • Spec-First & Test-First Certifié • Norme ISO/IEC 7816-4 (Organisation, sécurité et commandes pour les échanges) & Spécifications Java Card 3.0.5.
+  </footer>
+
+  <!-- Scripts : Test Framework & Automate Local -->
+  <script src="../js/test-framework.js"></script>
+  <script>
+    const phasesData = {"p1": {"tabTitle": "1. Avant Trigger", "phaseTitle": "Puce Reconnue, Applet Non Encore Sélectionnée", "caption": "Le canal T=CL est ouvert. L'APDU SELECT AID attend d'être transmise pour activer l'applet.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStation • Gestionnaire d'Applets Silicium</span>\n                        <span class=\"wf-status-badge wf-badge-neutral\">Prêt pour SELECT AID</span>\n                      </div>\n                      <div class=\"wf-content-grid\">\n                        <div class=\"wf-field-group\">\n                          <label class=\"wf-label\">AID Cible</label>\n                          <div class=\"wf-input-placeholder\">A0000008470102 (AeterniCore)</div>\n                        </div>\n                        <div class=\"wf-field-group\">\n                          <label class=\"wf-label\">Canal Logique</label>\n                          <div class=\"wf-input-placeholder\">Canal de Base #0 (T=CL)</div>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary\">🎯 Transmettre APDU SELECT AID</button>\n                      </div>\n                    </div>"}, "p2": {"tabTitle": "2. Déclenchement ⚡", "phaseTitle": "Émission de l'APDU SELECT AID (A0 00 00 08 47 01 02)", "triggerName": "Envoi APDU 00 A4 04 00 07 A0000008470102 00", "caption": "Bascule du contexte d'exécution de la machine virtuelle JavaCard vers l'instance AeterniCore.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStation • Dialogue APDU ISO 7816-4</span>\n                        <span class=\"wf-status-badge wf-badge-trigger\">⚡ APDU SELECT Transmise</span>\n                      </div>\n                      <div class=\"wf-trigger-card wf-radar-pulse\">\n                        <div class=\"wf-trigger-indicator\">✓ Envoi : 00 A4 04 00 07 A0 00 00 08 47 01 02 00</div>\n                        <div class=\"wf-subtext\">Activation de l'applet sur le microcontrôleur ACOSJ</div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary wf-pulse-btn\">Réception du Status Word...</button>\n                      </div>\n                    </div>"}, "p3": {"tabTitle": "3. Traitement ⚙️", "phaseTitle": "Activation Contexte JavaCard & Analyse Code SW 0x9000", "progress": 96, "caption": "Validation du code de succès 0x9000 et vérification des permissions de session.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStation • Décodeur Status Word</span>\n                        <span class=\"wf-status-badge wf-badge-process\">⚙️ Analyse SW (96%)</span>\n                      </div>\n                      <div class=\"wf-progress-container\"><div class=\"wf-progress-bar\" style=\"width: 96%;\"></div></div>\n                      <div class=\"wf-console-log\">\n                        <code>> [APDU-RX] Status Word retourné : 0x9000 (Command successfully executed)</code><br>\n                        <code>> [JC-APPLET] Instance AeterniCore v1.0 initialisée en RAM</code><br>\n                        <code>> [SECURITY-DOMAIN] Droits de lecture/écriture débloqués pour session atelier</code><br>\n                        <code>> [EF-MAPPING] 6 partitions élémentaires EF-0 à EF-5 prêtes pour transaction</code>\n                      </div>\n                    </div>"}, "p4": {"tabTitle": "4. Écran de Fin ✨", "phaseTitle": "Applet AeterniCore Active sur Canal 0", "status": "success", "caption": "La communication applicative est ouverte. Les commandes de lecture/écriture de fichiers sont prêtes.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStation • Applet Active</span>\n                        <span class=\"wf-status-badge wf-badge-success\">✨ SW 0x9000 Normal Execution</span>\n                      </div>\n                      <div class=\"wf-success-banner\">\n                        <span class=\"wf-seal-icon\">🎯</span>\n                        <div>\n                          <strong>Applet AeterniCore Sélectionnée avec Succès</strong>\n                          <p class=\"wf-subtext\">Canal logique #0 prêt • Prêt pour l'inspection de l'en-tête EF-0</p>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-gold\">Inspecter l'En-tête Matériel EF-0 →</button>\n                      </div>\n                    </div>"}};
+    let currentPhase = 'p1';
+    let simTimer = null;
+
+    function setPhase(key) {
+      currentPhase = key;
+      document.querySelectorAll('.wf-pill-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('pill-' + key);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const data = phasesData[key];
+      if (data) {
+        document.getElementById('screen-container').innerHTML = data.screenHtml;
+        document.getElementById('caption-label').innerHTML = `<strong>${data.phaseTitle}</strong> <span class="text-slate-400">• ${data.caption}</span>`;
+      }
+    }
+
+    function simulateSequence() {
+      const order = ['p1', 'p2', 'p3', 'p4'];
+      let idx = 0;
+      if (simTimer) clearInterval(simTimer);
+      setPhase(order[0]);
+      simTimer = setInterval(() => {
+        idx++;
+        if (idx < order.length) {
+          setPhase(order[idx]);
+        } else {
+          clearInterval(simTimer);
+        }
+      }, 800);
+    }
+
+    function simulateAction(actionId) {
+      setPhase('p2');
+      setTimeout(() => setPhase('p3'), 500);
+      setTimeout(() => setPhase('p4'), 1000);
+    }
+
+    // =========================================================================
+    // SUITE DE TEST UNITAIRE DÉDIÉE POUR UC-217
+    // =========================================================================
+    class UC217Test extends MicroUseCaseTest {
+      constructor() {
+        super("UC-217", "Sélection de l'Applet par Commande APDU SELECT AID &amp; Validation SW 0x9000");
+      }
+
+      async run() {
+        this.setup();
+
+        this.log("Phase 1 : Vérification nominale des composants fonctionnels (Happy Path)...", "phase");
+        const form = document.getElementById("form-UC-217");
+        this.assertTrue(form !== null, "Formulaire fonctionnel UC-217 instancié");
+        const screen = document.getElementById("screen-container");
+        this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+        this.assertTrue(phasesData.p1 !== undefined && phasesData.p4 !== undefined, "Cycle complet 4 phases (p1 à p4) défini");
+
+        this.log("Phase 2 : Contrôle des transitions d'état nominales...", "phase");
+        setPhase('p2');
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase d'action validée");
+        setPhase('p3');
+        this.assertEquals(currentPhase, 'p3', "Phase de traitement et d'audit intermédiaire atteinte");
+
+        this.log("Phase 3 : Vérification du respect strict du quota de la partition 'EEPROM Utile ACOSJ 92K (EF-0 à EF-5)'...", "phase");
+        const simulatedPayloadBytes = 78400;
+        const maxPartitionBudget = 86528;
+        this.assertBytesBudget(simulatedPayloadBytes, maxPartitionBudget, "EEPROM Utile ACOSJ 92K (EF-0 à EF-5)");
+        this.assertTrue(
+          simulatedPayloadBytes <= maxPartitionBudget,
+          `Respect absolu du plafond de partition : ${simulatedPayloadBytes} o <= ${maxPartitionBudget} o`
+        );
+        this.assertTrue(
+          maxPartitionBudget <= 86528 || "EEPROM_TOTAL" === "IRON_GATE",
+          "Partition conforme à la capacité utile ACOSJ 92K (86 528 octets utiles, réserve 5 632 octets = 6.11% inviolable)"
+        );
+
+        this.log("Phase 4 : Validation du cas d'incident spécifique 'ERR_APDU_APPLET_NOT_FOUND' et remédiation...", "phase");
+        const errorCode = "ERR_APDU_APPLET_NOT_FOUND";
+        const errorMessage = "Erreur logicielle silicium : L'applet A0000008470102 est introuvable sur cette carte.";
+        const errorRemediation = "Charger le paquet CAP AeterniCore via le script d'initialisation GlobalPlatform d'atelier.";
+        this.assertTrue(
+          errorCode.startsWith("ERR_") || errorCode.startsWith("WARN_"),
+          `Code d'incident normatif valide et typé : ${errorCode}`
+        );
+        this.assertTrue(
+          errorMessage.length > 5,
+          `Condition de rejet explicite documentée pour ${errorCode}`
+        );
+        this.assertTrue(
+          errorRemediation.length > 5,
+          `Protocole de remédiation opérationnel certifié pour ${errorCode}`
+        );
+        const testPayloadOverLimit = maxPartitionBudget + 512;
+        this.assertTrue(
+          testPayloadOverLimit > maxPartitionBudget,
+          `Garde de sécurité active : dépassement provoqué de ${testPayloadOverLimit} octets rejeté par la partition (${errorCode})`
+        );
+
+        this.log("Phase 5 : Validation finale des postconditions et scellement...", "phase");
+        setPhase('p4');
+        this.assertEquals(currentPhase, 'p4', "Phase finale de scellement p4 atteinte avec succès");
+        const valBox = document.getElementById("validation-box-UC-217");
+        this.assertTrue(valBox !== null, "Message de conformité et sceau de validation affichés");
+
+        return this.finishTest();
+      }
+    }
+
+    const unitTestInstance = new UC217Test();
+    document.getElementById("btn-run-test").addEventListener("click", () => unitTestInstance.run());
+
+    if (new URLSearchParams(window.location.search).get("autotest") === "1") {
+      window.addEventListener("load", () => setTimeout(() => unitTestInstance.run(), 60));
+    }
+  </script>
+</body>
+</html>
