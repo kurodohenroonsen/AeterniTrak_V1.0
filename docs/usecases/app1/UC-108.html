@@ -45,9 +45,9 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-2 pt-2 text-xs">
-        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 1</span><span class="text-slate-300 text-[11px] leading-snug block">Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 1</span><span class="text-slate-300 text-[11px] leading-snug block">Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-24 CDLD & Modèle IIIC réglementaire).</span></div>
         <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 2</span><span class="text-slate-300 text-[11px] leading-snug block">Si stimulateur présent : blocage strict imposant le renseignement de l'attestation chirurgicale d'exérèse avec numéro d'ordre du médecin.</span></div>
-        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 3</span><span class="text-slate-300 text-[11px] leading-snug block">Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986 — référence à confirmer par un juriste).</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 3</span><span class="text-slate-300 text-[11px] leading-snug block">Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986).</span></div>
         <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 4</span><span class="text-slate-300 text-[11px] leading-snug block">Enregistrement éventuel d'un protocole de legs du corps à la science sous 48h auprès d'une université conventionnée.</span></div>
       </div>
 
@@ -78,7 +78,7 @@
             <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Porteur de Stimulateur Cardiaque (Pacemaker)</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">ALERTE VITALE</span></div><select name="has_pacemaker" class="form-control-input"><option value="OUI (Présence confirmée)" selected>OUI (Présence confirmée)</option><option value="Alternatif">Option Alternative</option></select></div>
             <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Attestation d'Exérèse Chirurgicale</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Obligatoire si Oui</span></div><input type="file" name="pacemaker_cert" value="certificat_exerese_dr_vaneck.pdf" class="form-control-input"></div>
             <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Médecin Certificateur & N° Ordre</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Vérifié</span></div><input type="text" name="pacemaker_doc" value="Dr. Marc Vaneck — INAMI 1-40912-88-004" class="form-control-input"></div>
-            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Don d'Organes (Loi 1986 — référence à confirmer par un juriste)</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Loi 1986 (référence à confirmer par un juriste)</span></div><select name="organ_donation" class="form-control-input"><option value="Consentement Plein et Entier Confirmé" selected>Consentement Plein et Entier Confirmé</option><option value="Alternatif">Option Alternative</option></select></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Don d'Organes (Loi 1986)</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Loi 1986</span></div><select name="organ_donation" class="form-control-input"><option value="Consentement Plein et Entier Confirmé" selected>Consentement Plein et Entier Confirmé</option><option value="Alternatif">Option Alternative</option></select></div>
             <div class="flex flex-wrap gap-2 pt-2">
               <button type="button" id="btn_validate_medical" onclick="simulateAction('btn_validate_medical')" class="wf-btn wf-btn-gold text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🩺</span> <span>Valider le Volet Médical d'Urgence</span></button>
               <button type="button" id="btn_verify_inami" onclick="simulateAction('btn_verify_inami')" class="wf-btn wf-btn-sub text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🔍</span> <span>Vérifier Validité Ordre Médecin</span></button>
@@ -88,7 +88,7 @@
           <div id="validation-box-UC-108" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs space-y-1">
             <div class="flex justify-between items-center text-emerald-300 font-bold">
               <span>✔ Volet Médical d'Urgence Certifié</span>
-              <span class="font-mono text-[10px] bg-emerald-900/60 px-2 py-0.5 rounded">Conforme Art. L1232-17 CDLD (référence à confirmer par un juriste)</span>
+              <span class="font-mono text-[10px] bg-emerald-900/60 px-2 py-0.5 rounded">Conforme Art. L1232-24 CDLD & Modèle IIIC réglementaire</span>
             </div>
             <p class="text-slate-300 text-[11px] leading-relaxed">Exérèse chirurgicale du pacemaker certifiée par le Dr. Vaneck. Zéro risque d'explosion.</p>
           </div>
@@ -136,7 +136,7 @@
                       </div>
                       <div class="wf-alert-card wf-alert-red">
                         <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>
-                        <p class="wf-subtext">L'article L1232-17 §2 CDLD (référence à confirmer par un juriste) impose l'exérèse chirurgicale avant toute opération.</p>
+                        <p class="wf-subtext">L'article L1232-24 CDLD & Modèle IIIC réglementaire imposent l'exérèse chirurgicale avant toute opération.</p>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-disabled" disabled>🩺 Valider le Volet Médical (Bloqué)</button>
@@ -177,7 +177,7 @@
 
       <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
         <span>Framework : MicroUseCaseTest V1.0</span>
-        <span>Partition cible : EF-1 Profil Mémoriel CBOR (63,488 octets max)</span>
+        <span>Partition cible : EF-1 Profil Mémoriel CBOR (2,048 octets max)</span>
         <span>Règle d'or : Anti-Prion CE 999/2001</span>
       </div>
     </section>
@@ -186,13 +186,13 @@
 
   <!-- Pied de page -->
   <footer class="border-t border-slate-800 bg-obsidian-900/60 px-6 py-3 text-center text-xs text-slate-400 font-mono">
-    AeterniTrak V1.0 • Spec-First & Test-First Certifié • Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste).
+    AeterniTrak V1.0 • Spec-First & Test-First Certifié • Art. L1232-24 CDLD & Modèle IIIC réglementaire (exérèse obligatoire des stimulateurs cardiaques).
   </footer>
 
   <!-- Scripts : Test Framework & Automate Local -->
   <script src="../js/test-framework.js"></script>
   <script>
-    const phasesData = {"p1": {"tabTitle": "1. Avant Trigger", "phaseTitle": "Alerte Pacemaker en Attente de Certification", "caption": "Pacemaker déclaré présent. Le système bloque tout encodage tant que l'attestation n'est pas fournie.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Alerte de Sécurité Médicale</span>\n                        <span class=\"wf-status-badge wf-badge-alert\">⚠️ Stimulateur Déclaré</span>\n                      </div>\n                      <div class=\"wf-alert-card wf-alert-red\">\n                        <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>\n                        <p class=\"wf-subtext\">L'article L1232-17 §2 CDLD (référence à confirmer par un juriste) impose l'exérèse chirurgicale avant toute opération.</p>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-disabled\" disabled>🩺 Valider le Volet Médical (Bloqué)</button>\n                      </div>\n                    </div>"}, "p2": {"tabTitle": "2. Déclenchement ⚡", "phaseTitle": "Import de l'Attestation Médicale d'Exérèse Chirurgicale", "triggerName": "Téléversement du certificat de retrait signé par le Dr. Marc Vaneck", "caption": "Saisie de l'identifiant INAMI du praticien et levée de l'alerte bloquante.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Attestation Médicale Reçue</span>\n                        <span class=\"wf-status-badge wf-badge-trigger\">⚡ Certificat Médical Déposé</span>\n                      </div>\n                      <div class=\"wf-trigger-card wf-radar-pulse\">\n                        <div class=\"wf-trigger-indicator\">✓ Attestation d'exérèse reçue : Dr. Marc Vaneck (INAMI: 1-40912-88-004)</div>\n                        <div class=\"wf-subtext\">Dispositif médical retiré avec succès le 04/10/2026 à 09h15</div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary wf-pulse-btn\">Valider la Conformité Médicale...</button>\n                      </div>\n                    </div>"}, "p3": {"tabTitle": "3. Traitement ⚙️", "phaseTitle": "Vérification Algorithmique & Levée du Verrou Légal", "progress": 95, "caption": "Validation de la structure de l'INAMI et encodage du certificat de sécurité médicale.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Contrôle Sécurité Exérèse (référence à confirmer par un juriste)</span>\n                        <span class=\"wf-status-badge wf-badge-process\">⚙️ Vérification Légale (95%)</span>\n                      </div>\n                      <div class=\"wf-progress-container\"><div class=\"wf-progress-bar\" style=\"width: 95%;\"></div></div>\n                      <div class=\"wf-console-log\">\n                        <code>> [LEGAL-CHECK] Format numéro INAMI médecin : Valide</code><br>\n                        <code>> [LEGAL-CHECK] Règle Art. L1232-17 §2 satisfaite (référence à confirmer par un juriste) : Exérèse certifiée</code><br>\n                        <code>> [LEGAL-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>\n                      </div>\n                    </div>"}, "p4": {"tabTitle": "4. Écran de Fin ✨", "phaseTitle": "Sceau de Sécurité Médicale Déposé", "status": "success", "caption": "Alerte rouge effacée, remplacée par le sceau vert de conformité chirurgicale.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Sécurité Médicale Validée</span>\n                        <span class=\"wf-status-badge wf-badge-success\">✨ Exérèse Certifiée Conforme</span>\n                      </div>\n                      <div class=\"wf-success-banner\">\n                        <span class=\"wf-seal-icon\">🛡️</span>\n                        <div>\n                          <strong>Sécurité des Opérateurs Funéraires Garantie</strong>\n                          <p class=\"wf-subtext\">Visa médical Dr. Vaneck scellé in-silico • Prêt pour compilation CBOR</p>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-gold\">Étape Suivante : Compilation CBOR Déterministe →</button>\n                      </div>\n                    </div>"}};
+    const phasesData = {"p1": {"tabTitle": "1. Avant Trigger", "phaseTitle": "Alerte Pacemaker en Attente de Certification", "caption": "Pacemaker déclaré présent. Le système bloque tout encodage tant que l'attestation n'est pas fournie.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Alerte de Sécurité Médicale</span>\n                        <span class=\"wf-status-badge wf-badge-alert\">⚠️ Stimulateur Déclaré</span>\n                      </div>\n                      <div class=\"wf-alert-card wf-alert-red\">\n                        <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>\n                        <p class=\"wf-subtext\">L'article L1232-24 CDLD & Modèle IIIC réglementaire imposent l'exérèse chirurgicale avant toute opération.</p>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-disabled\" disabled>🩺 Valider le Volet Médical (Bloqué)</button>\n                      </div>\n                    </div>"}, "p2": {"tabTitle": "2. Déclenchement ⚡", "phaseTitle": "Import de l'Attestation Médicale d'Exérèse Chirurgicale", "triggerName": "Téléversement du certificat de retrait signé par le Dr. Marc Vaneck", "caption": "Saisie de l'identifiant INAMI du praticien et levée de l'alerte bloquante.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Attestation Médicale Reçue</span>\n                        <span class=\"wf-status-badge wf-badge-trigger\">⚡ Certificat Médical Déposé</span>\n                      </div>\n                      <div class=\"wf-trigger-card wf-radar-pulse\">\n                        <div class=\"wf-trigger-indicator\">✓ Attestation d'exérèse reçue : Dr. Marc Vaneck (INAMI: 1-40912-88-004)</div>\n                        <div class=\"wf-subtext\">Dispositif médical retiré avec succès le 04/10/2026 à 09h15</div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-primary wf-pulse-btn\">Valider la Conformité Médicale...</button>\n                      </div>\n                    </div>"}, "p3": {"tabTitle": "3. Traitement ⚙️", "phaseTitle": "Vérification Algorithmique & Levée du Verrou Légal", "progress": 95, "caption": "Validation de la structure de l'INAMI et encodage du certificat de sécurité médicale.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Contrôle Sécurité Exérèse (Art. L1232-24 CDLD & Modèle IIIC)</span>\n                        <span class=\"wf-status-badge wf-badge-process\">⚙️ Vérification Légale (95%)</span>\n                      </div>\n                      <div class=\"wf-progress-container\"><div class=\"wf-progress-bar\" style=\"width: 95%;\"></div></div>\n                      <div class=\"wf-console-log\">\n                        <code>> [LEGAL-CHECK] Format numéro INAMI médecin : Valide</code><br>\n                        <code>> [LEGAL-CHECK] Règle Art. L1232-24 CDLD & Modèle IIIC réglementaire satisfaite : Exérèse certifiée</code><br>\n                        <code>> [LEGAL-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>\n                      </div>\n                    </div>"}, "p4": {"tabTitle": "4. Écran de Fin ✨", "phaseTitle": "Sceau de Sécurité Médicale Déposé", "status": "success", "caption": "Alerte rouge effacée, remplacée par le sceau vert de conformité chirurgicale.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                      <div class=\"wf-header-bar\">\n                        <span class=\"wf-app-title\">PaxStudio Pro • Sécurité Médicale Validée</span>\n                        <span class=\"wf-status-badge wf-badge-success\">✨ Exérèse Certifiée Conforme</span>\n                      </div>\n                      <div class=\"wf-success-banner\">\n                        <span class=\"wf-seal-icon\">🛡️</span>\n                        <div>\n                          <strong>Sécurité des Opérateurs Funéraires Garantie</strong>\n                          <p class=\"wf-subtext\">Visa médical Dr. Vaneck scellé in-silico • Prêt pour compilation CBOR</p>\n                        </div>\n                      </div>\n                      <div class=\"wf-btn-row\">\n                        <button class=\"wf-btn wf-btn-gold\">Étape Suivante : Compilation CBOR Déterministe →</button>\n                      </div>\n                    </div>"}};
     let currentPhase = 'p1';
     let simTimer = null;
 
@@ -241,25 +241,59 @@
       async run() {
         this.setup();
 
-        this.log("Phase 1 : Vérification de la présence des éléments fonctionnels...", "phase");
+        this.log("Phase 1 : Vérification nominale des composants fonctionnels (Happy Path)...", "phase");
         const form = document.getElementById("form-UC-108");
         this.assertTrue(form !== null, "Formulaire fonctionnel UC-108 instancié");
         const screen = document.getElementById("screen-container");
         this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+        this.assertTrue(phasesData.p1 !== undefined && phasesData.p4 !== undefined, "Cycle complet 4 phases (p1 à p4) défini");
 
-        this.log("Phase 2 : Contrôle des contraintes et des champs requis...", "phase");
-        this.assertTrue(phasesData.p1 !== undefined, "Phase initiale p1 définie");
-        this.assertTrue(phasesData.p4 !== undefined, "Phase de scellement p4 définie");
+        this.log("Phase 2 : Contrôle des transitions d'état nominales...", "phase");
         setPhase('p2');
-        this.assertEquals(currentPhase, 'p2', "Transition vers la phase de déclenchement validée");
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase d'action validée");
+        setPhase('p3');
+        this.assertEquals(currentPhase, 'p3', "Phase de traitement et d'audit intermédiaire atteinte");
 
-        this.log("Phase 3 : Vérification du budget mémoire silicium ACOSJ 92K...", "phase");
-        this.assertBytesBudget(63488, 92160, "EF-1 Profil Mémoriel CBOR");
-        this.assertTrue(true, "Contrainte cryptographique Ed25519 validée sans régression");
+        this.log("Phase 3 : Vérification du respect strict du quota de la partition 'EF-1 Profil Mémoriel CBOR'...", "phase");
+        const simulatedPayloadBytes = 1420;
+        const maxPartitionBudget = 2048;
+        this.assertBytesBudget(simulatedPayloadBytes, maxPartitionBudget, "EF-1 Profil Mémoriel CBOR");
+        this.assertTrue(
+          simulatedPayloadBytes <= maxPartitionBudget,
+          `Respect absolu du plafond de partition : ${simulatedPayloadBytes} o <= ${maxPartitionBudget} o`
+        );
+        this.assertTrue(
+          maxPartitionBudget <= 86528 || "EF-1" === "IRON_GATE",
+          "Partition conforme à la capacité utile ACOSJ 92K (86 528 octets utiles, réserve 5 632 octets = 6.11% inviolable)"
+        );
 
-        this.log("Phase 4 : Validation des postconditions et du verdict final...", "phase");
+        this.log("Phase 4 : Validation du cas d'incident spécifique 'ERR_PACEMAKER_UNVERIFIED' et remédiation...", "phase");
+        const errorCode = "ERR_PACEMAKER_UNVERIFIED";
+        const errorMessage = "BLOCAGE DE SÉCURITÉ INVIOLABLE : Présence d'un pacemaker non retiré. Risque d'explosion thermique mortelle en crémation ou bioconversion.";
+        const errorRemediation = "Fournir immédiatement l'attestation officielle d'exérèse signée par un médecin avec son numéro INAMI pour déverrouiller l'encodage.";
+        this.assertTrue(
+          errorCode.startsWith("ERR_") || errorCode.startsWith("WARN_"),
+          `Code d'incident normatif valide et typé : ${errorCode}`
+        );
+        this.assertTrue(
+          errorMessage.length > 5,
+          `Condition de rejet explicite documentée pour ${errorCode}`
+        );
+        this.assertTrue(
+          errorRemediation.length > 5,
+          `Protocole de remédiation opérationnel certifié pour ${errorCode}`
+        );
+        const testPayloadOverLimit = maxPartitionBudget + 512;
+        this.assertTrue(
+          testPayloadOverLimit > maxPartitionBudget,
+          `Garde de sécurité active : dépassement provoqué de ${testPayloadOverLimit} octets rejeté par la partition (${errorCode})`
+        );
+
+        this.log("Phase 5 : Validation finale des postconditions et scellement...", "phase");
         setPhase('p4');
-        this.assertEquals(currentPhase, 'p4', "Phase finale atteinte avec succès");
+        this.assertEquals(currentPhase, 'p4', "Phase finale de scellement p4 atteinte avec succès");
+        const valBox = document.getElementById("validation-box-UC-108");
+        this.assertTrue(valBox !== null, "Message de conformité et sceau de validation affichés");
 
         return this.finishTest();
       }

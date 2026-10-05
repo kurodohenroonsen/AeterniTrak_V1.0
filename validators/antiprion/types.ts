@@ -58,6 +58,7 @@ export interface TreatmentInput {
   core_temp_c?: unknown;
   pressure_bar?: unknown;
   minutes?: unknown;
+  particle_size_mm?: unknown;
   evidence_sha256?: unknown;
   [key: string]: unknown;
 }
@@ -65,6 +66,7 @@ export interface TreatmentInput {
 export interface PasteurisationInput {
   core_temp_c?: unknown;
   minutes?: unknown;
+  particle_size_mm?: unknown;
   evidence_sha256?: unknown;
   [key: string]: unknown;
 }

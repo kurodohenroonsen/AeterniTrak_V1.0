@@ -928,7 +928,7 @@ APP3_USECASES = [
     },
     {
         "id": "UC-308",
-        "title": "Fiche d'Urgence Médicale Interactive & Alerte Pacemaker (référence à confirmer par un juriste)",
+        "title": "Fiche d'Urgence Médicale Interactive & Alerte Pacemaker (Art. L1232-24 CDLD & Modèle IIIC réglementaire)",
         "cat": "Directives Médicales & Sécurité",
         "actor": "Secouristes, Urgentistes, Pompes Funèbres & Médecin Légiste",
         "platforms": ["Natif (iOS & Android)", "Web Standard (PWA Hors-Ligne)"],
@@ -937,12 +937,12 @@ APP3_USECASES = [
         "flow": [
             "Scan NFC immédiat de la Carte Directives civile & médicale sans aucun identifiant ni mot de passe (zéro login d'urgence pour secouristes).",
             "Ouverture instantanée de la Fiche d'Urgence Médicale Interactive sur le terminal mobile des secouristes ou urgentistes.",
-            "Alerte immédiate exérèse stimulateur cardiaque / pacemaker : affichage rouge vif du danger d'explosion thermique (> 250°C), attestation chirurgicale d'exérèse (Dr. Marc Vaneck) avec rappel de l'Art. L1232-17 §2 CDLD (référence à confirmer par un juriste).",
-            "Affichage direct du statut de consentement ou refus du don d'organes (cadre légal du consentement présumé de la loi de 1986 — référence à confirmer par un juriste).",
+            "Alerte immédiate exérèse stimulateur cardiaque / pacemaker : affichage rouge vif du danger d'explosion thermique (> 250°C), attestation chirurgicale d'exérèse (Dr. Marc Vaneck) avec rappel de l'Art. L1232-24 CDLD & Modèle IIIC réglementaire.",
+            "Affichage direct du statut de consentement ou refus du don d'organes (cadre légal du consentement présumé de la loi de 1986).",
             "Mise à disposition immédiate de boutons d'appel d'urgence (SAMU 112, médecin certificateur) et des consignes post-mortem d'urgence (maintien chambre froide 4°C, délai d'exérèse < 24h, interdiction formelle de crémation sans visa)."
         ],
         "postconditions": "Fiche d'urgence médicale consultée, alerte d'exérèse pacemaker levée ou confirmée, protocole de don d'organes engagé et sécurité des intervenants garantie.",
-        "legal": "Article L1232-17 §2 du CDLD wallon (exérèse obligatoire des stimulateurs cardiaques) et loi belge sur le don d'organes de 1986 (références à confirmer par un juriste).",
+        "legal": "Art. L1232-24 CDLD & Modèle IIIC réglementaire (exérèse obligatoire des stimulateurs cardiaques) et loi belge sur le don d'organes de 1986.",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "mobile",
@@ -951,7 +951,7 @@ APP3_USECASES = [
                 {"label": "Déclencheur d'Urgence", "name": "emergency_trigger", "type": "text", "value": "Scan Immédiat Carte Directives (NFC Tap Zéro-Login Secouriste)", "placeholder": "Déclencheur", "badge": "Priorité Vitale", "required": False},
                 {"label": "Alerte Stimulateur (Pacemaker / DAE)", "name": "pacemaker_alert", "type": "text", "value": "PRÉSENCE CONFIRMÉE — Risque Explosion Thermique (> 250°C)", "placeholder": "Implant", "badge": "ALERTE ROUGE", "required": True},
                 {"label": "Statut Exérèse Chirurgicale", "name": "removal_cert", "type": "text", "value": "CERTIFIÉ RETIRÉ (Dr. Marc Vaneck — INAMI 1-40912-88-004)", "placeholder": "Exérèse", "badge": "Exérèse Conforme", "required": True},
-                {"label": "Directives Don d'Organes (Loi 1986)", "name": "organ_donation", "type": "select", "value": "Consentement Plein et Entier Confirmé (référence à confirmer par un juriste)", "placeholder": "Don organes", "badge": "Loi 1986 (réserve)", "required": True},
+                {"label": "Directives Don d'Organes (Loi 1986)", "name": "organ_donation", "type": "select", "value": "Consentement Plein et Entier Confirmé", "placeholder": "Don organes", "badge": "Loi 1986", "required": True},
                 {"label": "Appels d'Urgence Rapides", "name": "emergency_contacts", "type": "text", "value": "SAMU 112 • Dr. Marc Vaneck (+32 81 22 33 44)", "placeholder": "Contacts", "badge": "Liaison Directe", "required": False},
                 {"label": "Consignes Post-Mortem d'Urgence", "name": "post_mortem_instructions", "type": "text", "value": "Chambre froide 4°C • Délai légal exérèse < 24h • Interdiction crémation sans visa", "placeholder": "Consignes", "badge": "Consignes Pro", "required": False}
             ],
@@ -970,7 +970,7 @@ APP3_USECASES = [
                 "code": "ERR_PACEMAKER_NOT_REMOVED_CRITICAL",
                 "title": "Alerte Rouge : Pacemaker Présent Non Retiré",
                 "condition": "Défunt porteur d'un stimulateur sans certificat médical d'exérèse renseigné.",
-                "message": "DANGER DE MORT / EXPLOSION : Pacemaker actif non retiré. Manipulation, transport thermique et crémation formellement interdits (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).",
+                "message": "DANGER DE MORT / EXPLOSION : Pacemaker actif non retiré. Manipulation, transport thermique et crémation formellement interdits (Art. L1232-24 CDLD & Modèle IIIC réglementaire).",
                 "remediation": "Interdire immédiatement toute opération thermique. Contacter le médecin requis pour exérèse chirurgicale d'urgence."
             },
             "phases": {
@@ -1018,7 +1018,7 @@ APP3_USECASES = [
                     "tabTitle": "3. Traitement ⚙️",
                     "phaseTitle": "Contrôle Visa Exérèse & Directives Don d'Organes (< 150 ms)",
                     "progress": 98,
-                    "caption": "Vérification in-silico du certificat d'exérèse du Dr. Vaneck et du consentement don d'organes (Loi 1986 — référence à confirmer par un juriste).",
+                    "caption": "Vérification in-silico du certificat d'exérèse du Dr. Vaneck et du consentement don d'organes (Loi 1986).",
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
@@ -1030,7 +1030,7 @@ APP3_USECASES = [
                         <code>> [NFC-FAST] Directive Card AID A00000084501 détectée en 42ms</code><br>
                         <code>> [PACEMAKER-ALERT] Stimulateur actif identifié • Recherche visa chirurgical...</code><br>
                         <code>> [VISA-CHECK] Attestation Dr. Marc Vaneck INAMI 1-40912-88-004 : EXÉRÈSE VALIDÉE</code><br>
-                        <code>> [ORGAN-DONATION] Position lue : Consentement confirmé (Loi 1986 — référence à confirmer par un juriste)</code><br>
+                        <code>> [ORGAN-DONATION] Position lue : Consentement confirmé (Loi 1986)</code><br>
                         <code>> [SAFETY-CLEAR] Feu vert opérationnel accordé aux secouristes et opérateurs</code>
                       </div>
                     </div>"""
@@ -1050,7 +1050,7 @@ APP3_USECASES = [
                         <span class="wf-seal-icon">🩺</span>
                         <div>
                           <strong>Exérèse Chirurgicale Conforme (Dr. Marc Vaneck)</strong>
-                          <p class="wf-subtext">Art. L1232-17 §2 CDLD (référence à confirmer par un juriste) • Don d'organes : Consentement validé (Loi 1986)</p>
+                          <p class="wf-subtext">Art. L1232-24 CDLD & Modèle IIIC réglementaire • Don d'organes : Consentement validé (Loi 1986)</p>
                         </div>
                       </div>
                       <div class="wf-content-grid">
@@ -1587,5 +1587,734 @@ APP3_USECASES = [
                 }
             }
         }
+    },
+    {
+        "id": "UC-313",
+        "title": "Panne Audio / Perte de Périphérique & Mode Sanctuaire Silencieux Visuel",
+        "cat": "Expérience Émotionnelle & Résilience",
+        "actor": "Famille & Proches en Recueillement",
+        "platforms": ["Natif (iOS & Android)", "Web Standard (PWA Hors-Ligne)"],
+        "tags": [
+    "SanctuaireSilencieux",
+    "WebAudio",
+    "Accessibilite",
+    "VisualWave",
+    "OpusSILK",
+    "EF-3"
+],
+        "preconditions": "La famille consulte la carte Sanctuaire sur un smartphone dont la sortie audio est muette, en panne ou en mode silencieux strict.",
+        "flow": [
+            "L'utilisateur effleure la carte Sanctuaire pour lancer l'hommage sonore d'EF-3.",
+            "Le composant WebAudio tente d'ouvrir le flux de restitution : détection d'une suspension du sous-système audio ou absence de sortie.",
+            "Bascule instantanée, fluide et solennelle vers le 'Mode Sanctuaire Silencieux Visuel' sans message d'erreur alarmant.",
+            "Déploiement d'une animation d'ondes dorées synchronisées avec la modulation de la voix et affichage textuel de la transcription.",
+            "Maintien de l'émotion et du recueillement avec proposition discrète de réactiver le son dès reconnexion d'un périphérique."
+        ],
+        "postconditions": "L'hommage mémoriel se déroule dans la sérénité et le recueillement, même sans canal audio actif.",
+        "legal": "Directives d'accessibilité numérique W3C WCAG 2.1 (critère 1.2 médias temporels) & Charte Sanctuaire Mémoriel.",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "mobile",
+            "deviceLabel": "Sanctuaire Mobile • Mode Recueillement Silencieux Visuel (Partition EF-3)",
+            "formFields": [
+                {
+                    "label": "Périphérique de Sortie Audio",
+                    "name": "audio_device_status",
+                    "type": "text",
+                    "value": "Indisponible / Mode Silencieux Détecté",
+                    "badge": "Silencieux",
+                    "required": False
+                },
+                {
+                    "label": "Mode Visuel Actif",
+                    "name": "visual_sanctuary_mode",
+                    "type": "text",
+                    "value": "Ondes Harmoniques Dorées + Transcription Hommage",
+                    "badge": "Sérénité",
+                    "required": False
+                },
+                {
+                    "label": "Transcription Textuelle EF-3",
+                    "name": "voice_transcript",
+                    "type": "textarea",
+                    "value": "« Souvenez-vous des jours heureux passés ensemble sous le grand chêne... Mon amour veille sur vous. »",
+                    "badge": "Transcription",
+                    "required": False
+                },
+                {
+                    "label": "Ducking & Ambiance",
+                    "name": "ambiance_status",
+                    "type": "text",
+                    "value": "Transition douce vers silence apaisé (0 dB)",
+                    "badge": "WebAudio",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_activate_visual_mode",
+                    "label": "Basculer en Mode Sanctuaire Silencieux Visuel",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "🕊️"
+                },
+                {
+                    "id": "btn_retry_audio",
+                    "label": "Réessayer la Sortie Audio",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "🔊"
+                }
+            ],
+            "validationMsg": {
+                "title": "Mode Sanctuaire Silencieux Visuel Engagé avec Succès",
+                "badge": "Sanctuaire Visuel Actif",
+                "detail": "Expérience mémorielle préservée. Transcription synchronisée et ondes de recueillement dorées actives."
+            },
+            "errorCase": {
+                "code": "ERR_AUDIO_OUTPUT_UNAVAILABLE",
+                "title": "Sortie Audio Inaccessible ou Système Muet",
+                "condition": "Absence de périphérique audio disponible ou blocage de la lecture automatique par la politique du navigateur.",
+                "message": "Périphérique audio indisponible : bascule automatique vers le recueillement visuel respectueux.",
+                "remediation": "Vérifier le commutateur silencieux du smartphone ou brancher des écouteurs pour écouter la voix originale."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Détection d'une Sortie Audio Muette",
+                    "caption": "Le smartphone est en mode silencieux lors de l'effleurement NFC de la carte Sanctuaire.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Recueillement Mobile</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Audio Silencieux</span>
+                                          </div>
+                                          <div class="wf-device-status-box">
+                                            <span class="wf-qa-icon">🕊️</span>
+                                            <div><strong>Sortie Audio Système Non Détectée</strong></div>
+                                            <div class="wf-subtext">Activation possible du mode sanctuaire silencieux pour un recueillement visuel</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🕊️ Basculer en Mode Sanctuaire Silencieux Visuel</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Déploiement des Ondes Harmoniques Dorées",
+                    "triggerName": "Clic sur 'Basculer en Mode Sanctuaire Silencieux'",
+                    "caption": "Génération de l'animation d'ondes douces synchronisée sur le spectre de la voix mémorisée.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Méditation Visuelle</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Onde Visuelle Active</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Ondes dorées satinées calquées sur le signal vocal EF-3</div>
+                                            <div class="wf-subtext">Affichage de la transcription textuelle avec typographie mémorielle solennelle</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Recueillement en cours...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Diffusion du Message & Veilleuse Lumineuse",
+                    "progress": 96,
+                    "caption": "Le texte défile doucement accompagné d'une flamme mémorielle numérique.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Lecture Silencieuse</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Hommage Actif (96%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [AUDIO-FALLBACK] Sortie sonore mutée -> Bascule sans accroc validée</code><br>
+                                            <code>> [TRANSCRIPT] Ligne 1/3 : « Souvenez-vous des jours heureux... »</code><br>
+                                            <code>> [VISUAL-FLAME] Veilleuse mémorielle allumée en mémoire d'Henri</code><br>
+                                            <code>> [WCAG-2.1] Critère d'accessibilité universelle 100% respecté</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Recueillement Achevé dans la Dignité",
+                    "status": "success",
+                    "caption": "L'hommage s'est déroulé dans la sérénité. La famille a vécu un moment de communion intact.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Sérénité Préservée</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Hommage Transmis</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🕯️</span>
+                                            <div>
+                                              <strong>Communion Mémorielle Respectée</strong>
+                                              <p class="wf-subtext">La voix d'Henri a été transmise par les mots et la lumière • Dignité absolue</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Signer le Livre d'Or Virtuel →</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-314",
+        "title": "Lecture de Secours par QR Code Micro-Gravé sur Carte Endommagée",
+        "cat": "Résilience Mémorielle & Secours",
+        "actor": "Proches du Défunt & Conseiller Funéraire",
+        "platforms": ["Natif (iOS & Android)", "Web Standard (PWA Hors-Ligne)"],
+        "tags": [
+    "QRCode",
+    "Secours",
+    "AntenneNFCBrisée",
+    "OfflineFallback",
+    "CBOR",
+    "EF-1"
+],
+        "preconditions": "La carte physique a subi une violente torsion ou un choc mécanique ayant fracturé l'antenne NFC interne.",
+        "flow": [
+            "L'utilisateur pose son smartphone sur la carte : aucun contact RF n'est établi après plusieurs essais.",
+            "L'application Sanctuaire propose automatiquement l'option 'Relecture de Secours par Capteur Optique'.",
+            "La caméra du smartphone capture le micro QR Code haute densité gravé au laser au verso de la carte.",
+            "Décodage instantané du flux binaire compressé CBOR contenant l'identité civile, l'épitaphe et l'empreinte de signature.",
+            "Reconstitution intégrale du profil mémoriel et vérification de la signature cryptographique en mémoire locale."
+        ],
+        "postconditions": "La mémoire du défunt est restituée avec intégrité malgré la destruction matérielle de la liaison radio NFC.",
+        "legal": "Norme ISO/IEC 18004 (code à barres matriciel QR Code haute densité) & Principe de résilience mémorielle séculaire.",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "mobile",
+            "deviceLabel": "Sanctuaire Mobile • Scanner de Secours QR Code Haute Densité (EF-1)",
+            "formFields": [
+                {
+                    "label": "Signal Radio NFC",
+                    "name": "nfc_rf_status",
+                    "type": "text",
+                    "value": "ZÉRO SIGNAL DÉTECTÉ (Antenne fracturée)",
+                    "badge": "Panne RF",
+                    "required": False
+                },
+                {
+                    "label": "Méthode de Repli",
+                    "name": "fallback_method",
+                    "type": "select",
+                    "value": "Micro QR Code Laser Recto/Verso Haute Densité",
+                    "badge": "Secours Optique",
+                    "required": True
+                },
+                {
+                    "label": "Données Décodées CBOR",
+                    "name": "cbor_decoded_summary",
+                    "type": "text",
+                    "value": "Henri Dubois • 1948-2026 • Épitaphe & Directives Intègres",
+                    "badge": "Validé",
+                    "required": False
+                },
+                {
+                    "label": "Vérification Empreinte SHA-256",
+                    "name": "sha256_hash_status",
+                    "type": "text",
+                    "value": "CONCORDANCE PARFAITE avec le sceau d'origine",
+                    "badge": "Intégrité",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_scan_qr_fallback",
+                    "label": "Activer la Caméra & Scanner le QR Code de Secours",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "📷"
+                },
+                {
+                    "id": "btn_manual_aid_input",
+                    "label": "Saisir le Code d'Identité Imprimé",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "⌨️"
+                }
+            ],
+            "validationMsg": {
+                "title": "Profil Mémoriel Restitué par Décodage Optique",
+                "badge": "Secours QR Code Conforme",
+                "detail": "Flux binaire CBOR décodé avec succès. Intégrité et empreinte cryptographique validées à 100%."
+            },
+            "errorCase": {
+                "code": "ERR_NFC_ANTENNA_DAMAGED_QR_FALLBACK",
+                "title": "Antenne Sans Contact Défaillante & Recours au QR Code",
+                "condition": "Absence de réponse APDU ISO 14443-4 sur une carte présentant des fissures physiques.",
+                "message": "Liaison NFC indisponible : L'antenne de la carte est endommagée. Déclenchement de la capture optique de secours.",
+                "remediation": "Présenter le verso de la carte devant l'objectif de la caméra pour lire le micro-code de secours matriciel."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Échec de Détection Radio & Proposition de Secours",
+                    "caption": "Le scan NFC échoue en raison d'une avarie d'antenne. L'application invite à utiliser l'optique.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Diagnostic de Connexion</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Pas de Réponse NFC</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #f59e0b;">
+                                            <span class="wf-qa-icon">⚠️</span>
+                                            <div><strong>Liaison Sans Contact Inopérante</strong></div>
+                                            <div class="wf-subtext">L'antenne semble fracturée • Recours au micro QR Code gravé au verso</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">📷 Scanner le QR Code de Secours</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Visée Optique & Capture Haute Vitesse",
+                    "triggerName": "Clic sur 'Scanner le QR Code de Secours'",
+                    "caption": "Reconnaissance du motif matriciel haute densité et extraction du payload binaire compressé.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Capture Optique</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Scan QR Code Actif</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Micro QR Code détecté au verso : format binaire compressé</div>
+                                            <div class="wf-subtext">Lecture de 840 octets CBOR canonique et signature cryptographique associée</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Décodage du profil en cours...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Décompression CBOR & Contrôle d'Intégrité",
+                    "progress": 94,
+                    "caption": "Validation de l'authenticité des données d'état civil sans nécessiter aucun réseau externe.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Reconstitution CBOR</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Décodage (94%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 94%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [OPTICAL-DECODE] 840 octets extraits du micro QR Code</code><br>
+                                            <code>> [CBOR-PARSER] Profil mémoriel d'Henri Dubois reconstitué</code><br>
+                                            <code>> [SHA256-CHECK] Empreinte du profil validée : 100% conforme</code><br>
+                                            <code>> [RESCUE-ENGINE] Accès complet au Sanctuaire rétabli avec succès</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Sanctuaire Ouvert & Mémoire Accessible",
+                    "status": "success",
+                    "caption": "La mémoire triomphe de la panne matérielle. La famille accède au mémorial sans encombre.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Profil Reconstitué</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Secours Réussi</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🏛️</span>
+                                            <div>
+                                              <strong>Mémoire d'Henri Dubois Préservée</strong>
+                                              <p class="wf-subtext">Lecture optique de secours validée • Les directives et hommages sont accessibles</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Entrer dans le Sanctuaire Mémoriel →</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-315",
+        "title": "Réclamations Contradictoires des Ayants Droit sur l'Arbre du Souvenir (Mise en Réserve Conservatoire)",
+        "cat": "Arbitrage & Volontés Funéraires",
+        "actor": "Ayants Droit & Médiateur / Notaire",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": [
+    "LitigeFamilial",
+    "ArbreDuSouvenir",
+    "ReserveConservatoire",
+    "Sequestre",
+    "EF-4",
+    "Loi1971"
+],
+        "preconditions": "Deux branches d'une famille expriment des volontés divergentes concernant la destination cinéraire ou la gestion du livre d'or.",
+        "flow": [
+            "Notification formelle d'une contestation successorale ou funéraire transmise au service d'arbitrage mémoriel.",
+            "Activation sur l'application Sanctuaire de la procédure de 'Mise en Réserve Conservatoire'.",
+            "Verrouillage immédiat des modifications sur le registre de sépulture et l'amendement de l'Arbre du Souvenir dans EF-4.",
+            "Affichage d'un bandeau neutre et solennel appelant au respect de la mémoire et signalant la médiation notariale en cours.",
+            "Maintien exclusif des fonctions de recueillement contemplatif (photos, textes) sans modification possible des sépultures."
+        ],
+        "postconditions": "Aucune modification unilatérale n'est enregistrée ; le respect de l'ordre public funéraire est garanti.",
+        "legal": "Loi du 20 juillet 1971 sur les funérailles et sépultures & Code civil (règles de dévolution des décisions funéraires).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "Sanctuaire Pro • Module d'Arbitrage & Séquestre Mémoriel (Partition EF-4)",
+            "formFields": [
+                {
+                    "label": "Dossier Mémoriel Concerné",
+                    "name": "case_reference",
+                    "type": "text",
+                    "value": "Dossier #AET-2026-NAM-0491 (Henri Dubois)",
+                    "badge": "Dossier",
+                    "required": False
+                },
+                {
+                    "label": "Statut Juridique d'Affectation",
+                    "name": "legal_reserve_status",
+                    "type": "text",
+                    "value": "MISE EN RÉSERVE CONSERVATOIRE (Litige Ayants Droit)",
+                    "badge": "Séquestre",
+                    "required": False
+                },
+                {
+                    "label": "Arbre du Souvenir Revendiqué",
+                    "name": "disputed_tree",
+                    "type": "text",
+                    "value": "Chêne Séculaire Parcelle DNF #B-12 (Opposition déclarée)",
+                    "badge": "Litige",
+                    "required": False
+                },
+                {
+                    "label": "Mesure Conservatoire Prise",
+                    "name": "protective_measure",
+                    "type": "select",
+                    "value": "Gel des Inscriptions & Maintien Recueillement Neutre",
+                    "badge": "Médiation",
+                    "required": True
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_apply_conservative_hold",
+                    "label": "Activer le Séquestre Conservatoire Mémoriel",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "⚖️"
+                },
+                {
+                    "id": "btn_view_notarial_notice",
+                    "label": "Consulter l'Avis de Médiation Notariale",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "📜"
+                }
+            ],
+            "validationMsg": {
+                "title": "Mise en Réserve Conservatoire Notifiée",
+                "badge": "Séquestre Mémoriel Actif",
+                "detail": "Registre EF-4 verrouillé en modification. Accès maintenu en mode neutre solennel en attente d'arbitrage notarié."
+            },
+            "errorCase": {
+                "code": "ERR_CONTRADICTORY_HEIRS_CLAIM",
+                "title": "Conflit Juridique Entre Ayants Droit sur la Destination des Cendres",
+                "condition": "Opposition formelle déposée par un héritier direct contestant l'affectation de l'Arbre du Souvenir.",
+                "message": "Blocage conservatoire : Des réclamations contradictoires sont enregistrées. Aucune modification du registre n'est autorisée.",
+                "remediation": "Transmettre l'acte de notoriété ou l'accord signé de tous les héritiers au notaire instrumentant pour lever la réserve."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Signalement d'une Contestation Familiale",
+                    "caption": "Deux ayants droit revendiquent des décisions opposées concernant le devenir de l'amendement cinéraire.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Service de Régulation</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Contestation Reçue</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Objet du Litige</label>
+                                              <div class="wf-input-placeholder">Destination des cendres sous l'Arbre du Souvenir DNF</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Parties en Présence</label>
+                                              <div class="wf-input-placeholder">Branche A (Inhumation forêt) vs Branche B (Columbarium)</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">⚖️ Activer le Séquestre Conservatoire Mémoriel</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Application du Gel Conservatoire sur EF-4",
+                    "triggerName": "Clic sur 'Activer le Séquestre Conservatoire'",
+                    "caption": "Verrouillage des transactions sur la partition de sépulture et génération du bandeau d'apaisement.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Gel Juridique</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Séquestre en Cours</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Partition EF-4 placée sous protection conservatoire</div>
+                                            <div class="wf-subtext">Gel des écritures • Interdiction de transfert cinéraire sans ordonnance</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Verrouillage conservatoire actif...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Configuration du Sanctuaire en Mode Neutre Solennel",
+                    "progress": 100,
+                    "caption": "L'interface masque les options contestées et préserve la dignité des hommages visuels.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Mode Neutre Actif</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Protection Active (100%)</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [LEGAL-HOLD] Séquestre conservatoire appliqué à 14:15:30 UTC</code><br>
+                                            <code>> [PARTITION-EF4] Modifications bloquées (lecture seule maintenue)</code><br>
+                                            <code>> [NEUTRAL-BANNER] Bandeau d'apaisement affiché sur les terminaux des proches</code><br>
+                                            <code>> [MEDIATION] Dossier référé à Me Vanhove, notaire instrumentant</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Paix Mémorielle Préservée & Médiation en Cours",
+                    "status": "success",
+                    "caption": "La mémoire du défunt est mise à l'abri des querelles. La décision finale interviendra sereinement.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Sérénité Protégée</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Réserve Établie</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">⚖️</span>
+                                            <div>
+                                              <strong>Sanctuaire Mémoriel sous Protection Conservatoire</strong>
+                                              <p class="wf-subtext">Respect absolu de la mémoire • Résolution sereine confiée à la médiation notariale</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">Accéder à l'Espace de Recueillement Neutre</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-316",
+        "title": "Mode Hors-Ligne Extrême / Zone Blanche sans Réseau en Forêt Mémorielle (WebCrypto Local Ed25519)",
+        "cat": "Sécurité & Résilience Hors-Ligne",
+        "actor": "Famille en Forêt Cinéraire & Garde-Forestier",
+        "platforms": ["Natif (iOS & Android)", "Web Standard (PWA Hors-Ligne)"],
+        "tags": [
+    "ZoneBlanche",
+    "HorsLigneExtreme",
+    "WebCrypto",
+    "Ed25519",
+    "TrustList",
+    "LocalFirst",
+    "EF-5"
+],
+        "preconditions": "La famille se recueille au pied de l'Arbre du Souvenir au fond d'un massif forestier DNF, en zone blanche totale (zéro barre 4G/5G).",
+        "flow": [
+            "Effleurement NFC sans contact de la carte mémorielle par le smartphone en pleine forêt isolée.",
+            "Le service worker de la PWA prend le relais à 100% sans tenter aucune requête HTTP distante.",
+            "Exécution locale de la validation cryptographique COSE_Sign1 via la bibliothèque WebCrypto (SubtleCrypto Ed25519).",
+            "Vérification de l'empreinte de la clé émettrice par rapport à la TrustList souveraine pré-enregistrée en stockage persistant.",
+            "Ouverture instantanée du sanctuaire mémoriel : affichage des portraits, lecture du testament et recueillement en pleine nature."
+        ],
+        "postconditions": "L'intégrité cryptographique et l'authenticité sont démontrées à 100% sans nécessiter un seul bit échangé sur Internet.",
+        "legal": "Décision Kudoro DEC-AET-09 (universalité d'accès sans contact hors-ligne) & Charte de résilience mémorielle séculaire.",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "mobile",
+            "deviceLabel": "Sanctuaire Mobile • Moteur Cryptographique WebCrypto Hors-Ligne (EF-5)",
+            "formFields": [
+                {
+                    "label": "Couverture Réseau Mobile",
+                    "name": "network_status",
+                    "type": "text",
+                    "value": "ZONE BLANCHE TOTALE (0 barre • Aucun réseau)",
+                    "badge": "100% Déconnecté",
+                    "required": False
+                },
+                {
+                    "label": "Moteur Cryptographique",
+                    "name": "crypto_engine",
+                    "type": "text",
+                    "value": "WebCrypto API Locale (SubtleCrypto Ed25519 / ES256)",
+                    "badge": "In-Device",
+                    "required": False
+                },
+                {
+                    "label": "TrustList Souveraine Embarquée",
+                    "name": "embedded_trustlist",
+                    "type": "text",
+                    "value": "TrustList v2.4 (24 clés de confiance Le Pax Funèbre)",
+                    "badge": "Vérifié",
+                    "required": False
+                },
+                {
+                    "label": "Temps de Vérification Locale",
+                    "name": "local_verify_time",
+                    "type": "text",
+                    "value": "18 millisecondes (Calcul mathématique local)",
+                    "badge": "Instantané",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_verify_offline_crypto",
+                    "label": "Vérifier la Signature Ed25519 en Local (WebCrypto)",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "🌲"
+                },
+                {
+                    "id": "btn_open_forest_sanctuary",
+                    "label": "Entrer dans le Sanctuaire Forestier",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "🕊️"
+                }
+            ],
+            "validationMsg": {
+                "title": "Authenticité Cryptographique Vérifiée 100% Hors-Ligne",
+                "badge": "WebCrypto Ed25519 Valide",
+                "detail": "Signature COSE_Sign1 vérifiée en 18 ms via SubtleCrypto local. Chaîne de confiance souveraine validée sans réseau."
+            },
+            "errorCase": {
+                "code": "ERR_OFFLINE_CACHE_UNAVAILABLE",
+                "title": "Cache PWA Absent ou TrustList Non Initialisée Hors-Ligne",
+                "condition": "Premier lancement de l'application effectué en zone blanche sans avoir préalablement mis en cache les assets.",
+                "message": "Erreur d'initialisation : Le cache de l'application est incomplet. Impossible d'exécuter la vérification locale sans les artefacts de base.",
+                "remediation": "Effectuer une première ouverture de l'application en zone connectée pour mettre en cache la TrustList et les modules WebCrypto."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Recueillement en Forêt DNF sans Réseau",
+                    "caption": "La famille est réunie au pied de l'Arbre du Souvenir en zone blanche complète.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Forêt Cinéraire DNF</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Hors-Ligne (0 Barre)</span>
+                                          </div>
+                                          <div class="wf-device-status-box">
+                                            <span class="wf-qa-icon">🌲</span>
+                                            <div><strong>Zone Blanche Forestière Détectée</strong></div>
+                                            <div class="wf-subtext">Activation automatique du moteur de vérification cryptographique 100% local WebCrypto</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🌲 Vérifier la Signature Ed25519 en Local (WebCrypto)</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Calcul Mathématique Local de la Signature Ed25519",
+                    "triggerName": "Clic sur 'Vérifier la Signature Ed25519 en Local'",
+                    "caption": "Exécution de la formule RFC 8032 sur les courbes elliptiques directement dans le processeur du smartphone.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • WebCrypto Local</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Calcul In-Device</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ SubtleCrypto.verify('Ed25519', key, signature, tbs)</div>
+                                            <div class="wf-subtext">Vérification de l'enveloppe EF-5 contre la TrustList stockée dans IndexedDB</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Calcul mathématique en cours...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Authenticité Prouvée & Zéro Dépendance Serveur",
+                    "progress": 100,
+                    "caption": "Preuve mathématique irréfutable de la validité de la carte en 18 millisecondes.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Sceau Cryptographique</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Preuve Établie (100%)</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [OFFLINE-ENGINE] Zéro requête réseau émise • Mode souverain actif</code><br>
+                                            <code>> [CRYPTO-VERIFY] Ed25519 signature VALID : R, S points vérifiés sur Curve25519</code><br>
+                                            <code>> [TRUST-LIST] kid 9a8b7c6d... reconnu (PaxStation Namur)</code><br>
+                                            <code>> [SOUVERAINETÉ] 100% autonome • Consultation garantie pour les 100 prochaines années</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Sanctuaire Mémoriel Ouvert en Pleine Forêt",
+                    "status": "success",
+                    "caption": "Le recueillement s'opère en parfaite harmonie avec la nature, sans fil et sans dépendance.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">Sanctuaire • Forêt Cinéraire</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Recueillement Ouvert</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🍃</span>
+                                            <div>
+                                              <strong>Sanctuaire Mémoriel Actif en Forêt du Souvenir</strong>
+                                              <p class="wf-subtext">Souveraineté cryptographique prouvée hors-ligne • Paix et sérénité sous les arbres</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">🕊️ Écouter le Mémo Vocal sous l'Arbre du Souvenir</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
     }
 ]
+

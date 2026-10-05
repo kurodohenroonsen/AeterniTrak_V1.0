@@ -932,13 +932,13 @@ APP1_USECASES = [
         "tags": ["Pacemaker", "DonOrganes", "LegsCorps", "SecuriteOperateurs"],
         "preconditions": "Accès au volet de sécurité médicale post-mortem dans PaxStudio.",
         "flow": [
-            "Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).",
+            "Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-24 CDLD & Modèle IIIC réglementaire).",
             "Si stimulateur présent : blocage strict imposant le renseignement de l'attestation chirurgicale d'exérèse avec numéro d'ordre du médecin.",
-            "Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986 — référence à confirmer par un juriste).",
+            "Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986).",
             "Enregistrement éventuel d'un protocole de legs du corps à la science sous 48h auprès d'une université conventionnée."
         ],
         "postconditions": "Volet médical post-mortem validé, alerte pacemaker levée uniquement sur certificat médical officiel.",
-        "legal": "Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste).",
+        "legal": "Art. L1232-24 CDLD & Modèle IIIC réglementaire (exérèse obligatoire des stimulateurs cardiaques).",
         "legal_url": "#section-legal",
         "wireframe": {
             "device": "tablet",
@@ -947,7 +947,7 @@ APP1_USECASES = [
                 {"label": "Porteur de Stimulateur Cardiaque (Pacemaker)", "name": "has_pacemaker", "type": "select", "value": "OUI (Présence confirmée)", "placeholder": "Sélectionner", "badge": "ALERTE VITALE", "required": True},
                 {"label": "Attestation d'Exérèse Chirurgicale", "name": "pacemaker_cert", "type": "file", "value": "certificat_exerese_dr_vaneck.pdf", "placeholder": "Téléverser attestation", "badge": "Obligatoire si Oui", "required": True},
                 {"label": "Médecin Certificateur & N° Ordre", "name": "pacemaker_doc", "type": "text", "value": "Dr. Marc Vaneck — INAMI 1-40912-88-004", "placeholder": "Nom et INAMI", "badge": "Vérifié", "required": True},
-                {"label": "Don d'Organes (Loi 1986 — référence à confirmer par un juriste)", "name": "organ_donation", "type": "select", "value": "Consentement Plein et Entier Confirmé", "placeholder": "Statut don", "badge": "Loi 1986 (référence à confirmer par un juriste)", "required": True}
+                {"label": "Don d'Organes (Loi 1986)", "name": "organ_donation", "type": "select", "value": "Consentement Plein et Entier Confirmé", "placeholder": "Statut don", "badge": "Loi 1986", "required": True}
             ],
             "actionButtons": [
                 {"id": "btn_validate_medical", "label": "Valider le Volet Médical d'Urgence", "role": "primary", "state": "idle", "icon": "🩺"},
@@ -955,7 +955,7 @@ APP1_USECASES = [
             ],
             "validationMsg": {
                 "title": "Volet Médical d'Urgence Certifié",
-                "badge": "Conforme Art. L1232-17 CDLD (référence à confirmer par un juriste)",
+                "badge": "Conforme Art. L1232-24 CDLD & Modèle IIIC réglementaire",
                 "detail": "Exérèse chirurgicale du pacemaker certifiée par le Dr. Vaneck. Zéro risque d'explosion."
             },
             "errorCase": {
@@ -978,7 +978,7 @@ APP1_USECASES = [
                       </div>
                       <div class="wf-alert-card wf-alert-red">
                         <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>
-                        <p class="wf-subtext">L'article L1232-17 §2 CDLD (référence à confirmer par un juriste) impose l'exérèse chirurgicale avant toute opération.</p>
+                        <p class="wf-subtext">L'article L1232-24 CDLD & Modèle IIIC réglementaire imposent l'exérèse chirurgicale avant toute opération.</p>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-disabled" disabled>🩺 Valider le Volet Médical (Bloqué)</button>
@@ -1013,13 +1013,13 @@ APP1_USECASES = [
                     "screenHtml": """
                     <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité Exérèse (référence à confirmer par un juriste)</span>
+                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité Exérèse (Art. L1232-24 CDLD & Modèle IIIC)</span>
                         <span class="wf-status-badge wf-badge-process">⚙️ Vérification Légale (95%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [LEGAL-CHECK] Format numéro INAMI médecin : Valide</code><br>
-                        <code>> [LEGAL-CHECK] Règle Art. L1232-17 §2 satisfaite (référence à confirmer par un juriste) : Exérèse certifiée</code><br>
+                        <code>> [LEGAL-CHECK] Règle Art. L1232-24 CDLD & Modèle IIIC réglementaire satisfaite : Exérèse certifiée</code><br>
                         <code>> [LEGAL-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>
                       </div>
                     </div>"""
@@ -1643,5 +1643,750 @@ APP1_USECASES = [
                 }
             }
         }
+    },
+    {
+        "id": "UC-113",
+        "title": "Gestion des Conflits d'État Civil & Noms Complexes UTF-8 (Forme Canonique NFC)",
+        "cat": "Identité Civile & Mémorielle",
+        "actor": "Famille & Conseiller Funéraire",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": [
+    "UTF-8",
+    "NFC",
+    "Normalisation",
+    "Unicode",
+    "CBOR",
+    "RFC8949",
+    "AeterniCore",
+    "EF-1"
+],
+        "preconditions": "Saisie dans PaxStudio d'un patronyme comportant des graphies complexes (ligatures œ/æ, diacritiques, apostrophes typographiques ou alphabet cyrillique/grec).",
+        "flow": [
+            "Saisie des noms, prénoms et mentions honorifiques de la personne défunte par le conseiller funéraire en présence de la famille.",
+            "Interception par le composant AeterniCore : détection de séquences Unicode potentiellement décomposées (NFD) ou caractères ambigus.",
+            "Application automatique de la normalisation Unicode Forme C (NFC - Décomposition canonique suivie de composition canonique selon UAX #15).",
+            "Contrôle de conformité de l'empreinte binaire CBOR canonique selon RFC 8949 §4.2.1 sans ambiguïté de tri lexicographique.",
+            "Validation de l'encodage sous la limite de 2 048 octets allouée à la partition EF-1 et affichage du sceau de conformité textuelle."
+        ],
+        "postconditions": "Toutes les chaînes d'identité sont canonisées en UTF-8 NFC strict et intégrées au profil mémoriel EF-1 sans risque de rupture d'empreinte.",
+        "legal": "Règlement (UE) n° 910/2014 (eIDAS - intégrité des représentations textuelles) & Standard Unicode Annex #15 (Unicode Normalization Forms).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "PaxStudio Pro • Module de Canonisation UTF-8 NFC (Partition EF-1)",
+            "formFields": [
+                {
+                    "label": "Nom Patronymique Saisi",
+                    "name": "raw_name",
+                    "type": "text",
+                    "value": "Éléonore de La Tour-d'Œüvres",
+                    "placeholder": "Nom officiel",
+                    "badge": "Entrée Brute",
+                    "required": True
+                },
+                {
+                    "label": "Forme Canonique NFC",
+                    "name": "nfc_canonical",
+                    "type": "text",
+                    "value": "Éléonore de La Tour-d'Œuvres (NFC UAX#15)",
+                    "badge": "Canonisé",
+                    "required": False
+                },
+                {
+                    "label": "Partition Cible EF-1",
+                    "name": "ef1_budget",
+                    "type": "text",
+                    "value": "1 420 octets / 2 048 octets (69.3%)",
+                    "badge": "STORAGE-001",
+                    "required": False
+                },
+                {
+                    "label": "Déterminisme CBOR RFC 8949",
+                    "name": "cbor_determinism",
+                    "type": "text",
+                    "value": "VALIDÉ (Tri des clés d'état civil sans ambiguïté)",
+                    "badge": "AeterniCore",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_canonize_utf8",
+                    "label": "Normaliser en UTF-8 NFC & Valider CBOR",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "🔤"
+                },
+                {
+                    "id": "btn_reset_name",
+                    "label": "Réinitialiser la Saisie",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "↩"
+                }
+            ],
+            "validationMsg": {
+                "title": "Normalisation Unicode NFC & Déterminisme CBOR Validés",
+                "badge": "Conforme UAX #15 / RFC 8949",
+                "detail": "La chaîne patronymique est canonisée sous forme NFC. Empreinte binaire EF-1 déterministe garantie sur tout lecteur sans contact."
+            },
+            "errorCase": {
+                "code": "ERR_UTF8_NORMALIZATION_FAILED",
+                "title": "Échec de Normalisation Unicode ou Caractère de Contrôle Interdit",
+                "condition": "Présence d'octets mal formés, de points de code non assignés ou de caractères de contrôle non autorisés (U+0000..U+001F).",
+                "message": "Erreur critique : La chaîne d'état civil contient des séquences d'octets invalides violant les règles d'interopérabilité CBOR canonique.",
+                "remediation": "Purger automatiquement les caractères de contrôle non imprimables et resoumettre la chaîne pour décomposition-recomposition NFC."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Saisie d'un Nom Complexe avec Diacritiques & Ligatures",
+                    "caption": "Texte brut saisi par l'opérateur. Les ligatures et accents décomposés doivent être harmonisés avant gravure silicium.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • État Civil & Normalisation UTF-8</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Saisie Non Canonisée</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Nom Brut Saisi <span class="wf-req">*</span></label>
+                                              <div class="wf-input-placeholder">Éléonore de La Tour-d'Œüvres (Caractères combinants détectés)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Contrôle de Partition EF-1</label>
+                                              <div class="wf-input-placeholder">Quota alloué : 2 048 octets (Profil CBOR)</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🔤 Normaliser en UTF-8 NFC & Valider CBOR</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Déclenchement du Moteur de Canonisation Unicode",
+                    "triggerName": "Clic sur 'Normaliser en UTF-8 NFC & Valider CBOR'",
+                    "caption": "Analyse syntaxique, recomposition des caractères diacritiques combinés en points de code précomposés canoniques.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moteur de Canonisation</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Analyse UAX #15 Active</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Traitement de la forme NFC : u + ̈ -> ü • OE -> Œ</div>
+                                            <div class="wf-subtext">Tri déterministe des clés de la carte CBOR RFC 8949 (Tag 100 Identité Civile)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Canonisation binaire en cours...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Validation de l'Empreinte Binaire & Budget EF-1",
+                    "progress": 92,
+                    "caption": "Encodage CBOR strict, calcul de l'empreinte SHA-256 et contrôle d'insertion sous les 2 048 octets d'EF-1.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Contrôle CBOR EF-1</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Vérification Normative (92%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [UNICODE-NFC] Normalisation achevée : 38 caractères UTF-8 sans combinaison flottante</code><br>
+                                            <code>> [CBOR-RFC8949] Tri des clés de table 100 : determinisme strict vérifié</code><br>
+                                            <code>> [STORAGE-001] Partition EF-1 : 1 420 octets occupés / 2 048 octets max (69.3% du quota)</code><br>
+                                            <code>> [AETERNI-CORE] Zéro discordance d'empreinte lors de la relecture sans contact</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Identité Civile Canonique Scellée dans EF-1",
+                    "status": "success",
+                    "caption": "Profil civil parfaitement normalisé. Aucune ambiguïté d'affichage ni de calcul d'empreinte pour la gravure PaxStation.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • État Civil Prêt</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Conforme NFC & CBOR</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">📜</span>
+                                            <div>
+                                              <strong>Profil Civil Déterministe Généré avec Succès (1.42 Ko)</strong>
+                                              <p class="wf-subtext">Canonisation UTF-8 NFC conforme UAX #15 • Prêt pour injection dans EF-1 ACOSJ 92K</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Intégrer au Projet & Passer à la Signature →</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-114",
+        "title": "Dépassement de Quota Audio & Ré-échantillonnage d'Urgence Opus SILK (< 46 080 octets)",
+        "cat": "Médias Sonores",
+        "actor": "Conseiller Funéraire & Studio Acoustique",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": [
+    "Audio",
+    "OpusSILK",
+    "QuotaEF3",
+    "Compression",
+    "STORAGE-001",
+    "WebAudio",
+    "EF-3"
+],
+        "preconditions": "Enregistrement d'un hommage vocal dont la durée ou le débit génère un fichier dépassant le plafond strict de 46 080 octets d'EF-3.",
+        "flow": [
+            "Enregistrement du témoignage vocal de la famille dans l'atelier acoustique de PaxStudio.",
+            "Le module de compression analyse le flux PCM brut et calcule la taille compressée prévisionnelle (ex: 51 200 octets > 46 080 octets).",
+            "Détection automatique du dépassement de la partition EF-3 du jalon STORAGE-001.",
+            "Engagement de l'algorithme de ré-échantillonnage dynamique : réduction contrôlée du débit Opus SILK de 16 kbps à 12 kbps mono à 16 kHz.",
+            "Re-compression in-silico avec ducking et filtre vocal : la taille finale s'établit à 42 100 octets, certifiant le respect du quota d'EF-3."
+        ],
+        "postconditions": "L'hommage vocal tient rigoureusement dans la partition EF-3 (46 080 octets max) sans sacrifier l'intelligibilité ni l'émotion vocale.",
+        "legal": "Spécification technique AeterniTrak STORAGE-001 (partitionnement silicium EF-3) & Norme IETF RFC 6716 (Codec Opus).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "PaxStudio Pro • Studio Acoustique & Compresseur Opus SILK (Partition EF-3)",
+            "formFields": [
+                {
+                    "label": "Durée Message Vocal",
+                    "name": "audio_duration",
+                    "type": "text",
+                    "value": "29.4 secondes (Voix parlée)",
+                    "badge": "Chronométré",
+                    "required": False
+                },
+                {
+                    "label": "Taille Prévisionnelle Brute",
+                    "name": "raw_audio_size",
+                    "type": "text",
+                    "value": "51 200 octets (> 46 080 octets)",
+                    "badge": "Dépassement Alerte",
+                    "required": False
+                },
+                {
+                    "label": "Algorithme Ré-échantillonnage",
+                    "name": "codec_profile",
+                    "type": "select",
+                    "value": "Opus SILK 16 kHz Mono 12 kbps VBR",
+                    "badge": "Adaptatif",
+                    "required": True
+                },
+                {
+                    "label": "Taille Finale Compressée",
+                    "name": "final_audio_size",
+                    "type": "text",
+                    "value": "42 100 octets / 46 080 octets (91.4%)",
+                    "badge": "Conforme EF-3",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_resample_audio",
+                    "label": "Ré-échantillonner en Opus SILK & Valider Quota",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "🎙️"
+                },
+                {
+                    "id": "btn_crop_audio",
+                    "label": "Rogner la Fin de l'Enregistrement",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "✂️"
+                }
+            ],
+            "validationMsg": {
+                "title": "Hommage Vocal Recompressé sous le Quota EF-3",
+                "badge": "Conforme STORAGE-001 EF-3",
+                "detail": "Fichier audio Opus SILK calibré à 42 100 octets. Intégrité émotionnelle et intelligibilité 100% préservées."
+            },
+            "errorCase": {
+                "code": "ERR_AUDIO_PAYLOAD_OVERFLOW",
+                "title": "Dépassement de Quota Audio Irréductible (> 46 080 octets)",
+                "condition": "Enregistrement excédant 35 secondes ne pouvant être compressé sous 46 080 octets même au débit plancher de 10 kbps.",
+                "message": "Erreur silicium : Le fichier audio compressé (48.9 Ko) dépasse le plafond absolu de 46 080 octets alloué à la partition EF-3 de la puce ACOSJ.",
+                "remediation": "Utiliser l'outil de rognage intégré pour raccourcir l'hommage à 30 secondes maximum avant ré-échantillonnage."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Alerte de Dépassement de Quota Audio EF-3",
+                    "caption": "L'enregistrement vocal dépasse la capacité de la partition EF-3 (51.2 Ko mesurés contre 46.08 Ko alloués).",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moniteur Audio EF-3</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Dépassement de Quota</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #f59e0b;">
+                                            <span class="wf-qa-icon">⚠️</span>
+                                            <div><strong>Dépassement de Partition Détecté</strong></div>
+                                            <div class="wf-subtext">51 200 octets calculés • Plafond strict EF-3 : 46 080 octets (Dépassement : +5 120 octets)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🎙️ Ré-échantillonner en Opus SILK & Valider Quota</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Déclenchement du Ré-échantillonnage d'Urgence",
+                    "triggerName": "Clic sur 'Ré-échantillonner en Opus SILK'",
+                    "caption": "Re-quantification des trames SILK, compression dynamique et ajustement psychoacoustique du spectre vocal.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moteur WebAudio</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Compression SILK Active</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Passage du profil 16 kbps -> 12 kbps adaptatif mono 16 kHz</div>
+                                            <div class="wf-subtext">Suppression des silences aux extrémités et compression dynamique du signal</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Recompression du flux vocal...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Audit Binaire & Validation du Quota 46 080 Octets",
+                    "progress": 95,
+                    "caption": "Mesure bit-à-bit du conteneur Ogg Opus et vérification d'inviolabilité de la réserve matérielle ACOSJ.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Vérification Silicium</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Quota (95%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [AUDIO-ENGINE] Encodage Opus SILK 12 kbps achevé : 42 100 octets</code><br>
+                                            <code>> [STORAGE-001] Partition EF-3 : 42 100 / 46 080 octets (Marge libre : 3 980 octets)</code><br>
+                                            <code>> [AUDIO-QUALITY] Indice PESQ estimé : 4.1/5 (Excellente intelligibilité vocale)</code><br>
+                                            <code>> [VERDICT] Intégration autorisée dans la capsule mémorielle AeterniCore</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Mémo Vocal Conforme Validé pour Gravure",
+                    "status": "success",
+                    "caption": "Le flux sonore est validé. Il respecte rigoureusement les quotas matériels de l'ACOSJ 92 Ko.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Audio Homologué</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ 42.1 Ko • Conforme EF-3</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🎵</span>
+                                            <div>
+                                              <strong>Mémo Vocal Inaltérable Calibré avec Succès (42.1 Ko)</strong>
+                                              <p class="wf-subtext">Respect strict du plafond 46 080 octets d'EF-3 • Prêt pour scellement et gravure</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Valider l'Hommage Sonore & Continuer →</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-115",
+        "title": "Refus de Signature ou Révocation du Mandat par le Représentant Légal",
+        "cat": "Validation Finale & Juridique",
+        "actor": "Représentant Légal & Conseiller Funéraire",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": [
+    "Mandat",
+    "Revocation",
+    "RefusSignature",
+    "BAT",
+    "COSE_Sign1",
+    "Sécurité",
+    "EF-5"
+],
+        "preconditions": "La capsule de pré-encodage est assemblée, mais le mandataire légal s'oppose aux dispositions présentées ou retire son mandat.",
+        "flow": [
+            "Présentation du Bon à Tirer (BAT) numérique récapitulant les volontés, portraits et hommages.",
+            "Le représentant légal notifie formellement son refus de signer ou révoque le mandat funéraire.",
+            "PaxStudio intercepte la déclaration : annulation immédiate de la procédure de scellement COSE_Sign1.",
+            "Destruction sécurisée en mémoire vive de la clé de session éphémère et purge du tampon d'encodage.",
+            "Génération d'un procès-verbal d'interruption horodaté et mise en sommeil du projet sous statut RÉVOQUÉ."
+        ],
+        "postconditions": "Aucune enveloppe COSE_Sign1 n'est générée dans EF-5 ; la puce physique ne reçoit aucune gravure illégitime.",
+        "legal": "Règlement Général sur la Protection des Données (RGPD Art. 7 §3 - retrait du consentement) & Code civil (mandat et dévolution funéraire).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "PaxStudio Pro • Registre de Validation & Révocation de Mandat (Partition EF-5)",
+            "formFields": [
+                {
+                    "label": "Représentant Légal Mandant",
+                    "name": "mandat_holder",
+                    "type": "text",
+                    "value": "Mme Sophie Dumont (Fille aînée, Mandataire)",
+                    "badge": "Ayant Droit",
+                    "required": True
+                },
+                {
+                    "label": "Statut du Mandat",
+                    "name": "mandat_status",
+                    "type": "select",
+                    "value": "RÉVOCATION FORMELLE DU MANDAT / REFUS DE BAT",
+                    "badge": "Opposition",
+                    "required": True
+                },
+                {
+                    "label": "Motif Déclaré",
+                    "name": "revocation_reason",
+                    "type": "text",
+                    "value": "Désaccord familial sur l'épitaphe et choix du portrait",
+                    "badge": "Consigné",
+                    "required": True
+                },
+                {
+                    "label": "Conséquence Cryptographique",
+                    "name": "crypto_action",
+                    "type": "text",
+                    "value": "Scellement COSE_Sign1 Interdit • Purge Clé Session",
+                    "badge": "Sécurité EF-5",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_confirm_revocation",
+                    "label": "Activer la Révocation & Bloquer le Projet",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "🚫"
+                },
+                {
+                    "id": "btn_resume_dialogue",
+                    "label": "Poursuivre la Médiation Familiale",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "🤝"
+                }
+            ],
+            "validationMsg": {
+                "title": "Interruption Formelle Enregistrée & Projet Mis en Réserve",
+                "badge": "Projet Révocation Consignée",
+                "detail": "Le scellement de la partition EF-5 est annulé. Les clés de session sont purgées. Aucun transfert vers la PaxStation n'est autorisé."
+            },
+            "errorCase": {
+                "code": "ERR_MANDATE_REVOKED_BY_REPRESENTATIVE",
+                "title": "Révocation Formelle du Mandat par l'Ayant Droit Référent",
+                "condition": "Refus explicite de signer le Bon à Tirer ou notification de litige entre les héritiers légitimes.",
+                "message": "Blocage légal absolu : Le mandataire a révoqué son autorisation. La génération de l'enveloppe cryptographique COSE_Sign1 est interdite.",
+                "remediation": "Clôturer la session de pré-encodage, éditer le PV de suspension et orienter la famille vers la conciliation notariale."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Notification de Révocation du Mandat en Salon",
+                    "caption": "L'ayant droit exprime son désaccord face au Bon à Tirer et demande l'arrêt de la procédure d'encodage.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Contrôle Juridique du Mandat</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Opposition Signalée</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Mandataire Référent</label>
+                                              <div class="wf-input-placeholder">Mme Sophie Dumont (Mandataire désigné)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Position Exprimée</label>
+                                              <div class="wf-input-placeholder">Refus d'approuver le Bon à Tirer numérique</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary" style="background: #e11d48; border-color: #f43f5e;">🚫 Activer la Révocation & Bloquer le Projet</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Interception & Verrouillage du Scellement Cryptographique",
+                    "triggerName": "Clic sur 'Activer la Révocation & Bloquer le Projet'",
+                    "caption": "Interdiction immédiate de la commande de signature COSE_Sign1 et blocage de la transmission vers PaxStation.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Blocage de Sécurité</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Révocation en Cours</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #f43f5e;">
+                                            <div class="wf-trigger-indicator" style="color: #fda4af;">🚫 Révocation formelle enregistrée : scellement EF-5 interdit</div>
+                                            <div class="wf-subtext">Purge des clés éphémères en mémoire RAM et annulation de l'envoi réseau local</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Purge des tampons de pré-encodage...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Édition du Procès-Verbal d'Interruption & Archivage",
+                    "progress": 100,
+                    "caption": "Création du rapport légal d'opposition conformément aux obligations professionnelles funéraires.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Journalisation Légale</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Archivage d'Opposition</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [LEGAL-AUDIT] Déclaration d'opposition reçue à 11:42:09 UTC</code><br>
+                                            <code>> [CRYPTO-GUARD] Signature EF-5 ABORTÉE : aucune clé d'atelier engagée</code><br>
+                                            <code>> [ZERO-LEAK] Destruction des artefacts de personnalisation dans le cache local</code><br>
+                                            <code>> [PV-ENGINE] PV d'interruption #PV-REVOC-2026-081 édité et archivé</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Dossier Mis en Séquestre & Zéro Gravure Autorisée",
+                    "status": "success",
+                    "caption": "Protection juridique assurée. Aucune puce silicium n'est altérée. Les droits des parties sont préservés.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Statut Clôturé</span>
+                                            <span class="wf-status-badge wf-badge-success" style="background: rgba(225, 29, 72, 0.2); color: #fda4af;">🚫 Projet Suspendu</span>
+                                          </div>
+                                          <div class="wf-success-banner" style="border-color: rgba(244, 63, 94, 0.4);">
+                                            <span class="wf-seal-icon">⚖️</span>
+                                            <div>
+                                              <strong>Procédure de Personnalisation Officiellement Suspendue</strong>
+                                              <p class="wf-subtext">Mandat révoqué • Données purgées • PV d'interruption remis aux parties</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">Retour au Tableau de Bord PaxStudio</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
+    },
+    {
+        "id": "UC-116",
+        "title": "Conflit de Résolution / Ratio Portrait & Recadrage Intelligent 480x480 WebP",
+        "cat": "Médias Visuels",
+        "actor": "Famille & Graphiste PaxStudio",
+        "platforms": ["Web Standard (PWA Hors-Ligne)", "Natif (iOS & Android)"],
+        "tags": [
+    "WebP",
+    "480x480",
+    "Recadrage",
+    "Ratio1:1",
+    "DEC-AET-12",
+    "STORAGE-001",
+    "EF-2"
+],
+        "preconditions": "Sélection d'une photo souvenir familiale au ratio rectangulaire (16:9, 4:3) ou de résolution non normalisée (> 3000x2000 px).",
+        "flow": [
+            "Importation du cliché photographique souvenir par la famille dans le studio portrait de PaxStudio.",
+            "Détection d'un ratio non carré (aspect ratio != 1:1) et d'un volume binaire source dépassant les capacités de la puce.",
+            "Activation du module d'assistance au cadrage : calcul automatique du centre de gravité visuel et détection du visage.",
+            "Application du masque de recadrage carré 1:1 et redimensionnement strict à 480×480 pixels selon la décision DEC-AET-12.",
+            "Compression WebP avec jauge de contrôle en direct : validation d'un poids final inférieur à 20 480 octets et injection dans EF-2."
+        ],
+        "postconditions": "L'image WebP 480×480 px pèse moins de 20 480 octets et s'intègre parfaitement dans la partition EF-2 de la puce ACOSJ.",
+        "legal": "Décision Kudoro DEC-AET-12 (spécification portrait WebP 480×480) & Jalon STORAGE-001 (partition silicium EF-2).",
+        "legal_url": "#section-legal",
+        "wireframe": {
+            "device": "tablet",
+            "deviceLabel": "PaxStudio Pro • Studio Graphique & Recadrage WebP 480×480 (Partition EF-2)",
+            "formFields": [
+                {
+                    "label": "Image Source Importée",
+                    "name": "source_image",
+                    "type": "text",
+                    "value": "vacances_famille_1998_paysage.jpg (4032×3024, 4.8 Mo)",
+                    "badge": "Source 4:3",
+                    "required": True
+                },
+                {
+                    "label": "Résolution Cible DEC-AET-12",
+                    "name": "target_resolution",
+                    "type": "text",
+                    "value": "480 × 480 pixels (Ratio 1:1 Carré Strict)",
+                    "badge": "Souverain",
+                    "required": False
+                },
+                {
+                    "label": "Qualité de Compression WebP",
+                    "name": "webp_quality",
+                    "type": "select",
+                    "value": "Qualité 82% (Poids optimisé sous 20 Ko)",
+                    "badge": "Optimisé",
+                    "required": True
+                },
+                {
+                    "label": "Poids Final Partition EF-2",
+                    "name": "ef2_budget",
+                    "type": "text",
+                    "value": "18 432 octets / 20 480 octets (90.0%)",
+                    "badge": "STORAGE-001",
+                    "required": False
+                }
+            ],
+            "actionButtons": [
+                {
+                    "id": "btn_smart_crop",
+                    "label": "Recadrer 1:1 & Convertir en WebP 480×480",
+                    "role": "primary",
+                    "state": "idle",
+                    "icon": "🖼️"
+                },
+                {
+                    "id": "btn_manual_crop",
+                    "label": "Ajuster la Zone Focale Manuellement",
+                    "role": "secondary",
+                    "state": "idle",
+                    "icon": "🔍"
+                }
+            ],
+            "validationMsg": {
+                "title": "Portrait WebP 480×480 Normalisé sous le Quota EF-2",
+                "badge": "Conforme DEC-AET-12 / EF-2",
+                "detail": "Image recadrée au ratio 1:1, résolution 480×480 px, poids calibré à 18 432 octets (inférieur au plafond strict de 20 480 octets)."
+            },
+            "errorCase": {
+                "code": "ERR_IMAGE_ASPECT_RATIO_UNRESOLVED",
+                "title": "Résolution Source Insuffisante ou Cadrage Impossible",
+                "condition": "Image importée de résolution inférieure à 480×480 pixels ou flou critique empêchant la reconnaissance du sujet.",
+                "message": "Erreur visuelle : La photographie fournie (320×240) est insuffisante pour garantir la dignité du portrait 480×480 sur le support physique.",
+                "remediation": "Fournir un original photographique de résolution minimale 480×480 pixels ou sélectionner un autre cliché souvenir."
+            },
+            "phases": {
+                "p1": {
+                    "tabTitle": "1. Avant Trigger",
+                    "phaseTitle": "Photo Source Paysage avec Alerte de Ratio",
+                    "caption": "La photo importée présente un ratio 4:3 non adapté au médaillon mémoriel et dépasse les capacités mémoires.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Cadreur Portrait EF-2</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Ratio Non Conforme (4:3)</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Cliché Importé</label>
+                                              <div class="wf-input-placeholder">vacances_famille_1998.jpg (4032×3024 px - 4.8 Mo)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Cible Silicium</label>
+                                              <div class="wf-input-placeholder">EF-2 : 480×480 px WebP ≤ 20 480 octets (DEC-AET-12)</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🖼️ Recadrer 1:1 & Convertir en WebP 480×480</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p2": {
+                    "tabTitle": "2. Déclenchement ⚡",
+                    "phaseTitle": "Recadrage Centré & Détection Focale Visage",
+                    "triggerName": "Clic sur 'Recadrer 1:1 & Convertir en WebP'",
+                    "caption": "Application du centrage automatique sur le regard et génération du canvas 480×480.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moteur Visuel</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Recadrage Actif</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Détection focale : visage centré aux coordonnées (2016, 1512)</div>
+                                            <div class="wf-subtext">Extraction de la matrice carrée 1:1 et ré-échantillonnage bi-cubique 480×480</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Compression WebP en cours...</button>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p3": {
+                    "tabTitle": "3. Traitement ⚙️",
+                    "phaseTitle": "Compression WebP & Contrôle du Plafond 20 480 Octets",
+                    "progress": 96,
+                    "caption": "Encodage WebP haute fidélité et validation stricte de l'insertion dans la partition EF-2.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Contrôleur Silicium EF-2</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Vérification Quota (96%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [WEBP-CONVERT] Encodage 480x480 terminé : 18 432 octets générés</code><br>
+                                            <code>> [STORAGE-001] Partition EF-2 : 18 432 / 20 480 octets (Marge libre : 2 048 octets)</code><br>
+                                            <code>> [DEC-AET-12] Norme portrait validée sans débordement silicium</code><br>
+                                            <code>> [INTEGRITY] Checksum SHA-256 calculé pour intégration dans la capsule</code>
+                                          </div>
+                                        </div>
+"""
+                },
+                "p4": {
+                    "tabTitle": "4. Écran de Fin ✨",
+                    "phaseTitle": "Portrait Éternel Calibré & Prêt pour Scellement",
+                    "status": "success",
+                    "caption": "Le portrait est prêt pour orner le médaillon ou la carte mémorielle avec éclat.",
+                    "screenHtml": """
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Portrait Scellé</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ 18.4 Ko • Conforme DEC-AET-12</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🌟</span>
+                                            <div>
+                                              <strong>Portrait WebP 480×480 Validé avec Succès (18.44 Ko)</strong>
+                                              <p class="wf-subtext">Plafond 20 480 octets EF-2 respecté • Rendu graphique optimal sur support ACOSJ</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Insérer dans la Carte Sanctuaire & Valider →</button>
+                                          </div>
+                                        </div>
+"""
+                }
+            }
+        }
     }
 ]
+

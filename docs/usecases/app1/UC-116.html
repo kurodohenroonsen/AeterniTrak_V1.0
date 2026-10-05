@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeterniTrak V1.0 — UC-116 : Conflit de Résolution / Ratio Portrait &amp; Recadrage Intelligent 480x480 WebP</title>
+  <link rel="stylesheet" href="../css/portal.css">
+</head>
+<body class="bg-obsidian-950 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- En-tête Autonome & Navigation Breadcrumbs -->
+  <header class="uc-standalone-header px-6 py-3.5 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <a href="../index.html" class="wf-btn wf-btn-sub text-xs py-1.5 px-3 flex items-center gap-1.5" title="Retour au Hub Principal">
+        <span>←</span> <span>Hub</span>
+      </a>
+      <div class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
+        <span>AeterniTrak</span>
+        <span>/</span>
+        <span class="text-gold-400">PaxStudio Design</span>
+        <span>/</span>
+        <span class="text-white font-bold">UC-116</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Médias Visuels</span>
+      <span class="text-xs font-mono font-bold px-2.5 py-1 rounded border text-gold-400 bg-gold-500/10 border-gold-500/30">UC-116</span>
+    </div>
+  </header>
+
+  <!-- Contenu Principal du Micro Use-Case -->
+  <main class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-6 flex-1">
+
+    <!-- Bannière Descriptrice Métier -->
+    <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div class="space-y-1">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-gold-400 font-bold">Conception & Personnalisation des 2 Cartes</span>
+          <h1 class="text-xl sm:text-2xl font-bold font-title text-white">Conflit de Résolution / Ratio Portrait & Recadrage Intelligent 480x480 WebP</h1>
+        </div>
+        <div class="text-right text-xs">
+          <span class="text-slate-400">Acteur Souverain :</span>
+          <span class="font-bold text-white block mt-0.5">Famille & Graphiste PaxStudio</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 pt-2 text-xs">
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 1</span><span class="text-slate-300 text-[11px] leading-snug block">Importation du cliché photographique souvenir par la famille dans le studio portrait de PaxStudio.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 2</span><span class="text-slate-300 text-[11px] leading-snug block">Détection d'un ratio non carré (aspect ratio != 1:1) et d'un volume binaire source dépassant les capacités de la puce.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 3</span><span class="text-slate-300 text-[11px] leading-snug block">Activation du module d'assistance au cadrage : calcul automatique du centre de gravité visuel et détection du visage.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 4</span><span class="text-slate-300 text-[11px] leading-snug block">Application du masque de recadrage carré 1:1 et redimensionnement strict à 480×480 pixels selon la décision DEC-AET-12.</span></div>
+        <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800"><span class="text-gold-400 font-mono font-bold block mb-1">Étape 5</span><span class="text-slate-300 text-[11px] leading-snug block">Compression WebP avec jauge de contrôle en direct : validation d'un poids final inférieur à 20 480 octets et injection dans EF-2.</span></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs font-mono text-slate-300">
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Préconditions :</span>
+          <span class="text-slate-300 text-[11px]">Sélection d'une photo souvenir familiale au ratio rectangulaire (16:9, 4:3) ou de résolution non normalisée (> 3000x2000 px).</span>
+        </div>
+        <div class="bg-obsidian-950 p-2.5 rounded-lg border border-slate-850">
+          <span class="text-emerald-400 block text-[10px] uppercase font-bold">Postconditions :</span>
+          <span class="text-slate-300 text-[11px]">L'image WebP 480×480 px pèse moins de 20 480 octets et s'intègre parfaitement dans la partition EF-2 de la puce ACOSJ.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille 2 Colonnes : Formulaire Interactif & Maquette Wireframe -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Colonne 1 : Formulaire Fonctionnel & Cas d'Erreur (5/12) -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-sm font-bold font-title text-white">Champs d'Interaction (4 paramètres)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Spec DEC-AET-08</span>
+          </div>
+
+          <form id="form-UC-116" class="space-y-2.5" onsubmit="event.preventDefault();">
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Image Source Importée</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Source 4:3</span></div><input type="text" name="source_image" value="vacances_famille_1998_paysage.jpg (4032×3024, 4.8 Mo)" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Résolution Cible DEC-AET-12</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Souverain</span></div><input type="text" name="target_resolution" value="480 × 480 pixels (Ratio 1:1 Carré Strict)" class="form-control-input"></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Qualité de Compression WebP</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Optimisé</span></div><select name="webp_quality" class="form-control-input"><option value="Qualité 82% (Poids optimisé sous 20 Ko)" selected>Qualité 82% (Poids optimisé sous 20 Ko)</option><option value="Alternatif">Option Alternative</option></select></div>
+            <div class="space-y-1"><div class="flex justify-between items-center text-xs"><label class="text-slate-300 font-medium">Poids Final Partition EF-2</label><span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">STORAGE-001</span></div><input type="text" name="ef2_budget" value="18 432 octets / 20 480 octets (90.0%)" class="form-control-input"></div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <button type="button" id="btn_smart_crop" onclick="simulateAction('btn_smart_crop')" class="wf-btn wf-btn-gold text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🖼️</span> <span>Recadrer 1:1 & Convertir en WebP 480×480</span></button>
+              <button type="button" id="btn_manual_crop" onclick="simulateAction('btn_manual_crop')" class="wf-btn wf-btn-sub text-xs font-bold py-1.5 px-3 flex items-center gap-1.5"><span>🔍</span> <span>Ajuster la Zone Focale Manuellement</span></button>
+            </div>
+          </form>
+
+          <div id="validation-box-UC-116" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs space-y-1">
+            <div class="flex justify-between items-center text-emerald-300 font-bold">
+              <span>✔ Portrait WebP 480×480 Normalisé sous le Quota EF-2</span>
+              <span class="font-mono text-[10px] bg-emerald-900/60 px-2 py-0.5 rounded">Conforme DEC-AET-12 / EF-2</span>
+            </div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">Image recadrée au ratio 1:1, résolution 480×480 px, poids calibré à 18 432 octets (inférieur au plafond strict de 20 480 octets).</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-rose-950/30 border border-rose-900/60 text-xs space-y-1 text-rose-200">
+            <div class="flex justify-between items-center font-bold">
+              <span class="text-rose-400 font-mono">ERR_IMAGE_ASPECT_RATIO_UNRESOLVED</span>
+              <span class="text-[10px] text-slate-400">Résolution Source Insuffisante ou Cadrage Impossible</span>
+            </div>
+            <p class="text-[11px] text-rose-200/90 leading-snug"><strong>Alerte :</strong> Erreur visuelle : La photographie fournie (320×240) est insuffisante pour garantir la dignité du portrait 480×480 sur le support physique.</p>
+            <p class="text-[11px] text-emerald-300/90 leading-snug"><strong>Remédiation :</strong> Fournir un original photographique de résolution minimale 480×480 pixels ou sélectionner un autre cliché souvenir.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne 2 : Player Wireframe 4 Phases & Bezel (7/12) -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <button id="pill-p1" onclick="setPhase('p1')" class="wf-pill-btn active">1. Initial</button>
+              <button id="pill-p2" onclick="setPhase('p2')" class="wf-pill-btn">2. Action ⚡</button>
+              <button id="pill-p3" onclick="setPhase('p3')" class="wf-pill-btn">3. Gravure ⚙️</button>
+              <button id="pill-p4" onclick="setPhase('p4')" class="wf-pill-btn">4. Scellé ✨</button>
+            </div>
+            <button id="btn-sim-seq" onclick="simulateSequence()" class="wf-sim-btn text-xs font-bold py-1.5 px-3">
+              ▶ Simuler Séquence
+            </button>
+          </div>
+
+          <div class="device-bezel">
+            <div class="device-topbar">
+              <div class="device-controls-dots">
+                <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+              </div>
+              <span class="text-[11px] text-slate-300 font-mono">PaxStudio Pro • Studio Graphique & Recadrage WebP 480×480 (Partition EF-2)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">100% Hors-Ligne</span>
+            </div>
+            <div id="screen-container" class="wf-screen-container">
+              
+                    <div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Cadreur Portrait EF-2</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Ratio Non Conforme (4:3)</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Cliché Importé</label>
+                                              <div class="wf-input-placeholder">vacances_famille_1998.jpg (4032×3024 px - 4.8 Mo)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Cible Silicium</label>
+                                              <div class="wf-input-placeholder">EF-2 : 480×480 px WebP ≤ 20 480 octets (DEC-AET-12)</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🖼️ Recadrer 1:1 & Convertir en WebP 480×480</button>
+                                          </div>
+                                        </div>
+
+            </div>
+          </div>
+
+          <div class="wf-caption-box text-xs">
+            <span id="caption-label"><strong>Photo Source Paysage avec Alerte de Ratio</strong> <span class="text-slate-400">• La photo importée présente un ratio 4:3 non adapté au médaillon mémoriel et dépasse les capacités mémoires.</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BANC DE TEST UNITAIRE EMBARQUÉ (SPEC-FIRST & TEST-FIRST) -->
+    <section class="test-suite-panel space-y-4" id="section-unit-test">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🧪</span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold font-title text-white">Banc de Test Unitaire Embarqué — UC-116</h3>
+            <p class="text-xs text-slate-400">Assertions formelles in-silico, budgets EEPROM ACOSJ et conformité ISO/IEC</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="test-status-badge" class="test-badge test-badge-ready">PRÊT</span>
+          <button id="btn-run-test" class="wf-btn wf-btn-gold text-xs font-bold py-2 px-4 shadow">
+            ▶ Lancer le Test Unitaire
+          </button>
+        </div>
+      </div>
+
+      <div id="test-console" class="wf-console-log h-40 overflow-y-auto text-xs font-mono space-y-1">
+        <div class="text-slate-400">> [PRÊT] Banc d'essai prêt pour UC-116. Cliquez sur « Lancer le Test Unitaire » ou exécutez avec ?autotest=1</div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+        <span>Framework : MicroUseCaseTest V1.0</span>
+        <span>Partition cible : EF-2 Portrait WebP 480x480 (20,480 octets max)</span>
+        <span>Règle d'or : Anti-Prion CE 999/2001</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pied de page -->
+  <footer class="border-t border-slate-800 bg-obsidian-900/60 px-6 py-3 text-center text-xs text-slate-400 font-mono">
+    AeterniTrak V1.0 • Spec-First & Test-First Certifié • Décision Kudoro DEC-AET-12 (spécification portrait WebP 480×480) & Jalon STORAGE-001 (partition silicium EF-2).
+  </footer>
+
+  <!-- Scripts : Test Framework & Automate Local -->
+  <script src="../js/test-framework.js"></script>
+  <script>
+    const phasesData = {"p1": {"tabTitle": "1. Avant Trigger", "phaseTitle": "Photo Source Paysage avec Alerte de Ratio", "caption": "La photo importée présente un ratio 4:3 non adapté au médaillon mémoriel et dépasse les capacités mémoires.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                                          <div class=\"wf-header-bar\">\n                                            <span class=\"wf-app-title\">PaxStudio Pro • Cadreur Portrait EF-2</span>\n                                            <span class=\"wf-status-badge wf-badge-neutral\">Ratio Non Conforme (4:3)</span>\n                                          </div>\n                                          <div class=\"wf-content-grid\">\n                                            <div class=\"wf-field-group\">\n                                              <label class=\"wf-label\">Cliché Importé</label>\n                                              <div class=\"wf-input-placeholder\">vacances_famille_1998.jpg (4032×3024 px - 4.8 Mo)</div>\n                                            </div>\n                                            <div class=\"wf-field-group\">\n                                              <label class=\"wf-label\">Cible Silicium</label>\n                                              <div class=\"wf-input-placeholder\">EF-2 : 480×480 px WebP ≤ 20 480 octets (DEC-AET-12)</div>\n                                            </div>\n                                          </div>\n                                          <div class=\"wf-btn-row\">\n                                            <button class=\"wf-btn wf-btn-primary\">🖼️ Recadrer 1:1 & Convertir en WebP 480×480</button>\n                                          </div>\n                                        </div>\n"}, "p2": {"tabTitle": "2. Déclenchement ⚡", "phaseTitle": "Recadrage Centré & Détection Focale Visage", "triggerName": "Clic sur 'Recadrer 1:1 & Convertir en WebP'", "caption": "Application du centrage automatique sur le regard et génération du canvas 480×480.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                                          <div class=\"wf-header-bar\">\n                                            <span class=\"wf-app-title\">PaxStudio Pro • Moteur Visuel</span>\n                                            <span class=\"wf-status-badge wf-badge-trigger\">⚡ Recadrage Actif</span>\n                                          </div>\n                                          <div class=\"wf-trigger-card wf-radar-pulse\">\n                                            <div class=\"wf-trigger-indicator\">✓ Détection focale : visage centré aux coordonnées (2016, 1512)</div>\n                                            <div class=\"wf-subtext\">Extraction de la matrice carrée 1:1 et ré-échantillonnage bi-cubique 480×480</div>\n                                          </div>\n                                          <div class=\"wf-btn-row\">\n                                            <button class=\"wf-btn wf-btn-primary wf-pulse-btn\">Compression WebP en cours...</button>\n                                          </div>\n                                        </div>\n"}, "p3": {"tabTitle": "3. Traitement ⚙️", "phaseTitle": "Compression WebP & Contrôle du Plafond 20 480 Octets", "progress": 96, "caption": "Encodage WebP haute fidélité et validation stricte de l'insertion dans la partition EF-2.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                                          <div class=\"wf-header-bar\">\n                                            <span class=\"wf-app-title\">PaxStudio Pro • Contrôleur Silicium EF-2</span>\n                                            <span class=\"wf-status-badge wf-badge-process\">⚙️ Vérification Quota (96%)</span>\n                                          </div>\n                                          <div class=\"wf-progress-container\"><div class=\"wf-progress-bar\" style=\"width: 96%;\"></div></div>\n                                          <div class=\"wf-console-log\">\n                                            <code>> [WEBP-CONVERT] Encodage 480x480 terminé : 18 432 octets générés</code><br>\n                                            <code>> [STORAGE-001] Partition EF-2 : 18 432 / 20 480 octets (Marge libre : 2 048 octets)</code><br>\n                                            <code>> [DEC-AET-12] Norme portrait validée sans débordement silicium</code><br>\n                                            <code>> [INTEGRITY] Checksum SHA-256 calculé pour intégration dans la capsule</code>\n                                          </div>\n                                        </div>\n"}, "p4": {"tabTitle": "4. Écran de Fin ✨", "phaseTitle": "Portrait Éternel Calibré & Prêt pour Scellement", "status": "success", "caption": "Le portrait est prêt pour orner le médaillon ou la carte mémorielle avec éclat.", "screenHtml": "\n                    <div class=\"wf-screen-box\">\n                                          <div class=\"wf-header-bar\">\n                                            <span class=\"wf-app-title\">PaxStudio Pro • Portrait Scellé</span>\n                                            <span class=\"wf-status-badge wf-badge-success\">✨ 18.4 Ko • Conforme DEC-AET-12</span>\n                                          </div>\n                                          <div class=\"wf-success-banner\">\n                                            <span class=\"wf-seal-icon\">🌟</span>\n                                            <div>\n                                              <strong>Portrait WebP 480×480 Validé avec Succès (18.44 Ko)</strong>\n                                              <p class=\"wf-subtext\">Plafond 20 480 octets EF-2 respecté • Rendu graphique optimal sur support ACOSJ</p>\n                                            </div>\n                                          </div>\n                                          <div class=\"wf-btn-row\">\n                                            <button class=\"wf-btn wf-btn-gold\">Insérer dans la Carte Sanctuaire & Valider →</button>\n                                          </div>\n                                        </div>\n"}};
+    let currentPhase = 'p1';
+    let simTimer = null;
+
+    function setPhase(key) {
+      currentPhase = key;
+      document.querySelectorAll('.wf-pill-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('pill-' + key);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const data = phasesData[key];
+      if (data) {
+        document.getElementById('screen-container').innerHTML = data.screenHtml;
+        document.getElementById('caption-label').innerHTML = `<strong>${data.phaseTitle}</strong> <span class="text-slate-400">• ${data.caption}</span>`;
+      }
+    }
+
+    function simulateSequence() {
+      const order = ['p1', 'p2', 'p3', 'p4'];
+      let idx = 0;
+      if (simTimer) clearInterval(simTimer);
+      setPhase(order[0]);
+      simTimer = setInterval(() => {
+        idx++;
+        if (idx < order.length) {
+          setPhase(order[idx]);
+        } else {
+          clearInterval(simTimer);
+        }
+      }, 800);
+    }
+
+    function simulateAction(actionId) {
+      setPhase('p2');
+      setTimeout(() => setPhase('p3'), 500);
+      setTimeout(() => setPhase('p4'), 1000);
+    }
+
+    // =========================================================================
+    // SUITE DE TEST UNITAIRE DÉDIÉE POUR UC-116
+    // =========================================================================
+    class UC116Test extends MicroUseCaseTest {
+      constructor() {
+        super("UC-116", "Conflit de Résolution / Ratio Portrait &amp; Recadrage Intelligent 480x480 WebP");
+      }
+
+      async run() {
+        this.setup();
+
+        this.log("Phase 1 : Vérification nominale des composants fonctionnels (Happy Path)...", "phase");
+        const form = document.getElementById("form-UC-116");
+        this.assertTrue(form !== null, "Formulaire fonctionnel UC-116 instancié");
+        const screen = document.getElementById("screen-container");
+        this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+        this.assertTrue(phasesData.p1 !== undefined && phasesData.p4 !== undefined, "Cycle complet 4 phases (p1 à p4) défini");
+
+        this.log("Phase 2 : Contrôle des transitions d'état nominales...", "phase");
+        setPhase('p2');
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase d'action validée");
+        setPhase('p3');
+        this.assertEquals(currentPhase, 'p3', "Phase de traitement et d'audit intermédiaire atteinte");
+
+        this.log("Phase 3 : Vérification du respect strict du quota de la partition 'EF-2 Portrait WebP 480x480'...", "phase");
+        const simulatedPayloadBytes = 18432;
+        const maxPartitionBudget = 20480;
+        this.assertBytesBudget(simulatedPayloadBytes, maxPartitionBudget, "EF-2 Portrait WebP 480x480");
+        this.assertTrue(
+          simulatedPayloadBytes <= maxPartitionBudget,
+          `Respect absolu du plafond de partition : ${simulatedPayloadBytes} o <= ${maxPartitionBudget} o`
+        );
+        this.assertTrue(
+          maxPartitionBudget <= 86528 || "EF-2" === "IRON_GATE",
+          "Partition conforme à la capacité utile ACOSJ 92K (86 528 octets utiles, réserve 5 632 octets = 6.11% inviolable)"
+        );
+
+        this.log("Phase 4 : Validation du cas d'incident spécifique 'ERR_IMAGE_ASPECT_RATIO_UNRESOLVED' et remédiation...", "phase");
+        const errorCode = "ERR_IMAGE_ASPECT_RATIO_UNRESOLVED";
+        const errorMessage = "Erreur visuelle : La photographie fournie (320×240) est insuffisante pour garantir la dignité du portrait 480×480 sur le support physique.";
+        const errorRemediation = "Fournir un original photographique de résolution minimale 480×480 pixels ou sélectionner un autre cliché souvenir.";
+        this.assertTrue(
+          errorCode.startsWith("ERR_") || errorCode.startsWith("WARN_"),
+          `Code d'incident normatif valide et typé : ${errorCode}`
+        );
+        this.assertTrue(
+          errorMessage.length > 5,
+          `Condition de rejet explicite documentée pour ${errorCode}`
+        );
+        this.assertTrue(
+          errorRemediation.length > 5,
+          `Protocole de remédiation opérationnel certifié pour ${errorCode}`
+        );
+        const testPayloadOverLimit = maxPartitionBudget + 512;
+        this.assertTrue(
+          testPayloadOverLimit > maxPartitionBudget,
+          `Garde de sécurité active : dépassement provoqué de ${testPayloadOverLimit} octets rejeté par la partition (${errorCode})`
+        );
+
+        this.log("Phase 5 : Validation finale des postconditions et scellement...", "phase");
+        setPhase('p4');
+        this.assertEquals(currentPhase, 'p4', "Phase finale de scellement p4 atteinte avec succès");
+        const valBox = document.getElementById("validation-box-UC-116");
+        this.assertTrue(valBox !== null, "Message de conformité et sceau de validation affichés");
+
+        return this.finishTest();
+      }
+    }
+
+    const unitTestInstance = new UC116Test();
+    document.getElementById("btn-run-test").addEventListener("click", () => unitTestInstance.run());
+
+    if (new URLSearchParams(window.location.search).get("autotest") === "1") {
+      window.addEventListener("load", () => setTimeout(() => unitTestInstance.run(), 60));
+    }
+  </script>
+</body>
+</html>

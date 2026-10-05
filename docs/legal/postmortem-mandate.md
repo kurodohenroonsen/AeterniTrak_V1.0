@@ -97,14 +97,15 @@ Le don d'organes post-mortem est régi en Belgique par la **Loi du 13 juin 1986 
 - **Délai impératif de 48 heures** : Le corps doit être pris en charge et transféré au laboratoire d'anatomie dans les 48 heures maximum suivant le décès. À défaut, le legs est caduc et la dépouille est restituée aux proches pour funérailles classiques.
 
 ### 4.3 Exérèse Obligatoire des Dispositifs Électroniques Médicaux (Pacemaker, DAE)
-L'article L1232-26 du CDLD wallon impose une contrainte sécuritaire physique absolue avant toute crémation :
+Les articles L1232-22 et L1232-24 du CDLD wallon ainsi que le formulaire officiel Modèle IIIC réglementaire imposent une contrainte sécuritaire physique absolue avant toute crémation :
 - Tout stimulateur cardiaque (*pacemaker*), défibrillateur automatique implantable (DAE) ou pompe intrathécale fonctionnant sur pile **doit obligatoirement être explanté préalablement à la mise en bière**.
 - **Justification technique** : Les batteries au lithium explosent sous l'effet des températures du four cinéraire (800 °C à 1 050 °C), détruisant les réfractaires et risquant de blesser le personnel.
-- **Attestation médicale** : Le médecin certificateur atteste l'absence de dispositif ou son exérèse effective sur le formulaire réglementaire (modèle IIIC/IIID).
+- **Attestation médicale** : Le médecin certificateur atteste l'absence de dispositif ou son exérèse effective sur le formulaire officiel Modèle IIIC (conditions médicales de crémation et exérèse préalable obligatoire).
 
 ### 4.4 Droits du Patient et Accès Post-Mortem au Dossier Médical
-La **Loi du 22 août 2002 relative aux droits du patient** (Loi du 22 août 2002 relative aux droits du patient — référence à confirmer par un juriste) encadre la confidentialité et les transmissions médicales :
+La **Loi du 22 août 2002 relative aux droits du patient** encadre la confidentialité et les transmissions médicales :
 - **Article 9 § 4** : Après le décès du patient, les ayants droit (conjoint, partenaire, ascendants ou descendants jusqu'au deuxième degré) ne disposent pas d'un droit d'accès direct et général au dossier médical, mais peuvent désigner un professionnel de santé pour consulter le dossier, sous réserve de motiver leur demande par un intérêt légitime et pour autant que le patient ne s'y soit pas expressément opposé de son vivant.
+- **Loi du 6 février 2024 (Article 9 § 4/1)** : La loi du 6 février 2024 modifiant la loi relative aux droits du patient a inséré l'article 9 § 4/1, prévoyant des dispositions spécifiques pour l'accès aux dossiers médicaux des mineurs décédés par les titulaires de l'autorité parentale ou le représentant légal, garantissant la transparence médicale sous le contrôle de l'intérêt de l'enfant.
 - **Application AeterniTrak** : Ce principe confirme la pertinence d'une ségrégation cryptographique stricte sur la carte : les données médicales et directives anticipées de santé doivent être isolées et soumises à un contrôle d'accès distinct des données de mémorialisation civile.
 
 ---

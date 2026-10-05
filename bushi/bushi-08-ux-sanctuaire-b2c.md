@@ -23,7 +23,7 @@ Le Bushi 08 conçoit et garantit l'expérience utilisateur complète de l'**Appl
    - Grands boutons tactiles (minimum $56 \times 56\text{ dp}$), typographies nobles à fort contraste sur fond Noir d'Obsidienne (`#06070b`), évitant tout éblouissement.
    - Restitution acoustique et visuelle conjointe : le mémo vocal Opus SILK déclenche un ducking vocal automatique (-14 dB sur l'ambiance musicale) avec syntonie lumineuse.
 4. **Prise en Compte des Directives d'Urgence et Volontés Civiles** :
-   - Consultation immédiate des alertes médicales vitales (alerte pacemaker Art. L1232-17 CDLD), directives de don d'organes (Loi 1986) et legs du corps à la science sous 48h.
+   - Consultation immédiate des alertes médicales vitales (alerte pacemaker Art. L1232-24 CDLD & Modèle IIIC réglementaire), directives de don d'organes (Loi 1986) et legs du corps à la science sous 48h.
 
 ---
 
@@ -44,7 +44,7 @@ flowchart TD
     UC304 --> UC306
     
     UC306 --> UC307[UC-307: Volontés Civiles & Funéraires DEC-AET-05]
-    UC306 --> UC308[UC-308: Alerte Médicale Pacemaker Art. L1232-17]
+    UC306 --> UC308[UC-308: Alerte Médicale Pacemaker Art. L1232-24 CDLD]
     UC306 --> UC309[UC-309: Statut Don d Organes Loi 1986]
     UC306 --> UC310[UC-310: Directives Legs du Corps sous 48h]
     UC306 --> UC311[UC-311: Droit Acces Dossier Medical Loi 2002]
@@ -128,4 +128,4 @@ En situation de deuil, chaque message d'erreur maladroit est une blessure. L'App
 - [ ] **Zéro Login & Zéro Friction** : Aucun écran de bienvenue promotionnel, aucun recueil de consentement publicitaire (zéro traqueur), affichage direct en $\le 800\text{ ms}$ post-tap.
 - [ ] **Respect Rigoureux de DEC-AET-07 Option B** : Interdiction absolue de bloquer l'affichage du sanctuaire en écran noir si l'émetteur est simplement non répertorié ; seul le bandeau de réserve ambré doit être injecté.
 - [ ] **Blocage Intransigeant sur Fraude** : En cas de falsification de signature ou de certificat révoqué, l'accès aux données doit être immédiatement et hermétiquement verrouillé.
-- [ ] **Conformité Légale Funéraire** : Affichage prioritaire des alertes d'exérèse pacemaker (Art. L1232-17 CDLD) et des volontés d'organes/legs.
+- [ ] **Conformité Légale Funéraire** : Affichage prioritaire des alertes d'exérèse pacemaker (Art. L1232-24 CDLD & Modèle IIIC réglementaire) et des volontés d'organes/legs.

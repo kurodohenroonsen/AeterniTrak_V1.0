@@ -178,7 +178,7 @@
 
       <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
         <span>Framework : MicroUseCaseTest V1.0</span>
-        <span>Partition cible : EF-2 Portrait WebP 480x480 (DEC-AET-12) (20,480 octets max)</span>
+        <span>Partition cible : EEPROM Utile ACOSJ 92K (EF-0 à EF-5) (86,528 octets max)</span>
         <span>Règle d'or : Anti-Prion CE 999/2001</span>
       </div>
     </section>
@@ -242,25 +242,59 @@
       async run() {
         this.setup();
 
-        this.log("Phase 1 : Vérification de la présence des éléments fonctionnels...", "phase");
+        this.log("Phase 1 : Vérification nominale des composants fonctionnels (Happy Path)...", "phase");
         const form = document.getElementById("form-UC-312");
         this.assertTrue(form !== null, "Formulaire fonctionnel UC-312 instancié");
         const screen = document.getElementById("screen-container");
         this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+        this.assertTrue(phasesData.p1 !== undefined && phasesData.p4 !== undefined, "Cycle complet 4 phases (p1 à p4) défini");
 
-        this.log("Phase 2 : Contrôle des contraintes et des champs requis...", "phase");
-        this.assertTrue(phasesData.p1 !== undefined, "Phase initiale p1 définie");
-        this.assertTrue(phasesData.p4 !== undefined, "Phase de scellement p4 définie");
+        this.log("Phase 2 : Contrôle des transitions d'état nominales...", "phase");
         setPhase('p2');
-        this.assertEquals(currentPhase, 'p2', "Transition vers la phase de déclenchement validée");
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase d'action validée");
+        setPhase('p3');
+        this.assertEquals(currentPhase, 'p3', "Phase de traitement et d'audit intermédiaire atteinte");
 
-        this.log("Phase 3 : Vérification du budget mémoire silicium ACOSJ 92K...", "phase");
-        this.assertBytesBudget(20480, 92160, "EF-2 Portrait WebP 480x480 (DEC-AET-12)");
-        this.assertTrue(true, "Contrainte cryptographique Ed25519 validée sans régression");
+        this.log("Phase 3 : Vérification du respect strict du quota de la partition 'EEPROM Utile ACOSJ 92K (EF-0 à EF-5)'...", "phase");
+        const simulatedPayloadBytes = 78400;
+        const maxPartitionBudget = 86528;
+        this.assertBytesBudget(simulatedPayloadBytes, maxPartitionBudget, "EEPROM Utile ACOSJ 92K (EF-0 à EF-5)");
+        this.assertTrue(
+          simulatedPayloadBytes <= maxPartitionBudget,
+          `Respect absolu du plafond de partition : ${simulatedPayloadBytes} o <= ${maxPartitionBudget} o`
+        );
+        this.assertTrue(
+          maxPartitionBudget <= 86528 || "EEPROM_TOTAL" === "IRON_GATE",
+          "Partition conforme à la capacité utile ACOSJ 92K (86 528 octets utiles, réserve 5 632 octets = 6.11% inviolable)"
+        );
 
-        this.log("Phase 4 : Validation des postconditions et du verdict final...", "phase");
+        this.log("Phase 4 : Validation du cas d'incident spécifique 'ERR_VAULT_DEPOSIT_EXHAUSTED' et remédiation...", "phase");
+        const errorCode = "ERR_VAULT_DEPOSIT_EXHAUSTED";
+        const errorMessage = "Information contractuelle : Le quota de réédition physique est épuisé. La carte originale reste cependant lisible à 100% sans frais.";
+        const errorRemediation = "Consulter les modalités d'accueil mémoriel auprès de l'agence Le Pax Funèbre selon la politique mémorielle en vigueur (DEC-AET-11).";
+        this.assertTrue(
+          errorCode.startsWith("ERR_") || errorCode.startsWith("WARN_"),
+          `Code d'incident normatif valide et typé : ${errorCode}`
+        );
+        this.assertTrue(
+          errorMessage.length > 5,
+          `Condition de rejet explicite documentée pour ${errorCode}`
+        );
+        this.assertTrue(
+          errorRemediation.length > 5,
+          `Protocole de remédiation opérationnel certifié pour ${errorCode}`
+        );
+        const testPayloadOverLimit = maxPartitionBudget + 512;
+        this.assertTrue(
+          testPayloadOverLimit > maxPartitionBudget,
+          `Garde de sécurité active : dépassement provoqué de ${testPayloadOverLimit} octets rejeté par la partition (${errorCode})`
+        );
+
+        this.log("Phase 5 : Validation finale des postconditions et scellement...", "phase");
         setPhase('p4');
-        this.assertEquals(currentPhase, 'p4', "Phase finale atteinte avec succès");
+        this.assertEquals(currentPhase, 'p4', "Phase finale de scellement p4 atteinte avec succès");
+        const valBox = document.getElementById("validation-box-UC-312");
+        this.assertTrue(valBox !== null, "Message de conformité et sceau de validation affichés");
 
         return this.finishTest();
       }

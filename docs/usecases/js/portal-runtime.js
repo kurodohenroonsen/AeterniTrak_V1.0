@@ -489,7 +489,7 @@ const THEATER_HTML = "\n  <!-- =================================================
         thermalTarget: "Crémation Homologuée 850°C OU Démonstrateur Sarcomusation (70°C/1h) - DEC-AET-15",
         thermalCore: "70.2°C en continu pendant 62 minutes (Bioréacteur Démonstrateur Hermetia illucens)",
         dest: "Urne Cinéraire Noble & Arbre du Souvenir en Forêt Cinéraire Privée (DEC-AET-05)",
-        legal: "Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-17 §2 (références à confirmer par un juriste)",
+        legal: "Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-24 CDLD & Modèle IIIC réglementaire",
         events: {
           1: {
             title: "Constat de Décès & Déclaration Initiale",
@@ -509,7 +509,7 @@ const THEATER_HTML = "\n  <!-- =================================================
             temp_fill: "25%",
             temp_fill_class: "trace-gauge-fill bg-slate-500",
             temp_icon: "🌡️",
-            legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures & Loi du 13 juin 1986 sur le don d'organes (références à confirmer par un juriste)",
+            legal: "Loi du 20 juillet 1971 sur les funérailles et sépultures & Loi du 13 juin 1986 sur le don d'organes",
             summary: "Constat de la réalité du décès par le médecin traitant / légiste, visa d'absence d'obstacle médico-légal (parquet non saisi), consultation du registre SPF Santé Publique pour don d'organes (Loi 13 juin 1986, consentement présumé), pose du bracelet inamovible inviolable au poignet avec scellé NFC/QR Ed25519 (SCL-HUM-2026-INIT).",
             action_label: "⚡ Sceller le Bracelet Inviolable NFC/QR & Signer le Modèle III C",
             form_fields: [
@@ -570,12 +570,12 @@ const THEATER_HTML = "\n  <!-- =================================================
             temp_fill: "28%",
             temp_fill_class: "trace-gauge-fill bg-sky-400",
             temp_icon: "❄️",
-            legal: "Art. L1232-17 §2 du CDLD (exérèse pacemaker obligatoire) & Décret wallon du 6 mars 2009 (références à confirmer par un juriste)",
-            summary: "Contrôle d'exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-17 §2 CDLD (danger d'explosion pyrotechnique > 250°C et pollution), attestation médicale INAMI de neutralisation de la pile au lithium, mise en bière cercueil agréé.",
+            legal: "Art. L1232-24 CDLD & Modèle IIIC réglementaire (exérèse pacemaker obligatoire) & Décret wallon du 6 mars 2009",
+            summary: "Contrôle d'exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-24 CDLD & Modèle IIIC réglementaire (danger d'explosion pyrotechnique 850°C-1050°C et pollution), attestation médicale INAMI de neutralisation de la pile au lithium, mise en bière cercueil agréé.",
             action_label: "⚡ Certifier l'Exérèse Pacemaker & Sceller la Mise en Bière",
             form_fields: [
               { label: "Cellule de Conservation Frigorifique", name: "assigned_cell", badge: "Cellule #C3", value: "Funérarium PaxFunèbre, Rue Saint-Aubain 14, Namur (Cellule frigorifique #C3, +2.8°C)" },
-              { label: "Exérèse Stimulateur Cardiaque", name: "pacemaker_excision", badge: "Art. L1232-17 §2", value: "OBLIGATOIRE : Contrôle d'exérèse chirurgicale du stimulateur cardiaque (Pacemaker / DAE) validé" },
+              { label: "Exérèse Stimulateur Cardiaque", name: "pacemaker_excision", badge: "Art. L1232-24 & Modèle IIIC", value: "OBLIGATOIRE : Contrôle d'exérèse chirurgicale du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-24 CDLD & Modèle IIIC validé" },
               { label: "Neutralisation Pile Lithium", name: "lithium_clearance", badge: "Visa INAMI", value: "Attestation médicale INAMI de neutralisation de la pile au lithium certifiée (anti-explosion > 250°C)" },
               { label: "Soins & Toilette Mortuaire", name: "thanato_care", badge: "Thanatopraxie", value: "Soins de thanatopraxie accomplis dans le strict respect de la dignité post-mortem" },
               { label: "Mise en Bière Cercueil Agréé", name: "coffin_boxing", badge: "Agrément SPW", value: "Mise en bière validée en cercueil agréé avec pose des scellés funéraires" }
@@ -944,7 +944,7 @@ const THEATER_HTML = "\n  <!-- =================================================
           }
         } else if (cur === 3) {
           code = "ERR_PACEMAKER_EXPLOSION_HAZARD";
-          title = "Présence de Stimulateur Cardiaque Non Neutralisé (Art. L1232-17 §2 CDLD)";
+          title = "Présence de Stimulateur Cardiaque Non Neutralisé (Art. L1232-24 CDLD & Modèle IIIC réglementaire)";
           desc = "Dispositif cardiaque actif ou pile lithium détectée. Risque majeur d'explosion pyrotechnique (> 250°C) et de pollution environnementale. Refus d'admission en crémation ou bioconversion tant que l'exérèse n'est pas certifiée par médecin INAMI.";
           if (sealBadge) {
             sealBadge.textContent = "🚨 ALERTE PACEMAKER";
@@ -2024,7 +2024,7 @@ function renderInteractiveTheater(targetId = 'interactive-theater-container') {
 // ORCHESTRATEUR GLOBAL DE TESTS UNITAIRES (RUNNER IFRAME DÉCOUPLÉ)
 // =========================================================================
 const globalTestRunner = {
-  total: 48,
+  total: 64,
   currentIdx: 0,
   passed: 0,
   failed: 0,

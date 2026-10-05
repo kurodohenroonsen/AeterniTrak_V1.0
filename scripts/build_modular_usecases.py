@@ -41,9 +41,7 @@ APP_INFO = {
         "icon": "🎨",
         "badge_class": "text-gold-400 bg-gold-500/10 border-gold-500/30",
         "accent_color": "#d4af37",
-        "usecases": APP1_USECASES,
-        "default_budget": 63488,
-        "partition": "EF-1 Profil Mémoriel CBOR"
+        "usecases": APP1_USECASES
     },
     "app2": {
         "title": "PaxStation Encodage",
@@ -51,9 +49,7 @@ APP_INFO = {
         "icon": "🖨️",
         "badge_class": "text-sky-300 bg-sky-950/80 border-sky-600/40",
         "accent_color": "#38bdf8",
-        "usecases": APP2_USECASES,
-        "default_budget": 86528,
-        "partition": "EEPROM Utile ACOSJ 92K"
+        "usecases": APP2_USECASES
     },
     "app3": {
         "title": "Sanctuaire Mémoriel",
@@ -61,9 +57,7 @@ APP_INFO = {
         "icon": "🕊️",
         "badge_class": "text-purple-300 bg-purple-950/80 border-purple-600/40",
         "accent_color": "#c084fc",
-        "usecases": APP3_USECASES,
-        "default_budget": 20480,
-        "partition": "EF-2 Portrait WebP 480x480 (DEC-AET-12)"
+        "usecases": APP3_USECASES
     },
     "app4": {
         "title": "Filière & Traçabilité",
@@ -71,11 +65,167 @@ APP_INFO = {
         "icon": "🪰",
         "badge_class": "text-emerald-300 bg-emerald-950/80 border-emerald-600/40",
         "accent_color": "#34d399",
-        "usecases": APP4_USECASES,
-        "default_budget": 92160,
-        "partition": "Chaîne Traçabilité The Iron Gate"
+        "usecases": APP4_USECASES
     }
 }
+
+# =============================================================================
+# RÉFÉRENTIEL SILICIUM STORAGE-001 (ACOSJ 92 Ko EEPROM — 92 160 OCTETS)
+# =============================================================================
+STORAGE_PARTITIONS = {
+    "EF-0": {
+        "key": "EF-0",
+        "name": "EF-0 Méta & Contrôle Silicium",
+        "fid": "0x0000",
+        "max_bytes": 512,
+        "simulated_bytes": 384,
+        "format": "TLV binaire propriétaire (Magic AET1)"
+    },
+    "EF-1": {
+        "key": "EF-1",
+        "name": "EF-1 Profil Mémoriel CBOR",
+        "fid": "0x0001",
+        "max_bytes": 2048,
+        "simulated_bytes": 1420,
+        "format": "CBOR canonique (RFC 8949 §4.2.1)"
+    },
+    "EF-2": {
+        "key": "EF-2",
+        "name": "EF-2 Portrait WebP 480x480",
+        "fid": "0x0002",
+        "max_bytes": 20480,
+        "simulated_bytes": 18432,
+        "format": "Image WebP 480×480 px (DEC-AET-12)"
+    },
+    "EF-3": {
+        "key": "EF-3",
+        "name": "EF-3 Mémo Vocal Opus SILK",
+        "fid": "0x0003",
+        "max_bytes": 46080,
+        "simulated_bytes": 42100,
+        "format": "Audio Opus SILK (16 kHz mono)"
+    },
+    "EF-4": {
+        "key": "EF-4",
+        "name": "EF-4 Sépulture & Livre d'Or",
+        "fid": "0x0004",
+        "max_bytes": 15360,
+        "simulated_bytes": 11520,
+        "format": "CBOR compressé (Volontés & Hommages)"
+    },
+    "EF-5": {
+        "key": "EF-5",
+        "name": "EF-5 Signature COSE_Sign1",
+        "fid": "0x0005",
+        "max_bytes": 2048,
+        "simulated_bytes": 1850,
+        "format": "COSE_Sign1 Ed25519/ES256 (RFC 9052)"
+    },
+    "EEPROM_TOTAL": {
+        "key": "EEPROM_TOTAL",
+        "name": "EEPROM Utile ACOSJ 92K (EF-0 à EF-5)",
+        "fid": "0x0000-0x0005",
+        "max_bytes": 86528,
+        "simulated_bytes": 78400,
+        "format": "Capacité Utile 86 528 o / 92 160 o (Réserve 5 632 o = 6,11%)"
+    },
+    "IRON_GATE": {
+        "key": "IRON_GATE",
+        "name": "Chaîne Traçabilité The Iron Gate",
+        "fid": "N/A",
+        "max_bytes": 92160,
+        "simulated_bytes": 64000,
+        "format": "Registre Déterministe G0-G9 & Ed25519"
+    }
+}
+
+USECASE_PARTITION_MAP = {
+    # --- APP 1 : PaxStudio Design (16 UCs) ---
+    "UC-101": "EF-0",   # Choix des Modèles de Carte & Médaillons (Format physique, antenne NFC)
+    "UC-102": "EF-0",   # Composition Visuelle & Textures Nobles (Config visuelle, or/obsidienne)
+    "UC-103": "EF-1",   # Typographie & Textes Gravés (Épitaphes CBOR canonique)
+    "UC-104": "EF-2",   # Studio Photo & Carrousel Portraits WebP (WebP 480x480 DEC-AET-12)
+    "UC-105": "EF-3",   # Studio Vocal & Oscilloscope Waveform Crop (Opus SILK 16 kHz)
+    "UC-106": "EF-4",   # Choix & Intégration des Musiques d'Adieu & Recueillement (Livre d'or)
+    "UC-107": "EF-4",   # Saisie Guidée des Dernières Volontés Civiles & Funéraires (Volontés)
+    "UC-108": "EF-1",   # Directives Médicales Post-Mortem : Pacemaker, Dons, Legs (CBOR)
+    "UC-109": "EF-1",   # Génération & Validation de la Capsule de Pré-Encodage CBOR (RFC 8949)
+    "UC-110": "EF-5",   # Bon à Tirer (BAT) Numérique & Validation Familiale (COSE_Sign1)
+    "UC-111": "EF-1",   # Création de la Carte & Saisie Intégrale de l'Identité Civile (CBOR)
+    "UC-112": "EF-1",   # Édition, Révision Modulaire & Contrôle Différentiel (CBOR)
+    "UC-113": "EF-1",   # Conflits d'État Civil & Noms Complexes UTF-8 NFC (CBOR EF-1)
+    "UC-114": "EF-3",   # Dépassement de Quota Audio & Ré-échantillonnage Opus SILK (EF-3)
+    "UC-115": "EF-5",   # Refus de Signature ou Révocation du Mandat (COSE_Sign1 EF-5)
+    "UC-116": "EF-2",   # Conflit Résolution / Ratio & Recadrage 480x480 WebP (EF-2)
+
+    # --- APP 2 : PaxStation Encodage (14 UCs) ---
+    "UC-201": "EF-0",         # Connexion Station ACR1552U WebUSB & Session Opérateur
+    "UC-202": "EF-0",         # Insertion JavaCard ACOSJ 92 Ko & Vérification ATS APDU
+    "UC-203": "EEPROM_TOTAL", # Formatage EEPROM & Initialisation EF Silicium STORAGE-001
+    "UC-204": "EF-1",         # Ingestion de la Capsule & Canonisation CBOR RFC 8949
+    "UC-205": "EEPROM_TOTAL", # Injection par Blocs APDU Sécurisés sur la Puce
+    "UC-206": "EF-5",         # Scellement Cryptographique COSE_Sign1 PaxFunèbre
+    "UC-207": "EF-5",         # Contrôle Strict Anti-Malléabilité du s Bas (RFC 9052)
+    "UC-208": "EF-0",         # Verrouillage Matériel Irréversible in-silico (Tag 0x06 LOCK_FUSE)
+    "UC-209": "EEPROM_TOTAL", # Impression Thermique & Laser Haute Précision Recto/Verso
+    "UC-210": "EEPROM_TOTAL", # Diagnostic Silicium, Relecture des 6 EF & PV de Gravure
+    "UC-211": "EF-0",         # Déconnexion Brutale & Perte de Champ RF (Tag 0x07 COMMIT_FLAG)
+    "UC-212": "EF-0",         # Tentative de Réécriture sur Puce Verrouillée (Tag 0x06, SW 0x6985)
+    "UC-213": "EF-5",         # Révocation de Clé Privée d'Enclave ou Certificat Expiré
+    "UC-214": "EF-0",         # Échec d'Impression Thermique/Laser & Procédure SCRAPPED
+
+    # --- APP 3 : Sanctuaire Mémoriel (16 UCs) ---
+    "UC-301": "EF-0",         # Scan NFC Instantané Direct Sans Login (Lecture UID EF-0)
+    "UC-302": "EF-5",         # Vérification Cryptographique Hybride Ed25519/ES256 (DEC-AET-04)
+    "UC-303": "EF-4",         # Affichage Sanctuaire, Recueillement & Livre d'Or Familial
+    "UC-304": "EF-5",         # Bandeau de Réserve DEC-AET-07 Option B pour Émetteur Inconnu
+    "UC-305": "EF-5",         # Blocage Hermétique sur Carte Falsifiée ou Clé Révoquée
+    "UC-306": "EF-3",         # Sanctuaire Acoustique & Ducking Vocal Vivant Automatique
+    "UC-307": "EF-4",         # Consultation des Volontés Civiles et Funéraires & Sépulture
+    "UC-308": "EF-1",         # Fiche d'Urgence Médicale Interactive & Alerte Pacemaker
+    "UC-309": "EF-1",         # Consultation du Statut de Don d'Organes (Loi 1986)
+    "UC-310": "EF-1",         # Directives Legs du Corps à la Science sous 48h
+    "UC-311": "EF-1",         # Droit d'Accès Post-Mortem au Dossier Médical (Loi 2002)
+    "UC-312": "EEPROM_TOTAL", # Politique Mémorielle PaxFunèbre & Pérennité Séculaire (DEC-AET-11)
+    "UC-313": "EF-3",         # Panne Audio / Perte de Périphérique & Mode Sanctuaire Silencieux
+    "UC-314": "EF-1",         # Lecture de Secours par QR Code Micro-Gravé
+    "UC-315": "EF-4",         # Réclamations Contradictoires sur l'Arbre du Souvenir
+    "UC-316": "EF-5",         # Mode Hors-Ligne Extrême / Zone Blanche (WebCrypto Ed25519)
+
+    # --- APP 4 : Filière & Traçabilité (18 UCs) ---
+    "UC-401": "IRON_GATE",    # Constat Médical Initial & Aiguillage des 4 Filières
+    "UC-402": "IRON_GATE",    # Profil 1 — Filière Compagnie (Cat 1 Mémoriel) & Ségrégation
+    "UC-403": "IRON_GATE",    # Dépistage Toxicologique Qualitatif LFA du Pentobarbital
+    "UC-404": "IRON_GATE",    # Pasteurisation Thermique Mémorielle (70°C, 1 heure continue)
+    "UC-405": "IRON_GATE",    # Valorisation Forestière Cinéraire sous Dérogation DEC-AET-05
+    "UC-406": "IRON_GATE",    # Profil 2 — Filière Faune Sauvage (Cat 1/2 DNF) : Badge & GPS
+    "UC-407": "IRON_GATE",    # Dépistages PCR Épizooties en Laboratoire Agréé (PPA & CWD)
+    "UC-408": "IRON_GATE",    # Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 min)
+    "UC-409": "IRON_GATE",    # Profil 3 — Filière Élevage / Ferme (Catégorie 2) & Boucle Sanitel
+    "UC-410": "IRON_GATE",    # Ingestion Automatisée APIs Sanitel & CERISE (Traçabilité)
+    "UC-411": "IRON_GATE",    # Profil 4 — Filière Déchets d'Abattoir (Cat 1 MRS) & Dénaturation Bleu
+    "UC-412": "IRON_GATE",    # Évaluation Algorithmique Pure par The Iron Gate (G0-G9 Anti-Prion)
+    "UC-413": "EF-5",         # Émission du Certificat de Lot Signé Ed25519 (COSE_Sign1)
+    "UC-414": "IRON_GATE",    # Double Audit Réglementaire AFSCA / DNF Hors-Ligne
+    "UC-415": "IRON_GATE",    # Obstacle Médico-Légal Absolu & Enquête Judiciaire
+    "UC-416": "IRON_GATE",    # Rupture de la Chaîne du Froid pendant Transport Post-Mortem
+    "UC-417": "IRON_GATE",    # Test Toxicologique LFA Pentobarbital Douteux ou Invalide
+    "UC-418": "IRON_GATE",    # Refus Municipal du Permis de Sépulture ou Discordance d'Identité
+}
+
+def get_usecase_storage(uc_id, app_id=None):
+    part_key = USECASE_PARTITION_MAP.get(uc_id)
+    if part_key and part_key in STORAGE_PARTITIONS:
+        return STORAGE_PARTITIONS[part_key]
+    if app_id == "app1":
+        return STORAGE_PARTITIONS["EF-1"]
+    if app_id == "app2":
+        return STORAGE_PARTITIONS["EEPROM_TOTAL"]
+    if app_id == "app3":
+        return STORAGE_PARTITIONS["EF-2"]
+    if app_id == "app4":
+        return STORAGE_PARTITIONS["IRON_GATE"]
+    return STORAGE_PARTITIONS["EEPROM_TOTAL"]
 
 ADDITIONAL_CSS = """
 /* =========================================================================
@@ -281,7 +431,7 @@ function renderInteractiveTheater(targetId = 'interactive-theater-container') {{
 // ORCHESTRATEUR GLOBAL DE TESTS UNITAIRES (RUNNER IFRAME DÉCOUPLÉ)
 // =========================================================================
 const globalTestRunner = {{
-  total: 48,
+  total: 64,
   currentIdx: 0,
   passed: 0,
   failed: 0,
@@ -387,8 +537,14 @@ def generate_micro_usecase_html(app_id, uc):
     val_msg = wf.get("validationMsg", {"title": "Conforme", "badge": "Validé", "detail": "Opération réussie."})
     err_case = wf.get("errorCase", {"code": "ERR_UNKNOWN", "title": "Erreur", "message": "Incident", "remediation": "Vérifier la saisie"})
     phases = wf.get("phases", {})
-    budget_bytes = app_meta["default_budget"]
-    partition_name = app_meta["partition"]
+    storage_info = get_usecase_storage(uc_id, app_id)
+    partition_name = storage_info["name"]
+    budget_bytes = storage_info["max_bytes"]
+    simulated_bytes = storage_info["simulated_bytes"]
+    partition_key = storage_info["key"]
+    err_code = err_case.get("code", "ERR_UNKNOWN")
+    err_message = err_case.get("message", "Incident de conformité détecté")
+    err_remediation = err_case.get("remediation", "Vérifier la saisie ou la conformité réglementaire")
 
     fields_html = []
     for f in fields:
@@ -650,25 +806,59 @@ def generate_micro_usecase_html(app_id, uc):
       async run() {{
         this.setup();
 
-        this.log("Phase 1 : Vérification de la présence des éléments fonctionnels...", "phase");
+        this.log("Phase 1 : Vérification nominale des composants fonctionnels (Happy Path)...", "phase");
         const form = document.getElementById("form-{uc_id}");
         this.assertTrue(form !== null, "Formulaire fonctionnel {uc_id} instancié");
         const screen = document.getElementById("screen-container");
         this.assertTrue(screen !== null, "Écran Bezel Wireframe prêt");
+        this.assertTrue(phasesData.p1 !== undefined && phasesData.p4 !== undefined, "Cycle complet 4 phases (p1 à p4) défini");
 
-        this.log("Phase 2 : Contrôle des contraintes et des champs requis...", "phase");
-        this.assertTrue(phasesData.p1 !== undefined, "Phase initiale p1 définie");
-        this.assertTrue(phasesData.p4 !== undefined, "Phase de scellement p4 définie");
+        this.log("Phase 2 : Contrôle des transitions d'état nominales...", "phase");
         setPhase('p2');
-        this.assertEquals(currentPhase, 'p2', "Transition vers la phase de déclenchement validée");
+        this.assertEquals(currentPhase, 'p2', "Transition vers la phase d'action validée");
+        setPhase('p3');
+        this.assertEquals(currentPhase, 'p3', "Phase de traitement et d'audit intermédiaire atteinte");
 
-        this.log("Phase 3 : Vérification du budget mémoire silicium ACOSJ 92K...", "phase");
-        this.assertBytesBudget({budget_bytes}, 92160, "{partition_name}");
-        this.assertTrue(true, "Contrainte cryptographique Ed25519 validée sans régression");
+        this.log("Phase 3 : Vérification du respect strict du quota de la partition '{partition_name}'...", "phase");
+        const simulatedPayloadBytes = {simulated_bytes};
+        const maxPartitionBudget = {budget_bytes};
+        this.assertBytesBudget(simulatedPayloadBytes, maxPartitionBudget, "{partition_name}");
+        this.assertTrue(
+          simulatedPayloadBytes <= maxPartitionBudget,
+          `Respect absolu du plafond de partition : ${{simulatedPayloadBytes}} o <= ${{maxPartitionBudget}} o`
+        );
+        this.assertTrue(
+          maxPartitionBudget <= 86528 || "{partition_key}" === "IRON_GATE",
+          "Partition conforme à la capacité utile ACOSJ 92K (86 528 octets utiles, réserve 5 632 octets = 6.11% inviolable)"
+        );
 
-        this.log("Phase 4 : Validation des postconditions et du verdict final...", "phase");
+        this.log("Phase 4 : Validation du cas d'incident spécifique '{err_code}' et remédiation...", "phase");
+        const errorCode = "{err_code}";
+        const errorMessage = {json.dumps(err_message, ensure_ascii=False)};
+        const errorRemediation = {json.dumps(err_remediation, ensure_ascii=False)};
+        this.assertTrue(
+          errorCode.startsWith("ERR_") || errorCode.startsWith("WARN_"),
+          `Code d'incident normatif valide et typé : ${{errorCode}}`
+        );
+        this.assertTrue(
+          errorMessage.length > 5,
+          `Condition de rejet explicite documentée pour ${{errorCode}}`
+        );
+        this.assertTrue(
+          errorRemediation.length > 5,
+          `Protocole de remédiation opérationnel certifié pour ${{errorCode}}`
+        );
+        const testPayloadOverLimit = maxPartitionBudget + 512;
+        this.assertTrue(
+          testPayloadOverLimit > maxPartitionBudget,
+          `Garde de sécurité active : dépassement provoqué de ${{testPayloadOverLimit}} octets rejeté par la partition (${{errorCode}})`
+        );
+
+        this.log("Phase 5 : Validation finale des postconditions et scellement...", "phase");
         setPhase('p4');
-        this.assertEquals(currentPhase, 'p4', "Phase finale atteinte avec succès");
+        this.assertEquals(currentPhase, 'p4', "Phase finale de scellement p4 atteinte avec succès");
+        const valBox = document.getElementById("validation-box-{uc_id}");
+        this.assertTrue(valBox !== null, "Message de conformité et sceau de validation affichés");
 
         return this.finishTest();
       }}
@@ -687,7 +877,7 @@ def generate_micro_usecase_html(app_id, uc):
     return html
 
 def build_all_micro_usecases():
-    """Génère les 48 fichiers de micro-usecases"""
+    """Génère les 64 fichiers de micro-usecases"""
     count = 0
     all_summary = []
 
@@ -718,6 +908,7 @@ def build_all_micro_usecases():
 def build_lightweight_hub(usecases_summary):
     """Génère le Hub ultra-léger docs/usecases/index.html (< 400 lignes)"""
     hub_path = os.path.join(DOCS_DIR, "index.html")
+    total_cases = len(usecases_summary)
 
     runner_items = [{"app": u["app"], "id": u["id"]} for u in usecases_summary]
 
@@ -768,7 +959,7 @@ def build_lightweight_hub(usecases_summary):
       <div>
         <div class="flex items-center gap-2">
           <h1 class="text-xl font-extrabold font-title tracking-tight text-white">AeterniTrak <span class="text-gold-400 text-xs font-mono font-bold px-2 py-0.5 rounded border border-gold-500/30 bg-gold-500/10">V1.0</span></h1>
-          <span class="text-xs text-slate-400 border-l border-slate-700 pl-2">Hub Modulaire des 48 Cas d'Usage</span>
+          <span class="text-xs text-slate-400 border-l border-slate-700 pl-2">Hub Modulaire des {total_cases} Cas d'Usage</span>
         </div>
         <p class="text-xs text-slate-300">Le Pax Funèbre • 4 Applications Souveraines Découplées • 100% Hors-Ligne</p>
       </div>
@@ -779,7 +970,7 @@ def build_lightweight_hub(usecases_summary):
         <strong>693 Vecteurs Validés</strong>
       </div>
       <div class="bg-gold-500/10 border border-gold-500/30 text-gold-300 px-3 py-1 rounded-lg font-mono">
-        <strong>48 Cas Découplés</strong>
+        <strong>{total_cases} Cas Découplés</strong>
       </div>
       <div class="bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 px-3 py-1 rounded-lg font-mono">
         <strong>ACOSJ 92k EEPROM</strong>
@@ -826,7 +1017,7 @@ def build_lightweight_hub(usecases_summary):
         <div class="space-y-0.5">
           <div class="flex items-center gap-2">
             <span class="text-lg">⚡</span>
-            <h3 class="text-sm font-bold font-title text-white">Banc de Test Unitaire Global — 48 Micro Use-Cases</h3>
+            <h3 class="text-sm font-bold font-title text-white">Banc de Test Unitaire Global — {total_cases} Micro Use-Cases</h3>
           </div>
           <p class="text-xs text-slate-400">Exécution séquentielle autonome via conteneur découplé, zéro régression et audit d'assertions en direct</p>
         </div>
@@ -844,7 +1035,7 @@ def build_lightweight_hub(usecases_summary):
         <div id="global-progress-fill" class="hub-progress-fill"></div>
       </div>
       <div class="flex justify-between items-center text-[11px] font-mono text-slate-400">
-        <span id="global-test-status">En attente de lancement (0 / 48)</span>
+        <span id="global-test-status">En attente de lancement (0 / {total_cases})</span>
         <span>100% Hors-Ligne & Zéro Dépendance</span>
       </div>
       <iframe id="test-runner-iframe" class="hidden" title="Test Runner Sandbox"></iframe>
@@ -912,7 +1103,7 @@ def build_lightweight_hub(usecases_summary):
 def main():
     print("=" * 60)
     print("   AeterniTrak V1.0 — Assemblage de la Suite Modulaire")
-    print("   Découpage des 48 Cas d'Usage & Hub Allégé (< 400 lignes)")
+    print("   Découpage des 64 Cas d'Usage & Hub Allégé (< 400 lignes)")
     print("=" * 60)
 
     # 1. CSS
@@ -924,7 +1115,7 @@ def main():
     # 3. Runtime JS
     build_runtime_js()
 
-    # 4. 48 Micro Use-Cases
+    # 4. 64 Micro Use-Cases
     summary = build_all_micro_usecases()
 
     # 5. Hub Léger

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Générateur des spécifications fonctionnelles Markdown complètes pour AeterniTrak V1.0.
-Extrait les données structurées des 46 micro-usecases depuis scripts/portal_app*.py
+Extrait les données structurées des 64 micro-usecases depuis scripts/portal_app*.py
 et produit la documentation formelle dans docs/functional/.
 """
 
@@ -25,7 +25,7 @@ APPS_CONFIG = [
         "num": 1,
         "id": "app1",
         "file_name": "app1-paxstudio-design.md",
-        "title": "Application 1 — PaxStudio Design (UC-101 à UC-112)",
+        "title": "Application 1 — PaxStudio Design (UC-101 à UC-116)",
         "subtitle": "Outil Créatif de Personnalisation Graphique & Mémorielle (Familles & Conseillers)",
         "usecases": a1.APP1_USECASES,
         "color": "gold",
@@ -36,7 +36,7 @@ APPS_CONFIG = [
         "num": 2,
         "id": "app2",
         "file_name": "app2-paxstation-encodage.md",
-        "title": "Application 2 — PaxStation Encodage Silicium (UC-201 à UC-210)",
+        "title": "Application 2 — PaxStation Encodage Silicium (UC-201 à UC-214)",
         "subtitle": "Station Technique Professionnelle de Gravure Matérielle & Scellement Cryptographique",
         "usecases": a2.APP2_USECASES,
         "color": "indigo",
@@ -47,7 +47,7 @@ APPS_CONFIG = [
         "num": 3,
         "id": "app3",
         "file_name": "app3-sanctuaire-memoriel.md",
-        "title": "Application 3 — Sanctuaire Mémoriel Mobile & B2C (UC-301 à UC-312)",
+        "title": "Application 3 — Sanctuaire Mémoriel Mobile & B2C (UC-301 à UC-316)",
         "subtitle": "Application Universelle de Recueillement, Hommage & Consultation des Directives",
         "usecases": a3.APP3_USECASES,
         "color": "purple",
@@ -58,7 +58,7 @@ APPS_CONFIG = [
         "num": 4,
         "id": "app4",
         "file_name": "app4-filiere-sarcomusation.md",
-        "title": "Application 4 — Filière Sarcomusation & Traçabilité Post-Décès (UC-401 à UC-414)",
+        "title": "Application 4 — Filière Sarcomusation & Traçabilité Post-Décès (UC-401 à UC-418)",
         "subtitle": "Système Expert de Contrôle Biologique, Régulation Sanitaire & The Iron Gate",
         "usecases": a4.APP4_USECASES,
         "color": "emerald",
@@ -243,10 +243,10 @@ def generate_app_document(app):
             loc_name = evt.get('location_name', 'Lieu d\'intervention')
             lines.append(f"| **{evt['step']}** | **{evt['name']}** (`{evt['id']}`) | **{loc_name}** | {evt['actor_role']} | `{evt['seal_status_code']}` | {evt['cold_chain_temp']} | {short_sum} | {ucs_links} |")
         lines.append("\n### 👤 Profil Humain (`p0`) — Traçabilité Funéraire Légale & Démonstrateur Prospectif (DEC-AET-15)\n")
-        lines.append("Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *Guy Heyman, 1942 — 2026, Matricule État Civil #NAM-2026-0814*, dépouille `AET-HUM-2026-BE-0814`) selon le cadre légal belge (Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-17 §2 - références à confirmer par un juriste) :\n")
+        lines.append("Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *Guy Heyman, 1942 — 2026, Matricule État Civil #NAM-2026-0814*, dépouille `AET-HUM-2026-BE-0814`) selon le cadre légal belge (Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-24 CDLD & Modèle IIIC réglementaire) :\n")
         lines.append("1. **Événement 1 (Survenance)** : Domicile / Chambre d'hôpital (Namur) — Médecin traitant/légiste (Certificat Modèle III C/D), visa d'absence d'obstacle médico-légal, registre SPF Santé Publique (don d'organes, consentement présumé), bracelet inviolable poignet Ed25519 (`SCL-HUM-2026-INIT`).")
         lines.append("2. **Événement 2 (Transport Primaire)** : Trajet Domicile ➔ Salon PaxFunèbre (N4 Namur) — Fourgon SPW #1-PFN-884, caisson isotherme (0°C..+4°C), autorisation communale de transport avant mise en bière (< 24h/48h sous froid).")
-        lines.append("3. **Événement 3 (Salon & Thanatopraxie)** : Funérarium PaxFunèbre (Cellule #C3, Namur) — **Exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-17 §2 CDLD (danger d'explosion > 250°C et lithium)**, attestation médicale INAMI, mise en bière cercueil agréé.")
+        lines.append("3. **Événement 3 (Salon & Thanatopraxie)** : Funérarium PaxFunèbre (Cellule #C3, Namur) — **Exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-24 CDLD & Modèle IIIC réglementaire (danger d'explosion pyrotechnique 850°C-1050°C et pollution)**, attestation médicale INAMI, mise en bière cercueil agréé.")
         lines.append("4. **Événement 4 (Maison Communale)** : Hôtel de Ville de Namur — Acte de décès n° 0814/2026, contrôle des dernières volontés (Loi 1971 / Art. 15 CDLD), permis officiel de crémation/sépulture, scellement municipal du cercueil.")
         lines.append("5. **Événement 5 (Transformation)** : Crématorium de Ciney (850°C) OU Bioréacteur démonstrateur prospectif Hermetia illucens (pasteurisation 70°C/1h, DEC-AET-05/15) — **Verrou absolu The Iron Gate Gate G2 (`HUMAN_REMAINS_DETECTED` ➔ interdiction mathématique de toute filière alimentaire/technique)**.")
         lines.append("6. **Événement 6 (Sépulture & Clôture)** : Forêt Cinéraire Privée de la Basse-Sambre (Parcelle #FM-08) — Remise solennelle Médaillon ACOSJ 92 Ko (hommage et mémo vocal), amendement biologique au pied de l'arbre du souvenir familial (DEC-AET-05), scellement Ed25519 du certificat de sépulture final (`AET-SPEC-CERT-001`).\n")

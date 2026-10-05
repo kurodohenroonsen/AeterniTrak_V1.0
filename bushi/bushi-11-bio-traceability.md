@@ -23,7 +23,7 @@ Le Bushi 11 pilote la traçabilité biologique et réglementaire de la filière 
 | **`UC-407`** | **Dépistages PCR Épizooties en Laboratoire Agréé (PPA & CWD)** | Contrôle biologique (Biologiste agréé) | Contrôles amont déclaratifs (DEC-AET-13) |
 | **`UC-408`** | **Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 minutes)** | Traitement thermique (Opérateur autoclave HP) | Règlement (CE) n° 142/2011 annexe IV |
 | **`UC-409`** | **Profil 3 — Filière Élevage / Ferme (Catégorie 2) & Boucle Sanitel** | Profils dépouilles (Éleveur & Vétérinaire) | Identification officielle Sanitel (saisie déclarative) |
-| **`UC-410`** | **Saisie Déclarative Sanitel & CERISE (Traçabilité Élevage)** | Guichets officiels (DEC-AET-02, Phase 1) | Saisie déclarative d'attestation Sanitel / CERISE |
+| **`UC-410`** | **Saisie Déclarative & Attestation Sanitel / CERISE (Phase 1, DEC-AET-02)** | Guichets officiels (DEC-AET-02, Phase 1) | Saisie déclarative d'attestation Sanitel / CERISE |
 | **`UC-411`** | **Profil 4 — Filière Déchets d'Abattoir (Cat 1 MRS) & Dénaturation Bleu** | Profils dépouilles (Inspecteur AFSCA & Abattoir) | Règlement (CE) n° 999/2001 annexe V |
 | **`UC-412`** | **Évaluation Algorithmique Pure par The Iron Gate (G0 à G9, Anti-Prion)** | Moteur déterministe (The Iron Gate) | Spécification AET-SPEC-PRION-001 |
 | **`UC-413`** | **Émission du Certificat de Lot Signé Ed25519 (AET-SPEC-CERT-001)** | Cryptographie filière (The Iron Gate / Conformité) | Spécification AET-SPEC-CERT-001 |
@@ -51,6 +51,21 @@ Le Bushi 11 pilote la traçabilité biologique et réglementaire de la filière 
    - Matières issues de restes humains : interdiction absolue de toute valorisation en alimentation animale.
 3. **Registre Numérique Cryptographique AFSCA / DNF** :
    - Journalisation de chaque lot de larves, chaque étape de chauffe (courbes de température et pression horodatées), chaque signature vétérinaire (UC-412 à UC-414).
+
+### 1.3 Fondement Scientifique Biologique : Hermetia illucens et Persistance des Prions (Avis EFSA 2015 & Benestad et al. 2024)
+
+Les données scientifiques internationales établissent formellement que les larves de mouche soldat noire (*Hermetia illucens*) ne dégradent pas les prions pathogènes ($PrP^{Sc}$) :
+
+1. **Avis Scientifique EFSA (2015)** (*Risk profile related to production and consumption of insects as food and feed*, EFSA Journal 2015;13(10):4257) : L'Autorité européenne de sécurité des aliments conclut que le profil de risque biologique des insectes dépend directement du substrat utilisé. Lorsque des insectes ingèrent des matières contenant des agents transmissibles d'encéphalopathies spongiformes (EST / prions), les enzymes digestives des invertébrés sont incapables de cliver les feuillets bêta résistants de la protéine prion scrapie ($PrP^{Sc}$). Le prion persiste intact dans la lumière intestinale et se retrouve dans le frass (excréments larvaires).
+2. **Études Expérimentales Récentes (Benestad et al. 2024)** : Les travaux toxicologiques de Benestad et al. (2024) démontrent in vivo et in vitro que les larves d'*Hermetia illucens* nourries sur des tissus contaminés par des prions (tremblante, ESB, CWD) n'altèrent ni la structure tertiaire, ni le titre infectieux des prions. La biomasse larvaire et les déjections résiduelles conservent leur infectiosité d'origine, transformant les larves en bio-vecteurs passifs de dissémination.
+
+**Justification Scientifique et Inviolabilité de The Iron Gate** :
+Cette persistance biologique avérée démontre que la bioconversion entomologique ne constitue pas une méthode de neutralisation sanitaire des prions. Elle fonde scientifiquement :
+- **L'interdiction absolue d'alimenter les insectes avec des carcasses ou cadavres d'animaux** pour toute filière d'alimentation animale (`feed` / `aquaculture_feed`), justifiant le surcroît de rigueur volontaire du protocole AeterniTrak imposant un substrat strictement végétal sain (`feed_grade_plant`, Règles P4 et P18).
+- **L'inviolabilité absolue des portes The Iron Gate** :
+  - **Porte G2 (`HUMAN_REMAINS_ROUTE_PROHIBITED`)** : Verrouillage cryptographique interdisant toute valorisation alimentaire ou technique de matières issues de restes humains (dans le cadre du démonstrateur de faisabilité prospectif DEC-AET-15).
+  - **Porte G5 (`FEED_BAN_RUMINANT_SOURCE`)** : Éradication définitive de toute source ruminante en filière alimentaire animale, barrant la transmission de l'ESB.
+  - **Porte G7 (`FEED_BAN_INTRA_SPECIES_VIOLATION`)** : Application inviolable de la **Règle d'Or Anti-Prion** interdisant le recyclage intraspécifique (art. 11(1)(a) du Règlement CE 1069/2009), empêchant l'amplification épidémiologique des prions au sein d'une même espèce biologique.
 
 ---
 

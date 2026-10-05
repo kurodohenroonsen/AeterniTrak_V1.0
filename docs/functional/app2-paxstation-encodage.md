@@ -1,4 +1,4 @@
-# Application 2 — PaxStation Encodage Silicium (UC-201 à UC-210)
+# Application 2 — PaxStation Encodage Silicium (UC-201 à UC-214)
 
 **Station Technique Professionnelle de Gravure Matérielle & Scellement Cryptographique**
 
@@ -10,7 +10,7 @@
 
 | ID | Titre du Cas d'Usage | Catégorie Métier | Acteur | Plateformes | Référence Normative |
 | :---: | :--- | :--- | :--- | :--- | :--- |
-| [`UC-201`](#uc-201) | [Connexion Station de Bureau ACR1552U WebUSB & Session Opérateur Funéraire](#uc-201) | **Matériel & Poste Pro** | Opérateur d'Encodage & Conseiller Funéraire | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification USB CCID (Integrated Circuit(s) Cards Interface Device, USB-IF) et politique de sécurité opérationnelle PaxFunèbre (décision souveraine DEC-AET-10). |
+| [`UC-201`](#uc-201) | [Connexion Station de Bureau ACR1552U WebUSB & Session Opérateur Funéraire](#uc-201) | **Matériel & Poste Pro** | Opérateur d'Encodage & Conseiller Funéraire | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification USB CCID (Integrated Circuit(s) Cards Interface Device, USB-IF, classe 0x0B), architecture nominale PC/SC locale (contournement UsbBlocklist Chromium) et politique de sécurité opérationnelle PaxFunèbre (décision souveraine DEC-AET-10). |
 | [`UC-202`](#uc-202) | [Insertion JavaCard ACOSJ 92 Ko & Vérification ATS APDU](#uc-202) | **Silicium & Détection** | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Norme ISO/IEC 7816-4 (organisation, sécurité et commandes pour les échanges d'informations). |
 | [`UC-203`](#uc-203) | [Formatage EEPROM & Initialisation EF Silicium (STORAGE-001)](#uc-203) | **Système de Fichiers Puce** | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification technique AeterniTrak STORAGE-001 (allocation EEPROM JavaCard). |
 | [`UC-204`](#uc-204) | [Ingestion de la Capsule & Canonisation CBOR RFC 8949](#uc-204) | **Compilation & Core** | Opérateur d'Encodage | WebUSB (Chromium Desktop), Node.js / Core Engine | Spécification technique IETF RFC 8949 (CBOR Deterministic Encoding Rules §4.2.1). |
@@ -20,6 +20,10 @@
 | [`UC-208`](#uc-208) | [Verrouillage Matériel Irréversible in-silico (Anti-Tamper)](#uc-208) | **Sécurité Silicium** | Opérateur d'Encodage | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) | Spécification JavaCard 3.0 Classic (Security and Applet Lifecycle Management). |
 | [`UC-209`](#uc-209) | [Impression Thermique & Laser Haute Précision Recto/Verso](#uc-209) | **Impression Physique** | Opérateur d'Encodage | PC/SC (Desktop Natif), Web Standard (PWA Hors-Ligne) | Norme ISO/IEC 7810 ID-1 (durabilité physique et résistance aux torsions des cartes d'identité). |
 | [`UC-210`](#uc-210) | [Diagnostic Silicium, Relecture des 6 EF & PV de Gravure Officiel](#uc-210) | **Assurance Qualité & Conformité** | Opérateur d'Encodage & Conseiller Funéraire | PC/SC (Desktop Natif), Web Standard (PWA Hors-Ligne) | Code de droit économique belge (garantie de conformité des biens et services funéraires — référence à confirmer par un juriste). |
+| [`UC-211`](#uc-211) | [Déconnexion Brutale & Perte de Champ RF pendant l'Écriture (Anti-Tearing & Tag 0x07 COMMIT_FLAG)](#uc-211) | **Résilience Matérielle & Silicium** | Opérateur d'Atelier Funéraire | Poste Pro Dédié (macOS, Windows, Linux) | Spécification technique AET-SPEC-STORAGE-001 §2.1 (Gestion transactionnelle TLV Tag 0x07) & Norme ISO/IEC 14443-4. |
+| [`UC-212`](#uc-212) | [Tentative de Réécriture sur Puce Déjà Verrouillée / Fusible Grillé (Tag 0x06 LOCK_FUSE = 0x01, SW 0x6985)](#uc-212) | **Sécurité Silicium & Anti-Tamper** | Opérateur d'Atelier Funéraire | Poste Pro Dédié (macOS, Windows, Linux) | Spécification technique AET-SPEC-STORAGE-001 §2.1 (Tag 0x06 FUSE_STATUS) & Décision Kudoro DEC-AET-01. |
+| [`UC-213`](#uc-213) | [Révocation de Clé Privée d'Enclave ou Certificat d'Opérateur Expiré](#uc-213) | **Cryptographie & Contrôle d'Accès** | Administrateur Système & Opérateur Funéraire | Poste Pro Dédié (macOS, Windows, Linux) | Norme IETF RFC 9052 §3 (gestion des identifiants kid et clés COSE) & Décision Kudoro DEC-AET-10. |
+| [`UC-214`](#uc-214) | [Échec d'Impression Thermique/Laser & Procédure de Rebut Silicium (SCRAPPED)](#uc-214) | **Production Physique & Assurance Qualité** | Opérateur d'Atelier & Contrôleur Qualité | Poste Pro Dédié (macOS, Windows, Linux) | Norme ISO/IEC 7810 (critères d'aspect et d'intégrité des cartes d'identification) & Protocole Qualité PaxFunèbre QA-PRO-04. |
 
 ---
 
@@ -35,7 +39,7 @@
 | **Acteur Principal** | Opérateur d'Encodage & Conseiller Funéraire |
 | **Plateformes Cibles** | WebUSB (Chromium Desktop), PC/SC (Desktop Natif) |
 | **Tags Clés** | `ACR1552U`, `WebUSB`, `PCSC`, `SessionOperateur`, `StrongBox`, `DEC-AET-10`, `ACOSJ92k` |
-| **Base Légale & Normative** | Spécification USB CCID (Integrated Circuit(s) Cards Interface Device, USB-IF) et politique de sécurité opérationnelle PaxFunèbre (décision souveraine DEC-AET-10). |
+| **Base Légale & Normative** | Spécification USB CCID (Integrated Circuit(s) Cards Interface Device, USB-IF, classe 0x0B), architecture nominale PC/SC locale (contournement UsbBlocklist Chromium) et politique de sécurité opérationnelle PaxFunèbre (décision souveraine DEC-AET-10). |
 | **Terminal / Canvas Wireframe** | `PaxStation Station Pro • Session Opérateur & Console ACR1552U (DEC-AET-10)` |
 
 ### 🎯 Préconditions & Postconditions
@@ -50,7 +54,7 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Ouverture de PaxStation Encodage sur Chromium Desktop avec détection USB CCID du lecteur ACR1552U (VID 0x072F / PID 0x2200).
+1. Ouverture de PaxStation Encodage sur Chromium Desktop avec détection CCID universelle du lecteur ACS ACR1552U 1S CL Reader (VID 0x072F / classe USB 0x0B) via passerelle PC/SC locale nominale.
 2. Saisie et contrôle du formulaire d'ouverture de session : ID Conseiller/Opérateur et présentation du Badge Agence PaxFunèbre.
 3. Authentification et initialisation de l'Enclave Cryptographique active de la station (StrongBox / Secure Enclave ES256 DEC-AET-10).
 4. Sélection et allocation du lot de puces JavaCard ACOSJ 92 Ko homologuées pour la série d'encodage.
@@ -64,7 +68,7 @@
 | `agency_badge` | **Badge Agence PaxFunèbre** | `text` | `PaxFunèbre Namur Centre #AG-04 (Habilitation H3)` | Badge agence | `Habilité H3` | ✅ Requis |
 | `crypto_enclave` | **Enclave Cryptographique Station** | `select` | `Station Secure Enclave / StrongBox (ES256 DEC-AET-10)` | Enclave matérielle | `DEC-AET-10` | ✅ Requis |
 | `card_lot` | **Sélection du Lot de Cartes ACOSJ 92 Ko** | `select` | `Lot ACOSJ-92K-2026-N1 (JavaCard 92 160 octets)` | Lot silicium | `92 Ko EEPROM` | ✅ Requis |
-| `usb_driver` | **Pilote & Matériel Détecté** | `text` | `ACS ACR1552U USB CCID v1.1 (VID:072F / PID:2200 - 12 Mbps)` | Pilote | `WebUSB Direct` | ⭕ Optionnel |
+| `usb_driver` | **Pilote & Matériel Détecté** | `text` | `ACS ACR1552U 1S CL Reader (VID:072F / Classe 0x0B CCID - 12 Mbps)` | Pilote | `PC/SC Nominal` | ⭕ Optionnel |
 | `rf_link` | **Liaison RF & Baudrate** | `text` | `13.56 MHz • 106 kbps ISO/IEC 14443 Type A` | Baudrate RF | `106 kbps` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
@@ -73,7 +77,7 @@
 | :--- | :--- | :--- | :--- | :---: |
 | `btn_open_session` | **Authentifier l'Opérateur & Ouvrir Session** | `primary` | `idle` | 🔐 |
 | `btn_test_enclave` | **Tester Enclave ES256 & Bip Sonore** | `secondary` | `idle` | 🛡️ |
-| `btn_connect_acr` | **Autoriser l'Accès WebUSB ACR1552U** | `secondary` | `idle` | 🔌 |
+| `btn_connect_acr` | **Connecter Lecteur ACR1552U (PC/SC / USB)** | `secondary` | `idle` | 🔌 |
 
 ### ✅ Critères de Succès & Validation Normative
 
@@ -138,8 +142,8 @@
                       </div>
                       <div class="wf-device-status-box">
                         <span class="wf-usb-icon">🔌</span>
-                        <div><strong>Lecteur ACS ACR1552U détecté (VID:072F / PID:2200)</strong></div>
-                        <div class="wf-subtext">Liaison WebUSB 12 Mbps • En attente de déverrouillage de la session opérateur</div>
+                        <div><strong>Lecteur ACS ACR1552U 1S CL Reader détecté (VID:072F / Classe 0x0B CCID)</strong></div>
+                        <div class="wf-subtext">Liaison Passerelle PC/SC Nominale 12 Mbps • En attente de déverrouillage de la session opérateur</div>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-primary">🔐 Authentifier l'Opérateur & Ouvrir Session</button>
@@ -1116,7 +1120,7 @@
 
 | Propriété d'Anomalie | Description Technique |
 | :--- | :--- |
-| **Code d'Erreur Normatif** | `ERR_COSE_MALLEABLE_S` |
+| **Code d'Erreur Normatif** | `ERR_COSE_MALLEABLE_SIGNATURE` |
 | **Intitulé de l'Incident** | **Signature Malléable Détectée (s Haut)** |
 | **Condition Déclenchante** | Génération d'une signature ECDSA P-256 dont la valeur s excède floor(n/2). |
 | **Message d'Erreur UI** | *« Rejet cryptographique : Composante s haute détectée. La signature viole la RFC 9052 et le BSI TR-03111. »* |
@@ -1725,6 +1729,681 @@
                         <button class="wf-btn wf-btn-gold">Bascule vers App 3 : Sanctuaire Mémoriel Mobile →</button>
                       </div>
                     </div>
+```
+
+</details>
+
+---
+
+<a id="uc-211"></a>
+## UC-211 : Déconnexion Brutale & Perte de Champ RF pendant l'Écriture (Anti-Tearing & Tag 0x07 COMMIT_FLAG)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-211` |
+| **Catégorie Métier** | **Résilience Matérielle & Silicium** |
+| **Acteur Principal** | Opérateur d'Atelier Funéraire |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `AntiTearing`, `RFFieldLoss`, `COMMIT_FLAG`, `Tag0x07`, `EF-0`, `ACR1552U`, `ACOSJ92k` |
+| **Base Légale & Normative** | Spécification technique AET-SPEC-STORAGE-001 §2.1 (Gestion transactionnelle TLV Tag 0x07) & Norme ISO/IEC 14443-4. |
+| **Terminal / Canvas Wireframe** | `PaxStation Station Pro • Moniteur Transactionnel Anti-Tearing (Tag 0x07 EF-0)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> La PaxStation exécute une séquence de commandes APDU UPDATE BINARY sur la puce sans contact ACOSJ 92 Ko.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Aucune écriture partielle n'est validée en EEPROM ; l'inviolabilité transactionnelle est garantie par le Tag 0x07.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. L'opérateur retire inopinément la carte sans contact de l'antenne ACR1552U ou une perturbation RF intervient en pleine écriture APDU.
+2. Le lecteur ACR1552U intercepte la perte brutale de porteuse (Field Loss Event) et remonte l'anomalie au pilote PC/SC.
+3. Au ré-enfichage de la carte sur le plateau, la PaxStation lit immédiatement le bloc de contrôle matériel EF-0.
+4. Contrôle du Tag 0x07 (COMMIT_FLAG) : valeur lue 0x55 (In-Flight) au lieu de 0xAA (Committed) démontrant une écriture tronquée (tearing).
+5. La station bloque toute utilisation du support corrompu, journalise l'incident et déclenche la purge de réinitialisation sécurisée de la puce.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `nfc_reader` | **Lecteur Sans Contact** | `text` | `ACS ACR1552U USB-C (Firmware v2.04)` | - | `Matériel` | ⭕ Optionnel |
+| `commit_flag_status` | **État Transaction Silicium** | `text` | `Tag 0x07 COMMIT_FLAG = 0x55 (IN-FLIGHT DÉTECTÉ)` | - | `Tearing Alerte` | ⭕ Optionnel |
+| `interrupted_ef` | **Partition Altérée** | `text` | `EF-3 Mémo Vocal (Interruption à l'offset 0x5A00)` | - | `Tronqué` | ⭕ Optionnel |
+| `recovery_action` | **Action de Sécurité** | `select` | `Rejet du Lot & Réinitialisation Complète EEPROM` | - | `Souverain` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_diagnose_tearing` | **Diagnostiquer l'État Anti-Tearing (Tag 0x07)** | `primary` | `idle` | ⚡ |
+| `btn_reset_card_eeprom` | **Réinitialiser la Carte Silicium** | `secondary` | `idle` | 🔄 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Incident de Déconnexion Neutralisé par Anti-Tearing
+>
+> **Badge de Conformité :** `Anti-Tearing Conforme`
+>
+> **Détail Opérationnel :** Arrachement RF détecté et intercepté. Le COMMIT_FLAG 0x55 a protégé la carte contre toute corruption silencieuse.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_RF_FIELD_LOSS_TEARING` |
+| **Intitulé de l'Incident** | **Perte de Champ RF & Arrachement Pendant Gravure (Tearing)** |
+| **Condition Déclenchante** | Rupture de communication sans contact durant un cycle d'écriture APDU (Tag 0x07 = 0x55). |
+| **Message d'Erreur UI** | *« Erreur matérielle critique : Perte de champ RF während der APDU-Transaktion. La puce est dans un état instable non scellé. »* |
+| **Action Corrective Requise** | **Laisser la carte immobile sur l'antenne ACR1552U et lancer une séquence complète d'effacement et de réécriture.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Station Pro • Moniteur Transactionnel Anti-Tearing (Tag 0x07 EF-0)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Perte de Liaison Sans Contact Signalée | *En attente utilisateur* | La carte a été retirée du champ RF pendant l'injection des blocs audio dans EF-3. |
+| **2** | **Déclenchement ⚡** | Interrogation du Tag 0x07 COMMIT_FLAG dans EF-0 | `Clic sur 'Diagnostiquer l'État Anti-Tearing'` | Émission de la commande APDU READ BINARY sur EF-0 pour inspecter l'octet de transaction matériel. |
+| **3** | **Traitement ⚙️** | Purge des Blocs Partiels & Journalisation d'Atelier | `Progression : 98%` | Rejet des données corrompues et mise en sécurité du contrôleur de l'ACOSJ 92 Ko. |
+| **4** | **Scellement & Fin ✨** | Sécurité Transactionnelle Rétablie | `Statut : success` | La puce n'a subi aucune dégradation définitive. La procédure garantit l'absence de données hybrides. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-211 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Perte de Liaison Sans Contact Signalée
+*La carte a été retirée du champ RF pendant l'injection des blocs audio dans EF-3.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Contrôle Transactionnel APDU</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Liaison RF Perdue</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #ef4444;">
+                                            <span class="wf-qa-icon">⚡</span>
+                                            <div><strong>Arrachement RF Détecté en Cours d'Écriture</strong></div>
+                                            <div class="wf-subtext">Session interrompue • Risque de corruption partielle (Tearing)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">⚡ Diagnostiquer l'État Anti-Tearing (Tag 0x07)</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Interrogation du Tag 0x07 COMMIT_FLAG dans EF-0
+*Émission de la commande APDU READ BINARY sur EF-0 pour inspecter l'octet de transaction matériel.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Diagnostic Silicium EF-0</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Lecture Tag 0x07</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ APDU: 00 B0 00 3D 01 -> Réponse: 55 90 00</div>
+                                            <div class="wf-subtext">Valeur 0x55 confirmée : transaction interrompue avant scellement (Commit absent)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Traitement de l'incident...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Purge des Blocs Partiels & Journalisation d'Atelier
+*Rejet des données corrompues et mise en sécurité du contrôleur de l'ACOSJ 92 Ko.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Moteur de Résilience</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Restauration (98%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 98%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [ANTI-TEARING] Tag 0x07 = 0x55 : écriture incomplète interceptée</code><br>
+                                            <code>> [SECURITY-LOCK] Invalidation automatique du profil corrompu</code><br>
+                                            <code>> [WEAR-LEVELING] Secteurs EEPROM non endommagés (réserve 5 632 o intacte)</code><br>
+                                            <code>> [RECOVERY] Puce prête pour réinitialisation complète ou rebut sécurisé</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Sécurité Transactionnelle Rétablie
+*La puce n'a subi aucune dégradation définitive. La procédure garantit l'absence de données hybrides.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Statut Sécurisé</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Incident Maîtrisé</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🛡️</span>
+                                            <div>
+                                              <strong>Mécanisme Anti-Tearing Opérationnel à 100%</strong>
+                                              <p class="wf-subtext">Puce protégée par Tag 0x07 • Aucune donnée tronquée n'a été validée en mémoire</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Lancer la Réécriture Complète →</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-212"></a>
+## UC-212 : Tentative de Réécriture sur Puce Déjà Verrouillée / Fusible Grillé (Tag 0x06 LOCK_FUSE = 0x01, SW 0x6985)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-212` |
+| **Catégorie Métier** | **Sécurité Silicium & Anti-Tamper** |
+| **Acteur Principal** | Opérateur d'Atelier Funéraire |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `LOCK_FUSE`, `Fusible`, `SW6985`, `AntiTamper`, `ReadOnly`, `ACOSJ92k`, `EF-0` |
+| **Base Légale & Normative** | Spécification technique AET-SPEC-STORAGE-001 §2.1 (Tag 0x06 FUSE_STATUS) & Décision Kudoro DEC-AET-01. |
+| **Terminal / Canvas Wireframe** | `PaxStation Station Pro • Détecteur Fusible Matériel LOCK_FUSE (EF-0)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Pose sur le lecteur ACR1552U d'une carte préalablement encodée dont le fusible matériel anti-tamper in-silico a déjà été grillé.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La carte reste protégée en lecture seule perpétuelle ; aucune tentative de falsification ou réécriture n'aboutit.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. L'opérateur dépose par mégarde une carte déjà gravée et scellée sur le lecteur de bureau.
+2. La PaxStation tente d'exécuter une commande d'authentification ou d'initialisation en écriture APDU.
+3. L'applet ACOSJ interroge le Tag 0x06 (LOCK_FUSE) de son registre physique : état = 0x01 (Fusible claqué).
+4. Le microcontrôleur bloque immédiatement l'opération et retourne le status word normatif ISO 7816-4 : SW = 0x6985 (Conditions of use not satisfied).
+5. La station passe en alerte rouge solennelle : interdiction absolue de toute écriture, confirmation de la lecture seule perpétuelle.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `card_uid_detected` | **Carte Détectée sur ACR1552U** | `text` | `ACOSJ-92K #04:5A:32:8F:1C:7B:80` | - | `UID Matériel` | ⭕ Optionnel |
+| `fuse_status` | **État du Fusible Matériel** | `text` | `Tag 0x06 LOCK_FUSE = 0x01 (FUSIBLE DÉFINITIVEMENT GRILLÉ)` | - | `Inviolable` | ⭕ Optionnel |
+| `apdu_sw_response` | **Réponse Commande Écriture APDU** | `text` | `Code Statut : SW 0x6985 (Conditions of use not satisfied)` | - | `Rejet Matériel` | ⭕ Optionnel |
+| `station_verdict` | **Verdict de la Station** | `text` | `ACCÈS ÉCRITURE REFUSÉ • SUPPORT SCELLÉ PERPÉTUEL` | - | `Lecture Seule` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_verify_fuse_lock` | **Vérifier le Statut du Fusible Silicium** | `primary` | `idle` | 🔒 |
+| `btn_eject_locked_card` | **Éjecter la Carte Scellée** | `secondary` | `idle` | ⏏️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Verrouillage Matériel Anti-Tamper Confirmé Inviolable
+>
+> **Badge de Conformité :** `Conforme SW 0x6985 / LOCK_FUSE`
+>
+> **Détail Opérationnel :** Fusible matériel 0x01 vérifié. L'ACOSJ 92 Ko refuse toute commande d'écriture avec SW 0x6985. Protection perpétuelle certifiée.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_SILICON_PERMANENTLY_LOCKED` |
+| **Intitulé de l'Incident** | **Rejet Matériel : Puce Déjà Verrouillée en Lecture Seule** |
+| **Condition Déclenchante** | Tentative d'écriture APDU sur une carte dont le fusible matériel Tag 0x06 est à 0x01 (retour SW 0x6985). |
+| **Message d'Erreur UI** | *« Opération interdite : La puce ACOSJ est définitivement scellée par son fusible matériel. Aucune modification n'est physiquement possible. »* |
+| **Action Corrective Requise** | **Retirer immédiatement la carte du lecteur ; utiliser une carte ACOSJ 92 Ko vierge d'atelier pour une nouvelle gravure.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Station Pro • Détecteur Fusible Matériel LOCK_FUSE (EF-0)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Carte Déposée avec Fusible Déjà Verrouillé | *En attente utilisateur* | La carte posée sur le lecteur a déjà achevé son cycle de vie d'atelier et son fusible est grillé. |
+| **2** | **Déclenchement ⚡** | Envoi de la Commande APDU & Réception du SW 0x6985 | `Clic sur 'Vérifier le Statut du Fusible Silicium'` | Tentative d'écriture rejetée par le microcontrôleur JavaCard avec le code de statut d'interdiction matérielle. |
+| **3** | **Traitement ⚙️** | Certification du Statut de Lecture Seule Perpétuelle | `Progression : 100%` | Validation que les 6 Fichiers Élémentaires (EF-0 à EF-5) restent intègres et accessibles en lecture sans contact. |
+| **4** | **Scellement & Fin ✨** | Alerte de Protection Validée & Invitation au Retrait | `Statut : success` | Sécurité absolue démontrée. La carte est protégée contre toute réécriture malveillante ou involontaire. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-212 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Carte Déposée avec Fusible Déjà Verrouillé
+*La carte posée sur le lecteur a déjà achevé son cycle de vie d'atelier et son fusible est grillé.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Contrôle Anti-Tamper Silicium</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Puce Insérée</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Carte Présente</label>
+                                              <div class="wf-input-placeholder">ACOSJ-92K (Scellée antérieurement)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Opération Tentée</label>
+                                              <div class="wf-input-placeholder">Initialisation / Écriture APDU</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🔒 Vérifier le Statut du Fusible Silicium</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Envoi de la Commande APDU & Réception du SW 0x6985
+*Tentative d'écriture rejetée par le microcontrôleur JavaCard avec le code de statut d'interdiction matérielle.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Dialogue APDU ISO 7816-4</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Commande Rejetée</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #ef4444;">
+                                            <div class="wf-trigger-indicator" style="color: #fda4af;">🔒 Commande 80 DE 01 00 rejetée : SW = 0x6985</div>
+                                            <div class="wf-subtext">Conditions of use not satisfied : le fusible matériel Tag 0x06 = 0x01 interdit toute modification</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Interprétation du verrouillage...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Certification du Statut de Lecture Seule Perpétuelle
+*Validation que les 6 Fichiers Élémentaires (EF-0 à EF-5) restent intègres et accessibles en lecture sans contact.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Diagnostic de Verrouillage</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Vérification Lecture Seule</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [APDU-STATUS] SW 0x6985 intercepté : fusible in-silico irréversiblement actif</code><br>
+                                            <code>> [TAG-0x06] FUSE_STATUS = 0x01 (Permanent Lock)</code><br>
+                                            <code>> [TAMPER-PROOF] Zéro écriture autorisée • Protection cryptographique absolue</code><br>
+                                            <code>> [READ-ACCESS] EF-0 à EF-5 consultables en lecture sans contact à 106 kbps</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Alerte de Protection Validée & Invitation au Retrait
+*Sécurité absolue démontrée. La carte est protégée contre toute réécriture malveillante ou involontaire.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Support Verrouillé</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Protection Inviolable</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🔒</span>
+                                            <div>
+                                              <strong>Carte ACOSJ 92 Ko Scellée Définitivement (SW 0x6985)</strong>
+                                              <p class="wf-subtext">Fusible matériel actif • Données perpétuelles protégées contre toute altération</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">⏏️ Éjecter la Carte et Insérer un Support Vierge</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-213"></a>
+## UC-213 : Révocation de Clé Privée d'Enclave ou Certificat d'Opérateur Expiré
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-213` |
+| **Catégorie Métier** | **Cryptographie & Contrôle d'Accès** |
+| **Acteur Principal** | Administrateur Système & Opérateur Funéraire |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `TrustList`, `Revocation`, `CertificatExpire`, `COSE_Sign1`, `EnclaveStation`, `DEC-AET-10`, `EF-5` |
+| **Base Légale & Normative** | Norme IETF RFC 9052 §3 (gestion des identifiants kid et clés COSE) & Décision Kudoro DEC-AET-10. |
+| **Terminal / Canvas Wireframe** | `PaxStation Station Pro • Gestionnaire d'Enclave & Chaîne de Confiance (EF-5)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> La clé de signature de la PaxStation est inscrite dans la liste de révocation ou le certificat X.509 de l'opérateur a expiré.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Aucune signature non autorisée n'est générée dans EF-5 ; la chaîne de confiance cryptographique reste souveraine.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. L'opérateur funéraire prépare la phase de scellement COSE_Sign1 pour finaliser la personnalisation d'un lot de cartes.
+2. Le moteur cryptographique de la station interroge la TrustList certifiée locale et l'enclave sécurisée HSM / StrongBox.
+3. Découverte que l'empreinte kid de la clé est révoquée ou que le certificat opérateur a dépassé sa date de validité UTC.
+4. Verrouillage immédiat du module de signature COSE_Sign1 : interdiction formelle d'émettre l'enveloppe signée EF-5.
+5. Émission d'un rapport de blocage d'autorité et notification à l'administrateur réseau Le Pax Funèbre pour réapprovisionnement de clé.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `hsm_module` | **Enclave Cryptographique** | `text` | `StrongBox Hardware Enclave #STN-NAMUR-01` | - | `HSM Local` | ⭕ Optionnel |
+| `kid_fingerprint` | **Empreinte kid de Clé** | `text` | `kid: 7f8a9b0c1d2e3f4a (SHA-256 16 premiers octets)` | - | `Identifiant Clé` | ⭕ Optionnel |
+| `trustlist_status` | **Statut TrustList Souveraine** | `text` | `RÉVOQUÉE (Inscription sur la liste de révocation CRL-2026-09)` | - | `Révocation Alerte` | ⭕ Optionnel |
+| `signing_lock_action` | **Action de Sécurité Enclave** | `select` | `Refus de Signature COSE_Sign1 & Blocage Session` | - | `Sécurité EF-5` | ✅ Requis |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_verify_trust_chain` | **Auditer la Chaîne de Confiance & Certificats** | `primary` | `idle` | 🔑 |
+| `btn_request_key_renewal` | **Demander le Renouvellement de Clé d'Enclave** | `secondary` | `idle` | 🔄 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Verrouillage de Sécurité Cryptographique Actif
+>
+> **Badge de Conformité :** `TrustList Souveraine Conforme`
+>
+> **Détail Opérationnel :** La tentative de signature a été interceptée avec succès. Aucune clé obsolète ou révoquée ne peut sceller de carte.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_OPERATOR_KEY_REVOKED_OR_EXPIRED` |
+| **Intitulé de l'Incident** | **Clé d'Enclave Révoquée ou Certificat d'Opérateur Expiré** |
+| **Condition Déclenchante** | Correspondance de l'empreinte kid dans la liste des clés compromises ou date UTC postérieure à la fin de validité. |
+| **Message d'Erreur UI** | *« Alerte de sécurité majeure : La clé de signature de cette PaxStation a été révoquée par l'autorité Le Pax Funèbre. Scellement interdit. »* |
+| **Action Corrective Requise** | **Contacter immédiatement l'administrateur souverain pour révoquer l'ancienne clé et approvisionner une nouvelle clé dans l'enclave.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Station Pro • Gestionnaire d'Enclave & Chaîne de Confiance (EF-5)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Session d'Encodage Face à une Clé Invalidée | *En attente utilisateur* | L'enclave tente de charger la clé de scellement alors que celle-ci figure sur la liste de révocation. |
+| **2** | **Déclenchement ⚡** | Détection de la Révocation & Interdiction de Scellement | `Clic sur 'Auditer la Chaîne de Confiance'` | Confrontation du kid avec la base souveraine et blocage matériel du sous-système de signature. |
+| **3** | **Traitement ⚙️** | Verrouillage de la Station & Notification d'Alerte | `Progression : 100%` | Enregistrement de l'alerte d'intégrité et gel des opérations de gravure jusqu'à intervention administrateur. |
+| **4** | **Scellement & Fin ✨** | Chaîne de Confiance Intègre & Procédure de Renouvellement | `Statut : success` | La sécurité cryptographique a joué son rôle de garde inviolable. Zéro carte frauduleuse émise. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-213 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Session d'Encodage Face à une Clé Invalidée
+*L'enclave tente de charger la clé de scellement alors que celle-ci figure sur la liste de révocation.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Moteur Cryptographique Enclave</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Clé à Contrôler</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Module de Scellement</label>
+                                              <div class="wf-input-placeholder">StrongBox Enclave #STN-NAMUR-01 (kid: 7f8a9b0c...)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Contrôle de Révocation</label>
+                                              <div class="wf-input-placeholder">Vérification TrustList AeterniTrak en cours</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🔑 Auditer la Chaîne de Confiance & Certificats</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Détection de la Révocation & Interdiction de Scellement
+*Confrontation du kid avec la base souveraine et blocage matériel du sous-système de signature.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Audit TrustList</span>
+                                            <span class="wf-status-badge wf-badge-trigger" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5;">⚡ Clé Révoquée Détectée</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #ef4444;">
+                                            <div class="wf-trigger-indicator" style="color: #fca5a5;">🚫 Clé kid 7f8a9b0c1d2e3f4a marquée RÉVOQUÉE dans CRL-2026-09</div>
+                                            <div class="wf-subtext">Signature COSE_Sign1 bloquée • Partition EF-5 non altérée</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Verrouillage de la session...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Verrouillage de la Station & Notification d'Alerte
+*Enregistrement de l'alerte d'intégrité et gel des opérations de gravure jusqu'à intervention administrateur.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Sécurité Opérationnelle</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Alerte Sécurité (100%)</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [TRUST-LIST] Vérification de l'ancre racine Le Pax Funèbre : CONFORME</code><br>
+                                            <code>> [REVOCATION-CHECK] kid 7f8a9b0c... MATCH sur liste des clés révoquées</code><br>
+                                            <code>> [CRYPTO-BLOCK] Enclave StrongBox verrouillée en écriture de signature</code><br>
+                                            <code>> [AUDIT-TRAIL] Rapport d'incident #SEC-REVOC-2026-04 émis vers le serveur d'audit</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Chaîne de Confiance Intègre & Procédure de Renouvellement
+*La sécurité cryptographique a joué son rôle de garde inviolable. Zéro carte frauduleuse émise.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Station Bloquée</span>
+                                            <span class="wf-status-badge wf-badge-success" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5;">🚫 Signature Désactivée</span>
+                                          </div>
+                                          <div class="wf-success-banner" style="border-color: rgba(239, 68, 68, 0.4);">
+                                            <span class="wf-seal-icon">🛡️</span>
+                                            <div>
+                                              <strong>Intégrité de la Chaîne de Confiance Préservée</strong>
+                                              <p class="wf-subtext">Signature refusée • Demande de réapprovisionnement de clé d'enclave transmise</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">🔄 Contacter l'Administrateur pour Renouvellement</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-214"></a>
+## UC-214 : Échec d'Impression Thermique/Laser & Procédure de Rebut Silicium (SCRAPPED)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-214` |
+| **Catégorie Métier** | **Production Physique & Assurance Qualité** |
+| **Acteur Principal** | Opérateur d'Atelier & Contrôleur Qualité |
+| **Plateformes Cibles** | Poste Pro Dédié (macOS, Windows, Linux) |
+| **Tags Clés** | `Impression`, `Rebut`, `SCRAPPED`, `Fargo`, `Laser`, `AuditTrail`, `EF-0` |
+| **Base Légale & Normative** | Norme ISO/IEC 7810 (critères d'aspect et d'intégrité des cartes d'identification) & Protocole Qualité PaxFunèbre QA-PRO-04. |
+| **Terminal / Canvas Wireframe** | `PaxStation Station Pro • Banc d'Assurance Qualité & Rebut Silicium (EF-0)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Incident survenu durant la phase de finition physique CR-80 (bourrage imprimante Fargo, surchauffe ruban or ou rayure laser).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'identifiant silicium de la carte détruite est blacklisté dans le registre de production ; zéro support non conforme ne sort d'atelier.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. L'imprimante thermique professionnelle Fargo signale une interruption de personnalisation physique de la carte.
+2. L'opérateur examine le support : constat d'un défaut visuel rédhibitoire (bavure thermique, vernis or dégradé, micro-fissure).
+3. La PaxStation engage la procédure d'assurance qualité formelle : mise au rebut immédiate du support.
+4. Enregistrement de l'UID silicium (Tag 0x02 d'EF-0) dans le registre d'audit sous le statut définitif SCRAPPED.
+5. Perforation physique de la puce à l'emporte-pièce sécurisé et allocation d'un nouveau support vierge d'atelier.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `scrapped_card_uid` | **Carte Silicium Concernée** | `text` | `ACOSJ-92K #04:88:99:AA:BB:CC:DD` | - | `UID Matériel` | ⭕ Optionnel |
+| `fault_type` | **Type d'Incident Physique** | `select` | `Bourrage Imprimante Fargo • Surchauffe Ruban Or Satiné` | - | `Défaut d'Aspect` | ✅ Requis |
+| `scrapped_audit_status` | **Statut dans l'Audit Trail** | `text` | `SCRAPPED (Mis au rebut • UID révoqué définitivement)` | - | `Blacklist` | ⭕ Optionnel |
+| `destruction_protocol` | **Protocole de Destruction** | `text` | `Perforation physique de l'antenne & puce neutralisée` | - | `Obligatoire` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_declare_scrapped` | **Déclarer Carte au Rebut (SCRAPPED) & Neutraliser** | `primary` | `idle` | 🗑️ |
+| `btn_allocate_new_card` | **Allouer une Nouvelle Carte Vierge** | `secondary` | `idle` | ✨ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Mise au Rebut Validée & Traçabilité Silicium Conforme
+>
+> **Badge de Conformité :** `Audit SCRAPPED Validé`
+>
+> **Détail Opérationnel :** UID blacklisté dans l'audit trail de production. Procédure de destruction physique consignée selon QA-PRO-04.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_THERMAL_PRINTING_HARDWARE_FAULT` |
+| **Intitulé de l'Incident** | **Incident Matériel d'Impression ou Défaut d'Aspect Physique** |
+| **Condition Déclenchante** | Bourrage de carte, rupture du ruban thermique ou dégradation mécanique du support durant la personnalisation. |
+| **Message d'Erreur UI** | *« Défaut qualité bloquant : La carte présente des altérations physiques incompatibles avec la dignité mémorielle Le Pax Funèbre. »* |
+| **Action Corrective Requise** | **Déclarer le support sous le statut SCRAPPED, perforer la carte et recommencer sur un support neuf.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStation Station Pro • Banc d'Assurance Qualité & Rebut Silicium (EF-0)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Signalement d'Anomalie Matérielle sur l'Imprimante | *En attente utilisateur* | L'imprimante signale une erreur matérielle durant le dépôt du ruban thermique or satiné. |
+| **2** | **Déclenchement ⚡** | Déclenchement de la Procédure de Rebut Officielle | `Clic sur 'Déclarer Carte au Rebut'` | Enregistrement de l'incident et marquage de l'UID matériel dans le registre d'atelier. |
+| **3** | **Traitement ⚙️** | Perforation Silicium & Archivage de Sécurité | `Progression : 100%` | Neutralisation physique de la puce et décrémentation des stocks d'atelier avec justification. |
+| **4** | **Scellement & Fin ✨** | Support Rebuté & Allocation d'un Nouveau Support | `Statut : success` | Exigence qualité respectée. Le client final ne recevra qu'un objet physique irréprochable. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-214 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Signalement d'Anomalie Matérielle sur l'Imprimante
+*L'imprimante signale une erreur matérielle durant le dépôt du ruban thermique or satiné.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Contrôle Qualité Impression</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Défaut Détecté</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #f59e0b;">
+                                            <span class="wf-qa-icon">⚠️</span>
+                                            <div><strong>Incident d'Impression Thermique Signalé</strong></div>
+                                            <div class="wf-subtext">Ruban or surchauffé • Support physique altéré non livrable</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🗑️ Déclarer Carte au Rebut (SCRAPPED) & Neutraliser</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Déclenchement de la Procédure de Rebut Officielle
+*Enregistrement de l'incident et marquage de l'UID matériel dans le registre d'atelier.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Journalisation Rebut</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Traitement SCRAPPED</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ UID #04:88:99:AA:BB:CC:DD classé SCRAPPED</div>
+                                            <div class="wf-subtext">Blacklistage dans le registre d'atelier et génération du bon de destruction</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Consignation au registre d'audit...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Perforation Silicium & Archivage de Sécurité
+*Neutralisation physique de la puce et décrémentation des stocks d'atelier avec justification.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Registre Qualité</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Rebut Scellé (100%)</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [QA-LOG] Rapport de rebut #REB-2026-019 archivé</code><br>
+                                            <code>> [UID-REVOC] Identifiant matériel révoqué pour toute gravure ultérieure</code><br>
+                                            <code>> [PHYSICAL-DESTRUCT] Confirmation de perforation par l'opérateur</code><br>
+                                            <code>> [STOCK-CONTROL] Demande d'un nouveau support vierge ACOSJ 92 Ko validée</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Support Rebuté & Allocation d'un Nouveau Support
+*Exigence qualité respectée. Le client final ne recevra qu'un objet physique irréprochable.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStation • Nouveau Cycle Prêt</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Qualité Garantie</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🏆</span>
+                                            <div>
+                                              <strong>Procédure de Rebut Exécutée avec Rigueur</strong>
+                                              <p class="wf-subtext">Carte défectueuse détruite • Nouveau support vierge prêt pour la réimpression</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">✨ Allouer une Nouvelle Carte Vierge et Relancer</button>
+                                          </div>
+                                        </div>
 ```
 
 </details>

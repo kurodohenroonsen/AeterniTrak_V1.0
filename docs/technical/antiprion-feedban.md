@@ -64,11 +64,12 @@ Les règles sanitaires et de feed-ban sont adossées aux textes normatifs de l'U
 
 4. **Règlement (UE) n° 142/2011 de la Commission du 25 février 2011**  
    *Portant application du règlement (CE) n° 1069/2009.*  
-   - **Annexe IV, Chapitre III** (Méthodes standard de transformation) :  
-     - **Méthode 1 (Stérilisation sous pression)** : Température à cœur $\ge 133\text{ }^\circ\text{C}$, pression absolue $\ge 3{,}0\text{ bars}$, durée sans interruption $\ge 20\text{ minutes}$, granulométrie $\le 50\text{ mm}$. Obligatoire pour toutes les matières de Catégories 1 et 2 vers usage technique ou engrais.  
+   - **Annexe IV, Chapitre III** (Méthodes standard de transformation & Exigences métrologiques) :  
+     - **Méthode 1 (Stérilisation sous pression)** : Réduction granulométrique préalable obligatoire à une dimension de particules $\le 50\text{ mm}$, température à cœur $\ge 133\text{ }^\circ\text{C}$, pression absolue de vapeur saturée $\ge 3{,}0\text{ bars}$, durée sans interruption $\ge 20\text{ minutes}$. Obligatoire pour toutes les matières de Catégories 1 et 2 vers usage technique ou engrais.  
+     - **Norme de pasteurisation (dérogation mémorielle forestière DEC-AET-05 / Annexe IV Chapitre III)** : Réduction granulométrique préalable $\le 10\text{ mm}$, température à cœur continue $\ge 70\text{ }^\circ\text{C}$, durée ininterrompue $\ge 60\text{ minutes}$ (1 heure).  
      - Méthodes 2 à 7 : Méthodes thermiques et mécaniques alternatives sous conditions d'agrément.  
    - **Annexe X, Chapitre II, Section 1** (Protéines animales transformées — Exigences relatives à la transformation selon la nature de la protéine) :  
-     - *Point B.1 (PAT de mammifères)* : Les PAT issues de mammifères doivent obligatoirement être soumises à la **Méthode 1 exclusivement** (133 °C / 3 bars / 20 min).  
+     - *Point B.1 (PAT de mammifères)* : Les PAT issues de mammifères doivent obligatoirement être soumises à la **Méthode 1 exclusivement** ($\le 50\text{ mm}$ / 133 °C / $\ge 3{,}0\text{ bars}$ absolus / 20 min).  
      - *Point B.2 (PAT de non-mammifères)* : Les PAT issues de volailles ou d'insectes peuvent être soumises aux **Méthodes 1 à 5 ou 7** (la Méthode 6 leur est formellement interdite).  
      - *Point B.3 (Farine de poisson)* : Les matières issues de poissons peuvent être traitées par les **Méthodes 1 à 7** (la Méthode 6 étant spécifiquement réservée aux produits de la pêche).  
    - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2011/142/2022-04-17`
@@ -88,6 +89,16 @@ Les règles sanitaires et de feed-ban sont adossées aux textes normatifs de l'U
      - *Annexe XV, Chapitre 1* : Modèles de certificats sanitaires officiels pour l'entrée dans l'Union.  
    - **Portée normative de la règle P18** : L'accès légal de protéines d'insectes à l'alimentation animale (`feed`, `aquaculture_feed`) est conditionné au contrôle préalable et strict de leur substrat d'élevage (matière végétale vérifiée, règles P4 et P10). Dans toute filière où l'insecte est apporté comme source brute sans bioconversion contrôlée (ex. équarrissage direct `direct_rendering`, compostage, etc.), le substrat d'élevage larvaire n'est ni déclaré ni vérifié : cette filière est interdite en alimentation animale et produit immédiatement l'infraction `SUBSTRATE_CATEGORY_VIOLATION`. De surcroît, la nature « insecte » de P6 (méthodes alternatives 1 à 5 ou 7) est strictement réservée à la route `insect_bioconversion` ; dans les autres routes, des sources insectes relèvent de la méthode standard 1 (133 °C / 3 bars / 20 min).  
    - Référence ELI (à confirmer par un juriste) : `data.europa.eu/eli/reg/2017/893/oj`
+
+6. **Avis Scientifique EFSA (2015) et Travaux de Recherche Benestad et al. (2024) — Biologie d'Hermetia illucens & Persistance des Prions**  
+   - **Avis Scientifique EFSA 2015** (*Scientific Opinion on a risk profile related to production and consumption of insects as food and feed*, EFSA Journal 2015;13(10):4257) : L'Autorité européenne de sécurité des aliments établit formellement que le risque biologique de transmission d'agents d'encéphalopathies spongiformes transmissibles (EST / prions $PrP^{Sc}$) par les insectes d'élevage est assujetti à la nature de leur substrat d'alimentation. Les diptères ne possèdent aucun mécanisme enzymatique capable de dégrader la conformation bêta-plissée pathogène des prions.  
+   - **Travaux Fondateurs Benestad et al. (2024)** : L'étude toxicologique expérimentale démontre que les larves de mouche soldat noire (*Hermetia illucens*) nourries avec des matières infectées ne métabolisent ni n'inactivent les prions $PrP^{Sc}$. Les agents infectieux transitent intacts à travers le tube digestif larvaire et persistent dans le bol fécal (frass) ainsi que dans les tissus larvaires, faisant des insectes un bio-vecteur de transmission si le substrat est contaminé.  
+   - **Fondement Biologique des Interdictions & Inviolabilité de The Iron Gate** : Cette persistance biologique des prions prouve que la digestion par les larves d'*Hermetia illucens* ne constitue pas une barrière de décontamination. Elle justifie scientifiquement :  
+     - L'interdiction absolue d'alimenter les insectes avec des cadavres ou carcasses animales (`carcass`, Catégories 1 ou 2) pour toute filière d'alimentation animale, imposant le surcroît de rigueur AeterniTrak restreint aux matières végétales (`feed_grade_plant`, Règles P4 et P18).  
+     - L'inviolabilité absolue des portes The Iron Gate :  
+       - **Porte G2 (`HUMAN_REMAINS_ROUTE_PROHIBITED`)** : Verrouillage cryptographique interdisant toute valorisation alimentaire ou technique de matières issues de restes humains (dans le cadre du démonstrateur de faisabilité prospectif DEC-AET-15).  
+       - **Porte G5 (`FEED_BAN_RUMINANT_SOURCE`)** : Exclusion catégorique des protéines de ruminants de toute alimentation animale, interdisant le passage de prions d'ESB.  
+       - **Porte G7 (`FEED_BAN_INTRA_SPECIES_VIOLATION`)** : Application inviolable de la **Règle d'Or Anti-Prion** interdisant le recyclage intraspécifique (art. 11(1)(a) du Règlement CE 1069/2009).
 
 ---
 
@@ -474,9 +485,24 @@ Le validateur exécute **10 portes séquentielles ordonnées (G0 à G9)**. L'év
 | 8 | **G8** | `TARGET_GROUP_NOT_AUTHORISED` | Règl. 2021/1372 : Cible animale non homologuée pour la destination |
 | 9 | **G9** | `TREATMENT_NOT_PROVEN` | Règl. 142/2011 Annexe X ch. II sect. 1 & Annexe IV ch. III |
 
----
-
 ### 4.2 Pseudo-Code Exhaustif du Validateur de la Porte de Fer (Règles v1.5 P9 à P18)
+
+#### 4.2.1 Paramètres Métrologiques Réglementaires (Règlement UE 142/2011)
+
+L'évaluation de la Porte G9 (`TREATMENT_NOT_PROVEN`) s'appuie sur le contrôle métrologique strict des grandeurs physiques définies par le Règlement (UE) n° 142/2011 (Annexe IV, Chapitre III) et la dérogation souveraine DEC-AET-05 :
+1. **Méthode 1 Européenne (Stérilisation sous pression)** :
+   - **Granulométrie réglementaire préalable** : dimension maximale des particules $\le 50\text{ mm}$ (`particle_size_mm`).
+   - **Pression absolue** : $\ge 3{,}0\text{ bars}$ (`pressure_bar`, pression de vapeur saturée).
+   - **Température à cœur** : $\ge 133\text{ }^\circ\text{C}$ (`core_temp_c`).
+   - **Durée sans interruption** : $\ge 20\text{ minutes}$ (`minutes`).
+   - **Preuve cryptographique** : empreinte SHA-256 de 64 hexadécimaux minuscules (`evidence_sha256`).
+2. **Pasteurisation Continue (Dérogation mémorielle forestière DEC-AET-05)** :
+   - **Granulométrie réglementaire préalable** : dimension maximale des particules $\le 10\text{ mm}$ (`particle_size_mm`).
+   - **Température continue** : $\ge 70\text{ }^\circ\text{C}$ (`core_temp_c`).
+   - **Durée ininterrompue** : $\ge 60\text{ minutes}$ (`minutes`).
+   - **Preuve cryptographique** : empreinte SHA-256 de 64 hexadécimaux minuscules (`evidence_sha256`).
+
+Ces paramètres sont typés formellement dans `validators/antiprion/types.ts` au sein des interfaces `TreatmentInput` et `PasteurisationInput` via le champ optionnel `particle_size_mm?: unknown;`.
 
 ```typescript
 export interface PolicyInput {
@@ -885,6 +911,7 @@ export function evaluate(
       if (!methodAuthorized || !hasValidEvidence) {
         reasons.push("TREATMENT_NOT_PROVEN");
       } else if (method === 1) {
+        // Règlement (UE) n° 142/2011 Méthode 1 : T >= 133°C, P >= 3,0 bars absolus, t >= 20 min (granulométrie <= 50 mm)
         const temp = treatment.core_temp_c;
         const press = treatment.pressure_bar;
         const mins = treatment.minutes;
@@ -901,7 +928,7 @@ export function evaluate(
       }
     }
   } else if (use === "memorial_forestry" && inDerogationScope) {
-    // Dérogation DEC-AET-05 : pasteurisation thermique obligatoire (70 °C, 60 min)
+    // Dérogation souveraine DEC-AET-05 : pasteurisation obligatoire (70 °C, 60 min continue, granulométrie <= 10 mm)
     const pasteurisation = proc?.pasteurisation;
     if (!pasteurisation || typeof pasteurisation !== "object") {
       reasons.push("TREATMENT_NOT_PROVEN");

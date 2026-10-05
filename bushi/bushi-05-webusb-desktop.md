@@ -10,21 +10,20 @@
 ## 1. Rôle et Mission
 Le Bushi 05 est l'architecte de la couche de communication matérielle bureau pour les pompes funèbres, vétérinaires et stations professionnelles Le Pax Funèbre (App 2 de l'architecture quadripartite de Kudoro `DEC-AET-08`) :
 
-1. **Pilotage Matériel Direct du Lecteur Sans Contact ACS ACR1552U via WebUSB CCID** :
-   - **Identification matérielle USB** : Prise en charge native du lecteur de bureau haute performance Advanced Card Systems ACR1552U :
-     - Vendor ID (VID) : `0x072F` (Advanced Card Systems Ltd.),
-     - Product ID (PID) : identifiant USB CCID ACR1552U (à confirmer sur fiche technique constructeur).
-   - **Encapsulation CCID (Circuit Card Interface Device v1.1)** : Communication bidirectionnelle basée sur l'API standard W3C `navigator.usb` sans installation préalable de pilotes tiers ou de services lourds :
-     - Émission de commandes CCID sur le pipe Bulk-Out (Endpoint `0x02`),
-     - Réception des réponses sur le pipe Bulk-In (Endpoint `0x82`),
-     - Messages CCID formels : `PC_to_RDR_IccPowerOn` (`0x62`) pour activer le champ RF 13.56 MHz, `PC_to_RDR_XfrBlock` (`0x6F`) pour transmettre les trames APDU, et analyse des trames `RDR_to_PC_DataBlock` (`0x80`) avec validation des registres d'état `bStatus` et `bError`.
+1. **Pilotage Matériel du Lecteur Sans Contact ACS ACR1552U & Requalification Nominale PC/SC** :
+   - **Support CCID Standard Universel (Classe USB 0x0B)** : Prise en charge native du lecteur de bureau ACS ACR1552U 1S CL Reader (Vendor ID `0x072F`, classe d'interface USB `0x0B` - *Chip/SmartCard Interface Devices*). La mention historique d'un PID `0x2200` (propre à l'ancien ACR122U) est formellement proscrite et caduque.
+   - **Requalification de l'Architecture Nominale de Production (Passerelle PC/SC Locale)** :
+     - **Contrainte Majeure `UsbBlocklist` Chromium** : Sur les navigateurs Chromium modernes (Chrome, Edge, Brave), l'accès direct via l'API WebUSB (`navigator.usb`) est bloqué par défaut sur l'interface CCID classe `0x0B` par mesure de sécurité système (`DOMException: The requested interface implements a protected class`).
+     - **Architecture Nominale** : La **passerelle PC/SC locale** (service d'arrière-plan sécurisé joignable via WebSocket local chiffré `wss://127.0.0.1` ou canal Chrome Native Messaging) constitue l'**architecture nominale de production** imposée pour PaxStation de bureau. Elle exploite la pile PC/SC native du système hôte (`winscard.dll` sous Windows, `PCSC.framework` sous macOS, démon `pcscd` sous Linux) pour relayer les APDU sans rupture ni blocage du navigateur. Le mode WebUSB direct ne subsiste qu'à titre de banc d'essai ou en environnement kiosque dédié avec bypass de la blocklist.
+   - **Encapsulation CCID (Circuit Card Interface Device v1.1)** : Communication bidirectionnelle et transmission formelle des trames APDU :
+     - Messages CCID formels : `PC_to_RDR_IccPowerOn` (`0x62`) pour activer le champ RF 13.56 MHz, `PC_to_RDR_XfrBlock` (`0x6F`) pour transmettre les trames APDU, extinction du buzzer sonore (`FF 00 52 00 00`), et analyse des trames `RDR_to_PC_DataBlock` (`0x80`) avec validation des registres d'état `bStatus` et `bError`.
    - **Liaison sans contact ISO/IEC 14443-4 Type A exclusive avec la JavaCard ACOSJ 92 Ko (`DEC-AET-01`)** :
      - Débit de communication radiofréquence calibré à 106 kbps (avec négociation possible jusqu'à 848 kbps via PPS).
      - **Cible Silicium Unique ACOSJ 92 Ko** : Déploiement exclusif de la carte JavaCard ACOSJ 92 Ko conformément à la décision souveraine de Kudoro `DEC-AET-01` (*« QUE DES CARTES 92Ko »*).
 
 2. **Intégration Complète des 10 Micro Use-Cases d'Encodage Silicium (UC-201 à UC-210)** :
    Chaque micro-étape de la station professionnelle PaxStation (App 2) est formalisée de manière modulaire :
-   - **UC-201 : Connexion Station de Bureau ACR1552U WebUSB** : Appairage USB direct (12 Mbps), détection du descripteur CCID, neutralisation logicielle immédiate du buzzer matériel via la commande Escape CCID `FF 00 52 00 00` (silence sacré du recueillement en salon des familles), configuration de la diode en pulsation ambrée douce et activation du champ RF 13.56 MHz.
+   - **UC-201 : Connexion Station de Bureau ACR1552U & Session Opérateur Funéraire** : Appairage via passerelle PC/SC locale nominale (ou WebUSB expérimental), détection standard universelle CCID du lecteur ACS ACR1552U 1S CL Reader (classe USB `0x0B`), neutralisation logicielle immédiate du buzzer matériel via la commande Escape CCID `FF 00 52 00 00` (silence sacré du recueillement en salon des familles), configuration de la diode en pulsation ambrée douce et activation du champ RF 13.56 MHz.
    - **UC-202 : Insertion JavaCard ACOSJ 92 Ko & Vérification ATS APDU** : Détection du transpondeur sans contact, capture de l'Answer to Select (ATS) ISO/IEC 14443-4, sélection de l'applet mémorielle via `SELECT AID A0 00 00 08 45 01` et contrôle du statut `90 00`.
    - **UC-203 : Formatage EEPROM & Initialisation EF Silicium (`STORAGE-001`)** : Partitionnement de la mémoire non-volatile en 6 Elementary Files (EF-0 à EF-5) sur les 92 160 octets disponibles, avec réservation inviolable de la marge de sécurité matérielle (capacité utile fixée à 86 528 octets, réserve de 5 632 octets / 6,11 %).
    - **UC-204 : Ingestion de la Capsule & Canonisation CBOR RFC 8949** : Vérification de la stricte minimalité binaire, canonisation JCS (RFC 8785) des métadonnées, hachage déterministe SHA-256 et validation de la charge utile (≤ 1 900 octets pour le Bloc 1).
@@ -42,9 +41,9 @@ Le Bushi 05 est l'architecte de la couche de communication matérielle bureau po
    - **Phase 3 : Traitement (APDU Stream / Traitement ⚙️)** : Émission du flux de paquets APDU via les trames CCID `PC_to_RDR_XfrBlock`, barres de progression d'écriture EEPROM et calculs cryptographiques.
    - **Phase 4 : Scellement Hardware Lock / Écran de Fin (Fin ✨)** : Verrouillage matériel définitif, affichage du sceau de conformité vert, badge de recette et transition vers l'étape suivante.
 
-4. **Passerelle de Secours PC/SC & Extension Chrome Manifest V3** :
-   - **Passerelle PC/SC locale** : Pour les postes d'entreprise verrouillés interdisant WebUSB natif, pilote léger transmettant les trames APDU via un canal WebSocket sécurisé local (TLS localhost).
-   - **Extension Chrome MV3** : Service worker en arrière-plan assurant la détection non-intrusive des événements USB et la surveillance de l'état du lecteur sans ralentissement du thread UI.
+4. **Architecture Nominale PC/SC Locale & Extension Chrome Manifest V3** :
+   - **Passerelle PC/SC locale (Nominale de Production)** : Architecture nominale imposée par la `UsbBlocklist` de Chromium (bloquant la classe CCID `0x0B` via `DOMException: The requested interface implements a protected class`), assurant un transport hautement sécurisé et universel des trames APDU via un canal WebSocket sécurisé local chiffré (`wss://127.0.0.1`) ou Chrome Native Messaging host.
+   - **Extension Chrome MV3** : Service worker en arrière-plan assurant la détection non-intrusive des événements USB/PCSC et la surveillance de l'état du lecteur sans ralentissement du thread UI.
 
 5. **Universalité Multi-Plateformes (`DEC-AET-09`)** :
    - Fonctionnement universel sur tous les navigateurs modernes Chromium (Google Chrome, Microsoft Edge, Brave, Opera) sous Windows 10/11, macOS (Apple Silicon M1-M4 & Intel) et distributions Linux (Ubuntu, Debian, Fedora), sans aucun pilote propriétaire à installer.
@@ -93,5 +92,5 @@ Avant de développer ou modifier la couche WebUSB et l'extension de bureau, le B
 - [ ] **Excellence des 10 Micro Use-Cases (UC-201 à UC-210)** : Chaque micro use-case documenté avec son flux complet de simulation à 4 phases.
 - [ ] **Scellement Matériel Irréversible (`UC-208`)** : Garantie physique anti-tamper rendant toute altération ultérieure impossible.
 - [ ] **Contrôle Strict Low-S Anti-Malléabilité (`UC-207`)** : Rejet systématique de toute signature avec composante $s > \lfloor n/2 \rfloor$.
-- [ ] **Universalité Multi-Plateformes Sans Pilote (`DEC-AET-09`)** : Reconnaissance plug-and-play sous Windows, macOS et Linux via WebUSB standard.
+- [ ] **Universalité Multi-Plateformes Sans Pilote (`DEC-AET-09`)** : Reconnaissance plug-and-play sous Windows, macOS et Linux via passerelle PC/SC nominale universelle (CCID classe 0x0B) ou WebUSB expérimental.
 - [ ] **Zéro Fuite d'Informations Sensibles** : Masquage systématique des clés secrètes et identifiants sensibles dans les journaux DevTools.

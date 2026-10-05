@@ -7,9 +7,9 @@ AeterniTrak V1.0 — Référentiel des Textes Juridiques Applicables
 LEGAL_TEXTS = [
     {
         "jurisdiction": "🇧🇪 Région Wallonne",
-        "ref": "Art. L1232-17 §2 CDLD (référence à confirmer par un juriste)",
-        "official_title": "Code de la démocratie locale et de la décentralisation — Exérèse préalable des stimulateurs cardiaques (référence à confirmer par un juriste)",
-        "disposition": "L'article L1232-17 §2 dispose que préalablement à toute crémation ou mise en bière, les stimulateurs cardiaques (pacemakers) et défibrillateurs automatiques implantables (DAE) doivent être obligatoirement retirés du corps par un médecin ou un chirurgien pour parer au risque majeur d'explosion thermique.",
+        "ref": "Art. L1232-24 CDLD & Modèle IIIC réglementaire",
+        "official_title": "Code de la démocratie locale et de la décentralisation — Sécurité crématoire et exérèse préalable obligatoire des dispositifs à pile (pacemaker / DAE)",
+        "disposition": "L'article L1232-24 et le formulaire officiel Modèle IIIC réglementaire disposent que préalablement à toute crémation ou mise en bière, les stimulateurs cardiaques (pacemakers) et défibrillateurs automatiques implantables (DAE) doivent être obligatoirement retirés du corps par un médecin ou un chirurgien pour parer au risque majeur d'explosion pyrotechnique (850°C-1050°C) et de pollution.",
         "project_choice": "Intégration d'un blocage logiciel inviolable dans PaxStudio et PaxStation : alerte prioritaire rouge et impossibilité absolue d'encodage sur le silicium sans attestation médicale nominative d'exérèse (INAMI du praticien).",
         "url": "#section-legal",
         "portal_url": None,
@@ -17,8 +17,8 @@ LEGAL_TEXTS = [
     },
     {
         "jurisdiction": "🇧🇪 Belgique Fédérale",
-        "ref": "Loi du 13 juin 1986 (référence à confirmer par un juriste)",
-        "official_title": "Loi du 13 juin 1986 sur le prélèvement et la transplantation d'organes — Consentement présumé (référence à confirmer par un juriste)",
+        "ref": "Loi du 13 juin 1986",
+        "official_title": "Loi du 13 juin 1986 sur le prélèvement et la transplantation d'organes — Consentement présumé",
         "disposition": "Le système belge repose sur le principe du consentement présumé (opt-out) : tout citoyen belge ou résidant depuis plus de 6 mois est présumé donneur d'organes après son décès, sauf s'il a formellement acté son opposition de son vivant auprès de sa commune ou de son médecin traitant.",
         "project_choice": "Gravure des volontés de don d'organes directement dans l'EEPROM de la carte ACOSJ (EF-2 Profil) : confirmation expresse ou opposition enregistrée, consultable instantanément par les coordinateurs hospitaliers via simple tap NFC sans aucun mot de passe.",
         "url": "#section-legal",
@@ -27,8 +27,8 @@ LEGAL_TEXTS = [
     },
     {
         "jurisdiction": "🇧🇪 Belgique Fédérale",
-        "ref": "Loi du 20 juillet 1971 (référence à confirmer par un juriste)",
-        "official_title": "Loi du 20 juillet 1971 sur les funérailles et sépultures — Primauté des dernières volontés (référence à confirmer par un juriste)",
+        "ref": "Loi du 20 juillet 1971",
+        "official_title": "Loi du 20 juillet 1971 sur les funérailles et sépultures — Primauté des dernières volontés",
         "disposition": "L'article 2 énonce que toute personne a le droit de déterminer de son vivant le mode et les conditions de ses funérailles (inhumation, crémation, cérémonie cultuelle ou laïque), s'imposant impérativement à la famille et aux exécuteurs testamentaires.",
         "project_choice": "Scellement cryptographique inaltérable des volontés sous format CBOR déterministe signé par la clé officielle de l'opérateur de pompes funèbres, conférant une valeur probante infalsifiable face aux contestations familiales.",
         "url": "#section-legal",
@@ -37,8 +37,8 @@ LEGAL_TEXTS = [
     },
     {
         "jurisdiction": "🇧🇪 Belgique Fédérale",
-        "ref": "Loi du 22 août 2002 (référence à confirmer par un juriste)",
-        "official_title": "Loi du 22 août 2002 relative aux droits du patient — Accès post-mortem au dossier médical (art. 9 §4) (référence à confirmer par un juriste)",
+        "ref": "Loi du 22 août 2002",
+        "official_title": "Loi du 22 août 2002 relative aux droits du patient — Accès post-mortem au dossier médical (art. 9 §4)",
         "disposition": "L'article 9 §4 dispose qu'après le décès du patient, les ayants droit peuvent accéder au dossier médical par l'intermédiaire d'un praticien professionnel désigné, pour autant que la demande soit motivée et que le patient ne s'y soit pas expressément opposé.",
         "project_choice": "Ségrégation cryptographique des champs médicaux sensibles sur la carte silicium : le compartiment des directives médicales est isolé et n'est déverrouillé que par présentation conjointe de la carte et du jeton professionnel du médecin désigné.",
         "url": "#section-legal",
@@ -47,8 +47,8 @@ LEGAL_TEXTS = [
     },
     {
         "jurisdiction": "🇧🇪 Région Wallonne",
-        "ref": "Décret wallon du 15 juillet 2008 (référence à confirmer par un juriste)",
-        "official_title": "Décret wallon du 15 juillet 2008 relatif au Code forestier (art. 41) — Amendements du sol (référence à confirmer par un juriste)",
+        "ref": "Décret wallon du 15 juillet 2008",
+        "official_title": "Décret wallon du 15 juillet 2008 relatif au Code forestier (art. 41) — Amendements du sol",
         "disposition": "L'article 41 dispose que le Gouvernement peut fixer les conditions d'épandage des amendements et fertilisants du sol forestier. Les articles suivants fixent les missions de police administrative et sylvicole des agents assermentés du Département de la Nature et des Forêts (DNF).",
         "project_choice": "Conditionnement des résidus cinéraires de sarcomusation pasteurisés sous forme d'amendements au pied d'arbres mémoriels identifiés (sous dérogation souveraine DEC-AET-05), et application mobile Biocontrôle DNF dotée de géolocalisation GPS submétrique et signature par badge agent.",
         "url": "#section-legal",

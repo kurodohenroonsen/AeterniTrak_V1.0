@@ -101,7 +101,7 @@ Le dialogue de bas niveau entre l'application **PaxStation Encodage** (via le le
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Station as PaxStation (ACR1552U / WebUSB)
+    participant Station as PaxStation (ACR1552U / Passerelle PC/SC)
     participant Chip as JavaCard ACOSJ 92 Ko (IsoDep)
     
     Station->>Chip: SELECT AID AeterniTrak Core (00 A4 04 00 06 A0 00 00 08 45 01)
@@ -317,14 +317,19 @@ Lorsque l'applet JavaCard reçoit l'APDU `80 DE 01 00 00`, le microcontrôleur A
 
 ## 7. Paramètres de Liaison Matérielle ACR1552U & Encapsulation CCID
 
-La station professionnelle funéraire **PaxStation Encodage** communique avec la puce via le lecteur de bureau haute performance **ACR1552U USB Contactless Reader IV** (norme USB CCID v1.1).
+La station professionnelle funéraire **PaxStation Encodage** communique avec la puce via le lecteur sans contact haute performance **ACS ACR1552U 1S CL Reader** (norme USB CCID v1.1 / classe USB `0x0B`).
+
+> [!IMPORTANT]
+> **Architecture Nominale de Production : Passerelle PC/SC Locale (Localhost TLS / Native Messaging)**  
+> En environnement de production sur les postes de travail Chromium Desktop (Chrome, Edge, Brave), l'accès direct via l'API standard `navigator.usb` (WebUSB) se heurte à la **`UsbBlocklist` de Chromium**, qui bloque impérativement la classe d'interface CCID `0x0B` (*Smart Card / Chip Card Interface*) pour des impératifs stricts de sécurité du système hôte (`DOMException: The requested interface implements a protected class`).  
+> Par conséquent, l'**architecture nominale de production** de PaxStation repose sur une **passerelle PC/SC locale** (service d'arrière-plan léger communicant via WebSocket local chiffré `wss://127.0.0.1` ou canal Chrome Native Messaging). Cette passerelle interagit directement avec la pile PC/SC native du système hôte (`winscard.dll` sous Windows, `PCSC.framework` sous macOS, démon `pcscd` sous Linux) et route les trames APDU ISO 7816-4 vers l'ACR1552U sans compromission de sécurité. Le mode WebUSB direct ne subsiste qu'à titre de banc d'essai expérimental ou en environnement kiosque dédié avec désactivation explicite de la blocklist Chromium.
 
 ### 7.1 Identification Matérielle & Neutralisation Sonore
 
 - **Vendor ID (VID)** : `0x072F` (Advanced Card Systems Ltd.)
-- **Product ID (PID)** : `0x2200` (ACR1552U USB Contactless Reader)
+- **Classe Matérielle & Support CCID** : Support CCID standard universel (ACS ACR1552U 1S CL Reader / classe d'interface USB `0x0B`). La mention historique du PID `0x2200` (spécifique à l'ancien lecteur ACR122U) est formellement proscrite et remplacée par la conformité CCID universelle multi-plateformes.
 - **Neutralisation Immédiate du Buzzer (Solennité Funéraire)** :  
-  Dès l'ouverture de la session USB, PaxStation envoie la commande d'échappement CCID propriétaire pour éteindre le vibreur sonore :
+  Dès l'ouverture de la session matérielle, PaxStation transmet la commande d'échappement CCID propriétaire (via la commande de contrôle PC/SC `SCardControl` ou trame d'échappement directe) pour éteindre le vibreur sonore :
   ```
   Commande Échappement Buzzer OFF : FF 00 52 00 00
   ```

@@ -1,4 +1,4 @@
-# Application 4 — Filière Sarcomusation & Traçabilité Post-Décès (UC-401 à UC-414)
+# Application 4 — Filière Sarcomusation & Traçabilité Post-Décès (UC-401 à UC-418)
 
 **Système Expert de Contrôle Biologique, Régulation Sanitaire & The Iron Gate**
 
@@ -19,11 +19,15 @@
 | [`UC-407`](#uc-407) | [Dépistages PCR Épizooties en Laboratoire Agréé (PPA & CWD)](#uc-407) | **Contrôle Biologique** | Biologiste de Laboratoire Agréé (Sciensano) | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement d'exécution (UE) 2021/605 (mesures spéciales de lutte contre la peste porcine africaine) (référence à confirmer par un juriste). |
 | [`UC-408`](#uc-408) | [Stérilisation Européenne Méthode 1 (133°C, 3 bars, 20 minutes)](#uc-408) | **Traitement Thermique** | Opérateur d'Autoclave Haute Pression | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (annexe IV, chapitre III - Méthode 1 de transformation standard) (référence à confirmer par un juriste). |
 | [`UC-409`](#uc-409) | [Profil 3 — Filière Élevage / Ferme (Catégorie 2) & Boucle Sanitel](#uc-409) | **Profils Dépouilles** | Éleveur & Vétérinaire Sanitaire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Arrêté royal du 23 mars 2011 (identification et enregistrement des bovins dans le système Sanitel) (référence à confirmer par un juriste). |
-| [`UC-410`](#uc-410) | [Ingestion Automatisée APIs Sanitel & CERISE (Traçabilité Élevage)](#uc-410) | **Interopérabilité APIs** | Système Core & Autorité AFSCA | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données avec le système Sanitel) (référence à confirmer par un juriste). |
+| [`UC-410`](#uc-410) | [Saisie Déclarative & Attestation Sanitel / CERISE (Phase 1, DEC-AET-02)](#uc-410) | **Interopérabilité & Registres (DEC-AET-02)** | Éleveur Déclarant & Vétérinaire Agréé | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données Sanitel) & Arbitrage Kudoro DEC-AET-02 (références à confirmer par un juriste). |
 | [`UC-411`](#uc-411) | [Profil 4 — Filière Déchets d'Abattoir (Cat 1 MRS) & Dénaturation Bleu](#uc-411) | **Profils Dépouilles** | Inspecteur AFSCA & Opérateur d'Abattoir | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 999/2001 (annexe V - spécifications des Matériels à Risque Spécifié MRS) (référence à confirmer par un juriste). |
 | [`UC-412`](#uc-412) | [Évaluation Algorithmique Pure par The Iron Gate (G0 à G9, Anti-Prion)](#uc-412) | **Validation Algorithmique** | The Iron Gate (Moteur Déterministe) | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Spécification AeterniTrak AET-SPEC-PRION-001 et Règlement (CE) n° 999/2001 (Feed-ban) (référence à confirmer par un juriste). |
 | [`UC-413`](#uc-413) | [Émission du Certificat de Lot Signé Ed25519 (AET-SPEC-CERT-001)](#uc-413) | **Cryptographie Filière** | The Iron Gate & Autorité de Conformité | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) | Spécification technique formelle AET-SPEC-CERT-001 et Règlement (UE) 2021/1372 (référence à confirmer par un juriste). |
 | [`UC-414`](#uc-414) | [Double Audit Réglementaire AFSCA / DNF Hors-Ligne](#uc-414) | **Audit & Régulateurs** | Inspecteur AFSCA & Contrôleur DNF | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (UE) 2017/625 (contrôles officiels le long de la chaîne agroalimentaire) (référence à confirmer par un juriste). |
+| [`UC-415`](#uc-415) | [Obstacle Médico-Légal Absolu & Enquête Judiciaire (Mise sous Scellés Parquet)](#uc-415) | **Constat Civil & Police Judiciaire** | Médecin Légiste, Parquet & Officier de Police Judiciaire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Code d'instruction criminelle belge (art. 44 - réquisition judiciaire et autopsie) & Décret funéraire wallon. |
+| [`UC-416`](#uc-416) | [Rupture de la Chaîne du Froid pendant le Transport Post-Mortem (> +4°C pendant > 2h, Déclassement C2)](#uc-416) | **Contrôle Logistique & Biosécurité** | Chauffeur-Livreur Agréé & Responsable Qualité Sas Réception | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux) & Prescriptions de transport frigorifique. |
+| [`UC-417`](#uc-417) | [Test Toxicologique LFA Pentobarbital Douteux ou Invalide (Absence Ligne C -> Quarantaine et Contre-Expertise)](#uc-417) | **Contrôle Toxicologique & Quarantaine** | Vétérinaire Contrôleur Sanitaire | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) | Règlement (CE) n° 142/2011 (recherche de résidus médicamenteux) & Notice technique officielle cassettes LFA AFSCA. |
+| [`UC-418`](#uc-418) | [Refus Municipal du Permis de Sépulture ou Discordance d'Identité Bracelet Scellé](#uc-418) | **Légalité Administrative & Régulation** | Officier d'État Civil Municipal & Directeur de Filière | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Décret wallon du 6 mars 2009 relatif aux funérailles et sépultures & Code de la démocratie locale et de la décentralisation. |
 
 ---
 
@@ -38,17 +42,17 @@ Cette chaîne événementielle régit l'intégralité du cycle post-mortem de la
 | **1** | **Constat de Décès & Déclaration Initiale** (`EVT-01`) | **Domicile du déclarant / Clinique (Liège)** | Officier de Santé / Autorité Agréée | `SCEL_INITIALISE_NON_ROMPU` | 12.4°C (Température ambiante initiale) | Constat médical de fin de vie, horodatage certifié RFC 3339, géolocalisation par balise RTK, vérification de l'identité du défunt ou de l'animal, et scellement physique et cryptographique immédiat par scellé inviolable NFC/QR à signature Ed25519. | [`UC-401`](#uc-401), [`UC-406`](#uc-406), [`UC-409`](#uc-409) |
 | **2** | **Prise en Charge & Transport Sécurisé de la Dépouille** (`EVT-02`) | **Itinéraire Transit Agréé E25 (Rocade Sud)** | Conducteur Spécialisé Véhicule Agréé | `SCEL_INTACT_EN_TRANSIT` | +3.2°C (Chaîne du Froid Conforme [Consigne 2.0°C - 4.0°C]) | Prise en charge dans un véhicule funéraire/sanitaire agréé, monitoring télématique continu de la température de la chaîne du froid entre 2°C et 4°C, étapes de transit géolocalisées avec horodatage balises GPS et émargement numérique du chauffeur. | [`UC-401`](#uc-401), [`UC-406`](#uc-406), [`UC-409`](#uc-409) |
 | **3** | **Admission & Réception à l'Unité / Salon Funéraire** (`EVT-03`) | **Unité Centrale AeterniTrak Liège (Cellule #B4)** | Gestionnaire d'Unité Funéraire & Sanitaire | `SCEL_VERIFIE_NON_ROMPU` | +2.8°C (Cellule Frigorifique #B4 Assignée) | Arrivée à l'unité de destination : scan sans contact du scellé inviolable, vérification de non-rupture de scellé, pesée métrologique certifiée sur balance étalonnée classe III, et assignation automatique d'une cellule réfrigérée de conservation. | [`UC-402`](#uc-402), [`UC-410`](#uc-410) |
-| **4** | **Préparation Sanitaire & Contrôles Amonts** (`EVT-04`) | **Salle Technique Stérile & BioLab AeterniCore** | Praticien Spécialiste Santé & Sécurité | `SCEL_OUVERT_CONTROLE_STERILE` | +14.0°C (Ambiante salle technique stérile) | Préparation sanitaire amont obligatoire : exérèse validée du stimulateur cardiaque (pacemaker) avant toute incinération ou traitement thermique, dépistage toxicologique qualitatif LFA du pentobarbital (cassette C+T visibles = absence de produit létal, conforme), et prélèvements PCR épizooties selon le profil de dépouille. | [`UC-403`](#uc-403), [`UC-407`](#uc-407), [`UC-411`](#uc-411) |
+| **4** | **Préparation Sanitaire & Contrôles Amonts** (`EVT-04`) | **Salle Technique Stérile & BioLab AeterniCore** | Praticien Spécialiste Santé & Sécurité | `SCEL_OUVERT_CONTROLE_STERILE` | +14.0°C (Ambiante salle technique stérile) | Préparation sanitaire amont obligatoire : exérèse validée du stimulateur cardiaque (pacemaker) selon Art. L1232-24 CDLD & Modèle IIIC réglementaire avant toute incinération ou traitement thermique, dépistage toxicologique qualitatif LFA du pentobarbital (cassette C+T visibles = absence de produit létal, conforme), et prélèvements PCR épizooties selon le profil de dépouille. | [`UC-403`](#uc-403), [`UC-407`](#uc-407), [`UC-411`](#uc-411) |
 | **5** | **Bioconversion / Sarcomusation & Traitement Thermique** (`EVT-05`) | **Sas Hermétique de Bioconversion & Autoclaves HP** | Responsable Unité Biologique & Thermique | `SAS_BIOCONVERSION_SCELLE` | 70.2°C (Pasteurisation continue 1h) / Méthode 1: 133°C, 3 bars | Introduction dans le sas hermétique de bioconversion dédié par les larves d'Hermetia illucens, ségrégation stricte des flux pour interdire tout mélange, et application du traitement thermique légal : pasteurisation continue à 70°C pendant 1h continue sous dérogation DEC-AET-05 mémorielle forestière exclusive, ou stérilisation Méthode 1 européenne (133°C, 3 bars, 20 min en cœur de matière) pour les autres filières. | [`UC-402`](#uc-402), [`UC-404`](#uc-404), [`UC-408`](#uc-408) |
 | **6** | **Clôture de Traçabilité, The Iron Gate & Remise Mémorielle** (`EVT-06`) | **Salon Solennel d'Hommage & Forêt DNF** | Autorité Cryptographique & Conseiller Funéraire | `LOT_SIGNE_ET_REMIS` | Température ambiante salon d'hommage | Évaluation algorithmique pure et inviolable par l'oracle The Iron Gate (G0 à G9 : vérification stricte de la règle d'or anti-prion interdisant tout recyclage intra-espèce), scellement cryptographique Ed25519 du certificat de lot AET-SPEC-CERT-001 (COSE_Sign1), séparation méticuleuse des reliques et remise solennelle de l'urne cinéraire ou de l'amendement forestier à la famille. | [`UC-405`](#uc-405), [`UC-412`](#uc-412), [`UC-413`](#uc-413), [`UC-414`](#uc-414) |
 
 ### 👤 Profil Humain (`p0`) — Traçabilité Funéraire Légale & Démonstrateur Prospectif (DEC-AET-15)
 
-Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *Guy Heyman, 1942 — 2026, Matricule État Civil #NAM-2026-0814*, dépouille `AET-HUM-2026-BE-0814`) selon le cadre légal belge (Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-17 §2 - références à confirmer par un juriste) :
+Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *Guy Heyman, 1942 — 2026, Matricule État Civil #NAM-2026-0814*, dépouille `AET-HUM-2026-BE-0814`) selon le cadre légal belge (Loi du 20 juillet 1971, Décret wallon du 6 mars 2009 modifiant le CDLD, Art. L1232-24 CDLD & Modèle IIIC réglementaire) :
 
 1. **Événement 1 (Survenance)** : Domicile / Chambre d'hôpital (Namur) — Médecin traitant/légiste (Certificat Modèle III C/D), visa d'absence d'obstacle médico-légal, registre SPF Santé Publique (don d'organes, consentement présumé), bracelet inviolable poignet Ed25519 (`SCL-HUM-2026-INIT`).
 2. **Événement 2 (Transport Primaire)** : Trajet Domicile ➔ Salon PaxFunèbre (N4 Namur) — Fourgon SPW #1-PFN-884, caisson isotherme (0°C..+4°C), autorisation communale de transport avant mise en bière (< 24h/48h sous froid).
-3. **Événement 3 (Salon & Thanatopraxie)** : Funérarium PaxFunèbre (Cellule #C3, Namur) — **Exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-17 §2 CDLD (danger d'explosion > 250°C et lithium)**, attestation médicale INAMI, mise en bière cercueil agréé.
+3. **Événement 3 (Salon & Thanatopraxie)** : Funérarium PaxFunèbre (Cellule #C3, Namur) — **Exérèse chirurgicale OBLIGATOIRE du stimulateur cardiaque (Pacemaker / DAE) selon Art. L1232-24 CDLD & Modèle IIIC réglementaire (danger d'explosion pyrotechnique 850°C-1050°C et pollution)**, attestation médicale INAMI, mise en bière cercueil agréé.
 4. **Événement 4 (Maison Communale)** : Hôtel de Ville de Namur — Acte de décès n° 0814/2026, contrôle des dernières volontés (Loi 1971 / Art. 15 CDLD), permis officiel de crémation/sépulture, scellement municipal du cercueil.
 5. **Événement 5 (Transformation)** : Crématorium de Ciney (850°C) OU Bioréacteur démonstrateur prospectif Hermetia illucens (pasteurisation 70°C/1h, DEC-AET-05/15) — **Verrou absolu The Iron Gate Gate G2 (`HUMAN_REMAINS_DETECTED` ➔ interdiction mathématique de toute filière alimentaire/technique)**.
 6. **Événement 6 (Sépulture & Clôture)** : Forêt Cinéraire Privée de la Basse-Sambre (Parcelle #FM-08) — Remise solennelle Médaillon ACOSJ 92 Ko (hommage et mémo vocal), amendement biologique au pied de l'arbre du souvenir familial (DEC-AET-05), scellement Ed25519 du certificat de sépulture final (`AET-SPEC-CERT-001`).
@@ -1552,7 +1556,7 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                         </div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-gold">Étape Suivante : Ingestion APIs Sanitel/CERISE →</button>
+                        <button class="wf-btn wf-btn-gold">Étape Suivante : Saisie Déclarative Sanitel/CERISE →</button>
                       </div>
                     </div>
 ```
@@ -1562,159 +1566,159 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
 ---
 
 <a id="uc-410"></a>
-## UC-410 : Ingestion Automatisée APIs Sanitel & CERISE (Traçabilité Élevage)
+## UC-410 : Saisie Déclarative & Attestation Sanitel / CERISE (Phase 1, DEC-AET-02)
 
 ### 📋 Métadonnées Spécifiées
 
 | Propriété | Valeur Spécifiée |
 | :--- | :--- |
 | **Identifiant Unique** | `UC-410` |
-| **Catégorie Métier** | **Interopérabilité APIs** |
-| **Acteur Principal** | Système Core & Autorité AFSCA |
+| **Catégorie Métier** | **Interopérabilité & Registres (DEC-AET-02)** |
+| **Acteur Principal** | Éleveur Déclarant & Vétérinaire Agréé |
 | **Plateformes Cibles** | Node.js / Core Engine, Web Standard (PWA Hors-Ligne) |
-| **Tags Clés** | `APIs`, `Sanitel`, `CERISE`, `ARSIA`, `Tracabilite`, `ControleAmont`, `DEC-AET-13` |
-| **Base Légale & Normative** | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données avec le système Sanitel) (référence à confirmer par un juriste). |
-| **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Passerelle d'Interopérabilité Sanitel/CERISE` |
+| **Tags Clés** | `Sanitel`, `CERISE`, `ARSIA`, `Tracabilite`, `SaisieDeclarative`, `Attestation`, `SHA-256`, `ControleAmont`, `DEC-AET-02`, `DEC-AET-13` |
+| **Base Légale & Normative** | Arrêté ministériel du 28 juin 2013 (modalités d'accès et d'échange de données Sanitel) & Arbitrage Kudoro DEC-AET-02 (références à confirmer par un juriste). |
+| **Terminal / Canvas Wireframe** | `Terminal Terrain DNF / AFSCA • Saisie Déclarative Sanitel & Hachage SHA-256` |
 
 ### 🎯 Préconditions & Postconditions
 
 > [!NOTE]
 > **Préconditions Requises :**
-> Numéro de boucle nationale Sanitel scanné sur la dépouille agricole.
+> Numéro de boucle nationale Sanitel (BE xxxxxxxxx) et attestation vétérinaire de respect du temps d'attente médicamenteux disponibles.
 
 > [!TIP]
 > **Postconditions Garanties :**
-> Zéro risque d'erreur de saisie manuelle, intégrité administrative garantie.
+> Attestation sanitaire scellée par empreinte SHA-256 en local hors-ligne, traçabilité garantie sans faille réseau.
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Appel sécurisé en temps réel aux APIs du guichet agricole wallon CERISE et du registre fédéral Sanitel (AFSCA) pour vérification déclarative amont (DEC-AET-13).
-2. Récupération de la fiche complète : race, date de naissance, historique des déplacements d'exploitation en exploitation.
-3. Contrôle automatique du registre des traitements médicamenteux vétérinaires et respect des temps d'attente.
-4. Interrogation des bases sanitaires régionales ARSIA (Wallonie) et DGZ (Flandre) pour confirmer l'absence de mise sous séquestre.
-5. Agrégation des données certifiées au dossier numérique de revendication de lot.
+1. Saisie du numéro d'identification Sanitel / boucle auriculaire officielle (format BE xxxxxxxxx) et du code d'exploitation agricole ARSIA/DGZ (DEC-AET-02).
+2. Téléversement du document d'attestation vétérinaire certifiant le respect strict du temps d'attente médicamenteux post-administration.
+3. Calcul instantané de l'empreinte cryptographique SHA-256 de la pièce justificative en environnement local 100% hors-ligne.
+4. Contrôle d'intégrité local et validation de conformité sans dépendance d'API en ligne (DEC-AET-02 / DEC-AET-13).
+5. Agrégation de l'empreinte SHA-256 et des métadonnées déclaratives au dossier numérique de lot pour instruction par The Iron Gate.
 
 ### 📝 Spécification des Champs de Saisie & Données
 
 | Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| `api_sanitel` | **API Fédérale Sanitel (AFSCA)** | `text` | `CONNECTÉ (OAuth2 Mutual TLS — Jeton Valide)` | API Sanitel | `Fédéral` | ⭕ Optionnel |
-| `api_cerise` | **API Régionale CERISE (SPW)** | `text` | `CONNECTÉ (Guichet Agricole Wallon Synchronisé)` | API CERISE | `Régional` | ⭕ Optionnel |
-| `withhold_period` | **Temps d'Attente Médicamenteux** | `text` | `RESPECTÉ (45 jours écoulés post-antibiotiques)` | Temps attente | `Conforme` | ⭕ Optionnel |
-| `quarantine_status` | **Statut Séquestre Sanitaire** | `text` | `INDEMNE (Aucune restriction sur l'élevage BE 0412)` | Séquestre | `Indemne` | ⭕ Optionnel |
+| `sanitel_tag` | **Numéro de Boucle Auriculaire Sanitel** | `text` | `BE 5 1284 9901` | BE xxxxxxxxx | `Sanitel Officiel` | ✅ Requis |
+| `farm_holding_id` | **Code Exploitation Élevage** | `text` | `BE-EXP-0412 (Bovin Blanc Bleu Belge)` | Code ARSIA / DGZ | `Exploitation` | ✅ Requis |
+| `vet_attestation_file` | **Attestation Vétérinaire (Temps d'Attente)** | `text` | `ATTEST-VET-2026-098.pdf (45j respectés)` | Fichier attestation | `Téléversé` | ✅ Requis |
+| `attestation_sha256` | **Empreinte SHA-256 de la Pièce** | `text` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | Hash SHA-256 | `Scellé Local` | ⭕ Optionnel |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
 | Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
 | :--- | :--- | :--- | :--- | :---: |
-| `btn_sync_apis` | **Synchroniser avec Sanitel (AFSCA) & CERISE (SPW)** | `primary` | `idle` | 🔄 |
-| `btn_refresh_tokens` | **Rafraîchir Jetons de Sécurité OAuth2** | `secondary` | `idle` | 🔑 |
+| `btn_hash_attestation` | **Hacher la Pièce Justificative (SHA-256 Local)** | `primary` | `idle` | 🔒 |
+| `btn_verify_offline` | **Vérifier l'Intégrité Hors-Ligne (DEC-AET-02)** | `secondary` | `idle` | 📄 |
 
 ### ✅ Critères de Succès & Validation Normative
 
 > [!IMPORTANT]
 
-> **Titre :** Données Fédérales & Régionales Ingestionnées
+> **Titre :** Attestation Sanitaire Scellée Localement
 >
-> **Badge de Conformité :** `Sanitel & CERISE 100% OK`
+> **Badge de Conformité :** `Attestation & SHA-256 100% Validés`
 >
-> **Détail Opérationnel :** Historique de vie complet et temps d'attente médicamenteux certifiés sans saisie manuelle.
+> **Détail Opérationnel :** Boucle Sanitel BE 5 1284 9901 et attestation vétérinaire certifiées hors-ligne avec empreinte SHA-256 (DEC-AET-02).
 
 ### ⚠️ Cas d'Erreur & Procédure de Remédiation
 
 | Propriété d'Anomalie | Description Technique |
 | :--- | :--- |
-| **Code d'Erreur Normatif** | `ERR_SANITEL_API_UNREACHABLE` |
-| **Intitulé de l'Incident** | **API Sanitel Inaccessible ou Numéro Inexistant** |
-| **Condition Déclenchante** | Panne de réseau ou numéro de boucle auriculaire non répertorié au registre national. |
-| **Message d'Erreur UI** | *« Erreur d'interopérabilité : Impossible de synchroniser la fiche avec les registres Sanitel / CERISE. »* |
-| **Action Corrective Requise** | **Basculer en mode cache local sécurisé et réexécuter la synchronisation dès retour du réseau.** |
+| **Code d'Erreur Normatif** | `ERR_SANITEL_DOCUMENT_CORRUPTED` |
+| **Intitulé de l'Incident** | **Empreinte SHA-256 Non Concordante ou Fichier Corrompu** |
+| **Condition Déclenchante** | Le fichier d'attestation téléversé ne correspond pas à l'empreinte SHA-256 enregistrée ou est incomplet. |
+| **Message d'Erreur UI** | *« Erreur de validation locale : L'attestation vétérinaire de temps d'attente est corrompue ou altérée. »* |
+| **Action Corrective Requise** | **Sélectionner à nouveau le document d'attestation original émis par le vétérinaire agréé et recalculer le hachage SHA-256.** |
 
 ### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
 
-*Canvas & Résolution Cible :* **Terminal Terrain DNF / AFSCA • Passerelle d'Interopérabilité Sanitel/CERISE**
+*Canvas & Résolution Cible :* **Terminal Terrain DNF / AFSCA • Saisie Déclarative Sanitel & Hachage SHA-256**
 
 | Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | **Initial / Avant Trigger** | Requête d'Interopérabilité Prête à l'Envoi | *En attente utilisateur* | Boucle BE 5 1284 9901 en attente d'interrogation sur les passerelles fédérales. |
-| **2** | **Déclenchement ⚡** | Échange REST / OAuth2 Sécurisé avec les Registres | `Clic sur 'Synchroniser' et appel mTLS aux serveurs de l'AFSCA` | Requête chiffrée par certificat d'autorité avec rapatriement des tables généalogiques. |
-| **3** | **Traitement ⚙️** | Contrôle Automatique des Délais d'Attente Médicamenteux | `Progression : 95%` | Vérification algorithmique du respect des 45 jours après administration d'antibiotiques. |
-| **4** | **Scellement & Fin ✨** | Dossier Agricole Scellé Sans Erreur de Saisie | `Statut : success` | Données certifiées à 100% intégrées au lot pour l'évaluation de The Iron Gate. |
+| **1** | **Initial / Avant Trigger** | Saisie Déclarative Sanitel & Document en Attente | *En attente utilisateur* | Boucle BE 5 1284 9901 saisie, attestation vétérinaire prête pour le hachage local hors-ligne. |
+| **2** | **Déclenchement ⚡** | Calcul Local de l'Empreinte SHA-256 | `Clic sur 'Hacher la Pièce Justificative' et calcul SHA-256 hors-ligne` | Génération cryptographique de l'empreinte sans connexion réseau (DEC-AET-02). |
+| **3** | **Traitement ⚙️** | Contrôle d'Intégrité Hors-Ligne & Délais Médicamenteux | `Progression : 95%` | Vérification locale de l'intégrité du document et de la validité du délai d'attente de 45 jours. |
+| **4** | **Scellement & Fin ✨** | Attestation Validée & Dossier Scellé Hors-Ligne | `Statut : success` | Empreinte SHA-256 et données déclaratives scellées dans le dossier de lot (DEC-AET-02). |
 
 <details>
 <summary>🔍 Consulter les fragments HTML Wireframe de UC-410 (4 États Dépliables)</summary>
 
-#### Phase 1 - Avant Trigger : Requête d'Interopérabilité Prête à l'Envoi
-*Boucle BE 5 1284 9901 en attente d'interrogation sur les passerelles fédérales.*
+#### Phase 1 - Avant Trigger : Saisie Déclarative Sanitel & Document en Attente
+*Boucle BE 5 1284 9901 saisie, attestation vétérinaire prête pour le hachage local hors-ligne.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">AeterniTrak • Passerelle Sanitel</span>
-                        <span class="wf-status-badge wf-badge-neutral">Prêt à Synchroniser</span>
+                        <span class="wf-app-title">AeterniTrak • Saisie Déclarative Sanitel</span>
+                        <span class="wf-status-badge wf-badge-neutral">Attestation Prête</span>
                       </div>
                       <div class="wf-device-status-box">
-                        <span class="wf-cloud-icon">🔄</span>
-                        <div><strong>Boucle BE 5 1284 9901 en attente d'ingestion API</strong></div>
-                        <div class="wf-subtext">Interopérabilité Sanitel (AFSCA), CERISE (SPW) et ARSIA</div>
+                        <span class="wf-cloud-icon">📋</span>
+                        <div><strong>Boucle BE 5 1284 9901 • Exploitation BE-EXP-0412</strong></div>
+                        <div class="wf-subtext">Attestation vétérinaire sélectionnée : ATTEST-VET-2026-098.pdf</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary">🔄 Synchroniser avec Sanitel & CERISE</button>
+                        <button class="wf-btn wf-btn-primary">🔒 Hacher la Pièce Justificative (SHA-256)</button>
                       </div>
                     </div>
 ```
 
-#### Phase 2 - Déclenchement : Échange REST / OAuth2 Sécurisé avec les Registres
-*Requête chiffrée par certificat d'autorité avec rapatriement des tables généalogiques.*
+#### Phase 2 - Déclenchement : Calcul Local de l'Empreinte SHA-256
+*Génération cryptographique de l'empreinte sans connexion réseau (DEC-AET-02).*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">AeterniTrak • Échange API Sécurisé</span>
-                        <span class="wf-status-badge wf-badge-trigger">⚡ Appel mTLS Sanitel</span>
+                        <span class="wf-app-title">AeterniTrak • Hachage Cryptographique</span>
+                        <span class="wf-status-badge wf-badge-trigger">⚡ Hachage SHA-256 Local</span>
                       </div>
                       <div class="wf-trigger-card wf-radar-pulse">
-                        <div class="wf-trigger-indicator">✓ Échange mTLS réussi avec sanitel.afsca.be</div>
-                        <div class="wf-subtext">Récupération des déclarations de naissance et traitements vétérinaires</div>
+                        <div class="wf-trigger-indicator">✓ Empreinte SHA-256 calculée en local hors-ligne</div>
+                        <div class="wf-subtext">Fichier : ATTEST-VET-2026-098.pdf • Taille : 248 Ko • Zéro fuite réseau</div>
                       </div>
                       <div class="wf-btn-row">
-                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Agrégation des flux...</button>
+                        <button class="wf-btn wf-btn-primary wf-pulse-btn">Scellement de l'empreinte...</button>
                       </div>
                     </div>
 ```
 
-#### Phase 3 - Traitement : Contrôle Automatique des Délais d'Attente Médicamenteux
-*Vérification algorithmique du respect des 45 jours après administration d'antibiotiques.*
+#### Phase 3 - Traitement : Contrôle d'Intégrité Hors-Ligne & Délais Médicamenteux
+*Vérification locale de l'intégrité du document et de la validité du délai d'attente de 45 jours.*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">AeterniTrak • Contrôle Résidus</span>
-                        <span class="wf-status-badge wf-badge-process">⚙️ Analyse Délais (95%)</span>
+                        <span class="wf-app-title">AeterniTrak • Contrôle d'Intégrité</span>
+                        <span class="wf-status-badge wf-badge-process">⚙️ Vérification Locale (95%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
-                        <code>> [API-SANITEL] Animal : Blanc Bleu Belge (Né le 12/03/2021)</code><br>
-                        <code>> [API-CERISE] Dernier traitement vétérinaire : Il y a 48 jours (> 45 jours requis)</code><br>
-                        <code>> [HEALTH-CHECK] Temps d'attente médicamenteux respecté : CONFORME</code>
+                        <code>> [DECLARATIF] Boucle : BE 5 1284 9901 | Exploitation : BE-EXP-0412</code><br>
+                        <code>> [SHA-256] Empreinte : e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code><br>
+                        <code>> [DELAI-MED] Attestation vétérinaire conforme : Temps d'attente 45j respecté</code>
                       </div>
                     </div>
 ```
 
-#### Phase 4 - Fin de Cycle : Dossier Agricole Scellé Sans Erreur de Saisie
-*Données certifiées à 100% intégrées au lot pour l'évaluation de The Iron Gate.*
+#### Phase 4 - Fin de Cycle : Attestation Validée & Dossier Scellé Hors-Ligne
+*Empreinte SHA-256 et données déclaratives scellées dans le dossier de lot (DEC-AET-02).*
 
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">AeterniTrak • Fiche Synchronisée</span>
-                        <span class="wf-status-badge wf-badge-success">✨ Données Sanitel Validées</span>
+                        <span class="wf-app-title">AeterniTrak • Attestation Scellée</span>
+                        <span class="wf-status-badge wf-badge-success">✨ Déclaratif Sanitel Validé</span>
                       </div>
                       <div class="wf-success-banner">
-                        <span class="wf-seal-icon">🌐</span>
+                        <span class="wf-seal-icon">📜</span>
                         <div>
-                          <strong>Fiche Sanitaire AFSCA Ingestionnée avec Succès</strong>
-                          <p class="wf-subtext">Antécédents et délais certifiés conformes • Zéro saisie manuelle</p>
+                          <strong>Attestation Sanitel / CERISE Validée Hors-Ligne</strong>
+                          <p class="wf-subtext">Empreinte SHA-256 scellée • Temps d'attente certifié • Conforme DEC-AET-02</p>
                         </div>
                       </div>
                       <div class="wf-btn-row">
@@ -2395,6 +2399,670 @@ Le Profil Humain (`p0`) modélise la prise en charge d'un sujet de droit (ex. *G
                         <button class="wf-btn wf-btn-gold">Audit Terminé avec Succès (Filière AeterniTrak)</button>
                       </div>
                     </div>
+```
+
+</details>
+
+---
+
+<a id="uc-415"></a>
+## UC-415 : Obstacle Médico-Légal Absolu & Enquête Judiciaire (Mise sous Scellés Parquet)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-415` |
+| **Catégorie Métier** | **Constat Civil & Police Judiciaire** |
+| **Acteur Principal** | Médecin Légiste, Parquet & Officier de Police Judiciaire |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
+| **Tags Clés** | `ObstacleMedicoLegal`, `Parquet`, `ScellésJudiciaires`, `InterdictionBioconversion`, `Police`, `TheIronGate` |
+| **Base Légale & Normative** | Code d'instruction criminelle belge (art. 44 - réquisition judiciaire et autopsie) & Décret funéraire wallon. |
+| **Terminal / Canvas Wireframe** | `Borne Judiciaire & Sas Réception • Module d'Obstacle Légal (The Iron Gate)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Constat d'un décès de cause suspecte, violente ou non élucidée nécessitant l'intervention immédiate de la justice.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La dépouille est placée sous main de justice ; toute opération de transformation biologique est formellement bloquée.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Le médecin certificateur ou l'officier de police judiciaire constate un obstacle médico-légal absolu lors de l'examen initial.
+2. Notification immédiate de l'obstacle dans le système d'aiguillage AeterniTrak The Iron Gate.
+3. Verrouillage irrévocable de la porte d'entrée G0 : interdiction absolue de toute introduction en sas de bioconversion.
+4. Pose d'un scellé judiciaire inviolable et transfert de la dépouille vers l'institut médico-légal sous mandat du Procureur du Roi.
+5. Consignation de la décision judiciaire dans le registre de traçabilité immuable scellé par signature Ed25519 de l'OPJ.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `prosecutor_office` | **Magistrat / Parquet Compétent** | `text` | `Parquet du Procureur du Roi de Namur` | - | `Justice` | ✅ Requis |
+| `medical_legal_flag` | **Constat Médico-Légal** | `select` | `OBSTACLE MÉDICO-LÉGAL ABSOLU COCHÉ (Art. 44 CIC)` | - | `Alerte Rouge` | ✅ Requis |
+| `judicial_seal_id` | **Scellé Judiciaire Posé** | `text` | `SCELLÉ-PARQUET #JUST-2026-NAM-0912` | - | `Sous Main de Justice` | ✅ Requis |
+| `gate_status` | **Statut The Iron Gate** | `text` | `PORTE G0 VERROUILLÉE • BIOCONVERSION STRICTEMENT INTERDITE` | - | `Blocage 100%` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_lock_judicial_seal` | **Poser les Scellés Judiciaires & Bloquer la Filière** | `primary` | `idle` | ⚖️ |
+| `btn_export_judicial_pv` | **Éditer le PV de Réquisition Parquet** | `secondary` | `idle` | 📄 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Obstacle Médico-Légal Enregistré & Filière Verrouillée
+>
+> **Badge de Conformité :** `Scellés Judiciaires Actifs`
+>
+> **Détail Opérationnel :** Porte G0 verrouillée irrévocablement. Dépouille mise sous protection judiciaire. Zéro manipulation biologique autorisée.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_MEDICO_LEGAL_OBSTACLE_MANDATORY_SEAL` |
+| **Intitulé de l'Incident** | **Obstacle Médico-Légal Absolu & Enquête Judiciaire en Cours** |
+| **Condition Déclenchante** | Signalement d'un obstacle médico-légal sur le certificat de décès ou réquisition formelle du Parquet. |
+| **Message d'Erreur UI** | *« INTERDICTION JUDICIAIRE ABSOLUE : La dépouille fait l'objet d'une enquête pénale. Tout acte de bioconversion est un délit pénal. »* |
+| **Action Corrective Requise** | **Transférer immédiatement le corps vers la morgue médico-légale et consigner le procès-verbal aux autorités judiciaires.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Borne Judiciaire & Sas Réception • Module d'Obstacle Légal (The Iron Gate)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Notification d'un Obstacle Médico-Légal | *En attente utilisateur* | Le médecin certificateur relève des éléments suspects imposant la saisine immédiate du Parquet. |
+| **2** | **Déclenchement ⚡** | Verrouillage Infranchissable de la Porte G0 | `Clic sur 'Poser les Scellés Judiciaires'` | Blocage algorithmique instantané dans l'oracle The Iron Gate et alerte des équipes de logistique. |
+| **3** | **Traitement ⚙️** | Émission du Scellé Numérique Ed25519 & Traçabilité | `Progression : 100%` | Signature de l'interdiction par la clé judiciaire et journalisation dans le registre déterministe. |
+| **4** | **Scellement & Fin ✨** | Dépouille Placée sous Main de Justice | `Statut : success` | Sécurité juridique totale. L'intégrité de l'enquête criminelle est scrupuleusement garantie. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-415 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Notification d'un Obstacle Médico-Légal
+*Le médecin certificateur relève des éléments suspects imposant la saisine immédiate du Parquet.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Contrôle Judiciaire G0</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Examen Initial</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #ef4444;">
+                                            <span class="wf-qa-icon">⚖️</span>
+                                            <div><strong>Obstacle Médico-Légal Signalé</strong></div>
+                                            <div class="wf-subtext">Mort suspecte ou violente • Obligation légale de saisine du Procureur du Roi</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary" style="background: #e11d48; border-color: #f43f5e;">⚖️ Poser les Scellés Judiciaires & Bloquer la Filière</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Verrouillage Infranchissable de la Porte G0
+*Blocage algorithmique instantané dans l'oracle The Iron Gate et alerte des équipes de logistique.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Verrouillage Porte G0</span>
+                                            <span class="wf-status-badge wf-badge-trigger" style="background: rgba(225, 29, 72, 0.2); color: #fda4af;">⚡ Filière Bloquée</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #f43f5e;">
+                                            <div class="wf-trigger-indicator" style="color: #fda4af;">🚫 Porte G0 VERROUILLÉE : Scellé Parquet #JUST-2026-NAM-0912</div>
+                                            <div class="wf-subtext">Bioconversion formellement interdite • Réquisition de transfert IML émise</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Édition des scellés numériques...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Émission du Scellé Numérique Ed25519 & Traçabilité
+*Signature de l'interdiction par la clé judiciaire et journalisation dans le registre déterministe.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Registre Judiciaire</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Scellement Déterministe</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [PARQUET-ORDER] Réquisition judiciaire enregistrée sous signature Ed25519</code><br>
+                                            <code>> [IRON-GATE-G0] Porte G0 : REJET CATÉGORIQUE • Code ERR_MEDICO_LEGAL</code><br>
+                                            <code>> [CHAIN-LOG] Journalisation déterministe inviolable dans le bloc #TRA-2026-881</code><br>
+                                            <code>> [BODY-TRANSFER] Transfert vers l'Institut Médico-Légal de Liège ordonné</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Dépouille Placée sous Main de Justice
+*Sécurité juridique totale. L'intégrité de l'enquête criminelle est scrupuleusement garantie.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Statut Légal</span>
+                                            <span class="wf-status-badge wf-badge-success" style="background: rgba(225, 29, 72, 0.2); color: #fda4af;">⚖️ Sous Main de Justice</span>
+                                          </div>
+                                          <div class="wf-success-banner" style="border-color: rgba(244, 63, 94, 0.4);">
+                                            <span class="wf-seal-icon">⚖️</span>
+                                            <div>
+                                              <strong>Dépouille Protégée sous Scellés Judiciaires</strong>
+                                              <p class="wf-subtext">Bioconversion interdite • Registre de traçabilité à disposition du juge d'instruction</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">Consulter le Registre Judiciaire de Traçabilité</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-416"></a>
+## UC-416 : Rupture de la Chaîne du Froid pendant le Transport Post-Mortem (> +4°C pendant > 2h, Déclassement C2)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-416` |
+| **Catégorie Métier** | **Contrôle Logistique & Biosécurité** |
+| **Acteur Principal** | Chauffeur-Livreur Agréé & Responsable Qualité Sas Réception |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
+| **Tags Clés** | `ChaineDuFroid`, `RuptureThermique`, `DeclassementC2`, `CapteurNFC`, `TheIronGate`, `Biosécurité` |
+| **Base Légale & Normative** | Règlement (CE) n° 1069/2009 (règles sanitaires applicables aux sous-produits animaux) & Prescriptions de transport frigorifique. |
+| **Terminal / Canvas Wireframe** | `Sas Réception • Enregistreur Chronothermique & Déclassement Sanitaire (G1/G2)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Acheminement d'une dépouille ou de matières post-mortem sous caisson frigorifique régulé (plage 0°C..+4°C).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> La valorisation mémorielle ou cinéraire est révoquée ; aucune prolifération bactérienne incontrôlée ne pénètre le sas mémoriel.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Le véhicule de transport subit une avarie du groupe frigorifique ou une immobilisation prolongée lors du transit.
+2. L'enregistreur de température connecté NFC enregistre une dérive thermique supérieure à +4.0°C pendant plus de 2 heures consécutives.
+3. À l'arrivée au sas de réception, la borne AeterniTrak effectue la lecture sans fil du profil chronothermique complet.
+4. Constat du dépassement des seuils critiques : déclenchement automatique du protocole de déclassement sanitaire.
+5. Refus formel d'accès à la filière mémorielle Catégorie 1 et réorientation obligatoire vers la valorisation industrielle Catégorie 2.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `transport_vehicle` | **Véhicule de Transport** | `text` | `Fourgon Frigorifique SPW #1-PFN-884` | - | `Agrément Sanitaire` | ⭕ Optionnel |
+| `nfc_temp_log` | **Données Capteur NFC Température** | `text` | `+8.4°C mesuré pendant 2h 24min en continu` | - | `Rupture Critique` | ⭕ Optionnel |
+| `sanitary_decision` | **Décision Sanitaire Automatique** | `select` | `DÉCLASSEMENT CATÉGORIE 2 (Inapte Filière Mémorielle C1)` | - | `Déclassement C2` | ✅ Requis |
+| `rerouting_destination` | **Aiguillage Filière de Secours** | `text` | `Unité Industrielle Technique (Biodiesel / Combustion Sécurisée)` | - | `Industriel` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_confirm_c2_downgrade` | **Confirmer le Déclassement Sanitaire Catégorie 2** | `primary` | `idle` | ❄️ |
+| `btn_print_thermal_log` | **Éditer le Rapport Chronothermique d'Avarie** | `secondary` | `idle` | 📊 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Déclassement Sanitaire Exécuté avec Rigueur
+>
+> **Badge de Conformité :** `Déclassement C2 Validé`
+>
+> **Détail Opérationnel :** Rupture de chaîne du froid documentée. Rejet de la filière mémorielle C1 et réorientation industrielle conforme au CE 1069/2009.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_COLD_CHAIN_BREACH_EXCEEDED` |
+| **Intitulé de l'Incident** | **Rupture Critique de la Chaîne du Froid (> +4°C pendant > 2h)** |
+| **Condition Déclenchante** | Température de conservation supérieure à +4°C pendant une durée continue excédant 120 minutes. |
+| **Message d'Erreur UI** | *« Violation sanitaire grave : La chaîne du froid a été rompue. La dépouille ne peut plus être traitée sous statut mémoriel Catégorie 1. »* |
+| **Action Corrective Requise** | **Appliquer immédiatement le déclassement sanitaire en Catégorie 2 et acheminer vers une filière technique agréée.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Sas Réception • Enregistreur Chronothermique & Déclassement Sanitaire (G1/G2)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Déchargement au Sas avec Alerte Thermique | *En attente utilisateur* | Le capteur de température autonome fixé sur le caisson clignote en rouge à l'ouverture des portes du sas. |
+| **2** | **Déclenchement ⚡** | Rejet de la Porte G2 & Déclassement Sanitaire | `Clic sur 'Confirmer le Déclassement Sanitaire'` | Rejet immédiat de l'admission mémorielle et génération du certificat de transfert Catégorie 2. |
+| **3** | **Traitement ⚙️** | Scellement du Manifeste d'Avarie & Notification AFSCA | `Progression : 100%` | Journalisation dans le registre déterministe avec signature électronique du contrôleur sanitaire. |
+| **4** | **Scellement & Fin ✨** | Biosécurité Garantie & Réorientation Achevée | `Statut : success` | La chaîne biologique reste saine. Zéro matière impropre n'est entrée dans l'unité de recueillement. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-416 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Déchargement au Sas avec Alerte Thermique
+*Le capteur de température autonome fixé sur le caisson clignote en rouge à l'ouverture des portes du sas.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Contrôle Thermique Sas</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Alerte Capteur NFC</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #ef4444;">
+                                            <span class="wf-qa-icon">❄️</span>
+                                            <div><strong>Rupture Chronothermique Détectée</strong></div>
+                                            <div class="wf-subtext">+8.4°C enregistré pendant 144 minutes consécutives (> seuil légal 120 min)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">❄️ Confirmer le Déclassement Sanitaire Catégorie 2</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Rejet de la Porte G2 & Déclassement Sanitaire
+*Rejet immédiat de l'admission mémorielle et génération du certificat de transfert Catégorie 2.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Aiguillage Sanitaire</span>
+                                            <span class="wf-status-badge wf-badge-trigger" style="background: rgba(245, 158, 11, 0.2); color: #fcd34d;">⚡ Déclassement C2</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #f59e0b;">
+                                            <div class="wf-trigger-indicator" style="color: #fcd34d;">⚠️ Profil 1 Mémoriel REFUSÉ • Reclassement en Profil 3/4 Technique</div>
+                                            <div class="wf-subtext">Porte G2 (Chaîne du Froid) : ÉCHEC • Transfert vers filière de valorisation technique</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Génération du manifeste sanitaire...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Scellement du Manifeste d'Avarie & Notification AFSCA
+*Journalisation dans le registre déterministe avec signature électronique du contrôleur sanitaire.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Journalisation Biosécurité</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Traçabilité Rebut</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [TEMP-LOGGER] 144 relevés au-dessus de +4.0°C validés par horodatage</code><br>
+                                            <code>> [GATE-G2] Verdict : NON-COMPLIANT (Rupture chaîne du froid)</code><br>
+                                            <code>> [RECLASSIFY] Passage statut CAT-1-MEMORIEL -> CAT-2-INDUSTRIEL</code><br>
+                                            <code>> [SAFETY-SEAL] Manifeste de transport SPW réémis avec mention technique</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Biosécurité Garantie & Réorientation Achevée
+*La chaîne biologique reste saine. Zéro matière impropre n'est entrée dans l'unité de recueillement.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Sécurité Sanitaire</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Biosécurité Préservée</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🛡️</span>
+                                            <div>
+                                              <strong>Filière Mémorielle Protégée contre Tout Risque Sanitaire</strong>
+                                              <p class="wf-subtext">Déclassement C2 acté conformément au Règlement (CE) 1069/2009 • Traçabilité parfaite</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Éditer le Bon d'Expédition Catégorie 2 →</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-417"></a>
+## UC-417 : Test Toxicologique LFA Pentobarbital Douteux ou Invalide (Absence Ligne C -> Quarantaine et Contre-Expertise)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-417` |
+| **Catégorie Métier** | **Contrôle Toxicologique & Quarantaine** |
+| **Acteur Principal** | Vétérinaire Contrôleur Sanitaire |
+| **Plateformes Cibles** | Natif (iOS & Android), Web Standard (PWA Hors-Ligne) |
+| **Tags Clés** | `Pentobarbital`, `LFA`, `LigneC`, `Quarantaine`, `HPLC-MS`, `ContreExpertise`, `PorteG4` |
+| **Base Légale & Normative** | Règlement (CE) n° 142/2011 (recherche de résidus médicamenteux) & Notice technique officielle cassettes LFA AFSCA. |
+| **Terminal / Canvas Wireframe** | `Borne Vétérinaire Sas • Analyseur Optique LFA & Sas Quarantaine (Porte G4)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Réalisation du test immunochromatographique rapide (LFA) sur prélèvement hépatique ou sanguin pour détecter le pentobarbital.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Aucune dépouille suspecte n'est admise en bioréacteur sans validation irréfutable de l'absence totale de toxiques létaux.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Le vétérinaire sanitaire applique l'échantillon extrait sur la cassette de test rapide LFA.
+2. À l'issue du temps de migration réglementaire (10 minutes), la fenêtre optique ne fait apparaître aucune ligne de contrôle C.
+3. L'algorithme de vision de la borne mobile analyse la bandelette : détection formelle de l'absence de la ligne de contrôle (test invalide).
+4. La borne refuse d'ouvrir la porte G4 et déclenche le transfert immédiat de la dépouille vers le sas de quarantaine thermique #Q-02.
+5. Émission automatique d'une réquisition d'analyse confirmatoire par chromatographie liquide haute performance (HPLC-MS) en laboratoire agréé.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `lfa_lot_batch` | **Numéro de Lot Cassette LFA** | `text` | `Lot LFA-PENTO #2026-B089 (Périssable 2027)` | - | `Test Rapide` | ⭕ Optionnel |
+| `optical_reading_result` | **Résultat Lecture Optique** | `text` | `ABSENCE LIGNE DE CONTRÔLE C • TEST INVALIDE / AMBIGU` | - | `Invalide Alerte` | ⭕ Optionnel |
+| `biosecurity_order` | **Mesure de Biosécurité Immédiate** | `select` | `Mise en Quarantaine Hermétique #Q-02 & Analyse HPLC-MS` | - | `Quarantaine` | ✅ Requis |
+| `gate_g4_status` | **Statut Porte G4 (Pentobarbital)** | `text` | `PORTE G4 BLOQUÉE • ZÉRO ADMISSION EN BIOCONVERSION` | - | `Porte Fermée` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_quarantine_payload` | **Placer en Quarantaine Hermétique & Ordonner HPLC-MS** | `primary` | `idle` | ☣️ |
+| `btn_retry_lfa_strip` | **Réaliser un Second Test LFA (Autre Lot)** | `secondary` | `idle` | 🔄 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Quarantaine Hermétique Activée & Contre-Expertise Ordonnée
+>
+> **Badge de Conformité :** `Quarantaine Active`
+>
+> **Détail Opérationnel :** Porte G4 fermée hermétiquement. Absence de ligne C interceptée. Échantillon scellé pour spectrométrie HPLC-MS.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_LFA_INVALID_CONTROL_LINE_ABSENT` |
+| **Intitulé de l'Incident** | **Cassette LFA Invalide ou Résultat Inconcluant (Ligne C Absente)** |
+| **Condition Déclenchante** | Absence de révélation de la ligne de contrôle C sur la membrane immunochromatographique après 10 minutes. |
+| **Message d'Erreur UI** | *« Alerte qualité critique : La cassette de dépistage du pentobarbital est défectueuse ou le prélèvement est altéré. Risque de faux négatif. »* |
+| **Action Corrective Requise** | **Mettre immédiatement en quarantaine hermétique à 0°C..+4°C et faire analyser un échantillon scellé par HPLC-MS.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Borne Vétérinaire Sas • Analyseur Optique LFA & Sas Quarantaine (Porte G4)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Lecture Optique d'une Cassette LFA Invalide | *En attente utilisateur* | Le lecteur de bandelette constate que le solvant n'a pas migré correctement : aucune ligne C visible. |
+| **2** | **Déclenchement ⚡** | Verrouillage de la Porte G4 & Mise en Quarantaine | `Clic sur 'Placer en Quarantaine Hermétique'` | Isolement de la dépouille dans le box thermique hermétique #Q-02 et scellement de l'échantillon laboratoire. |
+| **3** | **Traitement ⚙️** | Transmission au Laboratoire Agréé & Suivi Temporel | `Progression : 100%` | Enregistrement de la mise en quarantaine dans la chaîne de traçabilité déterministe. |
+| **4** | **Scellement & Fin ✨** | Quarantaine Hermétique Sous Contrôle | `Statut : success` | Rigueur toxicologique absolue. Zéro risque de résidus d'euthanasique dans le procédé de bioconversion. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-417 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Lecture Optique d'une Cassette LFA Invalide
+*Le lecteur de bandelette constate que le solvant n'a pas migré correctement : aucune ligne C visible.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Sas Quarantaine G4</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Test Non Concluant</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #ef4444;">
+                                            <span class="wf-qa-icon">☣️</span>
+                                            <div><strong>Anomalie Détection Ligne de Contrôle C</strong></div>
+                                            <div class="wf-subtext">Absence de ligne C : test nul et non avenu • Risque de contamination des larves</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary" style="background: #e11d48; border-color: #f43f5e;">☣️ Placer en Quarantaine & Ordonner HPLC-MS</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Verrouillage de la Porte G4 & Mise en Quarantaine
+*Isolement de la dépouille dans le box thermique hermétique #Q-02 et scellement de l'échantillon laboratoire.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Isolement Sanitaire</span>
+                                            <span class="wf-status-badge wf-badge-trigger" style="background: rgba(225, 29, 72, 0.2); color: #fda4af;">⚡ Box Q-02 Scellé</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #f43f5e;">
+                                            <div class="wf-trigger-indicator" style="color: #fda4af;">☣️ Porte G4 (Pentobarbital) REFUSÉE • Sas de Quarantaine #Q-02 Actif</div>
+                                            <div class="wf-subtext">Échantillon flacon scellé Ed25519 #LAB-2026-088 pour analyse HPLC-MS</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Édition du bon de quarantaine...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Transmission au Laboratoire Agréé & Suivi Temporel
+*Enregistrement de la mise en quarantaine dans la chaîne de traçabilité déterministe.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Suivi Quarantaine</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Contrôle HPLC-MS</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [LFA-SCAN] Détection optique : Ligne C = ABSENTE • Statut = INVALIDE</code><br>
+                                            <code>> [GATE-G4] Porte G4 : BLOCAGE DE SÉCURITÉ BIOLOGIQUE</code><br>
+                                            <code>> [QUARANTINE-CELL] Cellule froide hermétique #Q-02 verrouillée à +2.1°C</code><br>
+                                            <code>> [HPLC-ORDER] Réquisition transmise au Laboratoire Toxicologique Régional</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Quarantaine Hermétique Sous Contrôle
+*Rigueur toxicologique absolue. Zéro risque de résidus d'euthanasique dans le procédé de bioconversion.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Quarantaine Sécurisée</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Sécurité Absolue</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🔬</span>
+                                            <div>
+                                              <strong>Mesure de Protection Biologique Opérationnelle</strong>
+                                              <p class="wf-subtext">Sujet isolé en quarantaine • Aucune admission en réacteur sans verdict HPLC-MS certifié</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">Suivre le Statut de l'Analyse HPLC-MS</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-418"></a>
+## UC-418 : Refus Municipal du Permis de Sépulture ou Discordance d'Identité Bracelet Scellé
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-418` |
+| **Catégorie Métier** | **Légalité Administrative & Régulation** |
+| **Acteur Principal** | Officier d'État Civil Municipal & Directeur de Filière |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `PermisSepulture`, `DiscordanceIdentite`, `BraceletScelle`, `EtatCivil`, `Commune`, `TheIronGate` |
+| **Base Légale & Normative** | Décret wallon du 6 mars 2009 relatif aux funérailles et sépultures & Code de la démocratie locale et de la décentralisation. |
+| **Terminal / Canvas Wireframe** | `Guichet Administratif Municipal • Contrôle de Légalité & Permis de Sépulture` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Présentation du dossier de déclaration de décès auprès de l'officier d'état civil de la commune du lieu de décès.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Respect scrupuleux des prérogatives de police des funérailles du Bourgmestre ; zéro manipulation clandestine.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. L'officier communal examine les pièces d'état civil et procède à la confrontation avec le numéro du bracelet scellé inviolable.
+2. Constat d'une anomalie bloquante : discordance entre l'identité portée sur le bracelet et l'acte de décès ou refus de délivrance du permis de sépulture.
+3. L'administration municipale refuse le permis d'inhumer / bioconvertir en application du décret funéraire.
+4. Transmission immédiate de la notification de refus dans The Iron Gate : blocage en porte G0 de l'admission en filière.
+5. Placement de la dépouille en chambre de repos agréée et suspension de toute opération dans l'attente d'un acte de notoriété rectificatif.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `municipality_name` | **Commune Compétente** | `text` | `Ville de Namur • Service de l'État Civil et des Sépultures` | - | `Autorité Municipale` | ⭕ Optionnel |
+| `permit_status` | **Statut du Permis Municipal** | `select` | `REFUS DE PERMIS • DISCORDANCE IDENTITAIRE BRACELET SCELLÉ` | - | `Refus Légal` | ✅ Requis |
+| `mismatch_details` | **Discordance Constatée** | `text` | `Nom acte : Heyman Guy • Bracelet : Heymans Guillaume (Incohérence)` | - | `Contrôle Identité` | ✅ Requis |
+| `iron_gate_action` | **Conséquence Immédiate The Iron Gate** | `text` | `PORTE G0 SUSPENDUE • REPOS EN CHAMBRE AGRÉÉE` | - | `Gél Administratif` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_record_permit_refusal` | **Consigner le Refus Communal & Geler le Dossier** | `primary` | `idle` | 🏛️ |
+| `btn_request_civil_rectification` | **Émettre une Demande de Rectification d'État Civil** | `secondary` | `idle` | 📝 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Refus Communal Consigné & Suspension de Filière Validée
+>
+> **Badge de Conformité :** `Légalité Municipale Respectée`
+>
+> **Détail Opérationnel :** Porte G0 verrouillée. Dépouille maintenue en chambre de repos agréée. Procédure de rectification engagée.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_MUNICIPAL_PERMIT_REFUSED_OR_ID_MISMATCH` |
+| **Intitulé de l'Incident** | **Refus Municipal du Permis de Sépulture ou Discordance d'Identité** |
+| **Condition Déclenchante** | Non-concordance entre les mentions de l'acte officiel et le bracelet scellé, ou refus de permis par l'officier civil. |
+| **Message d'Erreur UI** | *« Défaut d'autorisation administrative : Aucun acte funéraire ou de bioconversion ne peut être accompli sans permis communal valide. »* |
+| **Action Corrective Requise** | **Régulariser l'acte de décès auprès de l'officier de l'état civil ou produire un jugement rectificatif avant réévaluation.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **Guichet Administratif Municipal • Contrôle de Légalité & Permis de Sépulture**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Contrôle Communal au Guichet de l'État Civil | *En attente utilisateur* | L'officier constate une discordance d'orthographe entre l'acte de décès et le bracelet physique scellé. |
+| **2** | **Déclenchement ⚡** | Suspension Immédiate des Opérations dans The Iron Gate | `Clic sur 'Consigner le Refus Communal'` | Interdiction d'admission dans l'unité de bioconversion et gel des autorisations logistiques. |
+| **3** | **Traitement ⚙️** | Enregistrement Déterministe & Alerte Régulateurs | `Progression : 100%` | Notification instantanée transmise à l'autorité communale et au directeur de la régulation. |
+| **4** | **Scellement & Fin ✨** | Légalité Républicaine et Municipale Protégée | `Statut : success` | La filière opère dans la légalité absolue. Aucune dérogation administrative n'est tolérée. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-418 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Contrôle Communal au Guichet de l'État Civil
+*L'officier constate une discordance d'orthographe entre l'acte de décès et le bracelet physique scellé.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">État Civil • Permis de Sépulture</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Discordance Détectée</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #f59e0b;">
+                                            <span class="wf-qa-icon">🏛️</span>
+                                            <div><strong>Refus de Délivrance du Permis d'Inhumer / Bioconvertir</strong></div>
+                                            <div class="wf-subtext">Divergence patronymique entre bracelet scellé et registre de la population</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🏛️ Consigner le Refus Communal & Geler le Dossier</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Suspension Immédiate des Opérations dans The Iron Gate
+*Interdiction d'admission dans l'unité de bioconversion et gel des autorisations logistiques.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Régulation Administrative</span>
+                                            <span class="wf-status-badge wf-badge-trigger" style="background: rgba(245, 158, 11, 0.2); color: #fcd34d;">⚡ Gel Administratif</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #f59e0b;">
+                                            <div class="wf-trigger-indicator" style="color: #fcd34d;">⚠️ Porte G0 (Admission) : SUSPENDUE en attente de permis communal</div>
+                                            <div class="wf-subtext">Mise en chambre de repos agréée • Délai de régularisation : 48 heures</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Journalisation du gel communal...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Enregistrement Déterministe & Alerte Régulateurs
+*Notification instantanée transmise à l'autorité communale et au directeur de la régulation.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Traçabilité Administrative</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Gel Déterministe</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [CIVIL-CHECK] Réf. acte #NAM-DEC-2026-081 vs Bracelet #SCELL-0982 : MISMATCH</code><br>
+                                            <code>> [MUNICIPAL-BLOCK] Permis communal de sépulture non délivré</code><br>
+                                            <code>> [IRON-GATE-G0] Entrée bloquée hermétiquement sous signature administrative</code><br>
+                                            <code>> [REST-ROOM] Affectation cellule de repos temporaire #CELL-REP-04 validée</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Légalité Républicaine et Municipale Protégée
+*La filière opère dans la légalité absolue. Aucune dérogation administrative n'est tolérée.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">The Iron Gate • Statut Régularisation</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Légalité Assurée</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🏛️</span>
+                                            <div>
+                                              <strong>Procédure Administrative Conforme au Décret Wallon</strong>
+                                              <p class="wf-subtext">Dossier gelé dans l'attente du permis officiel • Sécurité légale absolue démontrée</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Émettre la Fiche Navette de Rectification d'État Civil →</button>
+                                          </div>
+                                        </div>
 ```
 
 </details>

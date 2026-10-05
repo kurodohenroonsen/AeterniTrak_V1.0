@@ -67,7 +67,7 @@ graph LR
   --emerald-500: #10b981;     /* Validation nominale de la conformité */
   --amber-400: #fbbf24;       /* Avertissement ambré secondaire */
   --amber-500: #f59e0b;       /* Bandeau de Réserve DEC-AET-07 Option B */
-  --red-500: #ef4444;         /* Blocage anti-tamper / Alerte pacemaker L1232-17 */
+  --red-500: #ef4444;         /* Blocage anti-tamper / Alerte pacemaker Art. L1232-24 CDLD */
   --sky-400: #38bdf8;         /* Télémétrie APDU / Défilement technique */
 
   /* Piles Typographiques 100% Système (Zéro CDN) */

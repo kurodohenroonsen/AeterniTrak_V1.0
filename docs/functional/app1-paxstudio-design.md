@@ -1,4 +1,4 @@
-# Application 1 — PaxStudio Design (UC-101 à UC-112)
+# Application 1 — PaxStudio Design (UC-101 à UC-116)
 
 **Outil Créatif de Personnalisation Graphique & Mémorielle (Familles & Conseillers)**
 
@@ -17,11 +17,15 @@
 | [`UC-105`](#uc-105) | [Studio Vocal & Oscilloscope Waveform Crop (Anti-Gestes Android)](#uc-105) | **Médias Sonores** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de la santé publique (protection de l'intégrité morale du recueillement) (référence à confirmer par un juriste). |
 | [`UC-106`](#uc-106) | [Choix & Intégration des Musiques d'Adieu & Recueillement](#uc-106) | **Médias Sonores** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code de la propriété intellectuelle (œuvres tombées dans le domaine public / licences acquises) (référence à confirmer par un juriste). |
 | [`UC-107`](#uc-107) | [Saisie Guidée des Dernières Volontés Civiles & Funéraires](#uc-107) | **Dernières Volontés** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Loi du 20 juillet 1971 sur les funérailles et sépultures (primauté de la volonté du défunt) (référence à confirmer par un juriste). |
-| [`UC-108`](#uc-108) | [Directives Médicales Post-Mortem (Pacemaker, Dons, Legs)](#uc-108) | **Directives Médicales** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
+| [`UC-108`](#uc-108) | [Directives Médicales Post-Mortem (Pacemaker, Dons, Legs)](#uc-108) | **Directives Médicales** | Famille & Conseiller | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Art. L1232-24 CDLD & Modèle IIIC réglementaire (exérèse obligatoire des stimulateurs cardiaques). |
 | [`UC-109`](#uc-109) | [Génération & Validation de la Capsule de Pré-Encodage CBOR](#uc-109) | **Compilation & Core** | Conseiller & Système Core | Web Standard (PWA Hors-Ligne), Node.js / Core Engine | Spécification technique IETF RFC 8949 (déterminisme binaire CBOR). |
 | [`UC-110`](#uc-110) | [Bon à Tirer (BAT) Numérique & Validation Familiale](#uc-110) | **Validation Finale** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code civil belge (art. 1322 - valeur probante de la signature électronique) (référence à confirmer par un juriste). |
 | [`UC-111`](#uc-111) | [Création de la Carte & Saisie Intégrale de l'Identité Civile et Mémorielle](#uc-111) | **Identité Civile & Mémorielle** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Code civil (actes de l'état civil, art. 34 et suivants) et Règlement eIDAS (identification électronique sécurisée) (références à confirmer par un juriste). |
 | [`UC-112`](#uc-112) | [Édition, Révision Modulaire & Contrôle Différentiel du Projet CBOR](#uc-112) | **Gestion de Projet & Révision** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement général sur la protection des données (RGPD art. 16 - droit de rectification) (référence à confirmer par un juriste). |
+| [`UC-113`](#uc-113) | [Gestion des Conflits d'État Civil & Noms Complexes UTF-8 (Forme Canonique NFC)](#uc-113) | **Identité Civile & Mémorielle** | Famille & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement (UE) n° 910/2014 (eIDAS - intégrité des représentations textuelles) & Standard Unicode Annex #15 (Unicode Normalization Forms). |
+| [`UC-114`](#uc-114) | [Dépassement de Quota Audio & Ré-échantillonnage d'Urgence Opus SILK (< 46 080 octets)](#uc-114) | **Médias Sonores** | Conseiller Funéraire & Studio Acoustique | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Spécification technique AeterniTrak STORAGE-001 (partitionnement silicium EF-3) & Norme IETF RFC 6716 (Codec Opus). |
+| [`UC-115`](#uc-115) | [Refus de Signature ou Révocation du Mandat par le Représentant Légal](#uc-115) | **Validation Finale & Juridique** | Représentant Légal & Conseiller Funéraire | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Règlement Général sur la Protection des Données (RGPD Art. 7 §3 - retrait du consentement) & Code civil (mandat et dévolution funéraire). |
+| [`UC-116`](#uc-116) | [Conflit de Résolution / Ratio Portrait & Recadrage Intelligent 480x480 WebP](#uc-116) | **Médias Visuels** | Famille & Graphiste PaxStudio | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) | Décision Kudoro DEC-AET-12 (spécification portrait WebP 480×480) & Jalon STORAGE-001 (partition silicium EF-2). |
 
 ---
 
@@ -1213,7 +1217,7 @@
 | **Acteur Principal** | Famille & Conseiller |
 | **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
 | **Tags Clés** | `Pacemaker`, `DonOrganes`, `LegsCorps`, `SecuriteOperateurs` |
-| **Base Légale & Normative** | Article L1232-17 §2 du CDLD (exérèse obligatoire des stimulateurs cardiaques) (référence à confirmer par un juriste). |
+| **Base Légale & Normative** | Art. L1232-24 CDLD & Modèle IIIC réglementaire (exérèse obligatoire des stimulateurs cardiaques). |
 | **Terminal / Canvas Wireframe** | `PaxStudio Pro • Volet Médical d'Urgence & Sécurité` |
 
 ### 🎯 Préconditions & Postconditions
@@ -1228,9 +1232,9 @@
 
 ### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
 
-1. Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-17 §2 CDLD — référence à confirmer par un juriste).
+1. Contrôle obligatoire d'alerte sur la présence d'un stimulateur cardiaque (pacemaker) ou défibrillateur implantable (Art. L1232-24 CDLD & Modèle IIIC réglementaire).
 2. Si stimulateur présent : blocage strict imposant le renseignement de l'attestation chirurgicale d'exérèse avec numéro d'ordre du médecin.
-3. Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986 — référence à confirmer par un juriste).
+3. Recueil de la position sur le don d'organes (rappel de la loi belge du consentement présumé de 1986).
 4. Enregistrement éventuel d'un protocole de legs du corps à la science sous 48h auprès d'une université conventionnée.
 
 ### 📝 Spécification des Champs de Saisie & Données
@@ -1240,7 +1244,7 @@
 | `has_pacemaker` | **Porteur de Stimulateur Cardiaque (Pacemaker)** | `select` | `OUI (Présence confirmée)` | Sélectionner | `ALERTE VITALE` | ✅ Requis |
 | `pacemaker_cert` | **Attestation d'Exérèse Chirurgicale** | `file` | `certificat_exerese_dr_vaneck.pdf` | Téléverser attestation | `Obligatoire si Oui` | ✅ Requis |
 | `pacemaker_doc` | **Médecin Certificateur & N° Ordre** | `text` | `Dr. Marc Vaneck — INAMI 1-40912-88-004` | Nom et INAMI | `Vérifié` | ✅ Requis |
-| `organ_donation` | **Don d'Organes (Loi 1986 — référence à confirmer par un juriste)** | `select` | `Consentement Plein et Entier Confirmé` | Statut don | `Loi 1986 (référence à confirmer par un juriste)` | ✅ Requis |
+| `organ_donation` | **Don d'Organes (Loi 1986)** | `select` | `Consentement Plein et Entier Confirmé` | Statut don | `Loi 1986` | ✅ Requis |
 
 ### ⚡ Boutons d'Action & Déclencheurs Interactifs
 
@@ -1255,7 +1259,7 @@
 
 > **Titre :** Volet Médical d'Urgence Certifié
 >
-> **Badge de Conformité :** `Conforme Art. L1232-17 CDLD (référence à confirmer par un juriste)`
+> **Badge de Conformité :** `Conforme Art. L1232-24 CDLD & Modèle IIIC réglementaire`
 >
 > **Détail Opérationnel :** Exérèse chirurgicale du pacemaker certifiée par le Dr. Vaneck. Zéro risque d'explosion.
 
@@ -1294,7 +1298,7 @@
                       </div>
                       <div class="wf-alert-card wf-alert-red">
                         <strong>ATTENTION OBLIGATOIRE : Présence d'un Pacemaker</strong>
-                        <p class="wf-subtext">L'article L1232-17 §2 CDLD (référence à confirmer par un juriste) impose l'exérèse chirurgicale avant toute opération.</p>
+                        <p class="wf-subtext">L'article L1232-24 CDLD & Modèle IIIC réglementaire imposent l'exérèse chirurgicale avant toute opération.</p>
                       </div>
                       <div class="wf-btn-row">
                         <button class="wf-btn wf-btn-disabled" disabled>🩺 Valider le Volet Médical (Bloqué)</button>
@@ -1327,13 +1331,13 @@
 ```html
 <div class="wf-screen-box">
                       <div class="wf-header-bar">
-                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité Exérèse (référence à confirmer par un juriste)</span>
+                        <span class="wf-app-title">PaxStudio Pro • Contrôle Sécurité Exérèse (Art. L1232-24 CDLD & Modèle IIIC)</span>
                         <span class="wf-status-badge wf-badge-process">⚙️ Vérification Légale (95%)</span>
                       </div>
                       <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
                       <div class="wf-console-log">
                         <code>> [LEGAL-CHECK] Format numéro INAMI médecin : Valide</code><br>
-                        <code>> [LEGAL-CHECK] Règle Art. L1232-17 §2 satisfaite (référence à confirmer par un juriste) : Exérèse certifiée</code><br>
+                        <code>> [LEGAL-CHECK] Règle Art. L1232-24 CDLD & Modèle IIIC réglementaire satisfaite : Exérèse certifiée</code><br>
                         <code>> [LEGAL-CHECK] Levée formelle du verrou de pré-encodage : AUTORISÉ</code>
                       </div>
                     </div>
@@ -2101,6 +2105,688 @@
                         <button class="wf-btn wf-btn-gold">Transmettre la Capsule Révisée à PaxStation →</button>
                       </div>
                     </div>
+```
+
+</details>
+
+---
+
+<a id="uc-113"></a>
+## UC-113 : Gestion des Conflits d'État Civil & Noms Complexes UTF-8 (Forme Canonique NFC)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-113` |
+| **Catégorie Métier** | **Identité Civile & Mémorielle** |
+| **Acteur Principal** | Famille & Conseiller Funéraire |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `UTF-8`, `NFC`, `Normalisation`, `Unicode`, `CBOR`, `RFC8949`, `AeterniCore`, `EF-1` |
+| **Base Légale & Normative** | Règlement (UE) n° 910/2014 (eIDAS - intégrité des représentations textuelles) & Standard Unicode Annex #15 (Unicode Normalization Forms). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Module de Canonisation UTF-8 NFC (Partition EF-1)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Saisie dans PaxStudio d'un patronyme comportant des graphies complexes (ligatures œ/æ, diacritiques, apostrophes typographiques ou alphabet cyrillique/grec).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Toutes les chaînes d'identité sont canonisées en UTF-8 NFC strict et intégrées au profil mémoriel EF-1 sans risque de rupture d'empreinte.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Saisie des noms, prénoms et mentions honorifiques de la personne défunte par le conseiller funéraire en présence de la famille.
+2. Interception par le composant AeterniCore : détection de séquences Unicode potentiellement décomposées (NFD) ou caractères ambigus.
+3. Application automatique de la normalisation Unicode Forme C (NFC - Décomposition canonique suivie de composition canonique selon UAX #15).
+4. Contrôle de conformité de l'empreinte binaire CBOR canonique selon RFC 8949 §4.2.1 sans ambiguïté de tri lexicographique.
+5. Validation de l'encodage sous la limite de 2 048 octets allouée à la partition EF-1 et affichage du sceau de conformité textuelle.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `raw_name` | **Nom Patronymique Saisi** | `text` | `Éléonore de La Tour-d'Œüvres` | Nom officiel | `Entrée Brute` | ✅ Requis |
+| `nfc_canonical` | **Forme Canonique NFC** | `text` | `Éléonore de La Tour-d'Œuvres (NFC UAX#15)` | - | `Canonisé` | ⭕ Optionnel |
+| `ef1_budget` | **Partition Cible EF-1** | `text` | `1 420 octets / 2 048 octets (69.3%)` | - | `STORAGE-001` | ⭕ Optionnel |
+| `cbor_determinism` | **Déterminisme CBOR RFC 8949** | `text` | `VALIDÉ (Tri des clés d'état civil sans ambiguïté)` | - | `AeterniCore` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_canonize_utf8` | **Normaliser en UTF-8 NFC & Valider CBOR** | `primary` | `idle` | 🔤 |
+| `btn_reset_name` | **Réinitialiser la Saisie** | `secondary` | `idle` | ↩ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Normalisation Unicode NFC & Déterminisme CBOR Validés
+>
+> **Badge de Conformité :** `Conforme UAX #15 / RFC 8949`
+>
+> **Détail Opérationnel :** La chaîne patronymique est canonisée sous forme NFC. Empreinte binaire EF-1 déterministe garantie sur tout lecteur sans contact.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_UTF8_NORMALIZATION_FAILED` |
+| **Intitulé de l'Incident** | **Échec de Normalisation Unicode ou Caractère de Contrôle Interdit** |
+| **Condition Déclenchante** | Présence d'octets mal formés, de points de code non assignés ou de caractères de contrôle non autorisés (U+0000..U+001F). |
+| **Message d'Erreur UI** | *« Erreur critique : La chaîne d'état civil contient des séquences d'octets invalides violant les règles d'interopérabilité CBOR canonique. »* |
+| **Action Corrective Requise** | **Purger automatiquement les caractères de contrôle non imprimables et resoumettre la chaîne pour décomposition-recomposition NFC.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Module de Canonisation UTF-8 NFC (Partition EF-1)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Saisie d'un Nom Complexe avec Diacritiques & Ligatures | *En attente utilisateur* | Texte brut saisi par l'opérateur. Les ligatures et accents décomposés doivent être harmonisés avant gravure silicium. |
+| **2** | **Déclenchement ⚡** | Déclenchement du Moteur de Canonisation Unicode | `Clic sur 'Normaliser en UTF-8 NFC & Valider CBOR'` | Analyse syntaxique, recomposition des caractères diacritiques combinés en points de code précomposés canoniques. |
+| **3** | **Traitement ⚙️** | Validation de l'Empreinte Binaire & Budget EF-1 | `Progression : 92%` | Encodage CBOR strict, calcul de l'empreinte SHA-256 et contrôle d'insertion sous les 2 048 octets d'EF-1. |
+| **4** | **Scellement & Fin ✨** | Identité Civile Canonique Scellée dans EF-1 | `Statut : success` | Profil civil parfaitement normalisé. Aucune ambiguïté d'affichage ni de calcul d'empreinte pour la gravure PaxStation. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-113 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Saisie d'un Nom Complexe avec Diacritiques & Ligatures
+*Texte brut saisi par l'opérateur. Les ligatures et accents décomposés doivent être harmonisés avant gravure silicium.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • État Civil & Normalisation UTF-8</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Saisie Non Canonisée</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Nom Brut Saisi <span class="wf-req">*</span></label>
+                                              <div class="wf-input-placeholder">Éléonore de La Tour-d'Œüvres (Caractères combinants détectés)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Contrôle de Partition EF-1</label>
+                                              <div class="wf-input-placeholder">Quota alloué : 2 048 octets (Profil CBOR)</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🔤 Normaliser en UTF-8 NFC & Valider CBOR</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Déclenchement du Moteur de Canonisation Unicode
+*Analyse syntaxique, recomposition des caractères diacritiques combinés en points de code précomposés canoniques.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moteur de Canonisation</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Analyse UAX #15 Active</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Traitement de la forme NFC : u + ̈ -> ü • OE -> Œ</div>
+                                            <div class="wf-subtext">Tri déterministe des clés de la carte CBOR RFC 8949 (Tag 100 Identité Civile)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Canonisation binaire en cours...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Validation de l'Empreinte Binaire & Budget EF-1
+*Encodage CBOR strict, calcul de l'empreinte SHA-256 et contrôle d'insertion sous les 2 048 octets d'EF-1.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Contrôle CBOR EF-1</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Vérification Normative (92%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 92%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [UNICODE-NFC] Normalisation achevée : 38 caractères UTF-8 sans combinaison flottante</code><br>
+                                            <code>> [CBOR-RFC8949] Tri des clés de table 100 : determinisme strict vérifié</code><br>
+                                            <code>> [STORAGE-001] Partition EF-1 : 1 420 octets occupés / 2 048 octets max (69.3% du quota)</code><br>
+                                            <code>> [AETERNI-CORE] Zéro discordance d'empreinte lors de la relecture sans contact</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Identité Civile Canonique Scellée dans EF-1
+*Profil civil parfaitement normalisé. Aucune ambiguïté d'affichage ni de calcul d'empreinte pour la gravure PaxStation.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • État Civil Prêt</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ Conforme NFC & CBOR</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">📜</span>
+                                            <div>
+                                              <strong>Profil Civil Déterministe Généré avec Succès (1.42 Ko)</strong>
+                                              <p class="wf-subtext">Canonisation UTF-8 NFC conforme UAX #15 • Prêt pour injection dans EF-1 ACOSJ 92K</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Intégrer au Projet & Passer à la Signature →</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-114"></a>
+## UC-114 : Dépassement de Quota Audio & Ré-échantillonnage d'Urgence Opus SILK (< 46 080 octets)
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-114` |
+| **Catégorie Métier** | **Médias Sonores** |
+| **Acteur Principal** | Conseiller Funéraire & Studio Acoustique |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `Audio`, `OpusSILK`, `QuotaEF3`, `Compression`, `STORAGE-001`, `WebAudio`, `EF-3` |
+| **Base Légale & Normative** | Spécification technique AeterniTrak STORAGE-001 (partitionnement silicium EF-3) & Norme IETF RFC 6716 (Codec Opus). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Studio Acoustique & Compresseur Opus SILK (Partition EF-3)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Enregistrement d'un hommage vocal dont la durée ou le débit génère un fichier dépassant le plafond strict de 46 080 octets d'EF-3.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'hommage vocal tient rigoureusement dans la partition EF-3 (46 080 octets max) sans sacrifier l'intelligibilité ni l'émotion vocale.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Enregistrement du témoignage vocal de la famille dans l'atelier acoustique de PaxStudio.
+2. Le module de compression analyse le flux PCM brut et calcule la taille compressée prévisionnelle (ex: 51 200 octets > 46 080 octets).
+3. Détection automatique du dépassement de la partition EF-3 du jalon STORAGE-001.
+4. Engagement de l'algorithme de ré-échantillonnage dynamique : réduction contrôlée du débit Opus SILK de 16 kbps à 12 kbps mono à 16 kHz.
+5. Re-compression in-silico avec ducking et filtre vocal : la taille finale s'établit à 42 100 octets, certifiant le respect du quota d'EF-3.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `audio_duration` | **Durée Message Vocal** | `text` | `29.4 secondes (Voix parlée)` | - | `Chronométré` | ⭕ Optionnel |
+| `raw_audio_size` | **Taille Prévisionnelle Brute** | `text` | `51 200 octets (> 46 080 octets)` | - | `Dépassement Alerte` | ⭕ Optionnel |
+| `codec_profile` | **Algorithme Ré-échantillonnage** | `select` | `Opus SILK 16 kHz Mono 12 kbps VBR` | - | `Adaptatif` | ✅ Requis |
+| `final_audio_size` | **Taille Finale Compressée** | `text` | `42 100 octets / 46 080 octets (91.4%)` | - | `Conforme EF-3` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_resample_audio` | **Ré-échantillonner en Opus SILK & Valider Quota** | `primary` | `idle` | 🎙️ |
+| `btn_crop_audio` | **Rogner la Fin de l'Enregistrement** | `secondary` | `idle` | ✂️ |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Hommage Vocal Recompressé sous le Quota EF-3
+>
+> **Badge de Conformité :** `Conforme STORAGE-001 EF-3`
+>
+> **Détail Opérationnel :** Fichier audio Opus SILK calibré à 42 100 octets. Intégrité émotionnelle et intelligibilité 100% préservées.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_AUDIO_PAYLOAD_OVERFLOW` |
+| **Intitulé de l'Incident** | **Dépassement de Quota Audio Irréductible (> 46 080 octets)** |
+| **Condition Déclenchante** | Enregistrement excédant 35 secondes ne pouvant être compressé sous 46 080 octets même au débit plancher de 10 kbps. |
+| **Message d'Erreur UI** | *« Erreur silicium : Le fichier audio compressé (48.9 Ko) dépasse le plafond absolu de 46 080 octets alloué à la partition EF-3 de la puce ACOSJ. »* |
+| **Action Corrective Requise** | **Utiliser l'outil de rognage intégré pour raccourcir l'hommage à 30 secondes maximum avant ré-échantillonnage.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Studio Acoustique & Compresseur Opus SILK (Partition EF-3)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Alerte de Dépassement de Quota Audio EF-3 | *En attente utilisateur* | L'enregistrement vocal dépasse la capacité de la partition EF-3 (51.2 Ko mesurés contre 46.08 Ko alloués). |
+| **2** | **Déclenchement ⚡** | Déclenchement du Ré-échantillonnage d'Urgence | `Clic sur 'Ré-échantillonner en Opus SILK'` | Re-quantification des trames SILK, compression dynamique et ajustement psychoacoustique du spectre vocal. |
+| **3** | **Traitement ⚙️** | Audit Binaire & Validation du Quota 46 080 Octets | `Progression : 95%` | Mesure bit-à-bit du conteneur Ogg Opus et vérification d'inviolabilité de la réserve matérielle ACOSJ. |
+| **4** | **Scellement & Fin ✨** | Mémo Vocal Conforme Validé pour Gravure | `Statut : success` | Le flux sonore est validé. Il respecte rigoureusement les quotas matériels de l'ACOSJ 92 Ko. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-114 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Alerte de Dépassement de Quota Audio EF-3
+*L'enregistrement vocal dépasse la capacité de la partition EF-3 (51.2 Ko mesurés contre 46.08 Ko alloués).*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moniteur Audio EF-3</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Dépassement de Quota</span>
+                                          </div>
+                                          <div class="wf-device-status-box" style="border-color: #f59e0b;">
+                                            <span class="wf-qa-icon">⚠️</span>
+                                            <div><strong>Dépassement de Partition Détecté</strong></div>
+                                            <div class="wf-subtext">51 200 octets calculés • Plafond strict EF-3 : 46 080 octets (Dépassement : +5 120 octets)</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🎙️ Ré-échantillonner en Opus SILK & Valider Quota</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Déclenchement du Ré-échantillonnage d'Urgence
+*Re-quantification des trames SILK, compression dynamique et ajustement psychoacoustique du spectre vocal.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moteur WebAudio</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Compression SILK Active</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Passage du profil 16 kbps -> 12 kbps adaptatif mono 16 kHz</div>
+                                            <div class="wf-subtext">Suppression des silences aux extrémités et compression dynamique du signal</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Recompression du flux vocal...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Audit Binaire & Validation du Quota 46 080 Octets
+*Mesure bit-à-bit du conteneur Ogg Opus et vérification d'inviolabilité de la réserve matérielle ACOSJ.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Vérification Silicium</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Contrôle Quota (95%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 95%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [AUDIO-ENGINE] Encodage Opus SILK 12 kbps achevé : 42 100 octets</code><br>
+                                            <code>> [STORAGE-001] Partition EF-3 : 42 100 / 46 080 octets (Marge libre : 3 980 octets)</code><br>
+                                            <code>> [AUDIO-QUALITY] Indice PESQ estimé : 4.1/5 (Excellente intelligibilité vocale)</code><br>
+                                            <code>> [VERDICT] Intégration autorisée dans la capsule mémorielle AeterniCore</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Mémo Vocal Conforme Validé pour Gravure
+*Le flux sonore est validé. Il respecte rigoureusement les quotas matériels de l'ACOSJ 92 Ko.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Audio Homologué</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ 42.1 Ko • Conforme EF-3</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🎵</span>
+                                            <div>
+                                              <strong>Mémo Vocal Inaltérable Calibré avec Succès (42.1 Ko)</strong>
+                                              <p class="wf-subtext">Respect strict du plafond 46 080 octets d'EF-3 • Prêt pour scellement et gravure</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Valider l'Hommage Sonore & Continuer →</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-115"></a>
+## UC-115 : Refus de Signature ou Révocation du Mandat par le Représentant Légal
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-115` |
+| **Catégorie Métier** | **Validation Finale & Juridique** |
+| **Acteur Principal** | Représentant Légal & Conseiller Funéraire |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `Mandat`, `Revocation`, `RefusSignature`, `BAT`, `COSE_Sign1`, `Sécurité`, `EF-5` |
+| **Base Légale & Normative** | Règlement Général sur la Protection des Données (RGPD Art. 7 §3 - retrait du consentement) & Code civil (mandat et dévolution funéraire). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Registre de Validation & Révocation de Mandat (Partition EF-5)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> La capsule de pré-encodage est assemblée, mais le mandataire légal s'oppose aux dispositions présentées ou retire son mandat.
+
+> [!TIP]
+> **Postconditions Garanties :**
+> Aucune enveloppe COSE_Sign1 n'est générée dans EF-5 ; la puce physique ne reçoit aucune gravure illégitime.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Présentation du Bon à Tirer (BAT) numérique récapitulant les volontés, portraits et hommages.
+2. Le représentant légal notifie formellement son refus de signer ou révoque le mandat funéraire.
+3. PaxStudio intercepte la déclaration : annulation immédiate de la procédure de scellement COSE_Sign1.
+4. Destruction sécurisée en mémoire vive de la clé de session éphémère et purge du tampon d'encodage.
+5. Génération d'un procès-verbal d'interruption horodaté et mise en sommeil du projet sous statut RÉVOQUÉ.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `mandat_holder` | **Représentant Légal Mandant** | `text` | `Mme Sophie Dumont (Fille aînée, Mandataire)` | - | `Ayant Droit` | ✅ Requis |
+| `mandat_status` | **Statut du Mandat** | `select` | `RÉVOCATION FORMELLE DU MANDAT / REFUS DE BAT` | - | `Opposition` | ✅ Requis |
+| `revocation_reason` | **Motif Déclaré** | `text` | `Désaccord familial sur l'épitaphe et choix du portrait` | - | `Consigné` | ✅ Requis |
+| `crypto_action` | **Conséquence Cryptographique** | `text` | `Scellement COSE_Sign1 Interdit • Purge Clé Session` | - | `Sécurité EF-5` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_confirm_revocation` | **Activer la Révocation & Bloquer le Projet** | `primary` | `idle` | 🚫 |
+| `btn_resume_dialogue` | **Poursuivre la Médiation Familiale** | `secondary` | `idle` | 🤝 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Interruption Formelle Enregistrée & Projet Mis en Réserve
+>
+> **Badge de Conformité :** `Projet Révocation Consignée`
+>
+> **Détail Opérationnel :** Le scellement de la partition EF-5 est annulé. Les clés de session sont purgées. Aucun transfert vers la PaxStation n'est autorisé.
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_MANDATE_REVOKED_BY_REPRESENTATIVE` |
+| **Intitulé de l'Incident** | **Révocation Formelle du Mandat par l'Ayant Droit Référent** |
+| **Condition Déclenchante** | Refus explicite de signer le Bon à Tirer ou notification de litige entre les héritiers légitimes. |
+| **Message d'Erreur UI** | *« Blocage légal absolu : Le mandataire a révoqué son autorisation. La génération de l'enveloppe cryptographique COSE_Sign1 est interdite. »* |
+| **Action Corrective Requise** | **Clôturer la session de pré-encodage, éditer le PV de suspension et orienter la famille vers la conciliation notariale.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Registre de Validation & Révocation de Mandat (Partition EF-5)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Notification de Révocation du Mandat en Salon | *En attente utilisateur* | L'ayant droit exprime son désaccord face au Bon à Tirer et demande l'arrêt de la procédure d'encodage. |
+| **2** | **Déclenchement ⚡** | Interception & Verrouillage du Scellement Cryptographique | `Clic sur 'Activer la Révocation & Bloquer le Projet'` | Interdiction immédiate de la commande de signature COSE_Sign1 et blocage de la transmission vers PaxStation. |
+| **3** | **Traitement ⚙️** | Édition du Procès-Verbal d'Interruption & Archivage | `Progression : 100%` | Création du rapport légal d'opposition conformément aux obligations professionnelles funéraires. |
+| **4** | **Scellement & Fin ✨** | Dossier Mis en Séquestre & Zéro Gravure Autorisée | `Statut : success` | Protection juridique assurée. Aucune puce silicium n'est altérée. Les droits des parties sont préservés. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-115 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Notification de Révocation du Mandat en Salon
+*L'ayant droit exprime son désaccord face au Bon à Tirer et demande l'arrêt de la procédure d'encodage.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Contrôle Juridique du Mandat</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Opposition Signalée</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Mandataire Référent</label>
+                                              <div class="wf-input-placeholder">Mme Sophie Dumont (Mandataire désigné)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Position Exprimée</label>
+                                              <div class="wf-input-placeholder">Refus d'approuver le Bon à Tirer numérique</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary" style="background: #e11d48; border-color: #f43f5e;">🚫 Activer la Révocation & Bloquer le Projet</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Interception & Verrouillage du Scellement Cryptographique
+*Interdiction immédiate de la commande de signature COSE_Sign1 et blocage de la transmission vers PaxStation.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Blocage de Sécurité</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Révocation en Cours</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse" style="border-color: #f43f5e;">
+                                            <div class="wf-trigger-indicator" style="color: #fda4af;">🚫 Révocation formelle enregistrée : scellement EF-5 interdit</div>
+                                            <div class="wf-subtext">Purge des clés éphémères en mémoire RAM et annulation de l'envoi réseau local</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Purge des tampons de pré-encodage...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Édition du Procès-Verbal d'Interruption & Archivage
+*Création du rapport légal d'opposition conformément aux obligations professionnelles funéraires.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Journalisation Légale</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Archivage d'Opposition</span>
+                                          </div>
+                                          <div class="wf-console-log">
+                                            <code>> [LEGAL-AUDIT] Déclaration d'opposition reçue à 11:42:09 UTC</code><br>
+                                            <code>> [CRYPTO-GUARD] Signature EF-5 ABORTÉE : aucune clé d'atelier engagée</code><br>
+                                            <code>> [ZERO-LEAK] Destruction des artefacts de personnalisation dans le cache local</code><br>
+                                            <code>> [PV-ENGINE] PV d'interruption #PV-REVOC-2026-081 édité et archivé</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Dossier Mis en Séquestre & Zéro Gravure Autorisée
+*Protection juridique assurée. Aucune puce silicium n'est altérée. Les droits des parties sont préservés.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Statut Clôturé</span>
+                                            <span class="wf-status-badge wf-badge-success" style="background: rgba(225, 29, 72, 0.2); color: #fda4af;">🚫 Projet Suspendu</span>
+                                          </div>
+                                          <div class="wf-success-banner" style="border-color: rgba(244, 63, 94, 0.4);">
+                                            <span class="wf-seal-icon">⚖️</span>
+                                            <div>
+                                              <strong>Procédure de Personnalisation Officiellement Suspendue</strong>
+                                              <p class="wf-subtext">Mandat révoqué • Données purgées • PV d'interruption remis aux parties</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-sub">Retour au Tableau de Bord PaxStudio</button>
+                                          </div>
+                                        </div>
+```
+
+</details>
+
+---
+
+<a id="uc-116"></a>
+## UC-116 : Conflit de Résolution / Ratio Portrait & Recadrage Intelligent 480x480 WebP
+
+### 📋 Métadonnées Spécifiées
+
+| Propriété | Valeur Spécifiée |
+| :--- | :--- |
+| **Identifiant Unique** | `UC-116` |
+| **Catégorie Métier** | **Médias Visuels** |
+| **Acteur Principal** | Famille & Graphiste PaxStudio |
+| **Plateformes Cibles** | Web Standard (PWA Hors-Ligne), Natif (iOS & Android) |
+| **Tags Clés** | `WebP`, `480x480`, `Recadrage`, `Ratio1:1`, `DEC-AET-12`, `STORAGE-001`, `EF-2` |
+| **Base Légale & Normative** | Décision Kudoro DEC-AET-12 (spécification portrait WebP 480×480) & Jalon STORAGE-001 (partition silicium EF-2). |
+| **Terminal / Canvas Wireframe** | `PaxStudio Pro • Studio Graphique & Recadrage WebP 480×480 (Partition EF-2)` |
+
+### 🎯 Préconditions & Postconditions
+
+> [!NOTE]
+> **Préconditions Requises :**
+> Sélection d'une photo souvenir familiale au ratio rectangulaire (16:9, 4:3) ou de résolution non normalisée (> 3000x2000 px).
+
+> [!TIP]
+> **Postconditions Garanties :**
+> L'image WebP 480×480 px pèse moins de 20 480 octets et s'intègre parfaitement dans la partition EF-2 de la puce ACOSJ.
+
+### 🔄 Déroulement Opérationnel (Workflow Étapes par Étapes)
+
+1. Importation du cliché photographique souvenir par la famille dans le studio portrait de PaxStudio.
+2. Détection d'un ratio non carré (aspect ratio != 1:1) et d'un volume binaire source dépassant les capacités de la puce.
+3. Activation du module d'assistance au cadrage : calcul automatique du centre de gravité visuel et détection du visage.
+4. Application du masque de recadrage carré 1:1 et redimensionnement strict à 480×480 pixels selon la décision DEC-AET-12.
+5. Compression WebP avec jauge de contrôle en direct : validation d'un poids final inférieur à 20 480 octets et injection dans EF-2.
+
+### 📝 Spécification des Champs de Saisie & Données
+
+| Champ Technique | Libellé Affiché | Type | Valeur par Défaut | Placeholder | Badge UI | Requis ? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| `source_image` | **Image Source Importée** | `text` | `vacances_famille_1998_paysage.jpg (4032×3024, 4.8 Mo)` | - | `Source 4:3` | ✅ Requis |
+| `target_resolution` | **Résolution Cible DEC-AET-12** | `text` | `480 × 480 pixels (Ratio 1:1 Carré Strict)` | - | `Souverain` | ⭕ Optionnel |
+| `webp_quality` | **Qualité de Compression WebP** | `select` | `Qualité 82% (Poids optimisé sous 20 Ko)` | - | `Optimisé` | ✅ Requis |
+| `ef2_budget` | **Poids Final Partition EF-2** | `text` | `18 432 octets / 20 480 octets (90.0%)` | - | `STORAGE-001` | ⭕ Optionnel |
+
+### ⚡ Boutons d'Action & Déclencheurs Interactifs
+
+| Identifiant Bouton | Libellé UI | Rôle / Style | État Initial | Icône |
+| :--- | :--- | :--- | :--- | :---: |
+| `btn_smart_crop` | **Recadrer 1:1 & Convertir en WebP 480×480** | `primary` | `idle` | 🖼️ |
+| `btn_manual_crop` | **Ajuster la Zone Focale Manuellement** | `secondary` | `idle` | 🔍 |
+
+### ✅ Critères de Succès & Validation Normative
+
+> [!IMPORTANT]
+
+> **Titre :** Portrait WebP 480×480 Normalisé sous le Quota EF-2
+>
+> **Badge de Conformité :** `Conforme DEC-AET-12 / EF-2`
+>
+> **Détail Opérationnel :** Image recadrée au ratio 1:1, résolution 480×480 px, poids calibré à 18 432 octets (inférieur au plafond strict de 20 480 octets).
+
+### ⚠️ Cas d'Erreur & Procédure de Remédiation
+
+| Propriété d'Anomalie | Description Technique |
+| :--- | :--- |
+| **Code d'Erreur Normatif** | `ERR_IMAGE_ASPECT_RATIO_UNRESOLVED` |
+| **Intitulé de l'Incident** | **Résolution Source Insuffisante ou Cadrage Impossible** |
+| **Condition Déclenchante** | Image importée de résolution inférieure à 480×480 pixels ou flou critique empêchant la reconnaissance du sujet. |
+| **Message d'Erreur UI** | *« Erreur visuelle : La photographie fournie (320×240) est insuffisante pour garantir la dignité du portrait 480×480 sur le support physique. »* |
+| **Action Corrective Requise** | **Fournir un original photographique de résolution minimale 480×480 pixels ou sélectionner un autre cliché souvenir.** |
+
+### 🖥️ Cycle Wireframe à 4 États (Mockup Dynamique)
+
+*Canvas & Résolution Cible :* **PaxStudio Pro • Studio Graphique & Recadrage WebP 480×480 (Partition EF-2)**
+
+| Phase | Étape du Cycle | Titre de l'Écran | Déclencheur / Statut | Description & Rendu d'Interface |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Initial / Avant Trigger** | Photo Source Paysage avec Alerte de Ratio | *En attente utilisateur* | La photo importée présente un ratio 4:3 non adapté au médaillon mémoriel et dépasse les capacités mémoires. |
+| **2** | **Déclenchement ⚡** | Recadrage Centré & Détection Focale Visage | `Clic sur 'Recadrer 1:1 & Convertir en WebP'` | Application du centrage automatique sur le regard et génération du canvas 480×480. |
+| **3** | **Traitement ⚙️** | Compression WebP & Contrôle du Plafond 20 480 Octets | `Progression : 96%` | Encodage WebP haute fidélité et validation stricte de l'insertion dans la partition EF-2. |
+| **4** | **Scellement & Fin ✨** | Portrait Éternel Calibré & Prêt pour Scellement | `Statut : success` | Le portrait est prêt pour orner le médaillon ou la carte mémorielle avec éclat. |
+
+<details>
+<summary>🔍 Consulter les fragments HTML Wireframe de UC-116 (4 États Dépliables)</summary>
+
+#### Phase 1 - Avant Trigger : Photo Source Paysage avec Alerte de Ratio
+*La photo importée présente un ratio 4:3 non adapté au médaillon mémoriel et dépasse les capacités mémoires.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Cadreur Portrait EF-2</span>
+                                            <span class="wf-status-badge wf-badge-neutral">Ratio Non Conforme (4:3)</span>
+                                          </div>
+                                          <div class="wf-content-grid">
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Cliché Importé</label>
+                                              <div class="wf-input-placeholder">vacances_famille_1998.jpg (4032×3024 px - 4.8 Mo)</div>
+                                            </div>
+                                            <div class="wf-field-group">
+                                              <label class="wf-label">Cible Silicium</label>
+                                              <div class="wf-input-placeholder">EF-2 : 480×480 px WebP ≤ 20 480 octets (DEC-AET-12)</div>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary">🖼️ Recadrer 1:1 & Convertir en WebP 480×480</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 2 - Déclenchement : Recadrage Centré & Détection Focale Visage
+*Application du centrage automatique sur le regard et génération du canvas 480×480.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Moteur Visuel</span>
+                                            <span class="wf-status-badge wf-badge-trigger">⚡ Recadrage Actif</span>
+                                          </div>
+                                          <div class="wf-trigger-card wf-radar-pulse">
+                                            <div class="wf-trigger-indicator">✓ Détection focale : visage centré aux coordonnées (2016, 1512)</div>
+                                            <div class="wf-subtext">Extraction de la matrice carrée 1:1 et ré-échantillonnage bi-cubique 480×480</div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-primary wf-pulse-btn">Compression WebP en cours...</button>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 3 - Traitement : Compression WebP & Contrôle du Plafond 20 480 Octets
+*Encodage WebP haute fidélité et validation stricte de l'insertion dans la partition EF-2.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Contrôleur Silicium EF-2</span>
+                                            <span class="wf-status-badge wf-badge-process">⚙️ Vérification Quota (96%)</span>
+                                          </div>
+                                          <div class="wf-progress-container"><div class="wf-progress-bar" style="width: 96%;"></div></div>
+                                          <div class="wf-console-log">
+                                            <code>> [WEBP-CONVERT] Encodage 480x480 terminé : 18 432 octets générés</code><br>
+                                            <code>> [STORAGE-001] Partition EF-2 : 18 432 / 20 480 octets (Marge libre : 2 048 octets)</code><br>
+                                            <code>> [DEC-AET-12] Norme portrait validée sans débordement silicium</code><br>
+                                            <code>> [INTEGRITY] Checksum SHA-256 calculé pour intégration dans la capsule</code>
+                                          </div>
+                                        </div>
+```
+
+#### Phase 4 - Fin de Cycle : Portrait Éternel Calibré & Prêt pour Scellement
+*Le portrait est prêt pour orner le médaillon ou la carte mémorielle avec éclat.*
+
+```html
+<div class="wf-screen-box">
+                                          <div class="wf-header-bar">
+                                            <span class="wf-app-title">PaxStudio Pro • Portrait Scellé</span>
+                                            <span class="wf-status-badge wf-badge-success">✨ 18.4 Ko • Conforme DEC-AET-12</span>
+                                          </div>
+                                          <div class="wf-success-banner">
+                                            <span class="wf-seal-icon">🌟</span>
+                                            <div>
+                                              <strong>Portrait WebP 480×480 Validé avec Succès (18.44 Ko)</strong>
+                                              <p class="wf-subtext">Plafond 20 480 octets EF-2 respecté • Rendu graphique optimal sur support ACOSJ</p>
+                                            </div>
+                                          </div>
+                                          <div class="wf-btn-row">
+                                            <button class="wf-btn wf-btn-gold">Insérer dans la Carte Sanctuaire & Valider →</button>
+                                          </div>
+                                        </div>
 ```
 
 </details>
