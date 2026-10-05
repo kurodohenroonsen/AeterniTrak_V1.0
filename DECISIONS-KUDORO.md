@@ -40,10 +40,10 @@ Format d'une entrée :
   *Arbitrage* : **Option B retenue**.  
   *Justification* : Capacité requise pour stocker hors-ligne le mémo vocal Opus SILK, le portrait WebP et le dossier civil complet sans dépendance au cloud.
 
-- **2026-10-04 · [Modèle Économique] · Kudoro**  
+- **2026-10-04 · [Modèle Économique] · Kudoro** *(Remplacée le 2026-10-05 par DEC-AET-11)*  
   *Question* : Quelle tarification pour l'accès étendu au Sanctuaire B2C ?  
   *Options* : A) Gratuité totale avec publicité ; B) Abonnement cher (40-50 €/an) ; C) Accueil 3 ans inclus à l'achat du médaillon funéraire, puis abonnement modique et perpétuel de 4,40 €/an.  
-  *Arbitrage* : **Option C retenue**.  
+  *Arbitrage* : **Option C retenue** *(Remplacée le 2026-10-05 par DEC-AET-11 : discrétion tarifaire et suppression de tout prix chiffré dans le code et les spécifications)*.  
   *Justification* : Dignité du deuil, zéro publicité, pérennité financière séculaire et accessibilité pour toutes les familles.
 
 - **2026-10-04 · [Cryptographie & Agilité COSE] · Kudoro (DEC-AET-04)**  
@@ -98,6 +98,36 @@ Format d'une entrée :
   *Arbitrage* : **Toutes.** Mots de Kudoro : « e toutes disponible sur toute les plateformrs hein ! »  
   *Portée* : les quatre applications visent toutes les plateformes. La faisabilité se prouve fonction par fonction : la lecture NFC depuis une page web n'existe que dans Chrome sur Android, et WebUSB (lecteur de bureau) que dans les navigateurs Chromium ; sur les autres plateformes ces fonctions demandent une application native. Le partage de code annoncé entre plateformes n'est pas mesuré.
 
+- **2026-10-05 · [Cryptographie Silicium & Signature] · Kudoro (DEC-AET-10)**  
+  *Question* : Qui signe le profil mémoriel (COSE_Sign1) ?  
+  *Arbitrage* : **Option A retenue (Enclave matérielle de la station PaxStation)**. Mots de Kudoro : « L'enclave de la station PaxStation (ES256 StrongBox/Secure Enclave), la carte ne fait que stocker ».  
+  *Portée* : La signature cryptographique COSE_Sign1 du profil mémoriel est réalisée par l'enclave sécurisée de la station de gravure (PaxStation / App 2). La puce JavaCard ACOSJ 92 Ko agit en tant que coffre-fort de stockage immuable scellé par fusible in-silico (`80 DE 01 00`). Toute mention d'une signature on-chip ou de clé privée générée dans la carte est proscrite.
+
+- **2026-10-05 · [Modèle Économique & Tarification] · Kudoro (DEC-AET-11)**  
+  *Question* : Maintien ou retrait du tarif « 3 ans inclus + 4,40 €/an » ?  
+  *Arbitrage* : **Option B retenue (Discrétion tarifaire absolue)**. Mots de Kudoro : « Retirer tout chiffre et renvoyer vers la politique PaxFunèbre (nouvelle décision au registre) ».  
+  *Portée* : Remplacement complet de la tarification chiffrée issue de la décision du 2026-10-04. Tout chiffre explicite (ex. 4,40 €/an, 3 ans offerts) est purgé du code source, des fiches de cas d'usage et de la documentation. Les interfaces et documentations renvoient strictement à la politique mémorielle de l'opérateur PaxFunèbre.
+
+- **2026-10-05 · [Médias & Portrait Mémoriel] · Kudoro (DEC-AET-12)**  
+  *Question* : Dimension et quota du portrait mémoriel WebP dans la carte ACOSJ 92 Ko (EF-2 ≤ 20 480 octets) ?  
+  *Arbitrage* : **Option A retenue (480×480)**. Mots de Kudoro : « 480×480 (qualité correcte sous 20 Ko en WebP q≈60) ».  
+  *Portée* : Le portrait de face stocké dans EF-2 est encodé au format WebP à une résolution canonique de 480×480 pixels avec un facteur de qualité garantissant un poids strictement inférieur ou égal à 20 480 octets. Les mentions obsolètes à 220×220 sont remplacées.
+
+- **2026-10-05 · [Sécurité Sanitaire & Traçabilité Étendue] · Kudoro (DEC-AET-13)**  
+  *Question* : Intégration des contrôles amont (PCR sanglier/cervidé, Sanitel, MRS, badge DNF) et de la règle d'étanchéité profil↔catégorie dans l'évaluation The Iron Gate ?  
+  *Arbitrage* : **Option A retenue (Spec-First & Test-First)**. Mots de Kudoro : « Oui : spec d'abord, puis vecteurs approuvés par Claude, puis code ».  
+  *Portée* : Les contrôles amont restent déclaratifs dans les documentations actuelles tant qu'une spécification formelle (`docs/technical/antiprion-upstream-controls-PROPOSAL.md`) et une suite de vecteurs normatifs n'auront pas été approuvées par Claude AI. Aucun code direct non couvert par vecteurs approuvés n'est introduit dans `evaluator.ts`.
+
+- **2026-10-05 · [Gouvernance Git & Intégrité] · Kudoro (DEC-AET-14)**  
+  *Question* : Gel de la branche `main` et intégration du garde-fou automatisé de cohérence ?  
+  *Arbitrage* : **Option A retenue (Main gelée & check:consistency obligatoire)**. Mots de Kudoro : « Oui, main gelée + check:consistency obligatoire ».  
+  *Portée* : Aucun commit direct sur `main` n'est autorisé. Toute contribution transite obligatoirement par une branche dédiée soumise au Master Verifier Claude AI via la boîte aux lettres Git (`agent-mailbox`). Le script `npm run check:consistency` (`qa/consistency/check.mjs`) est requis avant toute soumission.
+
+- **2026-10-05 · [Faisabilité de la Sarcomusation & Recherche] · Kudoro (DEC-AET-15)**  
+  *Question* : Statut de la sarcomusation pour les dépouilles humaines et la filière globale face au cadre juridique actuel ?  
+  *Arbitrage* : **Maintien intégral en tant que démonstrateur de faisabilité**. Mots de Kudoro : « la sarco doit etre dedans! meme si la lois ne l'autorise pas !!! on fait justement ceci pour demontrer sa faisabilité ! ».  
+  *Portée* : La sarcomusation (bioconversion par larves d'Hermetia illucens) est maintenue au sein de toutes les spécifications d'AeterniTrak (animaux et humains) sous l'étiquette expresse : « Démonstrateur de faisabilité — Option prospective non autorisée par le droit positif actuel (référence à confirmer par un juriste) ». Interdiction absolue d'alimentation animale de quelque nature que ce soit pour les matières issues de restes humains.
+
 ---
 
 ## 2. Décisions en Attente d'Arbitrage
@@ -105,4 +135,4 @@ Format d'une entrée :
 - `DEC-AET-03` : cadre légal de la désignation du mandataire et de la transmission du coffre mémoriel. Consigne de Kudoro du 2026-10-04 : « voir ce que la loi permet ». C'est une demande d'étude, pas encore un arbitrage : étude sourcée attendue du Bushi 13 (`LEGAL-001`), puis décision.
 - `DEC-AET-05`, complément : référence de l'autorisation administrative de l'autorité compétente pour la mémoire forestière. Aucune politique réelle ne peut être émise sans elle.
 
-*`DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04` à `DEC-AET-09` : arbitrées le 2026-10-04, voir §1.*
+*`DEC-AET-01`, `DEC-AET-02`, `DEC-AET-04` à `DEC-AET-15` : arbitrées le 2026-10-04 et le 2026-10-05, voir §1.*
