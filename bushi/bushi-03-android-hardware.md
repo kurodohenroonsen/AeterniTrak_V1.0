@@ -22,7 +22,7 @@ Le Bushi 03 est responsable de l'infrastructure native Android, du pilote NFC ba
 
 2. **Intégration de l'Enclave Matérielle Android StrongBox & Keymaster (`DEC-AET-04`)** :
    - **Agilité Cryptographique Hybride (`DEC-AET-04`)** : Implémentation du support matériel pour l'algorithme ES256 (`alg: -7`, courbe elliptique NIST P-256 / secp256r1 selon FIPS 186-4) scellé au silicium, conjointement à la vérification des signatures logicielles Ed25519 (`alg: -8`).
-   - Génération de bi-clés asymétriques au sein du Keystore Android via `KeyGenParameterSpec.Builder` avec l'option `setIsStrongBoxBacked(true)`, ancrant la clé privée dans un processeur de sécurité dédié certifié Common Criteria EAL5+ (ex: Titan M2 sur Google Pixel).
+   - Génération de bi-clés asymétriques au sein du Keystore Android via `KeyGenParameterSpec.Builder` avec l'option `setIsStrongBoxBacked(true)`, ancrant la clé privée dans un processeur de sécurité matériel dédié (ex: StrongBox / Titan M2 sur Google Pixel, niveau de certification constructeur à confirmer).
    - Mécanisme de repli ordonné (*graceful fallback*) sur le TEE standard (Trusted Execution Environment / Keymaster / KeyMint) si le terminal ne dispose pas d'un sous-système StrongBox dédié.
    - Signature et vérification d'enveloppes COSE_Sign1 (RFC 9052) pour les jetons de scellement et les attestations de conformité post-mortem.
    - Moteur de vérification universel : décodeur hybride validant nativement les signatures ES256 (`alg: -7`) et Ed25519 (`alg: -8`) sur tous les profils et certificats.
@@ -95,7 +95,7 @@ Avant d'écrire ou de modifier le code bas-niveau Android, le Bushi 03 doit imp�
 ## 5. Critères de Conformité Stricts
 - [ ] **Alignement Exclusif ACOSJ 92 Ko (`DEC-AET-01`)** : Utilisation exclusive de la carte JavaCard ACOSJ 92 Ko pour tous les flux matériels et applicatifs.
 - [ ] **Mode Lecteur Silencieux (`FLAG_READER_NO_PLATFORM_SOUNDS`)** : Zéro sonnerie système Android parasite lors du scan, garantissant la dignité du deuil.
-- [ ] **Sécurisation StrongBox / KeyMint (`DEC-AET-04`)** : Génération des clés de scellement en ES256 (`alg: -7`) avec garantie de protection matérielle EAL5+ dès que le matériel le permet.
+- [ ] **Sécurisation StrongBox / KeyMint (`DEC-AET-04`)** : Génération des clés de scellement en ES256 (`alg: -7`) avec garantie de protection matérielle par enclave sécurisée dès que le matériel le permet.
 - [ ] **Résilience Transactionnelle Absolue** : Zéro corruption de l'EEPROM en cas de rupture de champ RF grâce au verrouillage transactionnel par `COMMIT_FLAG`.
 - [ ] **Discrétion Tarifaire PaxFunèbre (`DEC-AET-08`)** : Aucun tarif arbitraire codé en dur, respect intégral de la politique mémorielle.
 - [ ] **Interopérabilité Universelle Multi-Plateformes (`DEC-AET-09`)** : Compatibilité binaire à 100% avec les vecteurs de test d'AeterniCore (Bushi 01 et Bushi 16).

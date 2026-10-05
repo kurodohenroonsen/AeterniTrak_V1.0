@@ -18,21 +18,21 @@ Le Bushi 04 conçoit et maintient l'application iOS native AeterniTrak en Swift 
      `com.apple.developer.nfc.readersession.iso7816.select-identifiers`.
    - **Personnalisation solennelle de l'invite système Apple** : Configuration d'un message d'accueil digne (`readerSession.alertMessage = "Approchez le mémorial AeterniTrak du haut de l'iPhone..."`) avec fermeture immédiate de la modale dès la première trame reçue afin de laisser place à l'immersion dans le Sanctuaire.
 
-2. **Ancrage Matériel des Clés dans l'Apple Secure Enclave en ECDSA P-256 (`DEC-AET-04`)** :
-   - **Agilité cryptographique hybride (`DEC-AET-04`)** : Implémentation du scellement matériel des signatures asymétriques en ES256 (`alg: -7`, courbe NIST P-256 / secp256r1) directement dans la Secure Enclave d'Apple (certifiée Common Criteria EAL5+).
+2. **Ancrage Matériel des Clés dans l'Apple Secure Enclave en ECDSA P-256 (`DEC-AET-04`, `DEC-AET-10`)** :
+   - **Agilité cryptographique hybride (`DEC-AET-04`)** : Implémentation du scellement matériel des signatures asymétriques en ES256 (`alg: -7`, courbe NIST P-256 / secp256r1) directement dans la Secure Enclave d'Apple (enclave matérielle dédiée, certification constructeur à confirmer).
    - Génération des bi-clés via CryptoKit (`SecureEnclave.P256.Signing.PrivateKey`) ou les services Keychain Apple avec l'attribut `kSecAttrTokenIDSecureEnclave` et contrôle biométrique optionnel (Face ID / Touch ID).
    - Génération et vérification d'enveloppes COSE_Sign1 (RFC 9052) pour les actes civils et attestations de scellement familial.
    - **Moteur de vérification universel** : Décodeur hybride vérifiant nativement tant les signatures matérielles ES256 (`alg: -7`) que les signatures logicielles Ed25519 (`alg: -8`) émises par les stations professionnelles.
 
 3. **Fonctionnement 100% Hors-Ligne du Sanctuaire Mémoriel (App 3) sur iPhone** :
-   - **Souveraineté et autonomie hors réseau** : Consultation intégrale de la capsule mémorielle, du portrait WebP (Bloc 2), du mémo vocal Opus SILK (Bloc 3) et des dernières volontés sans nécessiter la moindre connexion Internet, cellulaire ou WiFi.
+   - **Souveraineté et autonomie hors réseau** : Consultation intégrale de la capsule mémorielle, du portrait WebP (EF-2), du mémo vocal Opus SILK (EF-3) et des dernières volontés sans nécessiter la moindre connexion Internet, cellulaire ou WiFi.
    - Décodage local instantané des flux CBOR canoniques (RFC 8949) et normalisation JCS (RFC 8785) via le moteur unifié AeterniCore.
    - **Arbitrage souverain Kudoro `DEC-AET-07` Option B** :
      - Si la carte est signée par une autorité absente de la TrustList locale mais dont la signature cryptographique est intègre, l'accès au Sanctuaire est maintenu avec un bandeau de réserve ambré solennel (*« Authenticité non vérifiée — Émetteur inconnu »*).
      - Le blocage complet et intransigeant est réservé exclusivement aux cas de falsification cryptographique avérée ou de révocation formelle de clé.
 
-4. **StoreKit 2 & Respect de la Politique Mémorielle PaxFunèbre (`DEC-AET-08`)** :
-   - **Politique Mémorielle PaxFunèbre & Discrétion Tarifaire** : En application directe de la décision `DEC-AET-08`, l'accès mémoriel et ses éventuelles extensions sont régis par la politique mémorielle de l'organisation Le Pax Funèbre (discrétion tarifaire et dignité du deuil, sans aucun montant arbitraire fixé dans le code).
+4. **StoreKit 2 & Respect de la Politique Mémorielle PaxFunèbre (`DEC-AET-11`)** :
+   - **Politique Mémorielle PaxFunèbre & Discrétion Tarifaire** : En application directe de la décision `DEC-AET-11`, l'accès mémoriel et ses éventuelles extensions sont régis par la politique mémorielle de l'organisation Le Pax Funèbre (discrétion tarifaire et dignité du deuil, sans aucun montant arbitraire fixé dans le code).
    - Intégration moderne du framework StoreKit 2 en Swift asynchrone (`Product.SubscriptionInfo`, `Transaction.currentEntitlements`, `Transaction.updates`).
    - Vérification cryptographique des transactions signées au format JWS via `VerificationResult.verified` côté client.
    - Prise en charge native du **Partage Familial Apple (*Family Sharing*)** pour permettre à l'ensemble des proches d'accéder au coffre mémoriel partagé sans multiplication des frais.
@@ -84,7 +84,7 @@ Avant d'écrire ou de modifier le code Swift / iOS, le Bushi 04 doit obligatoire
 ## 5. Critères de Conformité Stricts
 - [ ] **Fonctionnement 100% Hors-Ligne** : Le Sanctuaire s'ouvre, lit et restitue le portrait, la voix et les volontés de la carte ACOSJ sans la moindre requête réseau.
 - [ ] **Alignement Exclusif ACOSJ 92 Ko (`DEC-AET-01`)** : Prise en charge exclusive de la carte JavaCard ACOSJ 92 Ko, sans aucune cible alternative.
-- [ ] **Ancrage Matériel Secure Enclave (`DEC-AET-04`)** : Génération des clés de scellement en P-256 / ES256 (`alg: -7`) certifiées CC EAL5+.
+- [ ] **Ancrage Matériel Secure Enclave (`DEC-AET-04`)** : Génération des clés de scellement en P-256 / ES256 (`alg: -7`) au sein de l'enclave sécurisée.
 - [ ] **Application Intègre de DEC-AET-07 Option B** : Affichage d'un bandeau de réserve ambré si l'émetteur est inconnu, blocage intransigeant si signature corrompue ou clé révoquée.
-- [ ] **Discrétion Tarifaire PaxFunèbre (`DEC-AET-08`)** : Zéro prix arbitraire codé en dur, respect absolu de la dignité du deuil.
+- [ ] **Discrétion Tarifaire PaxFunèbre (`DEC-AET-11`)** : Zéro prix arbitraire codé en dur, respect absolu de la dignité du deuil.
 - [ ] **Fluidité 120 FPS ProMotion & Accessibilité AAA (`DEC-AET-09`)** : Rendu cinématique instantané et accessibilité totale pour les aînés.

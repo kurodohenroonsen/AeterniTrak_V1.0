@@ -62,7 +62,7 @@ Avant toute conception de structure de partitionnement, le Bushi 10 consulte :
 ---
 
 ## 5. Critères de Conformité Stricts
-- [ ] **Marge de sécurité matérielle 5%** : Au moins 4 600 octets doivent toujours rester vierges sur la puce 92 Ko pour garantir la longévité de l'EEPROM (5 632 octets garantis, soit 6,11 %).
+- [ ] **Marge de sécurité matérielle 5%** : Au moins 4 608 octets (plancher de 5 % sur 92 160 octets) doivent toujours rester vierges sur la puce 92 Ko pour garantir la longévité de l'EEPROM (5 632 octets préservés, soit 6,11 %).
 - [ ] **Nomenclature EF-0 à EF-5 respectée** : Tous les offsets et FID correspondent rigoureusement à la spécification technique normative `docs/technical/silicon-storage.md`.
 - [ ] **Zéro copie EEPROM en Dual-Applet** : Le fichier NDEF `EF E104` utilise le mécanisme SIO pour mapper sur `EF-1` et `EF-5` sans allouer de mémoire physique dupliquée.
 - [ ] **Zéro corruption en écriture interrompue** : Utilisation de la machine à états `COMMIT_FLAG` (`0x55` en écriture, `0xAA` validé) avec rollback automatique en cas d'arrachage RF.

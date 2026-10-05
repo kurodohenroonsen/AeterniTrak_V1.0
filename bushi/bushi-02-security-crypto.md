@@ -9,12 +9,12 @@
 
 ## 1. Rôle et Mission
 Le Bushi 02 conçoit, implémente et audite l'ensemble de la couche cryptographique d'AeterniTrak :
-1. **Enveloppe de signature COSE_Sign1 (RFC 9052) & Agilité d'Algorithme (Validée DEC-AET-04 Option C)** :
+1. **Enveloppe de signature COSE_Sign1 (RFC 9052) & Agilité d'Algorithme (Validée DEC-AET-04 Option C & DEC-AET-10)** :
    - L'enveloppe canonique est `COSE_Sign1` avec `alg` explicite dans l'en-tête protégé (`-8` EdDSA / Ed25519 selon RFC 8032, ou `-7` ES256 / NIST P-256 selon FIPS 186-4).
-   - **Arbitrage souverain `DEC-AET-04` (Option C — Agilité Hybride validée le 4 octobre 2026)** : Prise en charge conjointe et pérenne d'Ed25519 (`alg: -8`) pour les signatures logicielles / filière et d'ES256 (`alg: -7`) pour les enclaves matérielles certifiées (Apple Secure Enclave, Android StrongBox KeyMint, puce JavaCard ACOSJ 92 Ko). L'arbitrage a été officiellement rendu et validé ; il est pleinement en vigueur.
+   - **Arbitrage souverain `DEC-AET-04` & `DEC-AET-10`** : Prise en charge conjointe d'Ed25519 (`alg: -8`) pour les signatures logicielles / filière et d'ES256 (`alg: -7`) pour les signatures émises depuis les enclaves matérielles certifiées de la station PaxStation (`DEC-AET-10` : Apple Secure Enclave, Android StrongBox KeyMint). La carte JavaCard ACOSJ 92 Ko stocke l'enveloppe signée sans détenir de clé privée active.
    - Les validateurs de toutes les plateformes vérifient nativement les deux algorithmes sans aucune distinction avec contrôle anti-malléabilité du $s$ bas ($s \le \lfloor n/2 \rfloor$, BSI TR-03111).
 2. **Signatures asymétriques Ed25519 (RFC 8032)** pour l'authenticité logicielle inviolable des enregistrements mémoriels (Studio, filière, validateur anti-prion).
-3. **Support NIST P-256 (ECDSA ES256 - FIPS 186-4)** pour l'interopérabilité avec les enclaves matérielles et cartes à puce.
+3. **Support NIST P-256 (ECDSA ES256 - FIPS 186-4)** pour l'interopérabilité avec les enclaves matérielles de la station d'encodage (`DEC-AET-10`).
 4. **Mécanismes anti-rejeu et intégrité silicium** : Compteurs monotones, empreintes d'émetteurs `kid` (SHA-256 tronqué 16 octets), dérivation HKDF.
 5. **Écartement Explicite & Motivé en V1.0 (`docs/technical/security-crypto.md` §0.1)** :
    - *zk-SNARK (Zero-Knowledge Succinct Non-Interactive Arguments of Knowledge)* : Écarté formellement en V1.0 en raison du coût mémoire, de la taille des circuits arithmétiques et de la puissance de calcul requises, qui excèdent largement le budget silicium de 92 Ko de la puce ACOSJ et les capacités d'un lecteur NFC mobile ou de station de pompes funèbres.
