@@ -33,7 +33,7 @@
     obsidienne: { label: "Obsidienne nuit & silicium", bg1: "#1c212b", bg2: "#06070a", ink: "#ece6d6", muted: "#a29e94", accent: "#c9a85a", texture: "silicon" }
   };
 
-  const TONES = { danger: "#b42318", warn: "#a86b12", ok: "#2f7d4f", info: "#2b5f9e", muted: "#6b6b6b" };
+  const TONES = { danger: "#a61d1d", warn: "#a86b12", ok: "#1f6a45", info: "#2b5f9e", muted: "#6b6b6b", accent: "#966f27" };
 
   // ---------------------------------------------------------------- utilitaires
   function esc(s) {
@@ -248,20 +248,46 @@
       : O.dove(cx - size / 2, cy - size / 2, size, `url(#${x.p}-gold)`);
   }
 
-  // ---------------------------------------------------------------- CARTE 1 · densité intégrale du PAVS
-  // Aucun libellé texte : chaque donnée est portée par un pictogramme (légende dans l'application et sur le B.A.T.).
-  // Les cases à cocher du formulaire officiel deviennent des matrices de pictogrammes : coché = vif + pastille,
-  // non coché = estompé. Un corps de texte UNIQUE pour les deux faces est calculé (la plus grande taille ≤ DATA_MAX
-  // où tout tient) : aucune donnée n'est dominante, la photo est une vignette.
+  // ---------------------------------------------------------------- CARTE 1 · LISIBILITÉ & BALANCEMENT INTÉGRAL DU PAVS
+  // Recto : Identité civile, contacts d'urgence qualifiés (sans tirets vides), directives de soins
+  // et thérapies refusées sous forme de badges explicites à fort contraste avec libellés en français.
+  // Verso : Deux colonnes équilibrées exploitant 100 % de la surface ID-1 :
+  // - Colonne 1 : Volontés funéraires, sépulture (Loi 1971), dons légaux et dispositions corporelles.
+  // - Colonne 2 : Souhaits de fin de vie, cartouche d'honneur « Parole essentielle » et mémorial acoustique.
   const DATA_MAX = 1.3;
   const DATA_MIN = 0.8;
-  const L = 3.4; // zone de sécurité 3 mm + 0,4 mm
+  const L = 3.4; // marge de sécurité 3 mm + 0,4 mm
   const RR = W - 3.4;
   const has = v => v != null && v !== false && String(v).trim() !== "";
   const person = o => (o ? [o.name, o.phone].filter(has) : []);
-  const yn = v => (v === true || v === "Oui" ? "yes" : v === false || v === "Non" ? "no" : v === "X" ? "presumed" : "unset");
 
-  /** Modèle de données de la Carte 1 (toutes les rubriques du formulaire officiel + compléments AeterniTrak). */
+  function badgePill(xx, y, label, tone, iconName, x, fs) {
+    const is = fs * 1.3;
+    const tw = measure(label, fs, x.sans, 600);
+    const w = tw + (iconName ? is + 2.2 : 2.0);
+    const h = fs * 2.1;
+    const col = TONES[tone] || TONES.muted;
+    const isFilled = tone === "danger" || tone === "ok" || tone === "warn";
+    const bg = isFilled ? col : rgba(x.accent, x.dark ? 0.22 : 0.12);
+    const stroke = isFilled ? col : rgba(x.accent, 0.6);
+    const textCol = isFilled ? "#fff" : x.ink;
+    const iconCol = isFilled ? "#fff" : (TONES[tone] || x.accent);
+
+    return {
+      w, h,
+      svg: `<g><rect x="${f(xx)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(h / 2)}" fill="${bg}" stroke="${stroke}" stroke-width=".1"/>` +
+        (iconName ? O.icon(iconName, xx + 0.9, y + (h - is) / 2, is, iconCol, 0.16) : "") +
+        T(xx + (iconName ? is + 1.6 : 1.0), y + h * 0.72, label, { fam: x.sans, size: fs, weight: 600, fill: textCol }) + `</g>`
+    };
+  }
+
+  function pacemakerText(med) {
+    if (!med.has_pacemaker) return "Aucun stimulateur";
+    const ex = med.pacemaker_exeresis;
+    return [med.pacemaker_details, ex && ex.certified_removed && `exérèse ${ex.surgeon_name || ""}${ex.surgeon_inami ? " · INAMI " + ex.surgeon_inami : ""}${ex.exeresis_date ? " · " + shortDate(ex.exeresis_date) : ""}`].filter(has).join(" · ") || "Présent · non extrait";
+  }
+
+  /** Modèle de données enrichi et structuré de la Carte 1 */
   function card1Model(c) {
     const ci = c.civil_identity || {};
     const pr = c.pavs_record || {};
@@ -276,237 +302,298 @@
     const pyro = R.pyroStatus(c);
     const bio = Number(med.biological_hazard_level) || 0;
     const att = pr.attachments || [];
+    const mm = c.multimedia_memorial || {};
+    const ac = mm.audio_choice || {};
+    const lv = fw.legal_validation || {};
 
-    const contacts = [
-      { name: "Institution(s)", icon: "institution", lines: person(pr.institution) },
-      { name: "Médecin traitant", icon: "physician", lines: [phy.name, has(phy.inami) && `INAMI ${phy.inami}`, phy.phone].filter(has) },
-      { name: "Personne(s) à contacter", icon: "contact", lines: person(pr.contact_person) },
-      { name: "Mandataire (soins de santé)", icon: "proxyHealth", lines: person(pr.health_proxy) },
-      { name: "Mandataire extrajudiciaire", icon: "proxyLegal", lines: person(pr.extrajudicial_proxy) },
-      { name: "Personne(s) de confiance", icon: "trusted", lines: person(pr.trusted_person) },
-      { name: "Administrateur de biens et/ou de la personne", icon: "keyAdmin", lines: person(pr.property_administrator) },
-      { name: "Lieu de conservation du PSPA", icon: "archive", lines: has(pr.conservation_place) ? [pr.conservation_place] : [] }
+    const allContacts = [
+      { name: "Institution(s)", icon: "institution", label: "Institution", lines: person(pr.institution) },
+      { name: "Médecin traitant", icon: "physician", label: "Médecin traitant", lines: [phy.name, has(phy.inami) && `INAMI ${phy.inami}`, phy.phone].filter(has) },
+      { name: "Personne(s) à contacter", icon: "contact", label: "Contact urgence", lines: person(pr.contact_person) },
+      { name: "Mandataire (soins de santé)", icon: "proxyHealth", label: "Mandataire santé", lines: person(pr.health_proxy) },
+      { name: "Mandataire extrajudiciaire", icon: "proxyLegal", label: "Mandataire extraj.", lines: person(pr.extrajudicial_proxy) },
+      { name: "Personne(s) de confiance", icon: "trusted", label: "Pers. de confiance", lines: person(pr.trusted_person) },
+      { name: "Administrateur de biens et/ou de la personne", icon: "keyAdmin", label: "Administrateur", lines: person(pr.property_administrator) },
+      { name: "Lieu de conservation du PSPA", icon: "archive", label: "Conservation PSPA", lines: has(pr.conservation_place) ? [pr.conservation_place] : [] }
     ];
+    const contacts = allContacts.filter(cl => cl.lines.length > 0);
+
+    // Directives médicales (badges explicites pour le Recto)
+    const carePills = [];
+    if (care.intensity === "max") carePills.push({ text: "Soins maximums", tone: "warn", icon: "careMax" });
+    else if (care.intensity === "usual") carePills.push({ text: "Soins usuels", tone: "info", icon: "careUsual" });
+    if (care.comfort) carePills.push({ text: "Soins confort / palliatifs", tone: "ok", icon: "careComfort" });
+    if (care.euthanasia_declaration) carePills.push({ text: "Déclaration euthanasie", tone: "accent", icon: "euthanasia" });
+
+    (care.settings || []).forEach(s => {
+      if (s === "DOMICILE") carePills.push({ text: "Maintien domicile", tone: "info", icon: "home" });
+      else if (s === "INSTITUTION") carePills.push({ text: "Institution", tone: "info", icon: "institution" });
+      else if (s === "HOPITAL") carePills.push({ text: "Hôpital", tone: "info", icon: "hospital" });
+      else if (s === "USP") carePills.push({ text: "Soins palliatifs (USP)", tone: "info", icon: "palliativeUnit" });
+    });
+
+    if (care.reanimation === "avec") carePills.push({ text: "Hospit. avec réanimation", tone: "info", icon: "reanimation" });
+    else if (care.reanimation === "sans") carePills.push({ text: "Hospit. SANS réanimation", tone: "danger", icon: "ban" });
+    if (care.exceptional_hospitalization) carePills.push({ text: "Hospit. except. (fracture)", tone: "warn", icon: "fracture" });
 
     const refusals = care.refusals || [];
-    const careRows = [
-      { name: "Projet global", icon: "gauge", cells: [
-        ...P.INTENSITY.map(i => ({ icon: i.icon, state: care.intensity === i.id ? "yes" : "off" })),
-        { icon: "careComfort", state: care.comfort ? "yes" : "off" },
-        { icon: "euthanasia", state: care.euthanasia_declaration ? "yes" : "off" }
-      ] },
-      { name: "Thérapies refusées", icon: "ban", cells: P.REFUSALS.map((r, i, a) => ({
-        icon: r.icon, state: refusals.includes(r.id) ? "no" : "off", gapBefore: i > 0 && (r.group || a[i - 1].group) && r.group !== a[i - 1].group
-      })) },
-      { name: "À soins égaux je préfère être", icon: "bed", cells: P.SETTINGS.map(s => ({ icon: s.icon, state: (care.settings || []).includes(s.id) ? "yes" : "off" })) },
-      { name: "Types d'hospitalisations acceptés", icon: "hospital", cells: [
-        { icon: "reanimation", state: care.reanimation === "avec" ? "yes" : care.reanimation === "sans" ? "no" : "off" },
-        { icon: "fracture", state: care.exceptional_hospitalization ? "yes" : "off" }
-      ] }
-    ];
-    const careFlow = [has(pr.comments) && { name: "Commentaires", icon: "bubble", text: pr.comments }].filter(Boolean);
-
-    const versoRows = [
-      { name: "Mes souhaits de fin de vie", icon: "bed", cells: [
-        { icon: "home", state: yn(pr.eol_at_home) },
-        ...P.SUPPORT.map(s => ({ icon: s.icon, state: (ds.choices || []).includes(s.id) ? "yes" : "off", gapBefore: s.id === "PSYCHOLOGIQUE" }))
-      ] },
-      { name: "Mes volontés pour l'après-décès", icon: "scroll", cells: [
-        { icon: "heart", state: ({ 1: "yes", 3: "no", 2: "presumed" })[Number(med.organ_donation_status)] || "unset" },
-        { icon: "science", state: yn(pm.body_donation) },
-        { icon: (P.DISPOSITION.find(d => d.id === pm.body_disposition) || P.DISPOSITION[2]).icon, state: pm.body_disposition ? (pm.body_disposition === "X" ? "presumed" : "yes") : "unset" },
-        { icon: "pacemaker", state: med.has_pacemaker ? (pyro.code === "BLOCK" ? "alert" : "yes") : "no" },
-        { icon: "relatives", state: yn(pm.leave_choice_to_relatives) },
-        { icon: "insurance", state: yn(fw.has_funeral_insurance) },
-        { icon: "paperclip", state: att.length ? "yes" : "off", label: att.length ? String(att.length) : "" }
-      ] },
-      { name: "Compléments AeterniTrak", icon: "nfc", cells: [
-        { icon: mode.icon, state: "yes", label: String(mode.id) },
-        med.has_radioisotopes && { icon: "radiation", state: "alert", label: "I-125" },
-        bio > 0 && { icon: "biohazard", state: bio >= 3 ? "alert" : "yes", label: `BH${bio}` },
-        Number(med.organ_donation_status) === 1 && pm.body_donation === "Oui" && { icon: "medcross", state: "yes", label: "48 h" }
-      ].filter(Boolean) }
-    ];
-
-    const rites = String(pm.rites || "");
-    const inRites = v => has(v) && rites.toLowerCase().includes(String(v).toLowerCase());
-    const pmText = [pacemakerText(med)].filter(has).join("");
-    const versoFlow = [
-      has(ds.special_wishes) && { name: "À propos de mon accompagnement", icon: "star", text: ds.special_wishes },
-      has(pr.essential_priority) && { name: "Pour moi, l'essentiel c'est", icon: "quote", text: pr.essential_priority, italic: true },
-      has(pr.other_wishes) && { name: "Mes autres souhaits (fin de vie)", icon: "feather", text: pr.other_wishes },
-      has(rites) && { name: "Rite(s) / rituel(s)", icon: "rite", text: rites },
-      has(fw.chosen_funeral_home) && { name: "Pompes funèbres", icon: "funeralHome", text: fw.chosen_funeral_home },
-      has(pm.funeral_insurance_ref) && { name: "Assurance obsèques", icon: "insurance", text: pm.funeral_insurance_ref },
-      has(pm.other_wishes) && { name: "Mes autres souhaits (après-décès)", icon: "scroll", text: pm.other_wishes },
-      { name: "Mode de sépulture (carte)", icon: mode.icon, text: mode.label + (R.isSarco(mode.id) ? " — démonstrateur prospectif (DEC-AET-15)" : "") },
-      has(fw.residue_destination) && !inRites(fw.residue_destination) && { name: "Destination", icon: "pin", text: fw.residue_destination },
-      has(fw.ceremony_nature) && !inRites(fw.ceremony_nature) && { name: "Cérémonie", icon: "rite", text: fw.ceremony_nature },
-      has(fw.coffin_material) && { name: "Cercueil", icon: "coffin", text: fw.coffin_material },
-      has(pmText) && { name: "Stimulateur cardiaque", icon: "pacemaker", text: pmText },
-      bio > 0 && { name: "Risque biologique", icon: "biohazard", text: med.biological_hazard_label || `Niveau ${bio}` },
-      att.length && { name: "Annexes", icon: "paperclip", text: att.map(a => a.name).join(", ") }
-    ].filter(Boolean);
-
-    return { contacts, careRows, careFlow, versoRows, versoFlow, mode, pyro };
-  }
-
-  function pacemakerText(med) {
-    if (!med.has_pacemaker) return "";
-    const ex = med.pacemaker_exeresis;
-    return [med.pacemaker_details, ex && ex.certified_removed && `exérèse ${ex.surgeon_name || ""}${ex.surgeon_inami ? " · INAMI " + ex.surgeon_inami : ""}${ex.exeresis_date ? " · " + shortDate(ex.exeresis_date) : ""}`].filter(has).join(" · ");
-  }
-
-  /** Texte continu à retrait suspendu (pictogramme en marge), réparti en colonnes. */
-  function flowLayout(items, s, fam, colW, h, cols) {
-    const lh = s * 1.2;
-    const gap = s * 0.3;
-    const ind = s * 1.5;
-    const lines = [];
-    const overflow = [];
-    let col = 0;
-    let y = 0;
-    for (const it of items) {
-      const ls = wrap(it.text, colW - ind, s, fam, 999, it.italic ? "italic" : null);
-      ls.forEach((t, i) => {
-        if (y + lh > h + 1e-6) { col++; y = 0; }
-        if (col < cols) lines.push({ col, y, t, first: i === 0, it });
-        else if (!overflow.includes(it)) overflow.push(it);
-        y += lh;
+    const REFUSAL_MAP = {
+      ANTIBIOTHERAPIE: { text: "Refus antibiothérapie", icon: "antibiotic" },
+      PERFUSION_HYDRATANTE: { text: "Refus perf. hydratante", icon: "hydration" },
+      ALIM_ENTERALE: { text: "Refus sonde entérale", icon: "tubeNose" },
+      ALIM_PARENTERALE: { text: "Refus alim. parentérale", icon: "ivDrip" },
+      ALIM_GASTROSTOMIE: { text: "Refus sonde gastrostomie", icon: "gastro" },
+      DIALYSE: { text: "Refus dialyse", icon: "dialysis" },
+      OXYGENOTHERAPIE: { text: "Refus oxygénothérapie", icon: "oxygen" },
+      VNI: { text: "Refus ventilation VNI", icon: "mask" },
+      INTUBATION: { text: "Refus intubation", icon: "intubation" },
+      SEDATION_PALLIATIVE: { text: "Refus sédation palliative", icon: "sedation" },
+      ALTERATION_CONSCIENCE: { text: "Refus altération conscience", icon: "consciousness" }
+    };
+    if (refusals.length === 0) {
+      carePills.push({ text: "Aucun refus de thérapie", tone: "ok", icon: "check" });
+    } else {
+      refusals.forEach(id => {
+        const def = REFUSAL_MAP[id] || { text: `Refus ${id}`, icon: "ban" };
+        carePills.push({ text: def.text, tone: "danger", icon: def.icon });
       });
-      y += gap;
     }
-    return { fits: overflow.length === 0, lines, lh, ind, overflow };
+
+    // Verso Colonne 1 : Volontés funéraires, sépulture et dispositions légales
+    const col1 = [];
+    col1.push({ name: "Sépulture", icon: mode.icon, text: `${mode.label} (Mode ${mode.id})` + (R.isSarco(mode.id) ? " · Démonstrateur prospectif (DEC-AET-15)" : "") });
+    if (has(fw.residue_destination)) col1.push({ name: "Destination", icon: "pin", text: `Destination : ${fw.residue_destination}` });
+    if (has(fw.coffin_material)) col1.push({ name: "Cercueil", icon: "coffin", text: `Cercueil : ${fw.coffin_material}` });
+    const ritesText = fw.ceremony_nature || pm.rites;
+    if (has(ritesText)) col1.push({ name: "Cérémonie", icon: "rite", text: `Cérémonie & rites : ${ritesText}` });
+    if (has(fw.chosen_funeral_home)) col1.push({ name: "Pompes funèbres", icon: "funeralHome", text: `Pompes funèbres : ${fw.chosen_funeral_home}` });
+    if (fw.has_funeral_insurance || has(pm.funeral_insurance_ref)) {
+      col1.push({ name: "Assurance", icon: "insurance", text: `Assurance obsèques : ${pm.funeral_insurance_ref || (fw.has_funeral_insurance ? "Contrat souscrit" : "Non")}` });
+    }
+    const organStatus = Number(med.organ_donation_status);
+    const organText = organStatus === 1 ? "Don d'organes : Favorable (Loi 1986)" : organStatus === 3 ? "Don d'organes : Refus formel" : "Don d'organes : Sans opposition enregistrée";
+    col1.push({ name: "Don d'organes", icon: organStatus === 3 ? "ban" : "heart", text: organText });
+    const scienceText = (pm.body_donation === "Oui" || R.burialMode(fw.burial_mode).family === "science") ? "Corps à la science : Oui (Transfert 48 h)" : "Corps à la science : Non";
+    col1.push({ name: "Corps à la science", icon: "science", text: scienceText });
+    col1.push({ name: "Stimulateur", icon: "pacemaker", text: `Stimulateur : ${pacemakerText(med)}` });
+    if (bio > 0) col1.push({ name: "Risque bio", icon: "biohazard", text: med.biological_hazard_label || `Risque biologique : Niveau ${bio}` });
+    if (med.has_radioisotopes) col1.push({ name: "Radio-isotopes", icon: "radiation", text: "Radio-isotopes actifs (I-125)" });
+
+    // Verso Colonne 2 : Souhaits de fin de vie, cartouche d'honneur et mémorial
+    const col2 = [];
+    const eolPlace = pr.eol_at_home === "Oui" ? "Lieu de vie habituel (domicile)" : pr.eol_at_home === "Non" ? "Établissement de soins" : "Sans préférence";
+    col2.push({ name: "Fin de vie", icon: "home", text: `Fin de vie : ${eolPlace}` });
+    if ((ds.choices || []).length) {
+      const supp = ds.choices.map(c => (P.SUPPORT.find(s => s.id === c) || {}).label || c).join(" · ");
+      col2.push({ name: "Accompagnement", icon: "lotus", text: `Accompagnement : ${supp}` });
+    }
+    if (has(ds.special_wishes)) col2.push({ name: "Souhaits accompagnement", icon: "star", text: `Souhaits : ${ds.special_wishes}` });
+    if (has(pr.other_wishes)) col2.push({ name: "Autres souhaits fin de vie", icon: "feather", text: `Autres souhaits : ${pr.other_wishes}` });
+
+    // Cartouche d'Honneur : Parole Essentielle
+    const essential = pr.essential_priority;
+
+    // Multimédia & Hommage
+    const musicTitle = (mm.chosen_music || {}).title;
+    col2.push({ name: "Musique", icon: "music", text: `Musique : ${musicTitle || "Silence recueilli"}` });
+    if (ac.has_voice_memo) col2.push({ name: "Mémo vocal", icon: "mic", text: `Mémo vocal : ${ac.voice_memo_duration_sec || 0} s d'adieu scellées` });
+    col2.push({ name: "Album photo", icon: "camera", text: `Album mémoriel : ${mm.photo_count || 0} cliché(s) scellé(s)` });
+    if (att.length) col2.push({ name: "Annexes", icon: "paperclip", text: `Annexes PSPA : ${att.length} document(s)` });
+    if (pm.leave_choice_to_relatives === "Oui") col2.push({ name: "Choix obsèques", icon: "relatives", text: "Obsèques : Choix laissé aux proches" });
+    if (has(pm.other_wishes)) col2.push({ name: "Autres volontés après-décès", icon: "scroll", text: `Autres volontés : ${pm.other_wishes}` });
+
+    return { contacts, allContacts, carePills, comments: pr.comments, col1, col2, essential, mode, pyro, bio, att, lv, ci, pr, med, fw, mm, ac };
   }
 
-  const GEO = {
-    cell: { w: 19.27, h: 6.15, gap: 0.57, y: 16.25, icon: 2.5 },
-    care: { y: 29.75, h: 14.75, matrixW: 47.5 },
-    verso: { rowsY: 7.65, flowY: 19.4, flowH: 24.6 }
-  };
-
-  function contactFits(cell, s, fam) {
-    const w = GEO.cell.w - GEO.cell.icon - 1.1;
-    return flowLayout(cell.lines.map(t => ({ text: t })), s, fam, w + s * 1.5, GEO.cell.h - 0.5, 1);
-  }
-
-  /** Corps unique : plus grande taille où contacts, commentaires et texte du verso tiennent. */
   function card1Metrics(x) {
     const m = card1Model(x.data);
-    const fam = x.dfam;
-    const recW = RR - (L + GEO.care.matrixW + 1);
+    const maxS = DATA_MAX * (Number(x.design?.fontScale) || 1);
+    const minS = DATA_MIN;
     const colW = (RR - L - 1.6) / 2;
-    const maxS = DATA_MAX * (Number(x.design.fontScale) || 1);
-    const test = s => m.contacts.every(cl => contactFits(cl, s, fam).fits) &&
-      flowLayout(m.careFlow, s, fam, recW, GEO.care.h, 1).fits &&
-      flowLayout(m.versoFlow, s, fam, colW, GEO.verso.flowH, 2).fits;
+    const ind = 2.8;
+
+    const test = s => {
+      const lh = s * 1.22;
+      // Recto
+      const contactRows = Math.ceil(m.contacts.length / 2);
+      const cH = m.contacts.length <= 2 ? 4.4 : m.contacts.length <= 4 ? 3.8 : 3.2;
+      const contactH = contactRows * (cH + 0.4);
+      let pillX = 0;
+      let pillRows = 1;
+      const pillW_base = RR - L;
+      for (const p of m.carePills) {
+        const pw = measure(p.text, s * 0.88, x.sans, 600) + s * 0.88 * 1.3 + 2.2;
+        if (pillX + pw > pillW_base && pillX > 0) {
+          pillRows++;
+          pillX = pw + 1.2;
+        } else {
+          pillX += pw + 1.2;
+        }
+      }
+      const pillsH = pillRows * (s * 2.05 + 0.8);
+      let commentsH = 0;
+      if (has(m.comments)) {
+        const lines = wrap(`« ${m.comments} »`, pillW_base - 3.5, s * 0.9, 2);
+        commentsH = lines.length * (s * 1.15) + 2.0;
+      }
+      const totalRectoH = contactH + pillsH + commentsH + 3.0;
+      if (totalRectoH > 28.5) return false;
+
+      // Verso Col 1
+      let h1 = 0;
+      for (const it of m.col1) {
+        const lines = wrap(it.text, colW - ind, s, 3);
+        h1 += lines.length * lh + s * 0.35;
+      }
+      if (h1 > 36.35) return false;
+
+      // Verso Col 2
+      let h2 = 0;
+      for (const it of m.col2) {
+        const lines = wrap(it.text, colW - ind, s, 2);
+        h2 += lines.length * lh + s * 0.35;
+      }
+      if (has(m.essential)) {
+        const qLines = wrap(`« ${m.essential} »`, colW - 4.5, s * 0.98, 4);
+        h2 += qLines.length * (lh * 1.05) + 4.8;
+      }
+      if (h2 > 36.35) return false;
+
+      return true;
+    };
+
     let s = maxS;
-    while (s > DATA_MIN && !test(s)) s = Math.round((s - 0.02) * 1000) / 1000;
-    s = Math.max(s, DATA_MIN);
+    while (s > minS && !test(s)) s = Math.round((s - 0.02) * 1000) / 1000;
+    s = Math.max(s, minS);
     const overflow = [];
     if (!test(s)) {
-      m.contacts.forEach(cl => { if (!contactFits(cl, s, fam).fits) overflow.push(cl.name); });
-      flowLayout(m.careFlow, s, fam, recW, GEO.care.h, 1).overflow.forEach(it => overflow.push(it.name));
-      flowLayout(m.versoFlow, s, fam, colW, GEO.verso.flowH, 2).overflow.forEach(it => overflow.push(it.name));
+      overflow.push("Contenu saturé");
     }
-    return { m, s, overflow, recW, colW };
+    return { m, s, overflow, colW };
   }
 
-  function renderFlow(x, layout, X, Y, colW, colGap, s) {
-    let g = "";
-    const last = layout.lines[layout.lines.length - 1];
-    for (const ln of layout.lines) {
-      const x0 = X + ln.col * (colW + colGap);
-      if (ln.first && ln.it.icon) g += O.icon(ln.it.icon, x0, Y + ln.y + (layout.lh - s * 1.15) / 2, s * 1.15, x.accent, 0.13);
-      const text = !layout.fits && ln === last ? ln.t.replace(/.{0,2}$/, "…") : ln.t;
-      g += T(x0 + layout.ind, Y + ln.y + s * 0.93, text, { fam: x.dfam, size: s, fill: x.ink, italic: ln.it.italic });
-    }
-    return g;
-  }
-
-  /** Matrice de pictogrammes : une ligne = une rubrique du formulaire. */
-  function renderMatrix(x, rows, X, Y, rowH) {
-    let g = "";
-    const cs = rowH - 0.35;
-    rows.forEach((row, ri) => {
-      const y = Y + ri * rowH;
-      g += O.icon(row.icon, X, y + (cs - 2.3) / 2, 2.3, x.muted, 0.15);
-      g += `<path d="M${f(X + 3)} ${f(y + 0.4)}V${f(y + cs - 0.4)}" stroke="url(#${x.p}-gold)" stroke-width=".1"/>`;
-      let cx = X + 3.5;
-      row.cells.forEach(cell => {
-        if (cell.gapBefore) cx += 0.7;
-        const lw = cell.label ? measure(cell.label, 0.95, x.sans, 700) + 0.4 : 0;
-        const w = cs + lw;
-        const on = cell.state !== "off" && cell.state !== "unset";
-        g += `<rect x="${f(cx)}" y="${f(y)}" width="${f(w)}" height="${f(cs)}" rx=".55" fill="${rgba(x.accent, on ? (x.dark ? 0.2 : 0.14) : 0.04)}" stroke="${rgba(x.accent, on ? 0.75 : 0.25)}" stroke-width=".1"/>`;
-        g += `<g opacity="${on ? 1 : 0.32}">${O.icon(cell.icon, cx + cs * 0.14, y + cs * 0.12, cs * 0.72, on ? x.ink : x.muted, 0.15)}</g>`;
-        if (cell.label) g += T(cx + cs - 0.1, y + cs * 0.68, cell.label, { fam: x.sans, size: 0.95, weight: 700, fill: x.ink });
-        if (on) g += O.mark(cx + w - 0.45, y + cs - 0.45, 0.62, cell.state);
-        cx += w + 0.38;
-      });
-    });
-    return g;
-  }
-
-  // ---------------------------------------------------------------- CARTE 1 · RECTO (données administratives & projet de soins)
+  // ---------------------------------------------------------------- CARTE 1 · RECTO
   function card1Recto(x) {
     const c = x.data;
     const ci = c.civil_identity || {};
     const pr = c.pavs_record || {};
-    const { m, s, recW } = card1Metrics(x);
-    let g = background(x) + guilloche(x, [[69, 26, 15]]) + fillets(x);
+    const { m, s } = card1Metrics(x);
+    let g = background(x) + guilloche(x, [[42.8, 27, 16]]) + fillets(x);
 
+    // En-tête solennel
     g += T(L, 5.55, "AETERNITRAK", { fam: x.title, size: 1.7, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.25 });
-    g += T(L + measure("AETERNITRAK", 1.7, x.title, 600) + 3.2, 5.45, "DERNIÈRES VOLONTÉS · PAVS", { fam: x.sans, size: 0.85, weight: 600, fill: x.muted, ls: 0.14 });
+    g += T(L + measure("AETERNITRAK", 1.7, x.title, 600) + 3.2, 5.45, "DERNIÈRES VOLONTÉS · SOINS ANTICIPÉS", { fam: x.sans, size: 0.85, weight: 600, fill: x.muted, ls: 0.14 });
     g += T(RR, 5.45, "ID-1 · NFC ACOSJ 92 Ko", { fam: x.sans, size: 0.8, fill: x.muted, anchor: "end", ls: 0.08 });
     g += goldRule(x, L, RR, 6.85);
 
-    // Identité (vignette : la photo n'est jamais dominante)
-    g += portrait(x, { kind: "rect", x: L, y: 7.65, w: 6.3, h: 7.9, r: 0.45 }, "pt");
-    const X = L + 7.2;
+    // Identité (vignette photo ou camée vectoriel)
+    const cameoShape = `<rect x="${L}" y="7.65" width="6.3" height="7.9" rx=".45"/>`;
+    g += `<clipPath id="${x.p}-pt">${cameoShape}</clipPath><g clip-path="url(#${x.p}-pt)">` +
+      `<rect x="${L}" y="7.65" width="6.3" height="7.9" fill="${rgba(x.accent, x.dark ? 0.35 : 0.12)}"/>` +
+      O.spiro(L + 3.15, 11.6, 7, 4, 3.2, 0.24, x.accent, 0.35) +
+      O.cameo(L + 3.15, 11.6, 2.3, 3.2, `url(#${x.p}-goldv)`, "none") + `</g>` +
+      cameoShape.replace("/>", ` fill="none" stroke="url(#${x.p}-gold)" stroke-width=".35"/>`);
+
+    const X = L + 7.5;
     const nameS = Math.min(s * 1.45, 2.0);
-    const nm = fit(ci.full_name || "Nom Prénom", RR - X, nameS, x.title, 600, s);
+    const nm = fit(ci.full_name || "Nom Prénom", RR - X - 22, nameS, x.title, 600, s);
     g += T(X, 9.95, nm.text, { fam: x.title, size: nm.size, weight: 600, fill: x.ink, ls: 0.06 });
+
     const niss = R.validateNiss(ci.national_id_niss, ci.birth_date, ci.gender);
-    const rowA = [
-      { icon: ci.gender === "F" ? "genderF" : ci.gender === "M" ? "genderM" : "genderX" },
-      { icon: "birth", text: [ci.birth_date && shortDate(ci.birth_date), ci.birth_place].filter(has).join(" · ") },
-      { icon: "phone", text: ci.phone }
-    ];
-    const rowB = [
-      { icon: "idcard", text: niss.formatted || "—", mono: true, mark: niss.valid ? "yes" : "no" },
-      { icon: "calendar", text: pr.registered_date ? shortDate(pr.registered_date) : "" }
-    ];
-    g += inlineRow(x, rowA, X, 12.5, RR - X, s) + inlineRow(x, rowB, X, 15.0, RR - X, s);
+    const modPill = badgePill(RR - 20, 7.8, niss.valid ? "✓ MODULO 97" : "✗ INVALIDE", niss.valid ? "ok" : "danger", null, x, 0.82);
+    g += modPill.svg;
 
-    // Contacts (8 cellules)
-    m.contacts.forEach((cl, i) => {
-      const cx = L + (i % 4) * (GEO.cell.w + GEO.cell.gap);
-      const cy = GEO.cell.y + Math.floor(i / 4) * (GEO.cell.h + GEO.cell.gap);
-      const empty = !cl.lines.length;
-      g += `<rect x="${f(cx)}" y="${f(cy)}" width="${GEO.cell.w}" height="${GEO.cell.h}" rx=".6" fill="${rgba(x.accent, empty ? 0.03 : x.dark ? 0.13 : 0.08)}" stroke="${rgba(x.accent, empty ? 0.2 : 0.5)}" stroke-width=".1"/>`;
-      g += `<g opacity="${empty ? 0.35 : 1}">${O.icon(cl.icon, cx + 0.45, cy + 0.5, GEO.cell.icon, x.accent, 0.15)}</g>`;
-      if (empty) {
-        g += T(cx + GEO.cell.icon + 1.1, cy + 2.2, "—", { fam: x.dfam, size: s, fill: x.muted });
-        return;
-      }
-      const lay = contactFits(cl, s, x.dfam);
-      lay.lines.forEach((ln, k) => {
-        const t = !lay.fits && k === lay.lines.length - 1 ? ln.t.replace(/.{0,2}$/, "…") : ln.t;
-        g += T(cx + GEO.cell.icon + 1.0, cy + 0.35 + ln.y + s * 0.93, t, { fam: x.dfam, size: s, fill: x.ink, weight: k === 0 ? 500 : 400 });
-      });
-    });
-
-    // Projet de soins : matrices de cases + commentaires
-    g += renderMatrix(x, m.careRows, L, GEO.care.y, GEO.care.h / 4);
-    const fx = L + GEO.care.matrixW + 1;
-    if (m.careFlow.length) {
-      g += renderFlow(x, flowLayout(m.careFlow, s, x.dfam, recW, GEO.care.h, 1), fx, GEO.care.y, recW, 0, s);
-    } else {
-      g += T(fx, GEO.care.y + 1.5, "", { fam: x.dfam, size: s, fill: x.muted });
+    // Ligne identité 2
+    const gIcon = ci.gender === "F" ? "genderF" : ci.gender === "M" ? "genderM" : "genderX";
+    let curX = X;
+    g += O.icon(gIcon, curX, 11.3, 2.0, x.accent, 0.15);
+    curX += 2.6;
+    const birthStr = [ci.birth_date && shortDate(ci.birth_date), ci.birth_place].filter(has).join(" · ");
+    if (birthStr) {
+      g += O.icon("birth", curX, 11.3, 2.0, x.accent, 0.15);
+      curX += 2.5;
+      g += T(curX, 12.7, birthStr, { fam: x.dfam, size: s * 0.95, fill: x.ink });
+      curX += measure(birthStr, s * 0.95, x.dfam, 400) + 3.0;
+    }
+    if (ci.phone) {
+      g += O.icon("phone", curX, 11.3, 2.0, x.accent, 0.15);
+      curX += 2.5;
+      g += T(curX, 12.7, ci.phone, { fam: x.dfam, size: s * 0.95, fill: x.ink });
     }
 
-    // Bandeau pyrotechnique (sécurité du four) — fin, jamais dominant
+    // Ligne identité 3
+    curX = X;
+    g += O.icon("idcard", curX, 13.6, 2.0, x.accent, 0.15);
+    curX += 2.5;
+    g += T(curX, 15.0, niss.formatted || "—", { fam: x.mono, size: s * 0.95, fill: x.ink });
+    curX += measure(niss.formatted || "—", s * 0.95, x.mono, 400) + 3.5;
+    if (pr.registered_date) {
+      g += O.icon("calendar", curX, 13.6, 2.0, x.accent, 0.15);
+      curX += 2.5;
+      g += T(curX, 15.0, `Enregistré le ${shortDate(pr.registered_date)}`, { fam: x.dfam, size: s * 0.9, fill: x.muted });
+    }
+
+    // Filet séparateur
+    g += `<path d="M${L} 16.0H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`;
+
+    // Contacts d'urgence qualifiés (grille adaptative sans tirets vides)
+    const contactColW = (RR - L - 1.6) / 2;
+    const contactRows = Math.ceil(m.contacts.length / 2);
+    const cH = m.contacts.length <= 2 ? 4.4 : m.contacts.length <= 4 ? 3.8 : 3.2;
+    const contactH = contactRows * (cH + 0.4);
+
+    m.contacts.forEach((cl, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      const cx = L + col * (contactColW + 1.6);
+      const cy = 16.5 + row * (cH + 0.4);
+      g += `<rect x="${f(cx)}" y="${f(cy)}" width="${f(contactColW)}" height="${f(cH)}" rx=".6" fill="${rgba(x.accent, x.dark ? 0.12 : 0.06)}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".1"/>`;
+      g += O.icon(cl.icon, cx + 0.6, cy + (cH - 2.0) / 2, 2.0, x.accent, 0.15);
+
+      const txtX = cx + 3.1;
+      const line1 = cl.label;
+      const line2 = cl.lines.join(" · ");
+      const fitLine2 = fit(line2, contactColW - 3.8, s * 0.88, x.dfam, 400, 0.7);
+
+      g += T(txtX, cy + cH * 0.45, line1, { fam: x.sans, size: s * 0.85, weight: 700, fill: x.accent });
+      g += T(txtX, cy + cH * 0.85, fitLine2.text, { fam: x.dfam, size: fitLine2.size, fill: x.ink });
+    });
+
+    // Directives médicales & Thérapies refusées
+    const secY = 16.5 + contactH + 0.6;
+    g += `<path d="M${L} ${f(secY)}H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`;
+    g += T(L, secY + 2.1, "DIRECTIVES MÉDICALES & THÉRAPIES REFUSÉES", { fam: x.sans, size: 0.8, weight: 700, fill: x.accent, ls: 0.1 });
+
+    let pX = L;
+    let pY = secY + 3.2;
+    const pillH = s * 2.05;
+    const maxW = RR;
+
+    for (const p of m.carePills) {
+      const b = badgePill(pX, pY, p.text, p.tone, p.icon, x, s * 0.88);
+      if (pX + b.w > maxW && pX > L) {
+        pX = L;
+        pY += pillH + 0.8;
+        const b2 = badgePill(pX, pY, p.text, p.tone, p.icon, x, s * 0.88);
+        g += b2.svg;
+        pX += b2.w + 1.2;
+      } else {
+        g += b.svg;
+        pX += b.w + 1.2;
+      }
+    }
+
+    // Commentaires éventuels
+    if (has(m.comments)) {
+      const cY = pY + pillH + 1.4;
+      g += O.icon("bubble", L, cY - 0.4, 2.0, x.accent, 0.15);
+      const cLines = wrap(`« ${m.comments} »`, RR - L - 3.5, s * 0.9, 2);
+      cLines.forEach((ln, li) => {
+        g += T(L + 3.2, cY + 1.0 + li * s * 1.15, ln, { fam: x.dfam, size: s * 0.9, fill: x.ink, italic: true });
+      });
+    }
+
+    // Bandeau pyrotechnique (sécurité crématoire)
     const pyro = m.pyro;
     const danger = pyro.level === "danger";
     const by = 45.15;
@@ -526,56 +613,86 @@
     return g;
   }
 
-  /** Ligne de données « pictogramme + valeur » ; le dernier élément est tronqué si nécessaire. */
-  function inlineRow(x, items, X, y, maxW, s) {
-    let g = "";
-    let cx = X;
-    const is = s * 1.2;
-    for (const it of items) {
-      if (cx > X + maxW - is) break;
-      g += O.icon(it.icon, cx, y - s * 0.95, is, x.accent, 0.13);
-      cx += is + 0.45;
-      if (has(it.text)) {
-        const fam = it.mono ? x.mono : x.dfam;
-        const t = fit(it.text, X + maxW - cx - (it.mark ? 1.6 : 0), s, fam, 400, s);
-        g += T(cx, y, t.text, { fam, size: s, fill: x.ink });
-        cx += measure(t.text, s, fam, 400) + 0.5;
-      }
-      if (it.mark) { g += O.mark(cx + 0.55, y - s * 0.35, 0.55, it.mark); cx += 1.4; }
-      cx += 1.5;
-    }
-    return g;
-  }
-
-  // ---------------------------------------------------------------- CARTE 1 · VERSO (fin de vie, après-décès, compléments)
+  // ---------------------------------------------------------------- CARTE 1 · VERSO
   function card1Verso(x) {
     const c = x.data;
     const fw = c.funeral_wills || {};
-    const mm = c.multimedia_memorial || {};
     const { m, s, colW } = card1Metrics(x);
-    let g = background(x) + guilloche(x, [[71.3, 26, 13]]) + fillets(x);
+    const ind = 2.8;
+    const lh = s * 1.22;
 
-    g += T(L, 5.55, "DERNIÈRES VOLONTÉS", { fam: x.title, size: 1.7, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.22 });
-    g += T(RR, 5.45, "Loi du 20 juillet 1971 sur les funérailles et sépultures", { fam: x.body, size: 0.9, fill: x.muted, anchor: "end", italic: true });
+    let g = background(x) + guilloche(x, [[42.8, 26, 17]]) + fillets(x);
+
+    // En-tête
+    g += T(L, 5.55, "DERNIÈRES VOLONTÉS & DISPOSITIONS LÉGALES", { fam: x.title, size: 1.6, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.2 });
+    g += T(RR, 5.45, "Loi du 20 juillet 1971 · Funérailles & Sépultures", { fam: x.body, size: 0.85, fill: x.muted, anchor: "end", italic: true });
     g += goldRule(x, L, RR, 6.85);
 
-    g += renderMatrix(x, m.versoRows, L, GEO.verso.rowsY, 3.85);
+    // Filet séparateur vertical entre les deux colonnes
+    g += `<path d="M42.75 8.2V43.5" stroke="url(#${x.p}-gold)" stroke-width=".12" stroke-dasharray="1.2 .6"/>`;
 
-    g += `<path d="M${L} ${f(GEO.verso.flowY - 0.45)}H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`;
-    g += renderFlow(x, flowLayout(m.versoFlow, s, x.dfam, colW, GEO.verso.flowH, 2), L, GEO.verso.flowY, colW, 1.6, s);
+    // Colonne 1 (Gauche : Volontés Funéraires & Sépulture)
+    const col1X = L;
+    g += T(col1X, 8.8, "VOLONTÉS FUNÉRAIRES & SÉPULTURE", { fam: x.sans, size: 0.76, weight: 700, fill: x.accent, ls: 0.1 });
 
-    // Bande inférieure : multimédia scellé, permis, cible NFC
+    let y1 = 10.2;
+    for (const it of m.col1) {
+      if (y1 > 43.5) break;
+      g += O.icon(it.icon, col1X, y1, 1.8, x.accent, 0.15);
+      const lines = wrap(it.text, colW - ind, s, 3);
+      lines.forEach((ln, li) => {
+        g += T(col1X + ind, y1 + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink, weight: li === 0 && it.name === "Sépulture" ? 600 : 400 });
+      });
+      y1 += lines.length * lh + s * 0.35;
+    }
+
+    // Colonne 2 (Droite : Fin de vie, Parole essentielle & Mémorial)
+    const col2X = 44.0;
+    g += T(col2X, 8.8, "FIN DE VIE, PAROLE & MÉMORIAL", { fam: x.sans, size: 0.76, weight: 700, fill: x.accent, ls: 0.1 });
+
+    let y2 = 10.2;
+    for (const it of m.col2.slice(0, 3)) {
+      if (y2 > 43.5) break;
+      g += O.icon(it.icon, col2X, y2, 1.8, x.accent, 0.15);
+      const lines = wrap(it.text, colW - ind, s, 2);
+      lines.forEach((ln, li) => {
+        g += T(col2X + ind, y2 + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink });
+      });
+      y2 += lines.length * lh + s * 0.35;
+    }
+
+    // Cartouche d'Honneur : Parole Essentielle
+    if (has(m.essential)) {
+      const qLines = wrap(`« ${m.essential} »`, colW - 4.5, s * 0.98, 4);
+      const cartH = qLines.length * (lh * 1.05) + 4.8;
+      g += `<rect x="${f(col2X)}" y="${f(y2)}" width="${f(colW)}" height="${f(cartH)}" rx="1.0" fill="${rgba(x.accent, x.dark ? 0.14 : 0.08)}" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
+      g += T(col2X + colW / 2, y2 + 2.0, "✦ PAROLE ESSENTIELLE ✦", { fam: x.sans, size: 0.72, weight: 700, fill: x.accent, anchor: "middle", ls: 0.15 });
+      qLines.forEach((ln, li) => {
+        g += T(col2X + colW / 2, y2 + 3.8 + li * (lh * 1.05), ln, { fam: x.body, size: s * 0.98, fill: x.ink, anchor: "middle", italic: true });
+      });
+      y2 += cartH + 1.2;
+    }
+
+    // Multimédia & compléments
+    for (const it of m.col2.slice(3)) {
+      if (y2 > 43.5) break;
+      g += O.icon(it.icon, col2X, y2, 1.8, x.accent, 0.15);
+      const lines = wrap(it.text, colW - ind, s, 2);
+      lines.forEach((ln, li) => {
+        g += T(col2X + ind, y2 + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink });
+      });
+      y2 += lines.length * lh + s * 0.35;
+    }
+
+    // Filet et bande inférieure : Permis légal et cible NFC
     g += goldRule(x, L, RR - 6.5, 44.5);
-    const ac = mm.audio_choice || {};
-    const media = [
-      { icon: "camera", text: `${mm.photo_count || 0}` },
-      { icon: "mic", text: ac.has_voice_memo ? `${ac.voice_memo_duration_sec || 0} s` : "—" },
-      { icon: "music", text: (mm.chosen_music || {}).title || "—" }
-    ];
-    g += inlineRow(x, media, L, 46.85, RR - L - 7, s);
     const lv = fw.legal_validation || {};
-    g += inlineRow(x, [{ icon: "doc", text: lv.permit_number || "—", mono: true }], L, 49.55, RR - L - 7, s * 0.9);
+    g += O.icon("doc", L, 45.6, 2.0, x.accent, 0.15);
+    g += T(L + 2.6, 47.0, `Permis n° ${lv.permit_number || "PERMIS-EN-COURS"}`, { fam: x.mono, size: s * 0.92, fill: x.ink });
+    g += T(L + 2.6, 49.5, `Scellé COSE_Sign1 ES256 · JavaCard ACOSJ 92 Ko`, { fam: x.sans, size: 0.76, fill: x.muted });
+
     g += O.nfcTarget(RR - 2.9, 47.4, 2.8, x.accent);
+    g += T(RR - 6.2, 47.7, "13,56 MHz", { fam: x.mono, size: 0.75, fill: x.muted, anchor: "end" });
     return g;
   }
 
@@ -585,6 +702,7 @@
     const r = card1Metrics(x);
     return { size: r.s, pt: r.s / 0.3528, overflow: r.overflow };
   }
+
 
   /** Légende des pictogrammes de la Carte 1 (application, B.A.T. et prompts). */
   function card1Legend() {
