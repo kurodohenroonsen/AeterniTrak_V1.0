@@ -6,11 +6,11 @@
   "description": "AeterniTrak V1.0 — Traçabilité décentralisée & filière de sarcomusation",
   "scripts": {
     "test": "node qa/harness/run.mjs",
-    "check:consistency": "node qa/consistency/check.mjs"
+    "check:consistency": "node qa/consistency/check.mjs",
+    "test:paxstudio": "node apps/paxstudio-design/tests/rules.test.mjs"
   },
   "dependencies": {},
   "devDependencies": {
     "ajv": "8.20.0"
   }
 }
-

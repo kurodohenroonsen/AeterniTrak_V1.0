@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PaxStudio Design · AeterniTrak</title>
+  <meta name="description" content="Application 1 (DEC-AET-08) — conception, personnalisation et B.A.T. des deux cartes ID-1 AeterniTrak, et saisie du PAVS.">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" class="brand-mark" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width=".6"/><path d="M9 7.5a6 6 0 0 1 0 9M12 6a8 8 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+      <div>
+        <strong>PaxStudio Design</strong>
+        <span>AeterniTrak · Application 1</span>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Espaces de travail">
+      <button role="tab" class="tab active" data-tab="card1" aria-selected="true">Carte 1 · Volontés</button>
+      <button role="tab" class="tab" data-tab="card2" aria-selected="false">Carte 2 · Mémorial</button>
+      <button role="tab" class="tab" data-tab="pavs" aria-selected="false">PAVS · Mes volontés</button>
+    </nav>
+    <div class="case-picker">
+      <label for="caseSelect" class="sr-only">Cas de test ou PAVS enregistré</label>
+      <select id="caseSelect"></select>
+      <button class="btn primary" id="btnNewPavs" title="Créer un PAVS vierge">＋ Ajouter un PAVS</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- ============================================================ PANNEAU LATÉRAL -->
+    <aside class="sidebar" id="sidebar" aria-label="Personnalisation en direct">
+      <section class="status-card" id="statusCard" aria-live="polite"></section>
+      <section class="mini-preview" id="miniPreview" aria-label="Aperçu en direct de la Carte 1"></section>
+
+      <details class="panel" open>
+        <summary>Identité</summary>
+        <div class="fields">
+          <label>Nom et prénom<input data-bind="civil_identity.full_name" autocomplete="off"></label>
+          <div class="row">
+            <label>Naissance<input type="date" data-bind="civil_identity.birth_date"></label>
+            <label>Genre<select data-bind="civil_identity.gender"><option value="">—</option><option value="F">F</option><option value="M">M</option><option value="X">X</option></select></label>
+          </div>
+          <label>Commune de naissance<input data-bind="civil_identity.birth_place"></label>
+          <label>NISS <small id="nissHint" class="hint"></small><input data-bind="civil_identity.national_id_niss" inputmode="numeric" placeholder="AA.MM.JJ-SSS.CC"></label>
+          <label>Médecin référent<input data-bind="civil_identity.certifying_physician.name"></label>
+          <label>INAMI<input data-bind="civil_identity.certifying_physician.inami"></label>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Directives &amp; sécurité</summary>
+        <div class="fields">
+          <label>Je désire être<select data-bind="funeral_wills.burial_mode" data-type="number" class="burial-select"></select></label>
+          <p class="notice sarco-notice" hidden></p>
+          <label class="check"><input type="checkbox" data-bind="medical_record.has_pacemaker" data-type="bool"> Stimulateur cardiaque / DAI</label>
+          <div class="sub" data-show="medical_record.has_pacemaker">
+            <label>Modèle<input data-bind="medical_record.pacemaker_details"></label>
+            <label class="check"><input type="checkbox" data-bind="medical_record.pacemaker_exeresis.certified_removed" data-type="bool"> PV d'exérèse scellé</label>
+            <div class="sub" data-show="medical_record.pacemaker_exeresis.certified_removed">
+              <label>Chirurgien / thanatopracteur<input data-bind="medical_record.pacemaker_exeresis.surgeon_name"></label>
+              <label>INAMI<input data-bind="medical_record.pacemaker_exeresis.surgeon_inami"></label>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" data-bind="medical_record.has_radioisotopes" data-type="bool"> Radio-isotopes actifs (I-125)</label>
+          <label>Risque biologique<select data-bind="medical_record.biological_hazard_level" data-type="number">
+            <option value="0">0 · Standard</option><option value="1">1 · Hygiène renforcée</option>
+            <option value="2">2 · Cercueil zingué (Biohazard 2)</option><option value="3">3 · Alerte prion (CE 999/2001)</option>
+          </select></label>
+          <label>Cérémonie · rite<input data-bind="funeral_wills.ceremony_nature" list="riteList"></label>
+          <label>Destination<input data-bind="funeral_wills.residue_destination"></label>
+          <label>Cercueil<input data-bind="funeral_wills.coffin_material"></label>
+          <label>Épitaphe (Carte 1)<textarea rows="2" data-design="epitaph"></textarea></label>
+        </div>
+      </details>
+
+      <details class="panel" open data-only="card2">
+        <summary>Mémorial &amp; acoustique</summary>
+        <div class="fields">
+          <label>Années de vie<input data-design="years"></label>
+          <label>Citation mémorielle<textarea rows="2" data-design="quote"></textarea></label>
+          <label>Œuvre musicale<input data-bind="multimedia_memorial.chosen_music.title" list="musicList"></label>
+          <label>Ambiance<select data-bind="multimedia_memorial.audio_choice.ambient_preset">
+            <option value="A_MAJOR_CELESTIAL">Nappe céleste · La majeur 440 Hz</option>
+            <option value="REQUIEM_FAURE">Requiem de Fauré · Ré mineur</option>
+            <option value="BACH_SUITE">Suite de Bach · Sol majeur</option>
+          </select></label>
+          <div class="row">
+            <label>Mémo vocal (s)<input type="number" min="0" max="120" data-bind="multimedia_memorial.audio_choice.voice_memo_duration_sec" data-type="number"></label>
+            <label>Photos<input type="number" min="0" max="5" data-bind="multimedia_memorial.photo_count" data-type="number"></label>
+          </div>
+          <label>Extrait du message vocal<textarea rows="2" data-design="voiceExtract"></textarea></label>
+          <div class="row">
+            <label>Exemplaire n°<input type="number" min="1" data-design="exemplaire"></label>
+            <label>Sur<input type="number" min="1" data-bind="multimedia_memorial.audience_cards_count" data-type="number"></label>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Design</summary>
+        <div class="fields">
+          <span class="field-label">Matériau</span>
+          <div class="swatches" id="materialSwatches" role="radiogroup" aria-label="Matériau"></div>
+          <div data-only="card2">
+            <span class="field-label">Gabarit mémorial</span>
+            <div class="segmented" id="layoutButtons" role="radiogroup" aria-label="Gabarit">
+              <button data-layout="A" title="Majestueux">A</button><button data-layout="B" title="Diptyque">B</button>
+              <button data-layout="C" title="Triptyque">C</button><button data-layout="D" title="Mosaïque">D</button>
+              <button data-layout="E" title="Typographie pure">E</button>
+            </div>
+            <small class="hint" id="layoutName"></small>
+          </div>
+          <div class="row">
+            <label>Titres<select data-design="fontTitle" class="font-select"></select></label>
+            <label>Texte<select data-design="fontBody" class="font-select"></select></label>
+          </div>
+          <label>Taille des polices <output data-out="fontScale"></output><input type="range" min="0.85" max="1.15" step="0.01" data-design="fontScale"></label>
+          <div class="row">
+            <label>Dorure<input type="color" data-design="gold"></label>
+            <label>Insigne<select data-design="emblem"><option value="dove">Colombe ciselée</option><option value="oak">Rameau de chêne</option></select></label>
+          </div>
+          <label>Opacité guilloches <output data-out="guillocheOpacity"></output><input type="range" min="0" max="0.8" step="0.01" data-design="guillocheOpacity"></label>
+          <label>Densité guilloches <output data-out="guillocheDensity"></output><input type="range" min="1" max="10" step="1" data-design="guillocheDensity"></label>
+          <label class="check" data-only="card2"><input type="checkbox" data-design="pulse"> Pulsation de l'onde sonore</label>
+          <div class="portrait-field">
+            <span class="field-label">Portrait (EF-2 · WebP 480×480 ≤ 20 480 o)</span>
+            <div class="row">
+              <label class="btn file">Choisir une photo<input type="file" accept="image/*" id="portraitInput" hidden></label>
+              <button class="btn ghost" id="btnPortraitClear">Camée vectoriel</button>
+            </div>
+            <small class="hint" id="portraitInfo">Aucun portrait : camée vectoriel.</small>
+          </div>
+        </div>
+      </details>
+    </aside>
+
+    <!-- ============================================================ SCÈNE -->
+    <main class="stage" id="stage">
+      <div class="toolbar" id="cardToolbar">
+        <div class="segmented" role="radiogroup" aria-label="Mode d'affichage">
+          <button data-view="side" class="on">Recto · Verso</button>
+          <button data-view="flip">Retournement 3D</button>
+        </div>
+        <label class="check"><input type="checkbox" id="chkCrop"> Traits de coupe 5 mm</label>
+        <label class="check"><input type="checkbox" id="chkSafe"> Zone de sécurité 3 mm</label>
+        <label class="zoom">Zoom <input type="range" id="zoom" min="0.6" max="1.6" step="0.05" value="1"></label>
+        <span class="spacer"></span>
+        <button class="btn" id="btnSvgRecto">SVG recto</button>
+        <button class="btn" id="btnSvgVerso">SVG verso</button>
+        <button class="btn primary" id="btnPrint">Imprimer le B.A.T.</button>
+      </div>
+
+      <div class="canvas" id="canvas">
+        <div class="faces side" id="faces">
+          <figure class="face"><figcaption>Recto</figcaption><div class="card-holder" id="holderRecto"></div></figure>
+          <figure class="face"><figcaption>Verso</figcaption><div class="card-holder" id="holderVerso"></div></figure>
+        </div>
+        <div class="flip-wrap" id="flipWrap" hidden>
+          <button class="flipper" id="flipper" aria-label="Retourner la carte">
+            <span class="flip-face front" id="flipFront"></span>
+            <span class="flip-face back" id="flipBack"></span>
+          </button>
+          <p class="hint">Cliquez sur la carte pour la retourner.</p>
+        </div>
+        <p class="spec-line">ISO/IEC 7810 ID-1 · 85,60 × 53,98 mm · angles r 3,18 mm · rendu 100 % vectoriel · puce NFC sans contact uniquement (ni puce à contacts, ni code-barres)</p>
+      </div>
+
+      <!-- ============================================================ PAVS -->
+      <section class="pavs" id="pavsView" hidden aria-labelledby="pavsTitle">
+        <header class="pavs-head">
+          <div>
+            <p class="eyebrow">Plan anticipé de volontés et soins</p>
+            <h1 id="pavsTitle">Ajouter un PAVS <span>(mes volontés)</span></h1>
+          </div>
+          <div class="pavs-actions">
+            <button class="btn" id="btnPavsSave">Enregistrer dans « Mes PAVS »</button>
+            <button class="btn" id="btnPavsExport">Exporter JSON</button>
+            <label class="btn file">Importer JSON<input type="file" accept="application/json,.json" id="pavsImport" hidden></label>
+            <button class="btn primary" id="btnPavsPrint">Télécharger / imprimer</button>
+          </div>
+        </header>
+
+        <div class="pavs-sheet">
+          <section class="attention">
+            <h2>Cinq points d'attention</h2>
+            <ol>
+              <li>Ce document est théoriquement le résumé de votre Projet de soins personnalisé et anticipé (PSPA), conservé chez vous, chez un tiers ou par une institution. Si tel est le cas, merci d’indiquer le lieu de conservation du PSPA (vos coordonnées, celles d’un tiers ou d’une institution) :
+                <input data-bind="pavs_record.conservation_place" class="inline-input" aria-label="Lieu de conservation du PSPA"></li>
+              <li>À tout moment, vous avez la possibilité de modifier votre PSPA et votre PAVS.</li>
+              <li>Le PSPA et le PAVS ne sont utiles que si vous n’êtes plus en capacité de vous exprimer.</li>
+              <li>Il est conseillé de compléter ce document en concertation avec un professionnel de la santé et/ou un proche.</li>
+              <li>Nous vous conseillons de télécharger ce document, car celui-ci ne sera plus accessible sur le Réseau Santé Wallon après le décès.
+                <span class="vault-note">La puce NFC de la Carte 1 en conserve une copie scellée après le décès.</span></li>
+            </ol>
+          </section>
+
+          <section class="pavs-block">
+            <h2>Mes données administratives</h2>
+            <h3>Mes coordonnées</h3>
+            <div class="grid4">
+              <label>Nom et prénom<input data-bind="civil_identity.full_name"></label>
+              <label>Téléphone<input type="tel" data-bind="civil_identity.phone"></label>
+              <label>Numéro de registre national<input data-bind="civil_identity.national_id_niss" inputmode="numeric"><small class="hint niss-hint"></small></label>
+              <label>Genre<select data-bind="civil_identity.gender"><option value="">—</option><option value="F">Femme</option><option value="M">Homme</option><option value="X">X</option></select></label>
+            </div>
+            <div class="grid4 tight">
+              <label>Date de naissance<input type="date" data-bind="civil_identity.birth_date"></label>
+              <label>Lieu de naissance<input data-bind="civil_identity.birth_place"></label>
+            </div>
+
+            <h3>Institution(s) et/ou personne(s) à contacter (nom et tél.)</h3>
+            <div class="contacts">
+              <fieldset><legend>Institution(s) (maison de repos, hôpital de référence…)</legend>
+                <input data-bind="pavs_record.institution.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.institution.phone" placeholder="Téléphone"></fieldset>
+              <fieldset><legend>Médecin traitant</legend>
+                <input data-bind="civil_identity.certifying_physician.name" placeholder="Nom"><input data-bind="civil_identity.certifying_physician.inami" placeholder="INAMI"><input type="tel" data-bind="civil_identity.certifying_physician.phone" placeholder="Téléphone"></fieldset>
+              <fieldset><legend>Personne(s) à contacter</legend>
+                <input data-bind="pavs_record.contact_person.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.contact_person.phone" placeholder="Téléphone"></fieldset>
+              <fieldset><legend>Mandataire (pour les soins de santé)</legend>
+                <input data-bind="pavs_record.health_proxy.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.health_proxy.phone" placeholder="Téléphone"></fieldset>
+              <fieldset><legend>Mandataire extrajudiciaire</legend>
+                <input data-bind="pavs_record.extrajudicial_proxy.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.extrajudicial_proxy.phone" placeholder="Téléphone"></fieldset>
+              <fieldset><legend>Personne(s) de confiance</legend>
+                <input data-bind="pavs_record.trusted_person.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.trusted_person.phone" placeholder="Téléphone"></fieldset>
+              <fieldset><legend>Administrateur de biens et/ou de la personne</legend>
+                <input data-bind="pavs_record.property_administrator.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.property_administrator.phone" placeholder="Téléphone"></fieldset>
+            </div>
+          </section>
+
+          <section class="pavs-block">
+            <h2>Mon projet de soins <small>(à cocher)</small></h2>
+            <div class="q">
+              <span class="q-label">Projet global (intensité des soins)</span>
+              <div class="choices" data-radio="pavs_record.care_intensity" data-other="true">
+                <label><input type="radio" value="Soins curatifs complets, réanimation comprise"> Soins curatifs complets, réanimation comprise</label>
+                <label><input type="radio" value="Soins actifs mesurés"> Soins actifs mesurés</label>
+                <label><input type="radio" value="Soins de confort"> Soins de confort</label>
+                <label><input type="radio" value="Soins palliatifs et confort"> Soins palliatifs et confort</label>
+                <label class="other"><input type="radio" value="__other"> Autre : <input class="other-text" aria-label="Autre intensité de soins"></label>
+              </div>
+            </div>
+            <div class="q">
+              <span class="q-label">Thérapies refusées</span>
+              <div class="sub-q">
+                <span>Alimentation artificielle :</span>
+                <div class="choices inline" data-radio="pavs_record.refused_therapies.artificial_nutrition" data-type="tristate">
+                  <label><input type="radio" value="true"> Je refuse</label>
+                  <label><input type="radio" value="false"> J'accepte</label>
+                  <label><input type="radio" value="null"> Sans avis</label>
+                </div>
+              </div>
+              <div class="sub-q">
+                <span>Aide à la respiration :</span>
+                <div class="choices inline" data-radio="pavs_record.refused_therapies.mechanical_ventilation" data-type="tristate">
+                  <label><input type="radio" value="true"> Je refuse</label>
+                  <label><input type="radio" value="false"> J'accepte</label>
+                  <label><input type="radio" value="null"> Sans avis</label>
+                </div>
+              </div>
+              <label class="sub-q">Autre(s) refus<input data-bind="pavs_record.refused_therapies.other_refusals"></label>
+            </div>
+            <div class="q">
+              <span class="q-label">À soins égaux je préfère être</span>
+              <div class="choices inline" data-radio="pavs_record.preferred_care_setting">
+                <label><input type="radio" value="Lieu de vie habituel (domicile)"> Dans mon lieu de vie habituel</label>
+                <label><input type="radio" value="Établissement hospitalier"> À l'hôpital</label>
+              </div>
+            </div>
+            <label class="q"><span class="q-label">Types d’hospitalisations acceptés</span><input data-bind="pavs_record.accepted_hospitalizations" list="hospList"></label>
+            <label class="q"><span class="q-label">Commentaires</span><textarea rows="2" data-bind="pavs_record.comments"></textarea></label>
+          </section>
+
+          <section class="pavs-block">
+            <h2>Mes souhaits de fin de vie</h2>
+            <div class="q">
+              <span class="q-label">Pour ma fin de vie, je préfère – si possible – être dans mon lieu de vie habituel :</span>
+              <div class="choices inline" data-radio="pavs_record.preferred_end_of_life_place">
+                <label><input type="radio" value="Lieu de vie habituel (domicile)"> Oui</label>
+                <label><input type="radio" value="Établissement hospitalier"> Non</label>
+              </div>
+            </div>
+            <div class="q">
+              <span class="q-label">Je désire un accompagnement (plusieurs choix possibles) :</span>
+              <div class="choices" data-list="pavs_record.desired_support.types">
+                <label><input type="checkbox" value="Familial"> Familial</label>
+                <label><input type="checkbox" value="Médical et palliatif"> Médical et palliatif</label>
+                <label><input type="checkbox" value="Psychologique"> Psychologique</label>
+                <label><input type="checkbox" value="Laïque"> Laïque / philosophique</label>
+                <label><input type="checkbox" value="Religieux ou spirituel"> Religieux ou spirituel</label>
+                <label><input type="checkbox" value="Bénévoles de soins palliatifs"> Bénévoles de soins palliatifs</label>
+              </div>
+              <small class="hint list-extra"></small>
+            </div>
+            <label class="q"><span class="q-label">A propos de mon accompagnement, je souhaite en particulier :</span><textarea rows="2" data-bind="pavs_record.desired_support.special_wishes"></textarea></label>
+            <label class="q"><span class="q-label">Pour moi, l’essentiel c’est :</span><textarea rows="2" data-bind="pavs_record.essential_priority"></textarea></label>
+            <label class="q"><span class="q-label">Mes autres souhaits :</span><textarea rows="2" data-bind="pavs_record.other_wishes"></textarea></label>
+          </section>
+
+          <section class="pavs-block">
+            <h2>Mes volontés pour l’après-décès</h2>
+            <div class="q">
+              <span class="q-label">J’accepte de donner mes organes :</span>
+              <div class="choices inline" data-radio="medical_record.organ_donation_status" data-type="number">
+                <label><input type="radio" value="1"> Oui</label>
+                <label><input type="radio" value="3"> Non (opposition expresse)</label>
+                <label><input type="radio" value="2"> Je ne me prononce pas (consentement présumé)</label>
+              </div>
+            </div>
+            <div class="q">
+              <span class="q-label">Je donne mon corps à la science :</span>
+              <div class="choices inline" data-radio="medical_record.body_donation_science" data-type="bool">
+                <label><input type="radio" value="true"> Oui</label>
+                <label><input type="radio" value="false"> Non</label>
+              </div>
+              <small class="hint science-hint" hidden>Transfert impératif vers la Faculté de médecine / l'Institut d'anatomie dans les 48 heures.</small>
+            </div>
+            <label class="q"><span class="q-label">Je désire être :</span><select data-bind="funeral_wills.burial_mode" data-type="number" class="burial-select"></select></label>
+            <p class="notice sarco-notice" hidden></p>
+            <div class="q">
+              <span class="q-label">J'ai un pacemaker :</span>
+              <div class="choices inline" data-radio="medical_record.has_pacemaker" data-type="bool">
+                <label><input type="radio" value="true"> Oui</label>
+                <label><input type="radio" value="false"> Non</label>
+              </div>
+              <p class="notice pyro-notice" hidden></p>
+            </div>
+            <div class="q">
+              <span class="q-label">Je laisse à mes proches le choix de mes obsèques :</span>
+              <div class="choices inline" data-radio="pavs_record.post_mortem_wills.leave_choice_to_relatives" data-type="bool">
+                <label><input type="radio" value="true"> Oui</label>
+                <label><input type="radio" value="false"> Non</label>
+              </div>
+            </div>
+            <div class="q">
+              <span class="q-label">Je souhaite que le(s) rite(s)/rituel(s) suivant(s) (cérémonie, dispersion des cendres...) soi(en)t respecté(s) :</span>
+              <div class="grid2">
+                <label>Cérémonie / rite<input data-bind="funeral_wills.ceremony_nature" list="riteList"></label>
+                <label>Dispersion, dépôt ou sépulture<input data-bind="funeral_wills.residue_destination"></label>
+              </div>
+            </div>
+            <label class="q"><span class="q-label">Coordonnées des pompes funèbres de mon choix :</span><input data-bind="funeral_wills.chosen_funeral_home"></label>
+            <div class="q">
+              <span class="q-label">Je dispose d’une assurance obsèques :</span>
+              <div class="choices inline" data-radio="funeral_wills.has_funeral_insurance" data-type="bool">
+                <label><input type="radio" value="true"> Oui</label>
+                <label><input type="radio" value="false"> Non</label>
+              </div>
+              <input data-bind="pavs_record.post_mortem_wills.funeral_insurance_ref" placeholder="Référence de la police" data-show="funeral_wills.has_funeral_insurance">
+            </div>
+            <label class="q"><span class="q-label">Mes autres souhaits :</span><textarea rows="2" data-bind="pavs_record.post_mortem_wills.other_wishes"></textarea></label>
+          </section>
+          <p class="pavs-foot">Formulaire PAVS · Réseau Santé Wallon · FRATEM asbl © 2026 — saisie locale : aucune donnée ne quitte cet appareil.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <datalist id="riteList">
+    <option value="Laïque et philosophique"><option value="Culte catholique (Messe de funérailles)"><option value="Culte protestant">
+    <option value="Culte orthodoxe"><option value="Culte musulman (Prière Janazah)"><option value="Culte israélite (Récitation du Kaddish)">
+    <option value="Bouddhiste méditatif"><option value="Libre au choix des proches">
+  </datalist>
+  <datalist id="musicList">
+    <option value="Requiem Fauré"><option value="Suite Bach Violoncelle"><option value="La Maj 440 Hz"><option value="Ave Maria Schubert"><option value="Adagio Albinoni"><option value="Silence recueilli">
+  </datalist>
+  <datalist id="hospList">
+    <option value="Toutes hospitalisations"><option value="Hospitalisations de courte durée uniquement"><option value="Soins de confort uniquement"><option value="Refus total d'hospitalisation">
+  </datalist>
+
+  <!-- Feuille d'impression (remplie à la demande) -->
+  <div id="printSheet" class="print-sheet" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data/paxfunebre_44_test_cases.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/ornaments.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
