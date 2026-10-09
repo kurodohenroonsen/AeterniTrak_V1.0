@@ -45,7 +45,7 @@
     zoom: 1,
     flipped: false,
     design: {
-      material: "ivoire", fontTitle: "cinzel", fontBody: "cormorant", fontScale: 1, gold: C.MATERIALS.ivoire.accent,
+      material: "ivoire", fontTitle: "cinzel", fontBody: "cormorant", fontData: "inter", fontScale: 1, gold: C.MATERIALS.ivoire.accent,
       guillocheOpacity: 0.35, guillocheDensity: 5, emblem: "dove", layout: "A", pulse: true,
       portrait: null, portraitBytes: 0, exemplaire: 1, epitaph: "", years: "", quote: "", voiceExtract: "", fingerprint: ""
     }
@@ -84,11 +84,13 @@
   // ------------------------------------------------------------ cohérence du dossier
   /** Recopie les champs miroir (post_mortem_wills, libellés) et recalcule le statut B.A.T. */
   function syncMirrors(c) {
+    R.syncOfficial(R.normalizePavs(c));
     const mode = R.burialMode(c.funeral_wills.burial_mode);
     c.funeral_wills.burial_mode_label = mode.label;
     const pm = c.pavs_record.post_mortem_wills = c.pavs_record.post_mortem_wills || {};
     pm.organ_donation = Number(c.medical_record.organ_donation_status) === 1;
     pm.body_donation_science = !!c.medical_record.body_donation_science;
+    c.funeral_wills.ceremony_nature = c.funeral_wills.ceremony_nature || "";
     pm.burial_desire = mode.label;
     pm.burial_destination = c.funeral_wills.residue_destination;
     pm.has_pacemaker = !!c.medical_record.has_pacemaker;
@@ -121,12 +123,9 @@
 
   function selectCase(id) {
     const src = allCases().find(c => c.id === id) || state.cases[0];
-    state.data = clone(src);
-    // Normalisation des champs ajoutés par le formulaire PAVS
+    state.data = R.normalizePavs(clone(src));
+    state.pristine = clone(state.data);
     const pr = state.data.pavs_record;
-    pr.post_mortem_wills = pr.post_mortem_wills || {};
-    pr.desired_support = pr.desired_support || { types: [], special_wishes: "" };
-    pr.refused_therapies = pr.refused_therapies || { artificial_nutrition: null, mechanical_ventilation: null, other_refusals: "" };
     const mm = state.data.multimedia_memorial;
     const d = state.design;
     d.epitaph = mm.epitaph || "";
@@ -138,6 +137,7 @@
     $("#caseSelect").value = state.data.id;
     syncMirrors(state.data);
     refreshInputs();
+    renderAnnexes();
     refresh();
   }
 
@@ -220,8 +220,13 @@
     });
     $$("[data-list]").forEach(group => {
       group.querySelectorAll("input").forEach(i => i.addEventListener("change", () => {
-        const list = (getPath(state.data, group.dataset.list) || []).filter(v => v !== i.value);
-        if (i.checked) list.push(i.value);
+        const excl = group.dataset.exclusive;
+        let list = (getPath(state.data, group.dataset.list) || []).filter(v => v !== i.value);
+        if (i.checked) {
+          // « Aucun » efface les autres choix, et inversement (comportement du formulaire officiel).
+          list = i.value === excl ? [] : list.filter(v => v !== excl);
+          list.push(i.value);
+        }
         setPath(state.data, group.dataset.list, list);
         dataChanged(i);
       }));
@@ -240,6 +245,7 @@
   }
 
   function dataChanged(source) {
+    if (!state.data) return;
     syncMirrors(state.data);
     refreshInputs(source);
     persistIfMine();
@@ -344,6 +350,13 @@
         <table>${ef.map(([id, label, q]) => `<tr><td>${id}</td><td>${label}</td><td>${id === "EF-2" && portrait ? `${portrait.toLocaleString("fr-BE")} / ` : ""}${q.toLocaleString("fr-BE")} o</td></tr>`).join("")}
         <tr class="total"><td colspan="2">Utile · réserve 5 632 o (6,11 %)</td><td>86 528 / 92 160 o</td></tr></table>
       </details>`;
+    const rep = C.card1Report(c, state.design);
+    const warnings = R.pavsWarnings(c);
+    $("#statusCard").insertAdjacentHTML("beforeend", `
+      <p class="density ${rep.overflow.length ? "danger" : rep.pt < 3.4 ? "warn" : "ok"}">Carte 1 · corps unique ${rep.size.toFixed(2).replace(".", ",")} mm (≈ ${rep.pt.toFixed(1).replace(".", ",")} pt)${rep.overflow.length ? ` · tronqué : ${escapeHtml(rep.overflow.join(", "))}` : " · toutes les données affichées"}${!rep.overflow.length && rep.pt < 3.4 ? " · micro-texte : lecture à la loupe" : ""}</p>
+      ${warnings.length ? `<ul class="warnings">${warnings.map(w => `<li class="${w.level}">${escapeHtml(w.text)}</li>`).join("")}</ul>` : ""}`);
+    const pw = $("#pavsWarnings");
+    if (pw) pw.innerHTML = warnings.map(w => `<li class="${w.level}">${escapeHtml(w.text)}</li>`).join("");
     const hint = niss.valid ? "✓ modulo 97" : ci.national_id_niss ? `✗ ${niss.reason}` : "";
     $$("#nissHint, .niss-hint").forEach(h => { h.textContent = hint; h.className = `hint ${niss.valid ? "ok" : "danger"} ${h.id ? "" : "niss-hint"}`; });
   }
@@ -458,6 +471,7 @@
         <svg class="ps-ruler" xmlns="http://www.w3.org/2000/svg" width="100mm" height="6mm" viewBox="0 0 100 6">
           <path d="M0 5.5H100${Array.from({ length: 11 }, (_, i) => `M${i * 10} 5.5V${i % 5 ? 3 : 1}`).join("")}" stroke="#000" stroke-width=".15" fill="none"/>
         </svg>
+        ${card === 1 ? `<div class="ps-legend"><strong>Légende des pictogrammes</strong>${$("#legend").innerHTML}</div>` : ""}
         <p class="ps-foot">Échelle 1:1 — la règle doit mesurer exactement 100 mm et chaque carte 85,60 × 53,98 mm (imprimer à 100 %, sans « ajuster à la page »). Traits de coupe 5 mm, fond perdu 2 mm${state.safe ? ", zone de sécurité 3 mm (cyan)" : ""}, ligne de découpe magenta. Rendu vectoriel : résolution ≥ 300 DPI garantie par l'imprimante.</p>
       </div>`;
     document.body.classList.add("printing-bat");
@@ -465,52 +479,61 @@
   }
 
   function printPavs() {
-    const c = state.data;
+    const c = syncMirrors(state.data);
     const ci = c.civil_identity;
     const pr = c.pavs_record;
+    const care = pr.care;
     const pm = pr.post_mortem_wills || {};
-    const yn = v => (v === true ? "Oui" : v === false ? "Non" : "—");
-    const refuse = v => (v === true ? "Je refuse" : v === false ? "J'accepte" : "Sans avis");
+    const P = R.PAVS;
+    const box = on => (on ? "☒" : "☐");
+    const opt = (list, cur) => list.map(([v, l]) => `${box(String(cur) === String(v))} ${l}`).join("   ");
     const contact = o => (o && (o.name || o.phone) ? `${o.name || ""}${o.phone ? " · " + o.phone : ""}` : "—");
-    const don = { 1: "Oui", 3: "Non (opposition expresse)", 2: "Je ne me prononce pas" }[Number(c.medical_record.organ_donation_status)] || "—";
-    const row = (q, a) => `<tr><th>${escapeHtml(q)}</th><td>${escapeHtml(a == null || a === "" ? "—" : a)}</td></tr>`;
-    const mode = R.burialMode(c.funeral_wills.burial_mode);
+    const row = (q, a) => `<tr><th>${escapeHtml(q)}</th><td>${a == null || a === "" ? "—" : a}</td></tr>`;
+    const t = v => escapeHtml(v || "");
+    const yesNoX = [["Oui", "Oui"], ["Non", "Non"], ["X", "Sans préférence"]];
+    const phy = ci.certifying_physician || {};
     $("#printSheet").innerHTML = `
       <div class="ps-page pavs-print">
-        <h1>PAVS — Plan anticipé de volontés et soins</h1>
-        <p class="ps-sub">Résumé du Projet de soins personnalisé et anticipé (PSPA) · enregistré le ${C.shortDate(pr.registered_date)}</p>
+        <h1>Ajouter un PAVS (mes volontés)</h1>
+        <p class="ps-sub">Plan anticipé de volontés et soins · Réseau Santé Wallon · date d'enregistrement : ${C.shortDate(pr.registered_date)}</p>
         <h2>Cinq points d'attention</h2>
         <ol class="ps-attention">
-          <li>Lieu de conservation du PSPA : <strong>${escapeHtml(pr.conservation_place || "—")}</strong></li>
+          <li>Résumé de votre PSPA — lieu de conservation : <strong>${t(pr.conservation_place) || "—"}</strong></li>
           <li>À tout moment, vous avez la possibilité de modifier votre PSPA et votre PAVS.</li>
           <li>Le PSPA et le PAVS ne sont utiles que si vous n’êtes plus en capacité de vous exprimer.</li>
           <li>Il est conseillé de compléter ce document en concertation avec un professionnel de la santé et/ou un proche.</li>
-          <li>Ce document ne sera plus accessible sur le Réseau Santé Wallon après le décès : conservez cette copie.</li>
+          <li>Ce document ne sera plus accessible sur le Réseau Santé Wallon après le décès : conservez-en une copie.</li>
         </ol>
         <h2>Mes données administratives</h2>
-        <table>${row("Nom et prénom", ci.full_name)}${row("Téléphone", ci.phone)}${row("Numéro de registre national", ci.national_id_niss)}${row("Genre", ci.gender)}
-          ${row("Institution(s)", contact(pr.institution))}${row("Médecin traitant", contact({ name: (ci.certifying_physician || {}).name, phone: (ci.certifying_physician || {}).phone }))}
-          ${row("Personne(s) à contacter", contact(pr.contact_person))}${row("Mandataire (soins de santé)", contact(pr.health_proxy))}
-          ${row("Mandataire extrajudiciaire", contact(pr.extrajudicial_proxy))}${row("Personne(s) de confiance", contact(pr.trusted_person))}
-          ${row("Administrateur de biens et/ou de la personne", contact(pr.property_administrator))}</table>
+        <table>${row("Nom et prénom", t(ci.full_name))}${row("Téléphone", t(ci.phone))}${row("Numéro de registre national", t(ci.national_id_niss))}
+          ${row("Genre", opt([["M", "Homme"], ["F", "Femme"]], ci.gender))}
+          ${row("Institution(s)", t(contact(pr.institution)))}${row("Médecin traitant", t(contact(phy)) + (phy.inami ? ` · INAMI ${t(phy.inami)}` : ""))}
+          ${row("Personne(s) à contacter", t(contact(pr.contact_person)))}${row("Mandataire (pour les soins de santé)", t(contact(pr.health_proxy)))}
+          ${row("Mandataire extrajudiciaire", t(contact(pr.extrajudicial_proxy)))}${row("Personne(s) de confiance", t(contact(pr.trusted_person)))}
+          ${row("Administrateur de biens et/ou de la personne", t(contact(pr.property_administrator)))}</table>
         <h2>Mon projet de soins</h2>
-        <table>${row("Projet global (intensité des soins)", pr.care_intensity)}
-          ${row("Alimentation artificielle", refuse(pr.refused_therapies.artificial_nutrition))}${row("Aide à la respiration", refuse(pr.refused_therapies.mechanical_ventilation))}
-          ${pr.refused_therapies.other_refusals ? row("Autre(s) refus", pr.refused_therapies.other_refusals) : ""}
-          ${row("À soins égaux je préfère être", pr.preferred_care_setting)}${row("Types d’hospitalisations acceptés", pr.accepted_hospitalizations)}${row("Commentaires", pr.comments)}</table>
+        <table>${row("Projet global (intensité des soins)", `${opt(P.INTENSITY.map(i => [i.id, i.label]), care.intensity)}   ${box(care.comfort)} Soins de confort/palliatifs   ${box(care.euthanasia_declaration)} Déclaration anticipée d’euthanasie signée`)}
+          ${row("Thérapies refusées", P.REFUSALS.map(r => `${box(care.refusals.includes(r.id))} ${r.group === "nutrition" ? "Alimentation artificielle — " : r.group === "respiration" ? "Aide à la respiration — " : ""}${r.label}`).join("<br>"))}
+          ${row("À soins égaux je préfère être", P.SETTINGS.map(x => `${box(care.settings.includes(x.id))} ${x.label}`).join("   "))}
+          ${row("Types d’hospitalisations acceptés", `${opt([["avec", "Hospitalisation avec réanimation"], ["sans", "Hospitalisation sans réanimation"]], care.reanimation)}   ${box(care.exceptional_hospitalization)} Hospitalisation exceptionnelle (fracture, occlusion, etc.)`)}
+          ${row("Commentaires", t(pr.comments))}</table>
         <h2>Mes souhaits de fin de vie</h2>
-        <table>${row("Fin de vie dans mon lieu de vie habituel", pr.preferred_end_of_life_place ? (pr.preferred_end_of_life_place.startsWith("Lieu de vie") ? "Oui" : "Non") : "")}
-          ${row("Accompagnement désiré", (pr.desired_support.types || []).join(", "))}${row("À propos de mon accompagnement", pr.desired_support.special_wishes)}
-          ${row("Pour moi, l’essentiel c’est", pr.essential_priority)}${row("Mes autres souhaits", pr.other_wishes)}</table>
+        <table>${row("Pour ma fin de vie, je préfère – si possible – être dans mon lieu de vie habituel", opt(yesNoX, pr.eol_at_home))}
+          ${row("Je désire un accompagnement", P.SUPPORT.map(x => `${box(pr.desired_support.choices.includes(x.id))} ${x.label}`).join("   "))}
+          ${row("A propos de mon accompagnement, je souhaite en particulier", t(pr.desired_support.special_wishes))}
+          ${row("Pour moi, l’essentiel c’est", t(pr.essential_priority))}${row("Mes autres souhaits", t(pr.other_wishes))}</table>
         <h2>Mes volontés pour l’après-décès</h2>
-        <table>${row("J’accepte de donner mes organes", don)}${row("Je donne mon corps à la science", yn(!!c.medical_record.body_donation_science))}
-          ${row("Je désire être", mode.label + (R.isSarco(mode.id) ? " — " + R.SARCO_NOTICE : ""))}${row("J'ai un pacemaker", yn(!!c.medical_record.has_pacemaker) + (c.medical_record.has_pacemaker ? " — " + R.pyroStatus(c).title : ""))}
-          ${row("Je laisse à mes proches le choix de mes obsèques", yn(pm.leave_choice_to_relatives))}
-          ${row("Rite(s) / rituel(s) à respecter", [c.funeral_wills.ceremony_nature, c.funeral_wills.residue_destination].filter(Boolean).join(" · "))}
-          ${row("Pompes funèbres de mon choix", c.funeral_wills.chosen_funeral_home)}
-          ${row("Assurance obsèques", yn(!!c.funeral_wills.has_funeral_insurance) + (pm.funeral_insurance_ref ? " · " + pm.funeral_insurance_ref : ""))}
-          ${row("Mes autres souhaits", pm.other_wishes)}</table>
-        <p class="ps-foot">Formulaire PAVS · Réseau Santé Wallon · FRATEM asbl © 2026 · Copie générée par PaxStudio Design (AeterniTrak) · Signature : ______________________ Date : ____________</p>
+        <table>${row("J’accepte de donner mes organes", opt([[1, "Oui"], [3, "Non"], [2, "Sans préférence"]], c.medical_record.organ_donation_status))}
+          ${row("Je donne mon corps à la science", opt(yesNoX, pm.body_donation))}
+          ${row("Je désire être", opt(P.DISPOSITION.map(d => [d.id, d.label]), pm.body_disposition))}
+          ${row("J'ai un pacemaker", opt([[true, "Oui"], [false, "Non"]], !!c.medical_record.has_pacemaker))}
+          ${row("Je laisse à mes proches le choix de mes obsèques", opt([[true, "Oui"], [false, "Non"]], pm.leave_choice_to_relatives))}
+          ${row("Rite(s)/rituel(s) à respecter", t(pm.rites))}${row("Coordonnées des pompes funèbres de mon choix", t(c.funeral_wills.chosen_funeral_home))}
+          ${row("Je dispose d’une assurance obsèques", opt([[true, "Oui"], [false, "Non"]], !!c.funeral_wills.has_funeral_insurance) + (pm.funeral_insurance_ref ? ` · ${t(pm.funeral_insurance_ref)}` : ""))}
+          ${row("Mes autres souhaits", t(pm.other_wishes))}</table>
+        <h2>Annexe(s) éventuelle(s)</h2>
+        <p>${(pr.attachments || []).length ? pr.attachments.map(a => t(a.name)).join(" · ") : "Aucune"}</p>
+        <p class="ps-foot">Formulaire conçu par UNESSA · copie générée par PaxStudio Design (AeterniTrak) · Signature : ______________________ Date : ____________</p>
       </div>`;
     document.body.classList.add("printing-bat");
     window.print();
@@ -542,6 +565,7 @@
       state.data = clone(copy);
     }
     const ok = persistSaved();
+    state.pristine = clone(state.data);
     populateSelect();
     $("#caseSelect").value = state.data.id;
     toast(ok ? "PAVS enregistré dans « Mes PAVS » (sur cet appareil)." : "Stockage local indisponible : exportez le PAVS en JSON pour le conserver.");
@@ -569,6 +593,58 @@
     reader.readAsText(file);
   }
 
+  // ------------------------------------------------------------ fiches didactiques (modales)
+  function openFiche(id) {
+    const tpl = document.getElementById(`fiche-${id}`);
+    if (!tpl) return;
+    $("#ficheTitle").textContent = tpl.dataset.title;
+    const body = $("#ficheBody");
+    body.innerHTML = "";
+    body.appendChild(tpl.content.cloneNode(true));
+    const dlg = $("#ficheDialog");
+    if (typeof dlg.showModal === "function") dlg.showModal();
+    else dlg.setAttribute("open", "");
+    body.scrollTop = 0;
+  }
+
+  // ------------------------------------------------------------ annexes (3 fichiers, 6 Mo, extensions du formulaire officiel)
+  function addAnnexes(files) {
+    const list = state.data.pavs_record.attachments = state.data.pavs_record.attachments || [];
+    const refused = [];
+    for (const file of files) {
+      const ext = (file.name.split(".").pop() || "").toLowerCase();
+      const total = list.reduce((a, b) => a + b.size, 0);
+      if (!R.PAVS.ATTACHMENTS_EXT.includes(ext)) refused.push(`${file.name} (extension)`);
+      else if (list.length >= R.PAVS.ATTACHMENTS_MAX) refused.push(`${file.name} (3 annexes maximum)`);
+      else if (total + file.size > R.PAVS.ATTACHMENTS_MAX_BYTES) refused.push(`${file.name} (6 Mo dépassés)`);
+      else list.push({ name: file.name, size: file.size, type: file.type || ext });
+    }
+    if (refused.length) toast(`Non ajouté : ${refused.join(", ")}`);
+    renderAnnexes();
+    dataChanged();
+  }
+
+  function renderAnnexes() {
+    const list = (state.data && state.data.pavs_record.attachments) || [];
+    const total = list.reduce((a, b) => a + b.size, 0);
+    const mo = n => (n / 1048576).toFixed(2).replace(".", ",");
+    $("#annexCount").textContent = `Pièces jointes : ${list.length} sur ${R.PAVS.ATTACHMENTS_MAX}`;
+    $("#annexSize").textContent = `${mo(total)} Mo / 6,00 Mo`;
+    $("#annexBar").style.width = `${Math.min(100, (total / R.PAVS.ATTACHMENTS_MAX_BYTES) * 100)}%`;
+    $("#annexList").innerHTML = list.map((a, i) => `<li><span>${escapeHtml(a.name)}</span><small>${mo(a.size)} Mo</small><button type="button" class="btn ghost" data-annex="${i}" aria-label="Retirer ${escapeHtml(a.name)}">Retirer</button></li>`).join("");
+  }
+
+  // ------------------------------------------------------------ légende des pictogrammes
+  function renderLegend() {
+    const O = window.PaxOrnaments;
+    const ico = name => `<svg viewBox="0 0 24 24" class="lg-icon" aria-hidden="true"><path d="${O.ICONS[name]}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const mk = kind => `<svg viewBox="-1.2 -1.2 2.4 2.4" class="lg-mark" aria-hidden="true">${O.mark(0, 0, 1, kind)}</svg>`;
+    $("#legend").innerHTML = C.card1Legend().map(g => `<section><h4>${escapeHtml(g.group)}</h4><ul>` +
+      (g.items || []).map(([i, l]) => `<li>${ico(i)}<span>${escapeHtml(l)}</span></li>`).join("") +
+      (g.marks || []).map(([k, l]) => `<li>${mk(k)}<span>${escapeHtml(l)}</span></li>`).join("") + `</ul></section>`).join("") +
+      `<p class="hint">Pictogramme estompé : case non cochée.</p>`;
+  }
+
   // ------------------------------------------------------------ navigation & interface
   function setTab(tab) {
     state.tab = tab;
@@ -577,6 +653,7 @@
     $("#canvas").hidden = tab === "pavs";
     $("#cardToolbar").hidden = tab === "pavs";
     $$("[data-only=card2]").forEach(el => { el.hidden = tab !== "card2"; });
+    $$("[data-only=card1]").forEach(el => { el.hidden = tab !== "card1"; });
     refresh();
   }
 
@@ -635,7 +712,36 @@
     $("#btnSvgVerso").addEventListener("click", () => exportSvg("verso"));
     $("#btnPrint").addEventListener("click", printBat);
     $("#btnPavsPrint").addEventListener("click", printPavs);
-    $("#btnPavsSave").addEventListener("click", savePavs);
+    $("#btnPavsPublish").addEventListener("click", () => {
+      state.data.pavs_record.registered_date = new Date().toISOString().slice(0, 10);
+      savePavs();
+      refreshInputs();
+    });
+    $("#btnPavsCancel").addEventListener("click", () => {
+      if (!state.pristine) return;
+      state.data = clone(state.pristine);
+      syncMirrors(state.data);
+      refreshInputs();
+      renderAnnexes();
+      scheduleRender();
+      toast("Modifications annulées.");
+    });
+    $("#annexInput").addEventListener("change", e => { addAnnexes(Array.from(e.target.files)); e.target.value = ""; });
+    $("#annexList").addEventListener("click", e => {
+      const b = e.target.closest("[data-annex]");
+      if (!b) return;
+      state.data.pavs_record.attachments.splice(Number(b.dataset.annex), 1);
+      renderAnnexes();
+      dataChanged();
+    });
+    document.addEventListener("click", e => {
+      const ask = e.target.closest(".ask[data-fiche]");
+      if (!ask) return;
+      e.preventDefault();
+      openFiche(ask.dataset.fiche);
+    });
+    $("#ficheClose").addEventListener("click", () => $("#ficheDialog").close());
+    $("#ficheDialog").addEventListener("click", e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
     $("#btnPavsExport").addEventListener("click", () => {
       download(`PAVS_${slug(state.data.civil_identity.full_name || state.data.id)}.json`, JSON.stringify(syncMirrors(state.data), null, 2), "application/json");
     });
@@ -670,6 +776,7 @@
   // ------------------------------------------------------------ démarrage
   document.addEventListener("DOMContentLoaded", () => {
     buildControls();
+    renderLegend();
     bindInputs();
     bindUi();
     populateSelect();

@@ -71,7 +71,6 @@
           <label>Cérémonie · rite<input data-bind="funeral_wills.ceremony_nature" list="riteList"></label>
           <label>Destination<input data-bind="funeral_wills.residue_destination"></label>
           <label>Cercueil<input data-bind="funeral_wills.coffin_material"></label>
-          <label>Épitaphe (Carte 1)<textarea rows="2" data-design="epitaph"></textarea></label>
         </div>
       </details>
 
@@ -116,6 +115,7 @@
             <label>Titres<select data-design="fontTitle" class="font-select"></select></label>
             <label>Texte<select data-design="fontBody" class="font-select"></select></label>
           </div>
+          <label>Données Carte 1<select data-design="fontData" class="font-select"></select></label>
           <label>Taille des polices <output data-out="fontScale"></output><input type="range" min="0.85" max="1.15" step="0.01" data-design="fontScale"></label>
           <div class="row">
             <label>Dorure<input type="color" data-design="gold"></label>
@@ -133,6 +133,10 @@
             <small class="hint" id="portraitInfo">Aucun portrait : camée vectoriel.</small>
           </div>
         </div>
+      </details>
+      <details class="panel" data-only="card1">
+        <summary>Légende des pictogrammes</summary>
+        <div class="legend" id="legend"></div>
       </details>
     </aside>
 
@@ -171,31 +175,32 @@
       <section class="pavs" id="pavsView" hidden aria-labelledby="pavsTitle">
         <header class="pavs-head">
           <div>
-            <p class="eyebrow">Plan anticipé de volontés et soins</p>
+            <p class="eyebrow">Réseau Santé Wallon · Plan anticipé de volontés et soins</p>
             <h1 id="pavsTitle">Ajouter un PAVS <span>(mes volontés)</span></h1>
           </div>
           <div class="pavs-actions">
-            <button class="btn" id="btnPavsSave">Enregistrer dans « Mes PAVS »</button>
             <button class="btn" id="btnPavsExport">Exporter JSON</button>
             <label class="btn file">Importer JSON<input type="file" accept="application/json,.json" id="pavsImport" hidden></label>
-            <button class="btn primary" id="btnPavsPrint">Télécharger / imprimer</button>
+            <button class="btn" id="btnPavsPrint">Télécharger / imprimer</button>
           </div>
         </header>
 
         <div class="pavs-sheet">
-          <section class="attention">
+          <!-- 1 · Cinq points d'attention -->
+          <section class="pavs-block attention">
             <h2>Cinq points d'attention</h2>
             <ol>
               <li>Ce document est théoriquement le résumé de votre Projet de soins personnalisé et anticipé (PSPA), conservé chez vous, chez un tiers ou par une institution. Si tel est le cas, merci d’indiquer le lieu de conservation du PSPA (vos coordonnées, celles d’un tiers ou d’une institution) :
                 <input data-bind="pavs_record.conservation_place" class="inline-input" aria-label="Lieu de conservation du PSPA"></li>
               <li>À tout moment, vous avez la possibilité de modifier votre PSPA et votre PAVS.</li>
-              <li>Le PSPA et le PAVS ne sont utiles que si vous n’êtes plus en capacité de vous exprimer.</li>
+              <li>Le PSPA et le PAVS ne sont utiles que <u>si vous n’êtes plus en capacité de vous exprimer</u>.</li>
               <li>Il est conseillé de compléter ce document en concertation avec un professionnel de la santé et/ou un proche.</li>
               <li>Nous vous conseillons de télécharger ce document, car celui-ci ne sera plus accessible sur le Réseau Santé Wallon après le décès.
                 <span class="vault-note">La puce NFC de la Carte 1 en conserve une copie scellée après le décès.</span></li>
             </ol>
           </section>
 
+          <!-- 2 · Mes données administratives -->
           <section class="pavs-block">
             <h2>Mes données administratives</h2>
             <h3>Mes coordonnées</h3>
@@ -203,159 +208,332 @@
               <label>Nom et prénom<input data-bind="civil_identity.full_name"></label>
               <label>Téléphone<input type="tel" data-bind="civil_identity.phone"></label>
               <label>Numéro de registre national<input data-bind="civil_identity.national_id_niss" inputmode="numeric"><small class="hint niss-hint"></small></label>
-              <label>Genre<select data-bind="civil_identity.gender"><option value="">—</option><option value="F">Femme</option><option value="M">Homme</option><option value="X">X</option></select></label>
-            </div>
-            <div class="grid4 tight">
-              <label>Date de naissance<input type="date" data-bind="civil_identity.birth_date"></label>
-              <label>Lieu de naissance<input data-bind="civil_identity.birth_place"></label>
+              <div class="q"><span class="q-label small">Genre</span>
+                <div class="choices inline" data-radio="civil_identity.gender">
+                  <label><input type="radio" value="M"> Homme</label>
+                  <label><input type="radio" value="F"> Femme</label>
+                </div>
+              </div>
             </div>
 
-            <h3>Institution(s) et/ou personne(s) à contacter (nom et tél.)</h3>
+            <h3>Institution(s) et/ou personne(s) à contacter (nom et tél.) <button type="button" class="ask" data-fiche="representation" aria-label="Fiche didactique : représentation">?</button></h3>
             <div class="contacts">
-              <fieldset><legend>Institution(s) (maison de repos, hôpital de référence…)</legend>
-                <input data-bind="pavs_record.institution.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.institution.phone" placeholder="Téléphone"></fieldset>
-              <fieldset><legend>Médecin traitant</legend>
-                <input data-bind="civil_identity.certifying_physician.name" placeholder="Nom"><input data-bind="civil_identity.certifying_physician.inami" placeholder="INAMI"><input type="tel" data-bind="civil_identity.certifying_physician.phone" placeholder="Téléphone"></fieldset>
-              <fieldset><legend>Personne(s) à contacter</legend>
-                <input data-bind="pavs_record.contact_person.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.contact_person.phone" placeholder="Téléphone"></fieldset>
-              <fieldset><legend>Mandataire (pour les soins de santé)</legend>
-                <input data-bind="pavs_record.health_proxy.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.health_proxy.phone" placeholder="Téléphone"></fieldset>
-              <fieldset><legend>Mandataire extrajudiciaire</legend>
-                <input data-bind="pavs_record.extrajudicial_proxy.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.extrajudicial_proxy.phone" placeholder="Téléphone"></fieldset>
-              <fieldset><legend>Personne(s) de confiance</legend>
-                <input data-bind="pavs_record.trusted_person.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.trusted_person.phone" placeholder="Téléphone"></fieldset>
-              <fieldset><legend>Administrateur de biens et/ou de la personne</legend>
-                <input data-bind="pavs_record.property_administrator.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.property_administrator.phone" placeholder="Téléphone"></fieldset>
+              <div class="contact-col">
+                <fieldset><legend>Institution(s) (maison de repos, hôpital de référence...)</legend>
+                  <input data-bind="pavs_record.institution.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.institution.phone" placeholder="Tél."></fieldset>
+                <fieldset><legend>Médecin traitant</legend>
+                  <input data-bind="civil_identity.certifying_physician.name" placeholder="Nom"><input type="tel" data-bind="civil_identity.certifying_physician.phone" placeholder="Tél."><input data-bind="civil_identity.certifying_physician.inami" placeholder="INAMI (complément)"></fieldset>
+                <fieldset><legend>Personne(s) à contacter</legend>
+                  <input data-bind="pavs_record.contact_person.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.contact_person.phone" placeholder="Tél."></fieldset>
+              </div>
+              <div class="contact-col">
+                <fieldset><legend>Mandataire (pour les soins de santé)</legend>
+                  <input data-bind="pavs_record.health_proxy.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.health_proxy.phone" placeholder="Tél."></fieldset>
+                <fieldset><legend>Mandataire extrajudiciaire</legend>
+                  <input data-bind="pavs_record.extrajudicial_proxy.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.extrajudicial_proxy.phone" placeholder="Tél."></fieldset>
+                <fieldset><legend>Personne(s) de confiance</legend>
+                  <input data-bind="pavs_record.trusted_person.name" placeholder="Nom(s)"><input type="tel" data-bind="pavs_record.trusted_person.phone" placeholder="Tél."></fieldset>
+                <fieldset><legend>Administrateur de biens et/ou de la personne</legend>
+                  <input data-bind="pavs_record.property_administrator.name" placeholder="Nom"><input type="tel" data-bind="pavs_record.property_administrator.phone" placeholder="Tél."></fieldset>
+              </div>
             </div>
           </section>
 
+          <!-- 3 · Mon projet de soins -->
           <section class="pavs-block">
-            <h2>Mon projet de soins <small>(à cocher)</small></h2>
-            <div class="q">
-              <span class="q-label">Projet global (intensité des soins)</span>
-              <div class="choices" data-radio="pavs_record.care_intensity" data-other="true">
-                <label><input type="radio" value="Soins curatifs complets, réanimation comprise"> Soins curatifs complets, réanimation comprise</label>
-                <label><input type="radio" value="Soins actifs mesurés"> Soins actifs mesurés</label>
-                <label><input type="radio" value="Soins de confort"> Soins de confort</label>
-                <label><input type="radio" value="Soins palliatifs et confort"> Soins palliatifs et confort</label>
-                <label class="other"><input type="radio" value="__other"> Autre : <input class="other-text" aria-label="Autre intensité de soins"></label>
-              </div>
-            </div>
-            <div class="q">
-              <span class="q-label">Thérapies refusées</span>
-              <div class="sub-q">
-                <span>Alimentation artificielle :</span>
-                <div class="choices inline" data-radio="pavs_record.refused_therapies.artificial_nutrition" data-type="tristate">
-                  <label><input type="radio" value="true"> Je refuse</label>
-                  <label><input type="radio" value="false"> J'accepte</label>
-                  <label><input type="radio" value="null"> Sans avis</label>
+            <h2>Mon projet de soins (à cocher)</h2>
+            <div class="care-grid">
+              <div>
+                <div class="q">
+                  <span class="q-label">Projet global (intensité des soins) <button type="button" class="ask" data-fiche="soins" aria-label="Fiche didactique : type de soins">?</button></span>
+                  <div class="choices" data-radio="pavs_record.care.intensity">
+                    <label><input type="radio" value="max"> Soins maximums</label>
+                    <label><input type="radio" value="usual"> Soins usuels</label>
+                  </div>
+                  <div class="choices">
+                    <label><input type="checkbox" data-bind="pavs_record.care.comfort" data-type="bool"> Soins de confort/palliatifs</label>
+                    <label><input type="checkbox" data-bind="pavs_record.care.euthanasia_declaration" data-type="bool"> Déclaration anticipée d’euthanasie signée
+                      <button type="button" class="ask" data-fiche="euthanasie" aria-label="Fiche didactique : euthanasie">?</button></label>
+                  </div>
+                </div>
+                <div class="q">
+                  <span class="q-label">Thérapies refusées</span>
+                  <div class="choices" data-list="pavs_record.care.refusals">
+                    <label><input type="checkbox" value="ANTIBIOTHERAPIE"> Antibiothérapie</label>
+                    <label><input type="checkbox" value="PERFUSION_HYDRATANTE"> Perfusion hydratante</label>
+                    <p class="sub-title">Alimentation artificielle : <button type="button" class="ask" data-fiche="alimentation" aria-label="Fiche didactique : alimentation artificielle">?</button></p>
+                    <div class="sub-checks">
+                      <label><input type="checkbox" value="ALIM_ENTERALE"> Entérale (sonde par le nez)</label>
+                      <label><input type="checkbox" value="ALIM_PARENTERALE"> Parentérale (en intraveineuse)</label>
+                      <label><input type="checkbox" value="ALIM_GASTROSTOMIE"> Par sonde de gastrostomie (dans le ventre)</label>
+                    </div>
+                    <label><input type="checkbox" value="DIALYSE"> Dialyse</label>
+                    <p class="sub-title">Aide à la respiration : <button type="button" class="ask" data-fiche="respiration" aria-label="Fiche didactique : aide à la respiration">?</button></p>
+                    <div class="sub-checks">
+                      <label><input type="checkbox" value="OXYGENOTHERAPIE"> Oxygénothérapie</label>
+                      <label><input type="checkbox" value="VNI"> Ventilation non invasive (VNI)</label>
+                      <label><input type="checkbox" value="INTUBATION"> Intubation</label>
+                    </div>
+                    <label><input type="checkbox" value="SEDATION_PALLIATIVE"> Sédation palliative <button type="button" class="ask" data-fiche="sedation" aria-label="Fiche didactique : sédation">?</button></label>
+                    <label><input type="checkbox" value="ALTERATION_CONSCIENCE"> Traitement altérant l’état de conscience</label>
+                  </div>
                 </div>
               </div>
-              <div class="sub-q">
-                <span>Aide à la respiration :</span>
-                <div class="choices inline" data-radio="pavs_record.refused_therapies.mechanical_ventilation" data-type="tristate">
-                  <label><input type="radio" value="true"> Je refuse</label>
-                  <label><input type="radio" value="false"> J'accepte</label>
-                  <label><input type="radio" value="null"> Sans avis</label>
+              <div>
+                <div class="q">
+                  <span class="q-label">À soins égaux je préfère être</span>
+                  <div class="choices" data-list="pavs_record.care.settings">
+                    <label><input type="checkbox" value="DOMICILE"> à mon domicile</label>
+                    <label><input type="checkbox" value="INSTITUTION"> dans mon institution</label>
+                    <label><input type="checkbox" value="HOPITAL"> à l’hôpital</label>
+                    <label><input type="checkbox" value="USP"> en unité de soins palliatifs</label>
+                  </div>
                 </div>
+                <div class="q">
+                  <span class="q-label">Types d’hospitalisations acceptés</span>
+                  <div class="choices" data-radio="pavs_record.care.reanimation">
+                    <label><input type="radio" value="avec"> Hospitalisation <b>avec</b> réanimation</label>
+                    <label><input type="radio" value="sans"> Hospitalisation <b>sans</b> réanimation</label>
+                  </div>
+                  <div class="choices">
+                    <label><input type="checkbox" data-bind="pavs_record.care.exceptional_hospitalization" data-type="bool"> Hospitalisation exceptionnelle (fracture, occlusion, etc.)</label>
+                  </div>
+                </div>
+                <label class="q"><span class="q-label">Commentaires</span><textarea rows="4" data-bind="pavs_record.comments"></textarea></label>
               </div>
-              <label class="sub-q">Autre(s) refus<input data-bind="pavs_record.refused_therapies.other_refusals"></label>
             </div>
-            <div class="q">
-              <span class="q-label">À soins égaux je préfère être</span>
-              <div class="choices inline" data-radio="pavs_record.preferred_care_setting">
-                <label><input type="radio" value="Lieu de vie habituel (domicile)"> Dans mon lieu de vie habituel</label>
-                <label><input type="radio" value="Établissement hospitalier"> À l'hôpital</label>
-              </div>
-            </div>
-            <label class="q"><span class="q-label">Types d’hospitalisations acceptés</span><input data-bind="pavs_record.accepted_hospitalizations" list="hospList"></label>
-            <label class="q"><span class="q-label">Commentaires</span><textarea rows="2" data-bind="pavs_record.comments"></textarea></label>
           </section>
 
+          <!-- 4 · Mes souhaits de fin de vie -->
           <section class="pavs-block">
             <h2>Mes souhaits de fin de vie</h2>
             <div class="q">
               <span class="q-label">Pour ma fin de vie, je préfère – si possible – être dans mon lieu de vie habituel :</span>
-              <div class="choices inline" data-radio="pavs_record.preferred_end_of_life_place">
-                <label><input type="radio" value="Lieu de vie habituel (domicile)"> Oui</label>
-                <label><input type="radio" value="Établissement hospitalier"> Non</label>
+              <div class="choices inline" data-radio="pavs_record.eol_at_home">
+                <label><input type="radio" value="Oui"> Oui</label>
+                <label><input type="radio" value="Non"> Non</label>
+                <label><input type="radio" value="X"> Sans préférence</label>
               </div>
             </div>
             <div class="q">
               <span class="q-label">Je désire un accompagnement (plusieurs choix possibles) :</span>
-              <div class="choices" data-list="pavs_record.desired_support.types">
-                <label><input type="checkbox" value="Familial"> Familial</label>
-                <label><input type="checkbox" value="Médical et palliatif"> Médical et palliatif</label>
-                <label><input type="checkbox" value="Psychologique"> Psychologique</label>
-                <label><input type="checkbox" value="Laïque"> Laïque / philosophique</label>
-                <label><input type="checkbox" value="Religieux ou spirituel"> Religieux ou spirituel</label>
-                <label><input type="checkbox" value="Bénévoles de soins palliatifs"> Bénévoles de soins palliatifs</label>
+              <div class="choices inline" data-list="pavs_record.desired_support.choices" data-exclusive="AUCUN">
+                <label><input type="checkbox" value="PSYCHOLOGIQUE"> Psychologique</label>
+                <label><input type="checkbox" value="PHILOSOPHIQUE"> Philosophique</label>
+                <label><input type="checkbox" value="RELIGIEUX"> Religieux</label>
+                <label><input type="checkbox" value="SPIRITUEL"> Spirituel</label>
+                <label><input type="checkbox" value="AUTRE"> Autre</label>
+                <label><input type="checkbox" value="AUCUN"> Aucun <button type="button" class="ask info" data-fiche="aucun" aria-label="Information : option Aucun">i</button></label>
               </div>
-              <small class="hint list-extra"></small>
             </div>
-            <label class="q"><span class="q-label">A propos de mon accompagnement, je souhaite en particulier :</span><textarea rows="2" data-bind="pavs_record.desired_support.special_wishes"></textarea></label>
-            <label class="q"><span class="q-label">Pour moi, l’essentiel c’est :</span><textarea rows="2" data-bind="pavs_record.essential_priority"></textarea></label>
-            <label class="q"><span class="q-label">Mes autres souhaits :</span><textarea rows="2" data-bind="pavs_record.other_wishes"></textarea></label>
+            <div class="grid3">
+              <label class="q"><span class="q-label">A propos de mon accompagnement, je souhaite en particulier :</span><textarea rows="3" data-bind="pavs_record.desired_support.special_wishes"></textarea></label>
+              <label class="q"><span class="q-label">Pour moi, l’essentiel c’est :</span><textarea rows="3" data-bind="pavs_record.essential_priority"></textarea></label>
+              <label class="q"><span class="q-label">Mes autres souhaits :</span><textarea rows="3" data-bind="pavs_record.other_wishes"></textarea></label>
+            </div>
           </section>
 
+          <!-- 5 · Mes volontés pour l'après-décès -->
           <section class="pavs-block">
-            <h2>Mes volontés pour l’après-décès</h2>
-            <div class="q">
-              <span class="q-label">J’accepte de donner mes organes :</span>
-              <div class="choices inline" data-radio="medical_record.organ_donation_status" data-type="number">
-                <label><input type="radio" value="1"> Oui</label>
-                <label><input type="radio" value="3"> Non (opposition expresse)</label>
-                <label><input type="radio" value="2"> Je ne me prononce pas (consentement présumé)</label>
+            <h2>Mes volontés pour l’après-décès <button type="button" class="ask" data-fiche="dons" aria-label="Fiche didactique : don d'organes et de corps">?</button></h2>
+            <div class="care-grid">
+              <div>
+                <div class="q"><span class="q-label">J’accepte de donner mes organes :</span>
+                  <div class="choices inline" data-radio="medical_record.organ_donation_status" data-type="number">
+                    <label><input type="radio" value="1"> Oui</label><label><input type="radio" value="3"> Non</label><label><input type="radio" value="2"> Sans préférence</label>
+                  </div></div>
+                <div class="q"><span class="q-label">Je donne mon corps à la science :</span>
+                  <div class="choices inline" data-radio="pavs_record.post_mortem_wills.body_donation">
+                    <label><input type="radio" value="Oui"> Oui</label><label><input type="radio" value="Non"> Non</label><label><input type="radio" value="X"> Sans préférence</label>
+                  </div></div>
+                <div class="q"><span class="q-label">Je désire être :</span>
+                  <div class="choices inline" data-radio="pavs_record.post_mortem_wills.body_disposition">
+                    <label><input type="radio" value="incinere"> Incinéré(e)</label><label><input type="radio" value="inhume"> Inhumé(e)</label><label><input type="radio" value="X"> Sans préférence</label>
+                  </div></div>
+                <div class="q"><span class="q-label">J'ai un pacemaker :</span>
+                  <div class="choices inline" data-radio="medical_record.has_pacemaker" data-type="bool">
+                    <label><input type="radio" value="true"> Oui</label><label><input type="radio" value="false"> Non</label>
+                  </div>
+                  <p class="notice pyro-notice" hidden></p></div>
+                <div class="q"><span class="q-label">Je laisse à mes proches le choix de mes obsèques :</span>
+                  <div class="choices inline" data-radio="pavs_record.post_mortem_wills.leave_choice_to_relatives" data-type="bool">
+                    <label><input type="radio" value="true"> Oui</label><label><input type="radio" value="false"> Non</label>
+                  </div></div>
+                <label class="q"><span class="q-label">Je souhaite que le(s) rite(s)/rituel(s) suivant(s) (cérémonie, dispersion des cendres...) soi(en)t respecté(s) :</span><textarea rows="3" data-bind="pavs_record.post_mortem_wills.rites"></textarea></label>
+              </div>
+              <div>
+                <label class="q"><span class="q-label">Coordonnées des pompes funèbres de mon choix :</span><textarea rows="3" data-bind="funeral_wills.chosen_funeral_home"></textarea></label>
+                <div class="q"><span class="q-label">Je dispose d’une assurance obsèques :</span>
+                  <div class="choices inline" data-radio="funeral_wills.has_funeral_insurance" data-type="bool">
+                    <label><input type="radio" value="true"> Oui</label><label><input type="radio" value="false"> Non</label>
+                  </div>
+                  <input data-bind="pavs_record.post_mortem_wills.funeral_insurance_ref" placeholder="Référence de la police (complément)" data-show="funeral_wills.has_funeral_insurance"></div>
+                <label class="q"><span class="q-label">Mes autres souhaits :</span><textarea rows="4" data-bind="pavs_record.post_mortem_wills.other_wishes"></textarea></label>
               </div>
             </div>
-            <div class="q">
-              <span class="q-label">Je donne mon corps à la science :</span>
-              <div class="choices inline" data-radio="medical_record.body_donation_science" data-type="bool">
-                <label><input type="radio" value="true"> Oui</label>
-                <label><input type="radio" value="false"> Non</label>
-              </div>
-              <small class="hint science-hint" hidden>Transfert impératif vers la Faculté de médecine / l'Institut d'anatomie dans les 48 heures.</small>
-            </div>
-            <label class="q"><span class="q-label">Je désire être :</span><select data-bind="funeral_wills.burial_mode" data-type="number" class="burial-select"></select></label>
-            <p class="notice sarco-notice" hidden></p>
-            <div class="q">
-              <span class="q-label">J'ai un pacemaker :</span>
-              <div class="choices inline" data-radio="medical_record.has_pacemaker" data-type="bool">
-                <label><input type="radio" value="true"> Oui</label>
-                <label><input type="radio" value="false"> Non</label>
-              </div>
-              <p class="notice pyro-notice" hidden></p>
-            </div>
-            <div class="q">
-              <span class="q-label">Je laisse à mes proches le choix de mes obsèques :</span>
-              <div class="choices inline" data-radio="pavs_record.post_mortem_wills.leave_choice_to_relatives" data-type="bool">
-                <label><input type="radio" value="true"> Oui</label>
-                <label><input type="radio" value="false"> Non</label>
-              </div>
-            </div>
-            <div class="q">
-              <span class="q-label">Je souhaite que le(s) rite(s)/rituel(s) suivant(s) (cérémonie, dispersion des cendres...) soi(en)t respecté(s) :</span>
-              <div class="grid2">
-                <label>Cérémonie / rite<input data-bind="funeral_wills.ceremony_nature" list="riteList"></label>
-                <label>Dispersion, dépôt ou sépulture<input data-bind="funeral_wills.residue_destination"></label>
-              </div>
-            </div>
-            <label class="q"><span class="q-label">Coordonnées des pompes funèbres de mon choix :</span><input data-bind="funeral_wills.chosen_funeral_home"></label>
-            <div class="q">
-              <span class="q-label">Je dispose d’une assurance obsèques :</span>
-              <div class="choices inline" data-radio="funeral_wills.has_funeral_insurance" data-type="bool">
-                <label><input type="radio" value="true"> Oui</label>
-                <label><input type="radio" value="false"> Non</label>
-              </div>
-              <input data-bind="pavs_record.post_mortem_wills.funeral_insurance_ref" placeholder="Référence de la police" data-show="funeral_wills.has_funeral_insurance">
-            </div>
-            <label class="q"><span class="q-label">Mes autres souhaits :</span><textarea rows="2" data-bind="pavs_record.post_mortem_wills.other_wishes"></textarea></label>
           </section>
-          <p class="pavs-foot">Formulaire PAVS · Réseau Santé Wallon · FRATEM asbl © 2026 — saisie locale : aucune donnée ne quitte cet appareil.</p>
+
+          <!-- 6 · Annexe(s) éventuelle(s) -->
+          <section class="pavs-block">
+            <h2>Annexe(s) éventuelle(s)</h2>
+            <div class="annexes">
+              <label class="annex-add" title="Ajouter une pièce jointe">＋<input type="file" id="annexInput" multiple accept=".pdf,.png,.jpeg,.jpg,.bmp,.doc" hidden></label>
+              <p id="annexCount">Pièces jointes : 0 sur 3</p>
+              <div class="annex-bar"><span id="annexBar"></span><em id="annexSize">0,00 Mo / 6,00 Mo</em></div>
+              <p class="hint">Extensions supportées : pdf, png, jpeg, jpg, bmp, doc · les annexes ne sont pas gravées dans la puce (seuls leurs titres figurent sur la carte).</p>
+              <ul class="annex-list" id="annexList"></ul>
+            </div>
+          </section>
+
+          <!-- Compléments AeterniTrak (hors formulaire officiel) -->
+          <section class="pavs-block complements">
+            <h2>Compléments AeterniTrak <small>(hors formulaire officiel · carte & puce)</small></h2>
+            <div class="grid4">
+              <label>Date de naissance<input type="date" data-bind="civil_identity.birth_date"></label>
+              <label>Lieu de naissance<input data-bind="civil_identity.birth_place"></label>
+              <label>Mode de sépulture précis<select data-bind="funeral_wills.burial_mode" data-type="number" class="burial-select"></select></label>
+              <label>Destination<input data-bind="funeral_wills.residue_destination"></label>
+            </div>
+            <p class="notice sarco-notice" hidden></p>
+            <div class="grid4" data-show="medical_record.has_pacemaker">
+              <label>Modèle du stimulateur<input data-bind="medical_record.pacemaker_details"></label>
+              <label class="check-inline"><input type="checkbox" data-bind="medical_record.pacemaker_exeresis.certified_removed" data-type="bool"> PV d'exérèse scellé</label>
+              <label>Chirurgien / thanatopracteur<input data-bind="medical_record.pacemaker_exeresis.surgeon_name"></label>
+              <label>INAMI<input data-bind="medical_record.pacemaker_exeresis.surgeon_inami"></label>
+            </div>
+          </section>
+
+          <div class="pavs-block registration">
+            <label>Date d'enregistrement<input data-bind="pavs_record.registered_date" disabled></label>
+            <p class="unessa">Formulaire conçu par <strong>UNESSA</strong></p>
+          </div>
+          <ul class="pavs-warnings" id="pavsWarnings" aria-live="polite"></ul>
+          <div class="pavs-submit">
+            <button class="btn ghost" id="btnPavsCancel">Annuler</button>
+            <button class="btn primary" id="btnPavsPublish">Publier</button>
+          </div>
+          <p class="pavs-foot">Saisie locale : aucune donnée ne quitte cet appareil.</p>
         </div>
       </section>
     </main>
   </div>
+
+  <!-- ============================================================ FICHES DIDACTIQUES (modales) -->
+  <dialog class="fiche-dialog" id="ficheDialog" aria-labelledby="ficheTitle">
+    <header>
+      <div><p class="eyebrow">PSPA - PAVS · Fiches didactiques</p><h2 id="ficheTitle"></h2></div>
+      <button type="button" class="close" id="ficheClose" aria-label="Fermer">×</button>
+    </header>
+    <div class="fiche-body" id="ficheBody"></div>
+    <footer>Source : PSPA - PAVS, Fiches didactiques, UNESSA, juin 2022 — synthèse à visée informative, qui ne remplace pas l'avis d'un professionnel de la santé.</footer>
+  </dialog>
+
+  <template id="fiche-representation" data-title="Représentation, mandataire & personne de confiance">
+    <p><b>Base :</b> loi du 22 août 2002 relative aux droits du patient. Pour désigner une personne de confiance et/ou un mandataire, il faut être <b>capable</b> d'exercer ces droits.</p>
+    <table>
+      <thead><tr><th></th><th>Mandataire</th><th>Personne de confiance</th></tr></thead>
+      <tbody>
+        <tr><th>Qui ?</th><td>Une seule personne, qui exerce les droits du patient devenu incapable de les exercer lui-même. Elle peut être aussi l'une des personnes de confiance.</td><td>Une ou plusieurs personnes, qui assistent le patient capable dans l'exercice de certains de ses droits.</td></tr>
+        <tr><th>Quand ?</th><td>Lorsque le patient n'est plus capable d'exprimer sa volonté.</td><td>Lorsque le patient est capable d'exercer ses droits.</td></tr>
+        <tr><th>Que fait-elle ?</th><td>Elle exerce les droits du patient en son nom.</td><td>Elle accompagne (visites médicales, informations, consultation du dossier) sans décider à sa place.</td></tr>
+        <tr><th>Procédure</th><td>Mandat écrit (formulaire de désignation), idéalement en trois exemplaires (patient, mandataire, médecin) et enregistré sur le Réseau Santé Wallon. Révocable à tout moment par écrit daté et signé.</td><td>Désignation informelle possible ; un écrit en trois exemplaires est conseillé et peut être enregistré sur le RSW. Révocable à tout moment.</td></tr>
+      </tbody>
+    </table>
+    <h3>Si je ne sais plus exprimer mes volontés : la cascade</h3>
+    <ol class="cascade">
+      <li>Mandataire désigné anticipativement</li><li>Administrateur de la personne désigné par le juge de paix</li>
+      <li>Époux ou partenaire cohabitant</li><li>Enfant majeur</li><li>Parent</li><li>Sœur ou frère majeur(e)</li>
+      <li>Équipe médicale pluridisciplinaire (praticien concerné)</li>
+    </ol>
+    <p>Si je sais exprimer mes volontés, je reste acteur de mes choix de soins ; je peux faire appel à la personne de confiance que j'ai désignée ; le Réseau Santé Wallon peut être consulté. Le mandataire est prioritaire sur l'administrateur pour les soins de santé ; la personne de confiance peut devenir mandataire.</p>
+  </template>
+
+  <template id="fiche-soins" data-title="Type de soins">
+    <div class="trio">
+      <section><h3>Soins maximums (performants)</h3><p>Toute mesure diagnostique ou thérapeutique, y compris la réanimation cardio-pulmonaire et le transfert en unité de soins intensifs si nécessaire. Cela sous-entend d'accepter la réanimation et la respiration artificielle : <b>les autres rubriques du projet de soins ne doivent pas être complétées</b>. Un choix à mûrir avant et après une période de crise.</p></section>
+      <section><h3>Soins usuels</h3><p>Toute mesure diagnostique et thérapeutique disponible facilement et peu envahissante, pratiquée hors réanimation : antibiothérapie classique, alimentation et hydratation artificielles, dialyse, biologie, radiographie… Ce sont aussi les soins possibles en maison de repos et de soins bien encadrée.</p></section>
+      <section><h3>Soins de confort / palliatifs</h3><p>Ensemble des soins apportés au patient à un stade avancé ou terminal d'une maladie grave, évolutive et mettant en péril le pronostic vital, <b>quelle que soit son espérance de vie</b> (loi du 14 juillet 2002, élargie le 21 juillet 2016).</p></section>
+    </div>
+    <h3>Les soins palliatifs</h3>
+    <ul>
+      <li><b>Quoi :</b> une prise en charge multidisciplinaire — physique, psychique, sociale, morale, existentielle et spirituelle. « Palliatif » vient du latin <i>palliare</i>, « couvrir d'un manteau ».</li>
+      <li><b>Pour qui :</b> tout patient dans cette situation, avec un accès égal ; la famille et les proches sont aussi pris en considération, avant et après le décès.</li>
+      <li><b>Quand :</b> dès que le patient est identifié comme palliatif, parfois en parallèle d'un traitement curatif, jusqu'à l'accompagnement des proches après le décès.</li>
+      <li><b>Comment :</b> de manière progressive, selon les besoins et souhaits, pour optimiser la qualité de vie. L'outil PICT (Palliative Care Indicators Tool) aide à identifier le patient palliatif.</li>
+    </ul>
+  </template>
+
+  <template id="fiche-euthanasie" data-title="Déclaration anticipée d'euthanasie">
+    <p>Selon la loi du 28 mai 2002, l'euthanasie est un « acte, pratiqué par un tiers, qui met intentionnellement fin à la vie d'une personne à la demande de celle-ci ». Elle est pratiquée par un médecin dans des conditions très précises. On distingue la demande actuelle de la déclaration anticipée.</p>
+    <table>
+      <thead><tr><th></th><th>Demande actuelle</th><th>Déclaration anticipée</th></tr></thead>
+      <tbody>
+        <tr><th>Auteur</th><td>Patient majeur ou mineur émancipé, capable et conscient (ou mineur doté de discernement).</td><td>Majeur ou mineur émancipé, capable et conscient au moment de la déclaration.</td></tr>
+        <tr><th>Temporalité</th><td>Pour une situation présente.</td><td>Pour une situation future, au cas où.</td></tr>
+        <tr><th>Forme</th><td>Volontaire, réfléchie, répétée, sans pression ; écrite, datée, signée.</td><td>Écrite, datée et signée selon le formulaire de l'arrêté royal du 02/04/2003, devant <b>deux témoins majeurs</b> (dont un sans intérêt matériel au décès), signée aussi par les témoins et l'éventuelle personne de confiance.</td></tr>
+        <tr><th>Conditions médicales</th><td>Affection grave et incurable ; souffrance constante, insupportable, inapaisable (délai d'un mois si le décès n'est pas proche).</td><td>Affection grave et incurable ; personne <b>inconsciente</b> ou en état végétatif irréversible.</td></tr>
+        <tr><th>Avis d'un autre médecin</th><td>Oui (et un troisième si le décès n'est pas proche).</td><td>Oui.</td></tr>
+        <tr><th>Personnes de confiance</th><td>Non prévues.</td><td>Possibles, non obligatoires : elles informent le médecin des volontés.</td></tr>
+        <tr><th>Révocation</th><td>À tout moment.</td><td>Modifiable ou retirée à tout moment tant que la personne peut s'exprimer.</td></tr>
+        <tr><th>Incapacité d'écrire</th><td>Demande actée par un majeur de son choix sans intérêt matériel, en présence du médecin.</td><td>Incapacité physique permanente : déclaration actée par un tiers, devant témoins, avec attestation médicale.</td></tr>
+      </tbody>
+    </table>
+    <p class="callout"><b>Depuis le 2 avril 2020</b>, la déclaration anticipée est à durée illimitée. Rédigée avant cette date, elle n'est prise en compte que si elle a été établie ou confirmée moins de 5 ans avant l'impossibilité de manifester sa volonté ; sinon, il faut la renouveler.</p>
+  </template>
+
+  <template id="fiche-alimentation" data-title="Alimentation artificielle">
+    <p>En cas de difficultés d'alimentation (pathologies gastro-entérologiques, neurologiques, ORL…), l'alimentation est fournie par une poche suspendue à un pied à perfusion et reliée par des tubulures, le plus souvent par pompe (parfois par gravité), souvent la nuit. Une prise en charge infirmière est nécessaire (branchements, pansements).</p>
+    <div class="duo">
+      <section><h3>Parentérale (en intraveineuse)</h3><p>Mélange nutritif par voie intraveineuse ou par port-à-cath, recommandé quand la nutrition entérale n'est pas possible (occlusion, insuffisance intestinale…). Vitamines ou autre perfusion possibles selon prescription.</p></section>
+      <section><h3>Entérale (par sonde)</h3><p>Mélange nutritif directement dans le tube digestif : la digestion se déroule ensuite normalement. Trois sondes :</p>
+        <ul><li><b>naso-gastrique</b> — par le nez jusqu'à l'estomac, sous anesthésie locale ;</li><li><b>gastrostomie</b> — directement dans l'estomac (dans le ventre) ;</li><li><b>jéjunostomie</b> — dans le jéjunum, par une stomie.</li></ul>
+        <p>Gastrostomie et jéjunostomie demandent des soins infirmiers (pansements) et sont posées par endoscopie ou chirurgie.</p></section>
+    </div>
+  </template>
+
+  <template id="fiche-respiration" data-title="Aide à la respiration">
+    <dl class="techs">
+      <dt>Oxygénothérapie</dt><dd>Oxygène à concentration élevée pour prévenir ou traiter l'hypoxémie, sur prescription ; à l'hôpital, en maison de repos et de soins ou, en cas de trouble chronique, à domicile.</dd>
+      <dt>Masque « double trunk »</dt><dd>Améliore l'oxygénation en insuffisance respiratoire aiguë hypoxémique tout en économisant l'oxygène, sans augmenter le CO₂.</dd>
+      <dt>Optiflow</dt><dd>Oxygénothérapie nasale à haut débit, utilisée en réanimation pour éviter l'intubation.</dd>
+      <dt>Ventilation non invasive (VNI)</dt><dd>Un masque relie le patient au respirateur ; presque aussi efficace que la ventilation invasive, avec moins de complications. À l'hôpital, par du personnel formé.</dd>
+      <dt>Intubation (ventilation invasive)</dt><dd>Sonde introduite dans la trachée, reliée à un appareil de respiration artificielle ; surveillance constante en réanimation.</dd>
+      <dt>Trachéotomie</dt><dd>Ouverture de la trachée pour y placer une canule quand l'intubation se prolonge ; temporaire ou définitive.</dd>
+    </dl>
+  </template>
+
+  <template id="fiche-sedation" data-title="Sédation palliative">
+    <p>La sédation (« apaisement ») diminue l'<b>état de conscience</b> par des médicaments pour éviter une souffrance. En soins palliatifs, elle apaise une souffrance physique ou psychique causée par un symptôme réfractaire. Son niveau va de léger (le patient ouvre les yeux à la stimulation) à profond. En extrême fin de vie, elle peut être <b>terminale</b> (profonde et continue).</p>
+    <table>
+      <thead><tr><th></th><th>Sédation terminale</th><th>Euthanasie</th></tr></thead>
+      <tbody>
+        <tr><th>Objectif</th><td>Contrôler le(s) symptôme(s), diminuer la souffrance.</td><td>Mettre fin à la souffrance.</td></tr>
+        <tr><th>Moyen</th><td>Diminuer l'état de conscience.</td><td>Mettre fin à la vie.</td></tr>
+        <tr><th>Demande</th><td>Le patient ; à défaut son représentant, un proche ou l'équipe (concertation).</td><td>Le patient ; à défaut la personne de confiance de sa déclaration anticipée.</td></tr>
+        <tr><th>Procédure</th><td>Guides de bonnes pratiques (pas de législation).</td><td>Procédure de la loi relative à l'euthanasie.</td></tr>
+        <tr><th>Qui pose l'acte</th><td>Médecin, ou infirmier sur prescription.</td><td>Obligatoirement un médecin.</td></tr>
+        <tr><th>Autre médecin</th><td>Non obligatoire, décision pluridisciplinaire.</td><td>Obligatoire.</td></tr>
+        <tr><th>Pronostic vital</th><td>Engagé à très court terme (≤ 2 semaines).</td><td>À court, moyen ou long terme.</td></tr>
+        <tr><th>Réversibilité</th><td>En principe.</td><td>Non.</td></tr>
+      </tbody>
+    </table>
+    <p>Cocher « Sédation palliative » dans les thérapies refusées signifie que vous la <b>refusez</b>.</p>
+  </template>
+
+  <template id="fiche-dons" data-title="Don d'organes, de matériel corporel humain et de corps">
+    <h3>Don d'organes & de matériel corporel humain (MCH)</h3>
+    <p>Loi du 13 juin 1986, fondée sur la <b>solidarité présumée</b>. Depuis juillet 2020, on peut choisir de donner : ses organes pour la transplantation ; du MCH (cellules souches, peau, cornées, tendons…) pour la transplantation ; du MCH pour fabriquer des médicaments ; du MCH pour la recherche. Chacun peut enregistrer son opposition ou son consentement explicite, ce qui évite aux proches de devoir se prononcer.</p>
+    <ul class="remarks"><li>On choisit la <b>finalité</b>, pas les organes.</li><li>Le prélèvement n'a lieu que si le décès survient <b>à l'hôpital</b>.</li><li>Si la famille s'oppose malgré un consentement explicite, l'équipe tente de la convaincre mais ne passe pas outre un refus réitéré.</li></ul>
+    <ol class="steps"><li>Mort cérébrale constatée par trois médecins indépendants.</li><li>Annonce à la famille et prise de connaissance des volontés (registre national, PAVS, PSPA…).</li><li>Constat de l'accord ou de l'absence d'opposition — un refus arrête tout.</li><li>Information des proches de l'intention de prélever.</li><li>Pas d'opposition exprimée — sinon le processus est stoppé.</li><li>Prélèvement.</li></ol>
+    <h3>Don du corps à la science</h3>
+    <p>Pas de réglementation juridique spécifique : chaque université a sa procédure. Le donneur exprime sa volonté dans un document <b>écrit, daté et signé</b> adressé à l'université de son choix et en informe ses proches. Le transfert doit se faire au plus vite, <b>au plus tard dans les 48 h</b> ; les corps décédés hors de Belgique ou autopsiés ne sont pas acceptés.</p>
+    <p>Empêchements : circonstances du décès rendant la conservation impossible (suicide, accident grave…), maladie infectieuse ou contagieuse, délai de 52 h dépassé. Après les travaux anatomiques, les pompes funèbres reprennent le corps pour inhumation ou incinération selon les conditions fixées par le donneur.</p>
+    <p class="callout">Le don d'organes est <b>prioritaire</b> et tout à fait compatible avec le don du corps.</p>
+  </template>
+
+  <template id="fiche-aucun" data-title="Option « Aucun »">
+    <p>Si vous cliquez sur l'option « Aucun », les choix que vous auriez éventuellement sélectionnés s’effaceront.</p>
+  </template>
 
   <datalist id="riteList">
     <option value="Laïque et philosophique"><option value="Culte catholique (Messe de funérailles)"><option value="Culte protestant">

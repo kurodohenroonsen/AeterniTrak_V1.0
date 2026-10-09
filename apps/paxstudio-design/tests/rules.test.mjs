@@ -13,6 +13,9 @@ const ctx = { window: {}, self: {} };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(APP, "js/rules.js"), "utf8"), ctx);
 vm.runInContext(fs.readFileSync(path.join(APP, "data/paxfunebre_44_test_cases.js"), "utf8"), ctx);
+vm.runInContext(fs.readFileSync(path.join(APP, "js/ornaments.js"), "utf8"), ctx);
+vm.runInContext(fs.readFileSync(path.join(APP, "js/cards.js"), "utf8"), ctx);
+const Cards = ctx.self.PaxCards;
 const R = ctx.self.PaxRules;
 const CASES = ctx.window.PAX_TEST_CASES;
 
@@ -63,6 +66,51 @@ check("Prion × humusation bloqué", R.batStatus({ ...base, funeral_wills: { ...
   medical_record: { ...base.medical_record, biological_hazard_level: 3 } }).carte_1_status === "ALERTE_PRION_HUMUSATION");
 
 check("PAVS vierge non imprimable (identité incomplète)", R.batStatus(base).carte_1_status === "INCOMPLET_IDENTITE");
+
+// Migration vers le formulaire officiel (Réseau Santé Wallon)
+const byId = id => JSON.parse(JSON.stringify(CASES.find(c => c.id === id)));
+for (const c0 of CASES) {
+  const c = R.syncOfficial(R.normalizePavs(JSON.parse(JSON.stringify(c0))));
+  const again = R.syncOfficial(R.normalizePavs(JSON.parse(JSON.stringify(c))));
+  check(`${c0.id} migration idempotente`, JSON.stringify(c) === JSON.stringify(again));
+  check(`${c0.id} B.A.T. inchangé après migration`, R.batStatus(c).carte_1_status === c0.bat_status.carte_1_status);
+  const care = c.pavs_record.care;
+  check(`${c0.id} refus = identifiants officiels`, care.refusals.every(id => R.PAVS.REFUSALS.some(r => r.id === id)));
+  check(`${c0.id} accompagnement = choix officiels`, c.pavs_record.desired_support.choices.every(id => R.PAVS.SUPPORT.some(r => r.id === id)));
+}
+const m = id => R.normalizePavs(byId(id)).pavs_record;
+check("PAVS_03 : refus ventilation → VNI + intubation seulement", JSON.stringify(m("PAVS_03_REFUS_RESP_SEULE").care.refusals) === JSON.stringify(["VNI", "INTUBATION"]));
+check("PAVS_02 : refus alimentation → 3 techniques", m("PAVS_02_REFUS_ALIM_SEULE").care.refusals.length === 3);
+check("PAVS_05 : soins maximums avec réanimation", m("PAVS_05_SOINS_CURATIFS_PLEINS").care.intensity === "max" && m("PAVS_05_SOINS_CURATIFS_PLEINS").care.reanimation === "avec");
+check("PAVS_07 : lieu de soins = institution", m("PAVS_07_MAISON_REPOS_INSTITUTION").care.settings[0] === "INSTITUTION");
+check("PAVS_38 : culte musulman → Religieux", m("PAVS_38_RITE_MUSULMAN").desired_support.choices.includes("RELIGIEUX"));
+check("PAVS_40 : bouddhiste → Spirituel", m("PAVS_40_RITE_BOUDDHISTE_MEDITATIF").desired_support.choices.includes("SPIRITUEL"));
+check("PAVS_28 : don du corps = Oui", R.normalizePavs(byId("PAVS_28_DON_SCIENCE_48H")).pavs_record.post_mortem_wills.body_donation === "Oui");
+check("PAVS_18 : inhumé(e)", R.normalizePavs(byId("PAVS_18_INHUMATION_TERRE")).pavs_record.post_mortem_wills.body_disposition === "inhume");
+const maxRefus = R.normalizePavs(byId("PAVS_05_SOINS_CURATIFS_PLEINS"));
+maxRefus.pavs_record.care.refusals = ["DIALYSE"];
+check("Avertissement : soins maximums + refus", R.pavsWarnings(maxRefus).some(w => /maximums/.test(w.text)));
+
+// Carte 1 : densité intégrale (mesure estimée hors navigateur)
+const design = { material: "ivoire", fontTitle: "cinzel", fontBody: "cormorant", fontData: "inter", fontScale: 1 };
+for (const c0 of CASES) {
+  const c = R.syncOfficial(R.normalizePavs(JSON.parse(JSON.stringify(c0))));
+  const rep = Cards.card1Report(c, design);
+  check(`${c0.id} Carte 1 : toutes les données affichées`, rep.overflow.length === 0, rep.overflow.join(", "));
+  const svg = Cards.render(1, "recto", c, design, {}) + Cards.render(1, "verso", c, design, {});
+  check(`${c0.id} Carte 1 : aucune date de décès`, !/décès le|décédé/i.test(svg));
+}
+const full = R.normalizePavs(byId("PAVS_34_MANDATAIRE_EXTRAJUDICIAIRE"));
+const long = "Je souhaite être accompagné avec douceur, entouré de mes proches, dans le calme, avec de la musique douce et la lumière du jardin, sans acharnement.";
+Object.assign(full.pavs_record, { comments: long, other_wishes: long, essential_priority: long });
+full.pavs_record.desired_support.special_wishes = long;
+Object.assign(full.pavs_record.post_mortem_wills, { rites: long, other_wishes: long });
+full.funeral_wills.chosen_funeral_home = long;
+full.pavs_record.care.refusals = R.PAVS.REFUSALS.map(r => r.id);
+for (const k of ["institution", "contact_person", "extrajudicial_proxy", "property_administrator"]) full.pavs_record[k] = { name: "Résidence Les Tilleuls de Gembloux", phone: "+32 81 00 00 00" };
+const fullRep = Cards.card1Report(R.syncOfficial(full), design);
+check("PAVS saturé : tout tient sur la Carte 1", fullRep.overflow.length === 0, fullRep.overflow.join(", "));
+check("PAVS saturé : corps ≥ 0,8 mm", fullRep.size >= 0.8);
 
 console.log(`PaxStudio Design · règles : ${pass} PASS, ${fail} FAIL`);
 process.exit(fail ? 1 : 0);

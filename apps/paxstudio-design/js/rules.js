@@ -193,6 +193,180 @@
     return { icon: Number(med.organ_donation_status) === 3 ? "ban" : "heart", label: d.label, detail: d.detail };
   }
 
+
+  // ---------------------------------------------------------------- PAVS : vocabulaire du formulaire officiel (Réseau Santé Wallon, conçu par UNESSA)
+  const PAVS = {
+    INTENSITY: [
+      { id: "max", label: "Soins maximums", icon: "careMax" },
+      { id: "usual", label: "Soins usuels", icon: "careUsual" }
+    ],
+    REFUSALS: [
+      { id: "ANTIBIOTHERAPIE", label: "Antibiothérapie", icon: "antibiotic" },
+      { id: "PERFUSION_HYDRATANTE", label: "Perfusion hydratante", icon: "hydration" },
+      { id: "ALIM_ENTERALE", group: "nutrition", label: "Entérale (sonde par le nez)", icon: "tubeNose" },
+      { id: "ALIM_PARENTERALE", group: "nutrition", label: "Parentérale (en intraveineuse)", icon: "ivDrip" },
+      { id: "ALIM_GASTROSTOMIE", group: "nutrition", label: "Par sonde de gastrostomie (dans le ventre)", icon: "gastro" },
+      { id: "DIALYSE", label: "Dialyse", icon: "dialysis" },
+      { id: "OXYGENOTHERAPIE", group: "respiration", label: "Oxygénothérapie", icon: "oxygen" },
+      { id: "VNI", group: "respiration", label: "Ventilation non invasive (VNI)", icon: "mask" },
+      { id: "INTUBATION", group: "respiration", label: "Intubation", icon: "intubation" },
+      { id: "SEDATION_PALLIATIVE", label: "Sédation palliative", icon: "sedation" },
+      { id: "ALTERATION_CONSCIENCE", label: "Traitement altérant l'état de conscience", icon: "consciousness" }
+    ],
+    SETTINGS: [
+      { id: "DOMICILE", label: "à mon domicile", icon: "home" },
+      { id: "INSTITUTION", label: "dans mon institution", icon: "institution" },
+      { id: "HOPITAL", label: "à l'hôpital", icon: "hospital" },
+      { id: "USP", label: "en unité de soins palliatifs", icon: "palliativeUnit" }
+    ],
+    SUPPORT: [
+      { id: "PSYCHOLOGIQUE", label: "Psychologique", icon: "psych" },
+      { id: "PHILOSOPHIQUE", label: "Philosophique", icon: "book" },
+      { id: "RELIGIEUX", label: "Religieux", icon: "candle" },
+      { id: "SPIRITUEL", label: "Spirituel", icon: "lotus" },
+      { id: "AUTRE", label: "Autre", icon: "star" },
+      { id: "AUCUN", label: "Aucun", icon: "none" }
+    ],
+    DISPOSITION: [
+      { id: "incinere", label: "Incinéré(e)", icon: "flame" },
+      { id: "inhume", label: "Inhumé(e)", icon: "stone" },
+      { id: "X", label: "Sans préférence", icon: "disposition" }
+    ],
+    ATTACHMENTS_MAX: 3,
+    ATTACHMENTS_MAX_BYTES: 6 * 1024 * 1024,
+    ATTACHMENTS_EXT: ["pdf", "png", "jpeg", "jpg", "bmp", "doc"]
+  };
+
+  /** Ancien libellé libre → niveau officiel (migration des 44 cas). */
+  function careLevel(text) {
+    const t = String(text || "");
+    if (/maxim|performant|curatif|réanimation complète|réanimation cardio/i.test(t)) return "max";
+    if (/usuel|actif|mesur|limitation/i.test(t)) return "usual";
+    if (/palliat|confort/i.test(t)) return "comfort";
+    return null;
+  }
+
+  const SUPPORT_RULES = [
+    [/psych/i, "PSYCHOLOGIQUE"], [/cult|cathol|musul|isra[ée]l|relig|protest|orthod/i, "RELIGIEUX"],
+    [/spirit|boudd|médit/i, "SPIRITUEL"], [/la[iï]q|philos|humanis|libre pens/i, "PHILOSOPHIQUE"]
+  ];
+
+  /**
+   * Migre un dossier (ancien schéma des 44 cas) vers le schéma du formulaire officiel. Idempotent.
+   * Les champs historiques sont conservés et resynchronisés par `syncOfficial`.
+   */
+  function normalizePavs(c) {
+    const pr = c.pavs_record = c.pavs_record || {};
+    const med = c.medical_record = c.medical_record || {};
+    const fw = c.funeral_wills = c.funeral_wills || {};
+    const pm = pr.post_mortem_wills = pr.post_mortem_wills || {};
+    const ds = pr.desired_support = pr.desired_support || { types: [], special_wishes: "" };
+    if (!pr.care) {
+      const rt = pr.refused_therapies || {};
+      const lvl = careLevel(pr.care_intensity);
+      const refusals = [];
+      if (rt.artificial_nutrition === true) refusals.push("ALIM_ENTERALE", "ALIM_PARENTERALE", "ALIM_GASTROSTOMIE");
+      if (rt.mechanical_ventilation === true) refusals.push("VNI", "INTUBATION");
+      const settings = [];
+      const setting = String(pr.preferred_care_setting || "");
+      if (/hospital|hôpital/i.test(setting)) settings.push("HOPITAL");
+      else if (/domicile|lieu de vie/i.test(setting)) settings.push(pr.institution && pr.institution.name ? "INSTITUTION" : "DOMICILE");
+      const comments = [];
+      const acc = String(pr.accepted_hospitalizations || "").trim();
+      if (acc && /^(CH|Grand|Ambroise|Clinique|Hôpital|CHU|CHR)/i.test(acc) && !(pr.institution && pr.institution.name)) {
+        pr.institution = { name: acc, phone: "" };
+      } else if (acc) {
+        comments.push(acc);
+      }
+      if (pr.care_intensity && !["max", "usual", "comfort"].includes(lvl)) comments.push(pr.care_intensity);
+      if (rt.other_refusals) comments.push(`Autres refus : ${rt.other_refusals}`);
+      pr.care = {
+        intensity: lvl === "max" || lvl === "usual" ? lvl : null,
+        comfort: lvl === "comfort",
+        euthanasia_declaration: false,
+        refusals,
+        settings,
+        reanimation: lvl === "max" ? "avec" : null,
+        exceptional_hospitalization: false
+      };
+      if (!pr.comments && comments.length) pr.comments = comments.join(" · ");
+    }
+    if (pr.eol_at_home === undefined) {
+      const eol = String(pr.preferred_end_of_life_place || "");
+      pr.eol_at_home = /domicile|lieu de vie/i.test(eol) ? "Oui" : /hospital|hôpital/i.test(eol) ? "Non" : null;
+    }
+    if (!Array.isArray(ds.choices)) {
+      const choices = [];
+      for (const t of ds.types || []) {
+        const hit = SUPPORT_RULES.find(([re]) => re.test(t));
+        const id = hit ? hit[1] : "AUTRE";
+        if (!choices.includes(id)) choices.push(id);
+      }
+      ds.choices = choices;
+      // Un libellé libre d'origine (hors libellés officiels) est conservé dans « je souhaite en particulier ».
+      const free = (ds.types || []).filter(t => t && !PAVS.SUPPORT.some(x => x.label === t));
+      if (free.length && !ds.special_wishes) ds.special_wishes = free.join(", ");
+    }
+    if (pm.body_donation === undefined) {
+      pm.body_donation = med.body_donation_science || burialMode(fw.burial_mode).family === "science" ? "Oui" : "Non";
+    }
+    if (pm.body_disposition === undefined) {
+      const fam = burialMode(fw.burial_mode).family;
+      pm.body_disposition = fam === "cremation" ? "incinere" : fam === "inhumation" ? "inhume" : "X";
+    }
+    if (pm.rites === undefined || pm.rites === "") {
+      pm.rites = [fw.ceremony_nature, fw.residue_destination].filter(v => v && String(v).trim()).join(" — ");
+    }
+    if (pm.leave_choice_to_relatives === undefined) pm.leave_choice_to_relatives = false;
+    if (!Array.isArray(pr.attachments)) pr.attachments = [];
+    return c;
+  }
+
+  /** Recopie les réponses officielles vers les champs historiques lus par les cartes et la filière. */
+  function syncOfficial(c) {
+    const pr = c.pavs_record;
+    const care = pr.care;
+    const med = c.medical_record;
+    const pm = pr.post_mortem_wills;
+    const rt = pr.refused_therapies = pr.refused_therapies || {};
+    const ref = care.refusals || [];
+    rt.artificial_nutrition = ref.some(id => id.startsWith("ALIM_"));
+    rt.mechanical_ventilation = ref.includes("VNI") || ref.includes("INTUBATION");
+    pr.care_intensity = [care.intensity && PAVS.INTENSITY.find(i => i.id === care.intensity).label, care.comfort && "Soins de confort/palliatifs"].filter(Boolean).join(" + ");
+    pr.preferred_care_setting = (care.settings || []).map(id => PAVS.SETTINGS.find(x => x.id === id).label).join(", ");
+    pr.preferred_end_of_life_place = pr.eol_at_home === "Oui" ? "Lieu de vie habituel (domicile)" : pr.eol_at_home === "Non" ? "Autre que le lieu de vie habituel" : "";
+    pr.desired_support.types = (pr.desired_support.choices || []).map(id => PAVS.SUPPORT.find(x => x.id === id).label);
+    med.body_donation_science = pm.body_donation === "Oui";
+    return c;
+  }
+
+  /** Points d'attention (conseils issus des fiches didactiques ; n'affectent pas le statut B.A.T.). */
+  function pavsWarnings(c) {
+    const pr = c.pavs_record || {};
+    const care = pr.care || {};
+    const pm = pr.post_mortem_wills || {};
+    const med = c.medical_record || {};
+    const out = [];
+    if (care.intensity === "max" && (care.refusals || []).length) {
+      out.push({ level: "warn", text: "Soins maximums : ils impliquent la réanimation et la respiration artificielle ; les thérapies refusées ne devraient pas être complétées (fiche « Type de soins »)." });
+    }
+    if (care.intensity === "max" && care.reanimation === "sans") {
+      out.push({ level: "warn", text: "Soins maximums mais hospitalisation sans réanimation : choix à clarifier." });
+    }
+    if (care.euthanasia_declaration) {
+      out.push({ level: "info", text: "Déclaration anticipée d'euthanasie : à durée illimitée si établie depuis le 02/04/2020 ; antérieure, elle doit avoir été établie ou confirmée moins de 5 ans avant l'incapacité." });
+    }
+    const fam = burialMode((c.funeral_wills || {}).burial_mode).family;
+    if ((pm.body_disposition === "incinere" && fam === "inhumation") || (pm.body_disposition === "inhume" && fam === "cremation")) {
+      out.push({ level: "warn", text: "« Je désire être » ne correspond pas au mode de sépulture précis choisi pour la carte." });
+    }
+    if (pm.body_donation === "Oui") {
+      out.push({ level: "info", text: "Don du corps : document écrit, daté et signé adressé à l'université choisie ; transfert au plus tard dans les 48 h." });
+      if (Number(med.organ_donation_status) === 1) out.push({ level: "info", text: "Don d'organes et don du corps sont compatibles ; le don d'organes est prioritaire." });
+    }
+    return out;
+  }
+
   /** Gabarit vierge pour « Ajouter un PAVS ». */
   function blankCase(id) {
     const today = new Date().toISOString().slice(0, 10);
@@ -206,15 +380,17 @@
       pavs_record: {
         registered_date: today, designer: "FRATEM asbl © 2026", conservation_place: "",
         institution: null, health_proxy: null, extrajudicial_proxy: null, trusted_person: null, property_administrator: null,
-        care_intensity: "", refused_therapies: { artificial_nutrition: null, mechanical_ventilation: null, other_refusals: "" },
+        care_intensity: "", refused_therapies: { artificial_nutrition: false, mechanical_ventilation: false, other_refusals: "" },
+        care: { intensity: null, comfort: false, euthanasia_declaration: false, refusals: [], settings: [], reanimation: null, exceptional_hospitalization: false },
+        eol_at_home: null, attachments: [],
         preferred_care_setting: "", accepted_hospitalizations: "", comments: "",
-        preferred_end_of_life_place: "", desired_support: { types: [], special_wishes: "" },
-        essential_priority: "", other_wishes: "",
-        post_mortem_wills: { leave_choice_to_relatives: false, funeral_home_choice: "", has_funeral_insurance: false, funeral_insurance_ref: "", rites: "", other_wishes: "" }
+        preferred_end_of_life_place: "", desired_support: { types: [], choices: [], special_wishes: "" },
+        essential_priority: "", other_wishes: "", contact_person: null,
+        post_mortem_wills: { body_donation: null, body_disposition: null, leave_choice_to_relatives: null, funeral_home_choice: "", has_funeral_insurance: false, funeral_insurance_ref: "", rites: "", other_wishes: "" }
       },
       medical_record: {
         has_pacemaker: false, pacemaker_details: null, pacemaker_exeresis: null, has_radioisotopes: false,
-        biological_hazard_level: 0, biological_hazard_label: "Standard", organ_donation_status: 2, body_donation_science: false,
+        biological_hazard_level: 0, biological_hazard_label: "Standard", organ_donation_status: null, body_donation_science: false,
         thanatopraxy: { performed: false, technique: "", operator_name: "" }
       },
       funeral_wills: {
@@ -234,6 +410,7 @@
   root.PaxRules = {
     FAMILIES, BURIAL_MODES, SARCO_NOTICE, ORGAN_DONATION, AMBIENT_PRESETS, BAT_LABELS,
     burialMode, isThermal, isSarco, birthYear, validateNiss, nissCheckDigits,
-    pyroStatus, batStatus, healthBadges, donationSummary, blankCase
+    pyroStatus, batStatus, healthBadges, donationSummary, blankCase,
+    PAVS, careLevel, normalizePavs, syncOfficial, pavsWarnings
   };
 })(typeof self !== "undefined" ? self : this);
