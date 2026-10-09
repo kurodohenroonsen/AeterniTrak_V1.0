@@ -190,16 +190,17 @@
     return `<rect ${r} fill="url(#${x.p}-bg)"/>${tex}<rect ${r} fill="url(#${x.p}-sheen)"/>`;
   }
 
-  function guilloche(x, rosettes) {
+  function guilloche(x, rosettes, isVerso) {
     const c = x.dark ? x.accentLight : x.accent;
-    let g = O.guillocheWaves(0, 0, W, H, x.gDensity, c, x.gOpacity * 0.55);
-    for (const r of rosettes) g += O.rosette(r[0], r[1], r[2], x.gDensity, c, x.gOpacity);
+    const opFactor = isVerso ? 0.35 : 1.0;
+    let g = O.guillocheWaves(0, 0, W, H, x.gDensity, c, x.gOpacity * 0.55 * opFactor);
+    for (const r of rosettes) g += O.rosette(r[0], r[1], r[2], x.gDensity, c, x.gOpacity * opFactor);
     return `<g class="guilloche">${g}</g>`;
   }
 
   function fillets(x) {
-    return `<rect x="1.5" y="1.5" width="${f(W - 3)}" height="${f(H - 3)}" rx="2" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".28"/>
-      <rect x="2.15" y="2.15" width="${f(W - 4.3)}" height="${f(H - 4.3)}" rx="1.5" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".08"/>`;
+    return `<rect x="2.0" y="2.0" width="${f(W - 4.0)}" height="${f(H - 4.0)}" rx="2.2" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".26"/>
+      <rect x="2.5" y="2.5" width="${f(W - 5.0)}" height="${f(H - 5.0)}" rx="1.8" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".08"/>`;
   }
 
   function goldRule(x, x1, x2, y) {
@@ -320,9 +321,20 @@
 
     // Directives médicales (badges explicites pour le Recto)
     const carePills = [];
-    if (care.intensity === "max") carePills.push({ text: "Soins maximums", tone: "warn", icon: "careMax" });
-    else if (care.intensity === "usual") carePills.push({ text: "Soins usuels", tone: "info", icon: "careUsual" });
-    if (care.comfort) carePills.push({ text: "Soins confort / palliatifs", tone: "ok", icon: "careComfort" });
+    if (bio >= 3) {
+      carePills.push({ text: "Alerte Prion · Biohazard 3", tone: "danger", icon: "biohazard" });
+    } else if (bio === 2) {
+      carePills.push({ text: "Risque bio 2 · Cercueil zingué", tone: "warn", icon: "biohazard" });
+    } else if (med.has_radioisotopes) {
+      carePills.push({ text: "Radio-isotopes actifs (I-125)", tone: "warn", icon: "radiation" });
+    }
+
+    if (care.comfort) {
+      carePills.push({ text: "Soins confort / palliatifs", tone: "ok", icon: "careComfort" });
+    } else {
+      if (care.intensity === "max") carePills.push({ text: "Soins maximums", tone: "info", icon: "careMax" });
+      else if (care.intensity === "usual") carePills.push({ text: "Soins usuels", tone: "info", icon: "careUsual" });
+    }
     if (care.euthanasia_declaration) carePills.push({ text: "Déclaration euthanasie", tone: "accent", icon: "euthanasia" });
 
     (care.settings || []).forEach(s => {
@@ -361,7 +373,7 @@
 
     // Verso Colonne 1 : Volontés funéraires, sépulture et dispositions légales
     const col1 = [];
-    col1.push({ name: "Sépulture", icon: mode.icon, text: `${mode.label} (Mode ${mode.id})` + (R.isSarco(mode.id) ? " · Démonstrateur prospectif (DEC-AET-15)" : "") });
+    col1.push({ name: "Sépulture", icon: mode.icon, text: `${mode.label} (Mode ${mode.id})` + (R.isSarco(mode.id) ? " · Protocole prospectif encadré" : "") });
     if (has(fw.residue_destination)) col1.push({ name: "Destination", icon: "pin", text: `Destination : ${fw.residue_destination}` });
     if (has(fw.coffin_material)) col1.push({ name: "Cercueil", icon: "coffin", text: `Cercueil : ${fw.coffin_material}` });
     const ritesText = fw.ceremony_nature || pm.rites;
@@ -481,8 +493,8 @@
     let g = background(x) + guilloche(x, [[42.8, 27, 16]]) + fillets(x);
 
     // En-tête solennel
-    g += T(L, 5.55, "AETERNITRAK", { fam: x.title, size: 1.7, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.25 });
-    g += T(L + measure("AETERNITRAK", 1.7, x.title, 600) + 3.2, 5.45, "DERNIÈRES VOLONTÉS · SOINS ANTICIPÉS", { fam: x.sans, size: 0.85, weight: 600, fill: x.muted, ls: 0.14 });
+    g += T(L, 5.55, "AETERNITRAK", { fam: x.title, size: 1.65, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.22 });
+    g += T(26.0, 5.45, "DERNIÈRES VOLONTÉS · SOINS ANTICIPÉS", { fam: x.sans, size: 0.82, weight: 600, fill: x.muted, ls: 0.08 });
     g += T(RR, 5.45, "ID-1 · NFC ACOSJ 92 Ko", { fam: x.sans, size: 0.8, fill: x.muted, anchor: "end", ls: 0.08 });
     g += goldRule(x, L, RR, 6.85);
 
@@ -596,16 +608,14 @@
     // Bandeau pyrotechnique (sécurité crématoire)
     const pyro = m.pyro;
     const danger = pyro.level === "danger";
-    const by = 45.15;
-    const bh = 3.7;
+    const by = 44.85;
+    const bh = 4.15;
     g += `<g class="${danger ? "pyro-danger" : "pyro-ok"}"><rect x="${L}" y="${by}" width="${f(RR - L)}" height="${bh}" rx=".8" fill="${danger ? `url(#${x.p}-hatch)` : "#1f6a45"}"/>`;
-    g += O.icon(danger ? "alert" : "pacemaker", L + 0.6, by + 0.6, 2.5, "#fff", 0.2);
+    g += O.icon(danger ? "alert" : "pacemaker", L + 0.8, by + (bh - 2.5) / 2, 2.5, "#fff", 0.2);
     const title = pyro.title.toUpperCase();
-    const ts = 1.05;
-    const tw = measure(title, ts, x.sans, 700);
-    g += T(L + 3.8, by + 2.45, title, { fam: x.sans, size: ts, weight: 700, fill: "#fff", ls: 0.04 });
-    const det = fit(pyro.detail, RR - L - 4.6 - tw - 1.5, 0.95, x.sans, 400, 0.7);
-    g += T(L + 3.8 + tw + 1.5, by + 2.45, det.text, { fam: x.sans, size: det.size, fill: "#fff", opacity: 0.9 });
+    const det = fit(pyro.detail, RR - L - 5.5, 0.84, x.sans, 400, 0.72);
+    g += T(L + 4.0, by + 1.85, title, { fam: x.sans, size: 0.95, weight: 700, fill: "#fff", ls: 0.04 });
+    g += T(L + 4.0, by + 3.42, det.text, { fam: x.sans, size: det.size, fill: "#fff", opacity: 0.92 });
     g += `</g>`;
 
     g += T(L, 50.55, "Intégralité du PAVS scellée dans la puce NFC sans contact · JavaCard ACOSJ 92 Ko", { fam: x.sans, size: 0.78, fill: x.muted });
@@ -621,7 +631,7 @@
     const ind = 2.8;
     const lh = s * 1.22;
 
-    let g = background(x) + guilloche(x, [[42.8, 26, 17]]) + fillets(x);
+    let g = background(x) + guilloche(x, [[42.8, 26, 17]], true) + fillets(x);
 
     // En-tête
     g += T(L, 5.55, "DERNIÈRES VOLONTÉS & DISPOSITIONS LÉGALES", { fam: x.title, size: 1.6, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.2 });
@@ -666,7 +676,8 @@
       const qLines = wrap(`« ${m.essential} »`, colW - 4.5, s * 0.98, 4);
       const cartH = qLines.length * (lh * 1.05) + 4.8;
       g += `<rect x="${f(col2X)}" y="${f(y2)}" width="${f(colW)}" height="${f(cartH)}" rx="1.0" fill="${rgba(x.accent, x.dark ? 0.14 : 0.08)}" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
-      g += T(col2X + colW / 2, y2 + 2.0, "✦ PAROLE ESSENTIELLE ✦", { fam: x.sans, size: 0.72, weight: 700, fill: x.accent, anchor: "middle", ls: 0.15 });
+      g += `<rect x="${f(col2X + 0.45)}" y="${f(y2 + 0.45)}" width="${f(colW - 0.9)}" height="${f(cartH - 0.9)}" rx="0.6" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".07" opacity=".65"/>`;
+      g += T(col2X + colW / 2, y2 + 2.0, "✦ PAROLE ESSENTIELLE ✦", { fam: x.title, size: 0.76, weight: 600, fill: x.accent, anchor: "middle", ls: 0.16 });
       qLines.forEach((ln, li) => {
         g += T(col2X + colW / 2, y2 + 3.8 + li * (lh * 1.05), ln, { fam: x.body, size: s * 0.98, fill: x.ink, anchor: "middle", italic: true });
       });
@@ -692,7 +703,7 @@
     g += T(L + 2.6, 49.5, `Scellé COSE_Sign1 ES256 · JavaCard ACOSJ 92 Ko`, { fam: x.sans, size: 0.76, fill: x.muted });
 
     g += O.nfcTarget(RR - 2.9, 47.4, 2.8, x.accent);
-    g += T(RR - 6.2, 47.7, "13,56 MHz", { fam: x.mono, size: 0.75, fill: x.muted, anchor: "end" });
+    g += T(RR - 6.2, 47.7, "Toucher pour écouter", { fam: x.sans, size: 0.72, fill: x.muted, anchor: "end", italic: true });
     return g;
   }
 

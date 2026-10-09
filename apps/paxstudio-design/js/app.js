@@ -43,7 +43,7 @@
       scenario: "Épreuve de charge maximale : toutes rubriques remplies au plafond légal et textuel.",
       civil_identity: {
         full_name: "Éléonore Anne-Sophie de VILLENEUVE-MONTGOMERY",
-        national_id_niss: "62.08.14-388.54",
+        national_id_niss: "62.08.14-388.65",
         birth_date: "1962-08-14",
         birth_place: "Bruxelles (Watermael-Boitsfort)",
         gender: "F",
@@ -138,7 +138,7 @@
       scenario: "Soins curatifs maximums avec réanimation active, stimulateur non extrait au four crématophore et alerte prion.",
       civil_identity: {
         full_name: "Alexandre Maxime VANDERMEERSCH",
-        national_id_niss: "85.11.23-147.62",
+        national_id_niss: "85.11.23-147.55",
         birth_date: "1985-11-23",
         birth_place: "Liège",
         gender: "M",
@@ -217,7 +217,7 @@
       scenario: "Soins palliatifs exclusifs, 6 refus ciblés et dispersion marine en mer territoriale belge.",
       civil_identity: {
         full_name: "Madeleine Hélène Françoise PEETERS-VERMEER",
-        national_id_niss: "42.04.18-256.78",
+        national_id_niss: "42.04.18-256.17",
         birth_date: "1942-04-18",
         birth_place: "Ostende",
         gender: "F",
@@ -292,6 +292,7 @@
       bat_status: { carte_1_status: "VALIDE", ready_to_print: true }
     }
   ];
+  window.SATURATION_CASES = SATURATION_CASES;
 
   const state = {
     cases: (window.PAX_TEST_CASES || []).map(c => Object.assign({}, c, { category: c.category })),
@@ -1038,22 +1039,24 @@
   }
 
   // ------------------------------------------------------------ démarrage
-  document.addEventListener("DOMContentLoaded", () => {
-    buildControls();
-    renderLegend();
-    bindInputs();
-    bindUi();
-    populateSelect();
-    const start = allCases().find(c => c.id === "PAVS_01_CH") || allCases()[0];
-    selectCase(start.id);
-    setTab("card1");
-    scheduleFingerprint();
-    // Re-rendu une fois les polices chargées (mesures de texte exactes)
-    if (document.fonts && document.fonts.load) {
-      const faces = ["600 10px Cinzel", "400 10px 'Cormorant Garamond'", "italic 400 10px 'Cormorant Garamond'", "600 10px 'Cormorant Garamond'",
-        "italic 600 10px 'Cormorant Garamond'", "400 10px 'Playfair Display'", "700 10px 'Playfair Display'", "400 10px Inter", "600 10px Inter",
-        "400 10px 'Fira Code'", "500 10px 'Fira Code'"];
-      Promise.all(faces.map(face => document.fonts.load(face).catch(() => null))).then(scheduleRender);
-    }
-  });
+  if (typeof document !== "undefined" && document.addEventListener) {
+    document.addEventListener("DOMContentLoaded", () => {
+      buildControls();
+      renderLegend();
+      bindInputs();
+      bindUi();
+      populateSelect();
+      const start = allCases().find(c => c.id === "PAVS_01_CH") || allCases()[0];
+      selectCase(start.id);
+      setTab("card1");
+      scheduleFingerprint();
+      // Re-rendu une fois les polices chargées (mesures de texte exactes)
+      if (document.fonts && document.fonts.load) {
+        const faces = ["600 10px Cinzel", "400 10px 'Cormorant Garamond'", "italic 400 10px 'Cormorant Garamond'", "600 10px 'Cormorant Garamond'",
+          "italic 600 10px 'Cormorant Garamond'", "400 10px 'Playfair Display'", "700 10px 'Playfair Display'", "400 10px Inter", "600 10px Inter",
+          "400 10px 'Fira Code'", "500 10px 'Fira Code'"];
+        Promise.all(faces.map(face => document.fonts.load(face).catch(() => null))).then(scheduleRender);
+      }
+    });
+  }
 })();
