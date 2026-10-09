@@ -694,7 +694,7 @@
     el.innerHTML = html;
   }
 
-  // ------------------------------------------------------------ Œuvres Musicales
+  // ------------------------------------------------------------ Œuvres Musicales (fichiers audio directs)
   function renderMusicsPanel() {
     const el = $("#musicsPanel");
     if (!el) return;
@@ -706,7 +706,6 @@
       const m = musics[i];
       const isRec = rec.active && rec.type === "music" && rec.slotIndex === i;
       const isActive = activeIdx === i;
-      const preset = m?.ambientPreset || "A_MAJOR_CELESTIAL";
       html += `
         <div class="music-slot-card" data-slot="${i}">
           <div class="slot-header">
@@ -719,37 +718,32 @@
           ${isRec ? `
             <div class="rec-box">
               <span class="rec-dot"></span>
-              <span>Enregistrement instrument :</span>
+              <span>Enregistrement direct :</span>
               <span class="rec-timer">${formatTimer(rec.seconds)}</span>
               <button type="button" class="btn danger" data-audio-stop="music" style="margin-left:auto;padding:4px 8px;font-size:12px;">⏹️ Terminer</button>
             </div>
+          ` : m?.url ? `
+            <audio controls src="${m.url}" class="audio-player"></audio>
+            <div style="font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;">
+              <span>Durée : ${m.duration || 0} s</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${escapeHtml(m.name || "")}">${escapeHtml(m.name || "")}</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:4px;">
+              <button type="button" class="btn" data-audio-record="music" data-slot="${i}" style="padding:4px 8px;font-size:11px;">🎙️ Ré-enregistrer</button>
+              <label class="btn file" style="padding:4px 8px;font-size:11px;">
+                Remplacer fichier
+                <input type="file" accept="audio/*" data-music-upload="${i}" hidden>
+              </label>
+              <button type="button" class="btn ghost" data-music-delete="${i}" style="padding:4px 8px;font-size:11px;color:var(--danger)">Supprimer</button>
+            </div>
           ` : `
-            <div style="display:grid;gap:6px;">
-              ${m?.url ? `<audio controls src="${m.url}" class="audio-player"></audio>` : ""}
-              <label style="font-size:11.5px;display:grid;gap:2px;">
-                Titre de l'œuvre
-                <input type="text" data-music-title="${i}" value="${escapeHtml(m?.title || "")}" placeholder="Titre de l'œuvre musicale">
+            <p style="font-size:11.5px;color:var(--muted);margin:2px 0;">Aucun fichier musical sur ce slot.</p>
+            <div style="display:flex;gap:6px;">
+              <button type="button" class="btn" data-audio-record="music" data-slot="${i}" style="padding:4px 8px;font-size:12px;">🎙️ Enregistrer</button>
+              <label class="btn file" style="padding:4px 8px;font-size:12px;">
+                📁 Importer audio
+                <input type="file" accept="audio/*" data-music-upload="${i}" hidden>
               </label>
-              <label style="font-size:11.5px;display:grid;gap:2px;">
-                Compositeur / Interprète
-                <input type="text" data-music-composer="${i}" value="${escapeHtml(m?.composer || "")}" placeholder="Gabriel Fauré, Bach...">
-              </label>
-              <label style="font-size:11.5px;display:grid;gap:2px;">
-                Tonalité / Ambiance acoustique
-                <select data-music-preset="${i}">
-                  <option value="A_MAJOR_CELESTIAL" ${preset === "A_MAJOR_CELESTIAL" ? "selected" : ""}>Nappe céleste · La majeur 440 Hz</option>
-                  <option value="REQUIEM_FAURE" ${preset === "REQUIEM_FAURE" ? "selected" : ""}>Requiem de Fauré · Ré mineur</option>
-                  <option value="BACH_SUITE" ${preset === "BACH_SUITE" ? "selected" : ""}>Suite de Bach · Sol majeur</option>
-                </select>
-              </label>
-              <div style="display:flex;gap:6px;margin-top:2px;">
-                <button type="button" class="btn" data-audio-record="music" data-slot="${i}" style="padding:4px 8px;font-size:11px;">🎙️ Enregistrer</button>
-                <label class="btn file" style="padding:4px 8px;font-size:11px;">
-                  ${m?.url ? "Remplacer audio" : "📁 Importer audio"}
-                  <input type="file" accept="audio/*" data-music-upload="${i}" hidden>
-                </label>
-                ${m?.url || m?.title ? `<button type="button" class="btn ghost" data-music-delete="${i}" style="padding:4px 8px;font-size:11px;color:var(--danger)">Effacer</button>` : ""}
-              </div>
             </div>
           `}
         </div>
@@ -797,11 +791,8 @@
             state.design.musics[slotIndex] = {
               id: slotIndex,
               url: dataUrl,
-              name: `Morceau ${slotIndex + 1}`,
-              title: state.design.musics[slotIndex]?.title || `Hommage Acoustique ${slotIndex + 1}`,
-              composer: state.design.musics[slotIndex]?.composer || "Enregistrement direct",
-              duration: dur,
-              ambientPreset: state.design.musics[slotIndex]?.ambientPreset || "A_MAJOR_CELESTIAL"
+              name: `Enregistrement musical ${slotIndex + 1}`,
+              duration: dur
             };
             state.design.activeMusicIndex = slotIndex;
             renderMusicsPanel();
@@ -858,15 +849,11 @@
           renderVoicesPanel();
         } else {
           state.design.musics = state.design.musics || [];
-          const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
           state.design.musics[slotIndex] = {
             id: slotIndex,
             url: dataUrl,
             name: file.name,
-            title: state.design.musics[slotIndex]?.title || cleanName,
-            composer: state.design.musics[slotIndex]?.composer || "",
-            duration: dur,
-            ambientPreset: state.design.musics[slotIndex]?.ambientPreset || "A_MAJOR_CELESTIAL"
+            duration: dur
           };
           state.design.activeMusicIndex = slotIndex;
           renderMusicsPanel();
@@ -1099,35 +1086,6 @@
           loadAudioFileSlot("music", Number(up.dataset.musicUpload), e.target.files[0]);
           e.target.value = "";
         }
-        const presetSel = e.target.closest("[data-music-preset]");
-        if (presetSel) {
-          const idx = Number(presetSel.dataset.musicPreset);
-          state.design.musics = state.design.musics || [];
-          state.design.musics[idx] = state.design.musics[idx] || { id: idx, title: "" };
-          state.design.musics[idx].ambientPreset = presetSel.value;
-          scheduleRender();
-          persistToIndexedDb();
-        }
-      });
-      muPanel.addEventListener("input", e => {
-        const titleIn = e.target.dataset.musicTitle;
-        if (titleIn != null) {
-          const idx = Number(titleIn);
-          state.design.musics = state.design.musics || [];
-          state.design.musics[idx] = state.design.musics[idx] || { id: idx };
-          state.design.musics[idx].title = e.target.value;
-          scheduleRender();
-          persistToIndexedDb();
-        }
-        const compIn = e.target.dataset.musicComposer;
-        if (compIn != null) {
-          const idx = Number(compIn);
-          state.design.musics = state.design.musics || [];
-          state.design.musics[idx] = state.design.musics[idx] || { id: idx };
-          state.design.musics[idx].composer = e.target.value;
-          scheduleRender();
-          persistToIndexedDb();
-        }
       });
       muPanel.addEventListener("click", e => {
         const recBtn = e.target.closest('[data-audio-record="music"]');
@@ -1145,7 +1103,7 @@
           renderMusicsPanel();
           scheduleRender();
           persistToIndexedDb();
-          toast(`Morceau musical ${idx + 1} effacé.`);
+          toast(`Fichier musical ${idx + 1} effacé.`);
         }
       });
     }

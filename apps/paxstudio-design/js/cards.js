@@ -894,10 +894,10 @@
     g += node(x, "c2v-title", titleSvg);
     g += node(x, "c2v-rule1", goldRule(x, M, right, 10.1));
 
-    // Morceau actif : soit slot sélectionné dans x.design.musics, soit multimédia de base
+    // Morceau actif : soit fichier audio sélectionné dans x.design.musics, soit multimédia de base
     const activeMusic = (x.design.musics && x.design.musics[x.design.activeMusicIndex ?? 0]) || null;
-    const musicTitle = activeMusic?.title || (mm.chosen_music || {}).title || "Silence recueilli";
-    const presetKey = activeMusic?.ambientPreset || ac.ambient_preset || "A_MAJOR_CELESTIAL";
+    const musicTitle = (activeMusic && activeMusic.name) ? activeMusic.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ") : ((mm.chosen_music || {}).title || "Silence recueilli");
+    const presetKey = ac.ambient_preset || "A_MAJOR_CELESTIAL";
     const preset = R.AMBIENT_PRESETS[presetKey] || R.AMBIENT_PRESETS.A_MAJOR_CELESTIAL;
 
     // Onde sonore : 20 barres or dégradées (enveloppe déterministe dérivée du titre)
