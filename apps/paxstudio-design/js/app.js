@@ -21,7 +21,8 @@
     PAVS_PYROTECHNIQUE: "Sécurité pyrotechnique & sanitaire",
     PAVS_DONS_SCIENCE: "Dons & legs à la science",
     PAVS_REPRESENTANTS: "Représentants & rites",
-    PAVS_MULTIMEDIA: "Obsèques & multimédia"
+    PAVS_MULTIMEDIA: "Obsèques & multimédia",
+    PAVS_SATURATION: "Épreuves de saturation maximale (stress-test)"
   };
 
   const LAYOUT_NAMES = { A: "A · Majestueux — médaillon d'or", B: "B · Diptyque — encadrement biseauté", C: "C · Triptyque — trois arcades", D: "D · Mosaïque — archives multiples", E: "E · Typographie pure — stèle épigraphique" };
@@ -34,9 +35,269 @@
     fira: ["Fira Code", [["fira-code-latin-400-normal", 400, "normal"], ["fira-code-latin-500-normal", 500, "normal"]]]
   };
 
+  const SATURATION_CASES = [
+    {
+      id: "SATURATION_01_CENTURION_MAX",
+      category: "PAVS_SATURATION",
+      label: "Centurion Max · Saturation absolue (8 contacts, 11 refus, textes max)",
+      scenario: "Épreuve de charge maximale : toutes rubriques remplies au plafond légal et textuel.",
+      civil_identity: {
+        full_name: "Éléonore Anne-Sophie de VILLENEUVE-MONTGOMERY",
+        national_id_niss: "62.08.14-388.54",
+        birth_date: "1962-08-14",
+        birth_place: "Bruxelles (Watermael-Boitsfort)",
+        gender: "F",
+        phone: "+32 470 12 34 56",
+        certifying_physician: {
+          name: "Prof. Dr Jean-Christophe de LA ROCHEFOUCAULD",
+          inami: "1-98765-43-001",
+          phone: "+32 81 22 33 44"
+        }
+      },
+      medical_record: {
+        has_pacemaker: true,
+        pacemaker_details: "Medtronic Micra AV transcatheter TPS",
+        pacemaker_exeresis: {
+          certified_removed: true,
+          surgeon_name: "Dr Laurent VANDENBERGHE",
+          surgeon_inami: "1-44556-77-889",
+          exeresis_date: "2026-10-08"
+        },
+        organ_donation_status: 1,
+        has_radioisotopes: true,
+        biological_hazard_level: 1,
+        biological_hazard_label: "Précautions sanitaires renforcées BH1"
+      },
+      pavs_record: {
+        registered_date: "2026-10-09",
+        designer: "FRATEM asbl © 2026",
+        conservation_place: "Réseau Santé Wallon (RSW) & Archives Notariales de Namur",
+        institution: { name: "Résidence Médicalisée Universitaire Les Tilleuls", phone: "+32 81 99 88 77" },
+        contact_person: { name: "Godefroy de VILLENEUVE", phone: "+32 495 11 22 33" },
+        health_proxy: { name: "Me Charlotte DUPONT-VERMEULEN", phone: "+32 472 33 44 55" },
+        extrajudicial_proxy: { name: "Me Henri de MONTGOMERY", phone: "+32 473 55 66 77" },
+        trusted_person: { name: "Docteur Claire LAMBERT", phone: "+32 474 77 88 99" },
+        property_administrator: { name: "Administration Judiciaire de Namur", phone: "+32 81 12 34 56" },
+        care: {
+          intensity: "usual",
+          comfort: true,
+          euthanasia_declaration: true,
+          refusals: ["ANTIBIOTHERAPIE", "PERFUSION_HYDRATANTE", "ALIM_ENTERALE", "ALIM_PARENTERALE", "ALIM_GASTROSTOMIE", "DIALYSE", "OXYGENOTHERAPIE", "VNI", "INTUBATION", "SEDATION_PALLIATIVE", "ALTERATION_CONSCIENCE"],
+          settings: ["DOMICILE", "USP"],
+          reanimation: "sans",
+          exceptional_hospitalization: true
+        },
+        comments: "Je souhaite privilégier le confort absolu, le soulagement complet de toute douleur et la paix intérieure, sans aucune manœuvre invasive ni prolongation artificielle.",
+        eol_at_home: "Oui",
+        desired_support: {
+          choices: ["PSYCHOLOGIQUE", "PHILOSOPHIQUE", "SPIRITUEL"],
+          special_wishes: "Accompagnement continu par l'équipe mobile de soins palliatifs, présence bienveillante de ma famille et écoute philosophique sereine."
+        },
+        essential_priority: "Partir en paix et dans la dignité, entourée de musique et de tendresse, sans acharnement technique ni souffrance inutile.",
+        other_wishes: "Fenêtre ouverte sur le parc, lumière douce du crépuscule et parfum de lavande dans la chambre.",
+        post_mortem_wills: {
+          body_donation: "Oui",
+          body_disposition: "incinere",
+          leave_choice_to_relatives: false,
+          rites: "Cérémonie laïque d'hommage et recueillement poétique sous les chênes centenaires",
+          funeral_insurance_ref: "DELA Assurance Sérénité n° POL-884920-BE",
+          other_wishes: "Dispersion écologique des cendres en lisière forestière communale et don mémorial à la fondation médicale."
+        },
+        attachments: [
+          { name: "Directives_anticipées_signées.pdf", size: 1450000 },
+          { name: "Mandat_extrajudiciaire_notarié.pdf", size: 2100000 },
+          { name: "Attestation_leg_corps_science_ULiege.pdf", size: 850000 }
+        ]
+      },
+      funeral_wills: {
+        burial_mode: 8,
+        burial_mode_label: "Sarcomusation (Procédé thermo-solaire)",
+        residue_destination: "Jardin des mémoires écologiques et cinéraires de Gembloux",
+        coffin_material: "Cercueil écologique thermo-conforme en fibres de cellulose naturelle",
+        ceremony_nature: "Hommage républicain et laïque solennel",
+        chosen_funeral_home: "Maison Funéraire Générale & Crématorium des Ardennes",
+        has_funeral_insurance: true,
+        legal_validation: {
+          permit_number: "PERMIS-2026-WAL-SAT-001-MAX",
+          permit_date: "2026-10-09",
+          permit_officer: "Officier de l'État Civil de Namur"
+        }
+      },
+      multimedia_memorial: {
+        photo_count: 5,
+        chosen_music: { title: "Gabriel Fauré — Requiem Op. 48 (In Paradisum)" },
+        audio_choice: { has_voice_memo: true, voice_memo_duration_sec: 118, ambient_preset: "REQUIEM_FAURE" },
+        audience_cards_count: 100
+      },
+      bat_status: { carte_1_status: "VALIDE", ready_to_print: true }
+    },
+    {
+      id: "SATURATION_02_CURATIF_INTENSIF",
+      category: "PAVS_SATURATION",
+      label: "Curatif Intensif & Réanimation (Alerte Pyrotechnique & Biohazard 3)",
+      scenario: "Soins curatifs maximums avec réanimation active, stimulateur non extrait au four crématophore et alerte prion.",
+      civil_identity: {
+        full_name: "Alexandre Maxime VANDERMEERSCH",
+        national_id_niss: "85.11.23-147.62",
+        birth_date: "1985-11-23",
+        birth_place: "Liège",
+        gender: "M",
+        phone: "+32 475 88 99 00",
+        certifying_physician: {
+          name: "Dr Marc-Antoine DE SMET",
+          inami: "1-12345-67-890",
+          phone: "+32 4 366 22 22"
+        }
+      },
+      medical_record: {
+        has_pacemaker: true,
+        pacemaker_details: "Biotronik Evia DR-T (Lithium haute énergie)",
+        pacemaker_exeresis: null,
+        organ_donation_status: 1,
+        has_radioisotopes: false,
+        biological_hazard_level: 3,
+        biological_hazard_label: "Alerte Prion · Risque biologique majeur BH3"
+      },
+      pavs_record: {
+        registered_date: "2026-10-09",
+        designer: "FRATEM asbl © 2026",
+        conservation_place: "Dossier Médical Partagé (DMP) RSW & CHU de Liège",
+        institution: { name: "CHU Sart-Tilman Liège — Soins Intensifs", phone: "+32 4 366 77 77" },
+        contact_person: { name: "Nathalie VANDERMEERSCH", phone: "+32 498 12 34 56" },
+        health_proxy: { name: "Dr Julien VANDERMEERSCH", phone: "+32 477 65 43 21" },
+        care: {
+          intensity: "max",
+          comfort: false,
+          euthanasia_declaration: false,
+          refusals: [],
+          settings: ["HOPITAL"],
+          reanimation: "avec",
+          exceptional_hospitalization: false
+        },
+        comments: "Engager l'ensemble des thérapeutiques de réanimation avancée tant qu'un bénéfice pronostique est documenté par l'équipe collégiale.",
+        eol_at_home: "Non",
+        desired_support: { choices: ["PSYCHOLOGIQUE"], special_wishes: "Soutien psychologique permanent pour mes enfants et mon épouse." },
+        essential_priority: "Lutter jusqu'au bout avec les technologies de pointe de la médecine réanimatoire.",
+        post_mortem_wills: {
+          body_donation: "Non",
+          body_disposition: "inhume",
+          leave_choice_to_relatives: true,
+          rites: "Culte catholique en la Cathédrale Saint-Paul de Liège",
+          funeral_insurance_ref: "Assurance Décès AG Insurance n° AG-992140",
+          other_wishes: "Inhumation en caveau scellé hermétique avec respect des protocoles sanitaires renforcés."
+        },
+        attachments: [{ name: "Protocole_therapeutique_CHU.pdf", size: 980000 }]
+      },
+      funeral_wills: {
+        burial_mode: 2,
+        burial_mode_label: "Inhumation en caveau familial concédé",
+        residue_destination: "Caveau familial concessions de Sainte-Walburge",
+        coffin_material: "Cercueil étanche zingué avec filtre épurateur agréé",
+        ceremony_nature: "Office religieux catholique avec homélie solennelle",
+        chosen_funeral_home: "Centre Funéraire Liégeois Robermont",
+        has_funeral_insurance: true,
+        legal_validation: {
+          permit_number: "PERMIS-2026-LIEGE-SANTE-002",
+          permit_date: "2026-10-09",
+          permit_officer: "Bourgmestre de la Ville de Liège"
+        }
+      },
+      multimedia_memorial: {
+        photo_count: 3,
+        chosen_music: { title: "Jean-Sébastien Bach — Suite pour violoncelle n° 1 en Sol Majeur" },
+        audio_choice: { has_voice_memo: true, voice_memo_duration_sec: 45, ambient_preset: "BACH_SUITE" },
+        audience_cards_count: 50
+      },
+      bat_status: { carte_1_status: "VALIDE", ready_to_print: true }
+    },
+    {
+      id: "SATURATION_03_SERENITE_PALLIATIVE",
+      category: "PAVS_SATURATION",
+      label: "Sérénité Palliative & Mer du Nord (Soins Confort & 6 refus)",
+      scenario: "Soins palliatifs exclusifs, 6 refus ciblés et dispersion marine en mer territoriale belge.",
+      civil_identity: {
+        full_name: "Madeleine Hélène Françoise PEETERS-VERMEER",
+        national_id_niss: "42.04.18-256.78",
+        birth_date: "1942-04-18",
+        birth_place: "Ostende",
+        gender: "F",
+        phone: "+32 59 11 22 33",
+        certifying_physician: {
+          name: "Dr Thérèse VAN DER BIEST",
+          inami: "1-77889-11-222",
+          phone: "+32 59 44 55 66"
+        }
+      },
+      medical_record: {
+        has_pacemaker: false,
+        organ_donation_status: 1,
+        has_radioisotopes: false,
+        biological_hazard_level: 0
+      },
+      pavs_record: {
+        registered_date: "2026-10-09",
+        designer: "FRATEM asbl © 2026",
+        conservation_place: "Réseau Santé Wallon & Notaire dépositaire à Knokke",
+        institution: { name: "Villa Sérénité — Soins Palliatifs Côté Mer", phone: "+32 59 77 88 99" },
+        contact_person: { name: "Lucie PEETERS", phone: "+32 496 77 88 99" },
+        health_proxy: { name: "Me Bernard DUMONT", phone: "+32 471 22 33 44" },
+        trusted_person: { name: "Sœur Emmanuelle", phone: "+32 59 33 22 11" },
+        care: {
+          intensity: "usual",
+          comfort: true,
+          euthanasia_declaration: true,
+          refusals: ["ALIM_ENTERALE", "ALIM_PARENTERALE", "ALIM_GASTROSTOMIE", "INTUBATION", "VNI", "DIALYSE"],
+          settings: ["DOMICILE", "USP"],
+          reanimation: "sans",
+          exceptional_hospitalization: false
+        },
+        comments: "Privilégier la présence des miens, l'apaisement par la musique classique et la sérénité du grand large face à l'horizon maritime.",
+        eol_at_home: "Oui",
+        desired_support: { choices: ["PHILOSOPHIQUE", "SPIRITUEL", "PSYCHOLOGIQUE"], special_wishes: "Lectures poétiques quotidiennes, méditation au coucher du soleil et accompagnement bienveillant." },
+        essential_priority: "La liberté de l'océan, le souffle du vent du large et la paix infinie retrouvée auprès des miens.",
+        other_wishes: "Entourée de mes petits-enfants, sans tuyaux ni moniteurs sonores intrusifs.",
+        post_mortem_wills: {
+          body_donation: "Non",
+          body_disposition: "incinere",
+          leave_choice_to_relatives: false,
+          rites: "Dispersion au large des côtes belges au départ du port d'Ostende au son du violoncelle",
+          funeral_insurance_ref: "Contrat Obsèques Corona Direct n° CR-448102",
+          other_wishes: "Fleurs blanches jetées à la mer à l'instant de la dispersion des cendres."
+        },
+        attachments: [
+          { name: "Directives_anticipées_PSPA.pdf", size: 1200000 },
+          { name: "Declaration_euthanasie_enregistree.pdf", size: 650000 }
+        ]
+      },
+      funeral_wills: {
+        burial_mode: 7,
+        burial_mode_label: "Crémation avec dispersion des cendres en mer territoriale belge",
+        residue_destination: "Mer du Nord territoriale belge (au large d'Ostende)",
+        coffin_material: "Cercueil écologique en pin massif issu de forêts durables FSC",
+        ceremony_nature: "Cérémonie poétique en mer avec recueillement musical",
+        chosen_funeral_home: "Pompes Funèbres Maritimes de la Côte",
+        has_funeral_insurance: true,
+        legal_validation: {
+          permit_number: "PERMIS-2026-OST-MER-003",
+          permit_date: "2026-10-09",
+          permit_officer: "Commissaire Maritime d'Ostende"
+        }
+      },
+      multimedia_memorial: {
+        photo_count: 4,
+        chosen_music: { title: "Claude Debussy — La Mer (Dialogue du vent et de la mer)" },
+        audio_choice: { has_voice_memo: true, voice_memo_duration_sec: 54, ambient_preset: "A_MAJOR_CELESTIAL" },
+        audience_cards_count: 80
+      },
+      bat_status: { carte_1_status: "VALIDE", ready_to_print: true }
+    }
+  ];
+
   const state = {
     cases: (window.PAX_TEST_CASES || []).map(c => Object.assign({}, c, { category: c.category })),
+    saturationCases: SATURATION_CASES,
     saved: loadSaved(),
+
     data: null,
     tab: "card1",
     view: "side",
@@ -107,8 +368,11 @@
 
   // ------------------------------------------------------------ sélection d'un dossier
   function allCases() {
-    return state.saved.map(c => Object.assign(c, { category: "MES_PAVS" })).concat(state.cases);
+    return state.saved.map(c => Object.assign(c, { category: "MES_PAVS" }))
+      .concat(state.saturationCases || [])
+      .concat(state.cases);
   }
+
 
   function populateSelect() {
     const sel = $("#caseSelect");
