@@ -110,6 +110,10 @@
     return `<text ${a.join(" ")}>${esc(text)}</text>`;
   }
 
+  function slug(str) {
+    return String(str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
   function hash(str) {
     let h = 2166136261;
     for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
@@ -145,7 +149,10 @@
       sans: FONTS.inter.stack,
       s: v => v * scale,
       gOpacity: Number(design.guillocheOpacity ?? 0.35),
-      gDensity: Number(design.guillocheDensity ?? 5)
+      gDensity: Number(design.guillocheDensity ?? 5),
+      gParams: design.guilloche || {},
+      faceKey: `${card}${side}`,
+      nodes: []
     };
   }
 
@@ -153,7 +160,13 @@
     const { p, mat, accent, accentLight, accentDark } = x;
     return `<defs>
       <linearGradient id="${p}-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${mat.bg1}"/><stop offset="1" stop-color="${mat.bg2}"/></linearGradient>
-      <linearGradient id="${p}-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${accentLight}"/><stop offset=".45" stop-color="${accent}"/><stop offset=".55" stop-color="${accentDark}"/><stop offset="1" stop-color="${accentLight}"/></linearGradient>
+      <linearGradient id="${p}-gold" class="foil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${accentLight}"/><stop offset=".45" stop-color="${accent}"/><stop offset=".55" stop-color="${accentDark}"/><stop offset="1" stop-color="${accentLight}"/></linearGradient>
+      <linearGradient id="${p}-foil-whitegold" class="foil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f5f7"/><stop offset=".45" stop-color="#c9ced6"/><stop offset=".55" stop-color="#8e96a3"/><stop offset="1" stop-color="#eef0f3"/></linearGradient>
+      <linearGradient id="${p}-foil-rosegold" class="foil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6d3c4"/><stop offset=".45" stop-color="#d79a86"/><stop offset=".55" stop-color="#a8634f"/><stop offset="1" stop-color="#f3cbbb"/></linearGradient>
+      <linearGradient id="${p}-rainbow" class="foil holo" gradientUnits="userSpaceOnUse" spreadMethod="reflect" x1="0" y1="0" x2="7" y2="2.5"><stop offset="0" stop-color="#ff6ad5"/><stop offset=".2" stop-color="#c774e8"/><stop offset=".4" stop-color="#94d0ff"/><stop offset=".6" stop-color="#8ef6c3"/><stop offset=".8" stop-color="#fff57a"/><stop offset="1" stop-color="#ff9a6a"/></linearGradient>
+      <filter id="${p}-emboss" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur in="SourceAlpha" stdDeviation=".14" result="b"/><feSpecularLighting in="b" surfaceScale="2.2" specularConstant=".85" specularExponent="16" lighting-color="#ffffff" result="s"><feDistantLight azimuth="225" elevation="42"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="hl"/><feOffset in="SourceAlpha" dx=".11" dy=".11" result="o"/><feFlood flood-color="#000" flood-opacity=".38"/><feComposite in2="o" operator="in" result="sh"/><feMerge><feMergeNode in="sh"/><feMergeNode in="SourceGraphic"/><feMergeNode in="hl"/></feMerge></filter>
+      <filter id="${p}-deboss" x="-15%" y="-15%" width="130%" height="130%"><feOffset in="SourceAlpha" dx="-.1" dy="-.1" result="o"/><feGaussianBlur in="o" stdDeviation=".07" result="ob"/><feComposite in="SourceAlpha" in2="ob" operator="out" result="inner"/><feFlood flood-color="#000" flood-opacity=".55"/><feComposite in2="inner" operator="in" result="ish"/><feOffset in="SourceAlpha" dx=".09" dy=".09" result="o2"/><feComposite in="SourceAlpha" in2="o2" operator="out" result="lip"/><feFlood flood-color="#fff" flood-opacity=".55"/><feComposite in2="lip" operator="in" result="ihl"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="ish"/><feMergeNode in="ihl"/></feMerge></filter>
+      <filter id="${p}-white"><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0"/></filter>
       <linearGradient id="${p}-goldv" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${accentDark}"/><stop offset=".6" stop-color="${accent}"/><stop offset="1" stop-color="${accentLight}"/></linearGradient>
       <radialGradient id="${p}-sheen" cx=".25" cy=".15" r="1"><stop offset="0" stop-color="#fff" stop-opacity="${x.dark ? 0.1 : 0.45}"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
       <pattern id="${p}-hatch" width="1.6" height="1.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.6" height="1.6" fill="#8f1616"/><rect width=".7" height="1.6" fill="#a61d1d"/></pattern>
@@ -193,9 +206,21 @@
   function guilloche(x, rosettes, isVerso) {
     const c = x.dark ? x.accentLight : x.accent;
     const opFactor = isVerso ? 0.35 : 1.0;
-    let g = O.guillocheWaves(0, 0, W, H, x.gDensity, c, x.gOpacity * 0.55 * opFactor);
-    for (const r of rosettes) g += O.rosette(r[0], r[1], r[2], x.gDensity, c, x.gOpacity * opFactor);
-    return `<g class="guilloche">${g}</g>`;
+    const gp = x.gParams;
+    const waves = O.guillocheWaves(0, 0, W, H, x.gDensity, c, x.gOpacity * 0.55 * opFactor,
+      { waves: gp.waves, cycles: gp.cycles, ecc: gp.ecc, stroke: gp.stroke });
+    let ros = "";
+    for (const r of rosettes) ros += O.rosette(r[0], r[1], r[2], x.gDensity, c, x.gOpacity * opFactor, { petals: gp.petals, rings: gp.rings, ecc: gp.ecc, stroke: gp.stroke });
+    return node(x, `c${x.faceKey[0]}${x.faceKey[1]}-guilloche`, `<g class="guilloche">${waves}</g>`, { kind: "decor", locked: true, label: "Guilloche de sécurité" }) +
+      (ros ? node(x, `c${x.faceKey[0]}${x.faceKey[1]}-rosette`, `<g class="guilloche">${ros}</g>`, { kind: "decor", locked: true, label: "Rosace guillochée" }) : "");
+  }
+
+  /** Fond matière, guilloches et filets d'or, en calques verrouillés par défaut. */
+  function decor(x, rosettes, isVerso) {
+    const k = `c${x.faceKey[0]}${x.faceKey[1]}`;
+    return node(x, `${k}-background`, background(x), { kind: "decor", locked: true, label: "Fond matière", bleed: true }) +
+      guilloche(x, rosettes, isVerso) +
+      node(x, `${k}-fillets`, fillets(x), { kind: "decor", locked: true, label: "Filets d'or" });
   }
 
   function fillets(x) {
@@ -215,18 +240,151 @@
     const col = TONES[tone] || TONES.muted;
     return {
       w,
-      svg: `<g><rect x="${f(xx)}" y="${f(y)}" width="${f(w)}" height="${f(fs * 2.2)}" rx="${f(fs * 1.1)}" fill="${col}"/>` +
+      svg: `<g data-bg="${col}"><rect x="${f(xx)}" y="${f(y)}" width="${f(w)}" height="${f(fs * 2.2)}" rx="${f(fs * 1.1)}" fill="${col}"/>` +
         (iconName ? O.icon(iconName, xx + 0.7, y + fs * 0.35, fs * 1.5, "#fff", 0.16) : "") +
         T(xx + (iconName ? 2.75 : 1), y + fs * 1.5, label, { fam: x.sans, size: fs, weight: 600, fill: "#fff" }) + `</g>`
     };
   }
 
-  /** Élément déplaçable en mode WYSIWYG */
-  function node(x, nodeId, svgContent) {
-    const pos = (x.design && x.design.customPositions && x.design.customPositions[nodeId]) || { dx: 0, dy: 0 };
-    const tr = (pos.dx || pos.dy) ? ` transform="translate(${f(pos.dx || 0)} ${f(pos.dy || 0)})"` : "";
-    return `<g class="movable-node" data-node-id="${nodeId}"${tr}>${svgContent}</g>`;
+  // ---------------------------------------------------------------- Nœuds d'atelier (calques)
+  // Chaque élément de carte est un nœud <g class="movable-node"> : il porte la transformation
+  // (translation, rotation et échelle autour de son centre de référence), l'ordre de superposition,
+  // la visibilité, le verrouillage, les surcharges typographiques, la finition et les effets.
+  // L'état vit dans design.nodes[id] (design.customPositions[id] = ancien format {dx, dy}, toujours lu).
+  const FINISHES = {
+    gold: { label: "Dorure à chaud or", fill: p => `url(#${p}-gold)`, metal: true },
+    whitegold: { label: "Or blanc", fill: p => `url(#${p}-foil-whitegold)`, metal: true },
+    rosegold: { label: "Or rose", fill: p => `url(#${p}-foil-rosegold)`, metal: true },
+    black: { label: "Noir fiduciaire", fill: () => "#141414" },
+    white: { label: "Blanc pur", fill: () => "#ffffff" }
+  };
+  const EFFECTS = { none: "Aucun", emboss: "Gaufrage (relief)", deboss: "Débossage (creux)", hologram: "Hologramme de sécurité" };
+  const METALLIC = ["gold", "whitegold", "rosegold"];
+
+  function nodeState(x, id) {
+    const n = (x.design.nodes && x.design.nodes[id]) || {};
+    const legacy = (x.design.customPositions && x.design.customPositions[id]) || {};
+    return Object.assign({ dx: legacy.dx || 0, dy: legacy.dy || 0, sx: 1, sy: 1, rot: 0 }, n);
   }
+
+  /** Matrice de transformation SVG d'un nœud (partagée par le rendu et l'atelier). */
+  function nodeTransform(n) {
+    const f = v => Math.round(v * 1e5) / 1e5; // précision sub-micronique (échelle × distance au centre)
+    let tr = "";
+    if (n.dx || n.dy) tr += `translate(${f(n.dx || 0)} ${f(n.dy || 0)})`;
+    if (n.cx != null && n.cy != null) {
+      if (n.rot) tr += ` rotate(${f(n.rot)} ${f(n.cx)} ${f(n.cy)})`;
+      if ((n.sx ?? 1) !== 1 || (n.sy ?? 1) !== 1) tr += ` translate(${f(n.cx)} ${f(n.cy)}) scale(${f(n.sx ?? 1)} ${f(n.sy ?? 1)}) translate(${f(-n.cx)} ${f(-n.cy)})`;
+    }
+    return tr.trim();
+  }
+
+  function parseAttrs(str) {
+    const out = [];
+    str.replace(/([\w:-]+)="([^"]*)"/g, (_, k, v) => { out.push([k, v]); return ""; });
+    return out;
+  }
+  function setAttr(list, k, v) {
+    const i = list.findIndex(a => a[0] === k);
+    if (v == null) { if (i >= 0) list.splice(i, 1); return; }
+    if (i >= 0) list[i][1] = v; else list.push([k, v]);
+  }
+  function getAttr(list, k) { const a = list.find(a => a[0] === k); return a ? a[1] : null; }
+
+  /**
+   * Surcharge typographique d'un nœud texte : police, corps (mm, appliqué au premier texte et
+   * proportionnellement aux suivants), graisse, style, interlettrage, interlignage, alignement,
+   * couleur ou finition.
+   */
+  function applyTextStyle(svg, st, p) {
+    let first = null;
+    return svg.replace(/<text\b([^>]*)>/g, (_, raw) => {
+      const a = parseAttrs(raw);
+      const size = Number(getAttr(a, "font-size")) || 1;
+      const y = Number(getAttr(a, "y")) || 0;
+      if (!first) first = { size, y };
+      const ratio = st.size ? Number(st.size) / first.size : 1;
+      const leading = st.leading ? Number(st.leading) : 1;
+      if (st.size) setAttr(a, "font-size", f(size * ratio));
+      if (st.size || st.leading) setAttr(a, "y", f(first.y + (y - first.y) * ratio * leading));
+      if (st.font && FONTS[st.font]) setAttr(a, "font-family", esc(FONTS[st.font].stack));
+      if (st.weight) setAttr(a, "font-weight", String(st.weight));
+      if (st.italic != null) setAttr(a, "font-style", st.italic ? "italic" : null);
+      if (st.tracking != null && st.tracking !== "") setAttr(a, "letter-spacing", f(Number(st.tracking)));
+      if (st.align) setAttr(a, "text-anchor", st.align);
+      if (st.finish && FINISHES[st.finish]) setAttr(a, "fill", FINISHES[st.finish].fill(p));
+      else if (st.color) setAttr(a, "fill", st.color);
+      return `<text ${a.map(([k, v]) => `${k}="${v}"`).join(" ")}>`;
+    });
+  }
+
+  /** Hologramme : le contenu sert de masque à un dégradé irisé, mobile au survol (screen). */
+  function hologram(x, id, content) {
+    const m = `${x.p}-holo-${id}`;
+    return `<mask id="${m}" maskUnits="userSpaceOnUse" x="-12" y="-12" width="${f(W + 24)}" height="${f(H + 24)}"><g filter="url(#${x.p}-white)">${content}</g></mask>` +
+      `<rect class="holo-layer" x="-12" y="-12" width="${f(W + 24)}" height="${f(H + 24)}" fill="url(#${x.p}-rainbow)" mask="url(#${m})" opacity=".88" style="mix-blend-mode:${x.dark ? "screen" : "normal"};pointer-events:none"/>`;
+  }
+
+  /**
+   * Déclare un nœud. Le contenu est mis en attente sous un marqueur ; render() remplit ensuite les
+   * emplacements dans l'ordre z, ce qui permet de réordonner les calques sans recalculer la mise en page.
+   */
+  function node(x, nodeId, svgContent, meta) {
+    meta = meta || {};
+    const n = nodeState(x, nodeId);
+    let content = svgContent;
+    if (n.text) content = applyTextStyle(content, n.text, x.p);
+    const kind = meta.kind || (/<text\b/.test(svgContent) ? "text" : "group");
+    const locked = n.locked ?? !!meta.locked;
+    const metal = (n.text && METALLIC.includes(n.text.finish)) || n.effect === "hologram";
+    const label = n.name || NODE_LABELS[nodeId] || meta.label || nodeId;
+    let inner = `<g class="nc">${content}</g>`;
+    if (n.effect === "emboss" || n.effect === "deboss") inner = `<g filter="url(#${x.p}-${n.effect})">${inner}</g>`;
+    if (n.effect === "hologram") inner += hologram(x, nodeId, content);
+    const attrs = [`class="movable-node kind-${kind}"`, `data-node-id="${nodeId}"`, `data-kind="${kind}"`];
+    const tr = nodeTransform(n);
+    if (tr) attrs.push(`transform="${tr}"`);
+    if (n.hidden) attrs.push(`display="none"`);
+    if (locked) attrs.push(`data-locked="true"`);
+    if (metal) attrs.push(`data-metal="true"`);
+    if (meta.bleed) attrs.push(`data-bleed="true"`);
+    if (meta.required) attrs.push(`data-required="true"`);
+    attrs.push(`data-label="${esc(label)}"`);
+    if (n.opacity != null && n.opacity !== 1) attrs.push(`opacity="${f(n.opacity)}"`);
+    const order = x.nodes.length;
+    x.nodes.push({
+      id: nodeId, order, z: n.z ?? order, kind, locked, hidden: !!n.hidden, metal, required: !!meta.required,
+      bleed: !!meta.bleed, decor: kind === "decor",
+      label,
+      svg: `<g ${attrs.join(" ")}>${inner}</g>`
+    });
+    return `\u0000N${order}\u0000`;
+  }
+
+  /** Remplit les emplacements des nœuds dans l'ordre z (stable). */
+  function resolveNodes(body, nodes) {
+    const sorted = nodes.slice().sort((a, b) => a.z - b.z || a.order - b.order);
+    let k = 0;
+    return body.replace(/\u0000N(\d+)\u0000/g, () => (sorted[k++] || { svg: "" }).svg);
+  }
+
+  /** Libellés par défaut de l'arbre des calques. */
+  const NODE_LABELS = {
+    "c1r-title": "Titre AETERNITRAK", "c1r-subtitle": "Sous-titre", "c1r-norm": "Mention ID-1", "c1r-rule": "Filet d'or",
+    "c1r-portrait": "Médaillon / portrait", "c1r-name": "Nom et prénom", "c1r-modulo": "Badge modulo 97",
+    "c1r-idrow1": "Genre · naissance · téléphone", "c1r-idrow2": "NISS · date d'enregistrement", "c1r-sep1": "Filet séparateur",
+    "c1r-care-title": "Titre directives médicales", "c1r-care": "Directives & thérapies refusées", "c1r-comments": "Commentaires",
+    "c1r-sep2": "Filet séparateur", "c1r-pyro": "Bandeau pyrotechnique", "c1r-footer": "Mention puce NFC", "c1r-ref": "Référence dossier",
+    "c1v-title": "Titre dernières volontés", "c1v-law": "Mention légale", "c1v-rule": "Filet d'or", "c1v-colsep": "Filet vertical",
+    "c1v-col1-title": "Titre volontés funéraires", "c1v-col2-title": "Titre fin de vie", "c1v-essential": "Cartouche parole essentielle",
+    "c1v-rule2": "Filet inférieur", "c1v-permit": "Permis d'inhumation", "c1v-seal": "Mention de scellement",
+    "c1v-nfc": "Cible NFC", "c1v-nfc-caption": "Invitation NFC",
+    "c2r-header": "En mémoire éternelle de", "c2r-name": "Nom du défunt", "c2r-years": "Années de vie", "c2r-rule": "Filet d'or",
+    "c2r-quote": "Citation mémorielle", "c2r-emblem": "Insigne", "c2r-branch": "Rameau de chêne", "c2r-arches": "Arcades",
+    "c2r-stele": "Stèle", "c2r-photo0": "Photo principale", "c2r-photo1": "Photo 2", "c2r-photo2": "Photo 3", "c2r-photo3": "Photo 4",
+    "c2v-title": "Titre hommage", "c2v-rule1": "Filet d'or", "c2v-wave": "Onde sonore", "c2v-music": "Œuvre musicale",
+    "c2v-voice": "Message vocal", "c2v-nfc": "Appel NFC", "c2v-rule2": "Filet inférieur", "c2v-audience": "Tirage & empreinte"
+  };
 
   /** Portrait photo (jusqu'à 4 photos avec recadrage et zoom) ou camée vectoriel. */
   function portrait(x, shape, id, photoIndex = 0) {
@@ -298,7 +456,7 @@
 
     return {
       w, h,
-      svg: `<g><rect x="${f(xx)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(h / 2)}" fill="${bg}" stroke="${stroke}" stroke-width=".1"/>` +
+      svg: `<g data-bg="${isFilled ? col : ""}"><rect x="${f(xx)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(h / 2)}" fill="${bg}" stroke="${stroke}" stroke-width=".1"/>` +
         (iconName ? O.icon(iconName, xx + 0.9, y + (h - is) / 2, is, iconCol, 0.16) : "") +
         T(xx + (iconName ? is + 1.6 : 1.0), y + h * 0.72, label, { fam: x.sans, size: fs, weight: 600, fill: textCol }) + `</g>`
     };
@@ -512,63 +670,63 @@
     const ci = c.civil_identity || {};
     const pr = c.pavs_record || {};
     const { m, s } = card1Metrics(x);
-    let g = background(x) + guilloche(x, [[42.8, 27, 16]]) + fillets(x);
+    let g = decor(x, [[42.8, 27, 16]]);
 
     // En-tête solennel
-    g += T(L, 5.55, "AETERNITRAK", { fam: x.title, size: 1.65, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.22 });
-    g += T(26.0, 5.45, "DERNIÈRES VOLONTÉS · SOINS ANTICIPÉS", { fam: x.sans, size: 0.82, weight: 600, fill: x.muted, ls: 0.08 });
-    g += T(RR, 5.45, "ID-1 · NFC ACOSJ 92 Ko", { fam: x.sans, size: 0.8, fill: x.muted, anchor: "end", ls: 0.08 });
-    g += goldRule(x, L, RR, 6.85);
+    g += node(x, "c1r-title", T(L, 5.55, "AETERNITRAK", { fam: x.title, size: 1.65, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.22 }));
+    g += node(x, "c1r-subtitle", T(26.0, 5.45, "DERNIÈRES VOLONTÉS · SOINS ANTICIPÉS", { fam: x.sans, size: 0.82, weight: 600, fill: x.muted, ls: 0.08 }));
+    g += node(x, "c1r-norm", T(RR, 5.45, "ID-1 · NFC ACOSJ 92 Ko", { fam: x.sans, size: 0.8, fill: x.muted, anchor: "end", ls: 0.08 }));
+    g += node(x, "c1r-rule", goldRule(x, L, RR, 6.85));
 
     // Identité (vignette photo ou camée vectoriel)
     const cameoShape = `<rect x="${L}" y="7.65" width="6.3" height="7.9" rx=".45"/>`;
-    g += `<clipPath id="${x.p}-pt">${cameoShape}</clipPath><g clip-path="url(#${x.p}-pt)">` +
+    g += node(x, "c1r-portrait", `<clipPath id="${x.p}-pt">${cameoShape}</clipPath><g clip-path="url(#${x.p}-pt)">` +
       `<rect x="${L}" y="7.65" width="6.3" height="7.9" fill="${rgba(x.accent, x.dark ? 0.35 : 0.12)}"/>` +
       O.spiro(L + 3.15, 11.6, 7, 4, 3.2, 0.24, x.accent, 0.35) +
       O.cameo(L + 3.15, 11.6, 2.3, 3.2, `url(#${x.p}-goldv)`, "none") + `</g>` +
-      cameoShape.replace("/>", ` fill="none" stroke="url(#${x.p}-gold)" stroke-width=".35"/>`);
+      cameoShape.replace("/>", ` fill="none" stroke="url(#${x.p}-gold)" stroke-width=".35"/>`), { kind: "image" });
 
     const X = L + 7.5;
     const nameS = Math.min(s * 1.45, 2.0);
     const nm = fit(ci.full_name || "Nom Prénom", RR - X - 22, nameS, x.title, 600, s);
-    g += T(X, 9.95, nm.text, { fam: x.title, size: nm.size, weight: 600, fill: x.ink, ls: 0.06 });
+    g += node(x, "c1r-name", T(X, 9.95, nm.text, { fam: x.title, size: nm.size, weight: 600, fill: x.ink, ls: 0.06 }), { required: true });
 
     const niss = R.validateNiss(ci.national_id_niss, ci.birth_date, ci.gender);
-    const modPill = badgePill(RR - 20, 7.8, niss.valid ? "✓ MODULO 97" : "✗ INVALIDE", niss.valid ? "ok" : "danger", null, x, 0.82);
-    g += modPill.svg;
+    g += node(x, "c1r-modulo", badgePill(RR - 20, 7.8, niss.valid ? "✓ MODULO 97" : "✗ INVALIDE", niss.valid ? "ok" : "danger", null, x, 0.82).svg);
 
     // Ligne identité 2
     const gIcon = ci.gender === "F" ? "genderF" : ci.gender === "M" ? "genderM" : "genderX";
     let curX = X;
-    g += O.icon(gIcon, curX, 11.3, 2.0, x.accent, 0.15);
+    let row = O.icon(gIcon, curX, 11.3, 2.0, x.accent, 0.15);
     curX += 2.6;
     const birthStr = [ci.birth_date && shortDate(ci.birth_date), ci.birth_place].filter(has).join(" · ");
     if (birthStr) {
-      g += O.icon("birth", curX, 11.3, 2.0, x.accent, 0.15);
+      row += O.icon("birth", curX, 11.3, 2.0, x.accent, 0.15);
       curX += 2.5;
-      g += T(curX, 12.7, birthStr, { fam: x.dfam, size: s * 0.95, fill: x.ink });
+      row += T(curX, 12.7, birthStr, { fam: x.dfam, size: s * 0.95, fill: x.ink });
       curX += measure(birthStr, s * 0.95, x.dfam, 400) + 3.0;
     }
     if (ci.phone) {
-      g += O.icon("phone", curX, 11.3, 2.0, x.accent, 0.15);
+      row += O.icon("phone", curX, 11.3, 2.0, x.accent, 0.15);
       curX += 2.5;
-      g += T(curX, 12.7, ci.phone, { fam: x.dfam, size: s * 0.95, fill: x.ink });
+      row += T(curX, 12.7, ci.phone, { fam: x.dfam, size: s * 0.95, fill: x.ink });
     }
+    g += node(x, "c1r-idrow1", row, { required: true });
 
     // Ligne identité 3
     curX = X;
-    g += O.icon("idcard", curX, 13.6, 2.0, x.accent, 0.15);
+    row = O.icon("idcard", curX, 13.6, 2.0, x.accent, 0.15);
     curX += 2.5;
-    g += T(curX, 15.0, niss.formatted || "—", { fam: x.mono, size: s * 0.95, fill: x.ink });
+    row += T(curX, 15.0, niss.formatted || "—", { fam: x.mono, size: s * 0.95, fill: x.ink });
     curX += measure(niss.formatted || "—", s * 0.95, x.mono, 400) + 3.5;
     if (pr.registered_date) {
-      g += O.icon("calendar", curX, 13.6, 2.0, x.accent, 0.15);
+      row += O.icon("calendar", curX, 13.6, 2.0, x.accent, 0.15);
       curX += 2.5;
-      g += T(curX, 15.0, `Enregistré le ${shortDate(pr.registered_date)}`, { fam: x.dfam, size: s * 0.9, fill: x.muted });
+      row += T(curX, 15.0, `Enregistré le ${shortDate(pr.registered_date)}`, { fam: x.dfam, size: s * 0.9, fill: x.muted });
     }
+    g += node(x, "c1r-idrow2", row, { required: true });
 
-    // Filet séparateur
-    g += `<path d="M${L} 16.0H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`;
+    g += node(x, "c1r-sep1", `<path d="M${L} 16.0H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`);
 
     // Contacts d'urgence qualifiés (grille adaptative sans tirets vides)
     const contactColW = (RR - L - 1.6) / 2;
@@ -578,53 +736,50 @@
 
     m.contacts.forEach((cl, i) => {
       const col = i % 2;
-      const row = Math.floor(i / 2);
+      const r = Math.floor(i / 2);
       const cx = L + col * (contactColW + 1.6);
-      const cy = 16.5 + row * (cH + 0.4);
-      g += `<rect x="${f(cx)}" y="${f(cy)}" width="${f(contactColW)}" height="${f(cH)}" rx=".6" fill="${rgba(x.accent, x.dark ? 0.12 : 0.06)}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".1"/>`;
-      g += O.icon(cl.icon, cx + 0.6, cy + (cH - 2.0) / 2, 2.0, x.accent, 0.15);
-
+      const cy = 16.5 + r * (cH + 0.4);
+      let cell = `<rect x="${f(cx)}" y="${f(cy)}" width="${f(contactColW)}" height="${f(cH)}" rx=".6" fill="${rgba(x.accent, x.dark ? 0.12 : 0.06)}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".1"/>`;
+      cell += O.icon(cl.icon, cx + 0.6, cy + (cH - 2.0) / 2, 2.0, x.accent, 0.15);
       const txtX = cx + 3.1;
-      const line1 = cl.label;
-      const line2 = cl.lines.join(" · ");
-      const fitLine2 = fit(line2, contactColW - 3.8, s * 0.88, x.dfam, 400, 0.7);
-
-      g += T(txtX, cy + cH * 0.45, line1, { fam: x.sans, size: s * 0.85, weight: 700, fill: x.accent });
-      g += T(txtX, cy + cH * 0.85, fitLine2.text, { fam: x.dfam, size: fitLine2.size, fill: x.ink });
+      const fitLine2 = fit(cl.lines.join(" · "), contactColW - 3.8, s * 0.88, x.dfam, 400, 0.7);
+      cell += T(txtX, cy + cH * 0.45, cl.label, { fam: x.sans, size: s * 0.85, weight: 700, fill: x.accent });
+      cell += T(txtX, cy + cH * 0.85, fitLine2.text, { fam: x.dfam, size: fitLine2.size, fill: x.ink });
+      g += node(x, `c1r-contact-${slug(cl.label)}`, cell, { label: `Contact · ${cl.label}`, required: true });
     });
 
     // Directives médicales & Thérapies refusées
     const secY = 16.5 + contactH + 0.6;
-    g += `<path d="M${L} ${f(secY)}H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`;
-    g += T(L, secY + 2.1, "DIRECTIVES MÉDICALES & THÉRAPIES REFUSÉES", { fam: x.sans, size: 0.8, weight: 700, fill: x.accent, ls: 0.1 });
+    g += node(x, "c1r-sep2", `<path d="M${L} ${f(secY)}H${RR}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`);
+    g += node(x, "c1r-care-title", T(L, secY + 2.1, "DIRECTIVES MÉDICALES & THÉRAPIES REFUSÉES", { fam: x.sans, size: 0.8, weight: 700, fill: x.accent, ls: 0.1 }));
 
     let pX = L;
     let pY = secY + 3.2;
     const pillH = s * 2.05;
-    const maxW = RR;
-
-    for (const p of m.carePills) {
-      const b = badgePill(pX, pY, p.text, p.tone, p.icon, x, s * 0.88);
-      if (pX + b.w > maxW && pX > L) {
+    let care = "";
+    for (const pp of m.carePills) {
+      const bb = badgePill(pX, pY, pp.text, pp.tone, pp.icon, x, s * 0.88);
+      if (pX + bb.w > RR && pX > L) {
         pX = L;
         pY += pillH + 0.8;
-        const b2 = badgePill(pX, pY, p.text, p.tone, p.icon, x, s * 0.88);
-        g += b2.svg;
+        const b2 = badgePill(pX, pY, pp.text, pp.tone, pp.icon, x, s * 0.88);
+        care += b2.svg;
         pX += b2.w + 1.2;
       } else {
-        g += b.svg;
-        pX += b.w + 1.2;
+        care += bb.svg;
+        pX += bb.w + 1.2;
       }
     }
+    g += node(x, "c1r-care", care, { required: true });
 
     // Commentaires éventuels
     if (has(m.comments)) {
       const cY = pY + pillH + 1.4;
-      g += O.icon("bubble", L, cY - 0.4, 2.0, x.accent, 0.15);
-      const cLines = wrap(`« ${m.comments} »`, RR - L - 3.5, s * 0.9, 2);
-      cLines.forEach((ln, li) => {
-        g += T(L + 3.2, cY + 1.0 + li * s * 1.15, ln, { fam: x.dfam, size: s * 0.9, fill: x.ink, italic: true });
+      let com = O.icon("bubble", L, cY - 0.4, 2.0, x.accent, 0.15);
+      wrap(`« ${m.comments} »`, RR - L - 3.5, s * 0.9, 2).forEach((ln, li) => {
+        com += T(L + 3.2, cY + 1.0 + li * s * 1.15, ln, { fam: x.dfam, size: s * 0.9, fill: x.ink, italic: true });
       });
+      g += node(x, "c1r-comments", com, { required: true });
     }
 
     // Bandeau pyrotechnique (sécurité crématoire)
@@ -632,16 +787,16 @@
     const danger = pyro.level === "danger";
     const by = 44.85;
     const bh = 4.15;
-    g += `<g class="${danger ? "pyro-danger" : "pyro-ok"}"><rect x="${L}" y="${by}" width="${f(RR - L)}" height="${bh}" rx=".8" fill="${danger ? `url(#${x.p}-hatch)` : "#1f6a45"}"/>`;
-    g += O.icon(danger ? "alert" : "pacemaker", L + 0.8, by + (bh - 2.5) / 2, 2.5, "#fff", 0.2);
-    const title = pyro.title.toUpperCase();
+    const band = danger ? "#a61d1d" : "#1f6a45";
+    let py = `<g class="${danger ? "pyro-danger" : "pyro-ok"}" data-bg="${band}"><rect x="${L}" y="${by}" width="${f(RR - L)}" height="${bh}" rx=".8" fill="${danger ? `url(#${x.p}-hatch)` : band}"/>`;
+    py += O.icon(danger ? "alert" : "pacemaker", L + 0.8, by + (bh - 2.5) / 2, 2.5, "#fff", 0.2);
     const det = fit(pyro.detail, RR - L - 5.5, 0.84, x.sans, 400, 0.72);
-    g += T(L + 4.0, by + 1.85, title, { fam: x.sans, size: 0.95, weight: 700, fill: "#fff", ls: 0.04 });
-    g += T(L + 4.0, by + 3.42, det.text, { fam: x.sans, size: det.size, fill: "#fff", opacity: 0.92 });
-    g += `</g>`;
+    py += T(L + 4.0, by + 1.85, pyro.title.toUpperCase(), { fam: x.sans, size: 0.95, weight: 700, fill: "#fff", ls: 0.04 });
+    py += T(L + 4.0, by + 3.42, det.text, { fam: x.sans, size: det.size, fill: "#fff", opacity: 0.92 });
+    g += node(x, "c1r-pyro", py + `</g>`, { required: true });
 
-    g += T(L, 50.55, "Intégralité du PAVS scellée dans la puce NFC sans contact · JavaCard ACOSJ 92 Ko", { fam: x.sans, size: 0.78, fill: x.muted });
-    g += T(RR, 50.55, c.id || "", { fam: x.mono, size: 0.72, fill: x.muted, anchor: "end" });
+    g += node(x, "c1r-footer", T(L, 50.55, "Intégralité du PAVS scellée dans la puce NFC sans contact · JavaCard ACOSJ 92 Ko", { fam: x.sans, size: 0.78, fill: x.muted }));
+    g += node(x, "c1r-ref", T(RR, 50.55, c.id || "", { fam: x.mono, size: 0.72, fill: x.muted, anchor: "end" }));
     return g;
   }
 
@@ -653,79 +808,61 @@
     const ind = 2.8;
     const lh = s * 1.22;
 
-    let g = background(x) + guilloche(x, [[42.8, 26, 17]], true) + fillets(x);
+    let g = decor(x, [[42.8, 26, 17]], true);
 
     // En-tête
-    g += T(L, 5.55, "DERNIÈRES VOLONTÉS & DISPOSITIONS LÉGALES", { fam: x.title, size: 1.6, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.2 });
-    g += T(RR, 5.45, "Loi du 20 juillet 1971 · Funérailles & Sépultures", { fam: x.body, size: 0.85, fill: x.muted, anchor: "end", italic: true });
-    g += goldRule(x, L, RR, 6.85);
+    g += node(x, "c1v-title", T(L, 5.55, "DERNIÈRES VOLONTÉS & DISPOSITIONS LÉGALES", { fam: x.title, size: 1.6, weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.2 }));
+    g += node(x, "c1v-law", T(RR, 5.45, "Loi du 20 juillet 1971 · Funérailles & Sépultures", { fam: x.body, size: 0.85, fill: x.muted, anchor: "end", italic: true }));
+    g += node(x, "c1v-rule", goldRule(x, L, RR, 6.85));
+    g += node(x, "c1v-colsep", `<path d="M42.75 8.2V43.5" stroke="url(#${x.p}-gold)" stroke-width=".12" stroke-dasharray="1.2 .6"/>`);
 
-    // Filet séparateur vertical entre les deux colonnes
-    g += `<path d="M42.75 8.2V43.5" stroke="url(#${x.p}-gold)" stroke-width=".12" stroke-dasharray="1.2 .6"/>`;
+    const item = (id, it, X0, y, maxLines) => {
+      let svg = O.icon(it.icon, X0, y, 1.8, x.accent, 0.15);
+      const lines = wrap(it.text, colW - ind, s, maxLines);
+      lines.forEach((ln, li) => {
+        svg += T(X0 + ind, y + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink, weight: li === 0 && it.name === "Sépulture" ? 600 : 400 });
+      });
+      g += node(x, id, svg, { label: it.name || "Volonté", required: true });
+      return lines.length * lh + s * 0.35;
+    };
 
     // Colonne 1 (Gauche : Volontés Funéraires & Sépulture)
     const col1X = L;
-    g += T(col1X, 8.8, "VOLONTÉS FUNÉRAIRES & SÉPULTURE", { fam: x.sans, size: 0.76, weight: 700, fill: x.accent, ls: 0.1 });
-
+    g += node(x, "c1v-col1-title", T(col1X, 8.8, "VOLONTÉS FUNÉRAIRES & SÉPULTURE", { fam: x.sans, size: 0.76, weight: 700, fill: x.accent, ls: 0.1 }));
     let y1 = 10.2;
-    for (const it of m.col1) {
-      if (y1 > 43.5) break;
-      g += O.icon(it.icon, col1X, y1, 1.8, x.accent, 0.15);
-      const lines = wrap(it.text, colW - ind, s, 3);
-      lines.forEach((ln, li) => {
-        g += T(col1X + ind, y1 + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink, weight: li === 0 && it.name === "Sépulture" ? 600 : 400 });
-      });
-      y1 += lines.length * lh + s * 0.35;
-    }
+    m.col1.forEach((it, i) => { if (y1 <= 43.5) y1 += item(`c1v-a${i}`, it, col1X, y1, 3); });
 
     // Colonne 2 (Droite : Fin de vie, Parole essentielle & Mémorial)
     const col2X = 44.0;
-    g += T(col2X, 8.8, "FIN DE VIE, PAROLE & MÉMORIAL", { fam: x.sans, size: 0.76, weight: 700, fill: x.accent, ls: 0.1 });
-
+    g += node(x, "c1v-col2-title", T(col2X, 8.8, "FIN DE VIE, PAROLE & MÉMORIAL", { fam: x.sans, size: 0.76, weight: 700, fill: x.accent, ls: 0.1 }));
     let y2 = 10.2;
-    for (const it of m.col2.slice(0, 3)) {
-      if (y2 > 43.5) break;
-      g += O.icon(it.icon, col2X, y2, 1.8, x.accent, 0.15);
-      const lines = wrap(it.text, colW - ind, s, 2);
-      lines.forEach((ln, li) => {
-        g += T(col2X + ind, y2 + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink });
-      });
-      y2 += lines.length * lh + s * 0.35;
-    }
+    m.col2.slice(0, 3).forEach((it, i) => { if (y2 <= 43.5) y2 += item(`c1v-b${i}`, it, col2X, y2, 2); });
 
     // Cartouche d'Honneur : Parole Essentielle
     if (has(m.essential)) {
       const qLines = wrap(`« ${m.essential} »`, colW - 4.5, s * 0.98, 4);
       const cartH = qLines.length * (lh * 1.05) + 4.8;
-      g += `<rect x="${f(col2X)}" y="${f(y2)}" width="${f(colW)}" height="${f(cartH)}" rx="1.0" fill="${rgba(x.accent, x.dark ? 0.14 : 0.08)}" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
-      g += `<rect x="${f(col2X + 0.45)}" y="${f(y2 + 0.45)}" width="${f(colW - 0.9)}" height="${f(cartH - 0.9)}" rx="0.6" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".07" opacity=".65"/>`;
-      g += T(col2X + colW / 2, y2 + 2.0, "✦ PAROLE ESSENTIELLE ✦", { fam: x.title, size: 0.76, weight: 600, fill: x.accent, anchor: "middle", ls: 0.16 });
+      let cart = `<rect x="${f(col2X)}" y="${f(y2)}" width="${f(colW)}" height="${f(cartH)}" rx="1.0" fill="${rgba(x.accent, x.dark ? 0.14 : 0.08)}" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
+      cart += `<rect x="${f(col2X + 0.45)}" y="${f(y2 + 0.45)}" width="${f(colW - 0.9)}" height="${f(cartH - 0.9)}" rx="0.6" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".07" opacity=".65"/>`;
+      cart += T(col2X + colW / 2, y2 + 2.0, "✦ PAROLE ESSENTIELLE ✦", { fam: x.title, size: 0.76, weight: 600, fill: x.accent, anchor: "middle", ls: 0.16 });
       qLines.forEach((ln, li) => {
-        g += T(col2X + colW / 2, y2 + 3.8 + li * (lh * 1.05), ln, { fam: x.body, size: s * 0.98, fill: x.ink, anchor: "middle", italic: true });
+        cart += T(col2X + colW / 2, y2 + 3.8 + li * (lh * 1.05), ln, { fam: x.body, size: s * 0.98, fill: x.ink, anchor: "middle", italic: true });
       });
+      g += node(x, "c1v-essential", cart, { required: true });
       y2 += cartH + 1.2;
     }
 
     // Multimédia & compléments
-    for (const it of m.col2.slice(3)) {
-      if (y2 > 43.5) break;
-      g += O.icon(it.icon, col2X, y2, 1.8, x.accent, 0.15);
-      const lines = wrap(it.text, colW - ind, s, 2);
-      lines.forEach((ln, li) => {
-        g += T(col2X + ind, y2 + 1.2 + li * lh, ln, { fam: x.dfam, size: s, fill: x.ink });
-      });
-      y2 += lines.length * lh + s * 0.35;
-    }
+    m.col2.slice(3).forEach((it, i) => { if (y2 <= 43.5) y2 += item(`c1v-c${i}`, it, col2X, y2, 2); });
 
     // Filet et bande inférieure : Permis légal et cible NFC
-    g += goldRule(x, L, RR - 6.5, 44.5);
+    g += node(x, "c1v-rule2", goldRule(x, L, RR - 6.5, 44.5));
     const lv = fw.legal_validation || {};
-    g += O.icon("doc", L, 45.6, 2.0, x.accent, 0.15);
-    g += T(L + 2.6, 47.0, `Permis n° ${lv.permit_number || "PERMIS-EN-COURS"}`, { fam: x.mono, size: s * 0.92, fill: x.ink });
-    g += T(L + 2.6, 49.5, `Scellé COSE_Sign1 ES256 · JavaCard ACOSJ 92 Ko`, { fam: x.sans, size: 0.76, fill: x.muted });
-
-    g += O.nfcTarget(RR - 2.9, 47.4, 2.8, x.accent);
-    g += T(RR - 6.2, 47.7, "Toucher pour écouter", { fam: x.sans, size: 0.72, fill: x.muted, anchor: "end", italic: true });
+    g += node(x, "c1v-permit", O.icon("doc", L, 45.6, 2.0, x.accent, 0.15) +
+      T(L + 2.6, 47.0, `Permis n° ${lv.permit_number || "PERMIS-EN-COURS"}`, { fam: x.mono, size: s * 0.92, fill: x.ink }), { required: true });
+    g += node(x, "c1v-seal", T(L + 2.6, 49.5, `Scellé COSE_Sign1 ES256 · JavaCard ACOSJ 92 Ko`, { fam: x.sans, size: 0.76, fill: x.muted }));
+    g += node(x, "c1v-nfc", O.nfcTarget(RR - 2.9, 47.4, 2.8, x.accent), { kind: "nfc" });
+    g += node(x, "c1v-nfc-caption", T(RR - 6.2, 47.7, "Toucher pour écouter", { fam: x.sans, size: 0.72, fill: x.muted, anchor: "end", italic: true }));
     return g;
   }
 
@@ -789,9 +926,10 @@
 
   function card2Recto(x) {
     const layout = x.design.layout || "A";
-    let g = background(x);
+    let g = node(x, "c2r-background", background(x), { kind: "decor", locked: true, label: "Fond matière", bleed: true });
+    const filletsNode = () => node(x, "c2r-fillets", fillets(x), { kind: "decor", locked: true, label: "Filets d'or" });
     if (layout === "A") {
-      g += guilloche(x, [[22, 28, 17]]) + fillets(x);
+      g += guilloche(x, [[22, 28, 17]]) + filletsNode();
       g += node(x, "c2r-photo0",
         `<circle cx="22" cy="28" r="15" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".12"/>` +
         portrait(x, { kind: "ellipse", cx: 22, cy: 28, rx: 12.6, ry: 12.6 }, "med", 0) +
@@ -800,7 +938,7 @@
       g += node(x, "c2r-emblem", emblem(x, 61, 7.5, 6.5));
       g += memorialText(x, 61, 14.6, 39, {});
     } else if (layout === "B") {
-      g += guilloche(x, [[23, 27, 14], [64, 27, 14]]) + fillets(x);
+      g += guilloche(x, [[23, 27, 14], [64, 27, 14]]) + filletsNode();
       g += node(x, "c2r-photo0",
         `<rect x="${M}" y="${M + 0.5}" width="35" height="${f(H - 2 * M - 1)}" rx="1" fill="${rgba("#000000", x.dark ? 0.25 : 0.06)}" stroke="url(#${x.p}-gold)" stroke-width=".4"/>` +
         `<path d="M${M} ${M + 0.5}l1.4 1.4M${M + 35} ${M + 0.5}l-1.4 1.4M${M} ${f(H - M - 0.5)}l1.4 -1.4M${M + 35} ${f(H - M - 0.5)}l-1.4 -1.4" stroke="url(#${x.p}-gold)" stroke-width=".2"/>` +
@@ -813,13 +951,12 @@
       g += node(x, "c2r-emblem", emblem(x, 64, 7.8, 6.2));
       g += memorialText(x, 64, 14.8, 32, { nameSize: 3.2 });
     } else if (layout === "C") {
-      g += guilloche(x, [[42.8, 27, 18]]) + fillets(x);
+      g += guilloche(x, [[42.8, 27, 18]]) + filletsNode();
       const arches = [{ x: 5.5, w: 21 }, { x: 31.3, w: 23 }, { x: 59.1, w: 21 }];
       const ay = 11;
       const ah = 31;
-      arches.forEach(a => {
-        g += `<path d="M${f(a.x)} ${ay + ah}V${f(ay + a.w / 2)}a${f(a.w / 2)} ${f(a.w / 2)} 0 0 1 ${f(a.w)} 0V${ay + ah}" fill="${rgba(x.accent, x.dark ? 0.1 : 0.06)}" stroke="url(#${x.p}-gold)" stroke-width=".3"/>`;
-      });
+      g += node(x, "c2r-arches", arches.map(a =>
+        `<path d="M${f(a.x)} ${ay + ah}V${f(ay + a.w / 2)}a${f(a.w / 2)} ${f(a.w / 2)} 0 0 1 ${f(a.w)} 0V${ay + ah}" fill="${rgba(x.accent, x.dark ? 0.1 : 0.06)}" stroke="url(#${x.p}-gold)" stroke-width=".3"/>`).join(""));
       g += node(x, "c2r-header", T(42.8, 7.3, "EN MÉMOIRE ÉTERNELLE DE", { fam: x.sans, size: x.s(1.15), weight: 600, fill: x.muted, anchor: "middle", ls: 0.32 }));
 
       const hasSlot1 = x.design.photos && x.design.photos[1]?.url;
@@ -850,7 +987,7 @@
       const nm = fit((x.data.civil_identity || {}).full_name || "", 72, x.s(3.1), x.title, 600, x.s(2));
       g += node(x, "c2r-name", T(42.8, 48.6, nm.text, { fam: x.title, size: nm.size, weight: 600, fill: x.ink, anchor: "middle", ls: 0.15 }));
     } else if (layout === "D") {
-      g += guilloche(x, [[64, 28, 14]]) + fillets(x);
+      g += guilloche(x, [[64, 28, 14]]) + filletsNode();
       const cells = [[M, M + 0.6, 19, 21.6], [M + 20, M + 0.6, 19, 10.3], [M + 20, M + 11.9, 19, 10.3], [M, M + 23.2, 9.2, 21], [M + 10.2, M + 23.2, 28.8, 21]];
       const count = Math.max(1, Number((x.data.multimedia_memorial || {}).photo_count) || 1);
       cells.forEach((cl, i) => {
@@ -870,9 +1007,9 @@
       g += memorialText(x, 64, 14.8, 32, { nameSize: 3.2 });
     } else {
       // E · Typographie pure : stèle épigraphique
-      g += guilloche(x, [[42.8, 30, 20]]) + fillets(x);
-      g += `<path d="M14 49V16a28.8 12 0 0 1 57.6 0V49" fill="${rgba(x.accent, x.dark ? 0.08 : 0.05)}" stroke="url(#${x.p}-gold)" stroke-width=".3"/>`;
-      g += `<path d="M15.2 49V16.3a27.6 11 0 0 1 55.2 0V49" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".08"/>`;
+      g += guilloche(x, [[42.8, 30, 20]]) + filletsNode();
+      g += node(x, "c2r-stele", `<path d="M14 49V16a28.8 12 0 0 1 57.6 0V49" fill="${rgba(x.accent, x.dark ? 0.08 : 0.05)}" stroke="url(#${x.p}-gold)" stroke-width=".3"/>` +
+        `<path d="M15.2 49V16.3a27.6 11 0 0 1 55.2 0V49" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".08"/>`);
       g += node(x, "c2r-emblem", emblem(x, 42.8, 9.4, 6));
       g += memorialText(x, 42.8, 17.6, 50, { nameSize: 3.8, quoteLines: 3 });
     }
@@ -886,7 +1023,7 @@
     const ac = mm.audio_choice || {};
     const { s } = x;
     const right = W - M;
-    let g = background(x) + guilloche(x, [[69, 25, 13]], true) + fillets(x);
+    let g = decor(x, [[69, 25, 13]], true);
 
     // Titre supérieur
     const titleSvg = T(M, 7.4, "HOMMAGE SOLENNEL & ACOUSTIQUE", { fam: x.title, size: s(2.15), weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.16 }) +
@@ -949,7 +1086,7 @@
       T(nx, 33.3, "smartphone", { fam: x.body, size: s(1.55), weight: 600, fill: x.ink, anchor: "middle" });
     const latW = pill(0, 0, "38 ms", "ok", "bolt", x, s(0.95)).w;
     nfcSvg += pill(nx - latW / 2, 35.0, "38 ms", "ok", "bolt", x, s(0.95)).svg;
-    g += node(x, "c2v-nfc", nfcSvg);
+    g += node(x, "c2v-nfc", nfcSvg, { kind: "nfc" });
 
     // Numérotation d'audience & empreinte
     g += node(x, "c2v-rule2", goldRule(x, M, right, 44.4));
@@ -990,12 +1127,16 @@
     return g;
   }
 
+  /** Index des nœuds du dernier rendu de chaque face (arbre des calques, pré-vol). */
+  const NODE_INDEX = {};
+
   const RENDERERS = { "1recto": card1Recto, "1verso": card1Verso, "2recto": card2Recto, "2verso": card2Verso };
 
   function render(card, side, data, design, opts) {
     opts = opts || {};
     const x = context(card, side, data, design, opts);
-    const body = RENDERERS[`${card}${side}`](x);
+    const body = resolveNodes(RENDERERS[`${card}${side}`](x), x.nodes);
+    NODE_INDEX[`${card}${side}`] = x.nodes.map(({ svg, ...meta }) => meta);
     const m = opts.crop ? 9 : 0;
     const vb = `${-m} ${-m} ${f(W + 2 * m)} ${f(H + 2 * m)}`;
     const size = opts.print || opts.export ? ` width="${f(W + 2 * m)}mm" height="${f(H + 2 * m)}mm"` : "";
@@ -1004,5 +1145,8 @@
       `<title>AeterniTrak · Carte ${card} · ${side}</title>${defs(x)}${clipped}${printMarks(opts)}</svg>`;
   }
 
-  root.PaxCards = { render, FONTS, MATERIALS, W, H, longDate, shortDate, card1Report, card1Legend };
+  root.PaxCards = {
+    render, FONTS, MATERIALS, W, H, CORNER, longDate, shortDate, card1Report, card1Legend,
+    FINISHES, EFFECTS, NODE_LABELS, NODE_INDEX, nodeTransform, applyTextStyle, hexToRgb, mix
+  };
 })(typeof self !== "undefined" ? self : this);

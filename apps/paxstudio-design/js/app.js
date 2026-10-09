@@ -307,6 +307,8 @@
     zoom: 1,
     flipped: false,
     wysiwygMode: false,
+    atelier: false,
+    showZones: false,
     recordingState: { active: false, type: null, slotIndex: -1, seconds: 0 },
     design: {
       material: "ivoire", fontTitle: "cinzel", fontBody: "cormorant", fontData: "inter", fontScale: 1, gold: C.MATERIALS.ivoire.accent,
@@ -317,7 +319,10 @@
       musics: [null, null, null, null],
       activeVoiceIndex: 0,
       activeMusicIndex: 0,
-      customPositions: {}
+      customPositions: {},
+      nodes: {},
+      guilloche: {},
+      specular: true
     }
   };
 
@@ -418,6 +423,9 @@
         if (record.activeVoiceIndex != null) state.design.activeVoiceIndex = record.activeVoiceIndex;
         if (record.activeMusicIndex != null) state.design.activeMusicIndex = record.activeMusicIndex;
         if (record.customPositions) state.design.customPositions = record.customPositions;
+        if (record.nodes) state.design.nodes = record.nodes;
+        if (record.guilloche) state.design.guilloche = record.guilloche;
+        if (record.specular != null) state.design.specular = record.specular;
         if (record.layout) {
           state.design.layout = record.layout;
           updateLayoutButtons();
@@ -458,6 +466,9 @@
           activeVoiceIndex: state.design.activeVoiceIndex,
           activeMusicIndex: state.design.activeMusicIndex,
           customPositions: state.design.customPositions,
+          nodes: state.design.nodes,
+          guilloche: state.design.guilloche,
+          specular: state.design.specular,
           layout: state.design.layout,
           years: state.design.years,
           quote: state.design.quote
@@ -499,6 +510,8 @@
     d.activeVoiceIndex = 0;
     d.activeMusicIndex = 0;
     d.customPositions = {};
+    d.nodes = {};
+    d.guilloche = {};
 
     if (d.portrait) {
       d.photos[0] = { id: 0, url: d.portrait, name: "Portrait principal", crop: { scale: 1.0, x: 0, y: 0, rotation: 0 } };
@@ -510,7 +523,7 @@
         url: "",
         name: "Mémo vocal d'adieu",
         duration: ac.voice_memo_duration_sec || 0,
-        date: shortDate(pr.registered_date),
+        date: C.shortDate(pr.registered_date),
         extract: d.voiceExtract
       };
     }
@@ -529,6 +542,15 @@
 
     // Chargement automatique des personnalisations stockées en IndexedDB
     await loadFromIndexedDb(state.data.id);
+
+    // Historique d'annulation persistant : restaure la position exacte de la pile
+    if (history) {
+      restoring = true;
+      const savedHistory = dbManager && dbManager.loadHistory ? await dbManager.loadHistory(state.data.id) : null;
+      history.load(savedHistory, "Ouverture du dossier");
+      restoring = false;
+    }
+    if (editor) editor.select(null, []);
 
     syncMirrors(state.data);
     refreshInputs();
@@ -781,7 +803,7 @@
               url: dataUrl,
               name: `Enregistrement vocal ${slotIndex + 1}`,
               duration: dur,
-              date: shortDate(new Date().toISOString()),
+              date: C.shortDate(new Date().toISOString()),
               extract: state.design.voices[slotIndex]?.extract || state.design.voiceExtract || ""
             };
             state.design.activeVoiceIndex = slotIndex;
@@ -842,7 +864,7 @@
             url: dataUrl,
             name: file.name,
             duration: dur,
-            date: shortDate(new Date().toISOString()),
+            date: C.shortDate(new Date().toISOString()),
             extract: state.design.voices[slotIndex]?.extract || state.design.voiceExtract || ""
           };
           state.design.activeVoiceIndex = slotIndex;
@@ -866,104 +888,199 @@
     reader.readAsDataURL(file);
   }
 
-  // ------------------------------------------------------------ Mode WYSIWYG & Glisser-Déposer Pointer Events
-  function bindWysiwyg() {
-    const btnWysiwyg = $("#btnWysiwyg");
-    const btnResetPositions = $("#btnResetPositions");
+  // ------------------------------------------------------------ Atelier (manipulation vectorielle, calques, pré-vol, historique)
+  let editor = null;
+  let studio = null;
+  let history = null;
+  let restoring = false;
+  const DESIGN_MEDIA = ["photos", "voices", "musics", "portrait", "portraitBytes", "fingerprint"];
 
-    if (btnWysiwyg) {
-      btnWysiwyg.addEventListener("click", () => {
-        state.wysiwygMode = !state.wysiwygMode;
-        btnWysiwyg.classList.toggle("active-wysiwyg", state.wysiwygMode);
-        $("#holderRecto").classList.toggle("wysiwyg-active", state.wysiwygMode);
-        $("#holderVerso").classList.toggle("wysiwyg-active", state.wysiwygMode);
-        toast(state.wysiwygMode ? "✨ Mode WYSIWYG activé : déplacez les éléments en glisser-déposer !" : "Mode WYSIWYG désactivé.");
-      });
+  /** Enregistrement d'un nœud ; `peek` = lecture seule (aucune création). */
+  function getRecord(id, peek) {
+    const nodes = state.design.nodes = state.design.nodes || {};
+    if (!nodes[id]) {
+      if (peek) return nodes[id] || null;
+      const legacy = (state.design.customPositions || {})[id];
+      nodes[id] = legacy ? { dx: legacy.dx || 0, dy: legacy.dy || 0 } : {};
     }
-
-    if (btnResetPositions) {
-      btnResetPositions.addEventListener("click", () => {
-        state.design.customPositions = {};
-        scheduleRender();
-        persistToIndexedDb();
-        toast("Positions personnalisées réinitialisées.");
-      });
+    return nodes[id];
+  }
+  function nodeMeta(id) {
+    for (const k of Object.keys(C.NODE_INDEX)) {
+      const m = (C.NODE_INDEX[k] || []).find(n => n.id === id);
+      if (m) return m;
     }
+    return null;
+  }
+  function isLocked(id) {
+    const rec = (state.design.nodes || {})[id];
+    if (rec && rec.locked != null) return rec.locked;
+    const m = nodeMeta(id);
+    return !!(m && m.locked);
+  }
 
+  function captureSnapshot() {
+    const design = {};
+    for (const [k, v] of Object.entries(state.design)) if (!DESIGN_MEDIA.includes(k)) design[k] = v;
+    return JSON.stringify({ data: state.data, design });
+  }
+  function restoreSnapshot(snap) {
+    const o = JSON.parse(snap);
+    restoring = true;
+    state.data = o.data;
+    for (const [k, v] of Object.entries(o.design)) state.design[k] = v;
+    if (!o.design.nodes) state.design.nodes = {};
+    syncMirrors(state.data);
+    refreshInputs();
+    renderAnnexes();
+    updateLayoutButtons();
+    $$("[data-material]").forEach(x => x.setAttribute("aria-checked", x.dataset.material === state.design.material));
+    persistToIndexedDb();
+    persistIfMine();
+    restoring = false;
+    scheduleRender();
+  }
+  let historySaveTimer = 0;
+  function persistHistory(h) {
+    if (!dbManager || !dbManager.saveHistory || !state.data) return;
+    const id = state.data.id;
+    clearTimeout(historySaveTimer);
+    historySaveTimer = setTimeout(() => dbManager.saveHistory(id, h), 400);
+  }
+  function updateHistoryButtons() {
+    if (!history) return;
+    $("#btnUndo").disabled = !history.canUndo();
+    $("#btnRedo").disabled = !history.canRedo();
+  }
+
+  /** Valide une action de l'atelier : historique, persistance, rendu. */
+  function commit(label, debounced) {
+    if (restoring) return;
+    if (debounced) history.pushDebounced(label, 500);
+    else history.push(label);
+    persistToIndexedDb();
+    scheduleRender();
+  }
+
+  function setAtelier(on) {
+    state.atelier = !!on && state.tab !== "pavs";
+    document.body.classList.toggle("atelier", state.atelier);
+    $("#btnAtelier").classList.toggle("active-wysiwyg", state.atelier);
+    $("#btnAtelier").setAttribute("aria-pressed", String(state.atelier));
+    $("#studio").hidden = !state.atelier;
+    $("#atelierHelp").hidden = !state.atelier;
+    if (state.atelier && state.view !== "side") setView("side");
+    editor.setEnabled(state.atelier);
+    scheduleRender();
+  }
+
+  /** Superposition des zones contrôlées par le pré-vol (marges, fond perdu, exclusion NFC). */
+  function drawZones() {
+    const pf = studio && studio.lastPreflight();
+    for (const [face, el] of [[`${currentCard()}recto`, $("#holderRecto")], [`${currentCard()}verso`, $("#holderVerso")]]) {
+      const svg = el.querySelector("svg.card-svg");
+      if (!svg) continue;
+      const old = svg.querySelector(":scope > g.pf-zones");
+      if (old) old.remove();
+      if (!state.atelier || !state.showZones) continue;
+      const z = pf && pf.zones.find(x => x.face === face);
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "pf-zones");
+      g.innerHTML = window.PaxPreflight.zonesOverlay(C.W, C.H, z && z.zones, 0.12);
+      svg.insertBefore(g, svg.querySelector(":scope > g.ed-overlay"));
+    }
+  }
+
+  function runPreflight() {
+    const card = currentCard();
+    const mat = C.MATERIALS[state.design.material] || C.MATERIALS.ivoire;
+    return window.PaxPreflight.run({
+      faces: [[`${card}recto`, $("#holderRecto")], [`${card}verso`, $("#holderVerso")]].map(([face, el]) => ({ face, svg: el.querySelector("svg.card-svg") })),
+      editor, getRecord: id => getRecord(id, true), materialBg: [mat.bg1, mat.bg2], accent: state.design.gold || mat.accent, W: C.W, H: C.H
+    });
+  }
+
+  /** Reflet spéculaire : oriente les dégradés de dorure et d'hologramme selon la souris. */
+  function bindSpecular() {
     ["#holderRecto", "#holderVerso"].forEach(sel => {
       const holder = $(sel);
-      if (!holder) return;
-
-      holder.addEventListener("pointerdown", e => {
-        if (!state.wysiwygMode) return;
-        const nodeEl = e.target.closest(".movable-node");
-        if (!nodeEl) return;
-        const nodeId = nodeEl.dataset.nodeId;
-        const svg = nodeEl.closest("svg");
-        if (!svg) return;
-
-        e.preventDefault();
-        e.stopPropagation();
-        nodeEl.setPointerCapture(e.pointerId);
-
-        const getSvgPoint = ev => {
-          const pt = svg.createSVGPoint();
-          pt.x = ev.clientX;
-          pt.y = ev.clientY;
-          return pt.matrixTransform(svg.getScreenCTM().inverse());
-        };
-
-        const startPt = getSvgPoint(e);
-        const curPos = (state.design.customPositions && state.design.customPositions[nodeId]) || { dx: 0, dy: 0 };
-        const initDx = curPos.dx || 0;
-        const initDy = curPos.dy || 0;
-        let lastDx = initDx;
-        let lastDy = initDy;
-
-        nodeEl.classList.add("dragging");
-
-        function onPointerMove(ev) {
-          const curPt = getSvgPoint(ev);
-          lastDx = Number((initDx + (curPt.x - startPt.x)).toFixed(2));
-          lastDy = Number((initDy + (curPt.y - startPt.y)).toFixed(2));
-          nodeEl.setAttribute("transform", `translate(${lastDx} ${lastDy})`);
-        }
-
-        function onPointerUp(ev) {
-          nodeEl.removeEventListener("pointermove", onPointerMove);
-          nodeEl.removeEventListener("pointerup", onPointerUp);
-          nodeEl.removeEventListener("pointercancel", onPointerUp);
-          nodeEl.classList.remove("dragging");
-          try { nodeEl.releasePointerCapture(ev.pointerId); } catch (_) {}
-
-          state.design.customPositions = state.design.customPositions || {};
-          state.design.customPositions[nodeId] = { dx: lastDx, dy: lastDy };
-          persistToIndexedDb();
-        }
-
-        nodeEl.addEventListener("pointermove", onPointerMove);
-        nodeEl.addEventListener("pointerup", onPointerUp);
-        nodeEl.addEventListener("pointercancel", onPointerUp);
+      holder.addEventListener("pointermove", e => {
+        if (state.design.specular === false) return;
+        const r = holder.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        holder.querySelectorAll("linearGradient.foil").forEach(gr => {
+          const holo = gr.classList.contains("holo");
+          gr.setAttribute("gradientTransform", holo
+            ? `translate(${(px * 14).toFixed(2)} ${(py * 6).toFixed(2)}) rotate(${(px * 40).toFixed(1)})`
+            : `rotate(${(px * 70).toFixed(1)} .5 .5) translate(${(px * 0.35).toFixed(3)} ${(py * 0.35).toFixed(3)})`);
+        });
       });
+      holder.addEventListener("pointerleave", () => holder.querySelectorAll("linearGradient.foil").forEach(gr => gr.removeAttribute("gradientTransform")));
+    });
+  }
 
-      // Zoom interactif à la molette sur une photo en mode WYSIWYG
-      holder.addEventListener("wheel", e => {
-        if (!state.wysiwygMode) return;
+  function bindAtelier() {
+    history = window.PaxHistory.create({
+      capture: captureSnapshot,
+      restore: restoreSnapshot,
+      persist: persistHistory,
+      onChange: () => { updateHistoryButtons(); if (studio) studio.refresh(); }
+    });
+    editor = window.PaxEditor.create({
+      getHolders: () => (state.view === "side" && state.tab !== "pavs"
+        ? [{ face: `${currentCard()}recto`, el: $("#holderRecto") }, { face: `${currentCard()}verso`, el: $("#holderVerso") }] : []),
+      getRecord,
+      isLocked,
+      onSelect: () => { if (studio) studio.onSelection(); },
+      onCommit: label => commit(label)
+    });
+    studio = window.PaxStudio.create({ state, editor, history, getRecord, isLocked, commit, currentCard, runPreflight, toast, refreshCanvas: scheduleRender });
+
+    $("#btnAtelier").addEventListener("click", () => {
+      setAtelier(!state.atelier);
+      toast(state.atelier ? "Atelier activé : sélectionnez, déplacez, redimensionnez et faites pivoter les éléments." : "Atelier fermé.");
+    });
+    $("#btnUndo").addEventListener("click", () => history.undo());
+    $("#btnRedo").addEventListener("click", () => history.redo());
+    $("#btnResetPositions").addEventListener("click", () => {
+      const prefix = `c${currentCard()}`;
+      for (const id of Object.keys(state.design.nodes || {})) if (id.startsWith(prefix)) delete state.design.nodes[id];
+      for (const id of Object.keys(state.design.customPositions || {})) if (id.startsWith(prefix)) delete state.design.customPositions[id];
+      editor.select(null, []);
+      commit("Réinitialiser la mise en page");
+      toast("Mise en page d'origine rétablie pour cette carte.");
+    });
+
+    // Raccourcis d'historique (les champs de saisie gardent leur annulation native)
+    document.addEventListener("keydown", e => {
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      const mod = e.ctrlKey || e.metaKey;
+      if (!mod) return;
+      const k = e.key.toLowerCase();
+      if (k === "z" && !e.shiftKey) { e.preventDefault(); history.undo(); }
+      else if (k === "y" || (k === "z" && e.shiftKey)) { e.preventDefault(); history.redo(); }
+    });
+
+    // Zoom à la molette sur une photo (atelier)
+    ["#holderRecto", "#holderVerso"].forEach(sel => {
+      $(sel).addEventListener("wheel", e => {
+        if (!state.atelier) return;
         const photoGroup = e.target.closest("[data-photo-idx]");
         if (!photoGroup) return;
         e.preventDefault();
         const idx = Number(photoGroup.dataset.photoIdx);
-        if (state.design.photos && state.design.photos[idx]) {
-          const p = state.design.photos[idx];
-          p.crop = p.crop || { scale: 1.0, x: 0, y: 0, rotation: 0 };
-          const delta = e.deltaY < 0 ? 0.05 : -0.05;
-          p.crop.scale = Math.max(0.5, Math.min(3.0, Number((p.crop.scale + delta).toFixed(2))));
-          renderPhotosPanel();
-          scheduleRender();
-          persistToIndexedDb();
-        }
+        const p = state.design.photos && state.design.photos[idx];
+        if (!p) return;
+        p.crop = p.crop || { scale: 1.0, x: 0, y: 0, rotation: 0 };
+        p.crop.scale = Math.max(0.5, Math.min(3.0, Number((p.crop.scale + (e.deltaY < 0 ? 0.05 : -0.05)).toFixed(2))));
+        renderPhotosPanel();
+        scheduleRender();
+        persistToIndexedDb();
       }, { passive: false });
     });
+    bindSpecular();
   }
 
   // ------------------------------------------------------------ Événements des Panneaux Carte 2
@@ -1208,6 +1325,7 @@
         state.design[k] = v;
         refreshInputs(el);
         scheduleRender();
+        if (history && !restoring) history.pushDebounced("Réglage du design");
       });
     });
   }
@@ -1219,6 +1337,7 @@
     persistIfMine();
     scheduleRender();
     scheduleFingerprint();
+    if (history && !restoring) history.pushDebounced("Saisie du dossier");
   }
 
   let persistTimer = 0;
@@ -1285,6 +1404,11 @@
       $("#miniPreview").innerHTML =
         `<p class="field-label">Aperçu Carte 1 (en direct)</p>` +
         C.render(1, "recto", c, state.design, { prefix: "mr" }) + C.render(1, "verso", c, state.design, { prefix: "mv" });
+    }
+    if (editor && state.tab !== "pavs") {
+      editor.attach();
+      if (state.atelier) studio.afterRender();
+      drawZones();
     }
     $("#canvas").classList.toggle("pulse", !!state.design.pulse && card === 2);
     document.documentElement.style.setProperty("--zoom", state.zoom);
@@ -1620,6 +1744,11 @@
     $("#pavsView").hidden = tab !== "pavs";
     $("#canvas").hidden = tab === "pavs";
     $("#cardToolbar").hidden = tab === "pavs";
+    if (editor) {
+      editor.select(null, []);
+      if (tab === "pavs" && state.atelier) setAtelier(false);
+      $("#studio").hidden = !state.atelier || tab === "pavs";
+    }
     $$("[data-only=card2]").forEach(el => { el.hidden = tab !== "card2"; });
     $$("[data-only=card1]").forEach(el => { el.hidden = tab !== "card1"; });
     if (tab === "card2") {
@@ -1631,6 +1760,7 @@
   }
 
   function setView(view) {
+    if (state.atelier && view !== "side") { toast("L'atelier travaille en vue Recto · Verso."); view = "side"; }
     state.view = view;
     $$("[data-view]").forEach(b => b.classList.toggle("on", b.dataset.view === view));
     $("#faces").hidden = view !== "side";
@@ -1658,12 +1788,14 @@
       $$("[data-material]").forEach(x => x.setAttribute("aria-checked", x === b));
       refreshInputs();
       scheduleRender();
+      if (history) history.push(`Matériau : ${C.MATERIALS[b.dataset.material].label}`);
     }));
     $$("[data-layout]").forEach(b => b.addEventListener("click", () => {
       state.design.layout = b.dataset.layout;
       updateLayoutButtons();
       scheduleRender();
       persistToIndexedDb();
+      if (history) history.push(`Gabarit ${b.dataset.layout}`);
     }));
     updateLayoutButtons();
   }
@@ -1734,7 +1866,7 @@
     window.addEventListener("afterprint", () => document.body.classList.remove("printing-bat"));
 
     // Liaison du mode WYSIWYG et des panneaux Carte 2
-    bindWysiwyg();
+    bindAtelier();
     bindPanels();
   }
 

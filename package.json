@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node qa/harness/run.mjs",
     "check:consistency": "node qa/consistency/check.mjs",
-    "test:paxstudio": "node apps/paxstudio-design/tests/rules.test.mjs"
+    "test:paxstudio": "node apps/paxstudio-design/tests/rules.test.mjs && node apps/paxstudio-design/tests/atelier.test.mjs"
   },
   "dependencies": {},
   "devDependencies": {

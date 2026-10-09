@@ -8,8 +8,9 @@
   "use strict";
 
   const DB_NAME = "PaxStudioDB";
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const STORE_MEMORIAL = "memorial_customizations";
+  const STORE_HISTORY = "history_snapshots"; // v2 : pile d'annulation par dossier
 
   let dbPromise = null;
 
@@ -25,6 +26,9 @@
         const db = event.target.result;
         if (!db.objectStoreNames.contains(STORE_MEMORIAL)) {
           db.createObjectStore(STORE_MEMORIAL, { keyPath: "caseId" });
+        }
+        if (!db.objectStoreNames.contains(STORE_HISTORY)) {
+          db.createObjectStore(STORE_HISTORY, { keyPath: "caseId" });
         }
       };
 
@@ -61,6 +65,9 @@
           activeVoiceIndex: memorialState.activeVoiceIndex ?? 0,
           activeMusicIndex: memorialState.activeMusicIndex ?? 0,
           customPositions: memorialState.customPositions || {},
+          nodes: memorialState.nodes || {},
+          guilloche: memorialState.guilloche || {},
+          specular: memorialState.specular !== false,
           layout: memorialState.layout,
           years: memorialState.years,
           quote: memorialState.quote
@@ -141,11 +148,61 @@
     }
   }
 
+  /**
+   * Historique d'annulation persistant : { caseId, index, entries: [{ label, at, snap }] }.
+   * `snap` est un instantané JSON (dossier + design hors médias) ; la pile n'est pas tronquée.
+   */
+  async function saveHistory(caseId, history) {
+    if (!caseId) return false;
+    try {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_HISTORY, "readwrite");
+        const req = tx.objectStore(STORE_HISTORY).put({ caseId: String(caseId), updatedAt: new Date().toISOString(), index: history.index, entries: history.entries });
+        req.onsuccess = () => resolve(true);
+        req.onerror = err => reject(err);
+      });
+    } catch (e) {
+      console.warn("IndexedDB saveHistory inaccessible :", e);
+      return false;
+    }
+  }
+
+  async function loadHistory(caseId) {
+    if (!caseId) return null;
+    try {
+      const db = await openDb();
+      return new Promise(resolve => {
+        const req = db.transaction(STORE_HISTORY, "readonly").objectStore(STORE_HISTORY).get(String(caseId));
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => resolve(null);
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function clearHistory(caseId) {
+    try {
+      const db = await openDb();
+      return new Promise(resolve => {
+        const req = db.transaction(STORE_HISTORY, "readwrite").objectStore(STORE_HISTORY).delete(String(caseId));
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => resolve(false);
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
   root.PaxDb = {
     openDb,
     saveMemorial,
     loadMemorial,
     clearMemorial,
-    exportAll
+    exportAll,
+    saveHistory,
+    loadHistory,
+    clearHistory
   };
 })(typeof self !== "undefined" ? self : this);

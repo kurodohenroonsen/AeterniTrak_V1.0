@@ -121,27 +121,40 @@
   }
 
   /** Lignes de sécurité ondulées (guilloche linéaire) couvrant un rectangle. */
-  function guillocheWaves(x, y, w, h, density, color, opacity) {
-    const n = 4 + density * 3;
+  /**
+   * Lignes de sécurité ondulées (guilloche linéaire) couvrant un rectangle.
+   * opts (générateur paramétrique) : waves = nombre de lignes, cycles = ondes par ligne,
+   * ecc = excentricité (amplitude relative), stroke = épaisseur du trait (mm).
+   */
+  function guillocheWaves(x, y, w, h, density, color, opacity, opts) {
+    const o = opts || {};
+    const n = Math.max(1, Math.round(o.waves || 4 + density * 3));
+    const cycles = o.cycles || 6;
+    const ecc = o.ecc ?? 1;
     let paths = "";
     for (let i = 0; i < n; i++) {
       const y0 = y + (h * (i + 0.5)) / n;
-      const amp = h / n * 1.6;
+      const amp = (h / n) * 1.6 * ecc;
       const phase = (i * Math.PI) / 3.7;
       let d = "";
       for (let xx = 0; xx <= w; xx += 0.8) {
-        const yy = y0 + amp * Math.sin((xx / w) * Math.PI * 6 + phase) * Math.cos((xx / w) * Math.PI * 1.3 + i * 0.4);
+        const yy = y0 + amp * Math.sin((xx / w) * Math.PI * cycles + phase) * Math.cos((xx / w) * Math.PI * 1.3 + i * 0.4);
         d += (xx === 0 ? "M" : "L") + f(x + xx) + " " + f(yy);
       }
       paths += `<path d="${d}"/>`;
     }
-    return `<g fill="none" stroke="${color}" stroke-width="0.06" opacity="${opacity}">${paths}</g>`;
+    return `<g fill="none" stroke="${color}" stroke-width="${f(o.stroke || 0.06)}" opacity="${opacity}">${paths}</g>`;
   }
 
-  /** Rosace guillochée : anneaux polaires déphasés (effet moiré). */
-  function rosette(cx, cy, R, density, color, opacity) {
-    const rings = 3 + Math.round(density / 2);
-    const petals = 9 + density * 2;
+  /**
+   * Rosace guillochée : anneaux polaires déphasés (effet moiré).
+   * opts : petals = nombre de pétales, rings = anneaux, ecc = excentricité, stroke = épaisseur (mm).
+   */
+  function rosette(cx, cy, R, density, color, opacity, opts) {
+    const o = opts || {};
+    const rings = Math.max(1, Math.round(o.rings || 3 + Math.round(density / 2)));
+    const petals = Math.max(3, Math.round(o.petals || 9 + density * 2));
+    const ecc = 0.14 * (o.ecc ?? 1);
     let paths = "";
     for (let k = 0; k < rings; k++) {
       const rr = R * (0.45 + (0.55 * (k + 1)) / rings);
@@ -150,13 +163,13 @@
         const ph = (p * Math.PI) / petals + k * 0.35;
         for (let t = 0; t <= 360; t += 2) {
           const a = (t * Math.PI) / 180;
-          const r = rr * (1 + 0.14 * Math.sin(petals * a + ph));
+          const r = rr * (1 + ecc * Math.sin(petals * a + ph));
           d += (t === 0 ? "M" : "L") + f(cx + r * Math.cos(a)) + " " + f(cy + r * Math.sin(a));
         }
         paths += `<path d="${d}Z"/>`;
       }
     }
-    return `<g fill="none" stroke="${color}" stroke-width="0.07" opacity="${opacity}">${paths}</g>`;
+    return `<g fill="none" stroke="${color}" stroke-width="${f(o.stroke || 0.07)}" opacity="${opacity}">${paths}</g>`;
   }
 
   /** Hypotrochoïde (spirographe) — médaillon de sécurité central. */

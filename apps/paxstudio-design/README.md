@@ -37,6 +37,34 @@ Les prompts de génération d'un jeu homogène (charte commune + sujet par icôn
 
 Les 44 cas de référence sont migrés à l'ouverture vers le schéma du formulaire officiel (`normalizePavs`, idempotent) ; le statut B.A.T. reste identique.
 
+## Atelier de conception (mode prépresse)
+
+Bouton **✥ Atelier** (cartes 1 et 2, vue Recto · Verso). Chaque élément des cartes est un calque
+`<g class="movable-node" data-node-id="…">` dont l'état vit dans `design.nodes[id]`
+(translation, rotation et échelle autour d'un centre de référence, ordre z, masquage, verrouillage,
+nom, typographie, finition, effet) — l'ancien format `customPositions {dx, dy}` reste lu.
+
+| Fonction | Commandes |
+| --- | --- |
+| Sélection | clic (repli sur la boîte englobante entre deux glyphes), Maj+clic pour ajouter, cadre de sélection en glissant sur le fond, Ctrl/⌘+A, Échap |
+| Transformation | boîte orientée à 8 poignées (Maj : proportions), poignée de rotation (Maj : paliers de 45°) avec angle en direct ; l'ancre opposée reste fixe |
+| Déplacement | glisser (groupes synchronisés), flèches 0,1 mm, Maj+flèches 1 mm, Suppr pour masquer |
+| Aimantation | centres de la carte (42,80 / 26,99 mm), marges de sécurité 3 mm, fond perdu 2 mm, découpe, bords et centres des autres calques ; guides magenta, infobulle X/Y/W/H en mm ; Alt pour désactiver |
+| Calques | arbre recto/verso, 👁 visibilité, 🔒 verrouillage (fonds, guilloches et filets verrouillés par défaut), double-clic pour renommer, glisser-déposer, premier plan / monter / descendre / arrière-plan |
+| Inspecteur | X, Y, W, H, rotation, opacité ; texte : police, corps 0,86–12 mm (équivalent pt et corps effectif), graisse, italique, interlettrage −0,5 à 2 mm, interlignage, alignement, couleur ou finition (or, or blanc, or rose, noir fiduciaire, blanc pur) |
+| Ennoblissement | gaufrage, débossage, hologramme irisé ; reflet spéculaire au survol ; générateur de guilloches et rosaces (ondes, oscillations, excentricité, pétales, anneaux, épaisseur, densité, opacité) |
+| Historique | Ctrl/⌘+Z, Ctrl/⌘+Y ou ⌘+Maj+Z, liste cliquable ; pile sans limite enregistrée par dossier dans IndexedDB (`PaxStudioDB` v2, magasin `history_snapshots`) et restaurée après rechargement |
+| Pré-vol | micro-texte < 0,86 mm (correction en un clic), zone de garde 3 mm et découpe, zone d'exclusion NFC (surfaces métallisées sur le module de puce et la bande d'antenne), contraste WCAG ; superposition des zones |
+
+Hypothèses du pré-vol, réglables dans `PaxPreflight.CONFIG` : ISO/IEC 7810 ne fixant ni contraste ni
+gabarit d'antenne, les seuils WCAG 2.x AA servent de référence et l'inlay est modélisé par un module de
+15 × 15 mm centré sur la cible NFC (en miroir sur l'autre face) et une bande d'antenne à 3–7 mm du bord,
+à confirmer avec le fabricant de l'inlay ACOSJ. Seules les dorures à chaud et les hologrammes comptent
+comme surfaces métallisées.
+
+Modules : `js/editor.js` (manipulation), `js/studio.js` (panneaux), `js/history.js` (pile d'annulation),
+`js/preflight.js` (contrôles), `js/db.js` (IndexedDB v2).
+
 ## Export & impression
 
 - **SVG recto / verso** : coordonnées en millimètres (`viewBox` = mm), dimensions physiques 85,60 × 53,98 mm, polices embarquées en base64.
@@ -45,5 +73,7 @@ Les 44 cas de référence sont migrés à l'ouverture vers le schéma du formula
 ## Tests
 
 ```bash
-node apps/paxstudio-design/tests/rules.test.mjs   # ou : npm run test:paxstudio
+node apps/paxstudio-design/tests/rules.test.mjs     # règles métier, migration PAVS, densité Carte 1
+node apps/paxstudio-design/tests/atelier.test.mjs   # nœuds, transformations, historique, pré-vol
+npm run test:paxstudio                              # les deux
 ```
