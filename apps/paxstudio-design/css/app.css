@@ -338,6 +338,161 @@ body[data-tab=pavs] .sidebar .panel { display: none; }
   .flipper { width: var(--card-w); }
 }
 
+/* ---------------------------------------------------------------- Mode WYSIWYG & Drag and Drop */
+.wysiwyg-active {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.wysiwyg-active .movable-node {
+  cursor: grab !important;
+  transition: filter 0.15s ease;
+  outline: 1px dashed rgba(207, 174, 103, 0.35);
+}
+.wysiwyg-active .movable-node:hover {
+  cursor: grab !important;
+  outline: 1.5px dashed var(--gold);
+  filter: drop-shadow(0 0 3px rgba(207, 174, 103, 0.7));
+}
+.wysiwyg-active .movable-node.dragging {
+  cursor: grabbing !important;
+  outline: 2px solid var(--info) !important;
+  filter: drop-shadow(0 0 6px rgba(109, 159, 224, 0.9));
+}
+.btn.active-wysiwyg {
+  background: linear-gradient(180deg, #2b496d, #1b314b) !important;
+  color: #d8e8fc !important;
+  border-color: #6d9fe0 !important;
+  box-shadow: 0 0 8px rgba(109, 159, 224, 0.5);
+}
+
+/* Badge persistance IndexedDB */
+.idb-badge {
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(79, 174, 124, 0.12);
+  border: 1px solid rgba(79, 174, 124, 0.35);
+  color: #9fdcbb;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+.idb-badge.saving {
+  background: rgba(215, 155, 58, 0.18);
+  border-color: rgba(215, 155, 58, 0.5);
+  color: #ecc98a;
+}
+
+/* Cartes des Slots Photos */
+.photo-slot-card, .voice-slot-card, .music-slot-card {
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  border-radius: 9px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+.slot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gold-2);
+}
+.slot-header .badge {
+  font-size: 10.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(207, 174, 103, 0.15);
+  color: var(--gold);
+}
+.photo-thumb-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.photo-thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+.photo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.crop-controls {
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 6px;
+}
+.crop-slider-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 40px;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.crop-slider-row output {
+  text-align: right;
+  font-family: var(--ui);
+  color: var(--text);
+}
+
+/* Enregistrement vocal et audio */
+.audio-player {
+  width: 100%;
+  height: 32px;
+  border-radius: 6px;
+  outline: none;
+}
+.rec-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(224, 86, 75, 0.1);
+  border: 1px solid rgba(224, 86, 75, 0.35);
+  border-radius: 7px;
+  padding: 6px 10px;
+}
+.rec-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e0564b;
+  animation: rec-pulse 1.2s infinite;
+}
+@keyframes rec-pulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 8px #e0564b; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+.rec-timer {
+  font-family: monospace;
+  font-weight: 700;
+  color: #ff9991;
+}
+.active-slot-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--gold-2);
+  cursor: pointer;
+}
+
 /* ---------------------------------------------------------------- impression B.A.T. 1:1 */
 @page { size: A4; margin: 10mm; }
 @media print {

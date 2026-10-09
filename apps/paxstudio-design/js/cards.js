@@ -221,8 +221,15 @@
     };
   }
 
-  /** Portrait photo (si fourni) ou camée vectoriel, découpé dans une forme. */
-  function portrait(x, shape, id) {
+  /** Élément déplaçable en mode WYSIWYG */
+  function node(x, nodeId, svgContent) {
+    const pos = (x.design && x.design.customPositions && x.design.customPositions[nodeId]) || { dx: 0, dy: 0 };
+    const tr = (pos.dx || pos.dy) ? ` transform="translate(${f(pos.dx || 0)} ${f(pos.dy || 0)})"` : "";
+    return `<g class="movable-node" data-node-id="${nodeId}"${tr}>${svgContent}</g>`;
+  }
+
+  /** Portrait photo (jusqu'à 4 photos avec recadrage et zoom) ou camée vectoriel. */
+  function portrait(x, shape, id, photoIndex = 0) {
     const clip = `${x.p}-${id}`;
     const shapeEl = shape.kind === "ellipse"
       ? `<ellipse cx="${f(shape.cx)}" cy="${f(shape.cy)}" rx="${f(shape.rx)}" ry="${f(shape.ry)}"/>`
@@ -230,9 +237,24 @@
         ? `<path d="M${f(shape.x)} ${f(shape.y + shape.h)}V${f(shape.y + shape.w / 2)}a${f(shape.w / 2)} ${f(shape.w / 2)} 0 0 1 ${f(shape.w)} 0V${f(shape.y + shape.h)}z"/>`
         : `<rect x="${f(shape.x)}" y="${f(shape.y)}" width="${f(shape.w)}" height="${f(shape.h)}" rx="${f(shape.r || 0)}"/>`;
     const bx = shape.kind === "ellipse" ? { x: shape.cx - shape.rx, y: shape.cy - shape.ry, w: shape.rx * 2, h: shape.ry * 2 } : shape;
+    
+    // Récupération de la photo demandée (slot 0..3)
+    const pObj = (x.design.photos && x.design.photos[photoIndex]) ? x.design.photos[photoIndex] : null;
+    const photoUrl = pObj?.url || (photoIndex === 0 ? x.design.portrait : null);
+    const crop = pObj?.crop || { scale: 1.0, x: 0, y: 0, rotation: 0 };
+
     let inner;
-    if (x.design.portrait) {
-      inner = `<image href="${x.design.portrait}" x="${f(bx.x)}" y="${f(bx.y)}" width="${f(bx.w)}" height="${f(bx.h)}" preserveAspectRatio="xMidYMid slice"/>`;
+    if (photoUrl) {
+      const s = crop.scale || 1.0;
+      const imgW = bx.w * s;
+      const imgH = bx.h * s;
+      const imgX = bx.x + (bx.w - imgW) / 2 + (crop.x || 0);
+      const imgY = bx.y + (bx.h - imgH) / 2 + (crop.y || 0);
+      const rot = crop.rotation || 0;
+      const rotAttr = rot ? ` transform="rotate(${rot} ${f(bx.x + bx.w / 2)} ${f(bx.y + bx.h / 2)})"` : "";
+      inner = `<g class="photo-image-group" data-photo-idx="${photoIndex}"${rotAttr}>` +
+        `<image href="${photoUrl}" x="${f(imgX)}" y="${f(imgY)}" width="${f(imgW)}" height="${f(imgH)}" preserveAspectRatio="xMidYMid slice"/>` +
+        `</g>`;
     } else {
       const panel = x.dark ? rgba("#000000", 0.35) : rgba(x.accent, 0.12);
       inner = `<rect x="${f(bx.x)}" y="${f(bx.y)}" width="${f(bx.w)}" height="${f(bx.h)}" fill="${panel}"/>` +
@@ -733,30 +755,34 @@
   function memorialText(x, cx, top, maxW, opts) {
     const c = x.data;
     const { s } = x;
-    const o = Object.assign({ header: true, quoteLines: 3, nameSize: 3.6 }, opts);
+    const o = Object.assign({ header: true, quoteLines: 3, nameSize: 3.6, prefix: "c2r" }, opts);
     let g = "";
     let y = top;
     if (o.header) {
       const hf = fit("EN MÉMOIRE ÉTERNELLE DE", maxW, s(1.2), x.sans, 600, s(0.8));
-      g += T(cx, y, hf.text, { fam: x.sans, size: hf.size, weight: 600, fill: x.muted, anchor: "middle", ls: 0.32 });
+      g += node(x, `${o.prefix}-header`, T(cx, y, hf.text, { fam: x.sans, size: hf.size, weight: 600, fill: x.muted, anchor: "middle", ls: 0.32 }));
       y += 6.2;
     }
     const nm = (c.civil_identity || {}).full_name || "Nom Prénom";
     const nameLines = wrap(nm, maxW, s(o.nameSize), x.title, 2);
     const ns = nameLines.length > 1 ? s(o.nameSize * 0.82) : fit(nm, maxW, s(o.nameSize), x.title, 600, s(2.2)).size;
+    let nameSvg = "";
     nameLines.forEach((ln, i) => {
-      g += T(cx, y + i * ns * 1.15, ln, { fam: x.title, size: ns, weight: 600, fill: x.ink, anchor: "middle", ls: 0.12 });
+      nameSvg += T(cx, y + i * ns * 1.15, ln, { fam: x.title, size: ns, weight: 600, fill: x.ink, anchor: "middle", ls: 0.12 });
     });
+    g += node(x, `${o.prefix}-name`, nameSvg);
     y += (nameLines.length - 1) * ns * 1.15 + 5;
-    g += T(cx, y, x.design.years ?? (c.multimedia_memorial || {}).lifespan_display ?? "", { fam: x.body, size: s(2.3), weight: 600, fill: `url(#${x.p}-gold)`, anchor: "middle", ls: 0.2 });
+    g += node(x, `${o.prefix}-years`, T(cx, y, x.design.years ?? (c.multimedia_memorial || {}).lifespan_display ?? "", { fam: x.body, size: s(2.3), weight: 600, fill: `url(#${x.p}-gold)`, anchor: "middle", ls: 0.2 }));
     y += 2.6;
-    g += goldRule(x, cx - Math.min(12, maxW / 2), cx + Math.min(12, maxW / 2), y);
+    g += node(x, `${o.prefix}-rule`, goldRule(x, cx - Math.min(12, maxW / 2), cx + Math.min(12, maxW / 2), y));
     y += 3.6;
     const quote = x.design.quote ?? "";
     if (quote) {
+      let quoteSvg = "";
       wrap(quote, maxW, s(1.65), x.body, o.quoteLines, "italic").forEach((ln, i) => {
-        g += T(cx, y + i * 2.15, ln, { fam: x.body, size: s(1.65), fill: x.ink, anchor: "middle", italic: true, opacity: 0.92 });
+        quoteSvg += T(cx, y + i * 2.15, ln, { fam: x.body, size: s(1.65), fill: x.ink, anchor: "middle", italic: true, opacity: 0.92 });
       });
+      g += node(x, `${o.prefix}-quote`, quoteSvg);
     }
     return g;
   }
@@ -766,19 +792,25 @@
     let g = background(x);
     if (layout === "A") {
       g += guilloche(x, [[22, 28, 17]]) + fillets(x);
-      g += `<circle cx="22" cy="28" r="15" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".12"/>`;
-      g += portrait(x, { kind: "ellipse", cx: 22, cy: 28, rx: 12.6, ry: 12.6 }, "med");
-      g += `<circle cx="22" cy="28" r="13.4" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".5"/>`;
-      g += emblem(x, 61, 7.5, 6.5);
+      g += node(x, "c2r-photo0",
+        `<circle cx="22" cy="28" r="15" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".12"/>` +
+        portrait(x, { kind: "ellipse", cx: 22, cy: 28, rx: 12.6, ry: 12.6 }, "med", 0) +
+        `<circle cx="22" cy="28" r="13.4" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".5"/>`
+      );
+      g += node(x, "c2r-emblem", emblem(x, 61, 7.5, 6.5));
       g += memorialText(x, 61, 14.6, 39, {});
     } else if (layout === "B") {
       g += guilloche(x, [[23, 27, 14], [64, 27, 14]]) + fillets(x);
-      g += `<rect x="${M}" y="${M + 0.5}" width="35" height="${f(H - 2 * M - 1)}" rx="1" fill="${rgba("#000000", x.dark ? 0.25 : 0.06)}" stroke="url(#${x.p}-gold)" stroke-width=".4"/>`;
-      g += `<path d="M${M} ${M + 0.5}l1.4 1.4M${M + 35} ${M + 0.5}l-1.4 1.4M${M} ${f(H - M - 0.5)}l1.4 -1.4M${M + 35} ${f(H - M - 0.5)}l-1.4 -1.4" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
-      g += portrait(x, { kind: "rect", x: M + 1.4, y: M + 1.9, w: 32.2, h: H - 2 * M - 3.8, r: 0.4 }, "dip");
-      g += `<path d="M42.7 ${M + 2}V21.5M42.7 32.5V${f(H - M - 2)}" stroke="url(#${x.p}-gold)" stroke-width=".15"/>`;
-      g += O.oakBranch(39.4, 23.3, 6.6, `url(#${x.p}-gold)`);
-      g += emblem(x, 64, 7.8, 6.2);
+      g += node(x, "c2r-photo0",
+        `<rect x="${M}" y="${M + 0.5}" width="35" height="${f(H - 2 * M - 1)}" rx="1" fill="${rgba("#000000", x.dark ? 0.25 : 0.06)}" stroke="url(#${x.p}-gold)" stroke-width=".4"/>` +
+        `<path d="M${M} ${M + 0.5}l1.4 1.4M${M + 35} ${M + 0.5}l-1.4 1.4M${M} ${f(H - M - 0.5)}l1.4 -1.4M${M + 35} ${f(H - M - 0.5)}l-1.4 -1.4" stroke="url(#${x.p}-gold)" stroke-width=".2"/>` +
+        portrait(x, { kind: "rect", x: M + 1.4, y: M + 1.9, w: 32.2, h: H - 2 * M - 3.8, r: 0.4 }, "dip", 0)
+      );
+      g += node(x, "c2r-branch",
+        `<path d="M42.7 ${M + 2}V21.5M42.7 32.5V${f(H - M - 2)}" stroke="url(#${x.p}-gold)" stroke-width=".15"/>` +
+        O.oakBranch(39.4, 23.3, 6.6, `url(#${x.p}-gold)`)
+      );
+      g += node(x, "c2r-emblem", emblem(x, 64, 7.8, 6.2));
       g += memorialText(x, 64, 14.8, 32, { nameSize: 3.2 });
     } else if (layout === "C") {
       g += guilloche(x, [[42.8, 27, 18]]) + fillets(x);
@@ -788,37 +820,60 @@
       arches.forEach(a => {
         g += `<path d="M${f(a.x)} ${ay + ah}V${f(ay + a.w / 2)}a${f(a.w / 2)} ${f(a.w / 2)} 0 0 1 ${f(a.w)} 0V${ay + ah}" fill="${rgba(x.accent, x.dark ? 0.1 : 0.06)}" stroke="url(#${x.p}-gold)" stroke-width=".3"/>`;
       });
-      g += T(42.8, 7.3, "EN MÉMOIRE ÉTERNELLE DE", { fam: x.sans, size: x.s(1.15), weight: 600, fill: x.muted, anchor: "middle", ls: 0.32 });
-      g += portrait(x, { kind: "arch", x: 32.5, y: ay + 1.2, w: 20.6, h: ah - 2.4 }, "tri");
-      g += emblem(x, 16, 24, 9);
-      g += T(16, 35, ((x.design.years ?? (x.data.multimedia_memorial || {}).lifespan_display) || "").replace(/\s*—\s*/, " — "), { fam: x.body, size: x.s(1.7), weight: 600, fill: `url(#${x.p}-gold)`, anchor: "middle" });
-      const q = wrap(x.design.quote || "", 17, x.s(1.4), x.body, 6, "italic");
-      const qy = 27 - (q.length * 1.8) / 2 + 1.4;
-      q.forEach((ln, i) => { g += T(69.6, qy + i * 1.8, ln, { fam: x.body, size: x.s(1.4), fill: x.ink, anchor: "middle", italic: true }); });
+      g += node(x, "c2r-header", T(42.8, 7.3, "EN MÉMOIRE ÉTERNELLE DE", { fam: x.sans, size: x.s(1.15), weight: 600, fill: x.muted, anchor: "middle", ls: 0.32 }));
+
+      const hasSlot1 = x.design.photos && x.design.photos[1]?.url;
+      const hasSlot2 = x.design.photos && x.design.photos[2]?.url;
+
+      // Arcade gauche : photo 1 si présente, sinon insigne + années
+      if (hasSlot1) {
+        g += node(x, "c2r-photo1", portrait(x, { kind: "arch", x: 6.5, y: ay + 1.2, w: 19, h: ah - 2.4 }, "tri1", 1));
+      } else {
+        g += node(x, "c2r-emblem", emblem(x, 16, 24, 9));
+        g += node(x, "c2r-years", T(16, 35, ((x.design.years ?? (x.data.multimedia_memorial || {}).lifespan_display) || "").replace(/\s*—\s*/, " — "), { fam: x.body, size: x.s(1.7), weight: 600, fill: `url(#${x.p}-gold)`, anchor: "middle" }));
+      }
+
+      // Arcade centrale : photo principale (slot 0)
+      g += node(x, "c2r-photo0", portrait(x, { kind: "arch", x: 32.5, y: ay + 1.2, w: 20.6, h: ah - 2.4 }, "tri0", 0));
+
+      // Arcade droite : photo 2 si présente, sinon citation
+      if (hasSlot2) {
+        g += node(x, "c2r-photo2", portrait(x, { kind: "arch", x: 60.1, y: ay + 1.2, w: 19, h: ah - 2.4 }, "tri2", 2));
+      } else {
+        const q = wrap(x.design.quote || "", 17, x.s(1.4), x.body, 6, "italic");
+        const qy = 27 - (q.length * 1.8) / 2 + 1.4;
+        let qLinesSvg = "";
+        q.forEach((ln, i) => { qLinesSvg += T(69.6, qy + i * 1.8, ln, { fam: x.body, size: x.s(1.4), fill: x.ink, anchor: "middle", italic: true }); });
+        g += node(x, "c2r-quote", qLinesSvg);
+      }
+
       const nm = fit((x.data.civil_identity || {}).full_name || "", 72, x.s(3.1), x.title, 600, x.s(2));
-      g += T(42.8, 48.6, nm.text, { fam: x.title, size: nm.size, weight: 600, fill: x.ink, anchor: "middle", ls: 0.15 });
+      g += node(x, "c2r-name", T(42.8, 48.6, nm.text, { fam: x.title, size: nm.size, weight: 600, fill: x.ink, anchor: "middle", ls: 0.15 }));
     } else if (layout === "D") {
       g += guilloche(x, [[64, 28, 14]]) + fillets(x);
       const cells = [[M, M + 0.6, 19, 21.6], [M + 20, M + 0.6, 19, 10.3], [M + 20, M + 11.9, 19, 10.3], [M, M + 23.2, 9.2, 21], [M + 10.2, M + 23.2, 28.8, 21]];
       const count = Math.max(1, Number((x.data.multimedia_memorial || {}).photo_count) || 1);
       cells.forEach((cl, i) => {
         const [cx, cy, cw, chh] = cl;
-        if (i === 0 || i < count) {
-          g += portrait(x, { kind: "rect", x: cx, y: cy, w: cw, h: chh, r: 0.6 }, `mo${i}`);
+        const pObj = x.design.photos && x.design.photos[i];
+        const isPhoto = (pObj && pObj.url) || (i === 0 || i < count);
+        if (isPhoto && i < 4) {
+          g += node(x, `c2r-photo${i}`, portrait(x, { kind: "rect", x: cx, y: cy, w: cw, h: chh, r: 0.6 }, `mo${i}`, i));
         } else {
-          g += `<rect x="${f(cx)}" y="${f(cy)}" width="${cw}" height="${chh}" rx=".6" fill="${rgba(x.accent, x.dark ? 0.12 : 0.08)}" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
-          g += O.rosette(cx + cw / 2, cy + chh / 2, Math.min(cw, chh) * 0.32, x.gDensity, x.accent, 0.5);
-          if (i === 4) g += emblem(x, cx + cw / 2, cy + chh / 2, Math.min(cw, chh) * 0.45);
+          let cellSvg = `<rect x="${f(cx)}" y="${f(cy)}" width="${cw}" height="${chh}" rx=".6" fill="${rgba(x.accent, x.dark ? 0.12 : 0.08)}" stroke="url(#${x.p}-gold)" stroke-width=".2"/>`;
+          cellSvg += O.rosette(cx + cw / 2, cy + chh / 2, Math.min(cw, chh) * 0.32, x.gDensity, x.accent, 0.5);
+          if (i === 4) cellSvg += emblem(x, cx + cw / 2, cy + chh / 2, Math.min(cw, chh) * 0.45);
+          g += node(x, `c2r-cell${i}`, cellSvg);
         }
       });
-      g += emblem(x, 64, 7.8, 6.2);
+      g += node(x, "c2r-emblem", emblem(x, 64, 7.8, 6.2));
       g += memorialText(x, 64, 14.8, 32, { nameSize: 3.2 });
     } else {
       // E · Typographie pure : stèle épigraphique
       g += guilloche(x, [[42.8, 30, 20]]) + fillets(x);
       g += `<path d="M14 49V16a28.8 12 0 0 1 57.6 0V49" fill="${rgba(x.accent, x.dark ? 0.08 : 0.05)}" stroke="url(#${x.p}-gold)" stroke-width=".3"/>`;
       g += `<path d="M15.2 49V16.3a27.6 11 0 0 1 55.2 0V49" fill="none" stroke="url(#${x.p}-gold)" stroke-width=".08"/>`;
-      g += emblem(x, 42.8, 9.4, 6);
+      g += node(x, "c2r-emblem", emblem(x, 42.8, 9.4, 6));
       g += memorialText(x, 42.8, 17.6, 50, { nameSize: 3.8, quoteLines: 3 });
     }
     return g;
@@ -831,16 +886,22 @@
     const ac = mm.audio_choice || {};
     const { s } = x;
     const right = W - M;
-    let g = background(x) + guilloche(x, [[69, 25, 13]]) + fillets(x);
+    let g = background(x) + guilloche(x, [[69, 25, 13]], true) + fillets(x);
 
-    g += T(M, 7.4, "HOMMAGE SOLENNEL & ACOUSTIQUE", { fam: x.title, size: s(2.15), weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.16 });
-    g += T(right, 7.2, "13,56 MHz", { fam: x.mono, size: s(1.2), fill: x.muted, anchor: "end" });
-    g += goldRule(x, M, right, 10.1);
+    // Titre supérieur
+    const titleSvg = T(M, 7.4, "HOMMAGE SOLENNEL & ACOUSTIQUE", { fam: x.title, size: s(2.15), weight: 600, fill: `url(#${x.p}-gold)`, ls: 0.16 }) +
+      T(right, 7.2, "13,56 MHz", { fam: x.mono, size: s(1.2), fill: x.muted, anchor: "end" });
+    g += node(x, "c2v-title", titleSvg);
+    g += node(x, "c2v-rule1", goldRule(x, M, right, 10.1));
+
+    // Morceau actif : soit slot sélectionné dans x.design.musics, soit multimédia de base
+    const activeMusic = (x.design.musics && x.design.musics[x.design.activeMusicIndex ?? 0]) || null;
+    const musicTitle = activeMusic?.title || (mm.chosen_music || {}).title || "Silence recueilli";
+    const presetKey = activeMusic?.ambientPreset || ac.ambient_preset || "A_MAJOR_CELESTIAL";
+    const preset = R.AMBIENT_PRESETS[presetKey] || R.AMBIENT_PRESETS.A_MAJOR_CELESTIAL;
 
     // Onde sonore : 20 barres or dégradées (enveloppe déterministe dérivée du titre)
-    const title = (mm.chosen_music || {}).title || "Silence recueilli";
-    const preset = R.AMBIENT_PRESETS[ac.ambient_preset] || R.AMBIENT_PRESETS.A_MAJOR_CELESTIAL;
-    const hh = hash(title + ac.ambient_preset);
+    const hh = hash(musicTitle + presetKey);
     const bx0 = M + 0.5;
     const bw = 1.55;
     const gap = 0.75;
@@ -852,43 +913,55 @@
       const h = 2 + 11 * env * (0.55 + 0.45 * jitter);
       bars += `<rect x="${f(bx0 + i * (bw + gap))}" y="${f(mid - h / 2)}" width="${bw}" height="${f(h)}" rx=".5" fill="url(#${x.p}-goldv)" style="animation-delay:${(i % 10) * 0.09}s"/>`;
     }
-    g += `<path d="M${M} ${mid}H${f(bx0 + 20 * (bw + gap))}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>`;
-    g += `<g class="wave-bars">${bars}</g>`;
-    const tt = fit(title, 31, s(1.9), x.body, 600, s(1.2), "italic");
-    g += T(M, 28.6, tt.text, { fam: x.body, size: tt.size, weight: 600, fill: x.ink, italic: true });
-    const kb = pill(M + measure(tt.text, tt.size, x.body, 600, "italic") + 1.5, 26.6, preset.key, "info", "music", x, s(0.95));
-    if (M + measure(tt.text, tt.size, x.body, 600, "italic") + 1.5 + kb.w < 52) g += kb.svg;
-    else g += pill(M, 29.6, preset.key, "info", "music", x, s(0.95)).svg;
+    const waveSvg = `<path d="M${M} ${mid}H${f(bx0 + 20 * (bw + gap))}" stroke="${rgba(x.accent, 0.35)}" stroke-width=".08"/>` +
+      `<g class="wave-bars">${bars}</g>`;
+    g += node(x, "c2v-wave", waveSvg);
 
-    // Message vocal d'adieu
+    // Titre musique et tonalité
+    const tt = fit(musicTitle, 31, s(1.9), x.body, 600, s(1.2), "italic");
+    let musicSvg = T(M, 28.6, tt.text, { fam: x.body, size: tt.size, weight: 600, fill: x.ink, italic: true });
+    const kb = pill(M + measure(tt.text, tt.size, x.body, 600, "italic") + 1.5, 26.6, preset.key, "info", "music", x, s(0.95));
+    if (M + measure(tt.text, tt.size, x.body, 600, "italic") + 1.5 + kb.w < 52) musicSvg += kb.svg;
+    else musicSvg += pill(M, 29.6, preset.key, "info", "music", x, s(0.95)).svg;
+    g += node(x, "c2v-music", musicSvg);
+
+    // Message vocal d'adieu (slot sélectionné dans x.design.voices ou mémo officiel)
+    const activeVoice = (x.design.voices && x.design.voices[x.design.activeVoiceIndex ?? 0]) || null;
     const vy = 32.4;
-    g += O.icon("mic", M, vy, 3.2, x.accent, 0.2);
-    const dur = ac.has_voice_memo ? `${ac.voice_memo_duration_sec || 0} s` : "aucun";
-    g += T(M + 4, vy + 1.5, `MESSAGE VOCAL D'ADIEU · ${dur}`, { fam: x.sans, size: s(0.98), weight: 700, fill: x.muted, ls: 0.1 });
-    g += T(M + 4, vy + 3.3, `Enregistré le ${shortDate((c.pavs_record || {}).registered_date)}`, { fam: x.sans, size: s(0.95), fill: x.muted });
-    const extract = x.design.voiceExtract ?? (c.pavs_record || {}).essential_priority ?? "";
+    let voiceSvg = O.icon("mic", M, vy, 3.2, x.accent, 0.2);
+    const hasVoice = (activeVoice && activeVoice.url) || ac.has_voice_memo;
+    const durSec = activeVoice?.duration ?? ac.voice_memo_duration_sec ?? 0;
+    const durText = hasVoice ? `${durSec} s` : "aucun";
+    const voiceDate = activeVoice?.date || shortDate((c.pavs_record || {}).registered_date) || shortDate(new Date().toISOString());
+    voiceSvg += T(M + 4, vy + 1.5, `MESSAGE VOCAL D'ADIEU · ${durText}`, { fam: x.sans, size: s(0.98), weight: 700, fill: x.muted, ls: 0.1 });
+    voiceSvg += T(M + 4, vy + 3.3, `Enregistré le ${voiceDate}`, { fam: x.sans, size: s(0.95), fill: x.muted });
+    const extract = activeVoice?.extract ?? x.design.voiceExtract ?? (c.pavs_record || {}).essential_priority ?? "";
     wrap(extract ? `« ${extract} »` : "", 47, s(1.4), x.body, 2, "italic").forEach((ln, i) => {
-      g += T(M, vy + 6.2 + i * 1.8, ln, { fam: x.body, size: s(1.4), fill: x.ink, italic: true });
+      voiceSvg += T(M, vy + 6.2 + i * 1.8, ln, { fam: x.body, size: s(1.4), fill: x.ink, italic: true });
     });
+    g += node(x, "c2v-voice", voiceSvg);
 
     // Appel à l'action NFC
     const nx = 68.6;
-    g += `<rect x="55.4" y="12.2" width="${f(right - 55.4)}" height="27" rx="1.2" fill="${rgba(x.accent, x.dark ? 0.12 : 0.07)}" stroke="url(#${x.p}-gold)" stroke-width=".18"/>`;
-    g += O.nfcTarget(nx, 21.4, 6.6, x.accent);
-    g += T(nx, 31.2, "Approchez votre", { fam: x.body, size: s(1.55), weight: 600, fill: x.ink, anchor: "middle" });
-    g += T(nx, 33.3, "smartphone", { fam: x.body, size: s(1.55), weight: 600, fill: x.ink, anchor: "middle" });
+    let nfcSvg = `<rect x="55.4" y="12.2" width="${f(right - 55.4)}" height="27" rx="1.2" fill="${rgba(x.accent, x.dark ? 0.12 : 0.07)}" stroke="url(#${x.p}-gold)" stroke-width=".18"/>` +
+      O.nfcTarget(nx, 21.4, 6.6, x.accent) +
+      T(nx, 31.2, "Approchez votre", { fam: x.body, size: s(1.55), weight: 600, fill: x.ink, anchor: "middle" }) +
+      T(nx, 33.3, "smartphone", { fam: x.body, size: s(1.55), weight: 600, fill: x.ink, anchor: "middle" });
     const latW = pill(0, 0, "38 ms", "ok", "bolt", x, s(0.95)).w;
-    g += pill(nx - latW / 2, 35.0, "38 ms", "ok", "bolt", x, s(0.95)).svg;
+    nfcSvg += pill(nx - latW / 2, 35.0, "38 ms", "ok", "bolt", x, s(0.95)).svg;
+    g += node(x, "c2v-nfc", nfcSvg);
 
     // Numérotation d'audience & empreinte
-    g += goldRule(x, M, right, 44.4);
+    g += node(x, "c2v-rule2", goldRule(x, M, right, 44.4));
     const total = mm.audience_cards_count || 50;
     const ex = Math.min(Number(x.design.exemplaire) || 1, total);
-    g += T(M, 47.6, `Tirage d'audience : Exemplaire n° ${ex} sur ${total}`, { fam: x.body, size: s(1.55), weight: 600, fill: x.ink });
+    let audSvg = T(M, 47.6, `Tirage d'audience : Exemplaire n° ${ex} sur ${total}`, { fam: x.body, size: s(1.55), weight: 600, fill: x.ink });
     const fp = x.design.fingerprint || "";
     const fpShort = fp ? fp.slice(0, 32).replace(/(.{4})/g, "$1 ").trim() + " …" : "calcul en cours…";
-    g += T(M, 50.9, `SHA-256 · ${fpShort}`, { fam: x.mono, size: s(0.92), fill: x.muted });
-    g += T(right, 50.9, "COSE_Sign1 · ES256", { fam: x.mono, size: s(0.92), fill: x.muted, anchor: "end" });
+    audSvg += T(M, 50.9, `SHA-256 · ${fpShort}`, { fam: x.mono, size: s(0.92), fill: x.muted });
+    audSvg += T(right, 50.9, "COSE_Sign1 · ES256", { fam: x.mono, size: s(0.92), fill: x.muted, anchor: "end" });
+    g += node(x, "c2v-audience", audSvg);
+
     return g;
   }
 

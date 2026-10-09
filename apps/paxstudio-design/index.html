@@ -75,21 +75,25 @@
       </details>
 
       <details class="panel" open data-only="card2">
-        <summary>Mémorial &amp; acoustique</summary>
+        <summary>📷 Galerie Photos (jusqu'à 4 photos)</summary>
+        <div class="fields" id="photosPanel"></div>
+      </details>
+
+      <details class="panel" open data-only="card2">
+        <summary>🎙️ Enregistrements Vocaux (jusqu'à 4 voix)</summary>
+        <div class="fields" id="voicesPanel"></div>
+      </details>
+
+      <details class="panel" open data-only="card2">
+        <summary>🎵 Œuvres Musicales (jusqu'à 4 musiques)</summary>
+        <div class="fields" id="musicsPanel"></div>
+      </details>
+
+      <details class="panel" open data-only="card2">
+        <summary>Mémorial &amp; acoustique (compléments)</summary>
         <div class="fields">
           <label>Années de vie<input data-design="years"></label>
           <label>Citation mémorielle<textarea rows="2" data-design="quote"></textarea></label>
-          <label>Œuvre musicale<input data-bind="multimedia_memorial.chosen_music.title" list="musicList"></label>
-          <label>Ambiance<select data-bind="multimedia_memorial.audio_choice.ambient_preset">
-            <option value="A_MAJOR_CELESTIAL">Nappe céleste · La majeur 440 Hz</option>
-            <option value="REQUIEM_FAURE">Requiem de Fauré · Ré mineur</option>
-            <option value="BACH_SUITE">Suite de Bach · Sol majeur</option>
-          </select></label>
-          <div class="row">
-            <label>Mémo vocal (s)<input type="number" min="0" max="120" data-bind="multimedia_memorial.audio_choice.voice_memo_duration_sec" data-type="number"></label>
-            <label>Photos<input type="number" min="0" max="5" data-bind="multimedia_memorial.photo_count" data-type="number"></label>
-          </div>
-          <label>Extrait du message vocal<textarea rows="2" data-design="voiceExtract"></textarea></label>
           <div class="row">
             <label>Exemplaire n°<input type="number" min="1" data-design="exemplaire"></label>
             <label>Sur<input type="number" min="1" data-bind="multimedia_memorial.audience_cards_count" data-type="number"></label>
@@ -147,6 +151,9 @@
           <button data-view="side" class="on">Recto · Verso</button>
           <button data-view="flip">Retournement 3D</button>
         </div>
+        <button class="btn" id="btnWysiwyg" data-only="card2" title="Mode WYSIWYG : glisser-déposer des éléments et recadrage live">✨ Mode WYSIWYG</button>
+        <button class="btn ghost" id="btnResetPositions" data-only="card2" title="Réinitialiser la disposition des éléments">↺ Réinitialiser</button>
+        <span class="idb-badge" id="idbBadge" title="Persistance locale hors-ligne IndexedDB">💾 IndexedDB</span>
         <label class="check"><input type="checkbox" id="chkCrop"> Traits de coupe 5 mm</label>
         <label class="check"><input type="checkbox" id="chkSafe"> Zone de sécurité 3 mm</label>
         <label class="zoom">Zoom <input type="range" id="zoom" min="0.6" max="1.6" step="0.05" value="1"></label>
@@ -552,6 +559,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="data/paxfunebre_44_test_cases.js"></script>
+  <script src="js/db.js"></script>
   <script src="js/rules.js"></script>
   <script src="js/ornaments.js"></script>
   <script src="js/cards.js"></script>

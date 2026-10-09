@@ -306,10 +306,18 @@
     safe: false,
     zoom: 1,
     flipped: false,
+    wysiwygMode: false,
+    recordingState: { active: false, type: null, slotIndex: -1, seconds: 0 },
     design: {
       material: "ivoire", fontTitle: "cinzel", fontBody: "cormorant", fontData: "inter", fontScale: 1, gold: C.MATERIALS.ivoire.accent,
       guillocheOpacity: 0.35, guillocheDensity: 5, emblem: "dove", layout: "A", pulse: true,
-      portrait: null, portraitBytes: 0, exemplaire: 1, epitaph: "", years: "", quote: "", voiceExtract: "", fingerprint: ""
+      portrait: null, portraitBytes: 0, exemplaire: 1, epitaph: "", years: "", quote: "", voiceExtract: "", fingerprint: "",
+      photos: [null, null, null, null],
+      voices: [null, null, null, null],
+      musics: [null, null, null, null],
+      activeVoiceIndex: 0,
+      activeMusicIndex: 0,
+      customPositions: {}
     }
   };
 
@@ -386,7 +394,90 @@
     if (state.data) sel.value = state.data.id;
   }
 
-  function selectCase(id) {
+  // ------------------------------------------------------------ Persistance IndexedDB & Mémorial multimédia
+  const dbManager = window.PaxDb;
+
+  async function loadFromIndexedDb(caseId) {
+    if (!dbManager) return;
+    try {
+      const record = await dbManager.loadMemorial(caseId);
+      const badge = $("#idbBadge");
+      if (record) {
+        if (Array.isArray(record.photos) && record.photos.length) {
+          state.design.photos = record.photos;
+          if (record.photos[0]?.url) {
+            state.design.portrait = record.photos[0].url;
+          }
+        }
+        if (Array.isArray(record.voices) && record.voices.length) {
+          state.design.voices = record.voices;
+        }
+        if (Array.isArray(record.musics) && record.musics.length) {
+          state.design.musics = record.musics;
+        }
+        if (record.activeVoiceIndex != null) state.design.activeVoiceIndex = record.activeVoiceIndex;
+        if (record.activeMusicIndex != null) state.design.activeMusicIndex = record.activeMusicIndex;
+        if (record.customPositions) state.design.customPositions = record.customPositions;
+        if (record.layout) {
+          state.design.layout = record.layout;
+          updateLayoutButtons();
+        }
+        if (record.years) state.design.years = record.years;
+        if (record.quote) state.design.quote = record.quote;
+
+        if (badge) {
+          badge.textContent = "💾 Restauré (IndexedDB)";
+          badge.className = "idb-badge";
+        }
+      } else {
+        if (badge) {
+          badge.textContent = "💾 IndexedDB";
+          badge.className = "idb-badge";
+        }
+      }
+    } catch (e) {
+      console.warn("Erreur chargement IndexedDB :", e);
+    }
+  }
+
+  let idbSaveTimer = 0;
+  function persistToIndexedDb() {
+    if (!dbManager || !state.data) return;
+    const badge = $("#idbBadge");
+    if (badge) {
+      badge.textContent = "💾 Sauvegarde...";
+      badge.className = "idb-badge saving";
+    }
+    clearTimeout(idbSaveTimer);
+    idbSaveTimer = setTimeout(async () => {
+      try {
+        await dbManager.saveMemorial(state.data.id, {
+          photos: state.design.photos,
+          voices: state.design.voices,
+          musics: state.design.musics,
+          activeVoiceIndex: state.design.activeVoiceIndex,
+          activeMusicIndex: state.design.activeMusicIndex,
+          customPositions: state.design.customPositions,
+          layout: state.design.layout,
+          years: state.design.years,
+          quote: state.design.quote
+        });
+        if (badge) {
+          badge.textContent = "💾 Sauvegardé";
+          badge.className = "idb-badge";
+          setTimeout(() => { if (badge) badge.textContent = "💾 IndexedDB"; }, 2500);
+        }
+      } catch (err) {
+        console.warn("Erreur sauvegarde IndexedDB :", err);
+        if (badge) {
+          badge.textContent = "⚠️ Échec IDB";
+          badge.className = "idb-badge saving";
+        }
+      }
+    }, 350);
+  }
+
+  async function selectCase(id) {
     const src = allCases().find(c => c.id === id) || state.cases[0];
     state.data = R.normalizePavs(clone(src));
     state.pristine = clone(state.data);
@@ -400,10 +491,664 @@
       ? pr.desired_support.special_wishes : pr.essential_priority || "";
     d.exemplaire = 1;
     $("#caseSelect").value = state.data.id;
+
+    // Réinitialisation des slots par défaut
+    d.photos = [null, null, null, null];
+    d.voices = [null, null, null, null];
+    d.musics = [null, null, null, null];
+    d.activeVoiceIndex = 0;
+    d.activeMusicIndex = 0;
+    d.customPositions = {};
+
+    if (d.portrait) {
+      d.photos[0] = { id: 0, url: d.portrait, name: "Portrait principal", crop: { scale: 1.0, x: 0, y: 0, rotation: 0 } };
+    }
+    const ac = mm.audio_choice || {};
+    if (ac.has_voice_memo) {
+      d.voices[0] = {
+        id: 0,
+        url: "",
+        name: "Mémo vocal d'adieu",
+        duration: ac.voice_memo_duration_sec || 0,
+        date: shortDate(pr.registered_date),
+        extract: d.voiceExtract
+      };
+    }
+    const cm = mm.chosen_music || {};
+    if (cm.title) {
+      d.musics[0] = {
+        id: 0,
+        url: "",
+        name: cm.title,
+        title: cm.title,
+        composer: "",
+        duration: 180,
+        ambientPreset: ac.ambient_preset || "A_MAJOR_CELESTIAL"
+      };
+    }
+
+    // Chargement automatique des personnalisations stockées en IndexedDB
+    await loadFromIndexedDb(state.data.id);
+
     syncMirrors(state.data);
     refreshInputs();
     renderAnnexes();
+    renderPhotosPanel();
+    renderVoicesPanel();
+    renderMusicsPanel();
     refresh();
+  }
+
+  // ------------------------------------------------------------ Galerie Photos (jusqu'à 4 photos)
+  function renderPhotosPanel() {
+    const el = $("#photosPanel");
+    if (!el) return;
+    const photos = state.design.photos || [];
+    let html = "";
+    for (let i = 0; i < 4; i++) {
+      const p = photos[i];
+      const isSlot0 = i === 0;
+      const slotTitle = isSlot0 ? "Photo 1 (Principale)" : `Photo ${i + 1}`;
+      const crop = p?.crop || { scale: 1.0, x: 0, y: 0, rotation: 0 };
+      html += `
+        <div class="photo-slot-card" data-slot="${i}">
+          <div class="slot-header">
+            <span>${slotTitle}</span>
+            ${p?.url ? `<span class="badge">Chargée</span>` : `<span class="badge" style="opacity:0.6">Vide</span>`}
+          </div>
+          <div class="photo-thumb-wrap">
+            ${p?.url ? `<img src="${p.url}" class="photo-thumb" alt="${slotTitle}">` : `<div class="photo-thumb" style="display:grid;place-items:center;color:var(--muted);font-size:20px;">🖼️</div>`}
+            <div class="photo-actions">
+              <label class="btn file" style="padding:4px 8px;font-size:12px;">
+                ${p?.url ? "Remplacer" : "Importer photo"}
+                <input type="file" accept="image/*" data-photo-upload="${i}" hidden>
+              </label>
+              ${p?.url ? `<button type="button" class="btn ghost" data-photo-delete="${i}" style="padding:4px 8px;font-size:12px;color:var(--danger)">Supprimer</button>` : ""}
+            </div>
+          </div>
+          ${p?.url ? `
+            <details class="crop-controls" ${p.openCrop ? "open" : ""}>
+              <summary style="font-size:11.5px;cursor:pointer;color:var(--gold-2)">📐 Cadrage &amp; Zoom</summary>
+              <div class="crop-slider-row">
+                <span>Zoom</span>
+                <input type="range" min="0.5" max="3.0" step="0.05" value="${crop.scale || 1.0}" data-crop-prop="scale" data-photo-idx="${i}">
+                <output>${Math.round((crop.scale || 1.0) * 100)}%</output>
+              </div>
+              <div class="crop-slider-row">
+                <span>Pan X</span>
+                <input type="range" min="-30" max="30" step="0.5" value="${crop.x || 0}" data-crop-prop="x" data-photo-idx="${i}">
+                <output>${crop.x || 0} mm</output>
+              </div>
+              <div class="crop-slider-row">
+                <span>Pan Y</span>
+                <input type="range" min="-30" max="30" step="0.5" value="${crop.y || 0}" data-crop-prop="y" data-photo-idx="${i}">
+                <output>${crop.y || 0} mm</output>
+              </div>
+              <div class="crop-slider-row">
+                <span>Rotation</span>
+                <input type="range" min="-180" max="180" step="1" value="${crop.rotation || 0}" data-crop-prop="rotation" data-photo-idx="${i}">
+                <output>${crop.rotation || 0}°</output>
+              </div>
+              <button type="button" class="btn ghost" data-crop-reset="${i}" style="padding:3px 6px;font-size:11px;margin-top:4px;">↺ Réinitialiser cadrage</button>
+            </details>
+          ` : ""}
+        </div>
+      `;
+    }
+    el.innerHTML = html;
+  }
+
+  function loadPhotoSlot(slotIndex, file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      state.design.photos = state.design.photos || [];
+      state.design.photos[slotIndex] = {
+        id: slotIndex,
+        url: reader.result,
+        name: file.name,
+        crop: { scale: 1.0, x: 0, y: 0, rotation: 0 },
+        openCrop: true
+      };
+      if (slotIndex === 0) {
+        state.design.portrait = reader.result;
+        state.design.portraitBytes = file.size;
+        state.data.multimedia_memorial.has_portrait = true;
+      }
+      renderPhotosPanel();
+      scheduleRender();
+      persistToIndexedDb();
+      toast(`Photo ${slotIndex + 1} chargée et sauvegardée en IndexedDB.`);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ------------------------------------------------------------ Voix & Mémos vocaux
+  let mediaRecorder = null;
+  let audioChunks = [];
+  let recordInterval = null;
+
+  function formatTimer(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, "0");
+    const s = (sec % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  }
+
+  function renderVoicesPanel() {
+    const el = $("#voicesPanel");
+    if (!el) return;
+    const voices = state.design.voices || [];
+    const activeIdx = state.design.activeVoiceIndex ?? 0;
+    const rec = state.recordingState;
+    let html = "";
+    for (let i = 0; i < 4; i++) {
+      const v = voices[i];
+      const isRec = rec.active && rec.type === "voice" && rec.slotIndex === i;
+      const isActive = activeIdx === i;
+      html += `
+        <div class="voice-slot-card" data-slot="${i}">
+          <div class="slot-header">
+            <span>Voix ${i + 1}</span>
+            <label class="active-slot-check">
+              <input type="radio" name="activeVoiceSlot" value="${i}" ${isActive ? "checked" : ""}>
+              Diffuser sur Carte 2
+            </label>
+          </div>
+          ${isRec ? `
+            <div class="rec-box">
+              <span class="rec-dot"></span>
+              <span>Enregistrement en direct :</span>
+              <span class="rec-timer">${formatTimer(rec.seconds)}</span>
+              <button type="button" class="btn danger" data-audio-stop="voice" style="margin-left:auto;padding:4px 8px;font-size:12px;">⏹️ Terminer</button>
+            </div>
+          ` : v?.url ? `
+            <audio controls src="${v.url}" class="audio-player"></audio>
+            <div style="font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;">
+              <span>Durée : ${v.duration || 0} s</span>
+              <span>${v.date || ""}</span>
+            </div>
+            <label style="font-size:11.5px;display:grid;gap:3px;margin-top:4px;">
+              Extrait textuel / Paroles d'adieu
+              <input type="text" data-voice-extract="${i}" value="${escapeHtml(v.extract || "")}" placeholder="« Citation extraite... »">
+            </label>
+            <div style="display:flex;gap:6px;margin-top:4px;">
+              <button type="button" class="btn" data-audio-record="voice" data-slot="${i}" style="padding:4px 8px;font-size:11px;">🎙️ Ré-enregistrer</button>
+              <label class="btn file" style="padding:4px 8px;font-size:11px;">
+                Remplacer fichier
+                <input type="file" accept="audio/*" data-voice-upload="${i}" hidden>
+              </label>
+              <button type="button" class="btn ghost" data-voice-delete="${i}" style="padding:4px 8px;font-size:11px;color:var(--danger)">Supprimer</button>
+            </div>
+          ` : `
+            <p style="font-size:11.5px;color:var(--muted);margin:2px 0;">Aucun enregistrement vocal sur ce slot.</p>
+            <div style="display:flex;gap:6px;">
+              <button type="button" class="btn" data-audio-record="voice" data-slot="${i}" style="padding:4px 8px;font-size:12px;">🎙️ Enregistrer</button>
+              <label class="btn file" style="padding:4px 8px;font-size:12px;">
+                📁 Importer audio
+                <input type="file" accept="audio/*" data-voice-upload="${i}" hidden>
+              </label>
+            </div>
+          `}
+        </div>
+      `;
+    }
+    el.innerHTML = html;
+  }
+
+  // ------------------------------------------------------------ Œuvres Musicales
+  function renderMusicsPanel() {
+    const el = $("#musicsPanel");
+    if (!el) return;
+    const musics = state.design.musics || [];
+    const activeIdx = state.design.activeMusicIndex ?? 0;
+    const rec = state.recordingState;
+    let html = "";
+    for (let i = 0; i < 4; i++) {
+      const m = musics[i];
+      const isRec = rec.active && rec.type === "music" && rec.slotIndex === i;
+      const isActive = activeIdx === i;
+      const preset = m?.ambientPreset || "A_MAJOR_CELESTIAL";
+      html += `
+        <div class="music-slot-card" data-slot="${i}">
+          <div class="slot-header">
+            <span>Morceau ${i + 1}</span>
+            <label class="active-slot-check">
+              <input type="radio" name="activeMusicSlot" value="${i}" ${isActive ? "checked" : ""}>
+              Graver sur Carte 2
+            </label>
+          </div>
+          ${isRec ? `
+            <div class="rec-box">
+              <span class="rec-dot"></span>
+              <span>Enregistrement instrument :</span>
+              <span class="rec-timer">${formatTimer(rec.seconds)}</span>
+              <button type="button" class="btn danger" data-audio-stop="music" style="margin-left:auto;padding:4px 8px;font-size:12px;">⏹️ Terminer</button>
+            </div>
+          ` : `
+            <div style="display:grid;gap:6px;">
+              ${m?.url ? `<audio controls src="${m.url}" class="audio-player"></audio>` : ""}
+              <label style="font-size:11.5px;display:grid;gap:2px;">
+                Titre de l'œuvre
+                <input type="text" data-music-title="${i}" value="${escapeHtml(m?.title || "")}" placeholder="Titre de l'œuvre musicale">
+              </label>
+              <label style="font-size:11.5px;display:grid;gap:2px;">
+                Compositeur / Interprète
+                <input type="text" data-music-composer="${i}" value="${escapeHtml(m?.composer || "")}" placeholder="Gabriel Fauré, Bach...">
+              </label>
+              <label style="font-size:11.5px;display:grid;gap:2px;">
+                Tonalité / Ambiance acoustique
+                <select data-music-preset="${i}">
+                  <option value="A_MAJOR_CELESTIAL" ${preset === "A_MAJOR_CELESTIAL" ? "selected" : ""}>Nappe céleste · La majeur 440 Hz</option>
+                  <option value="REQUIEM_FAURE" ${preset === "REQUIEM_FAURE" ? "selected" : ""}>Requiem de Fauré · Ré mineur</option>
+                  <option value="BACH_SUITE" ${preset === "BACH_SUITE" ? "selected" : ""}>Suite de Bach · Sol majeur</option>
+                </select>
+              </label>
+              <div style="display:flex;gap:6px;margin-top:2px;">
+                <button type="button" class="btn" data-audio-record="music" data-slot="${i}" style="padding:4px 8px;font-size:11px;">🎙️ Enregistrer</button>
+                <label class="btn file" style="padding:4px 8px;font-size:11px;">
+                  ${m?.url ? "Remplacer audio" : "📁 Importer audio"}
+                  <input type="file" accept="audio/*" data-music-upload="${i}" hidden>
+                </label>
+                ${m?.url || m?.title ? `<button type="button" class="btn ghost" data-music-delete="${i}" style="padding:4px 8px;font-size:11px;color:var(--danger)">Effacer</button>` : ""}
+              </div>
+            </div>
+          `}
+        </div>
+      `;
+    }
+    el.innerHTML = html;
+  }
+
+  // ------------------------------------------------------------ Audio Recorder (Microphone) & File Uploads
+  async function startAudioRecording(type, slotIndex) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      toast("L'API MediaRecorder n'est pas supportée sur ce navigateur.");
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = e => {
+        if (e.data && e.data.size > 0) audioChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        clearInterval(recordInterval);
+        const blob = new Blob(audioChunks, { type: "audio/webm" });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const dataUrl = reader.result;
+          const dur = Math.max(1, state.recordingState.seconds);
+          if (type === "voice") {
+            state.design.voices = state.design.voices || [];
+            state.design.voices[slotIndex] = {
+              id: slotIndex,
+              url: dataUrl,
+              name: `Enregistrement vocal ${slotIndex + 1}`,
+              duration: dur,
+              date: shortDate(new Date().toISOString()),
+              extract: state.design.voices[slotIndex]?.extract || state.design.voiceExtract || ""
+            };
+            state.design.activeVoiceIndex = slotIndex;
+            renderVoicesPanel();
+          } else {
+            state.design.musics = state.design.musics || [];
+            state.design.musics[slotIndex] = {
+              id: slotIndex,
+              url: dataUrl,
+              name: `Morceau ${slotIndex + 1}`,
+              title: state.design.musics[slotIndex]?.title || `Hommage Acoustique ${slotIndex + 1}`,
+              composer: state.design.musics[slotIndex]?.composer || "Enregistrement direct",
+              duration: dur,
+              ambientPreset: state.design.musics[slotIndex]?.ambientPreset || "A_MAJOR_CELESTIAL"
+            };
+            state.design.activeMusicIndex = slotIndex;
+            renderMusicsPanel();
+          }
+          state.recordingState = { active: false, type: null, slotIndex: -1, seconds: 0 };
+          scheduleRender();
+          persistToIndexedDb();
+          toast("Enregistrement audio réussi et sauvegardé en IndexedDB !");
+        };
+        reader.readAsDataURL(blob);
+        stream.getTracks().forEach(t => t.stop());
+      };
+
+      mediaRecorder.start(200);
+      state.recordingState = { active: true, type, slotIndex, seconds: 0 };
+      if (type === "voice") renderVoicesPanel();
+      else renderMusicsPanel();
+
+      recordInterval = setInterval(() => {
+        state.recordingState.seconds++;
+        const timerEl = document.querySelector(".rec-timer");
+        if (timerEl) timerEl.textContent = formatTimer(state.recordingState.seconds);
+      }, 1000);
+    } catch (err) {
+      console.error("Microphone non disponible :", err);
+      toast("Impossible d'accéder au microphone (permission requise).");
+    }
+  }
+
+  function stopAudioRecording() {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+    }
+  }
+
+  function loadAudioFileSlot(type, slotIndex, file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      const audio = new Audio(dataUrl);
+      audio.onloadedmetadata = () => {
+        const dur = Math.round(audio.duration) || 30;
+        if (type === "voice") {
+          state.design.voices = state.design.voices || [];
+          state.design.voices[slotIndex] = {
+            id: slotIndex,
+            url: dataUrl,
+            name: file.name,
+            duration: dur,
+            date: shortDate(new Date().toISOString()),
+            extract: state.design.voices[slotIndex]?.extract || state.design.voiceExtract || ""
+          };
+          state.design.activeVoiceIndex = slotIndex;
+          renderVoicesPanel();
+        } else {
+          state.design.musics = state.design.musics || [];
+          const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
+          state.design.musics[slotIndex] = {
+            id: slotIndex,
+            url: dataUrl,
+            name: file.name,
+            title: state.design.musics[slotIndex]?.title || cleanName,
+            composer: state.design.musics[slotIndex]?.composer || "",
+            duration: dur,
+            ambientPreset: state.design.musics[slotIndex]?.ambientPreset || "A_MAJOR_CELESTIAL"
+          };
+          state.design.activeMusicIndex = slotIndex;
+          renderMusicsPanel();
+        }
+        scheduleRender();
+        persistToIndexedDb();
+        toast(`Fichier audio importé sur le slot ${slotIndex + 1}.`);
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ------------------------------------------------------------ Mode WYSIWYG & Glisser-Déposer Pointer Events
+  function bindWysiwyg() {
+    const btnWysiwyg = $("#btnWysiwyg");
+    const btnResetPositions = $("#btnResetPositions");
+
+    if (btnWysiwyg) {
+      btnWysiwyg.addEventListener("click", () => {
+        state.wysiwygMode = !state.wysiwygMode;
+        btnWysiwyg.classList.toggle("active-wysiwyg", state.wysiwygMode);
+        $("#holderRecto").classList.toggle("wysiwyg-active", state.wysiwygMode);
+        $("#holderVerso").classList.toggle("wysiwyg-active", state.wysiwygMode);
+        toast(state.wysiwygMode ? "✨ Mode WYSIWYG activé : déplacez les éléments en glisser-déposer !" : "Mode WYSIWYG désactivé.");
+      });
+    }
+
+    if (btnResetPositions) {
+      btnResetPositions.addEventListener("click", () => {
+        state.design.customPositions = {};
+        scheduleRender();
+        persistToIndexedDb();
+        toast("Positions personnalisées réinitialisées.");
+      });
+    }
+
+    ["#holderRecto", "#holderVerso"].forEach(sel => {
+      const holder = $(sel);
+      if (!holder) return;
+
+      holder.addEventListener("pointerdown", e => {
+        if (!state.wysiwygMode) return;
+        const nodeEl = e.target.closest(".movable-node");
+        if (!nodeEl) return;
+        const nodeId = nodeEl.dataset.nodeId;
+        const svg = nodeEl.closest("svg");
+        if (!svg) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        nodeEl.setPointerCapture(e.pointerId);
+
+        const getSvgPoint = ev => {
+          const pt = svg.createSVGPoint();
+          pt.x = ev.clientX;
+          pt.y = ev.clientY;
+          return pt.matrixTransform(svg.getScreenCTM().inverse());
+        };
+
+        const startPt = getSvgPoint(e);
+        const curPos = (state.design.customPositions && state.design.customPositions[nodeId]) || { dx: 0, dy: 0 };
+        const initDx = curPos.dx || 0;
+        const initDy = curPos.dy || 0;
+        let lastDx = initDx;
+        let lastDy = initDy;
+
+        nodeEl.classList.add("dragging");
+
+        function onPointerMove(ev) {
+          const curPt = getSvgPoint(ev);
+          lastDx = Number((initDx + (curPt.x - startPt.x)).toFixed(2));
+          lastDy = Number((initDy + (curPt.y - startPt.y)).toFixed(2));
+          nodeEl.setAttribute("transform", `translate(${lastDx} ${lastDy})`);
+        }
+
+        function onPointerUp(ev) {
+          nodeEl.removeEventListener("pointermove", onPointerMove);
+          nodeEl.removeEventListener("pointerup", onPointerUp);
+          nodeEl.removeEventListener("pointercancel", onPointerUp);
+          nodeEl.classList.remove("dragging");
+          try { nodeEl.releasePointerCapture(ev.pointerId); } catch (_) {}
+
+          state.design.customPositions = state.design.customPositions || {};
+          state.design.customPositions[nodeId] = { dx: lastDx, dy: lastDy };
+          persistToIndexedDb();
+        }
+
+        nodeEl.addEventListener("pointermove", onPointerMove);
+        nodeEl.addEventListener("pointerup", onPointerUp);
+        nodeEl.addEventListener("pointercancel", onPointerUp);
+      });
+
+      // Zoom interactif à la molette sur une photo en mode WYSIWYG
+      holder.addEventListener("wheel", e => {
+        if (!state.wysiwygMode) return;
+        const photoGroup = e.target.closest("[data-photo-idx]");
+        if (!photoGroup) return;
+        e.preventDefault();
+        const idx = Number(photoGroup.dataset.photoIdx);
+        if (state.design.photos && state.design.photos[idx]) {
+          const p = state.design.photos[idx];
+          p.crop = p.crop || { scale: 1.0, x: 0, y: 0, rotation: 0 };
+          const delta = e.deltaY < 0 ? 0.05 : -0.05;
+          p.crop.scale = Math.max(0.5, Math.min(3.0, Number((p.crop.scale + delta).toFixed(2))));
+          renderPhotosPanel();
+          scheduleRender();
+          persistToIndexedDb();
+        }
+      }, { passive: false });
+    });
+  }
+
+  // ------------------------------------------------------------ Événements des Panneaux Carte 2
+  function bindPanels() {
+    const phPanel = $("#photosPanel");
+    if (phPanel) {
+      phPanel.addEventListener("change", e => {
+        const up = e.target.closest("[data-photo-upload]");
+        if (up && e.target.files[0]) {
+          loadPhotoSlot(Number(up.dataset.photoUpload), e.target.files[0]);
+          e.target.value = "";
+        }
+      });
+      phPanel.addEventListener("input", e => {
+        const cropProp = e.target.dataset.cropProp;
+        if (cropProp) {
+          const idx = Number(e.target.dataset.photoIdx);
+          if (state.design.photos && state.design.photos[idx]) {
+            const p = state.design.photos[idx];
+            p.crop = p.crop || { scale: 1.0, x: 0, y: 0, rotation: 0 };
+            p.crop[cropProp] = Number(e.target.value);
+            const row = e.target.closest(".crop-slider-row");
+            if (row && row.querySelector("output")) {
+              row.querySelector("output").textContent = cropProp === "scale" ? `${Math.round(p.crop[cropProp] * 100)}%` : cropProp === "rotation" ? `${p.crop[cropProp]}°` : `${p.crop[cropProp]} mm`;
+            }
+            scheduleRender();
+            persistToIndexedDb();
+          }
+        }
+      });
+      phPanel.addEventListener("click", e => {
+        const del = e.target.closest("[data-photo-delete]");
+        if (del) {
+          const idx = Number(del.dataset.photoDelete);
+          if (state.design.photos) state.design.photos[idx] = null;
+          if (idx === 0) {
+            state.design.portrait = null;
+            state.design.portraitBytes = 0;
+            state.data.multimedia_memorial.has_portrait = false;
+          }
+          renderPhotosPanel();
+          scheduleRender();
+          persistToIndexedDb();
+          toast(`Photo ${idx + 1} supprimée.`);
+        }
+        const resetCrop = e.target.closest("[data-crop-reset]");
+        if (resetCrop) {
+          const idx = Number(resetCrop.dataset.cropReset);
+          if (state.design.photos && state.design.photos[idx]) {
+            state.design.photos[idx].crop = { scale: 1.0, x: 0, y: 0, rotation: 0 };
+            renderPhotosPanel();
+            scheduleRender();
+            persistToIndexedDb();
+          }
+        }
+      });
+    }
+
+    const vcPanel = $("#voicesPanel");
+    if (vcPanel) {
+      vcPanel.addEventListener("change", e => {
+        const radio = e.target.closest('input[name="activeVoiceSlot"]');
+        if (radio) {
+          state.design.activeVoiceIndex = Number(radio.value);
+          scheduleRender();
+          persistToIndexedDb();
+        }
+        const up = e.target.closest("[data-voice-upload]");
+        if (up && e.target.files[0]) {
+          loadAudioFileSlot("voice", Number(up.dataset.voiceUpload), e.target.files[0]);
+          e.target.value = "";
+        }
+      });
+      vcPanel.addEventListener("input", e => {
+        const ext = e.target.dataset.voiceExtract;
+        if (ext != null) {
+          const idx = Number(ext);
+          if (state.design.voices && state.design.voices[idx]) {
+            state.design.voices[idx].extract = e.target.value;
+            if (state.design.activeVoiceIndex === idx) {
+              state.design.voiceExtract = e.target.value;
+            }
+            scheduleRender();
+            persistToIndexedDb();
+          }
+        }
+      });
+      vcPanel.addEventListener("click", e => {
+        const recBtn = e.target.closest('[data-audio-record="voice"]');
+        if (recBtn) {
+          startAudioRecording("voice", Number(recBtn.dataset.slot));
+        }
+        const stopBtn = e.target.closest('[data-audio-stop="voice"]');
+        if (stopBtn) {
+          stopAudioRecording();
+        }
+        const del = e.target.closest("[data-voice-delete]");
+        if (del) {
+          const idx = Number(del.dataset.voiceDelete);
+          if (state.design.voices) state.design.voices[idx] = null;
+          renderVoicesPanel();
+          scheduleRender();
+          persistToIndexedDb();
+          toast(`Enregistrement vocal ${idx + 1} effacé.`);
+        }
+      });
+    }
+
+    const muPanel = $("#musicsPanel");
+    if (muPanel) {
+      muPanel.addEventListener("change", e => {
+        const radio = e.target.closest('input[name="activeMusicSlot"]');
+        if (radio) {
+          state.design.activeMusicIndex = Number(radio.value);
+          scheduleRender();
+          persistToIndexedDb();
+        }
+        const up = e.target.closest("[data-music-upload]");
+        if (up && e.target.files[0]) {
+          loadAudioFileSlot("music", Number(up.dataset.musicUpload), e.target.files[0]);
+          e.target.value = "";
+        }
+        const presetSel = e.target.closest("[data-music-preset]");
+        if (presetSel) {
+          const idx = Number(presetSel.dataset.musicPreset);
+          state.design.musics = state.design.musics || [];
+          state.design.musics[idx] = state.design.musics[idx] || { id: idx, title: "" };
+          state.design.musics[idx].ambientPreset = presetSel.value;
+          scheduleRender();
+          persistToIndexedDb();
+        }
+      });
+      muPanel.addEventListener("input", e => {
+        const titleIn = e.target.dataset.musicTitle;
+        if (titleIn != null) {
+          const idx = Number(titleIn);
+          state.design.musics = state.design.musics || [];
+          state.design.musics[idx] = state.design.musics[idx] || { id: idx };
+          state.design.musics[idx].title = e.target.value;
+          scheduleRender();
+          persistToIndexedDb();
+        }
+        const compIn = e.target.dataset.musicComposer;
+        if (compIn != null) {
+          const idx = Number(compIn);
+          state.design.musics = state.design.musics || [];
+          state.design.musics[idx] = state.design.musics[idx] || { id: idx };
+          state.design.musics[idx].composer = e.target.value;
+          scheduleRender();
+          persistToIndexedDb();
+        }
+      });
+      muPanel.addEventListener("click", e => {
+        const recBtn = e.target.closest('[data-audio-record="music"]');
+        if (recBtn) {
+          startAudioRecording("music", Number(recBtn.dataset.slot));
+        }
+        const stopBtn = e.target.closest('[data-audio-stop="music"]');
+        if (stopBtn) {
+          stopAudioRecording();
+        }
+        const del = e.target.closest("[data-music-delete]");
+        if (del) {
+          const idx = Number(del.dataset.musicDelete);
+          if (state.design.musics) state.design.musics[idx] = null;
+          renderMusicsPanel();
+          scheduleRender();
+          persistToIndexedDb();
+          toast(`Morceau musical ${idx + 1} effacé.`);
+        }
+      });
+    }
   }
 
   // ------------------------------------------------------------ liaisons formulaire ↔ données
@@ -919,6 +1664,11 @@
     $("#cardToolbar").hidden = tab === "pavs";
     $$("[data-only=card2]").forEach(el => { el.hidden = tab !== "card2"; });
     $$("[data-only=card1]").forEach(el => { el.hidden = tab !== "card1"; });
+    if (tab === "card2") {
+      renderPhotosPanel();
+      renderVoicesPanel();
+      renderMusicsPanel();
+    }
     refresh();
   }
 
@@ -955,6 +1705,7 @@
       state.design.layout = b.dataset.layout;
       updateLayoutButtons();
       scheduleRender();
+      persistToIndexedDb();
     }));
     updateLayoutButtons();
   }
@@ -1015,11 +1766,18 @@
     $("#btnPortraitClear").addEventListener("click", () => {
       state.design.portrait = null;
       state.design.portraitBytes = 0;
+      if (state.design.photos) state.design.photos[0] = null;
+      renderPhotosPanel();
       $("#portraitInfo").textContent = "Aucun portrait : camée vectoriel.";
       $("#portraitInfo").className = "hint";
       scheduleRender();
+      persistToIndexedDb();
     });
     window.addEventListener("afterprint", () => document.body.classList.remove("printing-bat"));
+
+    // Liaison du mode WYSIWYG et des panneaux Carte 2
+    bindWysiwyg();
+    bindPanels();
   }
 
   // ------------------------------------------------------------ utilitaires UI
